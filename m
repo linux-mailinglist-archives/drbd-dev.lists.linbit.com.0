@@ -2,85 +2,47 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail09.linbit.com (mail09.linbit.com [212.69.161.110])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7F5F32B6F
-	for <lists+drbd-dev@lfdr.de>; Mon,  3 Jun 2019 11:07:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EB4332149
+	for <lists+drbd-dev@lfdr.de>; Sun,  2 Jun 2019 02:28:38 +0200 (CEST)
 Received: from mail09.linbit.com (localhost [127.0.0.1])
-	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 05B541028A6C;
-	Mon,  3 Jun 2019 11:06:59 +0200 (CEST)
+	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id B56271028A70;
+	Sun,  2 Jun 2019 02:28:36 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id DE08F1028A64
-	for <drbd-dev@lists.linbit.com>; Mon,  3 Jun 2019 11:06:57 +0200 (CEST)
-Received: by mail-wr1-f68.google.com with SMTP id w13so11129639wru.11
-	for <drbd-dev@lists.linbit.com>; Mon, 03 Jun 2019 02:06:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:resent-from:resent-date:resent-message-id
-	:resent-to:dkim-signature:to:from:subject:organization:message-id
-	:date:user-agent:mime-version:content-language
-	:content-transfer-encoding;
-	bh=v4JjTN5Jh/r7NpEkyPpBjakHs1AxOsFKWO2A/Msg+9o=;
-	b=kC+e7cXxFJAj4Lb3g0zb5+hSC5+B/V6VOgpHB+tYAGTCFd5oEDepBPIetp/g0icOGr
-	OVioToTaJqlwMAwpitxB/+Iwy/o9XHpQNvVwLyp/2MCtbKAgZjv1MqClT9id3hp88Gwr
-	7orPcDutQkNq8KQvL4FdQs5hvcNwm6djJiV4Nhds5TgQtPrdutNP0HBDNvHvrRWOA5bx
-	2JyIYsr42GEozUuMo7s5cSpzUC3Z1Rmx3+xHmkfRMk39vwsib5EY2uJBfk8yKuGcL06B
-	QfLeyPqf4mAFFKwuOsn6qMeHNKugOQz9y7m8OVsRa8wHrh04XVpMM+TOkCBky92bKN+1
-	GGFQ==
-X-Gm-Message-State: APjAAAW0bBt1VimDxrJzt4YB11fVmMUBOejU4xoOmAmo84PSKxFsxta/
-	dNJ9uYUF8LF0sRkE+HNZo/o4Xm6d+f5yQA==
-X-Google-Smtp-Source: APXvYqzUULW3QPAVRCZiIWBFgqLOMtp9XnVWnmkjLkcJwBC2FBO3dW7/jlxOw/qd2u01nnhj8XJIOg==
-X-Received: by 2002:adf:ea8b:: with SMTP id s11mr1635808wrm.100.1559552816885; 
-	Mon, 03 Jun 2019 02:06:56 -0700 (PDT)
-Received: from soda.linbit (212-186-191-219.static.upcbusiness.at.
-	[212.186.191.219]) by smtp.gmail.com with ESMTPSA id
-	e13sm15107777wra.16.2019.06.03.02.06.56
-	for <drbd-dev@lists.linbit.com>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 03 Jun 2019 02:06:56 -0700 (PDT)
-Resent-From: Lars Ellenberg <lars.ellenberg@linbit.com>
-Resent-Date: Mon, 3 Jun 2019 11:06:54 +0200
-Resent-Message-ID: <20190603090654.GG5803@soda.linbit>
-Resent-To: drbd-dev@lists.linbit.com
-X-Original-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 421 seconds by postgrey-1.31 at mail09;
-	Fri, 31 May 2019 21:08:29 CEST
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com
-	[209.85.166.43])
-	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 0D23A1011B9A
-	for <drbd-dev@lists.linbit.com>; Fri, 31 May 2019 21:08:28 +0200 (CEST)
-Received: by mail-io1-f43.google.com with SMTP id k8so9139953iot.1
-	for <drbd-dev@lists.linbit.com>; Fri, 31 May 2019 12:08:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=to:from:subject:organization:message-id:date:user-agent
-	:mime-version:content-language:content-transfer-encoding;
-	bh=v4JjTN5Jh/r7NpEkyPpBjakHs1AxOsFKWO2A/Msg+9o=;
-	b=ew3x7QqBVOoV6lhw2eIao9pyLAz/xawwyxMaxGsK4Q9ndQNzzMqb5RjFBu3d5lnA2/
-	1xvlpqpKhe8Pdh9a4qoGCXzUMA+KrdVMQcLtAeV+YMnARnuc3zeiJTe8nlKx8iNJL6hX
-	6dpLqsthBnag8thpuV3blQzOM6XCJqLw7IGQg8PzkGE4T/9g1OHRPxGCQT7Efwo3fy4y
-	/Lv1HCstciZqCOjcZxMaEiDPtici1T1xL1kkmXAoveOKnxgspN3NT3b2bqFn7xu6gBPo
-	S/qum3YolteNQtcviy2Pey+NC1dZcN9dQd2nKmmuri9hjHj26wB1mQh/5WMSLqHbx87p
-	jCvQ==
-X-Received: by 2002:a5d:9dc7:: with SMTP id 7mr540783ioo.237.1559329287073;
-	Fri, 31 May 2019 12:01:27 -0700 (PDT)
-Received: from [192.168.1.9] (c-73-78-150-191.hsd1.co.comcast.net.
-	[73.78.150.191]) by smtp.gmail.com with ESMTPSA id
-	o192sm2828981itb.0.2019.05.31.12.01.25
-	for <drbd-dev@lists.linbit.com>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 31 May 2019 12:01:26 -0700 (PDT)
-To: drbd-dev@lists.linbit.com
-From: David Butterfield <dab21774@gmail.com>
-Organization: PGP: 70C7 0309 E859 40AB 4D1F CDC5 F7CE 9A64 95EB 9D1B
-Message-ID: <f5c1cf53-0eb7-35ab-7fbb-cb64e5f16305@gmail.com>
-Date: Fri, 31 May 2019 13:01:24 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+Received: from mx.ewheeler.net (mx.ewheeler.net [66.155.3.69])
+	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 069D41028A68
+	for <drbd-dev@lists.linbit.com>; Sun,  2 Jun 2019 02:28:34 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by mx.ewheeler.net (Postfix) with ESMTP id B8A46A0692;
+	Sun,  2 Jun 2019 00:28:32 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at ewheeler.net
+Received: from mx.ewheeler.net ([127.0.0.1])
+	by localhost (mx.ewheeler.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id W-A0Bg48Fkrc; Sun,  2 Jun 2019 00:28:31 +0000 (UTC)
+Received: from mx.ewheeler.net (mx.ewheeler.net [66.155.3.69])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx.ewheeler.net (Postfix) with ESMTPSA id C446BA067D;
+	Sun,  2 Jun 2019 00:28:31 +0000 (UTC)
+Date: Sun, 2 Jun 2019 00:28:31 +0000 (UTC)
+From: Eric Wheeler <drbd-dev@lists.ewheeler.net>
+X-X-Sender: lists@mx.ewheeler.net
+To: Lars Ellenberg <lars.ellenberg@linbit.com>
+In-Reply-To: <20190528131823.GD5803@soda.linbit>
+Message-ID: <alpine.LRH.2.11.1906012121470.27699@mx.ewheeler.net>
+References: <15124635.GA4107@soda.linbit>
+	<1516057231-21756-1-git-send-email-drbd-dev@lists.ewheeler.net>
+	<20180116072615.GA3940@infradead.org>
+	<20180116094907.GD4107@soda.linbit>
+	<alpine.LRH.2.11.1905101728280.1835@mx.ewheeler.net>
+	<20190528131823.GD5803@soda.linbit>
+User-Agent: Alpine 2.11 (LRH 23 2013-08-11)
 MIME-Version: 1.0
-Content-Language: en-US
-Subject: [Drbd-dev] drbd_nl.c:drbd_adm_prepare() indexes drbd_genl_ops[] by
-	cmd number
+Content-Type: MULTIPART/MIXED;
+	BOUNDARY="-1690155773-127689699-1559435311=:27699"
+Cc: linux-kernel@vger.kernel.org, drbd-dev@lists.linbit.com
+Subject: Re: [Drbd-dev] [PATCH] drbd: fix discard_zeroes_if_aligned
+	regression
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -94,41 +56,89 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <http://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-(Is this the right place to send comments on the source code such as this one?)
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-In drbd_nl.c:
+---1690155773-127689699-1559435311=:27699
+Content-Type: TEXT/PLAIN; charset=iso-8859-1
+Content-Transfer-Encoding: 8BIT
 
-  static int drbd_adm_prepare(struct drbd_config_context *adm_ctx,
-  	struct sk_buff *skb, struct genl_info *info, unsigned flags)
-  {
-  	struct drbd_genlmsghdr *d_in = info->userhdr;
-  	const u8 cmd = info->genlhdr->cmd;
-  	int err;
-  
-  	memset(adm_ctx, 0, sizeof(*adm_ctx));
-  
-+ 	//XXX I do not think you can find the ops for a command number by indexing this array.
-+ 	//XXX The array is unordered and packed.  I think it must search like genl_get_cmd().
-  	/*
-  	 * genl_rcv_msg() only checks if commands with the GENL_ADMIN_PERM flag
-  	 * set have CAP_NET_ADMIN; we also require CAP_SYS_ADMIN for
-  	 * administrative commands.
-  	 */
-  	if ((drbd_genl_ops[cmd].flags & GENL_ADMIN_PERM) &&
-  	    drbd_security_netlink_recv(skb, CAP_SYS_ADMIN))
-  		return -EPERM;
-  
-  	adm_ctx->reply_skb = genlmsg_new(NLMSG_GOODSIZE, GFP_KERNEL);
-  	if (!adm_ctx->reply_skb) {
-  		err = -ENOMEM;
-  		goto fail;
-  	}
+On Tue, 28 May 2019, Lars Ellenberg wrote:
+
+> On Fri, May 10, 2019 at 05:36:32PM +0000, Eric Wheeler wrote:
+> > Hi Lars,
+> > 
+> > We just tried 4.19.x and this bugs still exists. We applied the patch 
+> > which was originally submitted to this thread and it still applies cleanly 
+> > and seems to work for our use case. You mentioned that you had some older 
+> > code which zeroed out unaligned discard requests (or perhaps it was for a 
+> > different purpose) that you may be able to use to patch this. Could you 
+> > dig those up and see if we can get this solved?
+> > 
+> > It would be nice to be able to use drbd with thin backing volumes from the 
+> > vanilla kernel. If this has already been fixed in something newer than 
+> > 4.19, then please point me to the commit.
+> 
+> I think it was merged upstream in 5.0
+> f31e583aa2c2 drbd: introduce P_ZEROES (REQ_OP_WRITE_ZEROES on the "wire")
+
+Thanks Lars, I appreciate your patch.  
+
+Your unaligned zerout code in drbd_issue_discard_or_zero_out() looks 
+great.  I particulary like how you adjusted max_discard_sectors to the 
+granularity, as well as alignment handling.  Well thought out.
+
+Your commit notes that "for backward compatibility, P_TRIM means zero-out, 
+unless the DRBD_FF_WZEROES feature flag is agreed upon during handshake."
+
+We test our environment by deploying the newer kernel on one of the DRBD 
+servers and checking for regressions---but this will cause a zero-out on 
+the new server because the old server doesn't yet support DRBD_FF_WZEROES.
+
+For our purpose, can you think of any reason that it would be unsafe to 
+hack the following into drbd_do_features() so the newer version will not 
+zero-out while we test and get both nodes up to the newer version?
+
+diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd_receiver.c
+index c7ad88d..76191e6 100644
+--- a/drivers/block/drbd/drbd_receiver.c
++++ b/drivers/block/drbd/drbd_receiver.c
+@@ -5382,6 +5382,8 @@ static int drbd_do_features(struct drbd_connection *connection)
+ 	connection->agreed_pro_version = min_t(int, PRO_VERSION_MAX, p->protocol_max);
+ 	connection->agreed_features = PRO_FEATURES & be32_to_cpu(p->feature_flags);
+ 
++	connection->agreed_features |= DRBD_FF_WZEROES;
++
+ 	drbd_info(connection, "Handshake successful: "
+ 	     "Agreed network protocol version %d\n", connection->agreed_pro_version);
+
+
+--
+Eric Wheeler
+
+
+
+> 
+> -- 
+> : Lars Ellenberg
+> : LINBIT | Keeping the Digital World Running
+> : DRBD -- Heartbeat -- Corosync -- Pacemaker
+> : R&D, Integration, Ops, Consulting, Support
+> 
+> DRBD® and LINBIT® are registered trademarks of LINBIT
+> 
+---1690155773-127689699-1559435311=:27699
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
 http://lists.linbit.com/mailman/listinfo/drbd-dev
+
+---1690155773-127689699-1559435311=:27699--
