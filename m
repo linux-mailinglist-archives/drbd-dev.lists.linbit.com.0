@@ -2,66 +2,74 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail09.linbit.com (mail09.linbit.com [212.69.161.110])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4952232CA9
-	for <lists+drbd-dev@lfdr.de>; Mon,  3 Jun 2019 11:21:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF77133056
+	for <lists+drbd-dev@lfdr.de>; Mon,  3 Jun 2019 14:55:30 +0200 (CEST)
 Received: from mail09.linbit.com (localhost [127.0.0.1])
-	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 4E4841028A6C;
-	Mon,  3 Jun 2019 11:21:22 +0200 (CEST)
+	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 5292F1028A6F;
+	Mon,  3 Jun 2019 14:55:29 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
-	[209.85.221.44])
-	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id C6EFB1028A64
-	for <drbd-dev@lists.linbit.com>; Mon,  3 Jun 2019 11:21:21 +0200 (CEST)
-Received: by mail-wr1-f44.google.com with SMTP id h1so11216938wro.4
-	for <drbd-dev@lists.linbit.com>; Mon, 03 Jun 2019 02:21:21 -0700 (PDT)
+X-Greylist: delayed 440 seconds by postgrey-1.31 at mail09;
+	Mon, 03 Jun 2019 14:55:27 CEST
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 35CFD1011C03
+	for <drbd-dev@lists.linbit.com>; Mon,  3 Jun 2019 14:55:26 +0200 (CEST)
+Received: by mail-wm1-f66.google.com with SMTP id g135so7884769wme.4
+	for <drbd-dev@lists.linbit.com>; Mon, 03 Jun 2019 05:55:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linbit-com.20150623.gappssmtp.com; s=20150623;
 	h=date:from:to:subject:message-id:mail-followup-to:references
 	:mime-version:content-disposition:content-transfer-encoding
 	:in-reply-to:user-agent;
-	bh=D8EBJ8C3HvFz5r6YV8gGwy5X269DaEcu3UmNyiO3TMY=;
-	b=pIm9efSRiigRyuuP1G/sUXOio6vSJhb1ORD5lbEW6b/E/EjY+zcXElzgTcrzHfMEMN
-	zORQy4EYlv+k+hOtblvw4yotr9seD6xUdYw/ywXooQgnsd2JiFnGMDWTNyZvlb9CBYP7
-	07Cl9lAk6rQF7CHpizGi/cIkfDD/IfL3g4fNFCPv3oGKU5S0LG7NBLN6sA0E77+MhKkl
-	HjOmGWgjkPi7egmrl4bdspvotoKafwW1HDFEh8LNXgslZRsSvTLvt0Oib0hJ7UCjpyyF
-	C8SPCO5rJw123S/k7e/grrkroPMKAr4TIz/xKNgxza/TZ49vvC2+kZHy+Ee15VyIiO4M
-	VVFw==
+	bh=gmfaYMqMA2pUjpiZbkgIu9BW1558iD1QIVFfjCYSE5o=;
+	b=KwBTRHMXN2MoL6xay12siNXqMShifkvjOvUYMpPL3pi4V9G/TURRGvRje83NKj2emO
+	A1pJsWcdgRlmNDH5jV09GVJ2dY65BLW04fMosTP6jhfYlkK4kD1jBx9l/RIKRWh4fUcA
+	urPL+zRjEcYkiGX++nhYJDQrlftfMu731fawRHW3nWJlGndUZBPuSeKAdprtMV3a4BGf
+	+Gb3102cvdyDLPbrewgaI1pm97D+CRnDu3HU8+p7NgAquiTF5OLPL2Mit/lr4VaVQsws
+	tWuHDt3ohK/tBcE2zsAJ3XvTqJ0qBXNW9H9uojvMlgvY//d3vGuDGTDphcvv7htjQwJo
+	vMnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
 	:references:mime-version:content-disposition
 	:content-transfer-encoding:in-reply-to:user-agent;
-	bh=D8EBJ8C3HvFz5r6YV8gGwy5X269DaEcu3UmNyiO3TMY=;
-	b=tFX0D2Tl7FeGKF7CDlOR3M1t0/G37jvaCDD7hQE6eLYOhaWiWRQDlljBt3gtYI9bZv
-	bIAJ6hjkefPy9x0t7X4EZSf4ujxGY2iR93voZnty+x0HWCCYImeWMRbVH2LCmfNQMlo2
-	OJRHYCASUc1sU9r1+e0/aYSmTVYybShoLlBMe1B+Gp+XtGleVsoMLiHLsMorgroNHN3z
-	HkVyCx5rE/ye3enaBC7cD9TmmbSXvD761iuSMicZONOzPY4BrLYe01gA/TvRlWZLew81
-	wifOB2SUrgwqg1xXf8T7qr9lwTx8SJ/HmavTirsRgMzxCxtpQStAR5sSUPz9Mq6HpXJn
-	w2Gg==
-X-Gm-Message-State: APjAAAXHm3UeQoQGisy7QX6B4oWQeSvscIDzQ6RmpH8rJWkzATbR6RUV
-	drs3mz5dKgl9Y8s3z7k0NLl1JcIvDmNgjQ==
-X-Google-Smtp-Source: APXvYqz6jPYmFaGzZxtRAAn62lNo2W/keoRb/BITxTY54UI3w0u3Nm5l+PXwWja+UArFtKyL850x0w==
-X-Received: by 2002:adf:f3cc:: with SMTP id g12mr14744521wrp.149.1559553680886;
-	Mon, 03 Jun 2019 02:21:20 -0700 (PDT)
+	bh=gmfaYMqMA2pUjpiZbkgIu9BW1558iD1QIVFfjCYSE5o=;
+	b=lH2c19p94KgLP9jG0xYzmaT2DK8RsPJTucOrh5bTr/js85rCu6Goxt83/mHINwTfGn
+	/xP9TLRdJZyos4Al1AAwA7HDyx3mw2Tz547EcDGV2YYmjCh/CIFUV7Exbq2RoXzq8lcf
+	mPFisqDc2V3xByH0Yid0hJjmmDvvsPaQRCc0+LIMCVVT2lSlC5NCF+IcjOmJ759TkTDv
+	Ryds9VQ1eUkGzJUJkSA/SdhEDGpEcBZV0WiaobQvcvf2e+OuKOn7+gKjjbGN2p6aPocw
+	spwuvT/Pvf+oglZGqLWJ0sHbGEbkOGa9QIgEy5eUnXe88cC5O0dtN8RS1LsOGgYIjE69
+	9jdA==
+X-Gm-Message-State: APjAAAVEmH9f+/YAvXHwPVdvMBStZwjQPglgTElKnMHA++1sVR5AN6X6
+	jhix3VJpyxNLK7ACOl5S5ot3UjbrV2K6pA==
+X-Google-Smtp-Source: APXvYqxgcu6nfQnmo55WQOYWcfI4v2qYN4lpMZWaqZpn3DHwvphoVOapyx0e+io+CdwOeQqCWqHo5g==
+X-Received: by 2002:a1c:98d6:: with SMTP id a205mr2093091wme.145.1559566086887;
+	Mon, 03 Jun 2019 05:48:06 -0700 (PDT)
 Received: from soda.linbit (212-186-191-219.static.upcbusiness.at.
 	[212.186.191.219]) by smtp.gmail.com with ESMTPSA id
-	t14sm15817646wrr.33.2019.06.03.02.21.19
+	88sm15861148wrl.68.2019.06.03.05.48.06
 	for <drbd-dev@lists.linbit.com>
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 03 Jun 2019 02:21:20 -0700 (PDT)
-Date: Mon, 3 Jun 2019 11:21:18 +0200
+	Mon, 03 Jun 2019 05:48:06 -0700 (PDT)
+Date: Mon, 3 Jun 2019 14:48:04 +0200
 From: Lars Ellenberg <lars.ellenberg@linbit.com>
 To: drbd-dev@lists.linbit.com
-Message-ID: <20190603092118.GH5803@soda.linbit>
+Message-ID: <20190603124804.GI5803@soda.linbit>
 Mail-Followup-To: drbd-dev@lists.linbit.com
-References: <f5c1cf53-0eb7-35ab-7fbb-cb64e5f16305@gmail.com>
+References: <15124635.GA4107@soda.linbit>
+	<1516057231-21756-1-git-send-email-drbd-dev@lists.ewheeler.net>
+	<20180116072615.GA3940@infradead.org>
+	<20180116094907.GD4107@soda.linbit>
+	<alpine.LRH.2.11.1905101728280.1835@mx.ewheeler.net>
+	<20190528131823.GD5803@soda.linbit>
+	<alpine.LRH.2.11.1906012121470.27699@mx.ewheeler.net>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <f5c1cf53-0eb7-35ab-7fbb-cb64e5f16305@gmail.com>
+In-Reply-To: <alpine.LRH.2.11.1906012121470.27699@mx.ewheeler.net>
 User-Agent: Mutt/1.9.4 (2018-02-28)
-Subject: Re: [Drbd-dev] drbd_nl.c:drbd_adm_prepare() indexes drbd_genl_ops[]
- by cmd number
+Subject: Re: [Drbd-dev] [PATCH] drbd: fix discard_zeroes_if_aligned
+	regression
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -80,53 +88,103 @@ Content-Transfer-Encoding: quoted-printable
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Fri, May 31, 2019 at 01:01:24PM -0600, David Butterfield wrote:
-> (Is this the right place to send comments on the source code such as this=
- one?)
+On Sun, Jun 02, 2019 at 12:28:31AM +0000, Eric Wheeler wrote:
+> On Tue, 28 May 2019, Lars Ellenberg wrote:
 > =
 
-> In drbd_nl.c:
+> > On Fri, May 10, 2019 at 05:36:32PM +0000, Eric Wheeler wrote:
+> > > Hi Lars,
+> > > =
+
+> > > We just tried 4.19.x and this bugs still exists. We applied the patch =
+
+> > > which was originally submitted to this thread and it still applies cl=
+eanly =
+
+> > > and seems to work for our use case. You mentioned that you had some o=
+lder =
+
+> > > code which zeroed out unaligned discard requests (or perhaps it was f=
+or a =
+
+> > > different purpose) that you may be able to use to patch this. Could y=
+ou =
+
+> > > dig those up and see if we can get this solved?
+> > > =
+
+> > > It would be nice to be able to use drbd with thin backing volumes fro=
+m the =
+
+> > > vanilla kernel. If this has already been fixed in something newer tha=
+n =
+
+> > > 4.19, then please point me to the commit.
+> > =
+
+> > I think it was merged upstream in 5.0
+> > f31e583aa2c2 drbd: introduce P_ZEROES (REQ_OP_WRITE_ZEROES on the "wire=
+")
 > =
 
->   static int drbd_adm_prepare(struct drbd_config_context *adm_ctx,
->   	struct sk_buff *skb, struct genl_info *info, unsigned flags)
->   {
->   	struct drbd_genlmsghdr *d_in =3D info->userhdr;
->   	const u8 cmd =3D info->genlhdr->cmd;
->   	int err;
->   =
+> Thanks Lars, I appreciate your patch.  =
 
->   	memset(adm_ctx, 0, sizeof(*adm_ctx));
->   =
+> =
 
-> + 	//XXX I do not think you can find the ops for a command number by inde=
-xing this array.
-> + 	//XXX The array is unordered and packed.  I think it must search like =
-genl_get_cmd().
+> Your unaligned zerout code in drbd_issue_discard_or_zero_out() looks =
 
+> great.  I particulary like how you adjusted max_discard_sectors to the =
 
-drbd_genl_ops is a static struct genl_ops [], indexed by cmd.
+> granularity, as well as alignment handling.  Well thought out.
+> =
 
-family->ops is a struct genl_ops*, pointing to an array
-indexed by "i" [0 .. (family->n_ops - 1)]
+> Your commit notes that "for backward compatibility, P_TRIM means zero-out=
+, =
 
-Any specific reason you are spending time with this code in particular?
+> unless the DRBD_FF_WZEROES feature flag is agreed upon during handshake."
+> =
 
->   	/*
->   	 * genl_rcv_msg() only checks if commands with the GENL_ADMIN_PERM flag
->   	 * set have CAP_NET_ADMIN; we also require CAP_SYS_ADMIN for
->   	 * administrative commands.
->   	 */
->   	if ((drbd_genl_ops[cmd].flags & GENL_ADMIN_PERM) &&
->   	    drbd_security_netlink_recv(skb, CAP_SYS_ADMIN))
->   		return -EPERM;
->   =
+> We test our environment by deploying the newer kernel on one of the DRBD =
 
->   	adm_ctx->reply_skb =3D genlmsg_new(NLMSG_GOODSIZE, GFP_KERNEL);
->   	if (!adm_ctx->reply_skb) {
->   		err =3D -ENOMEM;
->   		goto fail;
->   	}
+> servers and checking for regressions---but this will cause a zero-out on =
+
+> the new server because the old server doesn't yet support DRBD_FF_WZEROES.
+> =
+
+> For our purpose, can you think of any reason that it would be unsafe to =
+
+> hack the following into drbd_do_features() so the newer version will not =
+
+> zero-out while we test and get both nodes up to the newer version?
+
+If you "fake" agreed_features to include DRBD_FF_WZEROES,
+that may start to send the P_ZEROES command,
+which the older peer does not understand yet,
+triggering a protocol error and disconnect...
+
+You can always use a newer DRBD module with the older kernel,
+until you are prepared to upgrade the kernel...
+
+But you knew that.
+
+> diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd=
+_receiver.c
+> index c7ad88d..76191e6 100644
+> --- a/drivers/block/drbd/drbd_receiver.c
+> +++ b/drivers/block/drbd/drbd_receiver.c
+> @@ -5382,6 +5382,8 @@ static int drbd_do_features(struct drbd_connection =
+*connection)
+>  	connection->agreed_pro_version =3D min_t(int, PRO_VERSION_MAX, p->proto=
+col_max);
+>  	connection->agreed_features =3D PRO_FEATURES & be32_to_cpu(p->feature_f=
+lags);
+>  =
+
+> +	connection->agreed_features |=3D DRBD_FF_WZEROES;
+> +
+>  	drbd_info(connection, "Handshake successful: "
+>  	     "Agreed network protocol version %d\n", connection->agreed_pro_ver=
+sion);
 
 -- =
 
