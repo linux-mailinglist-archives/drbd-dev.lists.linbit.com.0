@@ -2,74 +2,88 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail09.linbit.com (mail09.linbit.com [212.69.161.110])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF77133056
-	for <lists+drbd-dev@lfdr.de>; Mon,  3 Jun 2019 14:55:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A1DA341A8
+	for <lists+drbd-dev@lfdr.de>; Tue,  4 Jun 2019 10:20:14 +0200 (CEST)
 Received: from mail09.linbit.com (localhost [127.0.0.1])
-	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 5292F1028A6F;
-	Mon,  3 Jun 2019 14:55:29 +0200 (CEST)
+	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id CD4941028A71;
+	Tue,  4 Jun 2019 10:20:12 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 440 seconds by postgrey-1.31 at mail09;
-	Mon, 03 Jun 2019 14:55:27 CEST
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 35CFD1011C03
-	for <drbd-dev@lists.linbit.com>; Mon,  3 Jun 2019 14:55:26 +0200 (CEST)
-Received: by mail-wm1-f66.google.com with SMTP id g135so7884769wme.4
-	for <drbd-dev@lists.linbit.com>; Mon, 03 Jun 2019 05:55:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linbit-com.20150623.gappssmtp.com; s=20150623;
-	h=date:from:to:subject:message-id:mail-followup-to:references
-	:mime-version:content-disposition:content-transfer-encoding
-	:in-reply-to:user-agent;
-	bh=gmfaYMqMA2pUjpiZbkgIu9BW1558iD1QIVFfjCYSE5o=;
-	b=KwBTRHMXN2MoL6xay12siNXqMShifkvjOvUYMpPL3pi4V9G/TURRGvRje83NKj2emO
-	A1pJsWcdgRlmNDH5jV09GVJ2dY65BLW04fMosTP6jhfYlkK4kD1jBx9l/RIKRWh4fUcA
-	urPL+zRjEcYkiGX++nhYJDQrlftfMu731fawRHW3nWJlGndUZBPuSeKAdprtMV3a4BGf
-	+Gb3102cvdyDLPbrewgaI1pm97D+CRnDu3HU8+p7NgAquiTF5OLPL2Mit/lr4VaVQsws
-	tWuHDt3ohK/tBcE2zsAJ3XvTqJ0qBXNW9H9uojvMlgvY//d3vGuDGTDphcvv7htjQwJo
-	vMnA==
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 6D9EB1028A61
+	for <drbd-dev@lists.linbit.com>; Tue,  4 Jun 2019 10:20:11 +0200 (CEST)
+Received: by mail-wm1-f65.google.com with SMTP id s3so6506112wms.2
+	for <drbd-dev@lists.linbit.com>; Tue, 04 Jun 2019 01:20:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
-	:references:mime-version:content-disposition
-	:content-transfer-encoding:in-reply-to:user-agent;
-	bh=gmfaYMqMA2pUjpiZbkgIu9BW1558iD1QIVFfjCYSE5o=;
-	b=lH2c19p94KgLP9jG0xYzmaT2DK8RsPJTucOrh5bTr/js85rCu6Goxt83/mHINwTfGn
-	/xP9TLRdJZyos4Al1AAwA7HDyx3mw2Tz547EcDGV2YYmjCh/CIFUV7Exbq2RoXzq8lcf
-	mPFisqDc2V3xByH0Yid0hJjmmDvvsPaQRCc0+LIMCVVT2lSlC5NCF+IcjOmJ759TkTDv
-	Ryds9VQ1eUkGzJUJkSA/SdhEDGpEcBZV0WiaobQvcvf2e+OuKOn7+gKjjbGN2p6aPocw
-	spwuvT/Pvf+oglZGqLWJ0sHbGEbkOGa9QIgEy5eUnXe88cC5O0dtN8RS1LsOGgYIjE69
-	9jdA==
-X-Gm-Message-State: APjAAAVEmH9f+/YAvXHwPVdvMBStZwjQPglgTElKnMHA++1sVR5AN6X6
-	jhix3VJpyxNLK7ACOl5S5ot3UjbrV2K6pA==
-X-Google-Smtp-Source: APXvYqxgcu6nfQnmo55WQOYWcfI4v2qYN4lpMZWaqZpn3DHwvphoVOapyx0e+io+CdwOeQqCWqHo5g==
-X-Received: by 2002:a1c:98d6:: with SMTP id a205mr2093091wme.145.1559566086887;
-	Mon, 03 Jun 2019 05:48:06 -0700 (PDT)
+	h=x-gm-message-state:resent-from:resent-date:resent-message-id
+	:resent-to:dkim-signature:subject:to:references:from:organization:cc
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-language:content-transfer-encoding;
+	bh=56873b31JTgEnT1i8IcBmKwdaAdF68c2Ox38x9gXs44=;
+	b=HC5uG9kasmX8Tpb0GUhsCLAkMkpqXKd8V/3X+F5fbzeC7us6IH1Y2zEHTVuX+TGHnE
+	QqKmzzQXSvNEyh1QKloeMw+jck6igzoAiI0V0u3D2PKeFwKaxIYlG9GWjpbKq1sXKgdv
+	vZ1/JmhoJRqopQwpcbx8ciFO8QCOfa4d29F0JIIGojSII47Dnvht+je8t56MoJOrW0IB
+	chHgnkGql9rp0nZ7Z9DSNi0xlmHDvn8+5PysM5peF27Glyto//R5f/+2a2xM3hhteNFx
+	VC7JeHnPGZL7iDyJAXB8ZLdj1tCUX+bqGFjdnFGqCS7aE/DLcdTpDHQkZuJIAJ5EngiU
+	40oQ==
+X-Gm-Message-State: APjAAAWJRskd4riu7dcEVjEE0IG3JLuLy0s/pA1hvq859C16vBecHEXO
+	Le4J9ObrsoqJwP3p9hnjVqerAOjyunr3cA==
+X-Google-Smtp-Source: APXvYqwqb40vixneOD55kP6bZx6Y45rLwFOEqObPiY7w5t2uxQOps4B1SdGy2IFkaaC7yfvg0Y1pkg==
+X-Received: by 2002:a7b:c444:: with SMTP id l4mr5261100wmi.15.1559636410320;
+	Tue, 04 Jun 2019 01:20:10 -0700 (PDT)
 Received: from soda.linbit (212-186-191-219.static.upcbusiness.at.
 	[212.186.191.219]) by smtp.gmail.com with ESMTPSA id
-	88sm15861148wrl.68.2019.06.03.05.48.06
+	16sm12995825wmx.45.2019.06.04.01.20.09
 	for <drbd-dev@lists.linbit.com>
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 03 Jun 2019 05:48:06 -0700 (PDT)
-Date: Mon, 3 Jun 2019 14:48:04 +0200
-From: Lars Ellenberg <lars.ellenberg@linbit.com>
-To: drbd-dev@lists.linbit.com
-Message-ID: <20190603124804.GI5803@soda.linbit>
-Mail-Followup-To: drbd-dev@lists.linbit.com
-References: <15124635.GA4107@soda.linbit>
-	<1516057231-21756-1-git-send-email-drbd-dev@lists.ewheeler.net>
-	<20180116072615.GA3940@infradead.org>
-	<20180116094907.GD4107@soda.linbit>
-	<alpine.LRH.2.11.1905101728280.1835@mx.ewheeler.net>
-	<20190528131823.GD5803@soda.linbit>
-	<alpine.LRH.2.11.1906012121470.27699@mx.ewheeler.net>
+	Tue, 04 Jun 2019 01:20:10 -0700 (PDT)
+Resent-From: Lars Ellenberg <lars.ellenberg@linbit.com>
+Resent-Date: Tue, 4 Jun 2019 10:20:08 +0200
+Resent-Message-ID: <20190604082008.GJ5803@soda.linbit>
+Resent-To: drbd-dev@lists.linbit.com
+X-Original-To: drbd-dev@lists.linbit.com
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com
+	[209.85.166.52])
+	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id C40D31028A61
+	for <drbd-dev@lists.linbit.com>; Tue,  4 Jun 2019 10:18:06 +0200 (CEST)
+Received: by mail-io1-f52.google.com with SMTP id k8so16654892iot.1
+	for <drbd-dev@lists.linbit.com>; Tue, 04 Jun 2019 01:18:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:organization:cc:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=56873b31JTgEnT1i8IcBmKwdaAdF68c2Ox38x9gXs44=;
+	b=fc9MjGYK1CNByT7y7XbLRaKT53qh9p9OREvtaqPK6ytqrpOIKvv8ojBk3+fwpZlLd7
+	Xr5Hs0tQB0EiNnru5Tg8fV9PkWi8tESSufwYm3hMjvavBzkIeVhqkh8IUN8ps5Lid01y
+	tAtHdNg31bH+4BJT6HQLYyp4lE1YBXAU+8+giVafTulDizM6PVkmX3/fr2/Nix9OwdB8
+	4aDS5tUDlzdWrYHfzOmyRDpLVBsokPp/zQk/e/Niie+b9XnuuIP8+f9mq/iCTM6YypgH
+	OE0/cyav9A5b2PzRN0b20o4yrWHqToTS+JQVN+b+hDW6xxC2pG5e5L312BLHvfIixVEw
+	0/MQ==
+X-Received: by 2002:a6b:b556:: with SMTP id e83mr12852975iof.94.1559636285415; 
+	Tue, 04 Jun 2019 01:18:05 -0700 (PDT)
+Received: from [192.168.1.9] (c-73-78-150-191.hsd1.co.comcast.net.
+	[73.78.150.191]) by smtp.gmail.com with ESMTPSA id
+	k78sm7281950itb.10.2019.06.04.01.18.03
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 04 Jun 2019 01:18:04 -0700 (PDT)
+To: Lars Ellenberg <lars.ellenberg@linbit.com>
+References: <f5c1cf53-0eb7-35ab-7fbb-cb64e5f16305@gmail.com>
+	<cf05cd9c-687f-6264-0bc3-aefa90c91b3a@gmail.com>
+	<CANr6vz8kxacCYSb38G464Y2c1xw1ZqZAddN45LTwEcnE_Y2dsA@mail.gmail.com>
+From: David Butterfield <dab21774@gmail.com>
+Organization: PGP: 70C7 0309 E859 40AB 4D1F CDC5 F7CE 9A64 95EB 9D1B
+Message-ID: <7b015341-f9f7-e207-84d7-61ab8f0d5a7b@gmail.com>
+Date: Tue, 4 Jun 2019 02:18:02 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <alpine.LRH.2.11.1906012121470.27699@mx.ewheeler.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Subject: Re: [Drbd-dev] [PATCH] drbd: fix discard_zeroes_if_aligned
-	regression
+In-Reply-To: <CANr6vz8kxacCYSb38G464Y2c1xw1ZqZAddN45LTwEcnE_Y2dsA@mail.gmail.com>
+Content-Language: en-US
+Cc: drbd-dev@lists.linbit.com
+Subject: Re: [Drbd-dev] drbd_nl.c:drbd_adm_prepare() indexes drbd_genl_ops[]
+ by cmd number
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -83,118 +97,85 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <http://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Sun, Jun 02, 2019 at 12:28:31AM +0000, Eric Wheeler wrote:
-> On Tue, 28 May 2019, Lars Ellenberg wrote:
-> =
-
-> > On Fri, May 10, 2019 at 05:36:32PM +0000, Eric Wheeler wrote:
-> > > Hi Lars,
-> > > =
-
-> > > We just tried 4.19.x and this bugs still exists. We applied the patch =
-
-> > > which was originally submitted to this thread and it still applies cl=
-eanly =
-
-> > > and seems to work for our use case. You mentioned that you had some o=
-lder =
-
-> > > code which zeroed out unaligned discard requests (or perhaps it was f=
-or a =
-
-> > > different purpose) that you may be able to use to patch this. Could y=
-ou =
-
-> > > dig those up and see if we can get this solved?
-> > > =
-
-> > > It would be nice to be able to use drbd with thin backing volumes fro=
-m the =
-
-> > > vanilla kernel. If this has already been fixed in something newer tha=
-n =
-
-> > > 4.19, then please point me to the commit.
-> > =
-
-> > I think it was merged upstream in 5.0
-> > f31e583aa2c2 drbd: introduce P_ZEROES (REQ_OP_WRITE_ZEROES on the "wire=
-")
-> =
-
-> Thanks Lars, I appreciate your patch.  =
-
-> =
-
-> Your unaligned zerout code in drbd_issue_discard_or_zero_out() looks =
-
-> great.  I particulary like how you adjusted max_discard_sectors to the =
-
-> granularity, as well as alignment handling.  Well thought out.
-> =
-
-> Your commit notes that "for backward compatibility, P_TRIM means zero-out=
-, =
-
-> unless the DRBD_FF_WZEROES feature flag is agreed upon during handshake."
-> =
-
-> We test our environment by deploying the newer kernel on one of the DRBD =
-
-> servers and checking for regressions---but this will cause a zero-out on =
-
-> the new server because the old server doesn't yet support DRBD_FF_WZEROES.
-> =
-
-> For our purpose, can you think of any reason that it would be unsafe to =
-
-> hack the following into drbd_do_features() so the newer version will not =
-
-> zero-out while we test and get both nodes up to the newer version?
-
-If you "fake" agreed_features to include DRBD_FF_WZEROES,
-that may start to send the P_ZEROES command,
-which the older peer does not understand yet,
-triggering a protocol error and disconnect...
-
-You can always use a newer DRBD module with the older kernel,
-until you are prepared to upgrade the kernel...
-
-But you knew that.
-
-> diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd=
-_receiver.c
-> index c7ad88d..76191e6 100644
-> --- a/drivers/block/drbd/drbd_receiver.c
-> +++ b/drivers/block/drbd/drbd_receiver.c
-> @@ -5382,6 +5382,8 @@ static int drbd_do_features(struct drbd_connection =
-*connection)
->  	connection->agreed_pro_version =3D min_t(int, PRO_VERSION_MAX, p->proto=
-col_max);
->  	connection->agreed_features =3D PRO_FEATURES & be32_to_cpu(p->feature_f=
-lags);
->  =
-
-> +	connection->agreed_features |=3D DRBD_FF_WZEROES;
-> +
->  	drbd_info(connection, "Handshake successful: "
->  	     "Agreed network protocol version %d\n", connection->agreed_pro_ver=
-sion);
-
--- =
-
-: Lars Ellenberg
-: LINBIT | Keeping the Digital World Running
-: DRBD -- Heartbeat -- Corosync -- Pacemaker
-: R&D, Integration, Ops, Consulting, Support
-
-DRBD=AE and LINBIT=AE are registered trademarks of LINBIT
-_______________________________________________
-drbd-dev mailing list
-drbd-dev@lists.linbit.com
-http://lists.linbit.com/mailman/listinfo/drbd-dev
+T24gNi8zLzE5IDExOjQzIFBNLCBMYXJzIEVsbGVuYmVyZyB3cm90ZToKPiBUaGluayBhZ2Fpbjog
+aG93IGlzIGZhbWlseS0+b3BzIGluZXhlZD8KCklmIHlvdSBtZWFuIHRoZSBnZW5sX2ZhbWlseSwg
+aXRzIG9wcyBhcmUga2VwdCBvbiBhIGxpc3QsIHdoaWNoIGlzIHNlYXJjaGVkIHVzaW5nIGdlbmxf
+Z2V0X2NtZCgpLgpDb25zdHJ1Y3RlZCBhcyBhIGxpc3QsIGl0IGRvZXNuJ3QgZXZlbiAobmVjZXNz
+YXJpbHkpIGhhdmUgYW4gYW4gdW5kZXJseWluZyBhcnJheSBvbmUgbWlnaHQgYmUgdGVtcHRlZCB0
+byBpbmRleC4KCj4gSG93IGlzIGRyYmRfZ2VubF9vcHMgaW5kZXhlZD8KCkl0IGlzIGFuIGFycmF5
+LCBidXQgaXQgaXNuJ3QgaW5kZXhlZCBieSBjb21tYW5kIG51bWJlciwgZXhjZXB0IGluIHRoaXMg
+b25lIHBsYWNlIGluIGRyYmRfYWRtX3ByZXBhcmUoKS4KClRoZSBhcnJheSBpcyBnZW5lcmF0ZWQg
+YnkgdGhlIEdFTkxfb3AoKSBtYWNyb3MgaW4gZHJiZC1oZWFkZXJzL2xpbnV4L2RyYmRfZ2VubC5o
+LCB3aXRoIGNvbW1hbmRzIGluIG5vIG9idmlvdXMgb3JkZXIuClRoZSBmaXJzdCBvbmUgaXMgY29t
+bWFuZCBudW1iZXIgNToKCUdFTkxfb3AoRFJCRF9BRE1fTkVXX01JTk9SLCA1LCBHRU5MX2RvaXQo
+ZHJiZF9hZG1fbmV3X21pbm9yKSwKClRoZXJlIGFyZSAzNiBHRU5MX29wIGVudHJpZXMgaW4gZHJi
+ZF9nZW5sLmgsIHJlc3VsdGluZyBpbiAzNiBlbnRyaWVzIGluIHRoZSBkcmJkX2dlbmxfb3BzW10g
+YXJyYXkuCkJ1dCB0aGUgaGlnaGVzdCBjb21tYW5kIG51bWJlciBpcyA0Nywgc28gaW5kZXhpbmcg
+YnkgY29tbWFuZCBudW1iZXIgaXMgbGlhYmxlIHRvIGV4Y2VlZCB0aGUgYm91bmRzIG9mIHRoZSBh
+cnJheS4KCkZvciBleGFtcGxlLCBoZXJlJ3MgYW5vdGhlciBHRU5MX29wKCkgZW50cnkgZnJvbSBk
+cmJkX2dlbmwuaCwgd2hpY2ggYXBwZWFycyBhdCBkcmJkX2dlbmxfb3BzWzVdOgoJR0VOTF9vcChE
+UkJEX0FETV9ORVdfUEVFUiwgNDQsIEdFTkxfZG9pdChkcmJkX2FkbV9uZXdfcGVlciksCgpUaGlz
+IGNvbW1hbmQgYXR0ZW1wdHMgdG8gYWNjZXNzIGRyYmRfZ2VubF9vcHNbNDRdLCBsZWFkaW5nIHRv
+IGEgcnVudGltZSBlcnJvciBhdCBkcmJkX25sLmM6MjIyOgoJZHJiZHNldHVwIG5ldy1wZWVyIHIw
+IDEgLS1fbmFtZT12YWdyYW50CgpkcmJkX25sLmM6MjIyOjIwOiBydW50aW1lIGVycm9yOiBpbmRl
+eCA0NCBvdXQgb2YgYm91bmRzIGZvciB0eXBlICdnZW5sX29wcyBbMzZdJwpkcmJkX25sLmM6MjIy
+OjI1OiBydW50aW1lIGVycm9yOiBsb2FkIG9mIGFkZHJlc3MgMHgwMDAwMDEwNDMwZTQgd2l0aCBp
+bnN1ZmZpY2llbnQgc3BhY2UgZm9yIGFuIG9iamVjdCBvZiB0eXBlICd1bnNpZ25lZCBpbnQnCjB4
+MDAwMDAxMDQzMGU0OiBub3RlOiBwb2ludGVyIHBvaW50cyBoZXJlCiAgNzAgMzkgYzIgMDAgMDAg
+MDAgMDAgMDAgIDZkIDAwIDAwIDAwIDA1IDAwIDAwIDAwICA1YyAyZiAwNCAwMSAwMCAwMCAwMCAw
+MCAgMDMgMDMgMDAgMDAgMDAgMDAgMDAgMDAKICAgICAgICAgICAgICBeIAoKIDIyMiAgICAgICAg
+IGlmICgoZHJiZF9nZW5sX29wc1tjbWRdLmZsYWdzICYgR0VOTF9BRE1JTl9QRVJNKSAmJgogMjIz
+ICAgICAgICAgICAgIGRyYmRfc2VjdXJpdHlfbmV0bGlua19yZWN2KHNrYiwgQ0FQX1NZU19BRE1J
+TikpCiAyMjQgICAgICAgICAgICAgICAgIHJldHVybiAtRVBFUk07CgpXaHkgZG9lcyBvbmUgbmVl
+ZCB0byBiZSBpdGVyYXRlZCBvdmVyIGFuZCBjb21wYXJlIGEgbWVtYmVyIHdpdGggdGhlIHNlYXJj
+aCBrZXkgYW5kIHRoZSBvdGhlciBkb2VzIG5vdD8KCkkgZG8gbm90IHVuZGVyc3RhbmQgdGhhdCB0
+byBiZSB0aGUgY2FzZS4gIEl0IGxvb2tzIGxpa2UgdGhlIGRlZmluaXRpb24gb2YgR0VOTF9vcCgp
+IGZvciBaWlpfZ2VubF9vcHNbXQppbiBnZW5sX21hZ2ljX2Z1bmMuaCBkb2VzIG5vdCByZWNvcmQg
+dGhlIG9wIG51bWJlciBpbnRvIHRoZSBnZW5lcmF0ZWQgZW50cmllcy4gIEkgZ3Vlc3MgdGhhdCB3
+aWxsIG5lZWQKdG8gYmUgYWRkZWQgZm9yIGNvbXBhcmlzb24gd2l0aCB0aGUgc2VhcmNoIGtleS4K
+ClJlZ2FyZHMsCkRhdmUgQnV0dGVyZmllbGQKCj4gRGF2aWQgQnV0dGVyZmllbGQgPGRhYjIxNzc0
+QGdtYWlsLmNvbSA8bWFpbHRvOmRhYjIxNzc0QGdtYWlsLmNvbT4+IHNjaHJpZWIgYW0gRGkuLCA0
+LiBKdW5pIDIwMTksIDAxOjU4Ogo+IAo+ICAgICAoSSB0cmllZCAiZHJiZC1kZXZAbGlzdHMubGlu
+Yml0LmNvbSA8bWFpbHRvOmRyYmQtZGV2QGxpc3RzLmxpbmJpdC5jb20+IiBmaXJzdCwgYnV0IG1l
+c3NhZ2UgbmV2ZXIgbWFkZSBpdCBpbnRvIHRoZSBhcmNoaXZlLikKPiAKPiAKPiAgICAgLS0tLS0t
+LS0gRm9yd2FyZGVkIE1lc3NhZ2UgLS0tLS0tLS0KPiAgICAgVG86IGRyYmQtZGV2QGxpc3RzLmxp
+bmJpdC5jb20gPG1haWx0bzpkcmJkLWRldkBsaXN0cy5saW5iaXQuY29tPgo+ICAgICBGcm9tOiBE
+YXZpZCBCdXR0ZXJmaWVsZCA8ZGFiMjE3NzRAZ21haWwuY29tIDxtYWlsdG86ZGFiMjE3NzRAZ21h
+aWwuY29tPj4KPiAgICAgU3ViamVjdDogZHJiZF9ubC5jOmRyYmRfYWRtX3ByZXBhcmUoKSBpbmRl
+eGVzIGRyYmRfZ2VubF9vcHNbXSBieSBjbWQgbnVtYmVyCj4gICAgIERhdGU6IEZyaSwgMzEgTWF5
+IDIwMTkgMTM6MDE6MjQgLTA2MDAKPiAgICAgVXNlci1BZ2VudDogTW96aWxsYS81LjAgKFgxMTsg
+TGludXggeDg2XzY0OyBydjo2MC4wKSBHZWNrby8yMDEwMDEwMSBUaHVuZGVyYmlyZC82MC42LjEK
+PiAgICAgTUlNRS1WZXJzaW9uOiAxLjAKPiAgICAgQ29udGVudC1UeXBlOiB0ZXh0L3BsYWluOyBj
+aGFyc2V0PXV0Zi04Cj4gCj4gICAgIChJcyB0aGlzIHRoZSByaWdodCBwbGFjZSB0byBzZW5kIGNv
+bW1lbnRzIG9uIHRoZSBzb3VyY2UgY29kZSBzdWNoIGFzIHRoaXMgb25lPykKPiAKPiAgICAgSW4g
+ZHJiZF9ubC5jOgo+IAo+ICAgICDCoCBzdGF0aWMgaW50IGRyYmRfYWRtX3ByZXBhcmUoc3RydWN0
+IGRyYmRfY29uZmlnX2NvbnRleHQgKmFkbV9jdHgsCj4gICAgIMKgIMKgIMKgIMKgIHN0cnVjdCBz
+a19idWZmICpza2IsIHN0cnVjdCBnZW5sX2luZm8gKmluZm8sIHVuc2lnbmVkIGZsYWdzKQo+ICAg
+ICDCoCB7Cj4gICAgIMKgIMKgIMKgIMKgIHN0cnVjdCBkcmJkX2dlbmxtc2doZHIgKmRfaW4gPSBp
+bmZvLT51c2VyaGRyOwo+ICAgICDCoCDCoCDCoCDCoCBjb25zdCB1OCBjbWQgPSBpbmZvLT5nZW5s
+aGRyLT5jbWQ7Cj4gICAgIMKgIMKgIMKgIMKgIGludCBlcnI7Cj4gCj4gICAgIMKgIMKgIMKgIMKg
+IG1lbXNldChhZG1fY3R4LCAwLCBzaXplb2YoKmFkbV9jdHgpKTsKPiAKPiAgICAgK8KgIMKgIMKg
+IMKgLy9YWFggSSBkbyBub3QgdGhpbmsgeW91IGNhbiBmaW5kIHRoZSBvcHMgZm9yIGEgY29tbWFu
+ZCBudW1iZXIgYnkgaW5kZXhpbmcgdGhpcyBhcnJheS4KPiAgICAgK8KgIMKgIMKgIMKgLy9YWFgg
+VGhlIGFycmF5IGlzIHVub3JkZXJlZCBhbmQgcGFja2VkLsKgIEkgdGhpbmsgaXQgbXVzdCBzZWFy
+Y2ggbGlrZSBnZW5sX2dldF9jbWQoKS4KPiAgICAgwqAgwqAgwqAgwqAgLyoKPiAgICAgwqAgwqAg
+wqAgwqAgwqAqIGdlbmxfcmN2X21zZygpIG9ubHkgY2hlY2tzIGlmIGNvbW1hbmRzIHdpdGggdGhl
+IEdFTkxfQURNSU5fUEVSTSBmbGFnCj4gICAgIMKgIMKgIMKgIMKgIMKgKiBzZXQgaGF2ZSBDQVBf
+TkVUX0FETUlOOyB3ZSBhbHNvIHJlcXVpcmUgQ0FQX1NZU19BRE1JTiBmb3IKPiAgICAgwqAgwqAg
+wqAgwqAgwqAqIGFkbWluaXN0cmF0aXZlIGNvbW1hbmRzLgo+ICAgICDCoCDCoCDCoCDCoCDCoCov
+Cj4gICAgIMKgIMKgIMKgIMKgIGlmICgoZHJiZF9nZW5sX29wc1tjbWRdLmZsYWdzICYgR0VOTF9B
+RE1JTl9QRVJNKSAmJgo+ICAgICDCoCDCoCDCoCDCoCDCoCDCoCBkcmJkX3NlY3VyaXR5X25ldGxp
+bmtfcmVjdihza2IsIENBUF9TWVNfQURNSU4pKQo+ICAgICDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCByZXR1cm4gLUVQRVJNOwo+IAo+ICAgICDCoCDCoCDCoCDCoCBhZG1fY3R4LT5yZXBseV9za2Ig
+PSBnZW5sbXNnX25ldyhOTE1TR19HT09EU0laRSwgR0ZQX0tFUk5FTCk7Cj4gICAgIMKgIMKgIMKg
+IMKgIGlmICghYWRtX2N0eC0+cmVwbHlfc2tiKSB7Cj4gICAgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgIGVyciA9IC1FTk9NRU07Cj4gICAgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIGdvdG8gZmFp
+bDsKPiAgICAgwqAgwqAgwqAgwqAgfQo+IAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KZHJiZC1kZXYgbWFpbGluZyBsaXN0CmRyYmQtZGV2QGxpc3RzLmxp
+bmJpdC5jb20KaHR0cDovL2xpc3RzLmxpbmJpdC5jb20vbWFpbG1hbi9saXN0aW5mby9kcmJkLWRl
+dgo=
