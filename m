@@ -2,86 +2,67 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail09.linbit.com (mail09.linbit.com [212.69.161.110])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A1DA341A8
-	for <lists+drbd-dev@lfdr.de>; Tue,  4 Jun 2019 10:20:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 777E434372
+	for <lists+drbd-dev@lfdr.de>; Tue,  4 Jun 2019 11:42:04 +0200 (CEST)
 Received: from mail09.linbit.com (localhost [127.0.0.1])
-	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id CD4941028A71;
-	Tue,  4 Jun 2019 10:20:12 +0200 (CEST)
+	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id B61A61028A76;
+	Tue,  4 Jun 2019 11:42:02 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 6D9EB1028A61
-	for <drbd-dev@lists.linbit.com>; Tue,  4 Jun 2019 10:20:11 +0200 (CEST)
-Received: by mail-wm1-f65.google.com with SMTP id s3so6506112wms.2
-	for <drbd-dev@lists.linbit.com>; Tue, 04 Jun 2019 01:20:11 -0700 (PDT)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+	[209.85.221.53])
+	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id A039C1028A6F
+	for <drbd-dev@lists.linbit.com>; Tue,  4 Jun 2019 11:42:01 +0200 (CEST)
+Received: by mail-wr1-f53.google.com with SMTP id e16so6809685wrn.1
+	for <drbd-dev@lists.linbit.com>; Tue, 04 Jun 2019 02:42:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linbit-com.20150623.gappssmtp.com; s=20150623;
+	h=date:from:to:subject:message-id:mail-followup-to:references
+	:mime-version:content-disposition:content-transfer-encoding
+	:in-reply-to:user-agent;
+	bh=ILUcji1pVMkHmE6o61vuIsd0iBRT+BzsI2VPoFg41lk=;
+	b=nCEo0tl5STWP+dNd9/boMZSGz9rJSW96MARMMTeE7Wv9VWF0OOEo/MJNHmlK25l1lb
+	lyagXh8wsD8ujavUllWkeFsRUTUNRHreAdt9YUE5g8C0s0vSooPVktLOVMK53OJypSaQ
+	oaI4C8i0s4N2EJX2Z8bRgSGVkr4iNCM7J26zCUVOlfprsEos1jnlQkzUHbqJLOYdgsJx
+	FitTiUWYvZmNiXvW3haw5gKkDin5p8G0rAv0scNZNRL11bDBgWIRqkkUlHLjXDl+AGLQ
+	GW407/DtnpRh8lEqKVOw2L7h4yML0QpZwKAkX1tkpIflrm1Ayae4brk2/kkc79rovR15
+	Jetg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:resent-from:resent-date:resent-message-id
-	:resent-to:dkim-signature:subject:to:references:from:organization:cc
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-language:content-transfer-encoding;
-	bh=56873b31JTgEnT1i8IcBmKwdaAdF68c2Ox38x9gXs44=;
-	b=HC5uG9kasmX8Tpb0GUhsCLAkMkpqXKd8V/3X+F5fbzeC7us6IH1Y2zEHTVuX+TGHnE
-	QqKmzzQXSvNEyh1QKloeMw+jck6igzoAiI0V0u3D2PKeFwKaxIYlG9GWjpbKq1sXKgdv
-	vZ1/JmhoJRqopQwpcbx8ciFO8QCOfa4d29F0JIIGojSII47Dnvht+je8t56MoJOrW0IB
-	chHgnkGql9rp0nZ7Z9DSNi0xlmHDvn8+5PysM5peF27Glyto//R5f/+2a2xM3hhteNFx
-	VC7JeHnPGZL7iDyJAXB8ZLdj1tCUX+bqGFjdnFGqCS7aE/DLcdTpDHQkZuJIAJ5EngiU
-	40oQ==
-X-Gm-Message-State: APjAAAWJRskd4riu7dcEVjEE0IG3JLuLy0s/pA1hvq859C16vBecHEXO
-	Le4J9ObrsoqJwP3p9hnjVqerAOjyunr3cA==
-X-Google-Smtp-Source: APXvYqwqb40vixneOD55kP6bZx6Y45rLwFOEqObPiY7w5t2uxQOps4B1SdGy2IFkaaC7yfvg0Y1pkg==
-X-Received: by 2002:a7b:c444:: with SMTP id l4mr5261100wmi.15.1559636410320;
-	Tue, 04 Jun 2019 01:20:10 -0700 (PDT)
+	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
+	:references:mime-version:content-disposition
+	:content-transfer-encoding:in-reply-to:user-agent;
+	bh=ILUcji1pVMkHmE6o61vuIsd0iBRT+BzsI2VPoFg41lk=;
+	b=qbU91hTSBiPqPjjHbGuSOS4+H4GeECRJfWgApk8crjq0Ru+85MT/iRIJiFkud3Ofb5
+	nZHsV3ffqz2reApAsM1jrgv5ZnvdZvuLsGsCqZ6UDaVtT9cLNp5yqOCBR8qksJmhUFLJ
+	8RSNIIbjO27+pJjBPHUwz24KQUBgY+kt4JqL2l2AbibQc1BnxuMug9lW4pUdYMamYcp3
+	PPjwgCDL1I/6aCULN9VKEHiMtG+HXWPkhFsu+WQTuahVp1Wn7oO/q/QauJKtKEEZoyZv
+	yOeheqWjv/YT2oHFH7NcFrHhY2uIXR2HonnfLjRy3wQMljctE8oSZr8JsMqmHonThse5
+	KwOg==
+X-Gm-Message-State: APjAAAXWEyChDF+Fp4vB4YYw53rcHtcjQJ+OSEkt/NNhABlLR975qteN
+	mwaOuZycOLnX5lVhKbDJwcB3Pm2u2Em6XQ==
+X-Google-Smtp-Source: APXvYqzXWL3Bjxy4Jy0L1knsBpOcZbNCBmfmXpIlp/nHW7E7qlaqvkeCy8JL2DQ1CWl2cRKFNKeJSA==
+X-Received: by 2002:a5d:424f:: with SMTP id s15mr1457700wrr.37.1559641320544; 
+	Tue, 04 Jun 2019 02:42:00 -0700 (PDT)
 Received: from soda.linbit (212-186-191-219.static.upcbusiness.at.
 	[212.186.191.219]) by smtp.gmail.com with ESMTPSA id
-	16sm12995825wmx.45.2019.06.04.01.20.09
+	p2sm13617400wmp.40.2019.06.04.02.41.59
 	for <drbd-dev@lists.linbit.com>
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 04 Jun 2019 01:20:10 -0700 (PDT)
-Resent-From: Lars Ellenberg <lars.ellenberg@linbit.com>
-Resent-Date: Tue, 4 Jun 2019 10:20:08 +0200
-Resent-Message-ID: <20190604082008.GJ5803@soda.linbit>
-Resent-To: drbd-dev@lists.linbit.com
-X-Original-To: drbd-dev@lists.linbit.com
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com
-	[209.85.166.52])
-	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id C40D31028A61
-	for <drbd-dev@lists.linbit.com>; Tue,  4 Jun 2019 10:18:06 +0200 (CEST)
-Received: by mail-io1-f52.google.com with SMTP id k8so16654892iot.1
-	for <drbd-dev@lists.linbit.com>; Tue, 04 Jun 2019 01:18:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:organization:cc:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=56873b31JTgEnT1i8IcBmKwdaAdF68c2Ox38x9gXs44=;
-	b=fc9MjGYK1CNByT7y7XbLRaKT53qh9p9OREvtaqPK6ytqrpOIKvv8ojBk3+fwpZlLd7
-	Xr5Hs0tQB0EiNnru5Tg8fV9PkWi8tESSufwYm3hMjvavBzkIeVhqkh8IUN8ps5Lid01y
-	tAtHdNg31bH+4BJT6HQLYyp4lE1YBXAU+8+giVafTulDizM6PVkmX3/fr2/Nix9OwdB8
-	4aDS5tUDlzdWrYHfzOmyRDpLVBsokPp/zQk/e/Niie+b9XnuuIP8+f9mq/iCTM6YypgH
-	OE0/cyav9A5b2PzRN0b20o4yrWHqToTS+JQVN+b+hDW6xxC2pG5e5L312BLHvfIixVEw
-	0/MQ==
-X-Received: by 2002:a6b:b556:: with SMTP id e83mr12852975iof.94.1559636285415; 
-	Tue, 04 Jun 2019 01:18:05 -0700 (PDT)
-Received: from [192.168.1.9] (c-73-78-150-191.hsd1.co.comcast.net.
-	[73.78.150.191]) by smtp.gmail.com with ESMTPSA id
-	k78sm7281950itb.10.2019.06.04.01.18.03
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 04 Jun 2019 01:18:04 -0700 (PDT)
-To: Lars Ellenberg <lars.ellenberg@linbit.com>
+	Tue, 04 Jun 2019 02:41:59 -0700 (PDT)
+Date: Tue, 4 Jun 2019 11:41:58 +0200
+From: Lars Ellenberg <lars.ellenberg@linbit.com>
+To: drbd-dev@lists.linbit.com
+Message-ID: <20190604094158.GK5803@soda.linbit>
+Mail-Followup-To: drbd-dev@lists.linbit.com
 References: <f5c1cf53-0eb7-35ab-7fbb-cb64e5f16305@gmail.com>
 	<cf05cd9c-687f-6264-0bc3-aefa90c91b3a@gmail.com>
 	<CANr6vz8kxacCYSb38G464Y2c1xw1ZqZAddN45LTwEcnE_Y2dsA@mail.gmail.com>
-From: David Butterfield <dab21774@gmail.com>
-Organization: PGP: 70C7 0309 E859 40AB 4D1F CDC5 F7CE 9A64 95EB 9D1B
-Message-ID: <7b015341-f9f7-e207-84d7-61ab8f0d5a7b@gmail.com>
-Date: Tue, 4 Jun 2019 02:18:02 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	<7b015341-f9f7-e207-84d7-61ab8f0d5a7b@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CANr6vz8kxacCYSb38G464Y2c1xw1ZqZAddN45LTwEcnE_Y2dsA@mail.gmail.com>
-Content-Language: en-US
-Cc: drbd-dev@lists.linbit.com
+Content-Disposition: inline
+In-Reply-To: <7b015341-f9f7-e207-84d7-61ab8f0d5a7b@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Subject: Re: [Drbd-dev] drbd_nl.c:drbd_adm_prepare() indexes drbd_genl_ops[]
  by cmd number
 X-BeenThere: drbd-dev@lists.linbit.com
@@ -97,85 +78,104 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <http://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-T24gNi8zLzE5IDExOjQzIFBNLCBMYXJzIEVsbGVuYmVyZyB3cm90ZToKPiBUaGluayBhZ2Fpbjog
-aG93IGlzIGZhbWlseS0+b3BzIGluZXhlZD8KCklmIHlvdSBtZWFuIHRoZSBnZW5sX2ZhbWlseSwg
-aXRzIG9wcyBhcmUga2VwdCBvbiBhIGxpc3QsIHdoaWNoIGlzIHNlYXJjaGVkIHVzaW5nIGdlbmxf
-Z2V0X2NtZCgpLgpDb25zdHJ1Y3RlZCBhcyBhIGxpc3QsIGl0IGRvZXNuJ3QgZXZlbiAobmVjZXNz
-YXJpbHkpIGhhdmUgYW4gYW4gdW5kZXJseWluZyBhcnJheSBvbmUgbWlnaHQgYmUgdGVtcHRlZCB0
-byBpbmRleC4KCj4gSG93IGlzIGRyYmRfZ2VubF9vcHMgaW5kZXhlZD8KCkl0IGlzIGFuIGFycmF5
-LCBidXQgaXQgaXNuJ3QgaW5kZXhlZCBieSBjb21tYW5kIG51bWJlciwgZXhjZXB0IGluIHRoaXMg
-b25lIHBsYWNlIGluIGRyYmRfYWRtX3ByZXBhcmUoKS4KClRoZSBhcnJheSBpcyBnZW5lcmF0ZWQg
-YnkgdGhlIEdFTkxfb3AoKSBtYWNyb3MgaW4gZHJiZC1oZWFkZXJzL2xpbnV4L2RyYmRfZ2VubC5o
-LCB3aXRoIGNvbW1hbmRzIGluIG5vIG9idmlvdXMgb3JkZXIuClRoZSBmaXJzdCBvbmUgaXMgY29t
-bWFuZCBudW1iZXIgNToKCUdFTkxfb3AoRFJCRF9BRE1fTkVXX01JTk9SLCA1LCBHRU5MX2RvaXQo
-ZHJiZF9hZG1fbmV3X21pbm9yKSwKClRoZXJlIGFyZSAzNiBHRU5MX29wIGVudHJpZXMgaW4gZHJi
-ZF9nZW5sLmgsIHJlc3VsdGluZyBpbiAzNiBlbnRyaWVzIGluIHRoZSBkcmJkX2dlbmxfb3BzW10g
-YXJyYXkuCkJ1dCB0aGUgaGlnaGVzdCBjb21tYW5kIG51bWJlciBpcyA0Nywgc28gaW5kZXhpbmcg
-YnkgY29tbWFuZCBudW1iZXIgaXMgbGlhYmxlIHRvIGV4Y2VlZCB0aGUgYm91bmRzIG9mIHRoZSBh
-cnJheS4KCkZvciBleGFtcGxlLCBoZXJlJ3MgYW5vdGhlciBHRU5MX29wKCkgZW50cnkgZnJvbSBk
-cmJkX2dlbmwuaCwgd2hpY2ggYXBwZWFycyBhdCBkcmJkX2dlbmxfb3BzWzVdOgoJR0VOTF9vcChE
-UkJEX0FETV9ORVdfUEVFUiwgNDQsIEdFTkxfZG9pdChkcmJkX2FkbV9uZXdfcGVlciksCgpUaGlz
-IGNvbW1hbmQgYXR0ZW1wdHMgdG8gYWNjZXNzIGRyYmRfZ2VubF9vcHNbNDRdLCBsZWFkaW5nIHRv
-IGEgcnVudGltZSBlcnJvciBhdCBkcmJkX25sLmM6MjIyOgoJZHJiZHNldHVwIG5ldy1wZWVyIHIw
-IDEgLS1fbmFtZT12YWdyYW50CgpkcmJkX25sLmM6MjIyOjIwOiBydW50aW1lIGVycm9yOiBpbmRl
-eCA0NCBvdXQgb2YgYm91bmRzIGZvciB0eXBlICdnZW5sX29wcyBbMzZdJwpkcmJkX25sLmM6MjIy
-OjI1OiBydW50aW1lIGVycm9yOiBsb2FkIG9mIGFkZHJlc3MgMHgwMDAwMDEwNDMwZTQgd2l0aCBp
-bnN1ZmZpY2llbnQgc3BhY2UgZm9yIGFuIG9iamVjdCBvZiB0eXBlICd1bnNpZ25lZCBpbnQnCjB4
-MDAwMDAxMDQzMGU0OiBub3RlOiBwb2ludGVyIHBvaW50cyBoZXJlCiAgNzAgMzkgYzIgMDAgMDAg
-MDAgMDAgMDAgIDZkIDAwIDAwIDAwIDA1IDAwIDAwIDAwICA1YyAyZiAwNCAwMSAwMCAwMCAwMCAw
-MCAgMDMgMDMgMDAgMDAgMDAgMDAgMDAgMDAKICAgICAgICAgICAgICBeIAoKIDIyMiAgICAgICAg
-IGlmICgoZHJiZF9nZW5sX29wc1tjbWRdLmZsYWdzICYgR0VOTF9BRE1JTl9QRVJNKSAmJgogMjIz
-ICAgICAgICAgICAgIGRyYmRfc2VjdXJpdHlfbmV0bGlua19yZWN2KHNrYiwgQ0FQX1NZU19BRE1J
-TikpCiAyMjQgICAgICAgICAgICAgICAgIHJldHVybiAtRVBFUk07CgpXaHkgZG9lcyBvbmUgbmVl
-ZCB0byBiZSBpdGVyYXRlZCBvdmVyIGFuZCBjb21wYXJlIGEgbWVtYmVyIHdpdGggdGhlIHNlYXJj
-aCBrZXkgYW5kIHRoZSBvdGhlciBkb2VzIG5vdD8KCkkgZG8gbm90IHVuZGVyc3RhbmQgdGhhdCB0
-byBiZSB0aGUgY2FzZS4gIEl0IGxvb2tzIGxpa2UgdGhlIGRlZmluaXRpb24gb2YgR0VOTF9vcCgp
-IGZvciBaWlpfZ2VubF9vcHNbXQppbiBnZW5sX21hZ2ljX2Z1bmMuaCBkb2VzIG5vdCByZWNvcmQg
-dGhlIG9wIG51bWJlciBpbnRvIHRoZSBnZW5lcmF0ZWQgZW50cmllcy4gIEkgZ3Vlc3MgdGhhdCB3
-aWxsIG5lZWQKdG8gYmUgYWRkZWQgZm9yIGNvbXBhcmlzb24gd2l0aCB0aGUgc2VhcmNoIGtleS4K
-ClJlZ2FyZHMsCkRhdmUgQnV0dGVyZmllbGQKCj4gRGF2aWQgQnV0dGVyZmllbGQgPGRhYjIxNzc0
-QGdtYWlsLmNvbSA8bWFpbHRvOmRhYjIxNzc0QGdtYWlsLmNvbT4+IHNjaHJpZWIgYW0gRGkuLCA0
-LiBKdW5pIDIwMTksIDAxOjU4Ogo+IAo+ICAgICAoSSB0cmllZCAiZHJiZC1kZXZAbGlzdHMubGlu
-Yml0LmNvbSA8bWFpbHRvOmRyYmQtZGV2QGxpc3RzLmxpbmJpdC5jb20+IiBmaXJzdCwgYnV0IG1l
-c3NhZ2UgbmV2ZXIgbWFkZSBpdCBpbnRvIHRoZSBhcmNoaXZlLikKPiAKPiAKPiAgICAgLS0tLS0t
-LS0gRm9yd2FyZGVkIE1lc3NhZ2UgLS0tLS0tLS0KPiAgICAgVG86IGRyYmQtZGV2QGxpc3RzLmxp
-bmJpdC5jb20gPG1haWx0bzpkcmJkLWRldkBsaXN0cy5saW5iaXQuY29tPgo+ICAgICBGcm9tOiBE
-YXZpZCBCdXR0ZXJmaWVsZCA8ZGFiMjE3NzRAZ21haWwuY29tIDxtYWlsdG86ZGFiMjE3NzRAZ21h
-aWwuY29tPj4KPiAgICAgU3ViamVjdDogZHJiZF9ubC5jOmRyYmRfYWRtX3ByZXBhcmUoKSBpbmRl
-eGVzIGRyYmRfZ2VubF9vcHNbXSBieSBjbWQgbnVtYmVyCj4gICAgIERhdGU6IEZyaSwgMzEgTWF5
-IDIwMTkgMTM6MDE6MjQgLTA2MDAKPiAgICAgVXNlci1BZ2VudDogTW96aWxsYS81LjAgKFgxMTsg
-TGludXggeDg2XzY0OyBydjo2MC4wKSBHZWNrby8yMDEwMDEwMSBUaHVuZGVyYmlyZC82MC42LjEK
-PiAgICAgTUlNRS1WZXJzaW9uOiAxLjAKPiAgICAgQ29udGVudC1UeXBlOiB0ZXh0L3BsYWluOyBj
-aGFyc2V0PXV0Zi04Cj4gCj4gICAgIChJcyB0aGlzIHRoZSByaWdodCBwbGFjZSB0byBzZW5kIGNv
-bW1lbnRzIG9uIHRoZSBzb3VyY2UgY29kZSBzdWNoIGFzIHRoaXMgb25lPykKPiAKPiAgICAgSW4g
-ZHJiZF9ubC5jOgo+IAo+ICAgICDCoCBzdGF0aWMgaW50IGRyYmRfYWRtX3ByZXBhcmUoc3RydWN0
-IGRyYmRfY29uZmlnX2NvbnRleHQgKmFkbV9jdHgsCj4gICAgIMKgIMKgIMKgIMKgIHN0cnVjdCBz
-a19idWZmICpza2IsIHN0cnVjdCBnZW5sX2luZm8gKmluZm8sIHVuc2lnbmVkIGZsYWdzKQo+ICAg
-ICDCoCB7Cj4gICAgIMKgIMKgIMKgIMKgIHN0cnVjdCBkcmJkX2dlbmxtc2doZHIgKmRfaW4gPSBp
-bmZvLT51c2VyaGRyOwo+ICAgICDCoCDCoCDCoCDCoCBjb25zdCB1OCBjbWQgPSBpbmZvLT5nZW5s
-aGRyLT5jbWQ7Cj4gICAgIMKgIMKgIMKgIMKgIGludCBlcnI7Cj4gCj4gICAgIMKgIMKgIMKgIMKg
-IG1lbXNldChhZG1fY3R4LCAwLCBzaXplb2YoKmFkbV9jdHgpKTsKPiAKPiAgICAgK8KgIMKgIMKg
-IMKgLy9YWFggSSBkbyBub3QgdGhpbmsgeW91IGNhbiBmaW5kIHRoZSBvcHMgZm9yIGEgY29tbWFu
-ZCBudW1iZXIgYnkgaW5kZXhpbmcgdGhpcyBhcnJheS4KPiAgICAgK8KgIMKgIMKgIMKgLy9YWFgg
-VGhlIGFycmF5IGlzIHVub3JkZXJlZCBhbmQgcGFja2VkLsKgIEkgdGhpbmsgaXQgbXVzdCBzZWFy
-Y2ggbGlrZSBnZW5sX2dldF9jbWQoKS4KPiAgICAgwqAgwqAgwqAgwqAgLyoKPiAgICAgwqAgwqAg
-wqAgwqAgwqAqIGdlbmxfcmN2X21zZygpIG9ubHkgY2hlY2tzIGlmIGNvbW1hbmRzIHdpdGggdGhl
-IEdFTkxfQURNSU5fUEVSTSBmbGFnCj4gICAgIMKgIMKgIMKgIMKgIMKgKiBzZXQgaGF2ZSBDQVBf
-TkVUX0FETUlOOyB3ZSBhbHNvIHJlcXVpcmUgQ0FQX1NZU19BRE1JTiBmb3IKPiAgICAgwqAgwqAg
-wqAgwqAgwqAqIGFkbWluaXN0cmF0aXZlIGNvbW1hbmRzLgo+ICAgICDCoCDCoCDCoCDCoCDCoCov
-Cj4gICAgIMKgIMKgIMKgIMKgIGlmICgoZHJiZF9nZW5sX29wc1tjbWRdLmZsYWdzICYgR0VOTF9B
-RE1JTl9QRVJNKSAmJgo+ICAgICDCoCDCoCDCoCDCoCDCoCDCoCBkcmJkX3NlY3VyaXR5X25ldGxp
-bmtfcmVjdihza2IsIENBUF9TWVNfQURNSU4pKQo+ICAgICDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
-oCByZXR1cm4gLUVQRVJNOwo+IAo+ICAgICDCoCDCoCDCoCDCoCBhZG1fY3R4LT5yZXBseV9za2Ig
-PSBnZW5sbXNnX25ldyhOTE1TR19HT09EU0laRSwgR0ZQX0tFUk5FTCk7Cj4gICAgIMKgIMKgIMKg
-IMKgIGlmICghYWRtX2N0eC0+cmVwbHlfc2tiKSB7Cj4gICAgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
-IMKgIGVyciA9IC1FTk9NRU07Cj4gICAgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIGdvdG8gZmFp
-bDsKPiAgICAgwqAgwqAgwqAgwqAgfQo+IAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJiZC1kZXYgbWFpbGluZyBsaXN0CmRyYmQtZGV2QGxpc3RzLmxp
-bmJpdC5jb20KaHR0cDovL2xpc3RzLmxpbmJpdC5jb20vbWFpbG1hbi9saXN0aW5mby9kcmJkLWRl
-dgo=
+On Tue, Jun 04, 2019 at 02:18:02AM -0600, David Butterfield wrote:
+> On 6/3/19 11:43 PM, Lars Ellenberg wrote:
+> > Think again: how is family->ops inexed?
+> =
+
+> If you mean the genl_family, its ops are kept on a list, which is searche=
+d using genl_get_cmd().
+> Constructed as a list, it doesn't even (necessarily) have an an underlyin=
+g array one might be tempted to index.
+> =
+
+> > How is drbd_genl_ops indexed?
+> =
+
+> It is an array, but it isn't indexed by command number,
+
+Why, yes it it.
+Because it is constructed that way.
+Uhm. Wait. It used to at some point.
+But ... not so anymore.
+I can swear it used to be
+[op_name] =3D {
+}
+
+in that "magic" header...
+
+> except in this one place in drbd_adm_prepare().
+
+Okay.
+So we check against flags we don't meant to check,
+even check with out-of-bounds array access (undefined content).
+And potentially someone that already has CAP_NET_ADMIN
+could do stuff we meant to require CAP_SYS_ADMIN for.
+
+That's bad :-(
+
+-_- :: accidentally correct
+!!! :: allows NET_ADMIN to do stuff we meant to require SYS_ADMIN for
+OOB :: access beyond end of array, unknown, possibly bad.
+
+leaving off the -_- entries, I find:
+
+OOB  [5]   =3D  {  .cmd  =3D  44,  .flags  =3D  0x1,  .doit  =3D  drbd_adm_=
+new_peer          [drbd],  .dumpit  =3D                           (null)  }
+OOB  [6]   =3D  {  .cmd  =3D  45,  .flags  =3D  0x1,  .doit  =3D  drbd_adm_=
+new_path          [drbd],  .dumpit  =3D                           (null)  }
+OOB  [7]   =3D  {  .cmd  =3D  46,  .flags  =3D  0x1,  .doit  =3D  drbd_adm_=
+del_peer          [drbd],  .dumpit  =3D                           (null)  }
+OOB  [8]   =3D  {  .cmd  =3D  47,  .flags  =3D  0x1,  .doit  =3D  drbd_adm_=
+del_path          [drbd],  .dumpit  =3D                           (null)  }
+!!!  [10]  =3D  {  .cmd  =3D  29,  .flags  =3D  0x1,  .doit  =3D  drbd_adm_=
+net_opts          [drbd],  .dumpit  =3D                           (null)  }
+OOB  [33]  =3D  {  .cmd  =3D  38,  .flags  =3D  0x0,  .doit  =3D  (null),  =
+                  .dumpit  =3D        drbd_adm_get_initial_state  [drbd]  }
+OOB  [34]  =3D  {  .cmd  =3D  42,  .flags  =3D  0x1,  .doit  =3D  drbd_adm_=
+forget_peer       [drbd],  .dumpit  =3D                           (null)  }
+OOB  [35]  =3D  {  .cmd  =3D  43,  .flags  =3D  0x1,  .doit  =3D  drbd_adm_=
+peer_device_opts  [drbd],  .dumpit  =3D                           (null)  }
+
+Someone with NET_ADMIN (but without SYS_ADMIN) could
+ - change net options
+potentially (OOB access, may or may not have the bit set)
+ - create and delete peers and paths
+   (but not connect them, or disconnect them,
+   which would be required to do anything useful with a new path, or to del=
+ete an active path)
+ - forget a peer (but not disconnect it, which would be required to have su=
+ccess)
+ - be disallowed from getting the initial state, even though that should be=
+ an unpriviledged operation
+
+Luckily, "mostly harmless".
+
+Okay.
+
+Either we fix it in the magic header to construct an array
+that has holes in it, but can then be indexed by [cmd],
+as I think it was meant to be, and used to be
+(though I may be misremembering).
+
+Or we add an additional iteration to find the correct flags.
+
+Thank you for point this out.
+
+-- =
+
+: Lars Ellenberg
+: LINBIT | Keeping the Digital World Running
+: DRBD -- Heartbeat -- Corosync -- Pacemaker
+: R&D, Integration, Ops, Consulting, Support
+
+DRBD=AE and LINBIT=AE are registered trademarks of LINBIT
+_______________________________________________
+drbd-dev mailing list
+drbd-dev@lists.linbit.com
+http://lists.linbit.com/mailman/listinfo/drbd-dev
