@@ -2,65 +2,63 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail09.linbit.com (mail09.linbit.com [212.69.161.110])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8961842856
-	for <lists+drbd-dev@lfdr.de>; Wed, 12 Jun 2019 16:03:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA00642861
+	for <lists+drbd-dev@lfdr.de>; Wed, 12 Jun 2019 16:06:24 +0200 (CEST)
 Received: from mail09.linbit.com (localhost [127.0.0.1])
-	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 6DE981028A7B;
-	Wed, 12 Jun 2019 16:03:50 +0200 (CEST)
+	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 0ED281028A78;
+	Wed, 12 Jun 2019 16:06:23 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
-	[209.85.128.52])
-	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 6F5A81028A6D
-	for <drbd-dev@lists.linbit.com>; Wed, 12 Jun 2019 16:03:49 +0200 (CEST)
-Received: by mail-wm1-f52.google.com with SMTP id c6so6705909wml.0
-	for <drbd-dev@lists.linbit.com>; Wed, 12 Jun 2019 07:03:49 -0700 (PDT)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+	[209.85.128.46])
+	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id C469A1028A6C
+	for <drbd-dev@lists.linbit.com>; Wed, 12 Jun 2019 16:06:19 +0200 (CEST)
+Received: by mail-wm1-f46.google.com with SMTP id v19so6681546wmj.5
+	for <drbd-dev@lists.linbit.com>; Wed, 12 Jun 2019 07:06:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linbit-com.20150623.gappssmtp.com; s=20150623;
 	h=date:from:to:subject:message-id:mail-followup-to:references
 	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=nEQ29z9YCKN41j5pkXCEe5ADVDaNWx3NkRJqQPjfG2w=;
-	b=qiCiQyB0LD3MXx4v6qB6ADdN615Aj8u/y7f759ghaVntPcuSIdoFFRo7I6tcVAUoYn
-	aeAOjpk86lnHa8sCjjPHFCvCqwSLn6QUymwOilHqJZr3pxTyoIK6ni2yNdupq3x9Vyb6
-	aZRl1YvOa8F8XIA7ag0e61eNLfMfUp6VtDgoStGv9Ff0uFSFrBRL8RHpt2CmrJw3hh66
-	UcRjZ/Sb4iA1yTU9fsKsFOXxAKe8zb/3RAWB+2oqMYepWlAaJXBj9Y9tIoXICY+IBgSE
-	dWt9q/Exby5rRusnYWkbk+aRbmkV2LD95nJa06luVIfMOIKX3tcxcXR4vnfjNDiKU+Xq
-	BmHA==
+	bh=iK072x8zHIY9v3ZuBoNyBnayHdTdS3ZYFxzX5cHZJN8=;
+	b=2JiwIVMViAoDq6q6ZBTmpOA7lrebronWqVh5CXogW2fTXSCD+y3sSqvryqR+dtrktl
+	sr4dJjnseCKKu3CvJRc3v2lynwV4ImaiD7xjky5Vg/aoT5PAG5X8iV8D98qAOpACpLQG
+	dhK69Bk4cDcImkSsU8yFOQozL7jmQoaSALNpq7zW8DPc8C6UbNjuYyC4cZEZQoMQ/56N
+	3IcBUMUEkU7h7PLFvfVWWTc4OnF4zxxJjklegWgG2s5kv6NDnyXxhwwZmB2xvnmTyvef
+	cps90Ko7JkCdmFMDT2DAhkh1ZPabv48fL81X/iG4OvfCawXKwNNakQszOGf25ySXtals
+	+GrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
 	:references:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=nEQ29z9YCKN41j5pkXCEe5ADVDaNWx3NkRJqQPjfG2w=;
-	b=FjiwtIgqa6HcMcgAX4naumBwVRKZQ67Non8td0mt11QEgZxYG3br4SzivLhXgUVP6g
-	+lXNnltk06k2czeQlcC6ESOpZzr8uM6juNU6W1JWQPG7R1SCe68qLLgRKU7Y0IDu2KrQ
-	VpV7sVkWM6Mntf4W7e2YgwwKg4NtyR6ArSJx61obo5Vh8g9QczmO2/nCRqz3S4F4FMig
-	iSG9WbdWR6x8zZSf2Rdc0bXJzuww3LuI6zjkkDNspChTOjdy7gxL7IC7rh6HXKdaMYiT
-	alw0MUHuIfbAGXghCQQNJQVowdHAJcgdwfCoQgsj2bJuKvgdul4wy0tmzVmrvn/VtrMn
-	cgOA==
-X-Gm-Message-State: APjAAAXbTmGVjfkeRQJBOYC1L7ZhaOmiSEZULOW86R/6GnT0JRUovKTx
-	xaTKVAHyOGCavmrX+uP00yhqlYkFVfw+wg==
-X-Google-Smtp-Source: APXvYqybob13PlVyYvuCJoyhJvUxOcL3TJqLih82j+6xyy+GPu2Ejbkz94wVfFtZEjGELXM5XM162w==
-X-Received: by 2002:a05:600c:2253:: with SMTP id
-	a19mr12150438wmm.156.1560348228364; 
-	Wed, 12 Jun 2019 07:03:48 -0700 (PDT)
+	bh=iK072x8zHIY9v3ZuBoNyBnayHdTdS3ZYFxzX5cHZJN8=;
+	b=tbu/Cqpq2dxQ2nInRGWKW+QttBZyrtRbENED07dSo2Xn00eoc84N2CdYEqI/vDKTXK
+	Cbx2cGL4F7ZC1ZOdIWoWM/UUhIBdH6DiOLQfuyseMhl7xOuev8E2d+gudQKQc9YiCnqh
+	orVxAVuyQEgNWjFPJ8igvmYzMf1Vk0I3HLT+MkIGFTeoyBnOi411NOjB2kIJEgsrk5kC
+	uJ53vlofd5DKxJOgIvbUA8ckPHbRSc+JWvGl/63J6SR+jNJ1+35q0mC1RffWvVYJakJ5
+	SNVagLl+DFWng8lvORYBs17qtWZWeH+4LxcxLGuPoU60n2tD+Re5i6280VbFpmYqfeAW
+	EBzA==
+X-Gm-Message-State: APjAAAWm0x6UIge7JTXoVvXPtH0vrnN9rEcTMkcSihkcNLpzoDPQVz7H
+	Js7fvOMTdBtTOKYrPaOmdJPN+m5fvzc2zw==
+X-Google-Smtp-Source: APXvYqx/6huWfwRLf5ViffSI/342M4ee0vogt5YOFuWdz2nnqyvXp9KRLQVtAVy+b//kMxOkdYEMLg==
+X-Received: by 2002:a7b:c40c:: with SMTP id k12mr6773053wmi.122.1560348377771; 
+	Wed, 12 Jun 2019 07:06:17 -0700 (PDT)
 Received: from soda.linbit (212-186-191-219.static.upcbusiness.at.
-	[212.186.191.219])
-	by smtp.gmail.com with ESMTPSA id 11sm109564wmd.23.2019.06.12.07.03.47
+	[212.186.191.219]) by smtp.gmail.com with ESMTPSA id
+	j3sm18765274wrt.73.2019.06.12.07.06.16
 	for <drbd-dev@lists.linbit.com>
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 12 Jun 2019 07:03:47 -0700 (PDT)
-Date: Wed, 12 Jun 2019 16:03:45 +0200
+	Wed, 12 Jun 2019 07:06:17 -0700 (PDT)
+Date: Wed, 12 Jun 2019 16:06:15 +0200
 From: Lars Ellenberg <lars.ellenberg@linbit.com>
 To: drbd-dev@lists.linbit.com
-Message-ID: <20190612140345.GW5803@soda.linbit>
+Message-ID: <20190612140615.GX5803@soda.linbit>
 Mail-Followup-To: drbd-dev@lists.linbit.com
-References: <59aa5c8c-7369-e987-4b7c-63490498570e@gmail.com>
+References: <8ceba717-542f-5898-d5d4-890945a022fb@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <59aa5c8c-7369-e987-4b7c-63490498570e@gmail.com>
+In-Reply-To: <8ceba717-542f-5898-d5d4-890945a022fb@gmail.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
-Subject: Re: [Drbd-dev] schedule_timeout() called without setting task state
- first
+Subject: Re: [Drbd-dev] integer overflow in dagtag_newer_eq(0, 1ULL<<63)
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -79,36 +77,30 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Wed, Jun 05, 2019 at 09:59:30AM -0600, David Butterfield wrote:
-> The logic in new_or_recycle_send_buffer_page() calls schedule_timeout() without first setting
-> the task state.  This will merely yield the processor but not actually wait.  Is that intended?
+On Wed, Jun 05, 2019 at 10:01:27AM -0600, David Butterfield wrote:
+> drbd_sender.c:maybe_send_unplug_remote() can assign (1ULL << 63) to unplug_dagtag_sector[i]:
 > 
-> In drbd_main.c:
-> 968 static void new_or_recycle_send_buffer_page(struct drbd_send_buffer *sbuf)
-> 969 {
-> 970         while (1) {
-> 971                 struct page *page;
-> 972                 int count = page_count(sbuf->page);
-> 973
-> 974                 BUG_ON(count == 0);
-> 975                 if (count == 1)
-> 976                         goto have_page;
-> 977
-> 978                 page = alloc_page(GFP_NOIO | __GFP_NORETRY | __GFP_NOWARN);
-> 979                 if (page) {
-> 980                         put_page(sbuf->page);
-> 981                         sbuf->page = page;
-> 982                         goto have_page;
-> 983                 }
-> 984
-> 985                 //XXX Don't you need to set something like TASK_*INTERRUPTIBLE first?
-> 986                 //XXX I think this just yields the processor but the thread remains runnable(?)
-> 987                 schedule_timeout(HZ / 10);
+> 1674                 connection->todo.unplug_dagtag_sector[connection->todo.unplug_slot] =
+> 1675                         connection->send.current_dagtag_sector + (1ULL << 63);
+> 
+> Later it reaches dagtag_newer_eq(0, unplug_dagtag_sector[i]) which converts its arguments to
+> signed before subtracting.
+> 
+> 272 #define dagtag_newer_eq(a,b)      \
+> 273         (typecheck(u64, a) && \
+> 274          typecheck(u64, b) && \
+> 275         ((s64)(a) - (s64)(b) >= 0))
+> 
+> But (signed)(1ULL << 63) is the maximum negative integer, and the value of
+> (0 - (signed)(1ULL << 63)) cannot be represented.  So the subtraction ends in integer overflow.
+> 
+> drbd_sender.c:1660:9: runtime error: signed integer overflow: 0 - -9223372036854775808 cannot be represented in type 'long i
 
-was likely meant to be a schedule_timeout_uninterruptible(), yes.
-Frequent typo, unfortunately.
+I don't care ;-)
+but we can add in a -1, if it makes the world a better place
 
-	Lars
+
+    Lars
 
 _______________________________________________
 drbd-dev mailing list
