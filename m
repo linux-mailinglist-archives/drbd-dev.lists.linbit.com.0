@@ -2,64 +2,68 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail09.linbit.com (mail09.linbit.com [212.69.161.110])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27F0E428D8
-	for <lists+drbd-dev@lfdr.de>; Wed, 12 Jun 2019 16:26:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E58DB459CE
+	for <lists+drbd-dev@lfdr.de>; Fri, 14 Jun 2019 12:02:23 +0200 (CEST)
 Received: from mail09.linbit.com (localhost [127.0.0.1])
-	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 96C7A1028A72;
-	Wed, 12 Jun 2019 16:26:17 +0200 (CEST)
+	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 356501028A76;
+	Fri, 14 Jun 2019 12:02:22 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id A5EBD1011BFF
-	for <drbd-dev@lists.linbit.com>; Wed, 12 Jun 2019 16:26:15 +0200 (CEST)
-Received: by mail-wr1-f65.google.com with SMTP id d18so17138161wrs.5
-	for <drbd-dev@lists.linbit.com>; Wed, 12 Jun 2019 07:26:15 -0700 (PDT)
+X-Greylist: delayed 394 seconds by postgrey-1.31 at mail09;
+	Fri, 14 Jun 2019 11:56:15 CEST
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id A856B1011BFC
+	for <drbd-dev@lists.linbit.com>; Fri, 14 Jun 2019 11:56:15 +0200 (CEST)
+Received: by mail-wm1-f65.google.com with SMTP id c6so1679552wml.0
+	for <drbd-dev@lists.linbit.com>; Fri, 14 Jun 2019 02:56:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linbit-com.20150623.gappssmtp.com; s=20150623;
-	h=date:from:to:subject:message-id:mail-followup-to:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=oU/jL8vaEX9BtMU7neBAM9oDngKlBl7aXCDMN/6mK1A=;
-	b=R+MN0hkkRQCDgTT1HjEFOiOZW4OGSiU++PePOpY7IyGaH0nm8K+bvqRSSFXVZh/Izt
-	6ZhIOK9Aok493TE+nRqFWc0jXrT3Nf9gYsS7a62j1mYVR/Zy4Rnm48MhW4yeQ2HIGKTd
-	JLtwPAiFC6+A4iH7KBT6SmaTcK0WtlJv2lSvY1UBmjf3cFpINYWlnk0sby71Xmv2xsVm
-	qSjZocaetRLS7dWccYaogcRngKhgukpoiPwTBYYTPJbqGS34jzFbs5neKfAqlNp800ni
-	YVwFRFEnjc/ql/YCwwsGr72BuIBpdojGjke4fR/UCmiy+Ipro/TrcU5jIyg7Audh2RSj
-	bSHA==
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding:content-language;
+	bh=39Pn1z57ebmqZSkUampY/CbARlgiVXFsw1CA5ix9oZQ=;
+	b=mMulgMOOkXQJpCpKA0S/uj6ZkOAHXlUAqRnsDgx6erHmUKfW3/QOJD+2kHuRgvCHUb
+	9u8Sn/OlkoAGltKEiUqca7qfDMFrm6du12pCnKM0Fk6wUmlYuk/Al5gk/RulSWKNM3Fq
+	X4/O0lJEJu+rH+d0HnmvZHSboGeMS8uieieAetDKWb8ubp61kGQ/M3qp6I6ndy4PYTBk
+	MmOGG9Iu9xlemcXuTs5lTd2n5Iae624qK0QVzVGnQ6sfzGP8USHTHZX2JA64qsPIktEr
+	CC+AyA3rc8xMgBuXdJz32ze+xEC+k6l/K9e3MXqGXKus/9h3xAqmjzQv486g5BZoQtgN
+	XTEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
-	:references:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=oU/jL8vaEX9BtMU7neBAM9oDngKlBl7aXCDMN/6mK1A=;
-	b=cdTqxWlg42fffhx/Fxa/CrcjK4i2MzsPv5/6F1e8Inr+zYBarW69WjJJyE/O4DCmQJ
-	Q+R5xk48VooBDBy5gTLL7xMSPKfxzccKNhMe5FDPNZ55wFIN7+i+aMtHiws01Z1k8Wfp
-	QWqsCqk5mG3mREfjOrmJ+gV7wZ2aD0MgBqWnqEuWORq9VgfYkXQtZowUwKjgcSnvv5ws
-	2HiEAGDlSZwjjt8FkGgykPHgqDzv1Y7D5eiQgXXn8/aja1v73+wFKBtkfEL18eGbKpFb
-	AIrxuf5iGpYLQ/45lPH9jqFaRDGQxP580bkrTJtLIEKnYQaNFcHfqFhlz8XKCqJB1Vn2
-	s4pQ==
-X-Gm-Message-State: APjAAAV6U0FXvK+fgzDTPdaKJWq2R5jVCK0gcDDzxR+M+xK6rziUDzsM
-	wP2IN4MjG+KKgj/zsdmYMyiy9kRWEx9i0A==
-X-Google-Smtp-Source: APXvYqzT/sOhcTsJp9ZD4XvgfUoh9956DkCc/Ge/RTbUfYRj9BNMrid7lIwfGeYdTdH/dtZHnvIADQ==
-X-Received: by 2002:a05:6000:128f:: with SMTP id
-	f15mr1456427wrx.196.1560349574527; 
-	Wed, 12 Jun 2019 07:26:14 -0700 (PDT)
-Received: from soda.linbit (212-186-191-219.static.upcbusiness.at.
-	[212.186.191.219])
-	by smtp.gmail.com with ESMTPSA id g8sm195373wmf.17.2019.06.12.07.26.13
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=39Pn1z57ebmqZSkUampY/CbARlgiVXFsw1CA5ix9oZQ=;
+	b=snvhw2S005DpNugpwbQb9pkRqnNsQOf3KLTLWgEOD1WeeNzXqdV8iscop1fGi2W0in
+	95TFnxsHyro7uckm0fXMT99zfDeavyPnK/1SPkYwK9bSOIqtegIYRAJIi+v+Fqt50+/5
+	5luVBV5Q/U1ExZwam3vY8/IK3rsbZQ7zX4lpdd/1bGZyWcuhJcpInAC4m8xkpkDoXwPS
+	zDzKjS+MrN6WSgFNCRP9m0O8709ZR6uswGkscS/ALmSfzQn1yMIos4kX5Ipx5KaS2aqe
+	Osaa7POryQsR++5nLSE67EatvDxY7hJIGniMbtpCNpKFP5iAM+Ae3NWXV9J2kJhJmEf6
+	rb6w==
+X-Gm-Message-State: APjAAAWYcA4fNUpGQWlBH0Xc8ct1oDvEnfykqiQRm2cc3a9lErtwma9U
+	FYdcZKVYjbSKoOitsH3yS7As9gno3Hls/uNN
+X-Google-Smtp-Source: APXvYqxil0ku/F0wME3bLNiPE/Vzss2dEMm5k8mflfoGO+MMERQYDxXAV+ZwJeo/BcD6R4hg9whulg==
+X-Received: by 2002:a1c:2c41:: with SMTP id s62mr7264991wms.8.1560505780344;
+	Fri, 14 Jun 2019 02:49:40 -0700 (PDT)
+Received: from ?IPv6:2001:858:107:1:2d96:e1e8:3a99:3414?
+	([2001:858:107:1:2d96:e1e8:3a99:3414])
+	by smtp.gmail.com with ESMTPSA id x8sm3425737wmc.5.2019.06.14.02.49.39
 	for <drbd-dev@lists.linbit.com>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 12 Jun 2019 07:26:13 -0700 (PDT)
-Date: Wed, 12 Jun 2019 16:26:12 +0200
-From: Lars Ellenberg <lars.ellenberg@linbit.com>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 14 Jun 2019 02:49:39 -0700 (PDT)
 To: drbd-dev@lists.linbit.com
-Message-ID: <20190612142612.GB5803@soda.linbit>
-Mail-Followup-To: drbd-dev@lists.linbit.com
-References: <28397d5c-72ca-e4b5-fb00-7b55466e7441@gmail.com>
+References: <e9d5ec6e-30e9-9af1-06c3-bcf8b1d92068@gmail.com>
+	<20190612141149.GA5803@soda.linbit>
+From: Robert Altnoeder <robert.altnoeder@linbit.com>
+Message-ID: <83e97127-9511-7899-e9e4-2b44a7932661@linbit.com>
+Date: Fri, 14 Jun 2019 11:49:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <28397d5c-72ca-e4b5-fb00-7b55466e7441@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Subject: Re: [Drbd-dev] main.c comments
+In-Reply-To: <20190612141149.GA5803@soda.linbit>
+Content-Language: en-US
+X-Mailman-Approved-At: Fri, 14 Jun 2019 12:02:20 +0200
+Subject: Re: [Drbd-dev] avoid use of errno as a function parameter name
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -78,71 +82,31 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Wed, Jun 05, 2019 at 10:15:23AM -0600, David Butterfield wrote:
-> These three comments about main.c are the end of what I have on DRBD for now.
-> 
-> Three more things I noticed in drbd_main.c:
-> 
-> (1) Isn't the third argument to module_param_named() supposed to be the type of
->     the second argument?  (But seems to require it as a single token??)
+On 6/12/19 4:11 PM, Lars Ellenberg wrote:
+> On Wed, Jun 05, 2019 at 10:14:19AM -0600, David Butterfield wrote:
+>> Avoid use of errno as an argument name because it is allowed to be a macro such as
+>>     # define errno (*__errno_location ())
+> You do realize that we are kernel code...
 
-Yes and no ;-)
-the type of the second argument in this case is a drbd_protocol_version,
-so by naming that as third argument, we point to the "conversion and
-validation functions" for that type.
+I guess that's a request related to his fork of DRBD which was modified
+to run in user mode.
 
-See param_ops_drbd_protocol_version
+@David:
+Only changing errno to _errno to fix this is probaby not the best idea,
+so if we're going to change this, then I'd rather use a new variable
+name that does not even suggest being related to errno, otherwise
+whoever sees it the next time might be tempted to change it back to errno.
 
-again, "details depend on the kernel version"...
+While I'm at it, I am wondering a bit about the modification of DRBD to
+run in usermode. It's not that I couldn't see a whole lot of reasons why
+you'd want to do this, quite the opposite, but I believe it would make a
+lot more sense if you did that on top of a true microkernel OS such as
+e.g. Minix, seL4, Integrity or QNX. That might even turn the whole thing
+into a very useful project, as such a port of DRBD might be interesting
+for use in e.g. embedded systems running those OSs.
 
-> (2) The cast avoids a compiler warning about signed/unsigned comparison.
-
-As long as our kernel compiles complete without warnings, "boring".
-
-> (3) q->queue_lock is needed by blk_queue_flag_set(), even if !defined(blk_queue_plugged),
->     so I would move its initialization outside the #ifdef blk_queue_plugged.
-
-No. This is compat code, and needs to be that way.
-See how the q->queue_lock evolved over time in the kernel,
-used to be a pointer, without implicit initialization,
-then was changed to implicit initialization "sometimes"
-to an embeded struct, then was changed to implicit initialization
-always to that embeded struct, then was changed to become that embeded
-struct itself.
-
-> diff --git a/drbd/drbd_main.c b/drbd/drbd_main.c
-> index 4204deff..69245c57 100644
-> --- a/drbd/drbd_main.c
-> +++ b/drbd/drbd_main.c
-> @@ -146,7 +153,7 @@ const struct kernel_param_ops param_ops_drbd_protocol_version = {
->  #endif
-> 
->  unsigned int drbd_protocol_version_min = PRO_VERSION_MIN;
-> -module_param_named(protocol_version_min, drbd_protocol_version_min, drbd_protocol_version, 0644);
-> +module_param_named(protocol_version_min, drbd_protocol_version_min, uint, 0644);
-> 
-> 
->  /* in 2.6.x, our device mapping and config info contains our virtual gendisks
-> @@ -1831,7 +1840,7 @@ static void dcbp_set_start(struct p_compressed_bm *p, int set)
->  static void dcbp_set_pad_bits(struct p_compressed_bm *p, int n)
->  {
->         BUG_ON(n & ~0x7);
-> -       p->encoding = (p->encoding & (~0x7 << 4)) | (n << 4);
-> +       p->encoding = (p->encoding & ((unsigned)~0x7 << 4)) | (n << 4);
->  }
-> 
->  static int fill_bitmap_rle_bits(struct drbd_peer_device *peer_device,
-> @@ -3760,8 +3769,9 @@ enum drbd_ret_code drbd_create_device(struct drbd_config_context *adm_ctx, unsig
->  #ifdef COMPAT_HAVE_BLK_QUEUE_MERGE_BVEC
->         blk_queue_merge_bvec(q, drbd_merge_bvec);
->  #endif
-> +       q->queue_lock = &resource->req_lock; /* used by blk_queue_flag_set() */
->  #ifdef blk_queue_plugged
-> -       q->queue_lock = &resource->req_lock; /* needed since we use */
-> +       /* needed since we use */
->         /* plugging on a queue, that actually has no requests! */
->         q->unplug_fn = drbd_unplug_fn;
->  #endif
+Cheers,
+Robert
 
 _______________________________________________
 drbd-dev mailing list
