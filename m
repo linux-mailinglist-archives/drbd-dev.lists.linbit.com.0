@@ -2,71 +2,65 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail09.linbit.com (mail09.linbit.com [212.69.161.110])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3A6E510A4
-	for <lists+drbd-dev@lfdr.de>; Mon, 24 Jun 2019 17:35:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 085F15179C
+	for <lists+drbd-dev@lfdr.de>; Mon, 24 Jun 2019 17:49:54 +0200 (CEST)
 Received: from mail09.linbit.com (localhost [127.0.0.1])
-	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 0C80A1028A6F;
-	Mon, 24 Jun 2019 17:35:48 +0200 (CEST)
+	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 5512E1028A6F;
+	Mon, 24 Jun 2019 17:49:52 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 358181011BFF
-	for <drbd-dev@lists.linbit.com>; Mon, 24 Jun 2019 17:35:45 +0200 (CEST)
-Received: by mail-wr1-f66.google.com with SMTP id r16so14377339wrl.11
-	for <drbd-dev@lists.linbit.com>; Mon, 24 Jun 2019 08:35:45 -0700 (PDT)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+	[209.85.221.46])
+	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 23D321011BFF
+	for <drbd-dev@lists.linbit.com>; Mon, 24 Jun 2019 17:49:49 +0200 (CEST)
+Received: by mail-wr1-f46.google.com with SMTP id x4so14449317wrt.6
+	for <drbd-dev@lists.linbit.com>; Mon, 24 Jun 2019 08:49:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linbit-com.20150623.gappssmtp.com; s=20150623;
 	h=date:from:to:subject:message-id:mail-followup-to:references
 	:mime-version:content-disposition:content-transfer-encoding
 	:in-reply-to:user-agent;
-	bh=1uPEVJ/4RytjFwkvTatfYPqfiYridYkZtYtLB1+3yaU=;
-	b=fMnymthh8ey/hcGXuh9BuaJIZfIH7R9YhoNF0UOuFIkQvTyvdhCIyLP5tIjsTqECD4
-	Ab2hdVfYsHk6sVRzq/dtal4Lo6YInzUloX7ptKGdnKRkR7XyGhG82UakEffW0+CJxrLA
-	bYYpsH7C6Qpg6m4Oeo4KHKqEIZGg1wOJ+dcIfqnz7743E9P1L40FI4hOT9ac3qAJdCRV
-	Scmu1Qa6uibkEBSvPyCiQK8DD3+Odoz36FAWjOQ8TdJVFe8b4roklu17yG4gR0GR2PwZ
-	tGdJ3Hwqt+lh8sM4fqWEsDDedzIQeXAJoLNt4xWZmcFYqutsddmWPqEfHONcueMvCLFy
-	qbxA==
+	bh=GBDwmUyk9BQKk1Nap/HaXzvstZBlmFb/7TCtb7ZNGdc=;
+	b=AH5Yg6TkFKl1y8xoORwoFJxDusQ9TirZwLLH6siZXoqhjbwv2RCiT37srS76+ArKGI
+	G0KDumrP28m332V0IvptC4CyjrLCo1OF0uumV2I+lQvTqMP9VjnKQ4+7kF0dtf8kpXTR
+	t35rKIi87VG6+GQq3oKWLEMcMtzzVSADtEphqAVmOqjlFhCvouB9YqHCL+7Cn04eY3np
+	mfhoGcw02/k5Kc/dIGqVCTPcfBW0q4l3AFpwB3JVPA7tpv68uit4WtfiAW9sWUthe2Fr
+	Qyd2vQ14nC6eo9KQUJPr0nRQpQ/+t4AvlhfSPRKSgDtt1RlfyzeRm3NDOiw1Ng6iJT05
+	ir8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
 	:references:mime-version:content-disposition
 	:content-transfer-encoding:in-reply-to:user-agent;
-	bh=1uPEVJ/4RytjFwkvTatfYPqfiYridYkZtYtLB1+3yaU=;
-	b=QigKS/wli6Pr84MorM2qyMrLd62+MqX3WNtnGViqL27cJihsbYx64J7yu6ZghBnoWK
-	IlC92e/zQcwVAxD370i8D5p1Y//s+Idt8AYxmFJHiom1CFfbzYYBcDjCcESmJJvTAYST
-	4bbR2DQxjOJdd9lvCOPD35S1HejWhSIrkkxNoEb/xfazn6U5Hof7ZQ0n4MKJ5W58ekFd
-	JY6oY1TlsdIlCyn8Bf34OSQvSG5cMf0OEYrRwN29yh45Dp4tHh46Rn9WNbY+aasBOkxg
-	ae70ZJRAUQsk/CiBa2j0v7m5p8i19bPrg7uh0ghiUtE5zpV4NLORUe4q7697T3YN9QxO
-	QP1g==
-X-Gm-Message-State: APjAAAXVz8iqC7zVHDkE+BJQHfQKXOQ9zywR8LrK1m1FB2CsvzC2Hmw9
-	CPjXub+k1F8cjsYX9pQhlY1/iEHq91JsfQ==
-X-Google-Smtp-Source: APXvYqyrKNDgurJEhM3masqxX1O10Q+fwwnylxAiMAQVlIe0p+mpeZ2fsjboG8eNVOVruRDqoSLysQ==
-X-Received: by 2002:a5d:66ce:: with SMTP id k14mr45148323wrw.308.1561390545047;
-	Mon, 24 Jun 2019 08:35:45 -0700 (PDT)
+	bh=GBDwmUyk9BQKk1Nap/HaXzvstZBlmFb/7TCtb7ZNGdc=;
+	b=msCNJW1TkMQ8BHeGnOlCRIXWZwt5OBuv73JDqGRWv0mENpiWeSVlo0FYrhtkH7NIQg
+	5kdv0yfWjFjM/tp9Fn4Rj+6gTYOKfEMWuUCm6+6vAPQ4S68x28GluCB4suy2sE34+LmF
+	iRUAKuPKoPfxyHqA/GAmKimHZWr45IFUs/gsiy0ggl7U5+gacGjjI+/RD4R4nMNo8UiJ
+	ipKVlgkxHMoqZNfoSLlRP8XfpnvpOoT+mlEWvpU+2bE3UOetmXyqpQioV0jnkpDzkS+3
+	5yB2qXbiH9IjkKqogFNj85HdYjqrDjlvC160Xl87MzhrdqiuBG2nln5+NI7KzfVjjmhs
+	fLtg==
+X-Gm-Message-State: APjAAAX5tjBlaZslqdcBUvJ4qvt2wPN07Pxop8BGRPde7EvHmo0NXJpd
+	Cu+AupSr3hQM41bl2lK3CS/LQgrfjSA79Q==
+X-Google-Smtp-Source: APXvYqzamBQG7WXvqW1opjti+9nuPSUtfMum7qWxEnekRmTZucpUWoWxrkNK0leICIVg31/wQSZe/Q==
+X-Received: by 2002:adf:eecf:: with SMTP id a15mr34215444wrp.354.1561391389319;
+	Mon, 24 Jun 2019 08:49:49 -0700 (PDT)
 Received: from soda.linbit (212-186-191-219.static.upcbusiness.at.
 	[212.186.191.219]) by smtp.gmail.com with ESMTPSA id
-	n10sm10013260wrw.83.2019.06.24.08.35.44
+	l8sm25567770wrg.40.2019.06.24.08.49.48
 	for <drbd-dev@lists.linbit.com>
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 24 Jun 2019 08:35:44 -0700 (PDT)
-Date: Mon, 24 Jun 2019 17:35:42 +0200
+	Mon, 24 Jun 2019 08:49:48 -0700 (PDT)
+Date: Mon, 24 Jun 2019 17:49:46 +0200
 From: Lars Ellenberg <lars.ellenberg@linbit.com>
 To: drbd-dev@lists.linbit.com
-Message-ID: <20190624153542.GT30528@soda.linbit>
+Message-ID: <20190624154946.GU30528@soda.linbit>
 Mail-Followup-To: drbd-dev@lists.linbit.com
-References: <f5c1cf53-0eb7-35ab-7fbb-cb64e5f16305@gmail.com>
-	<cf05cd9c-687f-6264-0bc3-aefa90c91b3a@gmail.com>
-	<CANr6vz8kxacCYSb38G464Y2c1xw1ZqZAddN45LTwEcnE_Y2dsA@mail.gmail.com>
-	<7b015341-f9f7-e207-84d7-61ab8f0d5a7b@gmail.com>
-	<74882b72-57a9-bc45-76af-0be4b11a5327@gmail.com>
-	<20190612135805.GV5803@soda.linbit>
-	<2f0bb666-e3bf-1f38-025a-910b7a37ac1e@gmail.com>
+References: <alpine.LRH.2.11.1906210638010.3326@mx.ewheeler.net>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <2f0bb666-e3bf-1f38-025a-910b7a37ac1e@gmail.com>
+In-Reply-To: <alpine.LRH.2.11.1906210638010.3326@mx.ewheeler.net>
 User-Agent: Mutt/1.9.4 (2018-02-28)
-Subject: Re: [Drbd-dev] history uuids misaligned within device_statistics
+Subject: Re: [Drbd-dev] Checksum based resync block size
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -85,63 +79,40 @@ Content-Transfer-Encoding: quoted-printable
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Tue, Jun 18, 2019 at 12:16:45AM -0600, David Butterfield wrote:
-> I should clarify that I observed the history_uuids misalignment as a runt=
-ime error from libubsan:
+On Sat, Jun 22, 2019 at 12:03:55AM +0000, Eric Wheeler wrote:
+> Hello all,
 > =
 
-> drbd_nl.c:5091:21: runtime error: store to misaligned address 0x7fc223ffd=
-33c for type 'u64', which requires 8 byte alignment
-> 0x7fc223ffd33c: note: pointer points here
->   00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 =
-00  00 00 00 00 00 00 00 00
->               ^
+> Can someone help explain how checksum-based sync and verify are =
+
+> implemented in the sender and receive side?  It looks like the hashes are =
+
+> per-sector (looking at read_for_csum?) and I am interested in making the =
+
+> csum chunk size configurable, or at least hack in some test code to see i=
+f =
+
+> it would provide a performance benefit to csum multiple sectors.
 > =
 
-> 5076 static void device_to_statistics(struct device_statistics *s,
-> 5077                                  struct drbd_device *device)
-> ...
-> 5090                 for (n =3D 0; n < ARRAY_SIZE(md->history_uuids); n++)
-> 5091                         history_uuids[n] =3D md->history_uuids[n];
+> I'm also trying to understand what iterates over the lldev and understand =
+
+> where the csum takes place foreach chunk of data.
 > =
 
-> The history_uuids are declared with __bin_field() which does not appear t=
-o specify an alignment.
-> It happens to follow a 32-bit field, so that's where it lands.
-> >> 272         __bin_field(14, 0, history_uuids, HISTORY_UUIDS * sizeof(_=
-_u64))
+> Any direction would be helpful.  Thank you.
 
-Right, this comes out as a char[HISTORY_UUIDS * sizeof(__u64)],
-and as such won't have an alignment... okay.
+As our in-sync/out-of-sync bitmap tracks 4k blocks,
+we want to compare 4k checkesums.
 
-So maybe we should instead do memcpy?
+Yes, that generates "a lot" of requests, and if these are not merged by
+some IO scheduler on the lower layers, that may seriously suck.
 
-diff --git a/drbd/drbd_nl.c b/drbd/drbd_nl.c
-index adeb04e4..f77df9da 100644
---- a/drbd/drbd_nl.c
-+++ b/drbd/drbd_nl.c
-@@ -5074,15 +5074,13 @@ static void device_to_statistics(struct device_stat=
-istics *s,
- 	s->dev_upper_blocked =3D !may_inc_ap_bio(device);
- 	if (get_ldev(device)) {
- 		struct drbd_md *md =3D &device->ldev->md;
--		u64 *history_uuids =3D (u64 *)s->history_uuids;
- 		struct request_queue *q;
- 		int n;
- =
+make_ov_request() is what generates the online-verify requests.
 
- 		spin_lock_irq(&md->uuid_lock);
- 		s->dev_current_uuid =3D md->current_uuid;
- 		BUILD_BUG_ON(sizeof(s->history_uuids) !=3D sizeof(md->history_uuids));
--		for (n =3D 0; n < ARRAY_SIZE(md->history_uuids); n++)
--			history_uuids[n] =3D md->history_uuids[n];
-+		memcpy(s->history_uuids, md->history_uuids, sizeof(s->history_uuids));
- 		s->history_uuids_len =3D sizeof(s->history_uuids);
- 		spin_unlock_irq(&md->uuid_lock);
-
-Or come up with a "__u64_array()" field type,
-that would add an __attribute__((aligned(8)))?
- =
+What we potentially could do is issue the requests in larger chunks,
+like (1 MiB) to the backends, then calculate and communicate the
+checksum per each 4k, as well as the result.
 
 -- =
 
