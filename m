@@ -2,95 +2,88 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail09.linbit.com (mail09.linbit.com [212.69.161.110])
-	by mail.lfdr.de (Postfix) with ESMTPS id 789265BADA
-	for <lists+drbd-dev@lfdr.de>; Mon,  1 Jul 2019 13:39:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 059CB5BADB
+	for <lists+drbd-dev@lfdr.de>; Mon,  1 Jul 2019 13:39:54 +0200 (CEST)
 Received: from mail09.linbit.com (localhost [127.0.0.1])
-	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 832061028A6F;
-	Mon,  1 Jul 2019 13:39:23 +0200 (CEST)
+	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id D40371028A76;
+	Mon,  1 Jul 2019 13:39:52 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id B22911011BF7
-	for <drbd-dev@lists.linbit.com>; Mon,  1 Jul 2019 13:39:21 +0200 (CEST)
-Received: by mail-wr1-f65.google.com with SMTP id f9so13419043wre.12
-	for <drbd-dev@lists.linbit.com>; Mon, 01 Jul 2019 04:39:21 -0700 (PDT)
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 348191011BF7
+	for <drbd-dev@lists.linbit.com>; Mon,  1 Jul 2019 13:39:27 +0200 (CEST)
+Received: by mail-wr1-f68.google.com with SMTP id e3so3919837wrs.11
+	for <drbd-dev@lists.linbit.com>; Mon, 01 Jul 2019 04:39:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:resent-from:resent-date:resent-message-id
 	:resent-to:dkim-signature:from:to:cc:subject:date:message-id
 	:in-reply-to:references:mime-version:content-transfer-encoding;
-	bh=NQrLAHec6ZFSeCAw7w8J5S1GYNaZWnqjTjdv38X/dqo=;
-	b=V895178FajutAxAcjzZGbOr4lWZsdlM0NUvjX0/ut8NKrhWD9hyB07duoJjkATXJYw
-	57+WPtx5FaUfwIPEA+uRe+J83DfH8I13HsAvtXUog4CRKKms/ELWEfkX0dldsxTL5cDN
-	jxW4dZ46257vVHBMhlaYi5DhvIWDzmS8D80HafWQygp1a7otk0hPBedIOI33Y0CzMEvq
-	PI5SOKeaT2VyEt10ypYP/vGkQREJLaYI3JMaFrV91oe14/HfThQbgKCH74hh01hohNkE
-	p22Va0kAsr5y7S/rx4NtyvKBVMVtNzAR4C2d/ZICbfpCufoAqyZfhkvjsVf8C7JrN1Qn
-	M4hg==
-X-Gm-Message-State: APjAAAVzfW1wB2BsPQXvU2qKV+WsX5tt4d3H2uCg217S6f9nuckdGWba
-	6DCu/vnQW4ldn5pj8FizvpoAgqdk/SKNitcQ
-X-Google-Smtp-Source: APXvYqyYUyiJ6wswXUB/Yw5dCtS68CcdXFbIRuRxWUMn+SWBMcx+Q+VUccJ4DPO3LJtpOdbmDzuQIQ==
-X-Received: by 2002:a5d:53c2:: with SMTP id a2mr19459494wrw.8.1561981160378;
-	Mon, 01 Jul 2019 04:39:20 -0700 (PDT)
+	bh=elXp1aRzWl/H7rMMwgQt+6149bGjSIsrRSI9clCQq8s=;
+	b=PB5S7Qdg//C4W2ZRwK1IdiRXCdM0j2c4ym7WJ7UodGRunj6/BW6Qr6GNs4aq4onht9
+	2rkO7PirPxCbzP2KT6gF8fNfGjrMTKE868uKrbOAP0JZTkvrpPML1x3O6UmZFD66mvkt
+	Sw4oBaYdZlTV2YAYALxeDFTPqRJWVjB9+rCoY2iDyOWPIg9gxX5cmz4aLaSmEyt6gWf2
+	hcKKehSMy8GJiKPaPM0Ft5Mlh8Md39CHmkkhlcINmM66iE0faGtGXvXkOf2M4T6oP8Mh
+	GxtP0y5kZJfZdgFM+723/4B/XX0G0zbscqPldjeIg9ukbjjkKOAe1+o18pqgQYZmCfbX
+	9JLg==
+X-Gm-Message-State: APjAAAV2etxEKMI7XPjBYPsFG5mvxw/zonhpvHr3yy5ZJf2rn75Dl/eo
+	q6DKZH3KY9DOtpvxMfOH/58eF/1eClE+rg==
+X-Google-Smtp-Source: APXvYqzLtxI1wFMaSSIRieuMQHWQZ8+09eia80cPPVPVaRd1c11YJLwpYruQ9aUpTzWPm1H5Ii/hUw==
+X-Received: by 2002:a5d:4d84:: with SMTP id b4mr15268819wru.242.1561981167135; 
+	Mon, 01 Jul 2019 04:39:27 -0700 (PDT)
 Received: from soda.linbit (212-186-191-219.static.upcbusiness.at.
-	[212.186.191.219])
-	by smtp.gmail.com with ESMTPSA id e4sm9399930wme.16.2019.07.01.04.39.19
+	[212.186.191.219]) by smtp.gmail.com with ESMTPSA id
+	v15sm9461026wrt.25.2019.07.01.04.39.26
 	for <drbd-dev@lists.linbit.com>
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 01 Jul 2019 04:39:20 -0700 (PDT)
+	Mon, 01 Jul 2019 04:39:26 -0700 (PDT)
 Resent-From: Lars Ellenberg <lars.ellenberg@linbit.com>
-Resent-Date: Mon, 1 Jul 2019 13:39:18 +0200
-Resent-Message-ID: <20190701113918.GC6950@soda.linbit>
+Resent-Date: Mon, 1 Jul 2019 13:39:25 +0200
+Resent-Message-ID: <20190701113925.GD6950@soda.linbit>
 Resent-To: drbd-dev@lists.linbit.com
 X-Original-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 1761 seconds by postgrey-1.31 at mail09;
-	Fri, 28 Jun 2019 15:00:08 CEST
 Received: from bombadil.infradead.org (bombadil.infradead.org
 	[198.137.202.133])
-	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 759E51028A6B
-	for <drbd-dev@lists.linbit.com>; Fri, 28 Jun 2019 15:00:08 +0200 (CEST)
+	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 8B56B1028A7C
+	for <drbd-dev@lists.linbit.com>; Fri, 28 Jun 2019 15:00:13 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20170209;
 	h=Sender:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
 	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=NQrLAHec6ZFSeCAw7w8J5S1GYNaZWnqjTjdv38X/dqo=;
-	b=FBHE1tLP1XqPvu9XV1YZSBv0AA
-	1BX6NruIUfDALUsI/yFKXfeP23MtTtA1djhx1azVtguWE/hrRQNMTyDcq+VRq2pqHjCE/MZz+zxOH
-	/YNqiZixsQv5Th8/cuG62h0I61yKT0XvieG+UtWaO4/GsmxXey4EfOio3XWFR42puI3Q6w7Gtrkjy
-	ch0KPxpgSi+t9C6H3CVZjw2nlTZSDW4Tcv/R1nPvOESMHqHZ7TftSgL1TrITKfr1mQcY7Jpc6SW5r
-	o7hKUcrIG23NP1u2J9+q/dmWs2RXZ0T6qTlX2IfzYSwmKtdigkkprhR5C+yccbqrMEB7oeDPcV1S4
-	rvrauXCw==;
+	bh=elXp1aRzWl/H7rMMwgQt+6149bGjSIsrRSI9clCQq8s=;
+	b=GNsqzjL07ulC+4iwMZEDlhTiew
+	XY32uik+FfWmbVpMOqQi8oM0EYIfR8lET3XaUnbyOE4vPCLp5+YaoO+uAci65sf7m91HCZ0+jOWrx
+	FVOX6qweQzlJ8psZtO1NV8ih3YZvyp7oTQU0Api0OkCmokV6NXI7jsjGINatWdKSKJI2xZE51eLk+
+	O8Fl+LtlO38KS5ZGyzoWm2EKfXgydGz3Ki/ykDat+2arGmtH/BSRjFXvvOgkcV21bE1Diwc9Zly87
+	5u3OQkbP8o5R7KunLFbFwdZidEAy9et7YcDJlfjmUAY3JPWrDX1RCtb26OnJ7n0uyGQgIabBnjKjR
+	mrayjqLg==;
 Received: from [186.213.242.156] (helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-	id 1hgq1U-00055P-Fc; Fri, 28 Jun 2019 12:30:36 +0000
+	id 1hgq1V-00055v-0o; Fri, 28 Jun 2019 12:30:37 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
 	(envelope-from <mchehab@bombadil.infradead.org>)
-	id 1hgq1S-0005SR-EJ; Fri, 28 Jun 2019 09:30:34 -0300
+	id 1hgq1S-0005To-SY; Fri, 28 Jun 2019 09:30:34 -0300
 From: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Date: Fri, 28 Jun 2019 09:30:12 -0300
-Message-Id: <a4437f5438f2ce9e220d0910a4d98a832810479b.1561724493.git.mchehab+samsung@kernel.org>
+Date: Fri, 28 Jun 2019 09:30:29 -0300
+Message-Id: <d3cd5d1309647bd16b3590419e7a2387eaf24bad.1561724493.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1561724493.git.mchehab+samsung@kernel.org>
 References: <cover.1561724493.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Cc: Jens Axboe <axboe@kernel.dk>,
-	Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Jiri Kosina <jikos@kernel.org>, linux-kernel@vger.kernel.org,
+Cc: linux-samsung-soc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
 	Philipp Reisner <philipp.reisner@linbit.com>,
-	linux-block@vger.kernel.org, Minchan Kim <minchan@kernel.org>,
-	nbd@other.debian.org, Nitin Gupta <ngupta@vflare.org>,
-	linux-kselftest@vger.kernel.org,
+	Kukjin Kim <kgene@kernel.org>,
 	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
 	Lars Ellenberg <lars.ellenberg@linbit.com>,
 	Mauro Carvalho Chehab <mchehab@infradead.org>,
-	Josef Bacik <josef@toxicpanda.com>, Tim Waugh <tim@cyberelk.net>,
-	drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 19/39] docs: blockdev: add it to the admin-guide
+	linux-arm-kernel@lists.infradead.org, drbd-dev@lists.linbit.com
+Subject: [Drbd-dev] [PATCH 36/39] docs: add SPDX tags to new index files
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -104,367 +97,174 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <http://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-The blockdev book basically contains user-faced documentation.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- .../blockdev/drbd/DRBD-8.3-data-packets.svg    |  0
- .../blockdev/drbd/DRBD-data-packets.svg        |  0
- .../blockdev/drbd/conn-states-8.dot            |  0
- .../blockdev/drbd/data-structure-v9.rst        |  0
- .../blockdev/drbd/disk-states-8.dot            |  0
- .../drbd/drbd-connection-state-overview.dot    |  0
- .../blockdev/drbd/figures.rst                  |  0
- .../{ => admin-guide}/blockdev/drbd/index.rst  |  0
- .../blockdev/drbd/node-states-8.dot            |  1 -
- .../{ => admin-guide}/blockdev/floppy.rst      |  0
- .../{ => admin-guide}/blockdev/index.rst       |  2 --
- .../{ => admin-guide}/blockdev/nbd.rst         |  0
- .../{ => admin-guide}/blockdev/paride.rst      |  0
- .../{ => admin-guide}/blockdev/ramdisk.rst     |  0
- .../{ => admin-guide}/blockdev/zram.rst        |  0
- Documentation/admin-guide/index.rst            |  1 +
- .../admin-guide/kernel-parameters.txt          | 18 +++++++++---------
- MAINTAINERS                                    | 10 +++++-----
- drivers/block/Kconfig                          |  8 ++++----
- drivers/block/floppy.c                         |  2 +-
- drivers/block/zram/Kconfig                     |  6 +++---
- tools/testing/selftests/zram/README            |  2 +-
- 22 files changed, 24 insertions(+), 26 deletions(-)
- rename Documentation/{ => admin-guide}/blockdev/drbd/DRBD-8.3-data-packets.svg (100%)
- rename Documentation/{ => admin-guide}/blockdev/drbd/DRBD-data-packets.svg (100%)
- rename Documentation/{ => admin-guide}/blockdev/drbd/conn-states-8.dot (100%)
- rename Documentation/{ => admin-guide}/blockdev/drbd/data-structure-v9.rst (100%)
- rename Documentation/{ => admin-guide}/blockdev/drbd/disk-states-8.dot (100%)
- rename Documentation/{ => admin-guide}/blockdev/drbd/drbd-connection-state-overview.dot (100%)
- rename Documentation/{ => admin-guide}/blockdev/drbd/figures.rst (100%)
- rename Documentation/{ => admin-guide}/blockdev/drbd/index.rst (100%)
- rename Documentation/{ => admin-guide}/blockdev/drbd/node-states-8.dot (99%)
- rename Documentation/{ => admin-guide}/blockdev/floppy.rst (100%)
- rename Documentation/{ => admin-guide}/blockdev/index.rst (94%)
- rename Documentation/{ => admin-guide}/blockdev/nbd.rst (100%)
- rename Documentation/{ => admin-guide}/blockdev/paride.rst (100%)
- rename Documentation/{ => admin-guide}/blockdev/ramdisk.rst (100%)
- rename Documentation/{ => admin-guide}/blockdev/zram.rst (100%)
-
-diff --git a/Documentation/blockdev/drbd/DRBD-8.3-data-packets.svg b/Documentation/admin-guide/blockdev/drbd/DRBD-8.3-data-packets.svg
-similarity index 100%
-rename from Documentation/blockdev/drbd/DRBD-8.3-data-packets.svg
-rename to Documentation/admin-guide/blockdev/drbd/DRBD-8.3-data-packets.svg
-diff --git a/Documentation/blockdev/drbd/DRBD-data-packets.svg b/Documentation/admin-guide/blockdev/drbd/DRBD-data-packets.svg
-similarity index 100%
-rename from Documentation/blockdev/drbd/DRBD-data-packets.svg
-rename to Documentation/admin-guide/blockdev/drbd/DRBD-data-packets.svg
-diff --git a/Documentation/blockdev/drbd/conn-states-8.dot b/Documentation/admin-guide/blockdev/drbd/conn-states-8.dot
-similarity index 100%
-rename from Documentation/blockdev/drbd/conn-states-8.dot
-rename to Documentation/admin-guide/blockdev/drbd/conn-states-8.dot
-diff --git a/Documentation/blockdev/drbd/data-structure-v9.rst b/Documentation/admin-guide/blockdev/drbd/data-structure-v9.rst
-similarity index 100%
-rename from Documentation/blockdev/drbd/data-structure-v9.rst
-rename to Documentation/admin-guide/blockdev/drbd/data-structure-v9.rst
-diff --git a/Documentation/blockdev/drbd/disk-states-8.dot b/Documentation/admin-guide/blockdev/drbd/disk-states-8.dot
-similarity index 100%
-rename from Documentation/blockdev/drbd/disk-states-8.dot
-rename to Documentation/admin-guide/blockdev/drbd/disk-states-8.dot
-diff --git a/Documentation/blockdev/drbd/drbd-connection-state-overview.dot b/Documentation/admin-guide/blockdev/drbd/drbd-connection-state-overview.dot
-similarity index 100%
-rename from Documentation/blockdev/drbd/drbd-connection-state-overview.dot
-rename to Documentation/admin-guide/blockdev/drbd/drbd-connection-state-overview.dot
-diff --git a/Documentation/blockdev/drbd/figures.rst b/Documentation/admin-guide/blockdev/drbd/figures.rst
-similarity index 100%
-rename from Documentation/blockdev/drbd/figures.rst
-rename to Documentation/admin-guide/blockdev/drbd/figures.rst
-diff --git a/Documentation/blockdev/drbd/index.rst b/Documentation/admin-guide/blockdev/drbd/index.rst
-similarity index 100%
-rename from Documentation/blockdev/drbd/index.rst
-rename to Documentation/admin-guide/blockdev/drbd/index.rst
-diff --git a/Documentation/blockdev/drbd/node-states-8.dot b/Documentation/admin-guide/blockdev/drbd/node-states-8.dot
-similarity index 99%
-rename from Documentation/blockdev/drbd/node-states-8.dot
-rename to Documentation/admin-guide/blockdev/drbd/node-states-8.dot
-index 4a2b00c23547..bfa54e1f8016 100644
---- a/Documentation/blockdev/drbd/node-states-8.dot
-+++ b/Documentation/admin-guide/blockdev/drbd/node-states-8.dot
-@@ -11,4 +11,3 @@ digraph peer_states {
- 	Unknown   -> Primary           [ label = "connected" ]
- 	Unknown   -> Secondary         [ label = "connected" ]
- }
--
-diff --git a/Documentation/blockdev/floppy.rst b/Documentation/admin-guide/blockdev/floppy.rst
-similarity index 100%
-rename from Documentation/blockdev/floppy.rst
-rename to Documentation/admin-guide/blockdev/floppy.rst
-diff --git a/Documentation/blockdev/index.rst b/Documentation/admin-guide/blockdev/index.rst
-similarity index 94%
-rename from Documentation/blockdev/index.rst
-rename to Documentation/admin-guide/blockdev/index.rst
-index a9af6ed8b4aa..20a738d9d047 100644
---- a/Documentation/blockdev/index.rst
-+++ b/Documentation/admin-guide/blockdev/index.rst
-@@ -1,5 +1,3 @@
--:orphan:
--
- ===========================
- The Linux RapidIO Subsystem
- ===========================
-diff --git a/Documentation/blockdev/nbd.rst b/Documentation/admin-guide/blockdev/nbd.rst
-similarity index 100%
-rename from Documentation/blockdev/nbd.rst
-rename to Documentation/admin-guide/blockdev/nbd.rst
-diff --git a/Documentation/blockdev/paride.rst b/Documentation/admin-guide/blockdev/paride.rst
-similarity index 100%
-rename from Documentation/blockdev/paride.rst
-rename to Documentation/admin-guide/blockdev/paride.rst
-diff --git a/Documentation/blockdev/ramdisk.rst b/Documentation/admin-guide/blockdev/ramdisk.rst
-similarity index 100%
-rename from Documentation/blockdev/ramdisk.rst
-rename to Documentation/admin-guide/blockdev/ramdisk.rst
-diff --git a/Documentation/blockdev/zram.rst b/Documentation/admin-guide/blockdev/zram.rst
-similarity index 100%
-rename from Documentation/blockdev/zram.rst
-rename to Documentation/admin-guide/blockdev/zram.rst
-diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-index 65e821a03aca..c073af461cdf 100644
---- a/Documentation/admin-guide/index.rst
-+++ b/Documentation/admin-guide/index.rst
-@@ -73,6 +73,7 @@ configure specific aspects of kernel behavior to your liking.
-    java
-    ras
-    bcache
-+   blockdev/index
-    ext4
-    pm/index
-    thunderbolt
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 9b535c0e22f3..49ad034c4675 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1249,7 +1249,7 @@
- 			See also Documentation/fault-injection/.
- 
- 	floppy=		[HW]
--			See Documentation/blockdev/floppy.rst.
-+			See Documentation/admin-guide/blockdev/floppy.rst.
- 
- 	force_pal_cache_flush
- 			[IA-64] Avoid check_sal_cache_flush which may hang on
-@@ -2247,7 +2247,7 @@
- 	memblock=debug	[KNL] Enable memblock debug messages.
- 
- 	load_ramdisk=	[RAM] List of ramdisks to load from floppy
--			See Documentation/blockdev/ramdisk.rst.
-+			See Documentation/admin-guide/blockdev/ramdisk.rst.
- 
- 	lockd.nlm_grace_period=P  [NFS] Assign grace period.
- 			Format: <integer>
-@@ -3294,7 +3294,7 @@
- 
- 	pcd.		[PARIDE]
- 			See header of drivers/block/paride/pcd.c.
--			See also Documentation/blockdev/paride.rst.
-+			See also Documentation/admin-guide/blockdev/paride.rst.
- 
- 	pci=option[,option...]	[PCI] various PCI subsystem options.
- 
-@@ -3538,7 +3538,7 @@
- 			needed on a platform with proper driver support.
- 
- 	pd.		[PARIDE]
--			See Documentation/blockdev/paride.rst.
-+			See Documentation/admin-guide/blockdev/paride.rst.
- 
- 	pdcchassis=	[PARISC,HW] Disable/Enable PDC Chassis Status codes at
- 			boot time.
-@@ -3553,10 +3553,10 @@
- 			and performance comparison.
- 
- 	pf.		[PARIDE]
--			See Documentation/blockdev/paride.rst.
-+			See Documentation/admin-guide/blockdev/paride.rst.
- 
- 	pg.		[PARIDE]
--			See Documentation/blockdev/paride.rst.
-+			See Documentation/admin-guide/blockdev/paride.rst.
- 
- 	pirq=		[SMP,APIC] Manual mp-table setup
- 			See Documentation/x86/i386/IO-APIC.rst.
-@@ -3668,7 +3668,7 @@
- 
- 	prompt_ramdisk=	[RAM] List of RAM disks to prompt for floppy disk
- 			before loading.
--			See Documentation/blockdev/ramdisk.rst.
-+			See Documentation/admin-guide/blockdev/ramdisk.rst.
- 
- 	psi=		[KNL] Enable or disable pressure stall information
- 			tracking.
-@@ -3690,7 +3690,7 @@
- 	pstore.backend=	Specify the name of the pstore backend to use
- 
- 	pt.		[PARIDE]
--			See Documentation/blockdev/paride.rst.
-+			See Documentation/admin-guide/blockdev/paride.rst.
- 
- 	pti=		[X86_64] Control Page Table Isolation of user and
- 			kernel address spaces.  Disabling this feature
-@@ -3719,7 +3719,7 @@
- 			See Documentation/admin-guide/md.rst.
- 
- 	ramdisk_size=	[RAM] Sizes of RAM disks in kilobytes
--			See Documentation/blockdev/ramdisk.rst.
-+			See Documentation/admin-guide/blockdev/ramdisk.rst.
- 
- 	random.trust_cpu={on,off}
- 			[KNL] Enable or disable trusting the use of the
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4c622a19ab7d..3f0f654d1166 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4974,7 +4974,7 @@ T:	git git://git.linbit.com/drbd-8.4.git
- S:	Supported
- F:	drivers/block/drbd/
- F:	lib/lru_cache.c
--F:	Documentation/blockdev/drbd/
-+F:	Documentation/admin-guide/blockdev/
- 
- DRIVER CORE, KOBJECTS, DEBUGFS AND SYSFS
- M:	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-@@ -11024,7 +11024,7 @@ M:	Josef Bacik <josef@toxicpanda.com>
- S:	Maintained
- L:	linux-block@vger.kernel.org
- L:	nbd@other.debian.org
--F:	Documentation/blockdev/nbd.rst
-+F:	Documentation/admin-guide/blockdev/nbd.rst
- F:	drivers/block/nbd.c
- F:	include/trace/events/nbd.h
- F:	include/uapi/linux/nbd.h
-@@ -12028,7 +12028,7 @@ PARIDE DRIVERS FOR PARALLEL PORT IDE DEVICES
- M:	Tim Waugh <tim@cyberelk.net>
- L:	linux-parport@lists.infradead.org (subscribers-only)
- S:	Maintained
--F:	Documentation/blockdev/paride.rst
-+F:	Documentation/admin-guide/blockdev/paride.rst
- F:	drivers/block/paride/
- 
- PARISC ARCHITECTURE
-@@ -13310,7 +13310,7 @@ F:	drivers/net/wireless/ralink/rt2x00/
- RAMDISK RAM BLOCK DEVICE DRIVER
- M:	Jens Axboe <axboe@kernel.dk>
- S:	Maintained
--F:	Documentation/blockdev/ramdisk.rst
-+F:	Documentation/admin-guide/blockdev/ramdisk.rst
- F:	drivers/block/brd.c
- 
- RANCHU VIRTUAL BOARD FOR MIPS
-@@ -17672,7 +17672,7 @@ R:	Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
- L:	linux-kernel@vger.kernel.org
- S:	Maintained
- F:	drivers/block/zram/
--F:	Documentation/blockdev/zram.rst
-+F:	Documentation/admin-guide/blockdev/zram.rst
- 
- ZS DECSTATION Z85C30 SERIAL DRIVER
- M:	"Maciej W. Rozycki" <macro@linux-mips.org>
-diff --git a/drivers/block/Kconfig b/drivers/block/Kconfig
-index c43690b973d8..1bb8ec575352 100644
---- a/drivers/block/Kconfig
-+++ b/drivers/block/Kconfig
-@@ -31,7 +31,7 @@ config BLK_DEV_FD
- 	  If you want to use the floppy disk drive(s) of your PC under Linux,
- 	  say Y. Information about this driver, especially important for IBM
- 	  Thinkpad users, is contained in
--	  <file:Documentation/blockdev/floppy.rst>.
-+	  <file:Documentation/admin-guide/blockdev/floppy.rst>.
- 	  That file also contains the location of the Floppy driver FAQ as
- 	  well as location of the fdutils package used to configure additional
- 	  parameters of the driver at run time.
-@@ -96,7 +96,7 @@ config PARIDE
- 	  your computer's parallel port. Most of them are actually IDE devices
- 	  using a parallel port IDE adapter. This option enables the PARIDE
- 	  subsystem which contains drivers for many of these external drives.
--	  Read <file:Documentation/blockdev/paride.rst> for more information.
-+	  Read <file:Documentation/admin-guide/blockdev/paride.rst> for more information.
- 
- 	  If you have said Y to the "Parallel-port support" configuration
- 	  option, you may share a single port between your printer and other
-@@ -261,7 +261,7 @@ config BLK_DEV_NBD
- 	  userland (making server and client physically the same computer,
- 	  communicating using the loopback network device).
- 
--	  Read <file:Documentation/blockdev/nbd.rst> for more information,
-+	  Read <file:Documentation/admin-guide/blockdev/nbd.rst> for more information,
- 	  especially about where to find the server code, which runs in user
- 	  space and does not need special kernel support.
- 
-@@ -303,7 +303,7 @@ config BLK_DEV_RAM
- 	  during the initial install of Linux.
- 
- 	  Note that the kernel command line option "ramdisk=XX" is now obsolete.
--	  For details, read <file:Documentation/blockdev/ramdisk.rst>.
-+	  For details, read <file:Documentation/admin-guide/blockdev/ramdisk.rst>.
- 
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called brd. An alias "rd" has been defined
-diff --git a/drivers/block/floppy.c b/drivers/block/floppy.c
-index 5c99e52f9dc1..f652c1ac3ae9 100644
---- a/drivers/block/floppy.c
-+++ b/drivers/block/floppy.c
-@@ -4424,7 +4424,7 @@ static int __init floppy_setup(char *str)
- 		pr_cont("\n");
- 	} else
- 		DPRINT("botched floppy option\n");
--	DPRINT("Read Documentation/blockdev/floppy.rst\n");
-+	DPRINT("Read Documentation/admin-guide/blockdev/floppy.rst\n");
- 	return 0;
- }
- 
-diff --git a/drivers/block/zram/Kconfig b/drivers/block/zram/Kconfig
-index e06b99d54816..fe7a4b7d30cf 100644
---- a/drivers/block/zram/Kconfig
-+++ b/drivers/block/zram/Kconfig
-@@ -12,7 +12,7 @@ config ZRAM
- 	  It has several use cases, for example: /tmp storage, use as swap
- 	  disks and maybe many more.
- 
--	  See Documentation/blockdev/zram.rst for more information.
-+	  See Documentation/admin-guide/blockdev/zram.rst for more information.
- 
- config ZRAM_WRITEBACK
-        bool "Write back incompressible or idle page to backing device"
-@@ -26,7 +26,7 @@ config ZRAM_WRITEBACK
- 	 With /sys/block/zramX/{idle,writeback}, application could ask
- 	 idle page's writeback to the backing device to save in memory.
- 
--	 See Documentation/blockdev/zram.rst for more information.
-+	 See Documentation/admin-guide/blockdev/zram.rst for more information.
- 
- config ZRAM_MEMORY_TRACKING
- 	bool "Track zRam block status"
-@@ -36,4 +36,4 @@ config ZRAM_MEMORY_TRACKING
- 	  of zRAM. Admin could see the information via
- 	  /sys/kernel/debug/zram/zramX/block_state.
- 
--	  See Documentation/blockdev/zram.rst for more information.
-+	  See Documentation/admin-guide/blockdev/zram.rst for more information.
-diff --git a/tools/testing/selftests/zram/README b/tools/testing/selftests/zram/README
-index 5fa378391d3b..110b34834a6f 100644
---- a/tools/testing/selftests/zram/README
-+++ b/tools/testing/selftests/zram/README
-@@ -37,4 +37,4 @@ Commands required for testing:
-  - mkfs/ mkfs.ext4
- 
- For more information please refer:
--kernel-source-tree/Documentation/blockdev/zram.rst
-+kernel-source-tree/Documentation/admin-guide/blockdev/zram.rst
--- 
-2.21.0
-
-_______________________________________________
-drbd-dev mailing list
-drbd-dev@lists.linbit.com
-http://lists.linbit.com/mailman/listinfo/drbd-dev
+QWxsIHRob3NlIG5ldyBmaWxlcyBJIGFkZGVkIGFyZSB1bmRlciBHUEwgdjIuMCBsaWNlbnNlLgoK
+QWRkIHRoZSBjb3JyZXNwb25kaW5nIFNQRFggaGVhZGVycyB0byB0aGVtLgoKU2lnbmVkLW9mZi1i
+eTogTWF1cm8gQ2FydmFsaG8gQ2hlaGFiIDxtY2hlaGFiK3NhbXN1bmdAa2VybmVsLm9yZz4KLS0t
+CiBEb2N1bWVudGF0aW9uL2FkbWluLWd1aWRlL2Jsb2NrZGV2L2RyYmQvZmlndXJlcy5yc3QgfCAy
+ICsrCiBEb2N1bWVudGF0aW9uL2FkbWluLWd1aWRlL2Jsb2NrZGV2L2luZGV4LnJzdCAgICAgICAg
+fCAyICsrCiBEb2N1bWVudGF0aW9uL2FkbWluLWd1aWRlL2xhcHRvcHMvaW5kZXgucnN0ICAgICAg
+ICAgfCAxICsKIERvY3VtZW50YXRpb24vYWRtaW4tZ3VpZGUvbmFtZXNwYWNlcy9pbmRleC5yc3Qg
+ICAgICB8IDIgKysKIERvY3VtZW50YXRpb24vYWRtaW4tZ3VpZGUvcGVyZi9pbmRleC5yc3QgICAg
+ICAgICAgICB8IDIgKysKIERvY3VtZW50YXRpb24vYXJtL2luZGV4LnJzdCAgICAgICAgICAgICAg
+ICAgICAgICAgICB8IDIgKysKIERvY3VtZW50YXRpb24vYXJtL253ZnBlL2luZGV4LnJzdCAgICAg
+ICAgICAgICAgICAgICB8IDIgKysKIERvY3VtZW50YXRpb24vYXJtL29tYXAvaW5kZXgucnN0ICAg
+ICAgICAgICAgICAgICAgICB8IDIgKysKIERvY3VtZW50YXRpb24vYXJtL3NhMTEwMC9pbmRleC5y
+c3QgICAgICAgICAgICAgICAgICB8IDIgKysKIERvY3VtZW50YXRpb24vYXJtL3NhbXN1bmctczNj
+MjR4eC9pbmRleC5yc3QgICAgICAgICB8IDIgKysKIERvY3VtZW50YXRpb24vYXJtL3NhbXN1bmcv
+aW5kZXgucnN0ICAgICAgICAgICAgICAgICB8IDIgKysKIERvY3VtZW50YXRpb24vZHJpdmVyLWFw
+aS9lYXJseS11c2Vyc3BhY2UvaW5kZXgucnN0ICB8IDIgKysKIERvY3VtZW50YXRpb24vZHJpdmVy
+LWFwaS9tZC9pbmRleC5yc3QgICAgICAgICAgICAgICB8IDIgKysKIERvY3VtZW50YXRpb24vZHJp
+dmVyLWFwaS9tZW1vcnktZGV2aWNlcy9pbmRleC5yc3QgICB8IDIgKysKIERvY3VtZW50YXRpb24v
+ZHJpdmVyLWFwaS9tbWMvaW5kZXgucnN0ICAgICAgICAgICAgICB8IDIgKysKIERvY3VtZW50YXRp
+b24vZHJpdmVyLWFwaS9tdGQvaW5kZXgucnN0ICAgICAgICAgICAgICB8IDIgKysKIERvY3VtZW50
+YXRpb24vZHJpdmVyLWFwaS9uZmMvaW5kZXgucnN0ICAgICAgICAgICAgICB8IDIgKysKIERvY3Vt
+ZW50YXRpb24vZHJpdmVyLWFwaS9udmRpbW0vaW5kZXgucnN0ICAgICAgICAgICB8IDIgKysKIERv
+Y3VtZW50YXRpb24vZHJpdmVyLWFwaS9waHkvaW5kZXgucnN0ICAgICAgICAgICAgICB8IDIgKysK
+IERvY3VtZW50YXRpb24vZHJpdmVyLWFwaS9yYXBpZGlvL2luZGV4LnJzdCAgICAgICAgICB8IDIg
+KysKIERvY3VtZW50YXRpb24vZHJpdmVyLWFwaS90aGVybWFsL2luZGV4LnJzdCAgICAgICAgICB8
+IDIgKysKIERvY3VtZW50YXRpb24vaWE2NC9pbmRleC5yc3QgICAgICAgICAgICAgICAgICAgICAg
+ICB8IDIgKysKIDIyIGZpbGVzIGNoYW5nZWQsIDQzIGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQg
+YS9Eb2N1bWVudGF0aW9uL2FkbWluLWd1aWRlL2Jsb2NrZGV2L2RyYmQvZmlndXJlcy5yc3QgYi9E
+b2N1bWVudGF0aW9uL2FkbWluLWd1aWRlL2Jsb2NrZGV2L2RyYmQvZmlndXJlcy5yc3QKaW5kZXgg
+M2UzZmQ0YjhhNDc4Li5iZDlhNDkwMWZlNDYgMTAwNjQ0Ci0tLSBhL0RvY3VtZW50YXRpb24vYWRt
+aW4tZ3VpZGUvYmxvY2tkZXYvZHJiZC9maWd1cmVzLnJzdAorKysgYi9Eb2N1bWVudGF0aW9uL2Fk
+bWluLWd1aWRlL2Jsb2NrZGV2L2RyYmQvZmlndXJlcy5yc3QKQEAgLTEsMyArMSw1IEBACisuLiBT
+UERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMAorCiAuLiBUaGUgaGVyZSBpbmNsdWRlZCBm
+aWxlcyBhcmUgaW50ZW5kZWQgdG8gaGVscCB1bmRlcnN0YW5kIHRoZSBpbXBsZW1lbnRhdGlvbgog
+CiBEYXRhIGZsb3dzIHRoYXQgUmVsYXRlIHNvbWUgZnVuY3Rpb25zLCBhbmQgd3JpdGUgcGFja2V0
+cwpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9ibG9ja2Rldi9pbmRleC5y
+c3QgYi9Eb2N1bWVudGF0aW9uL2FkbWluLWd1aWRlL2Jsb2NrZGV2L2luZGV4LnJzdAppbmRleCAy
+MGE3MzhkOWQwNDcuLmI5MDNjZjE1MjA5MSAxMDA2NDQKLS0tIGEvRG9jdW1lbnRhdGlvbi9hZG1p
+bi1ndWlkZS9ibG9ja2Rldi9pbmRleC5yc3QKKysrIGIvRG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlk
+ZS9ibG9ja2Rldi9pbmRleC5yc3QKQEAgLTEsMyArMSw1IEBACisuLiBTUERYLUxpY2Vuc2UtSWRl
+bnRpZmllcjogR1BMLTIuMAorCiA9PT09PT09PT09PT09PT09PT09PT09PT09PT0KIFRoZSBMaW51
+eCBSYXBpZElPIFN1YnN5c3RlbQogPT09PT09PT09PT09PT09PT09PT09PT09PT09CmRpZmYgLS1n
+aXQgYS9Eb2N1bWVudGF0aW9uL2FkbWluLWd1aWRlL2xhcHRvcHMvaW5kZXgucnN0IGIvRG9jdW1l
+bnRhdGlvbi9hZG1pbi1ndWlkZS9sYXB0b3BzL2luZGV4LnJzdAppbmRleCA2YjU1NGUzOTg2M2Iu
+LmNkOWExYzI2OTVmZCAxMDA2NDQKLS0tIGEvRG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9sYXB0
+b3BzL2luZGV4LnJzdAorKysgYi9Eb2N1bWVudGF0aW9uL2FkbWluLWd1aWRlL2xhcHRvcHMvaW5k
+ZXgucnN0CkBAIC0xLDMgKzEsNCBAQAorLi4gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0y
+LjAKIAogPT09PT09PT09PT09PT0KIExhcHRvcCBEcml2ZXJzCmRpZmYgLS1naXQgYS9Eb2N1bWVu
+dGF0aW9uL2FkbWluLWd1aWRlL25hbWVzcGFjZXMvaW5kZXgucnN0IGIvRG9jdW1lbnRhdGlvbi9h
+ZG1pbi1ndWlkZS9uYW1lc3BhY2VzL2luZGV4LnJzdAppbmRleCA3MTNlYzQ5NDlmYTcuLjM4NGYy
+ZTBmMzNkMiAxMDA2NDQKLS0tIGEvRG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9uYW1lc3BhY2Vz
+L2luZGV4LnJzdAorKysgYi9Eb2N1bWVudGF0aW9uL2FkbWluLWd1aWRlL25hbWVzcGFjZXMvaW5k
+ZXgucnN0CkBAIC0xLDMgKzEsNSBAQAorLi4gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0y
+LjAKKwogPT09PT09PT09PQogTmFtZXNwYWNlcwogPT09PT09PT09PQpkaWZmIC0tZ2l0IGEvRG9j
+dW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9wZXJmL2luZGV4LnJzdCBiL0RvY3VtZW50YXRpb24vYWRt
+aW4tZ3VpZGUvcGVyZi9pbmRleC5yc3QKaW5kZXggOWQ0NDU0NTFlYTE4Li5lZTRiZmQyYTc0MGYg
+MTAwNjQ0Ci0tLSBhL0RvY3VtZW50YXRpb24vYWRtaW4tZ3VpZGUvcGVyZi9pbmRleC5yc3QKKysr
+IGIvRG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9wZXJmL2luZGV4LnJzdApAQCAtMSwzICsxLDUg
+QEAKKy4uIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wCisKID09PT09PT09PT09PT09
+PT09PT09PT09PT09PQogUGVyZm9ybWFuY2UgbW9uaXRvciBzdXBwb3J0CiA9PT09PT09PT09PT09
+PT09PT09PT09PT09PT0KZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vYXJtL2luZGV4LnJzdCBi
+L0RvY3VtZW50YXRpb24vYXJtL2luZGV4LnJzdAppbmRleCA5YzJmNzgxZjQ2ODUuLjVmYzA3MmRk
+MGM1ZSAxMDA2NDQKLS0tIGEvRG9jdW1lbnRhdGlvbi9hcm0vaW5kZXgucnN0CisrKyBiL0RvY3Vt
+ZW50YXRpb24vYXJtL2luZGV4LnJzdApAQCAtMSwzICsxLDUgQEAKKy4uIFNQRFgtTGljZW5zZS1J
+ZGVudGlmaWVyOiBHUEwtMi4wCisKID09PT09PT09PT09PT09PT0KIEFSTSBBcmNoaXRlY3R1cmUK
+ID09PT09PT09PT09PT09PT0KZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vYXJtL253ZnBlL2lu
+ZGV4LnJzdCBiL0RvY3VtZW50YXRpb24vYXJtL253ZnBlL2luZGV4LnJzdAppbmRleCAyMWZhOGNl
+MTkyYWUuLjNjNGQyZjlhYTEwZSAxMDA2NDQKLS0tIGEvRG9jdW1lbnRhdGlvbi9hcm0vbndmcGUv
+aW5kZXgucnN0CisrKyBiL0RvY3VtZW50YXRpb24vYXJtL253ZnBlL2luZGV4LnJzdApAQCAtMSwz
+ICsxLDUgQEAKKy4uIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wCisKID09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09CiBOZXRXaW5kZXIncyBmbG9hdGluZyBwb2ludCBl
+bXVsYXRvcgogPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KZGlmZiAtLWdpdCBh
+L0RvY3VtZW50YXRpb24vYXJtL29tYXAvaW5kZXgucnN0IGIvRG9jdW1lbnRhdGlvbi9hcm0vb21h
+cC9pbmRleC5yc3QKaW5kZXggZjFlOWMxMWQ5ZjliLi44YjM2NWIyMTJlNDkgMTAwNjQ0Ci0tLSBh
+L0RvY3VtZW50YXRpb24vYXJtL29tYXAvaW5kZXgucnN0CisrKyBiL0RvY3VtZW50YXRpb24vYXJt
+L29tYXAvaW5kZXgucnN0CkBAIC0xLDMgKzEsNSBAQAorLi4gU1BEWC1MaWNlbnNlLUlkZW50aWZp
+ZXI6IEdQTC0yLjAKKwogPT09PT09PQogVEkgT01BUAogPT09PT09PQpkaWZmIC0tZ2l0IGEvRG9j
+dW1lbnRhdGlvbi9hcm0vc2ExMTAwL2luZGV4LnJzdCBiL0RvY3VtZW50YXRpb24vYXJtL3NhMTEw
+MC9pbmRleC5yc3QKaW5kZXggZmIyMzg1YjNhY2NmLi42OGMyYTI4MGE3NDUgMTAwNjQ0Ci0tLSBh
+L0RvY3VtZW50YXRpb24vYXJtL3NhMTEwMC9pbmRleC5yc3QKKysrIGIvRG9jdW1lbnRhdGlvbi9h
+cm0vc2ExMTAwL2luZGV4LnJzdApAQCAtMSwzICsxLDUgQEAKKy4uIFNQRFgtTGljZW5zZS1JZGVu
+dGlmaWVyOiBHUEwtMi4wCisKID09PT09PT09PT09PT09PT09PT09CiBJbnRlbCBTdHJvbmdBUk0g
+MTEwMAogPT09PT09PT09PT09PT09PT09PT0KZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vYXJt
+L3NhbXN1bmctczNjMjR4eC9pbmRleC5yc3QgYi9Eb2N1bWVudGF0aW9uL2FybS9zYW1zdW5nLXMz
+YzI0eHgvaW5kZXgucnN0CmluZGV4IDZjN2IyNDFjYmYzNy4uNWI4YTdmOTM5OGQ4IDEwMDY0NAot
+LS0gYS9Eb2N1bWVudGF0aW9uL2FybS9zYW1zdW5nLXMzYzI0eHgvaW5kZXgucnN0CisrKyBiL0Rv
+Y3VtZW50YXRpb24vYXJtL3NhbXN1bmctczNjMjR4eC9pbmRleC5yc3QKQEAgLTEsMyArMSw1IEBA
+CisuLiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMAorCiDvu789PT09PT09PT09PT09
+PT09PT09PT09PT09PQogU2Ftc3VuZyBTM0MyNFhYIFNvQyBGYW1pbHkKID09PT09PT09PT09PT09
+PT09PT09PT09PT09CmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2FybS9zYW1zdW5nL2luZGV4
+LnJzdCBiL0RvY3VtZW50YXRpb24vYXJtL3NhbXN1bmcvaW5kZXgucnN0CmluZGV4IGY1NGQ5NTcz
+NDM2Mi4uODE0MmNjZTNkMjNlIDEwMDY0NAotLS0gYS9Eb2N1bWVudGF0aW9uL2FybS9zYW1zdW5n
+L2luZGV4LnJzdAorKysgYi9Eb2N1bWVudGF0aW9uL2FybS9zYW1zdW5nL2luZGV4LnJzdApAQCAt
+MSwzICsxLDUgQEAKKy4uIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wCisKID09PT09
+PT09PT09CiBTYW1zdW5nIFNvQwogPT09PT09PT09PT0KZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRp
+b24vZHJpdmVyLWFwaS9lYXJseS11c2Vyc3BhY2UvaW5kZXgucnN0IGIvRG9jdW1lbnRhdGlvbi9k
+cml2ZXItYXBpL2Vhcmx5LXVzZXJzcGFjZS9pbmRleC5yc3QKaW5kZXggNmYyMGMzYzU2MGQ4Li4x
+NDljMTgyMmYwNmQgMTAwNjQ0Ci0tLSBhL0RvY3VtZW50YXRpb24vZHJpdmVyLWFwaS9lYXJseS11
+c2Vyc3BhY2UvaW5kZXgucnN0CisrKyBiL0RvY3VtZW50YXRpb24vZHJpdmVyLWFwaS9lYXJseS11
+c2Vyc3BhY2UvaW5kZXgucnN0CkBAIC0xLDMgKzEsNSBAQAorLi4gU1BEWC1MaWNlbnNlLUlkZW50
+aWZpZXI6IEdQTC0yLjAKKwogPT09PT09PT09PT09PT09CiBFYXJseSBVc2Vyc3BhY2UKID09PT09
+PT09PT09PT09PQpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL21kL2luZGV4
+LnJzdCBiL0RvY3VtZW50YXRpb24vZHJpdmVyLWFwaS9tZC9pbmRleC5yc3QKaW5kZXggMjA1MDgw
+ODkxYTFhLi4xOGY1NGE3ZDdkNmUgMTAwNjQ0Ci0tLSBhL0RvY3VtZW50YXRpb24vZHJpdmVyLWFw
+aS9tZC9pbmRleC5yc3QKKysrIGIvRG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL21kL2luZGV4LnJz
+dApAQCAtMSwzICsxLDUgQEAKKy4uIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wCisK
+ID09PT0KIFJBSUQKID09PT0KZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZHJpdmVyLWFwaS9t
+ZW1vcnktZGV2aWNlcy9pbmRleC5yc3QgYi9Eb2N1bWVudGF0aW9uL2RyaXZlci1hcGkvbWVtb3J5
+LWRldmljZXMvaW5kZXgucnN0CmluZGV4IDg3NTQ5ODI4ZjZhYi4uMjgxMDE0NThjZGE1IDEwMDY0
+NAotLS0gYS9Eb2N1bWVudGF0aW9uL2RyaXZlci1hcGkvbWVtb3J5LWRldmljZXMvaW5kZXgucnN0
+CisrKyBiL0RvY3VtZW50YXRpb24vZHJpdmVyLWFwaS9tZW1vcnktZGV2aWNlcy9pbmRleC5yc3QK
+QEAgLTEsMyArMSw1IEBACisuLiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMAorCiA9
+PT09PT09PT09PT09PT09PT09PT09PT09CiBNZW1vcnkgQ29udHJvbGxlciBkcml2ZXJzCiA9PT09
+PT09PT09PT09PT09PT09PT09PT09CmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RyaXZlci1h
+cGkvbW1jL2luZGV4LnJzdCBiL0RvY3VtZW50YXRpb24vZHJpdmVyLWFwaS9tbWMvaW5kZXgucnN0
+CmluZGV4IDlhYWY2NDk1MWE4Yy4uNzMzOTczNmFjNzc0IDEwMDY0NAotLS0gYS9Eb2N1bWVudGF0
+aW9uL2RyaXZlci1hcGkvbW1jL2luZGV4LnJzdAorKysgYi9Eb2N1bWVudGF0aW9uL2RyaXZlci1h
+cGkvbW1jL2luZGV4LnJzdApAQCAtMSwzICsxLDUgQEAKKy4uIFNQRFgtTGljZW5zZS1JZGVudGlm
+aWVyOiBHUEwtMi4wCisKID09PT09PT09PT09PT09PT09PT09PT09PQogTU1DL1NEL1NESU8gY2Fy
+ZCBzdXBwb3J0CiA9PT09PT09PT09PT09PT09PT09PT09PT0KZGlmZiAtLWdpdCBhL0RvY3VtZW50
+YXRpb24vZHJpdmVyLWFwaS9tdGQvaW5kZXgucnN0IGIvRG9jdW1lbnRhdGlvbi9kcml2ZXItYXBp
+L210ZC9pbmRleC5yc3QKaW5kZXggMmUwZTdjYzQwNTVlLi40MzZiYTVhODUxZDcgMTAwNjQ0Ci0t
+LSBhL0RvY3VtZW50YXRpb24vZHJpdmVyLWFwaS9tdGQvaW5kZXgucnN0CisrKyBiL0RvY3VtZW50
+YXRpb24vZHJpdmVyLWFwaS9tdGQvaW5kZXgucnN0CkBAIC0xLDMgKzEsNSBAQAorLi4gU1BEWC1M
+aWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAKKwogPT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09CiBNZW1vcnkgVGVjaG5vbG9neSBEZXZpY2UgKE1URCkKID09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PQpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL25mYy9pbmRl
+eC5yc3QgYi9Eb2N1bWVudGF0aW9uL2RyaXZlci1hcGkvbmZjL2luZGV4LnJzdAppbmRleCAzYWZi
+MmMwYzJlM2MuLmI2ZTllZWRiZmYyOSAxMDA2NDQKLS0tIGEvRG9jdW1lbnRhdGlvbi9kcml2ZXIt
+YXBpL25mYy9pbmRleC5yc3QKKysrIGIvRG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL25mYy9pbmRl
+eC5yc3QKQEAgLTEsMyArMSw1IEBACisuLiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIu
+MAorCiA9PT09PT09PT09PT09PT09PT09PT09PT0KIE5lYXIgRmllbGQgQ29tbXVuaWNhdGlvbgog
+PT09PT09PT09PT09PT09PT09PT09PT09CmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RyaXZl
+ci1hcGkvbnZkaW1tL2luZGV4LnJzdCBiL0RvY3VtZW50YXRpb24vZHJpdmVyLWFwaS9udmRpbW0v
+aW5kZXgucnN0CmluZGV4IDE5ZGM4ZWUzNzFkYy4uYTRmOGY5OGFlYjk0IDEwMDY0NAotLS0gYS9E
+b2N1bWVudGF0aW9uL2RyaXZlci1hcGkvbnZkaW1tL2luZGV4LnJzdAorKysgYi9Eb2N1bWVudGF0
+aW9uL2RyaXZlci1hcGkvbnZkaW1tL2luZGV4LnJzdApAQCAtMSwzICsxLDUgQEAKKy4uIFNQRFgt
+TGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wCisKID09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09CiBOb24tVm9sYXRpbGUgTWVtb3J5IERldmljZSAoTlZESU1NKQogPT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT0KZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZHJp
+dmVyLWFwaS9waHkvaW5kZXgucnN0IGIvRG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL3BoeS9pbmRl
+eC5yc3QKaW5kZXggZmNlOWZmYWUyODEyLi42OWJhMTIxNmRlNzIgMTAwNjQ0Ci0tLSBhL0RvY3Vt
+ZW50YXRpb24vZHJpdmVyLWFwaS9waHkvaW5kZXgucnN0CisrKyBiL0RvY3VtZW50YXRpb24vZHJp
+dmVyLWFwaS9waHkvaW5kZXgucnN0CkBAIC0xLDMgKzEsNSBAQAorLi4gU1BEWC1MaWNlbnNlLUlk
+ZW50aWZpZXI6IEdQTC0yLjAKKwogPT09PT09PT09PT09PT09PT09PT09CiBHZW5lcmljIFBIWSBG
+cmFtZXdvcmsKID09PT09PT09PT09PT09PT09PT09PQpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlv
+bi9kcml2ZXItYXBpL3JhcGlkaW8vaW5kZXgucnN0IGIvRG9jdW1lbnRhdGlvbi9kcml2ZXItYXBp
+L3JhcGlkaW8vaW5kZXgucnN0CmluZGV4IDRjNWU1MWEwNTEzNC4uYTQxYjQyNDJkMTZmIDEwMDY0
+NAotLS0gYS9Eb2N1bWVudGF0aW9uL2RyaXZlci1hcGkvcmFwaWRpby9pbmRleC5yc3QKKysrIGIv
+RG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL3JhcGlkaW8vaW5kZXgucnN0CkBAIC0xLDMgKzEsNSBA
+QAorLi4gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAKKwogPT09PT09PT09PT09PT09
+PT09PT09PT09PT09CiBUaGUgTGludXggUmFwaWRJTyBTdWJzeXN0ZW0KID09PT09PT09PT09PT09
+PT09PT09PT09PT09PQpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL3RoZXJt
+YWwvaW5kZXgucnN0IGIvRG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL3RoZXJtYWwvaW5kZXgucnN0
+CmluZGV4IDY4Y2ViNjg4NjU2MS4uNWJhNjFkMTljNmFlIDEwMDY0NAotLS0gYS9Eb2N1bWVudGF0
+aW9uL2RyaXZlci1hcGkvdGhlcm1hbC9pbmRleC5yc3QKKysrIGIvRG9jdW1lbnRhdGlvbi9kcml2
+ZXItYXBpL3RoZXJtYWwvaW5kZXgucnN0CkBAIC0xLDMgKzEsNSBAQAorLi4gU1BEWC1MaWNlbnNl
+LUlkZW50aWZpZXI6IEdQTC0yLjAKKwogPT09PT09PQogVGhlcm1hbAogPT09PT09PQpkaWZmIC0t
+Z2l0IGEvRG9jdW1lbnRhdGlvbi9pYTY0L2luZGV4LnJzdCBiL0RvY3VtZW50YXRpb24vaWE2NC9p
+bmRleC5yc3QKaW5kZXggZWY5OTQ3NWY2NzJiLi4wNDM2ZTEwMzQxMTUgMTAwNjQ0Ci0tLSBhL0Rv
+Y3VtZW50YXRpb24vaWE2NC9pbmRleC5yc3QKKysrIGIvRG9jdW1lbnRhdGlvbi9pYTY0L2luZGV4
+LnJzdApAQCAtMSwzICsxLDUgQEAKKy4uIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4w
+CisKID09PT09PT09PT09PT09PT09PQogSUEtNjQgQXJjaGl0ZWN0dXJlCiA9PT09PT09PT09PT09
+PT09PT0KLS0gCjIuMjEuMAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJiZC1kZXYgbWFpbGluZyBsaXN0CmRyYmQtZGV2QGxpc3RzLmxpbmJpdC5jb20K
+aHR0cDovL2xpc3RzLmxpbmJpdC5jb20vbWFpbG1hbi9saXN0aW5mby9kcmJkLWRldgo=
