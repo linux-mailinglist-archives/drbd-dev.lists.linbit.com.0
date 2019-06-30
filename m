@@ -2,42 +2,61 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail09.linbit.com (mail09.linbit.com [212.69.161.110])
-	by mail.lfdr.de (Postfix) with ESMTPS id B813B58963
-	for <lists+drbd-dev@lfdr.de>; Thu, 27 Jun 2019 19:59:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 782255B240
+	for <lists+drbd-dev@lfdr.de>; Mon,  1 Jul 2019 00:46:57 +0200 (CEST)
 Received: from mail09.linbit.com (localhost [127.0.0.1])
-	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 2A4B21028A75;
-	Thu, 27 Jun 2019 19:59:45 +0200 (CEST)
+	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 3BBDC103B4D9;
+	Mon,  1 Jul 2019 00:46:56 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mx.ewheeler.net (mx.ewheeler.net [66.155.3.69])
-	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 635A61011BFF
-	for <drbd-dev@lists.linbit.com>; Thu, 27 Jun 2019 19:59:42 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by mx.ewheeler.net (Postfix) with ESMTP id BEE3DA0692;
-	Thu, 27 Jun 2019 17:59:41 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at ewheeler.net
-Received: from mx.ewheeler.net ([127.0.0.1])
-	by localhost (mx.ewheeler.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id aJ6sH7LF3Qxv; Thu, 27 Jun 2019 17:59:40 +0000 (UTC)
-Received: from mx.ewheeler.net (mx.ewheeler.net [66.155.3.69])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx.ewheeler.net (Postfix) with ESMTPSA id DC7BAA067D;
-	Thu, 27 Jun 2019 17:59:40 +0000 (UTC)
-Date: Thu, 27 Jun 2019 17:59:40 +0000 (UTC)
-From: Eric Wheeler <drbd-dev@lists.ewheeler.net>
-X-X-Sender: lists@mx.ewheeler.net
-To: Robert Altnoeder <robert.altnoeder@linbit.com>
-In-Reply-To: <27d9a6d5-6ee7-be44-8d46-2dc15d466307@linbit.com>
-Message-ID: <alpine.LRH.2.11.1906271737510.1114@mx.ewheeler.net>
-References: <alpine.LRH.2.11.1906210638010.3326@mx.ewheeler.net>
-	<20190624154946.GU30528@soda.linbit>
-	<alpine.LRH.2.11.1906261914150.1114@mx.ewheeler.net>
-	<27d9a6d5-6ee7-be44-8d46-2dc15d466307@linbit.com>
-User-Agent: Alpine 2.11 (LRH 23 2013-08-11)
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
+	[209.85.166.66])
+	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id B99681028A76
+	for <drbd-dev@lists.linbit.com>; Mon,  1 Jul 2019 00:46:54 +0200 (CEST)
+Received: by mail-io1-f66.google.com with SMTP id e5so24463987iok.4
+	for <drbd-dev@lists.linbit.com>; Sun, 30 Jun 2019 15:46:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=to:from:subject:organization:message-id:date:user-agent
+	:mime-version:content-language:content-transfer-encoding;
+	bh=1hc/iX74V6u4kaE6VVGHF8sYS4n19zAHFwPgfs6OIwk=;
+	b=Ed4hjB/fKtZ1qWGr72rUbhIVdadJupf0HhUt8Tc0Yrt13+wExdY2vrolklHj7HoiWl
+	w11ZJRcuPi/6MKP7gyn+GQM8EB0BzPU7fnd2pDJJ+akU+RRpHrDeemwgwjquHTALeA+t
+	+w9yGEfxBoTlyw5cBI9Pd3+rdQiQC9OdEorgvUWhVS1HXZ3f0YVJgP6Ee4kN9il+iKsE
+	Z16ynOsdhnms5yYRAoEKfJLvDa0CkOQ9FgqkNFbxXnXo+y13oVR2ygT44e8UBGsJ585c
+	J4gw3+FL+LsjSnBwcvameIwu5GG4P8QkmD8JvHnPjckiomZA7MxODYoeJRSWF+YhOcbZ
+	VD3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:to:from:subject:organization:message-id:date
+	:user-agent:mime-version:content-language:content-transfer-encoding;
+	bh=1hc/iX74V6u4kaE6VVGHF8sYS4n19zAHFwPgfs6OIwk=;
+	b=bNi2yNqZHMUqFA3nPP6ka4gX6NUoocFWzt72w80MAW5s4GooEZNyoeO8Lyhtw0mtJ1
+	J2FueEAL4xx3/zDqenvNjnOeTpTPfUSnqwX0gsPSlmg4TCU3GrWlwOEqVfkMFG8JODRF
+	RYe8znTb24E48bGzVQLv+UaEJOuP9GiaDiJTdWIy+1dUnPs9i+ZYhGaj5sjzIWG8BigZ
+	tHPK2a555AB2EEvIsHO8jTih8U0jb2MeBi4ilCPZJ5giHqd+/wpNMHAtRO8wG8b6QZkc
+	jf71V9BwytwNJfpC1LOOOvzlCOgsd61cUjYD8p2iLwqllSXFcwt8nwUd1tip4MnRFC7o
+	6Gig==
+X-Gm-Message-State: APjAAAUVbYhyceYkopt9CNKO1YqwFS6yenKFVFgW0J5DdTTG0bedlclg
+	UeufgPG2HiNzL0f7/s9zlZmk3blR
+X-Google-Smtp-Source: APXvYqybV96wRpbrjn9xQ90UXoj4Q2LEbspeTKumuMf8lHxNmtcuyw771UEHiEv7anqXgaHmoG1fZQ==
+X-Received: by 2002:a6b:6012:: with SMTP id r18mr4996527iog.241.1561934813330; 
+	Sun, 30 Jun 2019 15:46:53 -0700 (PDT)
+Received: from [192.168.1.20] (c-73-78-150-191.hsd1.co.comcast.net.
+	[73.78.150.191]) by smtp.gmail.com with ESMTPSA id
+	z17sm13910808iol.73.2019.06.30.15.46.52
+	for <drbd-dev@lists.linbit.com>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 30 Jun 2019 15:46:52 -0700 (PDT)
+To: drbd-dev@lists.linbit.com
+From: David Butterfield <dab21774@gmail.com>
+Organization: PGP: 70C7 0309 E859 40AB 4D1F CDC5 F7CE 9A64 95EB 9D1B
+Message-ID: <44599673-cf74-7e79-3672-af9feea537d2@gmail.com>
+Date: Sun, 30 Jun 2019 16:46:51 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.1
 MIME-Version: 1.0
-Cc: drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] Checksum based resync block size
+Content-Language: en-US
+Subject: [Drbd-dev] How to leak a peer_devices idr instance
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -56,61 +75,56 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Thu, 27 Jun 2019, Robert Altnoeder wrote:
+I've been valgrinding the SCST/DRBD usermode server to look for bugs in my kernel function
+emulation.  Once in a while it points me at a problem in DRBD.  I mentioned in a message last
+week about the "resync_fifo" leak (which appears consistently in the valgrind output).
 
-> On 6/26/19 9:20 PM, Eric Wheeler wrote:
-> > On Mon, 24 Jun 2019, Lars Ellenberg wrote:
-> >
-> >> As our in-sync/out-of-sync bitmap tracks 4k blocks,
-> >> we want to compare 4k checkesums.
-> >>
-> >> Yes, that generates "a lot" of requests, and if these are not merged by
-> >> some IO scheduler on the lower layers, that may seriously suck.
-> >>
-> >> make_ov_request() is what generates the online-verify requests.
-> >>
-> >> What we potentially could do is issue the requests in larger chunks,
-> >> like (1 MiB) to the backends, then calculate and communicate the
-> >> checksum per each 4k, as well as the result.
->
-> > What if it were to calculate 1MiB chunks (configurable) and then 
-> > invalidate all 4k bitmap entries in that 1MiB range if the hash 
-> > mismatches?
+Ideally I could get a clean valgrind run, with all allocations having been freed before exit.
+After deleting objects using drbdsetup and then running the server's exit handlers, it is very
+close, with a couple of "usual suspects", plus whatever I discover from time to time as I try 
+different operations.
 
-This could also help resync by checksuming contiguous dirty bitmap entries 
-(up to a chunk size limit) and resyncing the whole series instead of each 
-4k block.
- 
-> Is your intention to reduce the number of packets with checksums that
-> are being sent, and/or the number of checksum comparisons for the same
-> amount of data?
+Today's discovery is the ability to leak a peer_devices idr instance by a sequence of six
+drbdsetup create and delete steps.  Whether or not it leaks depends on the order of the delete
+steps.  After a fresh restart of the server the first sequence below leaks, but not the second.
 
-Reduce the number of packets, but also, crypto transforms perform better 
-on larger data chunks. You make another good point: fewer hash comparisons 
-will help too.
+If I delete the peer before the minor it leaks the peer_devices idr.
+    sudo drbdsetup new-resource r0 0
+    sudo drbdsetup new-minor r0 1 0 
+    sudo drbdsetup new-peer r0 1 --_name=vagrant
+    sudo drbdsetup del-peer r0 1                # delete peer first leaks peer_devices idr 
+    sudo drbdsetup del-minor 1
+    sudo drbdsetup del-resource r0
 
-> Both could have a positive impact on performance, but the question is,
-> whether the difference is big enough to be relevant. On the other hand,
-> hashing more data per checksum increases the chance of hash collisions.
+If I delete the minor before the peer it doesn't leak.
+    sudo drbdsetup new-resource r0 0
+    sudo drbdsetup new-minor r0 1 0 
+    sudo drbdsetup new-peer r0 1 --_name=vagrant
+    sudo drbdsetup del-minor 1                  # delete minor first doesn't leak
+    sudo drbdsetup del-peer r0 1
+    sudo drbdsetup del-resource r0
 
-I'm not too concerned about hash collisions.  That might be a problem with 
-small CRC32-based sums, but assuming crypto hashes with a hash size of 
-2^128, then the birthday paradox gives us a collision betwen some two 
-hashes after 2^64 hashes---that is, any 2 hashes---not specifically the 
-two being compared.  The probability of two chosen hashes colliding is 
-even lower than 1/(2^64).
+What appears to be happening:
 
--Eric
+    During del-minor, the peer_devices idr gets removed in drbd_unregister_device(), for each
+    connection it finds.  That appears to be the only place that idr gets removed after use.
 
-> 
-> br,
-> Robert
-> 
-> _______________________________________________
-> drbd-dev mailing list
-> drbd-dev@lists.linbit.com
-> http://lists.linbit.com/mailman/listinfo/drbd-dev
-> 
+    But in the leaking sequence, the connection has already been removed by the del-peer command
+    before the later del-minor command runs.  So the connection loop in drbd_unregister_device()
+    (line 3935 below) iterates zero times and does not free any peer_devices idr.
+
+    3928 void drbd_unregister_device(struct drbd_device *device)
+    ... 
+    3934         spin_lock_irq(&resource->req_lock);
+    3935         for_each_connection(connection, resource) {
+    3936                 idr_remove(&connection->peer_devices, device->vnr);
+    3937         }
+    3938         idr_remove(&resource->devices, device->vnr);
+    3939         idr_remove(&drbd_devices, device_to_minor(device));
+    3940         spin_unlock_irq(&resource->req_lock);
+
+Regards,
+David Butterfield
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
