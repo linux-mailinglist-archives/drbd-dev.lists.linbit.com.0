@@ -2,61 +2,62 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail09.linbit.com (mail09.linbit.com [212.69.161.110])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C35A627A5
-	for <lists+drbd-dev@lfdr.de>; Mon,  8 Jul 2019 19:51:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E81EE627B0
+	for <lists+drbd-dev@lfdr.de>; Mon,  8 Jul 2019 19:54:00 +0200 (CEST)
 Received: from mail09.linbit.com (localhost [127.0.0.1])
-	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 9DD891028A76;
-	Mon,  8 Jul 2019 19:50:58 +0200 (CEST)
+	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 1A87B103B4D9;
+	Mon,  8 Jul 2019 19:53:59 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com
-	[209.85.166.52])
-	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 2A3A41011BF7
-	for <drbd-dev@lists.linbit.com>; Mon,  8 Jul 2019 19:50:54 +0200 (CEST)
-Received: by mail-io1-f52.google.com with SMTP id q22so15415245iog.4
-	for <drbd-dev@lists.linbit.com>; Mon, 08 Jul 2019 10:50:54 -0700 (PDT)
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+	[209.85.166.68])
+	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id A17DA1011BF7
+	for <drbd-dev@lists.linbit.com>; Mon,  8 Jul 2019 19:53:57 +0200 (CEST)
+Received: by mail-io1-f68.google.com with SMTP id m24so27779005ioo.2
+	for <drbd-dev@lists.linbit.com>; Mon, 08 Jul 2019 10:53:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=to:from:subject:organization:message-id:date:user-agent
 	:mime-version:content-language:content-transfer-encoding;
-	bh=BvgJU6FmsxJnBulPUwhy8gynB1OG4+WOpxndDrPf10s=;
-	b=XHF0UzE/WYAaRrLHIZG1eLhYqPMKOT+9rzBSpod8GCJ0O+DfOu7/5sZetsYlDojCBi
-	Pz7n+QDvJQSwGvtW2qbgT1W/k755R5ceqhaodsUL3S+g1ElrPZHeIAdnQtynQu4ja4UL
-	hBfsOMwTPUou6Kh2RRYzhfcPYKxZEj0uMg4e4ZaDajLAFMTs3XFb4FuxDa8/ObGzpMs5
-	qXJlnpRCtI2GuST29mnM+1PRazM+cwYm4hywdJQ6RkPcz+jCsxcTtOWpv65HYLMhDYx3
-	gFXj/p1lo4/tyMH5ylYQC7adeBNijYG3+LQ0KdtVHn09578z0VsRAFWpzYf6RjRNq3Vr
-	Pq4Q==
+	bh=DJLUQnuCwl5oqzxdyLe9NZBJuCKRTWwSzvA6NN9lff8=;
+	b=FyOtS42EjLK/UlIoBYI2ZjdLQJNI57Kc7QlHH5dsEZzanvgTlIgFHlk/6a4kvpkpEV
+	Y9/Is9LGyijanDdfyMF0z1q4c3/zKVKajwEskHyXih6LzMQ6ZqEZEj5xbFYj2RMibgjf
+	H25OMpMvuGDE8C3lmk8iBuqGdJiqhtD78lvQhvHweyQVQVsFKIdNpG9DOYJsBnApbP49
+	072lEON549bkZbrBeUAsLGDNuet1VzxnBigz/7QXDpDdO5qBTcrwWj4gco3R/Q/XDBYf
+	Okz2iISshGu1GlquxQoFji9wB+IaG0OYtHY7N6ntyfYzNqoWg4qFtANw2FrUVSR71InM
+	qmeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:to:from:subject:organization:message-id:date
 	:user-agent:mime-version:content-language:content-transfer-encoding;
-	bh=BvgJU6FmsxJnBulPUwhy8gynB1OG4+WOpxndDrPf10s=;
-	b=Xpz2MD46qA8fjFmVX/g/zD/3+eE9Pnmqgnei/cUWUn0B4lx2A4mQ8dYOw4FkzzK2jI
-	U2sJ7nqxfzVEEkPwPGIunKxPyVltZP+cXgyrvEjfM7LMOLtbENjQE/zApOe4njtxP+jt
-	Py0lmF1Mzgb70chs0fr2+09OMgL8vy2YZtDJeOQdKufec8iIPXV5N2FUcPLxHzdA5TwA
-	FAHyTSouNArgbr3xJXm/niNhzVL6K/R5vsWtVQj5h8s1ZdPXcj8UJWoW8ihKPkHDBPgz
-	zWLt/4RUYYwoTblOF32vW+lQr4kHxi7QRYG1u/9cAmsoyNfT7p49BDDU928XNNHPliZ0
-	8p/w==
-X-Gm-Message-State: APjAAAXNYYSBAF5V34ibYyF+S36qws+3bb8qcjQhyO628sD0cPOIaAEQ
-	vK9MkLONUhOX6YZkw6+fFmjCPVWy
-X-Google-Smtp-Source: APXvYqydDeGchJdvv+tjiFi7spUERrQdW5L4XMlPOWLA/To4BDMtCgD67LLVndUQ3+TOHTtn2m8e6A==
-X-Received: by 2002:a5d:8d12:: with SMTP id p18mr20038714ioj.251.1562608253385;
-	Mon, 08 Jul 2019 10:50:53 -0700 (PDT)
+	bh=DJLUQnuCwl5oqzxdyLe9NZBJuCKRTWwSzvA6NN9lff8=;
+	b=L8+nDUgh8LsZHhSLaYXKtQqihXFR7Mwy6bXjFnVS9D6sxChrqn04suri5dssK0o/kk
+	GEkq29LiHzQZtyf70ju3oLohnyUWDTYvdcrNCasvljDOBiMa8Lh9DU0cJcz2e4RS4VRr
+	bnFm916ym22ExCPVmCzIIPTzhx58spyIMJd+38EiC5q3CYnCX5S3E4gxA3gagN9exWZC
+	SYy4Kpitmjr4q5L3w35jjEqgh9BPYrxqt3PQAjXqPSStdOjZ7snwB1eovzf3Cv7cAoQg
+	n5AsWspRnfN4ThbHexLh/5/17Cue7XY4IPavvVXVV1eqGyi1f3xSMbwO85Y7E/DwWuT/
+	cF4w==
+X-Gm-Message-State: APjAAAWmoOPC3IRIEwg12lrdXOQAoPwEK9cRzshmyl+Z/U/qVQ1DrmCr
+	iFRgVgtBhF+S+FNTafHkC4Ms6Fse
+X-Google-Smtp-Source: APXvYqxXqlzePLGh3cBv1tVD3kkIdA7aIz0Xx/6mVg7qpDw5326uphvAHQa0Drv8OsA84VhnvPG0ew==
+X-Received: by 2002:a5d:8759:: with SMTP id k25mr19176657iol.307.1562608436512;
+	Mon, 08 Jul 2019 10:53:56 -0700 (PDT)
 Received: from [192.168.1.20] (c-73-78-150-191.hsd1.co.comcast.net.
 	[73.78.150.191]) by smtp.gmail.com with ESMTPSA id
-	k5sm22441946ioj.47.2019.07.08.10.50.51
+	l5sm24148521ioq.83.2019.07.08.10.53.55
 	for <drbd-dev@lists.linbit.com>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 08 Jul 2019 10:50:52 -0700 (PDT)
+	Mon, 08 Jul 2019 10:53:56 -0700 (PDT)
 To: drbd-dev@lists.linbit.com
 From: David Butterfield <dab21774@gmail.com>
 Organization: PGP: 70C7 0309 E859 40AB 4D1F CDC5 F7CE 9A64 95EB 9D1B
-Message-ID: <bd96aeb1-ac7c-1da4-bebf-e4f28d0e0313@gmail.com>
-Date: Mon, 8 Jul 2019 11:50:49 -0600
+Message-ID: <f3251c75-2571-299e-b388-625017e8686a@gmail.com>
+Date: Mon, 8 Jul 2019 11:53:55 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.7.2
 MIME-Version: 1.0
 Content-Language: en-US
-Subject: [Drbd-dev] rcu_dereference() called when not under rcu_read_lock().
+Subject: [Drbd-dev] wait_event called while nested inside another wait_event,
+ using the same wait queue
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -75,24 +76,50 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-It seems that in general rcu_dereference() is expected to be called under rcu_read_lock().
+change_cluster_wide_state() calls wait_event, nested inside the condition-test of another
+wait_event call, using *the same wait queue* for both the outer and the inner wait calls.
 
-I've observed that it is sometimes called without rcu_read_lock() -- for example the two call
-stacks below that traverse the idr list.  Is something else protecting such that the
-rcu_read_lock() is unnecessary in some cases?
+I don't understand the intended kernel model precisely enough to know if this is a subtle bug,
+or if it's really guaranteed OK to do this.  But it's pretty suspicious if it hasn't been
+thought through carefully, so I thought I'd mention it.
 
-idr_get_next() calls rcu_dereference(), but is called not under rcu_read_lock()
- [02]   0x5e9eeb  rwlock_assert_readlocked usermode_lib.h:1016 (discriminator 5)
- [03]   0x5fa816  idr_get_next idr.c:602
- [04]   0x5684b7  adm_new_connection drbd_nl.c:3774
- [05]   0x569643  drbd_adm_new_peer drbd_nl.c:4070
+The outer wait on resource->state_wait occurs when drbd_set_role() calls stable_state_change()
+to wait for the condition of a successful change_role().  change_role() is called for the
+condition-test and calls change_cluster_wide_state() which issues the inner (nested) wait on
+resource->state_wait, waiting for cluster_wide_reply_ready().
 
-idr_find() calls rcu_dereference(), but is called not under rcu_read_lock()
- [02]   0x5e9eeb  rwlock_assert_readlocked usermode_lib.h:1016 (discriminator 5)
- [03]   0x5fa582  idr_find idr.c:507
- [04]   0x536970  minor_to_device drbd_int.h:1418
- [05]   0x546625  drbd_create_device drbd_main.c:3709
- [06]   0x570b85  drbd_adm_new_minor drbd_nl.c:5858
+Possibly it could work or fail depending on changes to the kernel wait implementation.
+    For example, suppose the underlying wait implementation held a wait-queue lock during the
+    condition check.  Calling wait_event nested inside the condition-test of another wait_event
+    on the same wait_queue would lead to a recursive lock-acquisition attempt.  (On the other
+    hand that may only prove that the implementation can't hold such a lock.)
+
+The nested usage does not seem to have any bad effects (now that my wait implementation no
+longer holds a wait-queue lock during the condition-test).
+
+diff --git a/drbd/drbd_state.c b/drbd/drbd_state.c
+index c3371e18..409b9afc 100644
+--- a/drbd/drbd_state.c
++++ b/drbd/drbd_state.c
+@@ -4195,6 +4195,18 @@ change_cluster_wide_state(bool (*change)(struct change_context *, enum change_ph
+ 				    &request, reach_immediately);
+ 	have_peers = rv == SS_CW_SUCCESS;
+ 	if (have_peers) {
++		// We are here as the change_state macro from inside the condition of
++		//	    wait_event_interruptible((resource)->state_wait,
++		//		    (rv = (change_state)) != SS_IN_TRANSIENT_STATE);
++		//
++		//XXX Is it really kosher to now use that same resource->state_wait
++		//    in another wait_event while we are nested within the first one?
++		//
++		// In drbd_set_role():
++		//	rv = stable_state_change(resource,
++		//		change_role(resource, role, flags, with_force, &err_str));
++		// where change_role() calls this function.
++		//
+ 		if (wait_event_timeout(resource->state_wait,
+ 				       cluster_wide_reply_ready(resource),
+ 				       twopc_timeout(resource)))
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
