@@ -2,59 +2,64 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail09.linbit.com (mail09.linbit.com [212.69.161.110])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1887706B0
-	for <lists+drbd-dev@lfdr.de>; Mon, 22 Jul 2019 19:23:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B83D27134C
+	for <lists+drbd-dev@lfdr.de>; Tue, 23 Jul 2019 09:53:25 +0200 (CEST)
 Received: from mail09.linbit.com (localhost [127.0.0.1])
-	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 96712101AC48;
-	Mon, 22 Jul 2019 19:23:13 +0200 (CEST)
+	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 6553F101AC48;
+	Tue, 23 Jul 2019 09:53:24 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 1491 seconds by postgrey-1.31 at mail09;
-	Mon, 22 Jul 2019 19:23:12 CEST
-Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
-	[209.85.167.195])
-	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 13168101AC44
-	for <drbd-dev@lists.linbit.com>; Mon, 22 Jul 2019 19:23:11 +0200 (CEST)
-Received: by mail-oi1-f195.google.com with SMTP id v186so30151080oie.5
-	for <drbd-dev@lists.linbit.com>; Mon, 22 Jul 2019 10:23:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+X-Greylist: delayed 380 seconds by postgrey-1.31 at mail09;
+	Tue, 23 Jul 2019 09:53:23 CEST
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 27DBC101AC43
+	for <drbd-dev@lists.linbit.com>; Tue, 23 Jul 2019 09:53:22 +0200 (CEST)
+Received: by mail-wr1-f66.google.com with SMTP id p17so42009319wrf.11
+	for <drbd-dev@lists.linbit.com>; Tue, 23 Jul 2019 00:53:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linbit-com.20150623.gappssmtp.com; s=20150623;
 	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to;
-	bh=D5i5eeVRTyq7Qm2OPmoZkgOgQ/VLsd39M3tEbxvABCE=;
-	b=lMVKoC32q6jdc5s52CXFaKProF9HEK95pIIg8BJ02KRdMo2T+G1UQFwnI3hhGF8+qU
-	sA+I2b5X4bmmD3l4DMPwDW82vI93F3KlS+ABw8rfpPxwGuJjlU4ikbVcjw+QJS8Ok0+k
-	NfKpy3LGpTZr6M9s+RV94qzCTTn8uIg1TOEHY=
+	:content-disposition:in-reply-to:user-agent;
+	bh=k7Xz7HKINwi2ffVMf/EFtJWFSDc7hqESTclfwKAt7K4=;
+	b=c/ZNarot1m0Bl1tmWrYyhQmPxIX3DYs2q2Gj5GPhiIoalP+pZaR0Bxcjs+qbtQggL+
+	HpYpvcffxSSoQ6e3vzPC+Jr1+Y7fqOWhByZoh68dmXrg2pmNrtn6QP4yekhQWLe32Smv
+	Lgcpdg3yij/uHiT6xRLXikibHtWQkH9y/yNWC8LWj1R9GmlW1Ow+dA4jDjhQER8wtODg
+	P3HNoJOjAMlxmxOQEDK0kNEfxcwZj8zCoRBY1pdZmhobsS52JB4o5lYmEFTwKw9bMbYD
+	P1FPqibH2KmI7rd/iym26Pv/u/mJxGS3RR6+vfownrLRWIsxXw7FD+oC8MyDj4OyJB3d
+	//sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to;
-	bh=D5i5eeVRTyq7Qm2OPmoZkgOgQ/VLsd39M3tEbxvABCE=;
-	b=QldEpaTuRSUN3aGpO71CRrn6H7zuJqIkVzBJY9XikNpyNevUSoDjQmw9/GUKrwcVW/
-	xYL+/SV6wJmhlPwq654HLNeyv1xsO2+0kr28KnVkxg5hy++qyz5GcsnrDf7f/3kjmIlf
-	r6iNqIa7vXXXzvFdcJj6C6tMPP17qs1/26iQMYrstMdy7GoHv0UsyxUMGnv5QhRbvIf5
-	Yp+ihMgPqYS4MhqIJHLAGkRL8ifOw4wA5ZQnkUSiT4+FlGKl6SmSyuoi3OFqCei3jYqi
-	AdxKBrASD+KStPUaXMPEE5pi2729FctfoV8n/KifL/c2z/atv5a50dk93aclWhAkjz7Q
-	t85Q==
-X-Gm-Message-State: APjAAAXiM9ZqpH3UR5rNbbdu57lIMQRDMrCXcOnPTn0h0NhelPksYzIP
-	b/w/Yox8qgE8rhx0Y14Ovmy/yqbmYxA=
-X-Google-Smtp-Source: APXvYqx5EPVBdAZB9hQMVYd5b0pm0ScpmGtAOsQZBAbG8Ghj6g8EOLpHTo6yIfQxYVdOh6K7G5nb9g==
-X-Received: by 2002:a63:7b4d:: with SMTP id k13mr70901703pgn.182.1563814351931;
-	Mon, 22 Jul 2019 09:52:31 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-	by smtp.gmail.com with ESMTPSA id
-	d8sm36678029pgh.45.2019.07.22.09.52.30
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=k7Xz7HKINwi2ffVMf/EFtJWFSDc7hqESTclfwKAt7K4=;
+	b=T9tHiAmLSITrOM6h3StZFhmaV5FpOZ2huem1S49ltP1vGhUyIVs06aFSLzbNP5/yU5
+	RxUmFtsyWBChbXalcS+I4SMJULYjP6am00ezRsF1Z1A7EQwbdj9YRNYx4YTWjx2Fm0rQ
+	ES7LHbo3fFlryOLsSEMP/8hDHlde2HYBBoa4b5dAotHXrO1GGCLu4EjYJCkQNWFGywDX
+	SaZ/2qzEHaDy9Pr0z0hoPP9JuPd3Ln/+io7Pf3KLFwFBB1yLm0qSTZzswHMWXfUyppeP
+	iZXOKnDH6r6UbYp3mqFsqDMKtZN1lVR/bdWTPI/fViLSQf1cFa2VBd5awKyeJVW0S7eo
+	cepA==
+X-Gm-Message-State: APjAAAU+rsQlwcUA+RCCL0g3bL/SULdJQER0+s76XgPZqZ9904cy24GE
+	LHTBcknLbyqS+Jfi5bZ5ayuweKjjnoQc8rMN7Is=
+X-Google-Smtp-Source: APXvYqz/ejC83D8aGx+4kC8dKQ0Qld0zLqocNAoCUYcBJW7FNfVPBFPaYnNJes3G5pDAlnW0XtkZBA==
+X-Received: by 2002:adf:c803:: with SMTP id d3mr4552216wrh.130.1563868022896; 
+	Tue, 23 Jul 2019 00:47:02 -0700 (PDT)
+Received: from localhost (static.20.139.203.116.clients.your-server.de.
+	[116.203.139.20])
+	by smtp.gmail.com with ESMTPSA id c1sm89787659wrh.1.2019.07.23.00.47.01
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 22 Jul 2019 09:52:31 -0700 (PDT)
-Date: Mon, 22 Jul 2019 09:52:30 -0700
-From: Kees Cook <keescook@chromium.org>
+	Tue, 23 Jul 2019 00:47:02 -0700 (PDT)
+Date: Tue, 23 Jul 2019 09:47:01 +0200
+From: Roland Kammerer <roland.kammerer@linbit.com>
 To: Arnd Bergmann <arnd@arndb.de>
-Message-ID: <201907220952.EA05EEE9FC@keescook>
+Message-ID: <20190723074701.fp2qjjm5dwj4i2x7@rck.sh>
 References: <20190722122647.351002-1-arnd@arndb.de>
 MIME-Version: 1.0
 Content-Disposition: inline
 In-Reply-To: <20190722122647.351002-1-arnd@arndb.de>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Cc: Jens Axboe <axboe@kernel.dk>, Herbert Xu <herbert@gondor.apana.org.au>,
-	Eric Biggers <ebiggers@google.com>,
+	Kees Cook <keescook@chromium.org>, Eric Biggers <ebiggers@google.com>,
 	Philipp Reisner <philipp.reisner@linbit.com>,
 	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
 	clang-built-linux@googlegroups.com,
@@ -94,9 +99,7 @@ On Mon, Jul 22, 2019 at 02:26:34PM +0200, Arnd Bergmann wrote:
 > Link: https://lore.kernel.org/lkml/20190617132440.2721536-1-arnd@arndb.de/
 > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
-
--Kees
+Reviewed-by: Roland Kammerer <roland.kammerer@linbit.com>
 
 > ---
 > v2:
@@ -148,9 +151,6 @@ Reviewed-by: Kees Cook <keescook@chromium.org>
 > -- 
 > 2.20.0
 > 
-
--- 
-Kees Cook
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
