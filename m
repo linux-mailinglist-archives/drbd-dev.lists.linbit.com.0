@@ -2,71 +2,71 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail09.linbit.com (mail09.linbit.com [212.69.161.110])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B7C4815FF
-	for <lists+drbd-dev@lfdr.de>; Mon,  5 Aug 2019 11:56:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A769681609
+	for <lists+drbd-dev@lfdr.de>; Mon,  5 Aug 2019 11:56:52 +0200 (CEST)
 Received: from mail09.linbit.com (localhost [127.0.0.1])
-	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 3D761101AC52;
-	Mon,  5 Aug 2019 11:56:22 +0200 (CEST)
+	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 8687E101AC51;
+	Mon,  5 Aug 2019 11:56:51 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 9FE91101AC42
-	for <drbd-dev@lists.linbit.com>; Mon,  5 Aug 2019 11:55:56 +0200 (CEST)
-Received: by mail-wm1-f68.google.com with SMTP id w9so6283931wmd.1
-	for <drbd-dev@lists.linbit.com>; Mon, 05 Aug 2019 02:55:56 -0700 (PDT)
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 6B9D9101AC4C
+	for <drbd-dev@lists.linbit.com>; Mon,  5 Aug 2019 11:56:05 +0200 (CEST)
+Received: by mail-wr1-f66.google.com with SMTP id n9so83863890wru.0
+	for <drbd-dev@lists.linbit.com>; Mon, 05 Aug 2019 02:56:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:resent-from:resent-date:resent-message-id
 	:resent-to:dkim-signature:from:to:cc:subject:date:message-id
 	:in-reply-to:references:mime-version:content-transfer-encoding;
-	bh=y0sUgFK1R33xXSRCq1YwCJJ+OJIOh3pQv6fk9zvznF0=;
-	b=RL9pCjV0BHjAgoW37JmNbOf3F1S6K/j5eP3itat8ewzgy5vuf13ntJJu7+0wIfeiN/
-	YLBrUEo8Frr7XeVXVcSuQU2DSUpJYfR3JX61G1Pue6k/R4rkSeIw7692DpY19jyur4Uh
-	262lzTmKSP7ydtOgrcDxFtx8utHKeMicS85fXUmNOqeGx+pNPcB6UrBv7RPxxZuyCveE
-	4zWbUzUJOFeigSjfloVUSj+ls1Ruv5MgQWYNF3vPx59WmupD/PwRJUGbi+LJB5dLq6iM
-	74UrCI5StY6+JUKr4MY/6RlyKNeuBrlBjl93Ubo/o9tcq4uE0j3a8TurkudEkBXrusIF
-	Hjkw==
-X-Gm-Message-State: APjAAAUKQZ2JcmtvDYFH8WqOIkEyWih7wm3Si4XCG29YbvoK9JTIkoJ1
-	YS9iK7wg+EBMWXkk0R1N1xWVoAlc1HRBcIMX
-X-Google-Smtp-Source: APXvYqyG2Y9kbZ7PoM6eZyMvI2CpqsLr6ZcVt850hBOP3y+RnP0n5ZvAKHJBl/hq7klfOammr+1xLA==
-X-Received: by 2002:a7b:c933:: with SMTP id h19mr18620457wml.52.1564998955511; 
-	Mon, 05 Aug 2019 02:55:55 -0700 (PDT)
+	bh=rex3CMTdtCHM7CAWplaJUUOU3mko7kdksIcr/Dd/9dw=;
+	b=MJc09NZQKi07cN3eLI655jSsFdcBOccbvl9vH54qK3ECwcy1pCGto+ZMPIstT2Yi9D
+	/nsTwCHJsfpD/DyniNq/SmcNHPr+qwbliVj8cRo0YFl1cXnKgj7FefKj543gAREWJQnF
+	kF6fF8MG6unPoxGgPKRH/UNRVi95H4ogeSBSekDvXEt5LYN4OJZRBRGt4Y9KblwZY2xu
+	TorQ4XvNjaB7fYDeCNNygAQ5Qchs9t2LmklZVkzBTXRX8uyLnAOecuWHJ+Hwyj2HL8MO
+	YgX8RdGZVo5rALNCCP/X9fClCx7u1sco2i7irfkWIkzPPQlv6HHAHPDEOdiFmbiBUr3T
+	Eglg==
+X-Gm-Message-State: APjAAAWuvFJgL1Tj4vt2hiGfyVSspk28EG7WRxzvgcm+OvoXvb7abV7/
+	yHnvfrcNPeha6ld9UctVwmH2Zj/d0lkfac5s
+X-Google-Smtp-Source: APXvYqyi+feHl6yfCPmJRAo06+bb0WAG7JmzpuG1Me3m0EuurUgI0m8ZFZQtwzr9C5AxfqtXDfxyuQ==
+X-Received: by 2002:adf:aac8:: with SMTP id i8mr1961920wrc.56.1564998964071;
+	Mon, 05 Aug 2019 02:56:04 -0700 (PDT)
 Received: from soda.linbit (212-186-191-219.static.upcbusiness.at.
 	[212.186.191.219]) by smtp.gmail.com with ESMTPSA id
-	a81sm90428194wmh.3.2019.08.05.02.55.54
+	n12sm87670962wmc.24.2019.08.05.02.56.03
 	for <drbd-dev@lists.linbit.com>
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 05 Aug 2019 02:55:55 -0700 (PDT)
+	Mon, 05 Aug 2019 02:56:03 -0700 (PDT)
 Resent-From: Lars Ellenberg <lars.ellenberg@linbit.com>
-Resent-Date: Mon, 5 Aug 2019 11:55:53 +0200
-Resent-Message-ID: <20190805095553.GB17295@soda.linbit>
+Resent-Date: Mon, 5 Aug 2019 11:56:01 +0200
+Resent-Message-ID: <20190805095601.GC17295@soda.linbit>
 Resent-To: drbd-dev@lists.linbit.com
 X-Original-To: drbd-dev@lists.linbit.com
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id CC006101AC45
+	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id CD613101AC46
 	for <drbd-dev@lists.linbit.com>; Fri,  2 Aug 2019 15:31:24 +0200 (CEST)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
 	[73.47.72.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 597AA21773;
-	Fri,  2 Aug 2019 13:25:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPSA id 565EB21852;
+	Fri,  2 Aug 2019 13:26:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1564752310;
-	bh=q4d4x2lkfsO0GUeJ0SOejnd4a/QA+DlwwvcJ+8ajbZA=;
+	s=default; t=1564752375;
+	bh=23B8luakk6bxCcsYaOoRRvGgRBG7IONl/QGkKxDbqvk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=0yLsSAG6evG1eeV6BSuSQOikvJX2HZfOmJt0e8Qj3BOUtPAgRdGNXef4Z5MRfobDn
-	KRDUu1EcrUmS9Vs12paGZTQ0nfu13Mfc48LuH4jO7cMUACHfdCxDvsXHn/p46nGJrH
-	c/rOoomc1shDIAUDw6vwGwQdC/IlvIBLh1v+JRyE=
+	b=q4k1GU1DH4aJNt5ax34tXvn2EuLMi+BVwVufL7iQ6vdNu6u3k86a/mM38oAlnvHho
+	F2T7capDVks/rgHeXHPUDxsYaCBq5exQCy0JteXpC+jvhTW+mMvp9UnFQNoCwca5Wb
+	tUgtmF2dDh6v0m6JWXPnCBPgb4rH0ztjW1+UhJuc=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Date: Fri,  2 Aug 2019 09:24:13 -0400
-Message-Id: <20190802132422.13963-21-sashal@kernel.org>
+Date: Fri,  2 Aug 2019 09:25:39 -0400
+Message-Id: <20190802132547.14517-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190802132422.13963-1-sashal@kernel.org>
-References: <20190802132422.13963-1-sashal@kernel.org>
+In-Reply-To: <20190802132547.14517-1-sashal@kernel.org>
+References: <20190802132547.14517-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -74,7 +74,7 @@ Cc: Jens Axboe <axboe@kernel.dk>, Sasha Levin <sashal@kernel.org>,
 	Kees Cook <keescook@chromium.org>, Arnd Bergmann <arnd@arndb.de>,
 	linux-block@vger.kernel.org, clang-built-linux@googlegroups.com,
 	Roland Kammerer <roland.kammerer@linbit.com>, drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH AUTOSEL 4.14 21/30] drbd: dynamically allocate
+Subject: [Drbd-dev] [PATCH AUTOSEL 4.9 15/22] drbd: dynamically allocate
 	shash descriptor
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
@@ -119,10 +119,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 12 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd_receiver.c
-index 1aad373da50e2..8fbdfaacc2226 100644
+index 83957a1e15ed7..8e8e4ccb128f3 100644
 --- a/drivers/block/drbd/drbd_receiver.c
 +++ b/drivers/block/drbd/drbd_receiver.c
-@@ -5237,7 +5237,7 @@ static int drbd_do_auth(struct drbd_connection *connection)
+@@ -5297,7 +5297,7 @@ static int drbd_do_auth(struct drbd_connection *connection)
  	unsigned int key_len;
  	char secret[SHARED_SECRET_MAX]; /* 64 byte */
  	unsigned int resp_size;
@@ -131,7 +131,7 @@ index 1aad373da50e2..8fbdfaacc2226 100644
  	struct packet_info pi;
  	struct net_conf *nc;
  	int err, rv;
-@@ -5250,6 +5250,13 @@ static int drbd_do_auth(struct drbd_connection *connection)
+@@ -5310,6 +5310,13 @@ static int drbd_do_auth(struct drbd_connection *connection)
  	memcpy(secret, nc->shared_secret, key_len);
  	rcu_read_unlock();
  
@@ -145,7 +145,7 @@ index 1aad373da50e2..8fbdfaacc2226 100644
  	desc->tfm = connection->cram_hmac_tfm;
  	desc->flags = 0;
  
-@@ -5392,7 +5399,10 @@ static int drbd_do_auth(struct drbd_connection *connection)
+@@ -5452,7 +5459,10 @@ static int drbd_do_auth(struct drbd_connection *connection)
  	kfree(peers_ch);
  	kfree(response);
  	kfree(right_response);
