@@ -2,62 +2,61 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail09.linbit.com (mail09.linbit.com [212.69.161.110])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB217892DC
-	for <lists+drbd-dev@lfdr.de>; Sun, 11 Aug 2019 19:27:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A257C896A7
+	for <lists+drbd-dev@lfdr.de>; Mon, 12 Aug 2019 07:18:09 +0200 (CEST)
 Received: from mail09.linbit.com (localhost [127.0.0.1])
-	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 62E6B101AC47;
-	Sun, 11 Aug 2019 19:27:25 +0200 (CEST)
+	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 8B5AF101AC47;
+	Mon, 12 Aug 2019 07:18:07 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 433 seconds by postgrey-1.31 at mail09;
-	Sun, 11 Aug 2019 19:27:23 CEST
-Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
-	[209.85.210.66])
-	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id 32E9E101AC43
-	for <drbd-dev@lists.linbit.com>; Sun, 11 Aug 2019 19:27:23 +0200 (CEST)
-Received: by mail-ot1-f66.google.com with SMTP id f17so15700697otq.4
-	for <drbd-dev@lists.linbit.com>; Sun, 11 Aug 2019 10:27:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=to:from:subject:organization:message-id:date:user-agent
-	:mime-version:content-language:content-transfer-encoding;
-	bh=HpokpEjjjqnXXjPu+7DzoIea/jbaytYNoPj861JGVMU=;
-	b=VHGd/G5jdywT7K7/JFBl4O4vj8HKRo7hYB5cFVnE47zQJ7SI0BmCrsGkH4KAw1uxay
-	DM/JTfTVGj/PY4+GnKRTBB250s/NIFWvPH0tbIQvJeRoiRC+kWH7zsYufnNL9hPgv76M
-	ENxe+CXqHDy/64dnnxKaMEo8DaU4xEf4/mwsv8flsy5mkYYKJWros+NCSuv79cs8jfCv
-	YSoP44Bxrlzu36tmwd8dWh8Nb+ASVNeRIpsAXkDNf+XrZRYzmkMjtRsqpc4CKU6djV6H
-	wVgldXnUCP8FKhr5je0016DchWX0/4w7f7hotksXFdLMtTeoAMncR4yzR5Tjoj6aNIha
-	gSwQ==
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail09.linbit.com (LINBIT Mail Daemon) with ESMTP id BB22E101AC44
+	for <drbd-dev@lists.linbit.com>; Mon, 12 Aug 2019 07:18:05 +0200 (CEST)
+Received: by mail-wr1-f65.google.com with SMTP id 31so103481213wrm.1
+	for <drbd-dev@lists.linbit.com>; Sun, 11 Aug 2019 22:18:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linbit-com.20150623.gappssmtp.com; s=20150623;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=de1+6jkKy1tI8HI9X1bxXTNN8xwWcktKvrx/tWqPhWk=;
+	b=SfHtUR7JBxbNpjZBtHw0aQ3j08Ul6evLkBRDMIwFY1Gia2FlwVhJbU4QeZOTopZW3j
+	9XUbxPwBFtMfz1IUpzrlDFHeUga0jq0YRGrAgHZNYmWm/z9H8nt4EZ8spC6JUryMajPZ
+	8RElL5pHWeDaOOOvM3oCQQT1Dmcpt913HSqKlVj6RpDxQw8vbvgXCuz/gSatKQp4lMD9
+	2+EQr0lj1MEwShALSfw4E3zLDXd0l+SDBY0g3b8K851U6pcCobFF/PgWGDtZ5an1EkjO
+	KRqPMe070Uu7RZx7Krg7GncaVHhBDgGjctwKfIdON/e2Y8xLmMWlyQzLjCIRFadkWLQ1
+	q+Fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:to:from:subject:organization:message-id:date
-	:user-agent:mime-version:content-language:content-transfer-encoding;
-	bh=HpokpEjjjqnXXjPu+7DzoIea/jbaytYNoPj861JGVMU=;
-	b=a+FHh3/k7QfiZ1c9LbD5EtIgBDQ6EWBVYZ8bf1U3nEkTFd2CjJ9QG+QAOJ564pqG1f
-	OiMfkgVGZzyjA1LUnyeT6FKDLhvPSYmH2QM28zx5T5KcSHuUMkrKlj8L1//rolxvNUbt
-	2CJKF6mtyPVE/50HhTYIiidlRDHWntw86dyTy2HiRjUy7ylqg5hne0WMBy9ouaHpcq+D
-	SGPaWxQu1T+L6AkqfRw5I7y8gdgBD6LIQA7zpbjIurY+vZ9fYxLvLVhAonpU0A++vDB0
-	5D0vAFoaDwLXW6MEmWMhPBj3xoHzxKg0z2EvK5mMp/+Nzq1q2pju9uklyJER/C9FmszG
-	hyeA==
-X-Gm-Message-State: APjAAAX0JUtX4c4ouIQmM73e/rYveDHhYgzzkiuSW8QcL9YadcTFFjKy
-	yYGMuOupIP9B6tijNTJCRtE=
-X-Google-Smtp-Source: APXvYqxZ3Cr84kNpiCpWdigHsSoIoLM69+xytJzoMBVXxAoCbL8h2/7u6RtgLrEh/DPNie/Wi6emUg==
-X-Received: by 2002:a02:3e86:: with SMTP id s128mr5123072jas.14.1565544008970; 
-	Sun, 11 Aug 2019 10:20:08 -0700 (PDT)
-Received: from [192.168.1.20] (c-73-78-150-191.hsd1.co.comcast.net.
-	[73.78.150.191]) by smtp.gmail.com with ESMTPSA id
-	h8sm95054882ioq.61.2019.08.11.10.20.07
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 11 Aug 2019 10:20:08 -0700 (PDT)
-To: drbd-dev@lists.linbit.com, christoph.boehmwalder@linbit.com
-From: David Butterfield <dab21774@gmail.com>
-Organization: PGP: 70C7 0309 E859 40AB 4D1F CDC5 F7CE 9A64 95EB 9D1B
-Message-ID: <1bc428a7-2cab-fba7-f521-d96ba1f6c7df@gmail.com>
-Date: Sun, 11 Aug 2019 11:20:04 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.8.0
+	h=x-gm-message-state:date:from:to:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=de1+6jkKy1tI8HI9X1bxXTNN8xwWcktKvrx/tWqPhWk=;
+	b=WwSSH89p5al7hyYPtvgp0/smdmR3z6n/6BPygcM36niavtkLr59eZ0xgKpD7a3BO+X
+	bUZxbXbPgOiDTlVy0ZIhNIHsks3Tn6NncS8h0nlUw1spJOH4Bs7k/872QwA55TdryAz6
+	S5ig6V+tIJVHh+Kc3cdgRtKBoKZ36jpAvOWJMEBh5XBNChkEbgT0sQdh9VVZ9BvyTJjW
+	UXHlydrnaNqiasm2hgqVzVlgiQr8+95LuVUDXH/v+3xTrzFx5/mig29bnENhrHTKxY3o
+	dxNGj5oVpc/fzg+H+LT7pJX9q0toNGwn7PRnlMcQNC9RffYuYa6QcR8XnNFe7UknAfQc
+	nw2g==
+X-Gm-Message-State: APjAAAXTjXUOyeSMlJ4KZSwifYFEdbgvVtwcRsaEAh4ied5xuRUzzHOo
+	mnv0D65fXgZHt+gwqtAw+fWgIlH86/b4paul
+X-Google-Smtp-Source: APXvYqzGkfMYVeGUM5AIfWZvtCtRXS7BQ4HcdobD9LU/fdcJiCOxjgWLmNpHNlaBWxsZrXhHRkTrdg==
+X-Received: by 2002:adf:fe0b:: with SMTP id n11mr19354364wrr.243.1565587084644;
+	Sun, 11 Aug 2019 22:18:04 -0700 (PDT)
+Received: from localhost (static.20.139.203.116.clients.your-server.de.
+	[116.203.139.20]) by smtp.gmail.com with ESMTPSA id
+	s25sm9877579wmc.21.2019.08.11.22.18.03
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Sun, 11 Aug 2019 22:18:04 -0700 (PDT)
+Date: Mon, 12 Aug 2019 07:18:03 +0200
+From: Roland Kammerer <roland.kammerer@linbit.com>
+To: drbd-dev@lists.linbit.com
+Message-ID: <20190812051803.pkmmm5ize2f2plki@rck.sh>
+References: <1bc428a7-2cab-fba7-f521-d96ba1f6c7df@gmail.com>
 MIME-Version: 1.0
-Content-Language: en-US
-Subject: [Drbd-dev] using new cocci config on older kernels
+Content-Disposition: inline
+In-Reply-To: <1bc428a7-2cab-fba7-f521-d96ba1f6c7df@gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+Subject: Re: [Drbd-dev] using new cocci config on older kernels
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -71,104 +70,32 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <http://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-SW4gZHJiZC05LjAvZHJiZCwgdXNpbmcgdGhlIEF1Z3VzdCAyIGNoZWNraW4gIlByZXBhcmUgMTAu
-MC4wYTEiOgpJIHRyaWVkIGJ1aWxkaW5nIHdpdGggYSBmZXcgZGlmZmVyZW50IGtlcm5lbCB2ZXJz
-aW9ucywgdXNpbmcgY29tbWFuZHMgb2YgdGhlIGZvcm0gKGUuZy4pOgogICAgd2dldCBodHRwczov
-L2Nkbi5rZXJuZWwub3JnL3B1Yi9saW51eC9rZXJuZWwvdjMueC9saW51eC0zLjQuMTEzLnRhci5n
-egogICAgLi4uCiAgICBtYWtlIGNsZWFuOyBtYWtlIC1pIEtESVI9bGludXgtMy40LjExMwoKRmly
-c3QgcXVlc3Rpb24gaXMgd2hldGhlciBJIHNob3VsZCBiZSBleHBlY3RpbmcgdGhhdCB0byB3b3Jr
-IGFsbCB0aGUgd2F5IGJhY2sgdG8gdGhlCmV4cGVjdGVkIERSQkQgbGltaXQgb2YgMi42LjMyLCBv
-ciBpZiB0aGUgbGltaXQgaGFzIChpbnRlbnRpb25hbGx5KSBiZWVuIGNoYW5nZWQ/CgpCdWlsZHMg
-d2l0aCB0aGVzZSBLRElScyBzaG93IG5vIGVycm9yczoKCQkgICBsaW51eC00LjIwLjE3CgkJICAg
-bGludXgtMy4xOS44CgpCYWNrIGFzIGZhciBhcyBsaW51eC0yLjYuMzkuNCwgdGhlIGZpcnN0IHNp
-eCBlcnJvcnMgYmVsb3cgYWNjdW11bGF0ZS4gIFRoYXQganVtcHMgdG8KMzMgZXJyb3JzIHdoZW4g
-cmVhY2hpbmcgYWxsIHRoZSB3YXkgdG8gdGhlIDIuNi4zMiBEUkJEIGxpbWl0ICh0aG91Z2ggbW9z
-dCBvZiB0aGVtIGFyZQpjb25jZW50cmF0ZWQgaW4gYSBmZXcgZ3JvdXBzIG9mIGZ1bmN0aW9ucyku
-CgpUaGUgZmlyc3QgdHdvIGVycm9ycyBsaXN0ZWQgKGNoZWNrL3VwZGF0ZSBwbHVnZ2VkKSBnbyBh
-d2F5IGJ5IGFkZGluZyBicmFjZXMgdG8gdGhlCnNvdXJjZSBjb2RlIHNvIHRoYXQgaXQgbWF0Y2hl
-cyBvbmUgb2YgdGhlIGNvY2NpIHBhdHRlcm5zIChkZXRhaWwgYXQgZW5kIG9mIG1lc3NhZ2UpLgoK
-VGhlIHRoaXJkIG9uZSBpcyB0aGF0IGRyYmRfaW50ZXJ2YWwuYyBhcHBlYXJzIHRvIHVuY29uZGl0
-aW9uYWxseSAjaW5jbHVkZQpsaW51eC9yYnRyZWVfYXVnbWVudGVkLmggKGFuZCB1c2UgcmJfaW5z
-ZXJ0X2F1Z21lbnRlZC9yYl9lcmFzZV9hdWdtZW50ZWQpLCB3aGV0aGVyIG9yCm5vdCB0aGUgc2Vs
-ZWN0ZWQgS0RJUiBoYXMgdGhhdCBmaWxlIGFuZCB0aG9zZSBmdW5jdGlvbnMuICAyLjYuMzIgZG9l
-cyBub3QgaGF2ZSB0aGVtLgoKZHJiZF9yZXEuYzoxODA5OjMxOiBlcnJvcjogaW1wbGljaXQgZGVj
-bGFyYXRpb24gb2YgZnVuY3Rpb24g4oCYZHJiZF9jaGVja19wbHVnZ2Vk4oCZIChGSVggQkVMT1cp
-CmRyYmRfcmVxLmM6MTgxMTo0OiBlcnJvcjogaW1wbGljaXQgZGVjbGFyYXRpb24gb2YgZnVuY3Rp
-b24g4oCYZHJiZF91cGRhdGVfcGx1Z+KAmQkgKEZJWCBCRUxPVykKZHJiZF9pbnRlcnZhbC5jOjI6
-MTA6IGZhdGFsIGVycm9yOiBsaW51eC9yYnRyZWVfYXVnbWVudGVkLmg6IE5vIHN1Y2ggZmlsZSBv
-ciBkaXJlY3RvcnkKZHJiZF9yZWNlaXZlci5jOjEzMTk6MTU6IGVycm9yOiBpbXBsaWNpdCBkZWNs
-YXJhdGlvbiBvZiBmdW5jdGlvbiDigJhiZGV2X2Rpc2NhcmRfYWxpZ25tZW504oCZCgoJCSAgICBs
-aW51eC0zLjQuMTEzCTQgZXJyb3JzIHNob3duIGFib3ZlIGFwcGVhciBpbiB0aGlzIGJ1aWxkCgpk
-cmJkX2RlYnVnZnMuYzo0Mzk6MjI6IGVycm9yOiBpbXBsaWNpdCBkZWNsYXJhdGlvbiBvZiBmdW5j
-dGlvbiDigJhrcmVmX2dldF91bmxlc3NfemVyb+KAmQoKCQkgICAgbGludXgtMy4zLjgJCTUgZXJy
-b3JzIHNob3duIGFib3ZlIGFwcGVhciBpbiB0aGlzIGJ1aWxkCgpkcmJkX25sLmM6MjAyNzozOiBl
-cnJvcjogaW1wbGljaXQgZGVjbGFyYXRpb24gb2YgZnVuY3Rpb24g4oCYYmxrX3NldF9zdGFja2lu
-Z19saW1pdHPigJkKCgkJICAgIDFpbnV4LTMuMC4xCQk2IGVycm9ycyBzaG93biBhYm92ZSBhcHBl
-YXIgaW4gdGhpcyBidWlsZAoJCSAgICBsaW51eC0yLjYuMzkuNAk2IGVycm9ycyBzaG93biBhYm92
-ZSBhcHBlYXIgaW4gdGhpcyBidWlsZAoKZHJiZF9ubC5jOjE5MjE6MTE6IGVycm9yOiDigJhzdHJ1
-Y3QgcXVldWVfbGltaXRz4oCZIGhhcyBubyBtZW1iZXIgbmFtZWQg4oCYZGlzY2FyZF9ncmFudWxh
-cml0eeKAmQpkcmJkX3JlY2VpdmVyLmM6MTMxODoyOTogZXJyb3I6IOKAmHN0cnVjdCBxdWV1ZV9s
-aW1pdHPigJkgaGFzIG5vIG1lbWJlciBuYW1lZCDigJhkaXNjYXJkX2dyYW51bGFyaXR54oCZCgpk
-cmJkX2JpdG1hcC5jOjUwMDozOiBlcnJvcjog4oCYa3VubWFwX2F0b21pY+KAmSB1bmRlY2xhcmVk
-IChmaXJzdCB1c2UgaW4gdGhpcyBmdW5jdGlvbikKZHJiZF9tYWluLmM6MTk4MzoyOiBlcnJvcjog
-4oCYa3VubWFwX2F0b21pY+KAmSB1bmRlY2xhcmVkIChmaXJzdCB1c2UgaW4gdGhpcyBmdW5jdGlv
-bikKZHJiZF9zZW5kZXIuYzoxMzQ1OjU6IGVycm9yOiDigJhrdW5tYXBfYXRvbWlj4oCZIHVuZGVj
-bGFyZWQgKGZpcnN0IHVzZSBpbiB0aGlzIGZ1bmN0aW9uKQpkcmJkX2JpdG1hcC5jOjUwMDoyMTog
-ZXJyb3I6IG1hY3JvICJrdW5tYXBfYXRvbWljIiByZXF1aXJlcyAyIGFyZ3VtZW50cywgYnV0IG9u
-bHkgMSBnaXZlbgpkcmJkX21haW4uYzoxOTgzOjI1OiBlcnJvcjogbWFjcm8gImt1bm1hcF9hdG9t
-aWMiIHJlcXVpcmVzIDIgYXJndW1lbnRzLCBidXQgb25seSAxIGdpdmVuCmRyYmRfc2VuZGVyLmM6
-MTM0NToyMDogZXJyb3I6IG1hY3JvICJrdW5tYXBfYXRvbWljIiByZXF1aXJlcyAyIGFyZ3VtZW50
-cywgYnV0IG9ubHkgMSBnaXZlbgpkcmJkX3JlY2VpdmVyLmM6ODQ0OjEzOiBlcnJvcjog4oCYc3Ry
-dWN0IHRhc2tfc3RydWN04oCZIGhhcyBubyBtZW1iZXIgbmFtZWQg4oCYcGx1Z+KAmQpkcmJkX2Jp
-dG1hcC5jOjQ5MjoxMDogZXJyb3I6IHRvbyBmZXcgYXJndW1lbnRzIHRvIGZ1bmN0aW9uIOKAmGtt
-YXBfYXRvbWlj4oCZCmRyYmRfbWFpbi5jOjE5ODE6MTQ6IGVycm9yOiB0b28gZmV3IGFyZ3VtZW50
-cyB0byBmdW5jdGlvbiDigJhrbWFwX2F0b21pY+KAmQpkcmJkX3NlbmRlci5jOjEzNDI6NzogZXJy
-b3I6IHRvbyBmZXcgYXJndW1lbnRzIHRvIGZ1bmN0aW9uIOKAmGttYXBfYXRvbWlj4oCZCgpkcmJk
-X2RlYnVnZnMuYzo2NzI6NjogZXJyb3I6IGltcGxpY2l0IGRlY2xhcmF0aW9uIG9mIGZ1bmN0aW9u
-IOKAmElTX0VSUl9PUl9OVUxM4oCZCmRyYmRfcmVxLmM6MTkxMjo2OiBlcnJvcjogaW1wbGljaXQg
-ZGVjbGFyYXRpb24gb2YgZnVuY3Rpb24g4oCYSVNfRVJSX09SX05VTEzigJkKCmRyYmRfbWFpbi5j
-OjEyMzo3OiBlcnJvcjogaW1wbGljaXQgZGVjbGFyYXRpb24gb2YgZnVuY3Rpb24g4oCYa3N0cnRv
-dWxs4oCZCgpkcmJkX2RlYnVnZnMuYzoxMDU3OjQ6IGVycm9yOiBpbXBsaWNpdCBkZWNsYXJhdGlv
-biBvZiBmdW5jdGlvbiDigJhrdGltZV90b19tc+KAmQoKZHJiZF9tYWluLmM6MTQyNDozOiBlcnJv
-cjogaW1wbGljaXQgZGVjbGFyYXRpb24gb2YgZnVuY3Rpb24g4oCYbG9ja2RlcF9pc19oZWxk4oCZ
-CmRyYmRfbmwuYzozNDQ0Ojk6IGVycm9yOiBpbXBsaWNpdCBkZWNsYXJhdGlvbiBvZiBmdW5jdGlv
-biDigJhsb2NrZGVwX2lzX2hlbGTigJkKZHJiZF9yZWNlaXZlci5jOjQzMzU6NTogZXJyb3I6IGlt
-cGxpY2l0IGRlY2xhcmF0aW9uIG9mIGZ1bmN0aW9uIOKAmGxvY2tkZXBfaXNfaGVsZOKAmQoKZHJi
-ZF9tYWluLmM6MTQyMzo4OiBlcnJvcjogaW1wbGljaXQgZGVjbGFyYXRpb24gb2YgZnVuY3Rpb24g
-4oCYcmN1X2RlcmVmZXJlbmNlX3Byb3RlY3RlZOKAmQpkcmJkX25sLmM6MzQ0MzoxMzogZXJyb3I6
-IGltcGxpY2l0IGRlY2xhcmF0aW9uIG9mIGZ1bmN0aW9uIOKAmHJjdV9kZXJlZmVyZW5jZV9wcm90
-ZWN0ZWTigJkKZHJiZF9yZWNlaXZlci5jOjQzMzQ6MTQ6IGVycm9yOiBpbXBsaWNpdCBkZWNsYXJh
-dGlvbiBvZiBmdW5jdGlvbiDigJhyY3VfZGVyZWZlcmVuY2VfcHJvdGVjdGVk4oCZCgpkcmJkX2Jp
-dG1hcC5jOjUzMzoxMTogZXJyb3I6IGltcGxpY2l0IGRlY2xhcmF0aW9uIG9mIGZ1bmN0aW9uIOKA
-mF9fdGVzdF9hbmRfY2xlYXJfYml0X2xl4oCZCmRyYmRfYml0bWFwLmM6NTM3OjEyOiBlcnJvcjog
-aW1wbGljaXQgZGVjbGFyYXRpb24gb2YgZnVuY3Rpb24g4oCYX190ZXN0X2FuZF9zZXRfYml0X2xl
-4oCZCmRyYmRfYml0bWFwLmM6NTQxOjExOiBlcnJvcjogaW1wbGljaXQgZGVjbGFyYXRpb24gb2Yg
-ZnVuY3Rpb24g4oCYdGVzdF9iaXRfbGXigJkKZHJiZF9iaXRtYXAuYzo1NTk6MTM6IGVycm9yOiBp
-bXBsaWNpdCBkZWNsYXJhdGlvbiBvZiBmdW5jdGlvbiDigJhmaW5kX25leHRfYml0X2xl4oCZCmRy
-YmRfYml0bWFwLmM6NTY1OjEzOiBlcnJvcjogaW1wbGljaXQgZGVjbGFyYXRpb24gb2YgZnVuY3Rp
-b24g4oCYZmluZF9uZXh0X3plcm9fYml0X2xl4oCZCgoJCSAgbGludXgtMi42LjMyLjI3ICAgICAg
-IDMzIGVycm9ycyBzaG93biBhYm92ZSBhcHBlYXIgaW4gdGhpcyBidWlsZAoKPT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KQWRkIGJyYWNlcyBpbiBkcmJkX3JlcS5jIHRv
-IG1hdGNoIHRoZSBjb2NjaSBydWxlIGluIGJsa19jaGVja19wbHVnZ2VkX19ub19wcmVzZW50LmNv
-Y2NpLCByaWdodD8KT3RoZXJ3aXNlIHRoZSByZWZlcmVuY2VzIHRvIGRyYmRfY2hlY2tfcGx1Z2dl
-ZCBhbmQgZHJiZF91cGRhdGVfcGx1ZyBkb24ndCBnZXQgcmVtb3ZlZCBieSB0aGUgcGF0Y2guCgpk
-aWZmIC0tZ2l0IGEvZHJiZC9kcmJkX3JlcS5jIGIvZHJiZC9kcmJkX3JlcS5jCkBAIC0xODYwLDgg
-KzE4NjAsOSBAQCBzdGF0aWMgdm9pZCBkcmJkX3NlbmRfYW5kX3N1Ym1pdChzdHJ1Y3QgZHJiZF9k
-ZXZpY2UgKmRldmljZSwgc3RydWN0IGRyYmRfcmVxdWVzdAogCiAgICAgICAgaWYgKG5vX3JlbW90
-ZSA9PSBmYWxzZSkgewogICAgICAgICAgICAgICAgc3RydWN0IGRyYmRfcGx1Z19jYiAqcGx1ZyA9
-IGRyYmRfY2hlY2tfcGx1Z2dlZChyZXNvdXJjZSk7Ci0gICAgICAgICAgICAgICBpZiAocGx1ZykK
-KyAgICAgICAgICAgICAgIGlmIChwbHVnKSB7CiAgICAgICAgICAgICAgICAgICAgICAgIGRyYmRf
-dXBkYXRlX3BsdWcocGx1ZywgcmVxKTsKKyAgICAgICAgICAgICAgIH0KICAgICAgICB9CiAKICAg
-ICAgICAvKiBJZiBpdCB0b29rIHRoZSBmYXN0IHBhdGggaW4gZHJiZF9yZXF1ZXN0X3ByZXBhcmUs
-IGFkZCBpdCBoZXJlLgoKPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0K
-Y29jY2kvYmxrX2NoZWNrX3BsdWdnZWRfX25vX3ByZXNlbnQuY29jY2kKQEAKaWRlbnRpZmllciBw
-bDsKQEAKLWlmKC4uLikgewotCXN0cnVjdCBkcmJkX3BsdWdfY2IgKnBsID0gLi4uOwotCWlmKHBs
-KSB7Ci0JCS4uLgotCX0KLX0KPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJiZC1k
-ZXYgbWFpbGluZyBsaXN0CmRyYmQtZGV2QGxpc3RzLmxpbmJpdC5jb20KaHR0cDovL2xpc3RzLmxp
-bmJpdC5jb20vbWFpbG1hbi9saXN0aW5mby9kcmJkLWRldgo=
+On Sun, Aug 11, 2019 at 11:20:04AM -0600, David Butterfield wrote:
+> In drbd-9.0/drbd, using the August 2 checkin "Prepare 10.0.0a1":
+> I tried building with a few different kernel versions, using commands of the form (e.g.):
+>     wget https://cdn.kernel.org/pub/linux/kernel/v3.x/linux-3.4.113.tar.gz
+>     ...
+>     make clean; make -i KDIR=linux-3.4.113
+> 
+> First question is whether I should be expecting that to work all the way back to the
+> expected DRBD limit of 2.6.32, or if the limit has (intentionally) been changed?
+
+No. With DRBD10 we will give up RHEL6 kernels. From a quick look at the
+build matrix, RHEL7 then has the oldest kernel we will support.
+
+All in all the build magic/compat, especially for HEAD (which is the dev
+branch for 10; there is also a stable one for 9.0.X) needs some love.
+
+So yeah, thanks, but for now play with something else, it will make you
+happier :D
+
+Regards, rck
+_______________________________________________
+drbd-dev mailing list
+drbd-dev@lists.linbit.com
+http://lists.linbit.com/mailman/listinfo/drbd-dev
