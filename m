@@ -1,100 +1,65 @@
 Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
-Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6628CBC4C2
-	for <lists+drbd-dev@lfdr.de>; Tue, 24 Sep 2019 11:24:32 +0200 (CEST)
+Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FBB3F4500
+	for <lists+drbd-dev@lfdr.de>; Fri,  8 Nov 2019 11:51:45 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 132A34203C2;
-	Tue, 24 Sep 2019 11:24:31 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 8D3894203DB;
+	Fri,  8 Nov 2019 11:51:43 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 3556 seconds by postgrey-1.31 at mail19;
-	Tue, 24 Sep 2019 11:24:28 CEST
-Received: from m9a0003g.houston.softwaregrp.com
-	(m9a0003g.houston.softwaregrp.com [15.124.64.68])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 776634200BE
-	for <drbd-dev@lists.linbit.com>; Tue, 24 Sep 2019 11:24:28 +0200 (CEST)
-Received: FROM m9a0003g.houston.softwaregrp.com (15.121.0.190) BY
-	m9a0003g.houston.softwaregrp.com WITH ESMTP
-	FOR drbd-dev@lists.linbit.com; Tue, 24 Sep 2019 09:23:49 +0000
-Received: from M9W0067.microfocus.com (2002:f79:be::f79:be) by
-	M9W0067.microfocus.com (2002:f79:be::f79:be) with Microsoft SMTP Server
-	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
-	15.1.1591.10; Tue, 24 Sep 2019 07:37:38 +0000
-Received: from NAM01-SN1-obe.outbound.protection.outlook.com (15.124.72.10) by
-	M9W0067.microfocus.com (15.121.0.190) with Microsoft SMTP Server
-	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
-	15.1.1591.10 via Frontend Transport; Tue, 24 Sep 2019 07:37:38 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
-	b=oKDtTdOzG6Q+p6pA0Xl53wLBKIFQ8pVAwXdawgMF6yhnZ8izvhSi4VLYCpw30j/DGJdzNsEEP7Xes9dcRuYlyZEyUxDOtgx3t3To7F0YMH9zxfoBBCoWs94MpOnD+wHSkdTEJR9eIn6v8RNk7LjPZmsnWNg9TaLAxz85seHLQAJeowXglzV9Mqa2ntfYbo6kmQ8oYYEEevI2j6nVYkkIE/q0C07z78NG4K2B2UzYZhzH9a7XeYdB1LqJv20QlCE3k6Axx3pG0hfJzVr8NgtOfvpj8dtJtJdCgCS/jY3NGZfekvORRej9eloKiHKPrjpL6Ii2avR9PORbzNlo2THgYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
-	s=arcselector9901;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=7d9gmfwNCjax8/EeZM3ZWMmDGv/PW4Z2+qLdzu9NOJE=;
-	b=OsK64KdIwBBchn+fl8X85Ief71Q3tF07atr8Z/s4G5+2zSB4J+As6s6bY/SE6O5/Ic6Z56vDaqwmARDe/2u7d66kjyaQcm5CWEQh2dvViqZfy72CAJbuD/5ID5IDKWE/zCREx6XV9QKvylIRwptkGeLR5Fz93vqN/PMoWhctJP+vEIPKHOB0gLs43iK/l0v6+Jm2uWx5ZQVQ6Izjnb4/OXzuTdI+1M1faIqmSotDHMM3vc/rmQ5UhfxZJxgBRfuod5tT1y3OykPqTTQg6l+g+Ao90zp8Q+NOEFOu/lB54Yn632bL2fxSnCigk/LPIJxjTtUP606yAtHTpAGsA7QEQw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
-	smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
-	dkim=pass header.d=suse.com; arc=none
-Received: from DM6PR18MB3370.namprd18.prod.outlook.com (10.255.174.147) by
-	DM6PR18MB2619.namprd18.prod.outlook.com (20.179.106.206) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.2284.19; Tue, 24 Sep 2019 07:37:37 +0000
-Received: from DM6PR18MB3370.namprd18.prod.outlook.com
-	([fe80::15c2:9292:51b1:b848]) by
-	DM6PR18MB3370.namprd18.prod.outlook.com
-	([fe80::15c2:9292:51b1:b848%7]) with mapi id 15.20.2284.023;
-	Tue, 24 Sep 2019 07:37:37 +0000
-From: Nick Wang <NWang@suse.com>
-To: "drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>
-Thread-Topic: [PATCH] pacemaker: fix the outdate return value of updating cib
-Thread-Index: AQHVcqrv/L3VTq6P6ki6HFVGHEvYMQ==
-Date: Tue, 24 Sep 2019 07:37:37 +0000
-Message-ID: <20190924073719.9240-1-nwang@suse.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: SG2PR06CA0211.apcprd06.prod.outlook.com
-	(2603:1096:4:68::19) To DM6PR18MB3370.namprd18.prod.outlook.com
-	(2603:10b6:5:1cb::19)
-authentication-results: spf=none (sender IP is ) smtp.mailfrom=NWang@suse.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: git-send-email 2.16.4
-x-originating-ip: [45.122.156.254]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 687b7906-3d73-42f9-8dce-08d740c21214
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(5600167)(711020)(4605104)(1401327)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);
-	SRVR:DM6PR18MB2619; 
-x-ms-traffictypediagnostic: DM6PR18MB2619:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM6PR18MB2619EEEEED44D92061F4D5E7D4840@DM6PR18MB2619.namprd18.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4941;
-x-forefront-prvs: 0170DAF08C
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(4636009)(39860400002)(136003)(376002)(366004)(396003)(346002)(199004)(189003)(476003)(14444005)(80792005)(2501003)(71200400001)(186003)(4326008)(256004)(2351001)(386003)(6436002)(8936002)(2906002)(66446008)(66476007)(6506007)(64756008)(66556008)(66946007)(107886003)(8676002)(6916009)(316002)(81166006)(81156014)(66066001)(5640700003)(99286004)(71190400001)(6512007)(26005)(478600001)(50226002)(52116002)(3846002)(14454004)(36756003)(54906003)(25786009)(4744005)(86362001)(486006)(102836004)(6116002)(2616005)(5660300002)(7736002)(6486002)(1076003)(305945005);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:DM6PR18MB2619;
-	H:DM6PR18MB3370.namprd18.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: suse.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 8UOeZHhSaDMR/n1xpwOAbb5sEtnFSTNeRpVV7Fdb/vfKMed7dBDCt7oQ4+Gc5DnnLdZN8gHUj6VZVaW/+lq27SqA3joz0kyU5KyStYB9kED1K2DDOFk1URwyS9rX2G4kA0cPfoEDUOZv7+o4A592nzufczuRZcji7bzV+GUonO1doouoAA6hU5HqqAWf/BUn43eJvYNzyt2a85BTg9STrD97aBSvXqDAOrigHxVGlkfx7LMwbldyLZEmd42oTTuBLpUyCazXGJcYZSbaoH3sFwb+XTMi3YVXwt8vLslBBD+OkG4DT2ziYHTbnji97+pCYNbJ/oNdULbk+sAFd90eFXr38c1txjqAhLN1hv03xUdgEREY7lGhs7tgvo5KInB4q/JGf2a/0Ohw42ld+mSadaW4j2Y6TfdOhVY4odpSxEM=
+X-Greylist: delayed 337 seconds by postgrey-1.31 at mail19;
+	Fri, 08 Nov 2019 11:51:41 CET
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 01D3C420342
+	for <drbd-dev@lists.linbit.com>; Fri,  8 Nov 2019 11:51:41 +0100 (CET)
+Received: by mail-wm1-f65.google.com with SMTP id z19so5709267wmk.3
+	for <drbd-dev@lists.linbit.com>; Fri, 08 Nov 2019 02:51:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linbit-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=4CBruAMCJFKMfos8U5j6/UiYgs9P6E1HnVdReKS3MqA=;
+	b=Q0cF/YSotKrJUQ00DzbNcgg5SFbACXfUSdCuM5kA3+CYUIWwO5opO0zdGQNlY205VJ
+	MVromrhVqva64s7XtAeEGcDIxDI1qT4LP5+BWk5LLYfztAWH9P3AJx6YJoSobBT4k9Bf
+	lcgblIAZmwVazUM3hlKgNWpwpk7yy8n5m47IVr9b+5h0pL3mHHzFp8mLJdH5xXnPZOX7
+	QdAFOo3J9WRWmwwVDstsCrJqZVwQpZ4AtGEK1qw1PJrgRin4TH+oywZuAS/l4q48VOCT
+	Z/9s2jq8l2DsTSFH/y1y6uNgDs5rGrGYVM92r0DDh3cgVOitYs4jka6NHdG+6oPDtWkq
+	+0pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=4CBruAMCJFKMfos8U5j6/UiYgs9P6E1HnVdReKS3MqA=;
+	b=JDK2OUe86NJc1jwOIeyPb3ZUvC+NR1Ese0qEECfsjzmpQ7re9yDB7HSuyUevODOGAr
+	UgHRaK7I6Ime7THNo0lHy1EEPAKNdNFqzU1UFXfCbm4J0hlm0+jcf9kAavTPwJUH4ZNN
+	1onSaCvSx07wf5xNEkPhWJIQvIsCe1Bj1c0dkDU7hEt8Sl2NM85YdckaVV7lGA2EU+n8
+	IqM0Ql7wzhaQ+jbnvHfgT4r8TzX9ma8BD/1dHeLub86uukrxPUEjS/mFI33K9pn9t+nZ
+	4zvNFWU8JBUnAMxhJI27OuysNaAGrXT/THogPOcHt5NuQ/MsUGKg1WCLyGkXsKu3jmYK
+	UN9w==
+X-Gm-Message-State: APjAAAULH0D+OXurQCqJlVRUSZ5YI7zaFw8EYihMuhGyPnCK/ipy1fz2
+	JI7okXYvE3BXBGKaKMh/eX91aagI
+X-Google-Smtp-Source: APXvYqz25njYbwovs9pg+pdBGnlz1bVNRBcz/NUAh6IHHrnzt0NMqxeo1MLcjvB3yCr+4j30r7AJSQ==
+X-Received: by 2002:a1c:3d57:: with SMTP id k84mr7225203wma.156.1573209963618; 
+	Fri, 08 Nov 2019 02:46:03 -0800 (PST)
+Received: from fat-tyre.localnet ([2001:858:107:1:a5fe:1d4:97a0:40d8])
+	by smtp.gmail.com with ESMTPSA id y6sm3240108wrr.19.2019.11.08.02.46.01
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 08 Nov 2019 02:46:02 -0800 (PST)
+From: Philipp Reisner <philipp.reisner@linbit.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>, Jens Axboe <axboe@kernel.dk>
+Date: Fri, 08 Nov 2019 11:46:00 +0100
+Message-ID: <6906816.cRlsrm7Sor@fat-tyre>
+In-Reply-To: <20191107074847.GA11695@mwanda>
+References: <20191107074847.GA11695@mwanda>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 687b7906-3d73-42f9-8dce-08d740c21214
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Sep 2019 07:37:37.3460 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 856b813c-16e5-49a5-85ec-6f081e13b527
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: cAfxUWbi6DbjpS2G2Io/clQmB19hXf0osb90UX0mIa/1rh8FYW7IxJ+YFON4kSfI
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR18MB2619
-X-OriginatorOrg: suse.com
-Cc: "lars.ellenberg@linbit.com" <lars.ellenberg@linbit.com>,
-	Nick Wang <NWang@suse.com>
-Subject: [Drbd-dev] [PATCH] pacemaker: fix the outdate return value of
-	updating cib
+Cc: linux-block@vger.kernel.org, Lars Ellenberg <lars.ellenberg@linbit.com>,
+	kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+	drbd-dev@lists.linbit.com
+Subject: Re: [Drbd-dev] [PATCH] block: drbd: remove a stay unlock in
+	__drbd_send_protocol()
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -108,37 +73,87 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-pcmk_err_old_data(205) is internal return value for error
-"Update was older than existing configuration" of cibadmin.
-CRM will return CRM_EX_OLD(103) to fence-peer instead.
+Hi Dan,
 
-Refer to "lib/common/results.c" of pacemaker for the value.
+yes, your patch it obviously correct. The comment you are
+referring to is badly worded. We will remove it.
 
-Signed-off-by: Nick Wang <nwang@suse.com>
----
- scripts/crm-fence-peer.9.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Jens,
 
-diff --git a/scripts/crm-fence-peer.9.sh b/scripts/crm-fence-peer.9.sh
-index 0417c7aa..a4522a2a 100755
---- a/scripts/crm-fence-peer.9.sh
-+++ b/scripts/crm-fence-peer.9.sh
-@@ -146,7 +146,7 @@ create_or_modify_constraint()
- 			break
- 			;;
- 
--		205)	: "205 aka pcmk_err_old_data ==> going to retry in a bit"
-+		103)	: "103 CRM_EX_OLD, aka 205 pcmk_err_old_data ==> going to retry in a bit"
- 			(( $SECONDS >= $timeout )) && break
- 			sleep 1
- 			continue
--- 
-2.16.4
+are you taking this patch as it is?
+
+best regards,
+ Phil
+
+Am Donnerstag, 7. November 2019, 08:48:47 CET schrieb Dan Carpenter:
+> There are two callers of this function and they both unlock the mutex so
+> this ends up being a double unlock.
+> =
+
+> Fixes: 44ed167da748 ("drbd: rcu_read_lock() and rcu_dereference() for
+> tconn->net_conf") Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> ---
+> Static analisys.  Not tested.  There is a comment about the lock next to
+> the caller in drbd_nl.c that I didn't understand:
+> =
+
+> drivers/block/drbd/drbd_nl.c
+>   2509          crypto_free_shash(connection->integrity_tfm);
+>   2510          connection->integrity_tfm =3D crypto.integrity_tfm;
+>   2511          if (connection->cstate >=3D C_WF_REPORT_PARAMS &&
+> connection->agreed_pro_version >=3D 100) 2512                  /* Do this
+> without trying to take connection->data.mutex again.  */
+> ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ What does th=
+is
+> mean?  We're already holding that lock.  We took it near the start of the
+> function.
+> =
+
+>   2513                  __drbd_send_protocol(connection, P_PROTOCOL_UPDAT=
+E);
+> 2514
+>   2515          crypto_free_shash(connection->cram_hmac_tfm);
+>   2516          connection->cram_hmac_tfm =3D crypto.cram_hmac_tfm;
+>   2517
+>   2518          mutex_unlock(&connection->resource->conf_update);
+>   2519          mutex_unlock(&connection->data.mutex);
+>                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> Unlocked here.
+> =
+
+>  drivers/block/drbd/drbd_main.c | 1 -
+>  1 file changed, 1 deletion(-)
+> =
+
+> diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_mai=
+n.c
+> index 5b248763a672..a18155cdce41 100644
+> --- a/drivers/block/drbd/drbd_main.c
+> +++ b/drivers/block/drbd/drbd_main.c
+> @@ -786,7 +786,6 @@ int __drbd_send_protocol(struct drbd_connection
+> *connection, enum drbd_packet cm
+> =
+
+>  	if (nc->tentative && connection->agreed_pro_version < 92) {
+>  		rcu_read_unlock();
+> -		mutex_unlock(&sock->mutex);
+>  		drbd_err(connection, "--dry-run is not supported by peer");
+>  		return -EOPNOTSUPP;
+>  	}
+
+
+-- =
+
+LINBIT | Keeping The Digital World Running
+
+DRBD=AE and LINBIT=AE are registered trademarks of LINBIT, Austria.
+
+
 
 _______________________________________________
 drbd-dev mailing list
