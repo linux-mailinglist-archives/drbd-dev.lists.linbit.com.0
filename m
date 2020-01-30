@@ -2,77 +2,68 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DF7414ABB1
-	for <lists+drbd-dev@lfdr.de>; Mon, 27 Jan 2020 22:34:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4511B14D57D
+	for <lists+drbd-dev@lfdr.de>; Thu, 30 Jan 2020 05:10:32 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id DB4DA420343;
-	Mon, 27 Jan 2020 22:34:52 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0A3DD4203E9;
+	Thu, 30 Jan 2020 05:10:31 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 1971 seconds by postgrey-1.31 at mail19;
-	Mon, 27 Jan 2020 22:34:51 CET
-Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
-	[209.85.208.68])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D4B6D4202F4
-	for <drbd-dev@lists.linbit.com>; Mon, 27 Jan 2020 22:34:51 +0100 (CET)
-Received: by mail-ed1-f68.google.com with SMTP id p23so3604889edr.5
-	for <drbd-dev@lists.linbit.com>; Mon, 27 Jan 2020 13:34:51 -0800 (PST)
+X-Greylist: delayed 317 seconds by postgrey-1.31 at mail19;
+	Thu, 30 Jan 2020 05:10:29 CET
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id F09BE4203E2
+	for <drbd-dev@lists.linbit.com>; Thu, 30 Jan 2020 05:10:29 +0100 (CET)
+Received: by mail-pf1-f193.google.com with SMTP id 185so801581pfv.3
+	for <drbd-dev@lists.linbit.com>; Wed, 29 Jan 2020 20:10:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=pvvVT/b95UaLpYd8lIo04uOv4SDYk7PHg7fzm5Afymw=;
+	b=2CM33z3QmNsLGizAUud8ZrRtcS/UOJVh5srO6r0beE7dVVirSjyUJu5uQbG3wAp+1j
+	igd5VCWO6Rh8WcpPgbCzn/iOdFGAqmclnWh0idY9BDEcZvb8O3xACKrJcCrO0OHWMdcq
+	x0gzeZkIYTrIil50MthvcQxlBLvgEaiZS/6VnOfXiADJd/0akppJPB9uEdD6YU2+No8q
+	w/F5aHJsL9e9kGlTGyHtzjzKWqzEdgL1BL/EeyQoGS/lINLfuj0gi33Eyanul2MMl7Dj
+	JIiHVq9Mj5pq+/+5Zh8f3kdl7zJjHAOgGykuowufHJNu87NGEweXdXwHyyMDxiOQI3lb
+	oBbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:resent-from:resent-date:resent-message-id
-	:resent-to:from:to:cc:subject:date:message-id:mime-version
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=YcwyPAFjSUef256jVd/LqgAlAGJ5MT3dwIwcaJOlvSc=;
-	b=eCj3A/GdWz8ydcOnc/dVjCpylLBiB0R4gWGCo6setMgLvcNyCudkstj3GFVGXMwhOe
-	bTSfITKRQp1R4xAgWL6bR+O6Pure+wk6HSH72j+s5ZhSI6XmsD7+LbhFn1sQcTUw3IvG
-	HORGamrgSkTzf5bIzOj4k8s6X85KPTQCuREM/vmztKEwyMU5vkpaZJ4jdYUjcR8bDOLA
-	g/d1OWAtLhzY5o7EYAfptNywwK0YYPWTvS7N6Na56EqoyU7Cq5CKV7WGnE57khg9GfOU
-	rb2rkMPRA26ZmDQpbekZgxqajkTWTVTfvnsRQ209bglF//Cb+21t44UrwiQSXU+uMq63
-	4AUw==
-X-Gm-Message-State: APjAAAX2sB4xlxVbnYNvcyLG5PUdCEnfksWzi/En+7bZvdyAqxsp+1SA
-	TwF9Cd9fpCJIOtdMoTdvpJs11Yv+BtBZGjjl
-X-Google-Smtp-Source: APXvYqx2RapkfbDx7kKMy8Dzcv2G8UgRF/MxM+MliaK3CiPCl77krY+fe0oXruSlxOq1yRgE7pJfTw==
-X-Received: by 2002:adf:e887:: with SMTP id d7mr23293657wrm.162.1580157226898; 
-	Mon, 27 Jan 2020 12:33:46 -0800 (PST)
-Received: from grappa.linbit (212-186-191-219.static.upcbusiness.at.
-	[212.186.191.219]) by smtp.gmail.com with ESMTPSA id
-	n8sm22066544wrx.42.2020.01.27.12.33.46
-	for <drbd-dev@lists.linbit.com>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 27 Jan 2020 12:33:46 -0800 (PST)
-Resent-From: Lars Ellenberg <lars.ellenberg@linbit.com>
-Resent-Date: Mon, 27 Jan 2020 21:33:44 +0100
-Resent-Message-ID: <20200127203344.GG26861@grappa.linbit>
-Resent-To: drbd-dev@lists.linbit.com
-X-Original-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 378 seconds by postgrey-1.31 at mail19;
-	Fri, 24 Jan 2020 21:10:03 CET
-Received: from 7.mo177.mail-out.ovh.net (7.mo177.mail-out.ovh.net
-	[46.105.61.149])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id DBDF74203BA
-	for <drbd-dev@lists.linbit.com>; Fri, 24 Jan 2020 21:10:03 +0100 (CET)
-Received: from player746.ha.ovh.net (unknown [10.110.103.129])
-	by mo177.mail-out.ovh.net (Postfix) with ESMTP id E672212111D
-	for <drbd-dev@lists.linbit.com>; Fri, 24 Jan 2020 21:03:44 +0100 (CET)
-Received: from sk2.org (unknown [77.240.182.90])
-	(Authenticated sender: steve@sk2.org)
-	by player746.ha.ovh.net (Postfix) with ESMTPSA id 2A304EB0DCF2;
-	Fri, 24 Jan 2020 20:03:38 +0000 (UTC)
-From: Stephen Kitt <steve@sk2.org>
-To: Philipp Reisner <philipp.reisner@linbit.com>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>, Jens Axboe <axboe@kernel.dk>,
+	bh=pvvVT/b95UaLpYd8lIo04uOv4SDYk7PHg7fzm5Afymw=;
+	b=r5tM92Qhu2dhPZozZOD7SrBiCAdIacrlmSL9hE8pXGi40eG9QDHdiCIfqNv+0AoZc5
+	33xrKlPENfIWfHCcwRWhWKF9FYViUNl2iVP+4CfuCeXAxaH87mMBr8SXtEGgOtbahhIl
+	QUceHbJq7Nf+8FYoA7I9VriKzhnohQ4+2Lg37PP+hU3cu6/E7bS8iM4kmT/FMWMjk9NH
+	g8DLZpbKrs/aGXyPx6SMCaAPTJZ7hS4kQCaYcslAkzJ9moF7bwBVBAKXfQMyIU7gV4Mw
+	TRorX5/3WV/UizvpIbDDsq+nT/VvnMx0+G9IWuDY5b0OdWzmDZoqlCbv4U84ASc66sxi
+	J+jw==
+X-Gm-Message-State: APjAAAVL4JfVPvNKiYE8DeabXWOeklkzmc3DVKqnQjEdThZxhU45ueTM
+	Pifwl9woj7JxvoPrErupIQJsiw==
+X-Google-Smtp-Source: APXvYqyYGaaUNWka3uFLfMuBa+lGiX1WFHjW2SY2k8buO6fFUnR0D0ORcRdfeZ5QHe0LDpgZX/ZFlA==
+X-Received: by 2002:a63:78c:: with SMTP id 134mr2473976pgh.279.1580357051523; 
+	Wed, 29 Jan 2020 20:04:11 -0800 (PST)
+Received: from [192.168.1.188] ([66.219.217.145])
+	by smtp.gmail.com with ESMTPSA id
+	j17sm4483515pfa.28.2020.01.29.20.04.10
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Wed, 29 Jan 2020 20:04:11 -0800 (PST)
+To: Stephen Kitt <steve@sk2.org>, Philipp Reisner
+	<philipp.reisner@linbit.com>, Lars Ellenberg <lars.ellenberg@linbit.com>,
 	drbd-dev@lists.linbit.com
-Date: Fri, 24 Jan 2020 21:03:07 +0100
-Message-Id: <20200124200307.1808593-1-steve@sk2.org>
-X-Mailer: git-send-email 2.24.1
+References: <20200124200307.1808593-1-steve@sk2.org>
+From: Jens Axboe <axboe@kernel.dk>
+Message-ID: <a74b5267-5eb5-a050-75ea-e108a5115805@kernel.dk>
+Date: Wed, 29 Jan 2020 21:04:09 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.4.1
 MIME-Version: 1.0
-X-Ovh-Tracer-Id: 5593470739511987563
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrvdeggddufedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucfkpheptddrtddrtddrtddpjeejrddvgedtrddukedvrdeltdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejgeeirdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdprhgtphhtthhopegurhgsugdquggvvheslhhishhtshdrlhhinhgsihhtrdgtohhm
-Cc: linux-block@vger.kernel.org, Stephen Kitt <steve@sk2.org>,
-	linux-kernel@vger.kernel.org
-Subject: [Drbd-dev] [PATCH] drbd fifo_alloc: use struct_size
+In-Reply-To: <20200124200307.1808593-1-steve@sk2.org>
+Content-Language: en-US
+Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [Drbd-dev] [PATCH] drbd fifo_alloc: use struct_size
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -91,80 +82,17 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Switching to struct_size for the allocation in fifo_alloc avoids
-hard-coding the type of fifo_buffer.values in fifo_alloc. It also
-provides overflow protection; to avoid pessimistic code being
-generated by the compiler as a result, this patch also switches
-fifo_size to unsigned, propagating the change as appropriate.
+On 1/24/20 1:03 PM, Stephen Kitt wrote:
+> Switching to struct_size for the allocation in fifo_alloc avoids
+> hard-coding the type of fifo_buffer.values in fifo_alloc. It also
+> provides overflow protection; to avoid pessimistic code being
+> generated by the compiler as a result, this patch also switches
+> fifo_size to unsigned, propagating the change as appropriate.
 
-Signed-off-by: Stephen Kitt <steve@sk2.org>
----
- drivers/block/drbd/drbd_int.h      | 2 +-
- drivers/block/drbd/drbd_nl.c       | 3 ++-
- drivers/block/drbd/drbd_receiver.c | 2 +-
- drivers/block/drbd/drbd_worker.c   | 4 ++--
- 4 files changed, 6 insertions(+), 5 deletions(-)
+Applied, thanks.
 
-diff --git a/drivers/block/drbd/drbd_int.h b/drivers/block/drbd/drbd_int.h
-index ddbf56014c51..aae99a2d7bd4 100644
---- a/drivers/block/drbd/drbd_int.h
-+++ b/drivers/block/drbd/drbd_int.h
-@@ -622,7 +622,7 @@ struct fifo_buffer {
- 	int total; /* sum of all values */
- 	int values[0];
- };
--extern struct fifo_buffer *fifo_alloc(int fifo_size);
-+extern struct fifo_buffer *fifo_alloc(unsigned int fifo_size);
- 
- /* flag bits per connection */
- enum {
-diff --git a/drivers/block/drbd/drbd_nl.c b/drivers/block/drbd/drbd_nl.c
-index de2f94d0103a..da4a3ebe04ef 100644
---- a/drivers/block/drbd/drbd_nl.c
-+++ b/drivers/block/drbd/drbd_nl.c
-@@ -1575,7 +1575,8 @@ int drbd_adm_disk_opts(struct sk_buff *skb, struct genl_info *info)
- 	struct drbd_device *device;
- 	struct disk_conf *new_disk_conf, *old_disk_conf;
- 	struct fifo_buffer *old_plan = NULL, *new_plan = NULL;
--	int err, fifo_size;
-+	int err;
-+	unsigned int fifo_size;
- 
- 	retcode = drbd_adm_prepare(&adm_ctx, skb, info, DRBD_ADM_NEED_MINOR);
- 	if (!adm_ctx.reply_skb)
-diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd_receiver.c
-index 2b3103c30857..79e216446030 100644
---- a/drivers/block/drbd/drbd_receiver.c
-+++ b/drivers/block/drbd/drbd_receiver.c
-@@ -3887,7 +3887,7 @@ static int receive_SyncParam(struct drbd_connection *connection, struct packet_i
- 	struct disk_conf *old_disk_conf = NULL, *new_disk_conf = NULL;
- 	const int apv = connection->agreed_pro_version;
- 	struct fifo_buffer *old_plan = NULL, *new_plan = NULL;
--	int fifo_size = 0;
-+	unsigned int fifo_size = 0;
- 	int err;
- 
- 	peer_device = conn_peer_device(connection, pi->vnr);
-diff --git a/drivers/block/drbd/drbd_worker.c b/drivers/block/drbd/drbd_worker.c
-index 5bdcc70ad589..b7f605c6e231 100644
---- a/drivers/block/drbd/drbd_worker.c
-+++ b/drivers/block/drbd/drbd_worker.c
-@@ -482,11 +482,11 @@ static void fifo_add_val(struct fifo_buffer *fb, int value)
- 		fb->values[i] += value;
- }
- 
--struct fifo_buffer *fifo_alloc(int fifo_size)
-+struct fifo_buffer *fifo_alloc(unsigned int fifo_size)
- {
- 	struct fifo_buffer *fb;
- 
--	fb = kzalloc(sizeof(struct fifo_buffer) + sizeof(int) * fifo_size, GFP_NOIO);
-+	fb = kzalloc(struct_size(fb, values, fifo_size), GFP_NOIO);
- 	if (!fb)
- 		return NULL;
- 
 -- 
-2.24.1
+Jens Axboe
 
 _______________________________________________
 drbd-dev mailing list
