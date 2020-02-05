@@ -2,85 +2,37 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 387F8175C07
-	for <lists+drbd-dev@lfdr.de>; Mon,  2 Mar 2020 14:47:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2680917A5FF
+	for <lists+drbd-dev@lfdr.de>; Thu,  5 Mar 2020 14:06:49 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 055E44203C6;
-	Mon,  2 Mar 2020 14:47:32 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E2C3E4203E9;
+	Thu,  5 Mar 2020 14:06:48 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
-	[209.85.208.68])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3C93042011A
-	for <drbd-dev@lists.linbit.com>; Mon,  2 Mar 2020 14:47:30 +0100 (CET)
-Received: by mail-ed1-f68.google.com with SMTP id h62so11441608edd.12
-	for <drbd-dev@lists.linbit.com>; Mon, 02 Mar 2020 05:47:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:resent-from:resent-date:resent-message-id
-	:resent-to:dkim-signature:mime-version:references:in-reply-to:from
-	:date:message-id:subject:to:cc;
-	bh=QGW8A6NvrrWP1yUYNzkuM9Y6DPoFVb9Z8KwBG+QV5Lo=;
-	b=LmTme9bU1kWOdVybK523L9bqJx/2+SXVNX723CZB72NeRygpGqwiR7kUP1xZJlj3OT
-	L/ZY2sLoN/3Y9bOMVRWIpbQ6Z9PosQX2Brgcz9qIhsbNQSvUAouFiOg2nYcpYHVPvRm5
-	YMPucTjSNZ9bq1O8AL0miOXzUuAjhZ1quVAQeF61NcbuQjVGuwbPCx7ggASyGN0IFUO3
-	cUJnvv5OunZMVoI3KpbkPP4wGv6g067ZBMhuQrdSUmB1dwsYl785N08dP9fRh2s7agLt
-	lrOc1bKu2rSfbUuc7Eq/WWAWHAy2TqsvEZedCFyXhNvitAben5vAr7iDHhNuVrMjs8yv
-	/lwQ==
-X-Gm-Message-State: APjAAAX1vMHWXozUUHymA1cqCf0SZHdoQmRf4GZpNp0CPJBHoUwo0gF1
-	KTS2Dm31dt+BPjntZjIHWKk9ah6Qlvjnr8QG
-X-Google-Smtp-Source: APXvYqw6tVHcKYgmyIMgSpoqKpBeonCRguvirit1puIrP/r39YPbyGm+mbpPT43xecPZ3JFlYoxU/w==
-X-Received: by 2002:adf:dd4d:: with SMTP id u13mr22366262wrm.70.1583156405516; 
-	Mon, 02 Mar 2020 05:40:05 -0800 (PST)
-Received: from soda.linbit (212-186-191-219.static.upcbusiness.at.
-	[212.186.191.219]) by smtp.gmail.com with ESMTPSA id
-	a9sm15781707wmm.15.2020.03.02.05.40.04
-	for <drbd-dev@lists.linbit.com>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 02 Mar 2020 05:40:05 -0800 (PST)
-Resent-From: Lars Ellenberg <lars.ellenberg@linbit.com>
-Resent-Date: Mon, 2 Mar 2020 14:40:03 +0100
-Resent-Message-ID: <20200302134003.GC19467@soda.linbit>
-Resent-To: drbd-dev@lists.linbit.com
-X-Original-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 1643 seconds by postgrey-1.31 at mail19;
-	Wed, 26 Feb 2020 15:24:06 CET
-Received: from mail-il1-f196.google.com (mail-il1-f196.google.com
-	[209.85.166.196])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3F77A420005
-	for <drbd-dev@lists.linbit.com>; Wed, 26 Feb 2020 15:24:05 +0100 (CET)
-Received: by mail-il1-f196.google.com with SMTP id f10so2505726ils.8
-	for <drbd-dev@lists.linbit.com>; Wed, 26 Feb 2020 06:24:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=QGW8A6NvrrWP1yUYNzkuM9Y6DPoFVb9Z8KwBG+QV5Lo=;
-	b=Vk6w/5mZAyodQkBHzCqY//wn5JgAJqdcOqxWE9FGbVPOxKDaMY3/jEssR4cW31l0kZ
-	xnSN3PAOStFfPDzSdOz52NHgqlKbdpw6BQpfgi6JeNU6q+vZzJ9Tkr3nMUTOnPY+/1dR
-	SDqZyhx4MtnDSJCwCK4wjBlwI3mj9X5Irm0grREPAE/kYvgtr7NQS4zRSu/B3vUB+wmc
-	L4AIsB6ZODPjVNKF22GGbz7urvzlxneuNfVLJ3Fwy1LZq7kBc5la7CvkLe15B77Zp6OV
-	Y3oi37jhW7MaO1mVwTS3F7Qk3yPKqwfhnYExvZ33NuK5eMZN/W8k8E6K/iSRrtjJOrOG
-	2qpg==
-X-Received: by 2002:a5d:9707:: with SMTP id h7mr4749293iol.112.1582725402510; 
-	Wed, 26 Feb 2020 05:56:42 -0800 (PST)
+X-Greylist: delayed 315 seconds by postgrey-1.31 at mail19;
+	Wed, 05 Feb 2020 11:12:53 CET
+Received: from m97134.mail.qiye.163.com (m97134.mail.qiye.163.com
+	[220.181.97.134])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B2789420318
+	for <drbd-dev@lists.linbit.com>; Wed,  5 Feb 2020 11:12:52 +0100 (CET)
+Received: from [192.168.31.179] (unknown [222.212.248.138])
+	by smtp5 (Coremail) with SMTP id huCowAAX_NjmkzpeKo11BQ--.19576S2;
+	Wed, 05 Feb 2020 18:07:34 +0800 (CST)
+To: drbd-dev@lists.linbit.com
+From: Duan Zhang <duan.zhang@easystack.cn>
+Message-ID: <3ce8a016-90be-7f0d-2d2d-a810da7f5f67@easystack.cn>
+Date: Wed, 5 Feb 2020 18:07:35 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
+	Thunderbird/68.3.0
 MIME-Version: 1.0
-References: <20200225234836.GA31741@embeddedor>
-In-Reply-To: <20200225234836.GA31741@embeddedor>
-From: Ilya Dryomov <idryomov@gmail.com>
-Date: Wed, 26 Feb 2020 14:56:34 +0100
-Message-ID: <CAOi1vP_2+G+0=-a0uqLMYisp+EtHhiVrkWFLFch5JygYVNWvdA@mail.gmail.com>
-To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Sage Weil <sage@redhat.com>,
-	linux-ntfs-dev@lists.sourceforge.net,
-	"Richard Russon \(FlatCap\)" <ldm@flatcap.org>,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	Dongsheng Yang <dongsheng.yang@easystack.cn>,
-	LKML <linux-kernel@vger.kernel.org>,
-	linux-block <linux-block@vger.kernel.org>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	Ceph Development <ceph-devel@vger.kernel.org>,
-	Lars Ellenberg <drbd-dev@lists.linbit.com>
-Subject: Re: [Drbd-dev] [PATCH][next] block: Replace zero-length array with
- flexible-array member
+X-CM-TRANSID: huCowAAX_NjmkzpeKo11BQ--.19576S2
+X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+	VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxUFR6wDUUUU
+X-Originating-IP: [222.212.248.138]
+X-CM-SenderInfo: hgxd0hx2kd0w46hd255vwduygofq/1tbihAfAjlsfm+BPSAAAs1
+X-Mailman-Approved-At: Thu, 05 Mar 2020 14:06:47 +0100
+Subject: [Drbd-dev] Bug Report : meet an unexcepted WFBitMapS status after
+ restarting the primary
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -94,58 +46,300 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============7225426396006801530=="
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Wed, Feb 26, 2020 at 12:45 AM Gustavo A. R. Silva
-<gustavo@embeddedor.com> wrote:
->
-> The current codebase makes use of the zero-length array language
-> extension to the C90 standard, but the preferred mechanism to declare
-> variable-length types such as these ones is a flexible array member[1][2],
-> introduced in C99:
->
-> struct foo {
->         int stuff;
->         struct boo array[];
-> };
->
-> By making use of the mechanism above, we will get a compiler warning
-> in case the flexible array does not occur last in the structure, which
-> will help us prevent some kind of undefined behavior bugs from being
-> inadvertently introduced[3] to the codebase from now on.
->
-> Also, notice that, dynamic memory allocations won't be affected by
-> this change:
->
-> "Flexible array members have incomplete type, and so the sizeof operator
-> may not be applied. As a quirk of the original implementation of
-> zero-length arrays, sizeof evaluates to zero."[1]
->
-> This issue was found with the help of Coccinelle.
->
-> [1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
-> [2] https://github.com/KSPP/linux/issues/21
-> [3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
->
-> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
-> ---
->  block/partitions/ldm.h             | 2 +-
->  drivers/block/drbd/drbd_int.h      | 2 +-
->  drivers/block/drbd/drbd_protocol.h | 8 ++++----
+This is a multi-part message in MIME format.
+--===============7225426396006801530==
+Content-Type: multipart/alternative;
+ boundary="------------6409C47BE022F47D03E56638"
 
-For rbd
+This is a multi-part message in MIME format.
+--------------6409C47BE022F47D03E56638
+Content-Type: text/plain; charset=gbk; format=flowed
+Content-Transfer-Encoding: 8bit
 
->  drivers/block/rbd_types.h          | 2 +-
+Version: drbd-9.0.21-1
 
-Acked-by: Ilya Dryomov <idryomov@gmail.com>
+Layout: drbd.res within 3 nodes -- node-1(Secondary), node-2(Primary), node-3(Secondary)
 
-Thanks,
+Description:
+a.reboot node-2 when cluster is working.
+b.re-up the drbd.res on node-2 after it restarted.
+c.an expected resync from node-3 to node-2 happens. When the resync is done, however,
+   node-1 raises an unexpected WFBitMapS repl status and can't recover to normal anymore.
 
-                Ilya
+Status output:
+
+node-1: drbdadm status
+
+drbd6 role:Secondary
+
+disk:UpToDate
+
+hotspare connection:Connecting
+
+node-2 role:Primary
+
+replication:WFBitMapS peer-disk:Consistent
+
+node-3 role:Secondary
+
+peer-disk:UpToDate
+
+
+node-2: drbdadm status
+
+drbd6 role:Primary
+
+disk:UpToDate
+
+hotspare connection:Connecting
+
+node-1 role:Secondary
+
+peer-disk:UpToDate
+
+node-3 role:Secondary
+
+peer-disk:UpToDate
+
+I assume that there is a process sequence below according to my source 
+code version: node-1 node-2 node-3 restarted with CRASHED_PRIMARY start 
+sync with node-3 as target start sync with node-2 as source бн бн end sync 
+with node-3 end sync with node-2 w_after_state_change loop 1 within for 
+loop against node-1:(a)
+receive_uuids10 send uuid with UUID_FLAG_GOT_STABLE&CRASHED_PRIMARY to 
+node-1
+receive uuid of node-2 with CRASHED_PRIMARY loop 2 within for loop 
+against node-3: clear CRASHED_PRIMARY(b) send uuid to node-2 with 
+UUID_FLAG_RESYNC receive uuids10 sync_handshake to 
+SYNC_SOURCE_IF_BOTH_FAILED sync_handshake to NO_SYNC change repl state 
+to WFBitMapS The key problem is about the order of step(a) and step(b), 
+that is, node-2 sends the unexpected CRASHED_PRIMARY to node-1 though 
+it's actually no longer a crashed primary after syncing with node-3.So 
+may I have the below questions: a.If this is really a BUG or just an 
+expected result? b.If there's already a patch fix within the newest 
+verion? c.If there's some workaround method against this kind of 
+unexcepted status, since I really meet so many other problems like that :(
+
+-- 
+Sincerely Yours,
+Zhang Duan
+
+
+--------------6409C47BE022F47D03E56638
+Content-Type: text/html; charset=gbk
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=GBK">
+  </head>
+  <body>
+    <pre>Version: drbd-9.0.21-1</pre>
+    <pre>Layout: drbd.res within 3 nodes -- node-1(Secondary), node-2(Primary), node-3(Secondary)</pre>
+    <pre>Description: 
+a.reboot node-2 when cluster is working.
+b.re-up the drbd.res on node-2 after it restarted.
+c.an expected resync from node-3 to node-2 happens. When the resync is done, however,
+  node-1 raises an unexpected WFBitMapS repl status and can't recover to normal anymore.
+
+Status output:
+</pre>
+    <p style="margin: 10px 0px 0px; padding: 0px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: normal; letter-spacing: normal; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      background-color: rgb(255, 255, 255); text-decoration-style:
+      initial; text-decoration-color: initial;"><font size="-1">node-1:
+        drbdadm status</font></p>
+    <font size="-1"> </font>
+    <p style="margin: 10px 0px 0px; padding: 0px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: normal; letter-spacing: normal; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      background-color: rgb(255, 255, 255); text-decoration-style:
+      initial; text-decoration-color: initial;"><font size="-1">drbd6
+        role:Secondary</font></p>
+    <font size="-1"> </font>
+    <p style="margin: 10px 0px 0px; padding: 0px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: normal; letter-spacing: normal; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      background-color: rgb(255, 255, 255); text-decoration-style:
+      initial; text-decoration-color: initial;"><font size="-1">disk:UpToDate</font></p>
+    <font size="-1"> </font>
+    <p style="margin: 10px 0px 0px; padding: 0px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: normal; letter-spacing: normal; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      background-color: rgb(255, 255, 255); text-decoration-style:
+      initial; text-decoration-color: initial;"><font size="-1">hotspare
+        connection:Connecting</font></p>
+    <font size="-1"> </font>
+    <p style="margin: 10px 0px 0px; padding: 0px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: normal; letter-spacing: normal; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      background-color: rgb(255, 255, 255); text-decoration-style:
+      initial; text-decoration-color: initial;"><font size="-1">node-2
+        role:Primary</font></p>
+    <font size="-1"> </font>
+    <p style="margin: 10px 0px 0px; padding: 0px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: normal; letter-spacing: normal; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      background-color: rgb(255, 255, 255); text-decoration-style:
+      initial; text-decoration-color: initial;"><font size="-1">replication:WFBitMapS
+        peer-disk:Consistent</font></p>
+    <font size="-1"> </font>
+    <p style="margin: 10px 0px 0px; padding: 0px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: normal; letter-spacing: normal; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      background-color: rgb(255, 255, 255); text-decoration-style:
+      initial; text-decoration-color: initial;"><font size="-1">node-3
+        role:Secondary</font></p>
+    <font size="-1"> </font>
+    <p style="margin: 10px 0px 0px; padding: 0px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: normal; letter-spacing: normal; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      background-color: rgb(255, 255, 255); text-decoration-style:
+      initial; text-decoration-color: initial;"><font size="-1">peer-disk:UpToDate</font></p>
+    <font size="-1"> </font>
+    <p style="margin: 10px 0px 0px; padding: 0px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: normal; letter-spacing: normal; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      background-color: rgb(255, 255, 255); text-decoration-style:
+      initial; text-decoration-color: initial;"><font size="-1"><br>
+      </font> </p>
+    <font size="-1"> </font>
+    <p style="margin: 10px 0px 0px; padding: 0px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: normal; letter-spacing: normal; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      background-color: rgb(255, 255, 255); text-decoration-style:
+      initial; text-decoration-color: initial;"><font size="-1">node-2:
+        drbdadm status</font></p>
+    <font size="-1"> </font>
+    <p style="margin: 10px 0px 0px; padding: 0px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: normal; letter-spacing: normal; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      background-color: rgb(255, 255, 255); text-decoration-style:
+      initial; text-decoration-color: initial;"><font size="-1">drbd6
+        role:Primary</font></p>
+    <font size="-1"> </font>
+    <p style="margin: 10px 0px 0px; padding: 0px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: normal; letter-spacing: normal; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      background-color: rgb(255, 255, 255); text-decoration-style:
+      initial; text-decoration-color: initial;"><font size="-1">disk:UpToDate</font></p>
+    <font size="-1"> </font>
+    <p style="margin: 10px 0px 0px; padding: 0px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: normal; letter-spacing: normal; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      background-color: rgb(255, 255, 255); text-decoration-style:
+      initial; text-decoration-color: initial;"><font size="-1">hotspare
+        connection:Connecting</font></p>
+    <font size="-1"> </font>
+    <p style="margin: 10px 0px 0px; padding: 0px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: normal; letter-spacing: normal; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      background-color: rgb(255, 255, 255); text-decoration-style:
+      initial; text-decoration-color: initial;"><font size="-1">node-1
+        role:Secondary</font></p>
+    <font size="-1"> </font>
+    <p style="margin: 10px 0px 0px; padding: 0px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: normal; letter-spacing: normal; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      background-color: rgb(255, 255, 255); text-decoration-style:
+      initial; text-decoration-color: initial;"><font size="-1">peer-disk:UpToDate</font></p>
+    <font size="-1"> </font>
+    <p style="margin: 10px 0px 0px; padding: 0px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: normal; letter-spacing: normal; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      background-color: rgb(255, 255, 255); text-decoration-style:
+      initial; text-decoration-color: initial;"><font size="-1">node-3
+        role:Secondary</font></p>
+    <font size="-1"> </font>
+    <p style="margin: 10px 0px 0px; padding: 0px; font-style: normal;
+      font-variant-ligatures: normal; font-variant-caps: normal;
+      font-weight: normal; letter-spacing: normal; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      background-color: rgb(255, 255, 255); text-decoration-style:
+      initial; text-decoration-color: initial;"><font size="-1">peer-disk:UpToDate</font><tt><br>
+      </tt></p>
+    <pre><tt>I assume that there is a process sequence below according to my source code version:
+node-1                                           node-2                                                            node-3
+					         restarted with CRASHED_PRIMARY               
+					         start sync with node-3 as target                                  start sync with node-2 as source
+					         бн                                                                бн
+                                                 end sync with node-3                                              end sync with node-2
+					         w_after_state_change
+             				         loop 1 within for loop against node-1:(a)</tt>
+<tt><tt>receive_uuids10                                  </tt>send uuid with UUID_FLAG_GOT_STABLE&amp;</tt><tt><tt>CRASHED_PRIMARY</tt> to node-1</tt>
+<tt><tt>receive uuid of node-2 with CRASHED_PRIMARY</tt>      loop 2 within for loop against node-3:
+					         clear  CRASHED_PRIMARY(b)
+send uuid to node-2 with UUID_FLAG_RESYNC        </tt><tt><tt>receive uuids10</tt>
+</tt><tt><tt>sync_handshake</tt> to SYNC_SOURCE_IF_BOTH_FAILED     </tt><tt><tt>sync_handshake to NO_SYNC</tt>
+change repl state to </tt><tt>WFBitMapS
+
+The key problem is about the order of step(a) and step(b), that is, node-2 sends the
+unexpected  </tt><tt><tt><tt>CRASHED_PRIMARY</tt> to node-1 though it's actually no longer a crashed primary
+after syncing with node-3.</tt></tt><tt><tt>
+So may I have the below questions:
+a.If this is really a BUG or just an expected result?
+b.If there's already a patch fix within the newest verion?
+c.If there's some workaround method against this kind of unexcepted status, since I really
+  meet so many other problems like that :( 
+</tt></tt></pre>
+    <pre class="moz-signature" cols="72">-- 
+Sincerely Yours,
+Zhang Duan</pre>
+  </body>
+</html>
+
+--------------6409C47BE022F47D03E56638--
+
+
+--===============7225426396006801530==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
 https://lists.linbit.com/mailman/listinfo/drbd-dev
+
+--===============7225426396006801530==--
+
