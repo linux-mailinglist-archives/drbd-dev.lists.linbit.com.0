@@ -2,59 +2,52 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D4E217A601
-	for <lists+drbd-dev@lfdr.de>; Thu,  5 Mar 2020 14:06:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E825B17A603
+	for <lists+drbd-dev@lfdr.de>; Thu,  5 Mar 2020 14:06:52 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5652D4203F3;
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A8DF24203FC;
 	Thu,  5 Mar 2020 14:06:49 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com
-	[209.85.167.171])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 8E9D042038C
-	for <drbd-dev@lists.linbit.com>; Thu,  6 Feb 2020 03:02:20 +0100 (CET)
-Received: by mail-oi1-f171.google.com with SMTP id l9so2990087oii.5
-	for <drbd-dev@lists.linbit.com>; Wed, 05 Feb 2020 18:02:20 -0800 (PST)
+X-Greylist: delayed 1311 seconds by postgrey-1.31 at mail19;
+	Thu, 06 Feb 2020 11:32:21 CET
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com
+	[209.85.166.43])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 64C9C4203C2
+	for <drbd-dev@lists.linbit.com>; Thu,  6 Feb 2020 11:32:21 +0100 (CET)
+Received: by mail-io1-f43.google.com with SMTP id m25so5723460ioo.8
+	for <drbd-dev@lists.linbit.com>; Thu, 06 Feb 2020 02:32:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=WoPzmJ3QiLukxuz6DKVAzU9gkGfQvjuixc6cO7WUQs8=;
-	b=O1FHeMjXFSOILkBhHrqEIP2lloqCDyljt2qWbzTWoX+uBjRnfdWo3oPegsw2eoPan6
-	C1NLVglsuhNd1TronEiTXa8IICi9/V4PByBGHmEuNGeHmt9+cUYfNiSyeugbj18T4X4A
-	lRe5MoBgIUk0+uaSX5xvUCgK+EVAe+jADuogGP2GHgtyo/nbgmoC/pW8mJJU+ywdmj/F
-	lI1I4X9/9TTjl7Eaho/qKRP/NtF9jWiBZr/lonWGDfCJqOA60V4VEBRwnMlGqkxrkzGG
-	PyXyJlZAcepKi1F2fZXKQqdFr4cNvynX/17fdOYKXmqCQYftQVeTRTsPUq11KwDC7zk7
-	8/6A==
+	h=mime-version:from:date:message-id:subject:to;
+	bh=jUI3PW7kZ2bGKIPU1sbtlIpYR/AUhmqhnB4cDrzjWiI=;
+	b=U3XByycgJc6Ad/kh83wNRPW1tQdWUJRky+TYWukmvZvmcpPFG0uPcv1REXiEE9Ir0i
+	OzESe0dqymsDyNT1it7gHVHoFdZq31Ny/TICgckl+lm8pL/2KU2Wx5oaaxl02+Zm6t/P
+	BIkiHc3GcGf4G/TrIB4Xyx9CDlZAaFs85DqloRqipa4ydQJ4s1VbDusAs82rGDq8WuNH
+	aTmB6bvZgh5UzlhtdDjg721o0NgtqZ5c0W8RsskbSNnPEx1V4QWdPMIQd8IjocpShyHj
+	PBVl7RHbSA7VfPTQ0VS9miRSPYgfb+x5DpK2dnZouBiOJG3wbFfcGUXeiHyJdUd291Sp
+	BQIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=WoPzmJ3QiLukxuz6DKVAzU9gkGfQvjuixc6cO7WUQs8=;
-	b=pxNj2jz63zDvfrJ8BJN2bKQXV7dG1N1wtmRSeRSNzfP79Wgikx61ia2/XkFcNsoQN8
-	DLYUs1XZ7YREn2TTxVjxLrGCjgV7gPJFIhWVXLlKeDcFcVoIgROsfzbDcOy1KgUhMuiB
-	RiSoiVPAT83BzcPwNlipthw2Yrc+BnJwnhjy4lkCiqRteSZuZTCRNWE0ZK+FQSuu9pDU
-	o0kZetCGXAP5rhTQVwBlcUUGpEoCPUljgThrt7SZyDURa9HKurbCgZaanodmpkWqjIgm
-	Q/DnXpZOlt36IVLjCZVl34vihglZb7loitciWVdVVnNxJI6GXftPfsit2+XusdhUESSA
-	XLcw==
-X-Gm-Message-State: APjAAAV3MEG/aWA2/nnU0b2wkRoWr6hATtLu5BfQ9gnXTLNjjpcxW9eZ
-	ltDw0QTFj4k4Ts369dUxgQ1JH1y/pmwZlum0lWk=
-X-Google-Smtp-Source: APXvYqwPCFurz3YyKrpkaq4DkukAB2tyaYOJcBv1yDVNU4UlufXNyzAfxVRXjSE12gtubDBYLnM/JK9+xukQ15VnOBI=
-X-Received: by 2002:a54:4f16:: with SMTP id e22mr5556426oiy.170.1580954479470; 
-	Wed, 05 Feb 2020 18:01:19 -0800 (PST)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=jUI3PW7kZ2bGKIPU1sbtlIpYR/AUhmqhnB4cDrzjWiI=;
+	b=jFXnbd3uez6FGyD3AyhFmr/j809kQxiVrxC0glyrR5yNXjo2/rr3RIFz+EPSk/+qBA
+	A5sUivUUQkHFK3AAS8X5QVHzwIT05/zcfOQTMKKkDjd22Cs2Km5Y/Ykf0oCJCnkD6VU8
+	5fvlaZ7+oXJReHvZ4DjRTZVuTvOREhwlROOomLgdQ4zduhqPRJZANvvhZb2vno58pOp+
+	JGCXAyWJomiY8X5HJ7HRtXKGyUYutUwHGcDi/cOQP9cPsKV1uGnEapE/HqdOi9PmOIEL
+	/a7KWzE9e5lBbawsSfFvMXMiDakxvuQtxauiYEfKo4/k2Jszj/aIStBfD4EV8bp3rpWx
+	dC3w==
+X-Gm-Message-State: APjAAAXPx+sSH05rn8uiuqQv0WadtBFhqueGpMZs+KsCwR4lQ8vLD3QU
+	QEn1zUqhi9QoUZBrEpfaSPvPIO+zcZha3q7gYNvltw==
+X-Google-Smtp-Source: APXvYqwklQz3r8Sz2kgWeX1bhqD1532shC05U8m606f8yyUJ6D2/dE6EbslhLAHLYMz0MJkGxO/Ou5VXkiTqp3SSMlo=
+X-Received: by 2002:a6b:fa0e:: with SMTP id p14mr8414315ioh.155.1580983768696; 
+	Thu, 06 Feb 2020 02:09:28 -0800 (PST)
 MIME-Version: 1.0
-References: <CA+qeAOqyL5fDoFUXxVD0iaYSpY9P1qNH0Hd7eUUyGCg6hznKRQ@mail.gmail.com>
-	<CA+qeAOpn85PevU6yxKqyt358ZVhdmLfwdaxvcpi4vy32Y4u8Mg@mail.gmail.com>
-In-Reply-To: <CA+qeAOpn85PevU6yxKqyt358ZVhdmLfwdaxvcpi4vy32Y4u8Mg@mail.gmail.com>
-From: Dongsheng Yang <dongsheng081251@gmail.com>
-Date: Thu, 6 Feb 2020 10:01:07 +0800
-Message-ID: <CA+qeAOoXShFs5u7JUpCSs0vV9LEkY++zLmaez8CWvZbDcD_VSQ@mail.gmail.com>
-To: lars.ellenberg@linbit.com, philipp.reisner@linbit.com, 
-	joel.colledge@linbit.com, linux-block@vger.kernel.org, 
-	drbd-dev@lists.linbit.com
+From: Mona Sinha <monasinha194@gmail.com>
+Date: Thu, 6 Feb 2020 15:39:17 +0530
+Message-ID: <CABf4PgnpksYvoadxKtYfG4Nek=s6ZaYUWhyXWNO_fJj_vswwpw@mail.gmail.com>
+To: drbd-dev@lists.linbit.com
 X-Mailman-Approved-At: Thu, 05 Mar 2020 14:06:47 +0100
-Cc: duan.zhang@easystack.cn
-Subject: [Drbd-dev] Fwd: Bug Report : meet an unexcepted WFBitMapS status
- after restarting the primary
+Subject: [Drbd-dev] DRBD full resync scanario
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -68,66 +61,48 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============4588386805430004541=="
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-QWRkaW5nIGxpbnV4LWJsb2NrIG1haWxsaXN0Li4uLi4uCgotLS0tLS0tLS0tIEZvcndhcmRlZCBt
-ZXNzYWdlIC0tLS0tLS0tLQrlj5Hku7bkurrvvJogRG9uZ3NoZW5nIFlhbmcgPGRvbmdzaGVuZzA4
-MTI1MUBnbWFpbC5jb20+CkRhdGU6IDIwMjDlubQy5pyINuaXpeWRqOWbmyDkuIrljYg5OjQ0ClN1
-YmplY3Q6IEZ3ZDogQnVnIFJlcG9ydCA6IG1lZXQgYW4gdW5leGNlcHRlZCBXRkJpdE1hcFMgc3Rh
-dHVzIGFmdGVyCnJlc3RhcnRpbmcgdGhlIHByaW1hcnkKVG86IDxsYXJzLmVsbGVuYmVyZ0BsaW5i
-aXQuY29tPiwgPHBoaWxpcHAucmVpc25lckBsaW5iaXQuY29tPiwKPGxpbnV4LWJsb2NrQHZnZXIu
-a2VybmVsLm9yZz4sIDxqb2VsLmNvbGxlZGdlQGxpbmJpdC5jb20+LAo8ZHJiZC1kZXZAbGlzdHMu
-bGluYml0LmNvbT4KQ2M6IDxkdWFuLnpoYW5nQGVhc3lzdGFjay5jbj4KCgpIaSBQaGlsaXBwIGFu
-ZCBMYXJzLAogICAgIEFueSBzdWdnZXN0aW9ucz8KClRoYW54Ci0tLS0tLS0tLS0gRm9yd2FyZGVk
-IG1lc3NhZ2UgLS0tLS0tLS0tCuWPkeS7tuS6uu+8miBEb25nc2hlbmcgWWFuZyA8ZG9uZ3NoZW5n
-MDgxMjUxQGdtYWlsLmNvbT4KRGF0ZTogMjAyMOW5tDLmnIg15pel5ZGo5LiJIOS4i+WNiDc6MDYK
-U3ViamVjdDogQnVnIFJlcG9ydCA6IG1lZXQgYW4gdW5leGNlcHRlZCBXRkJpdE1hcFMgc3RhdHVz
-IGFmdGVyCnJlc3RhcnRpbmcgdGhlIHByaW1hcnkKVG86IDxqb2VsLmNvbGxlZGdlQGxpbmJpdC5j
-b20+CkNjOiA8ZHJiZC1kZXZAbGlzdHMubGluYml0LmNvbT4sIDxkdWFuLnpoYW5nQGVhc3lzdGFj
-ay5jbj4KCgpIaSBndXlzLAoKVmVyc2lvbjogZHJiZC05LjAuMjEtMQoKTGF5b3V0OiBkcmJkLnJl
-cyB3aXRoaW4gMyBub2RlcyAtLSBub2RlLTEoU2Vjb25kYXJ5KSwgbm9kZS0yKFByaW1hcnkpLApu
-b2RlLTMoU2Vjb25kYXJ5KQoKRGVzY3JpcHRpb246CmEucmVib290IG5vZGUtMiB3aGVuIGNsdXN0
-ZXIgaXMgd29ya2luZy4KYi5yZS11cCB0aGUgZHJiZC5yZXMgb24gbm9kZS0yIGFmdGVyIGl0IHJl
-c3RhcnRlZC4KYy5hbiBleHBlY3RlZCByZXN5bmMgZnJvbSBub2RlLTMgdG8gbm9kZS0yIGhhcHBl
-bnMuIFdoZW4gdGhlIHJlc3luYyBpcwpkb25lLCBob3dldmVyLAogIG5vZGUtMSByYWlzZXMgYW4g
-dW5leHBlY3RlZCBXRkJpdE1hcFMgcmVwbCBzdGF0dXMgYW5kIGNhbid0IHJlY292ZXIKdG8gbm9y
-bWFsIGFueW1vcmUuCgpTdGF0dXMgb3V0cHV0OgoKbm9kZS0xOiBkcmJkYWRtIHN0YXR1cwoKZHJi
-ZDYgcm9sZTpTZWNvbmRhcnkKCmRpc2s6VXBUb0RhdGUKCmhvdHNwYXJlIGNvbm5lY3Rpb246Q29u
-bmVjdGluZwoKbm9kZS0yIHJvbGU6UHJpbWFyeQoKcmVwbGljYXRpb246V0ZCaXRNYXBTIHBlZXIt
-ZGlzazpDb25zaXN0ZW50Cgpub2RlLTMgcm9sZTpTZWNvbmRhcnkKCnBlZXItZGlzazpVcFRvRGF0
-ZQoKCm5vZGUtMjogZHJiZGFkbSBzdGF0dXMKCmRyYmQ2IHJvbGU6UHJpbWFyeQoKZGlzazpVcFRv
-RGF0ZQoKaG90c3BhcmUgY29ubmVjdGlvbjpDb25uZWN0aW5nCgpub2RlLTEgcm9sZTpTZWNvbmRh
-cnkKCnBlZXItZGlzazpVcFRvRGF0ZQoKbm9kZS0zIHJvbGU6U2Vjb25kYXJ5CgpwZWVyLWRpc2s6
-VXBUb0RhdGUKCkkgYXNzdW1lIHRoYXQgdGhlcmUgaXMgYSBwcm9jZXNzIHNlcXVlbmNlIGJlbG93
-IGFjY29yZGluZyB0byBteSBzb3VyY2UKY29kZSB2ZXJzaW9uOgpub2RlLTEgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbm9kZS0yCiAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgbm9kZS0zCiAgICAgICAgcmVzdGFydGVkIHdpdGggQ1JB
-U0hFRF9QUklNQVJZCiAgICAgICAgc3RhcnQgc3luYyB3aXRoIG5vZGUtMyBhcyB0YXJnZXQKICAg
-c3RhcnQgc3luYyB3aXRoIG5vZGUtMiBhcyBzb3VyY2UKICAgICAgICDigKYgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg4oCmCiAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBlbmQgc3luYyB3
-aXRoIG5vZGUtMwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGVu
-ZCBzeW5jIHdpdGggbm9kZS0yCiAgICAgICAgd19hZnRlcl9zdGF0ZV9jaGFuZ2UKICAgICAgICAg
-ICAgICAgICAgICAgIGxvb3AgMSB3aXRoaW4gZm9yIGxvb3AgYWdhaW5zdCBub2RlLTE6KGEpCnJl
-Y2VpdmVfdXVpZHMxMCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzZW5kIHV1aWQg
-d2l0aApVVUlEX0ZMQUdfR09UX1NUQUJMRSZDUkFTSEVEX1BSSU1BUlkgdG8gbm9kZS0xCnJlY2Vp
-dmUgdXVpZCBvZiBub2RlLTIgd2l0aCBDUkFTSEVEX1BSSU1BUlkgICAgICBsb29wIDIgd2l0aGlu
-IGZvcgpsb29wIGFnYWluc3Qgbm9kZS0zOgogICAgICAgIGNsZWFyICBDUkFTSEVEX1BSSU1BUlko
-YikKc2VuZCB1dWlkIHRvIG5vZGUtMiB3aXRoIFVVSURfRkxBR19SRVNZTkMgICAgICAgIHJlY2Vp
-dmUgdXVpZHMxMApzeW5jX2hhbmRzaGFrZSB0byBTWU5DX1NPVVJDRV9JRl9CT1RIX0ZBSUxFRCAg
-ICAgc3luY19oYW5kc2hha2UgdG8gTk9fU1lOQwpjaGFuZ2UgcmVwbCBzdGF0ZSB0byBXRkJpdE1h
-cFMKClRoZSBrZXkgcHJvYmxlbSBpcyBhYm91dCB0aGUgb3JkZXIgb2Ygc3RlcChhKSBhbmQgc3Rl
-cChiKSwgdGhhdCBpcywKbm9kZS0yIHNlbmRzIHRoZQp1bmV4cGVjdGVkICBDUkFTSEVEX1BSSU1B
-UlkgdG8gbm9kZS0xIHRob3VnaCBpdCdzIGFjdHVhbGx5IG5vIGxvbmdlciBhCmNyYXNoZWQgcHJp
-bWFyeQphZnRlciBzeW5jaW5nIHdpdGggbm9kZS0zLgpTbyBtYXkgSSBoYXZlIHRoZSBiZWxvdyBx
-dWVzdGlvbnM6CmEuSXMgdGhpcyByZWFsbHkgYSBCVUcgb3IganVzdCBhbiBleHBlY3RlZCByZXN1
-bHQ/CmIuSWYgdGhlcmUncyBhbHJlYWR5IGEgcGF0Y2ggZml4IHdpdGhpbiB0aGUgbmV3ZXN0IHZl
-cmlvbj8KYy5JZiB0aGVyZSdzIHNvbWUgd29ya2Fyb3VuZCBtZXRob2QgYWdhaW5zdCB0aGlzIGtp
-bmQgb2YgdW5leGNlcHRlZApzdGF0dXMsIHNpbmNlIEkgcmVhbGx5CiAgbWVldCBzbyBtYW55IG90
-aGVyIHByb2JsZW1zIGxpa2UgdGhhdCA6KApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpkcmJkLWRldiBtYWlsaW5nIGxpc3QKZHJiZC1kZXZAbGlzdHMubGlu
-Yml0LmNvbQpodHRwczovL2xpc3RzLmxpbmJpdC5jb20vbWFpbG1hbi9saXN0aW5mby9kcmJkLWRl
-dgo=
+--===============4588386805430004541==
+Content-Type: multipart/alternative; boundary="000000000000edcf02059de57758"
+
+--000000000000edcf02059de57758
+Content-Type: text/plain; charset="UTF-8"
+
+Hello,
+
+I am interested to know that in case of a primary-secondary server with
+single primary drbd mode undergoing full resync, what will happen in case
+of failover?
+Will the secondary server get promoted to primary or not? If not, will it
+send any error?
+
+Regards,
+Mona
+
+--000000000000edcf02059de57758
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hello,<div><br></div><div>I am interested to know that in =
+case of a primary-secondary server with single primary drbd mode undergoing=
+ full resync, what will happen in case of failover?</div><div>Will the seco=
+ndary server get promoted to primary or not? If not, will it send any error=
+?</div><div><br></div><div>Regards,</div><div>Mona</div></div>
+
+--000000000000edcf02059de57758--
+
+--===============4588386805430004541==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+drbd-dev mailing list
+drbd-dev@lists.linbit.com
+https://lists.linbit.com/mailman/listinfo/drbd-dev
+
+--===============4588386805430004541==--
