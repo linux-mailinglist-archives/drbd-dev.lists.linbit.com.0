@@ -2,72 +2,72 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EAAB1EF421
-	for <lists+drbd-dev@lfdr.de>; Fri,  5 Jun 2020 11:30:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A4671F824A
+	for <lists+drbd-dev@lfdr.de>; Sat, 13 Jun 2020 11:55:41 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4B8034203E1;
-	Fri,  5 Jun 2020 11:30:40 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7C4C74203EB;
+	Sat, 13 Jun 2020 11:55:41 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
-	[104.130.122.27])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A081E420311
-	for <drbd-dev@lists.linbit.com>; Fri,  5 Jun 2020 11:30:38 +0200 (CEST)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
-	q=dns/txt; 
-	s=smtp; t=1591349439; h=Content-Type: MIME-Version: Message-ID:
-	In-Reply-To: Date: References: Subject: Cc: To: From: Sender;
-	bh=4DMYxLsLHIEhVdnqccTaMZxujDa7ILXa6vhA3dmslLM=;
-	b=RsvvmgZAakMV5m87m/snJA99v6alEhLPRt4sL8b5YPMsHcLR6UIZ4YnroopaXt2puLtTwzNL
-	9wpNpa9kZVs8n3NcNaYy8mLwyYQE8VDbjhgmZJCdi2n6Q3qRilLJfD9W8d5DyXRccJHVERfW
-	j6Wvm2XYFb3hO7BORu8Qu7HPnRs=
-X-Mailgun-Sending-Ip: 104.130.122.27
-X-Mailgun-Sid: WyI1YWE3MCIsICJkcmJkLWRldkBsaXN0cy5saW5iaXQuY29tIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
-	(ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
-	by smtp-out-n15.prod.us-east-1.postgun.com with SMTP id
-	5eda0f79ea0dfa490e5e4b53 (version=TLS1.2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 05 Jun 2020 09:25:13
-	GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-	id 1F8D4C433C6; Fri,  5 Jun 2020 09:25:13 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-	aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
-	autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from tynnyri.adurom.net (tynnyri.adurom.net [51.15.11.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested) (Authenticated sender: kvalo)
-	by smtp.codeaurora.org (Postfix) with ESMTPSA id EA82AC433C6;
-	Fri,  5 Jun 2020 09:25:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org EA82AC433C6
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
-	dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
-	spf=none smtp.mailfrom=kvalo@codeaurora.org
-From: Kalle Valo <kvalo@codeaurora.org>
-To: Kees Cook <keescook@chromium.org>
-References: <20200603233203.1695403-1-keescook@chromium.org>
-	<20200603233203.1695403-10-keescook@chromium.org>
-Date: Fri, 05 Jun 2020 12:25:05 +0300
-In-Reply-To: <20200603233203.1695403-10-keescook@chromium.org> (Kees Cook's
-	message of "Wed, 3 Jun 2020 16:32:02 -0700")
-Message-ID: <878sh1g8zy.fsf@tynnyri.adurom.net>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 137934203D6
+	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 11:55:26 +0200 (CEST)
+Received: by mail-wm1-f68.google.com with SMTP id b82so1522224wmb.1
+	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 02:55:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:resent-from:resent-date:resent-message-id
+	:resent-to:dkim-signature:mime-version:from:date:message-id:subject
+	:to; bh=l/wDtebg/hA30nObyA+vnEymMNGM312XTFiftTI40Ak=;
+	b=odxMwEWPVLDWMNJMEKTBXRpStGaXl9+T0DhMISOOs4Eoz41zaw6NBeTHvhMOQ5qcww
+	737TOLGNDbDvzgg98hjuvRXW90V7hTS7PziHiNq5Z5OtcbMH7U/jZrFkIdTdktQYO4GY
+	2bfbk4o9OLjOiF+FGqSmq4c8vlmNv5RtP+B46MBtJF4hG5mS/gGRslp0NAmTTRGu6ozb
+	N3yepxu7veUX4G+3EhmPwWt+c72ZfxyvgJEoTOHvgHq7JdwP3y46M66weCp1l3cwN70s
+	zdEi6pfnfCbT2yzL+bX95cNIrYsWXm1Tky1/3zYO9b8ozYaSFIMvOeD5XN7+HGdyYGIs
+	8cAQ==
+X-Gm-Message-State: AOAM530qWBceEmN4g+AijRV7stQT16ASctwvyIcRBtNNq8Xd484biOLk
+	6EzQ6i9fjRgIFeEtE6CZ2z7eNMJRb8G+2w==
+X-Google-Smtp-Source: ABdhPJx+RX+IRHpWtK0NDAWcjphvjgf0yUCOz5W94kxeQJmbGdBCRA0cnOx/TCIQCR1xVLlIcNZs2w==
+X-Received: by 2002:a1c:de82:: with SMTP id v124mr3256581wmg.89.1592042126181; 
+	Sat, 13 Jun 2020 02:55:26 -0700 (PDT)
+Received: from soda.linbit (62-99-137-214.static.upcbusiness.at.
+	[62.99.137.214]) by smtp.gmail.com with ESMTPSA id
+	88sm15234900wre.45.2020.06.13.02.55.25
+	for <drbd-dev@lists.linbit.com>
+	(version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+	Sat, 13 Jun 2020 02:55:25 -0700 (PDT)
+Resent-From: Lars Ellenberg <lars.ellenberg@linbit.com>
+Resent-Date: Sat, 13 Jun 2020 11:55:24 +0200
+Resent-Message-ID: <20200613095524.GB4222@soda.linbit>
+Resent-To: drbd-dev@lists.linbit.com
+X-Original-To: drbd-dev@lists.linbit.com
+X-Greylist: delayed 1487 seconds by postgrey-1.31 at mail19;
+	Wed, 11 Mar 2020 16:56:53 CET
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+	[209.85.221.49])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9EC624203DE
+	for <drbd-dev@lists.linbit.com>; Wed, 11 Mar 2020 16:56:53 +0100 (CET)
+Received: by mail-wr1-f49.google.com with SMTP id n15so3263700wrw.13
+	for <drbd-dev@lists.linbit.com>; Wed, 11 Mar 2020 08:56:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=l/wDtebg/hA30nObyA+vnEymMNGM312XTFiftTI40Ak=;
+	b=R8A6RteNiLAKNCYA1IzIzqpNry3SASGzPDr1+/lJUjYeNRTo5k47F3kXewtcqdVkwj
+	yKlKxlkOt2c3u2qHCo1B2ya+Fq3f6cq9EscSWZq01/CKlafOpTP9EVvMiq0OL8nWqbew
+	QdTgpkEHxZGhimxVB8FjQUrSrOOsi9ropCRoyspICSJdVh785OF2GY9Z0THOdmpYo+4G
+	sv7oJOdx/PPOoxJKe9y7v8SQWJWjBDtsnbKKMMSbk8Yl7WQsG1ayuHj/t/inH3iKbD+k
+	vbk7HYzW+WfeUjApmtPYV/poLTYxvag/K6lrk7XSWX6iSuRMEkFEO7wJfRxuvhhem3hE
+	Y/8w==
+X-Received: by 2002:a05:6512:1109:: with SMTP id
+	l9mr2539636lfg.50.1583940258406; 
+	Wed, 11 Mar 2020 08:24:18 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Andy Whitcroft <apw@canonical.com>, clang-built-linux@googlegroups.com,
-	linux-ide@vger.kernel.org, netdev@vger.kernel.org,
-	x86@kernel.org, linux-wireless@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-	linux-mm@kvack.org, Alexander Potapenko <glider@google.com>,
-	b43-dev@lists.infradead.org, Joe Perches <joe@perches.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	linux-clk@vger.kernel.org, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH 09/10] treewide: Remove uninitialized_var()
-	usage
+From: =?UTF-8?B?16LXqNefINeQ16HXkNeV?= <eranasseo100@gmail.com>
+Date: Wed, 11 Mar 2020 17:24:03 +0200
+Message-ID: <CANNRee=885eDz9bbcWVLi0_68V9xCufKus_dQMxMpkPaqRZ4sw@mail.gmail.com>
+To: drbd-dev@lists.linbit.com
+Subject: [Drbd-dev] RHEL 7.6 | 3.10.0-957 | drbd_req.c compilation errors
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -81,63 +81,74 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============7412053147708379841=="
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Kees Cook <keescook@chromium.org> writes:
+--===============7412053147708379841==
+Content-Type: multipart/alternative; boundary="00000000000072a34e05a095d4a9"
 
-> Using uninitialized_var() is dangerous as it papers over real bugs[1]
-> (or can in the future), and suppresses unrelated compiler warnings
-> (e.g. "unused variable"). If the compiler thinks it is uninitialized,
-> either simply initialize the variable or make compiler changes.
->
-> I preparation for removing[2] the[3] macro[4], remove all remaining
-> needless uses with the following script:
->
-> git grep '\buninitialized_var\b' | cut -d: -f1 | sort -u | \
-> 	xargs perl -pi -e \
-> 		's/\buninitialized_var\(([^\)]+)\)/\1/g;
-> 		 s:\s*/\* (GCC be quiet|to make compiler happy) \*/$::g;'
->
-> drivers/video/fbdev/riva/riva_hw.c was manually tweaked to avoid
-> pathological white-space.
->
-> No outstanding warnings were found building allmodconfig with GCC 9.3.0
-> for x86_64, i386, arm64, arm, powerpc, powerpc64le, s390x, mips, sparc64,
-> alpha, and m68k.
->
-> [1] https://lore.kernel.org/lkml/20200603174714.192027-1-glider@google.com/
-> [2] https://lore.kernel.org/lkml/CA+55aFw+Vbj0i=1TGqCR5vQkCzWJ0QxK6CernOU6eedsudAixw@mail.gmail.com/
-> [3] https://lore.kernel.org/lkml/CA+55aFwgbgqhbp1fkxvRKEpzyR5J8n1vKT1VZdz9knmPuXhOeg@mail.gmail.com/
-> [4] https://lore.kernel.org/lkml/CA+55aFz2500WfbKXAx8s67wrm9=yVJu65TpLgN_ybYNv0VEOKA@mail.gmail.com/
->
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+--00000000000072a34e05a095d4a9
+Content-Type: text/plain; charset="UTF-8"
 
-[...]
+Hello experts,
 
->  drivers/net/wireless/ath/ath10k/core.c           |  2 +-
->  drivers/net/wireless/ath/ath6kl/init.c           |  2 +-
->  drivers/net/wireless/ath/ath9k/init.c            |  2 +-
->  drivers/net/wireless/broadcom/b43/debugfs.c      |  2 +-
->  drivers/net/wireless/broadcom/b43/dma.c          |  2 +-
->  drivers/net/wireless/broadcom/b43/lo.c           |  2 +-
->  drivers/net/wireless/broadcom/b43/phy_n.c        |  2 +-
->  drivers/net/wireless/broadcom/b43/xmit.c         | 12 ++++++------
->  .../net/wireless/broadcom/b43legacy/debugfs.c    |  2 +-
->  drivers/net/wireless/broadcom/b43legacy/main.c   |  2 +-
->  drivers/net/wireless/intel/iwlegacy/3945.c       |  2 +-
->  drivers/net/wireless/intel/iwlegacy/4965-mac.c   |  2 +-
->  .../net/wireless/realtek/rtlwifi/rtl8192cu/hw.c  |  4 ++--
+I noticed that some APIs (part_round_stats, part_inc_in_flight) were
+changed in RHEL 7.6 Kernel 3.10.0-957 which drbd_req.c was not aligned to.
 
-For wireless drivers:
+Do you know if the following patch is correct from DRBD perspective?
+https://opendev.org/starlingx/integ/commit/3de433a3b1667c7223702fb9e3e81e424cdaedcb
 
-Acked-by: Kalle Valo <kvalo@codeaurora.org>
+To be more precise I mean only the drbd_req.c changes here:
+https://opendev.org/starlingx/integ/src/commit/3de433a3b1667c7223702fb9e3e81e424cdaedcb/kernel/kernel-rt/centos/patches/fix-CentOS-7.6-upgrade-compile-error.patch
 
--- 
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+Would appreciate any help
+Thank you
+
+Regards
+Eran Asseo
+
+--00000000000072a34e05a095d4a9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"rtl"><div dir=3D"ltr">Hello experts,</div><div dir=3D"ltr"><br>=
+</div><div dir=3D"ltr">I noticed that some APIs (<code class=3D"gmail-diff =
+gmail-hljs"><span class=3D"gmail-hljs-addition">part_round_stats,</span></c=
+ode><code class=3D"gmail-diff gmail-hljs"><span class=3D"gmail-hljs-additio=
+n"> part_inc_in_flight</span></code><code class=3D"gmail-diff gmail-hljs"><=
+span class=3D"gmail-hljs-addition"></span></code>)
+
+
+
+were changed in RHEL 7.6 Kernel
+3.10.0-957 which drbd_req.c was not aligned to.</div><div dir=3D"ltr"><br><=
+/div><div dir=3D"ltr">Do you know if the following patch is correct from DR=
+BD perspective?</div><div dir=3D"ltr"><a href=3D"https://opendev.org/starli=
+ngx/integ/commit/3de433a3b1667c7223702fb9e3e81e424cdaedcb">https://opendev.=
+org/starlingx/integ/commit/3de433a3b1667c7223702fb9e3e81e424cdaedcb</a></di=
+v><div dir=3D"ltr"><br></div><div dir=3D"ltr">To be more precise I mean onl=
+y the drbd_req.c changes here:</div><div dir=3D"ltr"><a href=3D"https://ope=
+ndev.org/starlingx/integ/src/commit/3de433a3b1667c7223702fb9e3e81e424cdaedc=
+b/kernel/kernel-rt/centos/patches/fix-CentOS-7.6-upgrade-compile-error.patc=
+h">https://opendev.org/starlingx/integ/src/commit/3de433a3b1667c7223702fb9e=
+3e81e424cdaedcb/kernel/kernel-rt/centos/patches/fix-CentOS-7.6-upgrade-comp=
+ile-error.patch</a></div><div dir=3D"ltr"><br></div><div dir=3D"ltr">Would =
+appreciate any help<br></div><div dir=3D"ltr">Thank you<br></div><div dir=
+=3D"ltr"><br></div><div dir=3D"ltr">Regards<br></div><div dir=3D"ltr">Eran =
+Asseo<br></div></div>
+
+--00000000000072a34e05a095d4a9--
+
+--===============7412053147708379841==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
 https://lists.linbit.com/mailman/listinfo/drbd-dev
+
+--===============7412053147708379841==--
