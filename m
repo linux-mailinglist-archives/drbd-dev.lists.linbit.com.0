@@ -2,40 +2,50 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48E4522E49B
-	for <lists+drbd-dev@lfdr.de>; Mon, 27 Jul 2020 06:05:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0D1C22E66D
+	for <lists+drbd-dev@lfdr.de>; Mon, 27 Jul 2020 09:22:35 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1E89242046E;
-	Mon, 27 Jul 2020 06:05:37 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1AC6D4204CA;
+	Mon, 27 Jul 2020 09:22:35 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 592 seconds by postgrey-1.31 at mail19;
-	Mon, 27 Jul 2020 06:05:34 CEST
-Received: from mail.prgmr.com (mail.prgmr.com [71.19.149.6])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 13C684203D2
-	for <drbd-dev@lists.linbit.com>; Mon, 27 Jul 2020 06:05:34 +0200 (CEST)
-Received: from [192.168.2.47] (c-174-62-72-237.hsd1.ca.comcast.net
-	[174.62.72.237]) (Authenticated sender: srn)
-	by mail.prgmr.com (Postfix) with ESMTPSA id B6457720091;
-	Sun, 26 Jul 2020 23:55:10 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.prgmr.com B6457720091
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prgmr.com;
-	s=default; t=1595822110;
-	bh=DMklx9p86kSRquGheNq9JgwFoT395CVBgO/Mw0xQLYY=;
-	h=To:From:Subject:Cc:Date:From;
-	b=TnzbaQ1rzDdxU4eQTuyAYK9MySd6Q9YWgXC+HZb6aPbYf+zopiBmx301Y9fKAINlk
-	Ne6HOCtaaoalC7O0N8KUso5hUZgZ//jIJXX/PTj41lGclSfmcYJ0Wjyo3u84mWsnLu
-	z7g7KVd2HlqTCWX1RHL3JsuAxDnYtOx7yFf8VBFs=
-To: philipp.reisner@linbit.com, lars.ellenberg@linbit.com
-From: Sarah Newman <srn@prgmr.com>
-Message-ID: <308845ca-17a3-43d0-b7ad-80069d9bc17f@prgmr.com>
-Date: Sun, 26 Jul 2020 20:55:10 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.10.0
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
+	[209.85.208.48])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 990DE420005
+	for <drbd-dev@lists.linbit.com>; Sun, 22 Mar 2020 17:34:22 +0100 (CET)
+Received: by mail-ed1-f48.google.com with SMTP id a43so13545125edf.6
+	for <drbd-dev@lists.linbit.com>; Sun, 22 Mar 2020 09:34:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=B28O3UeBTUFmTi85lfzSV6mLRLJVOzJzaafQWN7YacM=;
+	b=EcHmccn67hMjtK3wmgdL2hagh6jxEnIP+3GDXh42KhIEHAL59uCCqXJT1693Q4ZP1W
+	H1Nwg7ONXyZJt71ZyP8FINq2S59wMAbqjKBPhMihRQydkwPUoalZwvnaq5HFbrhncOY1
+	3ILKIiwyaI8uT6OLCUqWquHKVJy2nY+UKoDuNbUZ1dSfJG2v/LsEBHQk1rSGILUkP0ke
+	yIhw190PWZV3/qyqo8KMzVZtSSOelZbHF5y5tLJYqXQ8UqyfaG1HgiTTcS49zDgyMRic
+	C8uRES29rpCs1Bhq+WqD6GL+ySIeVubk+kcRKEvYeQpNQF35saIYGHlAy+SOJxe7AFbw
+	fWIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=B28O3UeBTUFmTi85lfzSV6mLRLJVOzJzaafQWN7YacM=;
+	b=sJTCLLZ/tOqxpwYwh2a9jSZDOJ61+XVcn5oioLwed1OSNh3jZ+azPCTaM35CNimqli
+	+ECwNPvgzyc1fNQ7fVNgQpXVKV2By8+a78ZBiNfW2Rn0uNfazp51ACeeCvBxxBbeB1zg
+	NcGQPIitBwLXp9XzBZVvviMGSPS5kg6yPN/jSwRKxH5nEwLQN21xx0CRazX+3ipSZfTP
+	SDe5eBSXeAfJQn2Mrgi1LU5yMSl/5+7c5CLwNP79fpCLxr1SNr8Sp/cyNKmQrQV7NDu1
+	r26XVgj3GnK60drnv9cXOSiUF1gH5DcGg2TALwTbxMYt3e52g9QZlMHY4rsGvy9FLLxL
+	dFlw==
+X-Gm-Message-State: ANhLgQ3ECGnV3TEfZQlKyayAbXxMxIfspxHNbJKv73MotuZI9WQyvEO+
+	7leafABYE8aMEXdLfIOIH5Wk4lsFiURgVZMgy1fNuX/l
+X-Google-Smtp-Source: ADFU+vuctxS4tOvtRXrWuUFx77k5YDRHGspceWja51jhGFgjlEtZ5UNtx02QDFnFbD+JWudGXrd/QKxtUlvmy0ROfYs=
+X-Received: by 2002:a50:ed97:: with SMTP id h23mr18105793edr.197.1584894276265;
+	Sun, 22 Mar 2020 09:24:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Language: en-US
-Cc: drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] Bug(s) with Linux v5.4.46
+From: "T.J. Yang" <tjyang2001@gmail.com>
+Date: Sun, 22 Mar 2020 11:24:25 -0500
+Message-ID: <CAD2GW8q5meBoNG+ewcWNLZKA7zS6-C2Ubzw9O5_n=p3fgZ83jQ@mail.gmail.com>
+To: drbd-dev@lists.linbit.com
+X-Mailman-Approved-At: Mon, 27 Jul 2020 09:22:33 +0200
+Subject: [Drbd-dev] spatch error message is not accurate
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,156 +59,81 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============6674449373529712079=="
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Hi,
+--===============6674449373529712079==
+Content-Type: multipart/alternative; boundary="00000000000057eb6a05a173f4e1"
 
-We got the following kernel log messages:
+--00000000000057eb6a05a173f4e1
+Content-Type: text/plain; charset="UTF-8"
 
-Jul 25 03:38:24 hail kernel: ata1.00: error: { IDNF }
-Jul 25 03:38:24 hail kernel: ata1.00: configured for UDMA/133
-Jul 25 03:38:24 hail kernel: ata1: EH complete
-Jul 25 03:38:24 hail kernel: drbd resource37: peer( Primary -> Unknown ) conn( Connected -> Disconnecting ) pdsk( UpToDate -> DUnknown )
-Jul 25 03:38:24 hail kernel: drbd resource37: ack_receiver terminated
-Jul 25 03:38:24 hail kernel: drbd resource37: Terminating drbd_a_resource
-Jul 25 03:38:26 hail kernel: drbd resource37: ASSERTION FAILED: connection->current_epoch->list not empty
-Jul 25 03:38:26 hail kernel: drbd resource37: Connection closed
-Jul 25 03:38:26 hail kernel: drbd resource37: conn( Disconnecting -> StandAlone )
-Jul 25 03:38:26 hail kernel: drbd resource37: receiver terminated
-Jul 25 03:38:26 hail kernel: drbd resource37: Terminating drbd_r_resource
-Jul 25 03:38:26 hail kernel: block drbd37: disk( UpToDate -> Failed )
-Jul 25 03:38:26 hail kernel: block drbd37: 0 KB (0 bits) marked out-of-sync by on disk bit-map.
-Jul 25 03:38:26 hail kernel: block drbd37: disk( Failed -> Diskless )
-Jul 25 03:38:26 hail kernel: general protection fault: 0000 [#1] SMP NOPTI
-Jul 25 03:38:26 hail kernel: CPU: 0 PID: 18526 Comm: drbdsetup-84 Not tainted 5.4.46-1_prgmr.el7.x86_64 #1
-Jul 25 03:38:26 hail kernel: Hardware name: HPE ProLiant DL325 Gen10/ProLiant DL325 Gen10, BIOS A41 03/09/2020
-Jul 25 03:38:26 hail kernel: RIP: e030:kobject_uevent_env+0x1d/0x660
-Jul 25 03:38:26 hail kernel: Code: 44 00 00 66 2e 0f 1f 84 00 00 00 00 00 41 57 89 f0 41 56 41 55 41 54 55 53 48 83 ec 38 4c 8b 34 c5 00 e8 17 82 83 
-fe 01 75 04 <80> 4f 3c 08 48 89 f8 eb 0d 48 8b 40 18 48 85 c0 0f 84 19 01 00 00
-Jul 25 03:38:26 hail kernel: RSP: e02b:ffffc900757a7a10 EFLAGS: 00010246
-Jul 25 03:38:26 hail kernel: RAX: 0000000000000001 RBX: fdfdfdfdfdfe023d RCX: ffff8880606f9870
-Jul 25 03:38:26 hail kernel: RDX: 0000000000000000 RSI: 0000000000000001 RDI: fdfdfdfdfdfe023d
-Jul 25 03:38:26 hail kernel: RBP: ffff8880606f9870 R08: 0000000000000040 R09: ffffffffc01ae500
-Jul 25 03:38:26 hail kernel: R10: ffffc900757a7aa8 R11: ffffffffc01f0b58 R12: ffff8880606f9800
-Jul 25 03:38:26 hail kernel: R13: ffff88800fb5dc00 R14: ffffffff824055e5 R15: ffff88800fb5dc48
-Jul 25 03:38:26 hail kernel: FS:  00007fbbc98e4740(0000) GS:ffff888188a00000(0000) knlGS:0000000000000000
-Jul 25 03:38:26 hail kernel: CS:  e030 DS: 0000 ES: 0000 CR0: 0000000080050033
-Jul 25 03:38:26 hail kernel: CR2: 00007f978b44c000 CR3: 0000000007926000 CR4: 0000000000040660
-Jul 25 03:38:26 hail kernel: Call Trace:
-Jul 25 03:38:26 hail kernel: ? error_exit+0x5/0x20
-Jul 25 03:38:26 hail kernel: blk_integrity_del+0x1a/0x2b
-Jul 25 03:38:26 hail kernel: del_gendisk+0x27/0x2f0
-Jul 25 03:38:26 hail kernel: drbd_delete_device+0xcc/0x100 [drbd]
-Jul 25 03:38:26 hail kernel: adm_del_minor+0xc5/0xe0 [drbd]
-Jul 25 03:38:26 hail kernel: drbd_adm_down+0x13f/0x1f0 [drbd]
-Jul 25 03:38:26 hail kernel: genl_family_rcv_msg+0x1d2/0x410
-Jul 25 03:38:26 hail kernel: genl_rcv_msg+0x47/0x90
-Jul 25 03:38:26 hail kernel: ? __kmalloc_node_track_caller+0x217/0x2e0
-Jul 25 03:38:26 hail kernel: ? genl_family_rcv_msg+0x410/0x410
-Jul 25 03:38:26 hail kernel: netlink_rcv_skb+0x49/0x110
-Jul 25 03:38:26 hail kernel: genl_rcv+0x24/0x40
-Jul 25 03:38:26 hail kernel: netlink_unicast+0x191/0x220
-Jul 25 03:38:26 hail kernel: netlink_sendmsg+0x21d/0x3f0
-Jul 25 03:38:26 hail kernel: sock_sendmsg+0x5b/0x60
-Jul 25 03:38:26 hail kernel: sock_write_iter+0x97/0x100
-Jul 25 03:38:26 hail kernel: new_sync_write+0x12d/0x1d0
-Jul 25 03:38:26 hail kernel: vfs_write+0xa5/0x1a0
-Jul 25 03:38:26 hail kernel: ksys_write+0x59/0xd0
-Jul 25 03:38:26 hail kernel: do_syscall_64+0x5b/0x1a0
-Jul 25 03:38:26 hail kernel: entry_SYSCALL_64_after_hwframe+0x44/0xa9
-Jul 25 03:38:26 hail kernel: RIP: 0033:0x7fbbc93f1a00
-Jul 25 03:38:26 hail kernel: Code: 73 01 c3 48 8b 0d 70 74 2d 00 f7 d8 64 89 01 48 83 c8 ff c3 66 0f 1f 44 00 00 83 3d bd d5 2d 00 00 75 10 b8 01 00 
-00 00 0f 05 <48> 3d 01 f0 ff ff 73 31 c3 48 83 ec 08 e8 ee cb 01 00 48 89 04 24
-Jul 25 03:38:26 hail kernel: RSP: 002b:00007ffe63ab8ce8 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-Jul 25 03:38:26 hail kernel: RAX: ffffffffffffffda RBX: 0000000001bb8070 RCX: 00007fbbc93f1a00
-Jul 25 03:38:26 hail kernel: RDX: 0000000000000030 RSI: 0000000001bb8080 RDI: 0000000000000003
-Jul 25 03:38:26 hail kernel: RBP: 0000000000000030 R08: 00007ffe63ab8d54 R09: 0000000000000000
-Jul 25 03:38:26 hail kernel: R10: 000000000000006b R11: 0000000000000246 R12: 0000000001bb8080
-Jul 25 03:38:26 hail kernel: R13: 0000000000000030 R14: 0000000000000003 R15: 0000000000414378
-Jul 25 03:38:26 hail kernel: Modules linked in: 8021q garp mrp bonding xt_physdev ip6table_filter ip6_tables xt_conntrack nf_conntrack nf_defrag_ipv6 
-nf_defrag_ipv4 ib_isert iscsi_target_mod ib_srpt target_core_mod ib_srp scsi_transport_srp rpcrdma sunrpc rdma_ucm ib_iser rdma_cm iw_cm ib_umad 
-libiscsi ib_ipoib scsi_transport_iscsi ib_cm mlx4_ib ib_uverbs ib_core crct10dif_pclmul crc32_pclmul hpilo ghash_clmulni_intel pcspkr cdc_eem usbnet 
-mii hpwdt ccp sp5100_tco k10temp ipmi_si i2c_piix4 wmi ipmi_devintf ipmi_msghandler tun acpi_power_meter sch_ingress sch_htb raid456 async_raid6_recov 
-async_memcpy async_pq async_xor async_tx xor raid6_pq raid10 fuse ext2 ebt_mark ebt_ip ebt_ip6 ebt_arp ebtable_nat ebtable_filter ebtables drbd 
-lru_cache libcrc32c cls_u32 cls_fw br_netfilter bridge stp llc xenfs xen_privcmd act_police mlx4_en raid1 crc32c_intel serio_raw drm_vram_helper ttm 
-igb ptp pps_core dca mlx4_core xen_pciback xen_netback xen_blkback xen_gntalloc xen_gntdev xen_evtchn
-Jul 25 03:38:26 hail kernel: ---[ end trace 664811a432d5d82a ]---
-Jul 25 03:38:26 hail kernel: RIP: e030:kobject_uevent_env+0x1d/0x660
-Jul 25 03:38:26 hail kernel: Code: 44 00 00 66 2e 0f 1f 84 00 00 00 00 00 41 57 89 f0 41 56 41 55 41 54 55 53 48 83 ec 38 4c 8b 34 c5 00 e8 17 82 83 
-fe 01 75 04 <80> 4f 3c 08 48 89 f8 eb 0d 48 8b 40 18 48 85 c0 0f 84 19 01 00 00
-Jul 25 03:38:26 hail kernel: RSP: e02b:ffffc900757a7a10 EFLAGS: 00010246
-Jul 25 03:38:26 hail kernel: RAX: 0000000000000001 RBX: fdfdfdfdfdfe023d RCX: ffff8880606f9870
-Jul 25 03:38:26 hail kernel: RDX: 0000000000000000 RSI: 0000000000000001 RDI: fdfdfdfdfdfe023d
-Jul 25 03:38:26 hail kernel: RBP: ffff8880606f9870 R08: 0000000000000040 R09: ffffffffc01ae500
-Jul 25 03:38:26 hail kernel: R10: ffffc900757a7aa8 R11: ffffffffc01f0b58 R12: ffff8880606f9800
-Jul 25 03:38:26 hail kernel: R13: ffff88800fb5dc00 R14: ffffffff824055e5 R15: ffff88800fb5dc48
-Jul 25 03:38:26 hail kernel: FS:  00007fbbc98e4740(0000) GS:ffff888188a00000(0000) knlGS:0000000000000000
-Jul 25 03:38:26 hail kernel: CS:  e030 DS: 0000 ES: 0000 CR0: 0000000080050033
-Jul 25 03:38:26 hail kernel: CR2: 00007f978b44c000 CR3: 0000000007926000 CR4: 0000000000040660
+Hi
 
-Reading this:
+I tried to compile drbd9 master branch  on centos 8 which come with spatch
+1.0.7 only.
 
-kobject_uevent_env+0x1d resolves to:
+following is one-liner patch to make error message match the checks(if hash
+spatch && spatch_is_recent; then)  in drbd-kernel-compat/gen_compat_patch.sh
 
-(gdb) list *(kobject_uevent_env+0x1d)
-Line 474 of "lib/kobject_uevent.c" starts at address 0xffffffff81a0f70d <kobject_uevent_env+29> and ends at 0xffffffff81a0f711 <kobject_uevent_env+33>.
+diff --git a/drbd/drbd-kernel-compat/gen_compat_patch.sh
+b/drbd/drbd-kernel-compat/gen_compat_patch.sh
+index 19466081..d6f34286 100644
+--- a/drbd/drbd-kernel-compat/gen_compat_patch.sh
++++ b/drbd/drbd-kernel-compat/gen_compat_patch.sh
+@@ -105,6 +105,6 @@ elif test ! -e ../.git && [[ $SPAAS = true ]]; then
+     echo "  You can create a new .tgz including this pre-computed compat
+patch"
+     echo "  by calling \"echo drbd-$REL_VERSION/drbd/$compat_patch
+>>.filelist ; make tgz\""
+ else
+-   echo "ERROR: spatch not found in \$PATH. Install package 'coccinelle'!"
++   echo "ERROR: spatch is older than version $MIN_SPATCH_VERSION OR spatch
+not found in \$PATH. Install package 'coccinelle'!"
+    exit 1
+ fi
 
-Which is:
-         if (action == KOBJ_REMOVE)
-                 kobj->state_remove_uevent_sent = 1
-0xffffffff81a0f70d <kobject_uevent_env+29>:  orb    $0x8,0x3c(%rdi)
+Regards
 
-kobj as $rdi is 0xfdfdfdfdfdfe023d.
+-- 
+T.J. Yang
 
-The pointer in question is passed in from:
+--00000000000057eb6a05a173f4e1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-(gdb) list *(blk_integrity_del+0x1a)
-Line 441 of "block/blk-integrity.c" starts at address 0xffffffff814d5d5a <blk_integrity_del+26> and ends at 0xffffffff814d5d62 <blk_integrity_del+34>.
+<div dir=3D"ltr"><div>Hi</div><div><br></div><div>I tried to compile drbd9 =
+master branch=C2=A0 on centos 8 which come with spatch 1.0.7 only.</div><di=
+v><br></div><div>following is one-liner patch to make error message match t=
+he checks(if hash spatch &amp;&amp; spatch_is_recent; then)=C2=A0 in=C2=A0d=
+rbd-kernel-compat/gen_compat_patch.sh</div><div><br></div>diff --git a/drbd=
+/drbd-kernel-compat/gen_compat_patch.sh b/drbd/drbd-kernel-compat/gen_compa=
+t_patch.sh<br>index 19466081..d6f34286 100644<br>--- a/drbd/drbd-kernel-com=
+pat/gen_compat_patch.sh<br>+++ b/drbd/drbd-kernel-compat/gen_compat_patch.s=
+h<br>@@ -105,6 +105,6 @@ elif test ! -e ../.git &amp;&amp; [[ $SPAAS =3D tr=
+ue ]]; then<br>=C2=A0 =C2=A0 =C2=A0echo &quot; =C2=A0You can create a new .=
+tgz including this pre-computed compat patch&quot;<br>=C2=A0 =C2=A0 =C2=A0e=
+cho &quot; =C2=A0by calling \&quot;echo drbd-$REL_VERSION/drbd/$compat_patc=
+h &gt;&gt;.filelist ; make tgz\&quot;&quot;<br>=C2=A0else<br>- =C2=A0 echo =
+&quot;ERROR: spatch not found in \$PATH. Install package &#39;coccinelle&#3=
+9;!&quot;<br>+ =C2=A0 echo &quot;ERROR: spatch is older than version $MIN_S=
+PATCH_VERSION OR spatch not found in \$PATH. Install package &#39;coccinell=
+e&#39;!&quot;<br>=C2=A0 =C2=A0 exit 1<br>=C2=A0fi<br><div><br></div><div>Re=
+gards</div><div><br></div>-- <br><div dir=3D"ltr" class=3D"gmail_signature"=
+ data-smartmail=3D"gmail_signature">T.J. Yang</div></div>
 
-Line's 440 and 441:
-      kobject_uevent(&disk->integrity_kobj, KOBJ_REMOVE);
-      kobject_del(&disk->integrity_kobj);
+--00000000000057eb6a05a173f4e1--
 
-What is the offset of integrity_kobj?
+--===============6674449373529712079==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-(gdb) p &((struct gendisk *)0)->integrity_kobj
-$1 = (struct kobject *) 0x440
-
-The pointer we see above, 0xfdfdfdfdfdfe023d, - 0x440 is 0xfdfdfdfdfdfdfdfd.
-
-blk_integrity_del is called at the beginning of del_gendisk near the end of drbd_delete_device. This is the code block from drbd_delete_device around 
-there:
-
-	kref_put(&device->kref, drbd_destroy_device);
-	del_gendisk(device->vdisk);
-	synchronize_rcu();
-	kref_put(&device->kref, drbd_destroy_device);
-}
-
-In drbd_destroy_device, there is the line:
-
-memset(device, 0xfd, sizeof(*device));
-
-So I think that drbd_destroy_device must have run before del_gendisk, and therefore the reference count for device->kref is unbalanced.
-
-I do not know if this is related to the error message:
-
-  ASSERTION FAILED: connection->current_epoch->list not empty
-
-or not.
-
-There were no error messages reported on the peer.
-
-FYI, when we've run in debug mode we've seen some ODEBUG errors about freeing active objects around the time that DRBD resources were released. One 
-was a work_struct and the other was a timer_list. I do not know if either of those are related.
-
-The system in question is still up and running in an error state; is there any more information you want from it?
-
---Sarah
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
 https://lists.linbit.com/mailman/listinfo/drbd-dev
+
+--===============6674449373529712079==--
