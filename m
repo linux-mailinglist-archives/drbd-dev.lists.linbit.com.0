@@ -2,72 +2,97 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id C98751F824B
-	for <lists+drbd-dev@lfdr.de>; Sat, 13 Jun 2020 11:56:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 051FD1F824C
+	for <lists+drbd-dev@lfdr.de>; Sat, 13 Jun 2020 11:56:47 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B19A64203F1;
-	Sat, 13 Jun 2020 11:56:16 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id DA3174203FC;
+	Sat, 13 Jun 2020 11:56:46 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 8C6B04203D6
-	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 11:56:15 +0200 (CEST)
-Received: by mail-wm1-f66.google.com with SMTP id l17so10056531wmj.0
-	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 02:56:15 -0700 (PDT)
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 96B054203F3
+	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 11:56:19 +0200 (CEST)
+Received: by mail-wr1-f68.google.com with SMTP id y17so12253432wrn.11
+	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 02:56:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:resent-from:resent-date:resent-message-id
-	:resent-to:dkim-signature:mime-version:references:in-reply-to:from
-	:date:message-id:subject:to;
-	bh=BgvN/0S54d258REVB30ePflt6jZ/W541Phm7ChW6/EQ=;
-	b=GYpdlSBoClHUFQfEE2h/21zf3azgpvM2BnHZPHr5aE+8wdNXPaQgbpRyUCemjKnvAq
-	FgrNEA9JXMnQnmb3T/OyVaGEaWjrokVDTtCKAgSdDEZPiaka1bpnAbQ81DH0yvDTqPYz
-	ufY8z4Fda2n7HrSqFnjbytrzbsq6uzwJRN2HtNGCk2S2K2UGr+IKNvIDgm4eebslipaC
-	dFqeybCSM94ImOOiEPEWgz9PhVZpWt8mPamXD35IcCO+mXzFOwLP3SyjYqKoHgHZzisy
-	7NodfMFjxX9HIpWt12dHSklvyvgPf6i5uAUxVZU82qupBHuMcsFAcsrExZg5a5lUACMF
-	3ZwQ==
-X-Gm-Message-State: AOAM5331MkP7GYqdQIvwF6IIlnNkZAwsbbJt21E4geG+nEhUj6X5wX/k
-	n7n2m33+LpJ2BJaJS/b0hxPntPlJzFFHaA==
-X-Google-Smtp-Source: ABdhPJzhKApSVYgju3iR+ABpM1AYgg+CY+UoAnzVwZ7iDBqOD9S73oO7VKaOb6wS1oNT5863CksUZg==
-X-Received: by 2002:a1c:67c3:: with SMTP id b186mr3062839wmc.167.1592042174737;
-	Sat, 13 Jun 2020 02:56:14 -0700 (PDT)
+	:resent-to:dkim-signature:resent-from:resent-date:resent-message-id
+	:resent-to:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to;
+	bh=4o8bmRbgfzERZRr7sLF0I+2xbIArysmLzxBcWgMJVC4=;
+	b=IgqJFjKO2v6zySpvMDEW0dpBTuh2dW1C/8iqmgX4rizo5w+oD29L9Pr1o8HeJ8u1B1
+	Xz9RGjy/Fc90zqJwI34u+p6akzwS7g2AOuITJuOZOZAPxMfzWaFpenbQUUXdavg62X+g
+	jrc106wzxoSfwiItjclY+khc/LDcGmCih1rcNIkBVn/4kKq7KziwQcrLMe7Dvh4WTr88
+	U6mE+ht9px5z9DxoRfAGUnf9C3+x05qOnLQbNMQMn2b+UGPhLd1pf/L1fyCygttpbGE4
+	EKERuOi0HlXPALW+62H9gFWaFHhXABXjk9Xr32m7QwLtYdlH5Ch05/PxKTxkuEv9R7zW
+	ytSg==
+X-Gm-Message-State: AOAM530IHBNMjkn32jB8wySqEi176vDPSdQNt++hijIrjuAJZVT3LQxw
+	LhcnZFs3aQq1bm/Bu9u2oxeZiP61is+u8Q==
+X-Google-Smtp-Source: ABdhPJxk6cuTapq1U5iHk8+7zkJE3C9JAMcy7c7oLt6Bj9t2ehbYyf26ZITwxaCkALbQhtx5Sr/mRA==
+X-Received: by 2002:adf:9e03:: with SMTP id u3mr19296413wre.413.1592042178730; 
+	Sat, 13 Jun 2020 02:56:18 -0700 (PDT)
 Received: from soda.linbit (62-99-137-214.static.upcbusiness.at.
 	[62.99.137.214]) by smtp.gmail.com with ESMTPSA id
-	e5sm14440704wrw.19.2020.06.13.02.56.14
+	u3sm13104566wmg.38.2020.06.13.02.56.18
 	for <drbd-dev@lists.linbit.com>
 	(version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 13 Jun 2020 02:56:14 -0700 (PDT)
+	Sat, 13 Jun 2020 02:56:18 -0700 (PDT)
 Resent-From: Lars Ellenberg <lars.ellenberg@linbit.com>
-Resent-Date: Sat, 13 Jun 2020 11:56:12 +0200
-Resent-Message-ID: <20200613095612.GC4222@soda.linbit>
+Resent-Date: Sat, 13 Jun 2020 11:56:16 +0200
+Resent-Message-ID: <20200613095616.GD4222@soda.linbit>
 Resent-To: drbd-dev@lists.linbit.com
 X-Original-To: drbd-dev@lists.linbit.com
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
-	[209.85.208.172])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C84434202C7
-	for <drbd-dev@lists.linbit.com>; Mon,  6 Apr 2020 17:25:48 +0200 (CEST)
-Received: by mail-lj1-f172.google.com with SMTP id q19so69020ljp.9
-	for <drbd-dev@lists.linbit.com>; Mon, 06 Apr 2020 08:25:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
-	bh=BgvN/0S54d258REVB30ePflt6jZ/W541Phm7ChW6/EQ=;
-	b=qcPqZ7TsDKRvfvASkO6/lq8N945GWPdIPcL2jpdySk85ZQrvQUJtxzalanRcJtcfeb
-	K0F5E111xDLdUjKsRFv/ylTx2V5VvhQizhZsjQmOF3eBSvdZ7gIfvai6XUQ4EQtztN/o
-	27Zoiyp7gSIEQArtSLVXY6myPmHigBUmZeYoMlA7yG/NU4M7TvMEtxHILo/pqj2w8P3L
-	IsX4wGsD7dMTZc0jaeAM+IavinXhuDuYMzqliPOPVH2/7pbhe7qKUZmRepbabOrwDFRy
-	yIN//AEE+LGMIRboIKgCwZtjGydu4yX6n/Eik9YVF4+1kx6/Y3eTnS/aC0qA3+I6E3sd
-	HNSg==
-X-Received: by 2002:a2e:7606:: with SMTP id r6mr12166239ljc.118.1586186747802; 
-	Mon, 06 Apr 2020 08:25:47 -0700 (PDT)
+X-Greylist: delayed 3488 seconds by postgrey-1.31 at mail19;
+	Thu, 23 Apr 2020 12:06:39 CEST
+Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 04C2A420313
+	for <drbd-dev@lists.linbit.com>; Thu, 23 Apr 2020 12:06:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=merlin.20170209;
+	h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Resent-To:Resent-Message-ID:
+	Resent-Date:Resent-From:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description; bh=4o8bmRbgfzERZRr7sLF0I+2xbIArysmLzxBcWgMJVC4=;
+	b=IKukf
+	gGh5PFaU/FbNNqQh9waQYHj7xWip9MsS7/zJGm9zBmv4gwgFYSW0S9s3d4+pbHhCoXF8yTJgZ27tu
+	aOavqY0b61OPXC9wcgB5Eqov3EUHcxYXEpxdhl0RDu9KELCyGh/MsiX/JjtxHKeiCiPe9q/0Vc2cG
+	KpFE7hKoEo8AZLF0t2V+2J9Fg/qIiWz5QYHhGdEctVmSQhwwjqOGydq73unZKBgQBFZU6jo/IjPeS
+	5vaQceMNR6KzK6m7c4uFB4y4WWNdS/+lKr91yxRQ935AG+IllGlTrURpWXVjCHR6Tjm3SwIUu9/Is
+	OOYdrJ7UCbbCp2hcZzE4hHueL3ZBw==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100]
+	helo=noisy.programming.kicks-ass.net)
+	by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+	id 1jRXqP-0003IB-Ox; Thu, 23 Apr 2020 09:08:30 +0000
+Received: from hirez.programming.kicks-ass.net
+	(hirez.programming.kicks-ass.net [192.168.1.225])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(Client did not present a certificate)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 8492D3010C8;
+	Thu, 23 Apr 2020 11:08:28 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 67BDC20C02CD2; Thu, 23 Apr 2020 11:08:28 +0200 (CEST)
+Resent-From: Peter Zijlstra <peterz@infradead.org>
+Resent-Date: Thu, 23 Apr 2020 11:08:28 +0200
+Resent-Message-ID: <20200423090828.GV20760@hirez.programming.kicks-ass.net>
+Resent-To: philipp.reisner@linbit.com, lars.ellenberg@linbit.com,
+	drbd-dev@lists.linbit.com
+Date: Thu, 23 Apr 2020 10:57:35 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: mingo@kernel.org, linux-kernel@vger.kernel.org
+Message-ID: <20200423085735.GU20713@hirez.programming.kicks-ass.net>
+References: <20200422112719.826676174@infradead.org>
+	<20200422112831.515522261@infradead.org>
 MIME-Version: 1.0
-References: <CANNRee=885eDz9bbcWVLi0_68V9xCufKus_dQMxMpkPaqRZ4sw@mail.gmail.com>
-In-Reply-To: <CANNRee=885eDz9bbcWVLi0_68V9xCufKus_dQMxMpkPaqRZ4sw@mail.gmail.com>
-From: =?UTF-8?B?16LXqNefINeQ16HXkNeV?= <eranasseo100@gmail.com>
-Date: Mon, 6 Apr 2020 18:25:35 +0300
-Message-ID: <CANNRee=wxpfbrFBCKuCyquwvvpMbthF66dCHVepdc14Gwc+JTg@mail.gmail.com>
-To: drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] RHEL 7.6 | 3.10.0-957 | drbd_req.c compilation errors
+Content-Disposition: inline
+In-Reply-To: <20200422112831.515522261@infradead.org>
+Cc: juri.lelli@redhat.com, axboe@kernel.dk, vincent.guittot@linaro.org,
+	rostedt@goodmis.org, dietmar.eggemann@arm.com,
+	bsegall@google.com, mgorman@suse.de, tglx@linutronix.de,
+	qais.yousef@arm.com
+Subject: Re: [Drbd-dev] [PATCH 05/23] sched,
+	drbd: Convert to sched_set_fifo*()
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -81,103 +106,55 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============9115537993174895221=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
---===============9115537993174895221==
-Content-Type: multipart/alternative; boundary="000000000000a6780705a2a0e120"
+On Wed, Apr 22, 2020 at 01:27:24PM +0200, Peter Zijlstra wrote:
+> Because SCHED_FIFO is a broken scheduler model (see previous patches)
+> take away the priority field, the kernel can't possibly make an
+> informed decision.
+> 
+> In this case, use fifo_low, because it only cares about being above
+> SCHED_NORMAL. Effectively changes prio from 2 to 1.
+> 
+> Cc: axboe@kernel.dk
+> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+> Reviewed-by: Ingo Molnar <mingo@kernel.org>
+> ---
+>  drivers/block/drbd/drbd_receiver.c |    3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> --- a/drivers/block/drbd/drbd_receiver.c
+> +++ b/drivers/block/drbd/drbd_receiver.c
+> @@ -6020,9 +6020,8 @@ int drbd_ack_receiver(struct drbd_thread
+>  	unsigned int header_size = drbd_header_size(connection);
+>  	int expect   = header_size;
+>  	bool ping_timeout_active = false;
+> -	struct sched_param param = { .sched_priority = 2 };
+>  
+> -	rv = sched_setscheduler(current, SCHED_RR, &param);
+> +	rv = sched_set_fifo_low(current);
 
---000000000000a6780705a2a0e120
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+As noted by Dietmar, I forgot to mention loosing RR in the changelog,
+bad me.
 
-Hi
-Has anyone encountered the same thing?
-(*if I'm using the wrong list please let me know)
+In this case I'm not actually 100% sure, but there was no comment with
+it that justified it being RR, and RR-SMP is not optimal (in fact it's
+rather buggered).
 
-Thank you
-Eran Asseo
+In general RR is even more 'interesting' to get right thatn FIFO and
+therefore I figured it probably didn't want to be RR, but given there
+can be multiple of such threads, it might have been an attempt at
+providing some sort of fairness between the multiple threads.
 
-=E2=80=AB=D7=91=D7=AA=D7=90=D7=A8=D7=99=D7=9A =D7=99=D7=95=D7=9D =D7=93=D7=
-=B3, 11 =D7=91=D7=9E=D7=A8=D7=A5 2020 =D7=91-17:24 =D7=9E=D7=90=D7=AA =D7=
-=A2=D7=A8=D7=9F =D7=90=D7=A1=D7=90=D7=95 <=E2=80=AAeranasseo100@gmail.com
-=E2=80=AC=E2=80=8F>:=E2=80=AC
+At the same time, if you're running the threads so hard that RR makes a
+difference, it's unlikely there is any actual NORMAL time left and
+things will be unhappy anyway.
 
-> Hello experts,
->
-> I noticed that some APIs (part_round_stats, part_inc_in_flight) were
-> changed in RHEL 7.6 Kernel 3.10.0-957 which drbd_req.c was not aligned to=
-.
->
-> Do you know if the following patch is correct from DRBD perspective?
->
-> https://opendev.org/starlingx/integ/commit/3de433a3b1667c7223702fb9e3e81e=
-424cdaedcb
->
-> To be more precise I mean only the drbd_req.c changes here:
->
-> https://opendev.org/starlingx/integ/src/commit/3de433a3b1667c7223702fb9e3=
-e81e424cdaedcb/kernel/kernel-rt/centos/patches/fix-CentOS-7.6-upgrade-compi=
-le-error.patch
->
-> Would appreciate any help
-> Thank you
->
-> Regards
-> Eran Asseo
->
-
---000000000000a6780705a2a0e120
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"rtl"><div dir=3D"ltr">Hi</div><div dir=3D"ltr">Has anyone encou=
-ntered the same thing?</div><div dir=3D"ltr">(*if I&#39;m using the wrong l=
-ist please let me know)</div><div dir=3D"ltr"><br></div><div dir=3D"ltr">Th=
-ank you</div><div dir=3D"ltr">Eran Asseo<br></div></div><br><div class=3D"g=
-mail_quote"><div dir=3D"rtl" class=3D"gmail_attr">=E2=80=AB=D7=91=D7=AA=D7=
-=90=D7=A8=D7=99=D7=9A =D7=99=D7=95=D7=9D =D7=93=D7=B3, 11 =D7=91=D7=9E=D7=
-=A8=D7=A5 2020 =D7=91-17:24 =D7=9E=D7=90=D7=AA =D7=A2=D7=A8=D7=9F =D7=90=D7=
-=A1=D7=90=D7=95 &lt;=E2=80=AA<a href=3D"mailto:eranasseo100@gmail.com">eran=
-asseo100@gmail.com</a>=E2=80=AC=E2=80=8F&gt;:=E2=80=AC<br></div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex"><div dir=3D"rtl"><div dir=3D"ltr">He=
-llo experts,</div><div dir=3D"ltr"><br></div><div dir=3D"ltr">I noticed tha=
-t some APIs (<code><span>part_round_stats,</span></code><code><span> part_i=
-nc_in_flight</span></code><code><span></span></code>)
-
-
-
-were changed in RHEL 7.6 Kernel
-3.10.0-957 which drbd_req.c was not aligned to.</div><div dir=3D"ltr"><br><=
-/div><div dir=3D"ltr">Do you know if the following patch is correct from DR=
-BD perspective?</div><div dir=3D"ltr"><a href=3D"https://opendev.org/starli=
-ngx/integ/commit/3de433a3b1667c7223702fb9e3e81e424cdaedcb" target=3D"_blank=
-">https://opendev.org/starlingx/integ/commit/3de433a3b1667c7223702fb9e3e81e=
-424cdaedcb</a></div><div dir=3D"ltr"><br></div><div dir=3D"ltr">To be more =
-precise I mean only the drbd_req.c changes here:</div><div dir=3D"ltr"><a h=
-ref=3D"https://opendev.org/starlingx/integ/src/commit/3de433a3b1667c7223702=
-fb9e3e81e424cdaedcb/kernel/kernel-rt/centos/patches/fix-CentOS-7.6-upgrade-=
-compile-error.patch" target=3D"_blank">https://opendev.org/starlingx/integ/=
-src/commit/3de433a3b1667c7223702fb9e3e81e424cdaedcb/kernel/kernel-rt/centos=
-/patches/fix-CentOS-7.6-upgrade-compile-error.patch</a></div><div dir=3D"lt=
-r"><br></div><div dir=3D"ltr">Would appreciate any help<br></div><div dir=
-=3D"ltr">Thank you<br></div><div dir=3D"ltr"><br></div><div dir=3D"ltr">Reg=
-ards<br></div><div dir=3D"ltr">Eran Asseo<br></div></div>
-</blockquote></div>
-
---000000000000a6780705a2a0e120--
-
---===============9115537993174895221==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Therefore, and me being lazy, make it FIFO.
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
 https://lists.linbit.com/mailman/listinfo/drbd-dev
-
---===============9115537993174895221==--
