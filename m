@@ -2,69 +2,75 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F1751F824D
-	for <lists+drbd-dev@lfdr.de>; Sat, 13 Jun 2020 11:57:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D9411F824E
+	for <lists+drbd-dev@lfdr.de>; Sat, 13 Jun 2020 11:57:47 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 148CC420407;
-	Sat, 13 Jun 2020 11:57:17 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5995A4203EB;
+	Sat, 13 Jun 2020 11:57:47 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
 	[209.85.128.66])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C40564203EA
-	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 11:56:22 +0200 (CEST)
-Received: by mail-wm1-f66.google.com with SMTP id q25so10174274wmj.0
-	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 02:56:22 -0700 (PDT)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7C3FE4203EB
+	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 11:56:25 +0200 (CEST)
+Received: by mail-wm1-f66.google.com with SMTP id y20so10152508wmi.2
+	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 02:56:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:resent-from:resent-date:resent-message-id
-	:resent-to:dkim-signature:mime-version:from:date:message-id:subject
-	:to; bh=2oNfM2xAgz00YPRylcNwDnploZeygugyNS2Q0BIKtQA=;
-	b=o3wrV63edxfdycUBXhVvlbtNJR9mM8WtiN2YZP1B6JSOYpqQwhwNep/mTipLgikoeV
-	9+sCKCfYKSrL4TQqazIymwfV3VPnHTpK8XrHsFDEvxpVbi/LWA+QxIRAqrRoxgmudstJ
-	+8noCV6gIRx/H/8XLitQ26qtACguVEQPNwZJE1BGAtiE8EXrsYzPyCKOWYMrWvQPO3uC
-	92NjZx/6uFRbNVg0niMgr+TlxdNZVNDcSQxuHfTfN7AaGMSUakEpIC2nAfztIPEya3Qr
-	lfKQVz9faX3CJ/XATDSq4PvhFQdALMXOwMrZ+HfyMRtvhATTjZCOSKT/5Ak07aglECEp
-	5DNQ==
-X-Gm-Message-State: AOAM531M2r57aMY9gOHNZouMDnnnyaEQEPPQfhJlhOkSV0aN9mM7YiAv
-	9xK9+EoEXnhRkAKV2guvPIXPiwywft+mLg==
-X-Google-Smtp-Source: ABdhPJwdomNdrxf2t4sVcKq4mSDlW2XtHfXxfNMtzhGPslZex0LY7c21uI0YEj3xOjpgwYz+3fzu9A==
-X-Received: by 2002:a1c:814c:: with SMTP id c73mr3151111wmd.140.1592042181844; 
-	Sat, 13 Jun 2020 02:56:21 -0700 (PDT)
+	:resent-to:dkim-signature:date:from:to:cc:subject:message-id
+	:mime-version:content-disposition:user-agent;
+	bh=HNjjKr721zyioVh3ETpuE4osF+zX8h3Tt4HKqOtkPFI=;
+	b=nJLeSLqtB+39G7oyY7uAW3HRBSugfOvb98MYEVhKWKBvbtfUJExl5bIIiGmou40Uv/
+	V60Us42XweApi3KIRj3bxGCMoIPEOuQmIoNqHWiZKt5MJWiL8+nEOIrq/QbtGYmIRknP
+	TQh+k6lJJjzKyR0TsZBZ/lAa3xUMZjcF4iUrO2+xqryT1wVVNyVaTnT3C6uMyEQGutSH
+	Q0vxsrcuQVlc+//N+7f8JUSnoaQLxDX2hJEyOwg1ksPrNpDzl7FZk3d8G8pbtmae9Ye9
+	iNs7wFt0mkqu3nBq+7ZFdqiIjtjVxFz3L8/cQr2erm+Tty5FDpdbIwJJ3u0PhwYO5wmb
+	emvw==
+X-Gm-Message-State: AOAM532Esk9Tagz4uBs2P5gNehUCL26hagEKrP3MCTugKrGtVkjDRz4H
+	OBsTzs5pHh8Q9FdKT/IiSHFHVIKulS0AIQ==
+X-Google-Smtp-Source: ABdhPJzP1uX09xbhFZu45/SXkRHhhFNgrjKii4NeES3g+2vnNZ9iaoptrGLOzLG4TvDGk6Os/t2Ehw==
+X-Received: by 2002:a1c:2b86:: with SMTP id r128mr3418376wmr.13.1592042184792; 
+	Sat, 13 Jun 2020 02:56:24 -0700 (PDT)
 Received: from soda.linbit (62-99-137-214.static.upcbusiness.at.
 	[62.99.137.214]) by smtp.gmail.com with ESMTPSA id
-	j16sm16459416wre.21.2020.06.13.02.56.21
+	67sm14725945wrk.49.2020.06.13.02.56.24
 	for <drbd-dev@lists.linbit.com>
 	(version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 13 Jun 2020 02:56:21 -0700 (PDT)
+	Sat, 13 Jun 2020 02:56:24 -0700 (PDT)
 Resent-From: Lars Ellenberg <lars.ellenberg@linbit.com>
-Resent-Date: Sat, 13 Jun 2020 11:56:19 +0200
-Resent-Message-ID: <20200613095619.GE4222@soda.linbit>
+Resent-Date: Sat, 13 Jun 2020 11:56:22 +0200
+Resent-Message-ID: <20200613095622.GF4222@soda.linbit>
 Resent-To: drbd-dev@lists.linbit.com
 X-Original-To: drbd-dev@lists.linbit.com
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com
-	[209.85.166.172])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A533942000B
-	for <drbd-dev@lists.linbit.com>; Fri, 24 Apr 2020 15:23:09 +0200 (CEST)
-Received: by mail-il1-f172.google.com with SMTP id u5so9248875ilb.5
-	for <drbd-dev@lists.linbit.com>; Fri, 24 Apr 2020 06:23:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=2oNfM2xAgz00YPRylcNwDnploZeygugyNS2Q0BIKtQA=;
-	b=tzcOXiBUP2ijn4OKyAdEG5BMT3mTyf91H6qUg40QBS8A4cCTlh0PKABgv3hBFNrrcV
-	MQIix/puCW8ml/gg160+qWQWX2Z4MZkrtLBHyJCdNMSbGf7pN4zATJxVI6D+YAYnEI5p
-	D4mP8tk0S9tiDN/uXHftKH9KCIxcXoz1VSRq9G2DMWqKcxXq0ZmPacL+Gsc9OuR850EN
-	dF392q76/EOO1ZTFex2+KO+o3jhFTEYjh62MrcO7pRhyk4UW4r6eL3SLmdOxSmasF33o
-	jq/7+Uo2ueheA0rgZ9wxrPDBnZpi8lDrDUNyi1kf0TstGh8hU8ff0AGZznMCTJYHmsqF
-	Sz9Q==
-X-Received: by 2002:a92:c711:: with SMTP id a17mr8996468ilp.175.1587734588338; 
-	Fri, 24 Apr 2020 06:23:08 -0700 (PDT)
+X-Greylist: delayed 346 seconds by postgrey-1.31 at mail19;
+	Thu, 07 May 2020 20:53:33 CEST
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C8A294203E8
+	for <drbd-dev@lists.linbit.com>; Thu,  7 May 2020 20:53:33 +0200 (CEST)
+Received: from embeddedor (unknown [189.207.59.248])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id 908C124954;
+	Thu,  7 May 2020 18:47:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1588877266;
+	bh=L19SLkkQXKcOuzW3RL8LtzKlqMiQPoyoesq3zLXKhnA=;
+	h=Date:From:To:Cc:Subject:From;
+	b=Z65uFmK9tBSaSMi50NVL8iZ9JUxFnlgm4iHolyTl8/eZ9jcErJOhoUHk31un83xOW
+	7K9w4V79TCedl3epr+ZSOZqyenRt7cNlIiDY4i2KjckpxL7tKYNAcWYSJBQfulHb5j
+	rs0z8eA/uaI7I0yqfUppDH/u4ElRzXnctijFPdmU=
+Date: Thu, 7 May 2020 13:52:12 -0500
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Philipp Reisner <philipp.reisner@linbit.com>,
+	Lars Ellenberg <lars.ellenberg@linbit.com>
+Message-ID: <20200507185212.GA14165@embeddedor>
 MIME-Version: 1.0
-From: Sooth Sayuh <soothsayuh@gmail.com>
-Date: Fri, 24 Apr 2020 09:22:57 -0400
-Message-ID: <CAJY+Dk84F0rtQb6tp+MgT_Ch=Scst0dyJYFN1d6Ng3Tn7i_hwA@mail.gmail.com>
-To: drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] error during ./configure of drbd-utils-9.12.2
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Cc: linux-kernel@vger.kernel.org, drbd-dev@lists.linbit.com
+Subject: [Drbd-dev] [PATCH] drbd: Replace zero-length array with
+	flexible-array
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -78,96 +84,107 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============3455737194425715027=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
---===============3455737194425715027==
-Content-Type: multipart/alternative; boundary="00000000000022b80a05a4094451"
+The current codebase makes use of the zero-length array language
+extension to the C90 standard, but the preferred mechanism to declare
+variable-length types such as these ones is a flexible array member[1][2],
+introduced in C99:
 
---00000000000022b80a05a4094451
-Content-Type: text/plain; charset="UTF-8"
+struct foo {
+        int stuff;
+        struct boo array[];
+};
 
-running ./configure for drbd-utils-9.12.2 i get this:
+By making use of the mechanism above, we will get a compiler warning
+in case the flexible array does not occur last in the structure, which
+will help us prevent some kind of undefined behavior bugs from being
+inadvertently introduced[3] to the codebase from now on.
 
-checking for stdint.h... yes
-checking for unistd.h... yes
-checking linux/genetlink.h usability... no
-checking linux/genetlink.h presence... yes
-configure: WARNING: linux/genetlink.h: present but cannot be compiled
-configure: WARNING: linux/genetlink.h:     check for missing prerequisite
-headers?
-configure: WARNING: linux/genetlink.h: see the Autoconf documentation
-configure: WARNING: linux/genetlink.h:     section "Present But Cannot Be
-Compiled"
-configure: WARNING: linux/genetlink.h: proceeding with the compiler's result
-configure: WARNING:     ## ---------------------------------------- ##
-configure: WARNING:     ## Report this to drbd-dev@lists.linbit.com ##
-configure: WARNING:     ## ---------------------------------------- ##
-checking for linux/genetlink.h... no
-configure: error: Could not find linux/genetlink.h
+Also, notice that, dynamic memory allocations won't be affected by
+this change:
 
-kernel is 4.1.12-124.26.12.el6uek.x86_64
----------------------------------------------------------------
-also this is a special system with certain packages installed with hard
-dependencies.  I had to force install libdtrace-ctf-0.8.0-1.el6.x86_64 to
-get drbd to compile.
----------------------------------------------------------------
-lastly - now when i run most drbdadm commands i see this:
-[root@ct-broom-03 drbd.d]# drbdadm up r0
-API mismatch!
-        API version drbdsetup: 1 kernel: 2
-        header size drbdsetup: 8 kernel: 8
-Command 'drbdsetup new-resource r0 0' terminated with exit code 20
-drbdadm: new-minor r0: skipped due to earlier error
+"Flexible array members have incomplete type, and so the sizeof operator
+may not be applied. As a quirk of the original implementation of
+zero-length arrays, sizeof evaluates to zero."[1]
 
-I cannot seem to find a solution to that...could it be my forced rpm
-install?
+sizeof(flexible-array-member) triggers a warning because flexible array
+members have incomplete type[1]. There are some instances of code in
+which the sizeof operator is being incorrectly/erroneously applied to
+zero-length arrays and the result is zero. Such instances may be hiding
+some bugs. So, this work (flexible-array member conversions) will also
+help to get completely rid of those sorts of issues.
 
---00000000000022b80a05a4094451
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This issue was found with the help of Coccinelle.
 
-<div dir=3D"ltr">running ./configure for drbd-utils-9.12.2 i get this:<div>=
-<br></div><div>checking for stdint.h... yes<br>checking for unistd.h... yes=
-<br>checking linux/genetlink.h usability... no<br>checking linux/genetlink.=
-h presence... yes<br>configure: WARNING: linux/genetlink.h: present but can=
-not be compiled<br>configure: WARNING: linux/genetlink.h: =C2=A0 =C2=A0 che=
-ck for missing prerequisite headers?<br>configure: WARNING: linux/genetlink=
-.h: see the Autoconf documentation<br>configure: WARNING: linux/genetlink.h=
-: =C2=A0 =C2=A0 section &quot;Present But Cannot Be Compiled&quot;<br>confi=
-gure: WARNING: linux/genetlink.h: proceeding with the compiler&#39;s result=
-<br>configure: WARNING: =C2=A0 =C2=A0 ## ----------------------------------=
------- ##<br>configure: WARNING: =C2=A0 =C2=A0 ## Report this to <a href=3D=
-"mailto:drbd-dev@lists.linbit.com">drbd-dev@lists.linbit.com</a> ##<br>conf=
-igure: WARNING: =C2=A0 =C2=A0 ## ---------------------------------------- #=
-#<br>checking for linux/genetlink.h... no<br>configure: error: Could not fi=
-nd linux/genetlink.h<br></div><div><br></div><div>kernel is 4.1.12-124.26.1=
-2.el6uek.x86_64</div><div>-------------------------------------------------=
---------------</div><div>also this is a special system with certain package=
-s installed with hard dependencies.=C2=A0 I had to force install=C2=A0libdt=
-race-ctf-0.8.0-1.el6.x86_64 to get drbd to compile.</div><div><div>--------=
--------------------------------------------------------</div><div></div></d=
-iv><div>lastly - now when i run most drbdadm commands i see this:</div><div=
->[root@ct-broom-03 drbd.d]# drbdadm up r0<br>API mismatch!<br>=C2=A0 =C2=A0=
- =C2=A0 =C2=A0 API version drbdsetup: 1 kernel: 2<br>=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 header size drbdsetup: 8 kernel: 8<br>Command &#39;drbdsetup new-res=
-ource r0 0&#39; terminated with exit code 20<br>drbdadm: new-minor r0: skip=
-ped due to earlier error<br></div><div><br></div><div>I cannot seem to find=
- a solution to that...could it be my forced rpm install?</div><div><br></di=
-v></div>
+[1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
+[2] https://github.com/KSPP/linux/issues/21
+[3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
 
---00000000000022b80a05a4094451--
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+---
+ drivers/block/drbd/drbd_int.h      |    2 +-
+ drivers/block/drbd/drbd_protocol.h |    8 ++++----
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
---===============3455737194425715027==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/block/drbd/drbd_int.h b/drivers/block/drbd/drbd_int.h
+index aae99a2d7bd4..a3314dd781a7 100644
+--- a/drivers/block/drbd/drbd_int.h
++++ b/drivers/block/drbd/drbd_int.h
+@@ -620,7 +620,7 @@ struct fifo_buffer {
+ 	unsigned int head_index;
+ 	unsigned int size;
+ 	int total; /* sum of all values */
+-	int values[0];
++	int values[];
+ };
+ extern struct fifo_buffer *fifo_alloc(unsigned int fifo_size);
+ 
+diff --git a/drivers/block/drbd/drbd_protocol.h b/drivers/block/drbd/drbd_protocol.h
+index e6fc5ad72501..dea59c92ecc1 100644
+--- a/drivers/block/drbd/drbd_protocol.h
++++ b/drivers/block/drbd/drbd_protocol.h
+@@ -271,7 +271,7 @@ struct p_rs_param {
+ 	u32 resync_rate;
+ 
+ 	      /* Since protocol version 88 and higher. */
+-	char verify_alg[0];
++	char verify_alg[];
+ } __packed;
+ 
+ struct p_rs_param_89 {
+@@ -305,7 +305,7 @@ struct p_protocol {
+ 	u32 two_primaries;
+ 
+ 	/* Since protocol version 87 and higher. */
+-	char integrity_alg[0];
++	char integrity_alg[];
+ 
+ } __packed;
+ 
+@@ -360,7 +360,7 @@ struct p_sizes {
+ 	u16	    dds_flags; /* use enum dds_flags here. */
+ 
+ 	/* optional queue_limits if (agreed_features & DRBD_FF_WSAME) */
+-	struct o_qlim qlim[0];
++	struct o_qlim qlim[];
+ } __packed;
+ 
+ struct p_state {
+@@ -409,7 +409,7 @@ struct p_compressed_bm {
+ 	 */
+ 	u8 encoding;
+ 
+-	u8 code[0];
++	u8 code[];
+ } __packed;
+ 
+ struct p_delay_probe93 {
 
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
 https://lists.linbit.com/mailman/listinfo/drbd-dev
-
---===============3455737194425715027==--
