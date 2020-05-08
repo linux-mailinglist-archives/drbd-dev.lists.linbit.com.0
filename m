@@ -2,51 +2,65 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 275871CB528
-	for <lists+drbd-dev@lfdr.de>; Fri,  8 May 2020 18:47:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECD9E1CB69E
+	for <lists+drbd-dev@lfdr.de>; Fri,  8 May 2020 20:04:59 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0ED8A42040B;
-	Fri,  8 May 2020 18:47:37 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A4B2C4203D3;
+	Fri,  8 May 2020 20:04:58 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from bombadil.infradead.org (bombadil.infradead.org
-	[198.137.202.133])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5AEF64203E3
-	for <drbd-dev@lists.linbit.com>; Fri,  8 May 2020 18:44:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=+Yv7C4jWhNdI5E7GDESk/+lrv1mE06qtLyi6ilmMLLY=;
-	b=pWId5DxIEtBm9Nf0k8N070gCl6
-	rkH5BRP1mzZwaakcYgsq8xK46fNXt3mXqwGxDCICzFKzl+Z47yC9p2tm1g4fzmWMdM///1Fpnxxdc
-	dxpYIh5MxiEKCcGT87F9/ugi5LnknMTbIFOr/nJRf0iThPSnRbTXKMn51g9c2Xez5GarT+vD9P7Ak
-	eUEWL0mIXwL17SNv/XTZUucc5oIZVnAkGEGBXnO1Mb+NnTzjuhKA4/lGOmVT4+3YknsXWSUxBRg3Z
-	A0vzLDAjfS2ryjq0rbU6cf+DSLkR9wrwUCvXLnS+mddUZs2+K42avBd19dI9dUmSr3yYujVmP1MAb
-	uwkA76nQ==;
-Received: from [2001:4bb8:180:9d3f:90d7:9df8:7cd:3504] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jX5fT-0004qF-GE; Fri, 08 May 2020 16:16:08 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Jens Axboe <axboe@kernel.dk>
-Date: Fri,  8 May 2020 18:15:17 +0200
-Message-Id: <20200508161517.252308-16-hch@lst.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200508161517.252308-1-hch@lst.de>
-References: <20200508161517.252308-1-hch@lst.de>
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
+	[209.85.208.53])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6A6E4420334
+	for <drbd-dev@lists.linbit.com>; Fri,  8 May 2020 20:04:57 +0200 (CEST)
+Received: by mail-ed1-f53.google.com with SMTP id l3so1945245edq.13
+	for <drbd-dev@lists.linbit.com>; Fri, 08 May 2020 11:04:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=+vtj9kAvnXfdA0IFN6kkpOkjHUwpRBJt7518BSBQldY=;
+	b=VLfu18xvdyYvX+V3um74QbEgFlho/gmsdlebCehHgRC64LZ2LrwpLSPmFXlKyiifMG
+	/2mXN3cYmzMOG97rtljf0sT2QTUcVKx0FHG3wqHOn7YZJCXdCNGibohHbksMUKyWKlmI
+	u1s1YRJzpU1L2la8Jh5ttA2RLPctTxbiNdxv5J+1g/qta/vl3/3fnC/sNfCJYpUd8mBU
+	rhA0RJUtnY0TDMxjb+AxGbqdOAZaUfuuGplRawkJdhwtGOz/RRQ8kRykAiOe7EfzaLOX
+	DLh537yRKgaNM5aAIB51dRs9O5e+S0jhrluFx3rLNSiCGFuLiqA0Hj3QpKIo8KItLtbA
+	P4DQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=+vtj9kAvnXfdA0IFN6kkpOkjHUwpRBJt7518BSBQldY=;
+	b=s7PVq0zwyUhp+JR69eb/IXNwJFX+jpRqn3LFdPC/GpLUBnPfYJy2wlAjKyy2/Fdy44
+	R8JsTYmckV8g8f+1+tzyb5UCOuTjhHLBI9PpMjl6fhlAraKgzpAfNRj8RMD9tAliImZE
+	obpnIq8o2iWRCgW/ZYY5U+tKQlNc0KyvgO9sNLAqzwnjr8JNK3+uQem4KW3f6e7U//w+
+	dfk9hhF5qEe5BRTcyQJJqXe1XjTHEFbLtMwgjeOjRaO9OLL9Fum05Qh9pfwti8V4IEC2
+	9YVfC3sXBc+BeGIJq7NbFvwL99plTCSYnAeRcWtxJTpicHPmZyT6P1k4G4xGIK5cJt8k
+	ncLw==
+X-Gm-Message-State: AGi0PuYbI4nQXrzfsbhdA0GBYDjCcmRExKBpJZ8iEtMPlirt2qGjUv7R
+	LDXFakOdSVDO79cnWPw4H2aPr4EGSQ0a8WLlNGUQMg==
+X-Google-Smtp-Source: APiQypLP4j4lAauikZOSYW9imDv/qSFGiWgh0ghiKFKN6QKIltyJGJv056sHO7WKbYwrvEJrNoRF76BYTsHSimP70IA=
+X-Received: by 2002:a50:c3c2:: with SMTP id i2mr3146588edf.93.1588961096815;
+	Fri, 08 May 2020 11:04:56 -0700 (PDT)
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
-	bombadil.infradead.org. See http://www.infradead.org/rpr.html
-Cc: linux-bcache@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-	linux-raid@vger.kernel.org,
+References: <20200508161517.252308-1-hch@lst.de>
+In-Reply-To: <20200508161517.252308-1-hch@lst.de>
+From: Dan Williams <dan.j.williams@intel.com>
+Date: Fri, 8 May 2020 11:04:45 -0700
+Message-ID: <CAPcyv4j3gVqrZWCCc2Q-6JizGAQXW0b+R1BcvWCZOvzaukGLQg@mail.gmail.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, linux-xtensa@linux-xtensa.org,
+	linux-raid <linux-raid@vger.kernel.org>,
 	Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
-	linux-nvdimm@lists.01.org, Geoff Levand <geoff@infradead.org>,
-	linux-kernel@vger.kernel.org, Jim Paris <jim@jtan.com>,
-	linux-block@vger.kernel.org, Minchan Kim <minchan@kernel.org>,
-	linux-m68k@lists.linux-m68k.org, Philip Kelleher <pjk1939@linux.ibm.com>,
-	linuxppc-dev@lists.ozlabs.org, Joshua Morris <josh.h.morris@us.ibm.com>,
+	linux-nvdimm <linux-nvdimm@lists.01.org>,
+	Geoff Levand <geoff@infradead.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Jim Paris <jim@jtan.com>, linux-block@vger.kernel.org,
+	Minchan Kim <minchan@kernel.org>, linux-m68k@lists.linux-m68k.org,
+	Philip Kelleher <pjk1939@linux.ibm.com>, linux-bcache@vger.kernel.org,
+	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+	Joshua Morris <josh.h.morris@us.ibm.com>,
 	Nitin Gupta <ngupta@vflare.org>, drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 15/15] nvdimm/pmem: stop using ->queuedata
+Subject: Re: [Drbd-dev] remove a few uses of ->queuedata
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -65,52 +79,17 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- drivers/nvdimm/pmem.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+On Fri, May 8, 2020 at 9:16 AM Christoph Hellwig <hch@lst.de> wrote:
+>
+> Hi all,
+>
+> various bio based drivers use queue->queuedata despite already having
+> set up disk->private_data, which can be used just as easily.  This
+> series cleans them up to only use a single private data pointer.
 
-diff --git a/drivers/nvdimm/pmem.c b/drivers/nvdimm/pmem.c
-index 2df6994acf836..f8dc5941215bf 100644
---- a/drivers/nvdimm/pmem.c
-+++ b/drivers/nvdimm/pmem.c
-@@ -196,7 +196,7 @@ static blk_qc_t pmem_make_request(struct request_queue *q, struct bio *bio)
- 	unsigned long start;
- 	struct bio_vec bvec;
- 	struct bvec_iter iter;
--	struct pmem_device *pmem = q->queuedata;
-+	struct pmem_device *pmem = bio->bi_disk->private_data;
- 	struct nd_region *nd_region = to_region(pmem);
- 
- 	if (bio->bi_opf & REQ_PREFLUSH)
-@@ -231,7 +231,7 @@ static blk_qc_t pmem_make_request(struct request_queue *q, struct bio *bio)
- static int pmem_rw_page(struct block_device *bdev, sector_t sector,
- 		       struct page *page, unsigned int op)
- {
--	struct pmem_device *pmem = bdev->bd_queue->queuedata;
-+	struct pmem_device *pmem = bdev->bd_disk->private_data;
- 	blk_status_t rc;
- 
- 	if (op_is_write(op))
-@@ -464,7 +464,6 @@ static int pmem_attach_disk(struct device *dev,
- 	blk_queue_flag_set(QUEUE_FLAG_NONROT, q);
- 	if (pmem->pfn_flags & PFN_MAP)
- 		blk_queue_flag_set(QUEUE_FLAG_DAX, q);
--	q->queuedata = pmem;
- 
- 	disk = alloc_disk_node(0, nid);
- 	if (!disk)
-@@ -474,6 +473,7 @@ static int pmem_attach_disk(struct device *dev,
- 	disk->fops		= &pmem_fops;
- 	disk->queue		= q;
- 	disk->flags		= GENHD_FL_EXT_DEVT;
-+	disk->private_data	= pmem;
- 	disk->queue->backing_dev_info->capabilities |= BDI_CAP_SYNCHRONOUS_IO;
- 	nvdimm_namespace_disk_name(ndns, disk->disk_name);
- 	set_capacity(disk, (pmem->size - pmem->pfn_pad - pmem->data_offset)
--- 
-2.26.2
-
+...but isn't the queue pretty much guaranteed to be cache hot and the
+gendisk cache cold? I'm not immediately seeing what else needs the
+gendisk in the I/O path. Is there another motivation I'm missing?
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
