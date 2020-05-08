@@ -2,35 +2,35 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id D60A21CB52C
-	for <lists+drbd-dev@lfdr.de>; Fri,  8 May 2020 18:49:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A69581CB52B
+	for <lists+drbd-dev@lfdr.de>; Fri,  8 May 2020 18:48:35 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id BFB10420415;
-	Fri,  8 May 2020 18:49:05 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 937F2420413;
+	Fri,  8 May 2020 18:48:35 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from bombadil.infradead.org (bombadil.infradead.org
 	[198.137.202.133])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6A8234203EE
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 13F624203EC
 	for <drbd-dev@lists.linbit.com>; Fri,  8 May 2020 18:44:38 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=reoioN+SzUTCBcbV1XFXAraZxNdP1dP6cCeZt13G6tA=;
-	b=fK2aBIt0vzlaWJtBvexdAvJMAe
-	S6cYDoV3UE72OWzzPYY4edNpTfoOTq7IOZGfcsghCdgzVFGyK0VVaSUDHuAlolBqdDM4GeAktdy5p
-	bu9ycf3ZbUnayKti5+mUhsIpbtX7ZBNtsu4urRUK3quNTS59x8GSvPOos6l115fjOKLGtS2IXMfeg
-	nOY4PMbqzyodo8tx0Pwr/3ViI5fQ9jWmIYNPMIaHCNMLcBLeNywPpwUc+3nHx4Htb5rL5g99NAouU
-	lhjL0sTDMnJP5/r3qy8gYL8e8SMtdvgE8S2GdEPFK/RtT/8JZxdKTgVOabQ4uZ6GSFIOTjZK90dkg
-	YgZr48QA==;
+	bh=rZtsV1PDBMttxVZ0UQKr9n1WRMbI8yQyqdUS8peoGRI=;
+	b=lwbrDiZRTLg37IrLiDUB1xU6OB
+	XQ5Yja7qHRUxU0W9ZWUn/ofYF/eNcFQEGhja1Sno6TfsoqgdOxl36hEOZBaMPzBztAndx4GWjnlFw
+	ftI0M9CJzMZ7ZbReKJapBuhwamtRkaGgCNvVlT4GREU3byg+o0mo4BLbfbSJZwpYLvAW5AGuHkSmw
+	IbVlPxX1BVr1XMNjcXOKVht9vSCLQD/E+FykqUvb7pBxc+gb0ZA/st2VP9Bu0mTIbFoQ2iJNgZpN1
+	3Q1aZzgQ82hMy8J9tYWVlKyEFGz/MNiDE01wdHaBJ628HjW1z6HvjLHdwq8UIEHfpdeXqrN5ixxkg
+	ToFrPouQ==;
 Received: from [2001:4bb8:180:9d3f:90d7:9df8:7cd:3504] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jX5fJ-0004mp-7m; Fri, 08 May 2020 16:15:57 +0000
+	id 1jX5fM-0004oE-Ap; Fri, 08 May 2020 16:16:01 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Date: Fri,  8 May 2020 18:15:14 +0200
-Message-Id: <20200508161517.252308-13-hch@lst.de>
+Date: Fri,  8 May 2020 18:15:15 +0200
+Message-Id: <20200508161517.252308-14-hch@lst.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200508161517.252308-1-hch@lst.de>
 References: <20200508161517.252308-1-hch@lst.de>
@@ -46,7 +46,7 @@ Cc: linux-bcache@vger.kernel.org, linux-xtensa@linux-xtensa.org,
 	linux-m68k@lists.linux-m68k.org, Philip Kelleher <pjk1939@linux.ibm.com>,
 	linuxppc-dev@lists.ozlabs.org, Joshua Morris <josh.h.morris@us.ibm.com>,
 	Nitin Gupta <ngupta@vflare.org>, drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 12/15] md: stop using ->queuedata
+Subject: [Drbd-dev] [PATCH 13/15] nvdimm/blk: stop using ->queuedata
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -67,30 +67,46 @@ Errors-To: drbd-dev-bounces@lists.linbit.com
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/md/md.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/nvdimm/blk.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/md/md.c b/drivers/md/md.c
-index 271e8a5873549..c079ecf77c564 100644
---- a/drivers/md/md.c
-+++ b/drivers/md/md.c
-@@ -466,7 +466,7 @@ static blk_qc_t md_make_request(struct request_queue *q, struct bio *bio)
+diff --git a/drivers/nvdimm/blk.c b/drivers/nvdimm/blk.c
+index 43751fab9d36a..ffe4728bad8b1 100644
+--- a/drivers/nvdimm/blk.c
++++ b/drivers/nvdimm/blk.c
+@@ -165,7 +165,7 @@ static int nsblk_do_bvec(struct nd_namespace_blk *nsblk,
+ static blk_qc_t nd_blk_make_request(struct request_queue *q, struct bio *bio)
  {
- 	const int rw = bio_data_dir(bio);
- 	const int sgrp = op_stat_group(bio_op(bio));
--	struct mddev *mddev = q->queuedata;
-+	struct mddev *mddev = bio->bi_disk->private_data;
- 	unsigned int sectors;
+ 	struct bio_integrity_payload *bip;
+-	struct nd_namespace_blk *nsblk;
++	struct nd_namespace_blk *nsblk = bio->bi_disk->private_data;
+ 	struct bvec_iter iter;
+ 	unsigned long start;
+ 	struct bio_vec bvec;
+@@ -176,7 +176,6 @@ static blk_qc_t nd_blk_make_request(struct request_queue *q, struct bio *bio)
+ 		return BLK_QC_T_NONE;
  
- 	if (unlikely(test_bit(MD_BROKEN, &mddev->flags)) && (rw == WRITE)) {
-@@ -5626,7 +5626,6 @@ static int md_alloc(dev_t dev, char *name)
- 	mddev->queue = blk_alloc_queue(md_make_request, NUMA_NO_NODE);
- 	if (!mddev->queue)
- 		goto abort;
--	mddev->queue->queuedata = mddev;
+ 	bip = bio_integrity(bio);
+-	nsblk = q->queuedata;
+ 	rw = bio_data_dir(bio);
+ 	do_acct = nd_iostat_start(bio, &start);
+ 	bio_for_each_segment(bvec, bio, iter) {
+@@ -258,7 +257,6 @@ static int nsblk_attach_disk(struct nd_namespace_blk *nsblk)
+ 	blk_queue_max_hw_sectors(q, UINT_MAX);
+ 	blk_queue_logical_block_size(q, nsblk_sector_size(nsblk));
+ 	blk_queue_flag_set(QUEUE_FLAG_NONROT, q);
+-	q->queuedata = nsblk;
  
- 	blk_set_stacking_limits(&mddev->queue->limits);
+ 	disk = alloc_disk(0);
+ 	if (!disk)
+@@ -268,6 +266,7 @@ static int nsblk_attach_disk(struct nd_namespace_blk *nsblk)
+ 	disk->fops		= &nd_blk_fops;
+ 	disk->queue		= q;
+ 	disk->flags		= GENHD_FL_EXT_DEVT;
++	disk->private_data	= nsblk;
+ 	nvdimm_namespace_disk_name(&nsblk->common, disk->disk_name);
  
+ 	if (devm_add_action_or_reset(dev, nd_blk_release_disk, disk))
 -- 
 2.26.2
 
