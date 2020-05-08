@@ -2,66 +2,49 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0FA518328E
-	for <lists+drbd-dev@lfdr.de>; Thu, 12 Mar 2020 15:13:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FFFD1CB521
+	for <lists+drbd-dev@lfdr.de>; Fri,  8 May 2020 18:46:06 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A3A564203EC;
-	Thu, 12 Mar 2020 15:13:51 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 671AF4203C9;
+	Fri,  8 May 2020 18:46:06 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 974 seconds by postgrey-1.31 at mail19;
-	Thu, 12 Mar 2020 15:13:50 CET
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
-	[209.85.222.195])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C72AD4203E2
-	for <drbd-dev@lists.linbit.com>; Thu, 12 Mar 2020 15:13:50 +0100 (CET)
-Received: by mail-qk1-f195.google.com with SMTP id c145so6336494qke.12
-	for <drbd-dev@lists.linbit.com>; Thu, 12 Mar 2020 07:13:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kernel-dk.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=EAKahOyoRZpP52TEBHKVYpNKFgVvwEzfLgAa5uIpx40=;
-	b=GaoPNuEVWSzOzLgdViobPNhYnZEOXhUhNZ/ffNDB0NjVakD6WwCiV2g3GR79TrN5L1
-	KTwhas5Qh5htmL8xs3+yXVxkMDQd9/KTUgyXqaZsXOJh1scVYXJuVQVNCxhU0oSd6xn8
-	MwIRJ3valEVODM1h82k8kxjwjU6BO8tBZEmMGqqUF1Xv3Kzs0MsdWd/4QTjiIVejotiX
-	raenYB9xnu4tXN8fbwxVvFe4HfaEBFzZnhl2ExAx0ZxN28QcMDPHA9je1LI457TTjecr
-	/gL1LeTcfsp9ZRGf3Rdwa0LKMAs1cpXZ7dV/umd8Uh+w/WOr+nCFLWpUVK8ei/ubBR2U
-	gBhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=EAKahOyoRZpP52TEBHKVYpNKFgVvwEzfLgAa5uIpx40=;
-	b=NuwJhas8Gz10myIkW5AgQQQOZuiL20V/IhmOyWXjgfT2aqNFVFU3T0QT8EaW8O8A8B
-	Ik8vG2hW+FKx57A8MI1mmZI0h5nHFYneQYmqIiEKyZj26rRS9SDV3ozI7fev+nWBfTw5
-	8ysSQSH+xVHODOzxGTI6m4Q82FBWMtrDsssTB+OfszdAH7Ityp+KOa6f6Xxqlieo+kFf
-	SRHsi0tP5GR81NSesIGH9gA1I0nJIi/6wM9wivuwXRgI/zW8y7UQwZr+p9H7gSlyJIxa
-	yT+fkaTw7doC5yiCqQZUty7JXCTar/7H0bq9qs7NWhTOlN0Pzb+DM4kcNobi8ekB7mY1
-	mkWA==
-X-Gm-Message-State: ANhLgQ1Q47Z2h3Z1ugpTySjwgarw+Q7zd573E8Jx8jPBQT7w2ksP++G+
-	6tKJak52kANRJamQnVFw3LvCHp4jEYf6Cg==
-X-Google-Smtp-Source: ADFU+vv0O1XzXQN2OxZC4vbjVHkTrkhgs45454tnkk0Ac/rfBpHvqtQJfql+q40S0NgtT/6EkRM5WA==
-X-Received: by 2002:a02:76c2:: with SMTP id z185mr7887647jab.76.1584020961530; 
-	Thu, 12 Mar 2020 06:49:21 -0700 (PDT)
-Received: from [192.168.1.159] ([65.144.74.34])
-	by smtp.gmail.com with ESMTPSA id p13sm2214278ili.2.2020.03.12.06.49.20
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Thu, 12 Mar 2020 06:49:21 -0700 (PDT)
-To: Jackie Liu <liuyun01@tj.kylinos.cn>
-References: <20200307023925.20789-1-liuyun01@tj.kylinos.cn>
-From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <116082a5-7942-3215-c81f-50253376a6fd@kernel.dk>
-Date: Thu, 12 Mar 2020 07:49:20 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.4.1
+Received: from bombadil.infradead.org (bombadil.infradead.org
+	[198.137.202.133])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1ED7B4203C9
+	for <drbd-dev@lists.linbit.com>; Fri,  8 May 2020 18:44:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=Es4eIMqxlcHTpRumUrbJ++gZhpS818l1WN5FHjjMEjU=;
+	b=bPwC4QVd0Eqoqu/0a+YLSeqq6G
+	y3Ac6OeS7pyYIvXRuJ1Q1r8hldlCe1EyFxndwC6/UraMbV3XVZvIqbPYeCd5sGITrXAIxDNXAGQUW
+	yZp4CytLymAXVg8Itk+HF3vSnQYDL2aEs5HHWvuQT/9u8WcWUgP3a6UsxHxFUCSXefc0ZOB92ORqu
+	p2J+yQbrrAa18myCM+1A5S2RAbMs1QtGw3SppGzhKmy3I7wNMrzkeLRctZpWN3/RDMn+XM88t1UK7
+	d9WLPbt4BVV7ADYNKYz+1OpEtXJFhYJsMyjG9PKK6MKBcvwLmtY5ZPUUd3vITVwYSJiyK9m0mJk6z
+	xYopxSug==;
+Received: from [2001:4bb8:180:9d3f:90d7:9df8:7cd:3504] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+	id 1jX5eh-0004MH-Mi; Fri, 08 May 2020 16:15:20 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Jens Axboe <axboe@kernel.dk>
+Date: Fri,  8 May 2020 18:15:02 +0200
+Message-Id: <20200508161517.252308-1-hch@lst.de>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20200307023925.20789-1-liuyun01@tj.kylinos.cn>
-Content-Language: en-US
-Cc: drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH] block/drbd: delete invalid function
-	drbd_md_mark_dirty_
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+	bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Cc: linux-bcache@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+	linux-raid@vger.kernel.org,
+	Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
+	linux-nvdimm@lists.01.org, Geoff Levand <geoff@infradead.org>,
+	linux-kernel@vger.kernel.org, Jim Paris <jim@jtan.com>,
+	linux-block@vger.kernel.org, Minchan Kim <minchan@kernel.org>,
+	linux-m68k@lists.linux-m68k.org, Philip Kelleher <pjk1939@linux.ibm.com>,
+	linuxppc-dev@lists.ozlabs.org, Joshua Morris <josh.h.morris@us.ibm.com>,
+	Nitin Gupta <ngupta@vflare.org>, drbd-dev@lists.linbit.com
+Subject: [Drbd-dev] remove a few uses of ->queuedata
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -80,18 +63,14 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On 3/6/20 7:39 PM, Jackie Liu wrote:
-> From: Jackie Liu <liuyun01@kylinos.cn>
-> 
-> We deleted last_md_mark_dirty long ago, this function no longer needs to
-> exist, delete it, otherwise a compilation error will occur when DEBUG is
-> opened.
+Hi all,
 
-Applied, thanks.
+various bio based drivers use queue->queuedata despite already having
+set up disk->private_data, which can be used just as easily.  This
+series cleans them up to only use a single private data pointer.
 
--- 
-Jens Axboe
-
+blk-mq based drivers that have code pathes that can't easily get at
+the gendisk are unaffected by this series.
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
