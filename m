@@ -2,38 +2,39 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 279AA1CBF16
-	for <lists+drbd-dev@lfdr.de>; Sat,  9 May 2020 10:33:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01D891CBF15
+	for <lists+drbd-dev@lfdr.de>; Sat,  9 May 2020 10:32:50 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E2D5F4203EB;
-	Sat,  9 May 2020 10:33:17 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id AC97A4203DB;
+	Sat,  9 May 2020 10:32:48 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
+X-Greylist: delayed 531 seconds by postgrey-1.31 at mail19;
+	Sat, 09 May 2020 10:32:46 CEST
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id AC05E4203D3
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A3C3A4203C9
 	for <drbd-dev@lists.linbit.com>; Sat,  9 May 2020 10:32:46 +0200 (CEST)
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id DB7F368C7B; Sat,  9 May 2020 10:23:52 +0200 (CEST)
-Date: Sat, 9 May 2020 10:23:52 +0200
+	id 8260E68CEC; Sat,  9 May 2020 10:24:31 +0200 (CEST)
+Date: Sat, 9 May 2020 10:24:31 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Dan Williams <dan.j.williams@intel.com>
-Message-ID: <20200509082352.GB21834@lst.de>
+To: Ming Lei <ming.lei@redhat.com>
+Message-ID: <20200509082431.GC21834@lst.de>
 References: <20200508161517.252308-1-hch@lst.de>
-	<CAPcyv4j3gVqrZWCCc2Q-6JizGAQXW0b+R1BcvWCZOvzaukGLQg@mail.gmail.com>
+	<20200508221321.GD1389136@T590>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAPcyv4j3gVqrZWCCc2Q-6JizGAQXW0b+R1BcvWCZOvzaukGLQg@mail.gmail.com>
+In-Reply-To: <20200508221321.GD1389136@T590>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 Cc: Jens Axboe <axboe@kernel.dk>, linux-xtensa@linux-xtensa.org,
-	linux-raid <linux-raid@vger.kernel.org>,
+	linux-raid@vger.kernel.org,
 	Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
-	linux-nvdimm <linux-nvdimm@lists.01.org>,
-	Geoff Levand <geoff@infradead.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Jim Paris <jim@jtan.com>, Joshua Morris <josh.h.morris@us.ibm.com>,
+	linux-nvdimm@lists.01.org, Geoff Levand <geoff@infradead.org>,
+	linux-kernel@vger.kernel.org, Jim Paris <jim@jtan.com>,
+	Joshua Morris <josh.h.morris@us.ibm.com>,
 	linux-block@vger.kernel.org, Minchan Kim <minchan@kernel.org>,
 	linux-m68k@lists.linux-m68k.org, Philip Kelleher <pjk1939@linux.ibm.com>,
-	linux-bcache@vger.kernel.org, linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+	linux-bcache@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
 	Christoph Hellwig <hch@lst.de>, Nitin Gupta <ngupta@vflare.org>,
 	drbd-dev@lists.linbit.com
 Subject: Re: [Drbd-dev] remove a few uses of ->queuedata
@@ -55,24 +56,25 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Fri, May 08, 2020 at 11:04:45AM -0700, Dan Williams wrote:
-> On Fri, May 8, 2020 at 9:16 AM Christoph Hellwig <hch@lst.de> wrote:
-> >
+On Sat, May 09, 2020 at 06:13:21AM +0800, Ming Lei wrote:
+> On Fri, May 08, 2020 at 06:15:02PM +0200, Christoph Hellwig wrote:
 > > Hi all,
-> >
+> > 
 > > various bio based drivers use queue->queuedata despite already having
 > > set up disk->private_data, which can be used just as easily.  This
 > > series cleans them up to only use a single private data pointer.
+> > 
+> > blk-mq based drivers that have code pathes that can't easily get at
+> > the gendisk are unaffected by this series.
 > 
-> ...but isn't the queue pretty much guaranteed to be cache hot and the
-> gendisk cache cold? I'm not immediately seeing what else needs the
-> gendisk in the I/O path. Is there another motivation I'm missing?
+> Yeah, before adding disk, there still may be requests queued to LLD
+> for blk-mq based drivers.
+> 
+> So are there this similar situation for these bio based drivers?
 
-->private_data is right next to the ->queue pointer, pat0 and part_tbl
-which are all used in the I/O submission path (generic_make_request /
-generic_make_request_checks).  This is mostly a prep cleanup patch to
-also remove the pointless queue argument from ->make_request - then
-->queue is an extra dereference and extra churn.
+bio submittsion is based on the gendisk, so we can't submit before
+it is added.  The passthrough request based path obviously doesn't apply
+here.
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
