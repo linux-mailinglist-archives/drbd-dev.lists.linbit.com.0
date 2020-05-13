@@ -2,89 +2,91 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE1F91F8250
-	for <lists+drbd-dev@lfdr.de>; Sat, 13 Jun 2020 11:58:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 347171F8259
+	for <lists+drbd-dev@lfdr.de>; Sat, 13 Jun 2020 11:59:46 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B0FA64203F4;
-	Sat, 13 Jun 2020 11:58:45 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1E89542043C;
+	Sat, 13 Jun 2020 11:59:46 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 177AE4203F4
-	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 11:56:31 +0200 (CEST)
-Received: by mail-wr1-f65.google.com with SMTP id e1so12304106wrt.5
-	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 02:56:31 -0700 (PDT)
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 14D5C4203F6
+	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 11:56:36 +0200 (CEST)
+Received: by mail-wr1-f67.google.com with SMTP id r7so12316142wro.1
+	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 02:56:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:resent-from:resent-date:resent-message-id
-	:resent-to:dkim-signature:date:from:to:cc:subject:message-id
-	:references:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=I21hL7AkwUgdNPUI4l7KTQwvXQoa/NOyWUo4IiS5Zaw=;
-	b=Rr2/kitOPAXUUCcA5ksnVUHtsd3Y1BDVkrPsnrTGoJOZf41ggj1RHD9OfuxRCD5BNF
-	mQqOsUauUD1gW0uxHcouqAK03movd2+zxLBcTVAXY40Swd1106/JK+08ftzCVl/rotDC
-	tvPT3QeMkwNBGTFOS7CNDVYkjBAguYH+d9gET+nX5m3f3ypSlrUmHt3cikPa/QrkVSow
-	UeHVpjDHgI44Q5d40pXmWOLjYkwcm6ULLuMWvxRL0m31PMbsmoR6y81wEHXFnEkWfwjU
-	d+buZiixcxcEtWdOYYOQ63K8PC8xjvxzQquCYB9Q4zXmHyu4VJnucdXz1LAoH/5Kk/Ce
-	WIKg==
-X-Gm-Message-State: AOAM530yUci5QaVrSou3QxhTGNTgpNfcLaOBMED5s8ou7iDwWEmBeEGj
-	dujMtZDfe7pP9AX/eSWDSfBaP3qrj/4neDFh
-X-Google-Smtp-Source: ABdhPJwusBSFxDr+hxCKvdmNbaJdadKrR8nRoQR2y5NZwbGg2EMfUg68axKq6aAWFWDb+dpOSpuqWw==
-X-Received: by 2002:a05:6000:1083:: with SMTP id
-	y3mr18583202wrw.425.1592042190572; 
-	Sat, 13 Jun 2020 02:56:30 -0700 (PDT)
+	:resent-to:dkim-signature:organization:from:in-reply-to:references
+	:to:cc:subject:mime-version:content-id:date:message-id;
+	bh=kC/Pwa8f1gD3R5LYjYmzPSPuGCXjungEBXbTdD/3zMQ=;
+	b=EvfJFJ9GxXoRLOWdbTA1HsuF0Ow2hal2PYCDHTD5BteylKvC/CWqmK8aDpaxMlZ3DF
+	/LeM1KVlMvfblDi2DJH4UVS2jCVQp6TFKIfjkSUTdImYSSATt/5Dn553tPrPdehy3d9q
+	P9jIJE5uFP7dJ3YIXmQaemoKx6dirjb6ceJLxYGQWGgwvpr7saw1tBGE09T3n4poieCX
+	hu8tmMZovtVpeXix1HKEGQ45jqhnnRyH6wrdwvgyRbKbiWBXlobx6IKMmMFB53iBFtav
+	HWzj6ttozfl2AzW0su4lwozXzrAoSca5vIllCc5ue76Ms+2w9NlUvvzG8BBEm/KT4GRq
+	rUsQ==
+X-Gm-Message-State: AOAM531yZbVkSEPdrukZZi2gjsl1RaB0aEM/4T3aOSltxghM8OkJwZlk
+	pMZGnksnRxljd38yb6fVyqua72b7nbDEsmOh
+X-Google-Smtp-Source: ABdhPJzr2Fw6/cW2y/RxCZPIZl7J5SegT4tM2eCcbGt0izV8ZPFKMe51MC7x3dBw7FzENjJVqXuTRQ==
+X-Received: by 2002:adf:f389:: with SMTP id m9mr18179841wro.195.1592042196257; 
+	Sat, 13 Jun 2020 02:56:36 -0700 (PDT)
 Received: from soda.linbit (62-99-137-214.static.upcbusiness.at.
 	[62.99.137.214]) by smtp.gmail.com with ESMTPSA id
-	u9sm13365604wme.16.2020.06.13.02.56.29
+	s7sm14103751wrr.60.2020.06.13.02.56.35
 	for <drbd-dev@lists.linbit.com>
 	(version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 13 Jun 2020 02:56:30 -0700 (PDT)
+	Sat, 13 Jun 2020 02:56:35 -0700 (PDT)
 Resent-From: Lars Ellenberg <lars.ellenberg@linbit.com>
-Resent-Date: Sat, 13 Jun 2020 11:56:28 +0200
-Resent-Message-ID: <20200613095628.GH4222@soda.linbit>
+Resent-Date: Sat, 13 Jun 2020 11:56:34 +0200
+Resent-Message-ID: <20200613095634.GJ4222@soda.linbit>
 Resent-To: drbd-dev@lists.linbit.com
 X-Original-To: drbd-dev@lists.linbit.com
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
-	[209.85.222.195])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7CEFA4202F0
-	for <drbd-dev@lists.linbit.com>; Wed, 13 May 2020 14:52:46 +0200 (CEST)
-Received: by mail-qk1-f195.google.com with SMTP id i5so915559qkl.12
-	for <drbd-dev@lists.linbit.com>; Wed, 13 May 2020 05:52:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=I21hL7AkwUgdNPUI4l7KTQwvXQoa/NOyWUo4IiS5Zaw=;
-	b=m6ad7mNkFXWQP2LAar13cizth8P3iKliOem15ctBmD+RRB5NWWGZ4hVFaLb43OUHF4
-	dEfbKyHnbdTPvph0NO3q6QQG3feEsDR1NN/aDJiylAVOx6elqA7EySRBy4zgPJs7Fz0/
-	Wh3NuXdccvtT3AKlZIUnJi/oe7DjFVTOpq20lvPm5ktnPdoP012Lk/9j/pUDGJCnQSsG
-	TmFagaUtz3vbm20kiJmFo0AhIIm3asYdCe/QXnsQdcQLCh91UXycsxj5M4FwgjK5Th4v
-	OuuA5GD8cz9mUhRoZ9e54BvWpbbFTnY1KxAJWQ9Fh7pEfNmqL/JrbXuEeLjTtGaJiHKf
-	PtmA==
-X-Received: by 2002:a37:61d8:: with SMTP id
-	v207mr26564281qkb.146.1589374305465; 
-	Wed, 13 May 2020 05:51:45 -0700 (PDT)
-Received: from ziepe.ca
-	(hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
-	[156.34.48.30]) by smtp.gmail.com with ESMTPSA id
-	t67sm13779002qka.17.2020.05.13.05.51.44
-	(version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 13 May 2020 05:51:44 -0700 (PDT)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1jYqrQ-0008K6-D9; Wed, 13 May 2020 09:51:44 -0300
-Date: Wed, 13 May 2020 09:51:44 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
+Received: from us-smtp-1.mimecast.com (us-smtp-delivery-1.mimecast.com
+	[207.211.31.120])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 95743420317
+	for <drbd-dev@lists.linbit.com>; Wed, 13 May 2020 15:20:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1589376004;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	in-reply-to:in-reply-to:references:references;
+	bh=kC/Pwa8f1gD3R5LYjYmzPSPuGCXjungEBXbTdD/3zMQ=;
+	b=Q25LZBqcyRe3dntzOJcR+oJRpYdZYT0xq4hCuO4DXcfMcVELHftkxZNpPaVj6CU8xtbwBF
+	6XiM5TX61YIo4VJGZZcpEfZc1SbTHAW3aZAGt362HdcPvJof/eVpHON97UMfjdCn//vtDW
+	Ri+vJUk1G2MWgxGksfZ6G+CAKne5P/0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+	[209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-339-j5Rv_ovSOqaPeCLkWE73pQ-1; Wed, 13 May 2020 09:13:21 -0400
+X-MC-Unique: j5Rv_ovSOqaPeCLkWE73pQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AED3780183C;
+	Wed, 13 May 2020 13:13:17 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-112-59.rdu2.redhat.com
+	[10.10.112.59])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 800786A960;
+	Wed, 13 May 2020 13:13:08 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <20200513062649.2100053-30-hch@lst.de>
+References: <20200513062649.2100053-30-hch@lst.de>
+	<20200513062649.2100053-1-hch@lst.de>
 To: Christoph Hellwig <hch@lst.de>
-Message-ID: <20200513125144.GC29989@ziepe.ca>
-References: <20200513062649.2100053-1-hch@lst.de>
-	<20200513062649.2100053-12-hch@lst.de>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200513062649.2100053-12-hch@lst.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-ID: <3123533.1589375587.1@warthog.procyon.org.uk>
+Date: Wed, 13 May 2020 14:13:07 +0100
+Message-ID: <3123534.1589375587@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Cc: Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
-	Eric Dumazet <edumazet@google.com>,
-	linux-nvme@lists.infradead.org, linux-sctp@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	dhowells@redhat.com, linux-sctp@vger.kernel.org,
 	target-devel@vger.kernel.org, linux-afs@lists.infradead.org,
 	drbd-dev@lists.linbit.com, linux-cifs@vger.kernel.org,
 	rds-devel@oss.oracle.com, linux-rdma@vger.kernel.org,
@@ -94,10 +96,10 @@ Cc: Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
 	Neil Horman <nhorman@tuxdriver.com>,
 	Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
 	netdev@vger.kernel.org, Vlad Yasevich <vyasevich@gmail.com>,
-	linux-kernel@vger.kernel.org, Jon Maloy <jmaloy@redhat.com>,
-	Ying Xue <ying.xue@windriver.com>, "David S. Miller" <davem@davemloft.net>,
-	ocfs2-devel@oss.oracle.com
-Subject: Re: [Drbd-dev] [PATCH 11/33] tcp: tcp_sock_set_nodelay
+	Eric Dumazet <edumazet@google.com>,
+	Jon Maloy <jmaloy@redhat.com>, Ying Xue <ying.xue@windriver.com>,
+	"David S. Miller" <davem@davemloft.net>, ocfs2-devel@oss.oracle.com
+Subject: Re: [Drbd-dev] [PATCH 29/33] rxrpc_sock_set_min_security_level
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -116,36 +118,16 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Wed, May 13, 2020 at 08:26:26AM +0200, Christoph Hellwig wrote:
-> Add a helper to directly set the TCP_NODELAY sockopt from kernel space
-> without going through a fake uaccess.  Cleanup the callers to avoid
-> pointless wrappers now that this is a simple function call.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  drivers/block/drbd/drbd_int.h             |  7 ----
->  drivers/block/drbd/drbd_main.c            |  2 +-
->  drivers/block/drbd/drbd_receiver.c        |  4 +--
->  drivers/infiniband/sw/siw/siw_cm.c        | 24 +++-----------
->  drivers/nvme/host/tcp.c                   |  9 +-----
->  drivers/nvme/target/tcp.c                 | 12 ++-----
->  drivers/target/iscsi/iscsi_target_login.c | 15 ++-------
->  fs/cifs/connect.c                         | 10 ++----
->  fs/dlm/lowcomms.c                         |  8 ++---
->  fs/ocfs2/cluster/tcp.c                    | 20 ++----------
->  include/linux/tcp.h                       |  1 +
->  net/ceph/messenger.c                      | 11 ++-----
->  net/ipv4/tcp.c                            | 39 +++++++++++++++--------
->  net/rds/tcp.c                             | 11 +------
->  net/rds/tcp.h                             |  1 -
->  net/rds/tcp_listen.c                      |  2 +-
->  16 files changed, 49 insertions(+), 127 deletions(-)
+Christoph Hellwig <hch@lst.de> wrote:
 
-No problem with the siw change
+> +int rxrpc_sock_set_min_security_level(struct sock *sk, unsigned int val);
+> +
 
-Acked-by: Jason Gunthorpe <jgg@mellanox.com>
+Looks good - but you do need to add this to Documentation/networking/rxrpc.txt
+also, thanks.
 
-Jason
+David
+
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
