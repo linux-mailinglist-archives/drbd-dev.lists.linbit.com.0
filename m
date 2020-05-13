@@ -2,35 +2,35 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49CD51D08C2
-	for <lists+drbd-dev@lfdr.de>; Wed, 13 May 2020 08:38:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68C351D0775
+	for <lists+drbd-dev@lfdr.de>; Wed, 13 May 2020 08:30:04 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 25A804203F2;
-	Wed, 13 May 2020 08:38:05 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 529B842040C;
+	Wed, 13 May 2020 08:30:04 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from bombadil.infradead.org (bombadil.infradead.org
 	[198.137.202.133])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 16C8B420414
-	for <drbd-dev@lists.linbit.com>; Wed, 13 May 2020 08:30:17 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1F4D54203F2
+	for <drbd-dev@lists.linbit.com>; Wed, 13 May 2020 08:28:09 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=z4667jYF+9mTSml5XJ3AsBbdFU5P9vBjAx21l/MQDCM=;
-	b=CIhLIwgW3tiGerd8TnnR0/YUfS
-	QnghRsdfPHWV6Lm5BoqsYTlYRv/c5x2gqCbIMxJb4+0qMRqSFDS4OImJ933zmllqpk0ODxtTGBm4A
-	FSB+S63q7fvioxTyBVVvRRm47QZtgztYaV1jDuhSVR1wi8LuPhvDUFsYeYxk8YkBCrkYaLS/JEUd0
-	6YHcWJx0X0I/f0T7u9CQdPQlVJzvXp/eOAF7Wzb0Mex0XKr1aJTIQ2lhxgUHsZmcwcmnRgZgwizis
-	z/s/7ZP9wy39Ff3pCVdxB/j4hVNWWDta2welFroTgTxwnh6rf7XMimmhsgkh35WF4XfUBWdC/1PNI
-	fcCT2aIA==;
+	bh=8TT2PxSsEHipT+e5nSL6DhUaWirp80j0qmDh4nmGKY8=;
+	b=eiafrt7nHqCNDveJ9gIe9E9pgO
+	QmFtEivvTMNAlSTpjQqGiinbccIYJpAjA983x/pBULlX0DWFGtN3Ue6Kc9mUgY54gWgOhle20hcvG
+	7Q/l8DlKedLblAfymab8XyOufMUKyts5b5yvP77ZC/rCin0PckQdwJWVhLWch3GSstZDgTm98DOpF
+	fCErxg2KksDxfRgQJn3oF+4/yUQk1b6vp899x1/0FRbNu8DjSUuUDC5F0CX2PZKpzmQv6hrjeuVi3
+	U8ob0+DxLHA7yij0KM2glbwmY2qM4h6gKGd6viPFEFRxjYk5SZWfg2NIK2Q5B9jMAOEW0oYtlOh0Q
+	2F2vwKTw==;
 Received: from [2001:4bb8:180:9d3f:c70:4a89:bc61:2] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jYkrX-0004Hq-2R; Wed, 13 May 2020 06:27:28 +0000
+	id 1jYkra-0004KK-Q3; Wed, 13 May 2020 06:27:31 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>
-Date: Wed, 13 May 2020 08:26:27 +0200
-Message-Id: <20200513062649.2100053-13-hch@lst.de>
+Date: Wed, 13 May 2020 08:26:28 +0200
+Message-Id: <20200513062649.2100053-14-hch@lst.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200513062649.2100053-1-hch@lst.de>
 References: <20200513062649.2100053-1-hch@lst.de>
@@ -50,7 +50,7 @@ Cc: Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
 	netdev@vger.kernel.org, Vlad Yasevich <vyasevich@gmail.com>,
 	linux-kernel@vger.kernel.org, Jon Maloy <jmaloy@redhat.com>,
 	Ying Xue <ying.xue@windriver.com>, ocfs2-devel@oss.oracle.com
-Subject: [Drbd-dev] [PATCH 12/33] tcp: add tcp_sock_set_quickack
+Subject: [Drbd-dev] [PATCH 13/33] tcp: add tcp_sock_set_syncnt
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -69,127 +69,70 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Add a helper to directly set the TCP_QUICKACK sockopt from kernel space
-without going through a fake uaccess.  Cleanup the callers to avoid
-pointless wrappers now that this is a simple function call.
+Add a helper to directly set the TCP_SYNCNT sockopt from kernel space
+without going through a fake uaccess.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/block/drbd/drbd_int.h      |  7 ------
- drivers/block/drbd/drbd_receiver.c |  5 ++--
- include/linux/tcp.h                |  1 +
- net/ipv4/tcp.c                     | 39 ++++++++++++++++++++----------
- 4 files changed, 29 insertions(+), 23 deletions(-)
+ drivers/nvme/host/tcp.c |  9 +--------
+ include/linux/tcp.h     |  1 +
+ net/ipv4/tcp.c          | 12 ++++++++++++
+ 3 files changed, 14 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/block/drbd/drbd_int.h b/drivers/block/drbd/drbd_int.h
-index e24bba87c8e02..14345a87c7cc5 100644
---- a/drivers/block/drbd/drbd_int.h
-+++ b/drivers/block/drbd/drbd_int.h
-@@ -1570,13 +1570,6 @@ extern void drbd_set_recv_tcq(struct drbd_device *device, int tcq_enabled);
- extern void _drbd_clear_done_ee(struct drbd_device *device, struct list_head *to_be_freed);
- extern int drbd_connected(struct drbd_peer_device *);
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index a8070f93fd0a0..8417eeb83fcd2 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1336,14 +1336,7 @@ static int nvme_tcp_alloc_queue(struct nvme_ctrl *nctrl,
+ 	}
  
--static inline void drbd_tcp_quickack(struct socket *sock)
--{
--	int val = 2;
--	(void) kernel_setsockopt(sock, SOL_TCP, TCP_QUICKACK,
--			(char*)&val, sizeof(val));
--}
--
- /* sets the number of 512 byte sectors of our virtual device */
- void drbd_set_my_capacity(struct drbd_device *device, sector_t size);
+ 	/* Single syn retry */
+-	opt = 1;
+-	ret = kernel_setsockopt(queue->sock, IPPROTO_TCP, TCP_SYNCNT,
+-			(char *)&opt, sizeof(opt));
+-	if (ret) {
+-		dev_err(nctrl->device,
+-			"failed to set TCP_SYNCNT sock opt %d\n", ret);
+-		goto err_sock;
+-	}
++	tcp_sock_set_syncnt(queue->sock->sk, 1);
  
-diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd_receiver.c
-index da5a9ee896a43..cdd317ae97021 100644
---- a/drivers/block/drbd/drbd_receiver.c
-+++ b/drivers/block/drbd/drbd_receiver.c
-@@ -1223,7 +1223,7 @@ static int drbd_recv_header_maybe_unplug(struct drbd_connection *connection, str
- 		 * quickly as possible, and let remote TCP know what we have
- 		 * received so far. */
- 		if (err == -EAGAIN) {
--			drbd_tcp_quickack(connection->data.socket);
-+			tcp_sock_set_quickack(connection->data.socket->sk, 2);
- 			drbd_unplug_all_devices(connection);
- 		}
- 		if (err > 0) {
-@@ -4959,8 +4959,7 @@ static int receive_UnplugRemote(struct drbd_connection *connection, struct packe
- {
- 	/* Make sure we've acked all the TCP data associated
- 	 * with the data requests being unplugged */
--	drbd_tcp_quickack(connection->data.socket);
--
-+	tcp_sock_set_quickack(connection->data.socket->sk, 2);
- 	return 0;
- }
- 
+ 	/* Set TCP no delay */
+ 	tcp_sock_set_nodelay(queue->sock->sk, true);
 diff --git a/include/linux/tcp.h b/include/linux/tcp.h
-index 533610b6ae420..e7ab6da5111b5 100644
+index e7ab6da5111b5..77b832acf3398 100644
 --- a/include/linux/tcp.h
 +++ b/include/linux/tcp.h
-@@ -496,5 +496,6 @@ int tcp_skb_shift(struct sk_buff *to, struct sk_buff *from, int pcount,
- 
+@@ -497,5 +497,6 @@ int tcp_skb_shift(struct sk_buff *to, struct sk_buff *from, int pcount,
  void tcp_sock_set_cork(struct sock *sk, bool on);
  void tcp_sock_set_nodelay(struct sock *sk, bool on);
-+void tcp_sock_set_quickack(struct sock *sk, int val);
+ void tcp_sock_set_quickack(struct sock *sk, int val);
++int tcp_sock_set_syncnt(struct sock *sk, int val);
  
  #endif	/* _LINUX_TCP_H */
 diff --git a/net/ipv4/tcp.c b/net/ipv4/tcp.c
-index 300ce622607d8..c681f43f0bb85 100644
+index c681f43f0bb85..773b5cd366ab7 100644
 --- a/net/ipv4/tcp.c
 +++ b/net/ipv4/tcp.c
-@@ -2845,6 +2845,31 @@ void tcp_sock_set_nodelay(struct sock *sk, bool on)
+@@ -2870,6 +2870,18 @@ void tcp_sock_set_quickack(struct sock *sk, int val)
  }
- EXPORT_SYMBOL(tcp_sock_set_nodelay);
+ EXPORT_SYMBOL(tcp_sock_set_quickack);
  
-+static void __tcp_sock_set_quickack(struct sock *sk, int val)
++int tcp_sock_set_syncnt(struct sock *sk, int val)
 +{
-+	if (!val) {
-+		inet_csk_enter_pingpong_mode(sk);
-+		return;
-+	}
++	if (val < 1 || val > MAX_TCP_SYNCNT)
++		return -EINVAL;
 +
-+	inet_csk_exit_pingpong_mode(sk);
-+	if ((1 << sk->sk_state) & (TCPF_ESTABLISHED | TCPF_CLOSE_WAIT) &&
-+	    inet_csk_ack_scheduled(sk)) {
-+		inet_csk(sk)->icsk_ack.pending |= ICSK_ACK_PUSHED;
-+		tcp_cleanup_rbuf(sk, 1);
-+		if (!(val & 1))
-+			inet_csk_enter_pingpong_mode(sk);
-+	}
-+}
-+
-+void tcp_sock_set_quickack(struct sock *sk, int val)
-+{
 +	lock_sock(sk);
-+	__tcp_sock_set_quickack(sk, val);
++	inet_csk(sk)->icsk_syn_retries = val;
 +	release_sock(sk);
++	return 0;
 +}
-+EXPORT_SYMBOL(tcp_sock_set_quickack);
++EXPORT_SYMBOL(tcp_sock_set_syncnt);
 +
  /*
   *	Socket option code for TCP.
   */
-@@ -3085,19 +3110,7 @@ static int do_tcp_setsockopt(struct sock *sk, int level,
- 		break;
- 
- 	case TCP_QUICKACK:
--		if (!val) {
--			inet_csk_enter_pingpong_mode(sk);
--		} else {
--			inet_csk_exit_pingpong_mode(sk);
--			if ((1 << sk->sk_state) &
--			    (TCPF_ESTABLISHED | TCPF_CLOSE_WAIT) &&
--			    inet_csk_ack_scheduled(sk)) {
--				icsk->icsk_ack.pending |= ICSK_ACK_PUSHED;
--				tcp_cleanup_rbuf(sk, 1);
--				if (!(val & 1))
--					inet_csk_enter_pingpong_mode(sk);
--			}
--		}
-+		__tcp_sock_set_quickack(sk, val);
- 		break;
- 
- #ifdef CONFIG_TCP_MD5SIG
 -- 
 2.26.2
 
