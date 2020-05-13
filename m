@@ -2,104 +2,95 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB05F1F8261
-	for <lists+drbd-dev@lfdr.de>; Sat, 13 Jun 2020 12:01:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 251621F8262
+	for <lists+drbd-dev@lfdr.de>; Sat, 13 Jun 2020 12:01:46 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C437142044A;
-	Sat, 13 Jun 2020 12:01:16 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0230342041C;
+	Sat, 13 Jun 2020 12:01:46 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E56624203E7
-	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 11:56:45 +0200 (CEST)
-Received: by mail-wr1-f68.google.com with SMTP id p5so12261734wrw.9
-	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 02:56:45 -0700 (PDT)
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0F0DA4203F1
+	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 11:56:49 +0200 (CEST)
+Received: by mail-wr1-f66.google.com with SMTP id t18so12293716wru.6
+	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 02:56:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:resent-from:resent-date:resent-message-id
-	:resent-to:dkim-signature:organization:from:in-reply-to:references
-	:to:cc:subject:mime-version:content-id:date:message-id;
-	bh=d/0WQiW+co/T0Lh806Aa2CF0lrVFjIjJV8t4w61WLTw=;
-	b=NuMQtiRfBtWdIwACwqxpaF0yHdJStxn2Q6XY9RGMZRGOtTskgMTvsf3p0+T2B7zQNl
-	AozGAM1ViUCJPq6UwHX/UKbpBFt00bD2SFjBtI7WpSc/nyNEBs4WhtrUwUMh7YvcEQ06
-	jrX0Ayj3FkEBjczgKdmXy/q/qOSf+QpS6BqkSrjWcuUDXcL2N+RNe6EIinjrqa8HVZQC
-	uAHItvpWrjD1wpHAyWVaR98AipbA11Tml+Cdbo+S68Ux7iFQxsUhwwNu9hp+LqVz9sSj
-	PPlzE/RJgl1hNOdWjZ9bJEllf1GXzbiebqIzxCKZLKYfBP3qfzH554hZ0pFBZLeZ+NkF
-	Lh1g==
-X-Gm-Message-State: AOAM532lgFBsfF+TOwJCDk+Vz5GtfzNcPN/MMxKTeyOj0Y2mv1Q+wMJY
-	XGY/ugsZK9NCxT0z/yJomwXtovUbc3j1pY3L
-X-Google-Smtp-Source: ABdhPJx+dJTYwiIKwgxJ/VXRtayFRJBW/a8jb+z6SjJD4MF2FEQ8K/ySvlA2Ng7ELnjzRz7tJNH8MA==
-X-Received: by 2002:adf:e2c9:: with SMTP id d9mr19064439wrj.227.1592042205416; 
-	Sat, 13 Jun 2020 02:56:45 -0700 (PDT)
+	:resent-to:dkim-signature:date:from:to:cc:subject:message-id
+	:references:mime-version:content-disposition:in-reply-to;
+	bh=djizPthGumhy0aa82+s6m3Q9KQZDbFYAxoC6yOMwIJE=;
+	b=NJHt8i5oRQXG6GtQSJv20m+0MpeNUs+JaZf7Y3j90XqMCozH21P09ob0jWD7Bz4H52
+	9h6dBDiPHSPU3Xcwg5D4OcZ00sIBYO3nHR6Les4JzXcZmBR4CgA6s3jgrvoGlXHBsQ1E
+	gM1osP9Q+uz/PnW3TgztzV01qj6rNufldTBoqE8/58ieG9i4lcAeIzD3rZvQqYMmuCjE
+	7FNSHtP//GgbYw70hhX9ca04gUGQdOFBLy88QMhYxN/tjOVzFzUqZ1gmdY5rN1eBFc+V
+	i3Joscerx91tsxsYdAHGMkpi9UXPuvOsky2VHdO+ekmQTKZXQF9VU+CvtwLr1HtC3eFY
+	ZMLA==
+X-Gm-Message-State: AOAM530jG2RLwDDOJMBtbuM/Kw6JRnS199q+LXFmb65mYM1Ax1j8PsJx
+	6vtYW4J+Pnb2EqcBwxou37xvW6NkrEUXshxr
+X-Google-Smtp-Source: ABdhPJzmESf8JzZzH4u4hwACcLgj3ZD3qdixjyOdsuiTTV18+fbgJ43wPjSfGqP+UoLPkcaOZeX0RQ==
+X-Received: by 2002:adf:e587:: with SMTP id l7mr19472841wrm.352.1592042208471; 
+	Sat, 13 Jun 2020 02:56:48 -0700 (PDT)
 Received: from soda.linbit (62-99-137-214.static.upcbusiness.at.
 	[62.99.137.214]) by smtp.gmail.com with ESMTPSA id
-	l204sm13367907wmf.19.2020.06.13.02.56.44
+	u3sm13082273wrw.89.2020.06.13.02.56.47
 	for <drbd-dev@lists.linbit.com>
 	(version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 13 Jun 2020 02:56:44 -0700 (PDT)
+	Sat, 13 Jun 2020 02:56:47 -0700 (PDT)
 Resent-From: Lars Ellenberg <lars.ellenberg@linbit.com>
-Resent-Date: Sat, 13 Jun 2020 11:56:43 +0200
-Resent-Message-ID: <20200613095643.GM4222@soda.linbit>
+Resent-Date: Sat, 13 Jun 2020 11:56:46 +0200
+Resent-Message-ID: <20200613095646.GN4222@soda.linbit>
 Resent-To: drbd-dev@lists.linbit.com
 X-Original-To: drbd-dev@lists.linbit.com
-Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
-	[205.139.110.61])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id EAA854202F0
-	for <drbd-dev@lists.linbit.com>; Wed, 13 May 2020 15:32:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1589376721;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	in-reply-to:in-reply-to:references:references;
-	bh=d/0WQiW+co/T0Lh806Aa2CF0lrVFjIjJV8t4w61WLTw=;
-	b=GlUSbuivpifwGyKK6+0P+NNB8B9FM3mwj/jaEXQ4AT02mcYvoBis6W6rxGf/f/zYHUF3uj
-	v2GovZPuD/LL063jbhEsrrs38T8B2CaZuZ5odiuGg7LcJYzYzC2ggV/++hSVoItfTfZvcn
-	7gU9h6FI8rUgtG+PPD1mcdhGW7k+mto=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
-	[209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-166-QSRiE1hJM-O7Lq496hJNkw-1; Wed, 13 May 2020 09:25:35 -0400
-X-MC-Unique: QSRiE1hJM-O7Lq496hJNkw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 360CB18FE866;
-	Wed, 13 May 2020 13:25:30 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-112-59.rdu2.redhat.com
-	[10.10.112.59])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 31ED9783B3;
-	Wed, 13 May 2020 13:25:19 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-From: David Howells <dhowells@redhat.com>
-In-Reply-To: <20200513062649.2100053-24-hch@lst.de>
-References: <20200513062649.2100053-24-hch@lst.de>
-	<20200513062649.2100053-1-hch@lst.de>
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
+	[209.85.160.193])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 679EA420317
+	for <drbd-dev@lists.linbit.com>; Wed, 13 May 2020 20:02:03 +0200 (CEST)
+Received: by mail-qt1-f193.google.com with SMTP id t25so602230qtc.0
+	for <drbd-dev@lists.linbit.com>; Wed, 13 May 2020 11:02:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to;
+	bh=djizPthGumhy0aa82+s6m3Q9KQZDbFYAxoC6yOMwIJE=;
+	b=bAlDH4C90L0WzuRWsV4+5Ckq+bqXFHL0YffjYTiIuP49rNtPXi8CvoXPRhlbDCns+x
+	gC+7ZNqshiqIAcsWjLCQjmdrO9oOMlgzWJt0Xj3ZekTSDW9iCVFPAciWKXwTtsaX1rZ2
+	VXCvvcg46I46jlg7EFLEyU90g8qDy5piGIZW0hen68PREB7hgPLiPfR3hs/JkD6zQYkN
+	qhNZuKBqh3uPmvPNqsvUQXsiprnLUtG/XpqeqOiXfQs/5jIJPARkKZ81vF+9uN+yzLI2
+	eDKxA7G8EEOFtgRLiqaZBFmhCr8blUDY0MqJ/GRWYF1K7PJ/mlVIvS7rM9jzk67nFQW1
+	Y3SQ==
+X-Received: by 2002:ac8:4b67:: with SMTP id g7mr328118qts.346.1589392862149;
+	Wed, 13 May 2020 11:01:02 -0700 (PDT)
+Received: from localhost.localdomain ([2001:1284:f013:f4e9:6bc3:5a0:7baf:1a14])
+	by smtp.gmail.com with ESMTPSA id v28sm310105qtb.49.2020.05.13.11.01.00
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 13 May 2020 11:01:01 -0700 (PDT)
+Received: by localhost.localdomain (Postfix, from userid 1000)
+	id 88707C08DA; Wed, 13 May 2020 15:00:58 -0300 (-03)
+Date: Wed, 13 May 2020 15:00:58 -0300
+From: Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>
 To: Christoph Hellwig <hch@lst.de>
+Message-ID: <20200513180058.GB2491@localhost.localdomain>
+References: <20200513062649.2100053-1-hch@lst.de>
+	<20200513062649.2100053-28-hch@lst.de>
 MIME-Version: 1.0
-Content-ID: <3124570.1589376319.1@warthog.procyon.org.uk>
-Date: Wed, 13 May 2020 14:25:19 +0100
-Message-ID: <3124571.1589376319@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Cc: Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	dhowells@redhat.com, linux-sctp@vger.kernel.org,
-	target-devel@vger.kernel.org, linux-afs@lists.infradead.org,
-	drbd-dev@lists.linbit.com, linux-cifs@vger.kernel.org,
-	rds-devel@oss.oracle.com, linux-rdma@vger.kernel.org,
-	cluster-devel@redhat.com, Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
+Content-Disposition: inline
+In-Reply-To: <20200513062649.2100053-28-hch@lst.de>
+Cc: Eric Dumazet <edumazet@google.com>, linux-nvme@lists.infradead.org,
+	linux-sctp@vger.kernel.org, target-devel@vger.kernel.org,
+	linux-afs@lists.infradead.org, drbd-dev@lists.linbit.com,
+	linux-cifs@vger.kernel.org, rds-devel@oss.oracle.com,
+	linux-rdma@vger.kernel.org, cluster-devel@redhat.com,
+	Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
 	linux-block@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
 	ceph-devel@vger.kernel.org, linux-nfs@vger.kernel.org,
 	Neil Horman <nhorman@tuxdriver.com>,
 	Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
 	netdev@vger.kernel.org, Vlad Yasevich <vyasevich@gmail.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jon Maloy <jmaloy@redhat.com>, Ying Xue <ying.xue@windriver.com>,
-	"David S. Miller" <davem@davemloft.net>, ocfs2-devel@oss.oracle.com
-Subject: Re: [Drbd-dev] [PATCH 23/33] ipv6: add ip6_sock_set_recverr
+	linux-kernel@vger.kernel.org, Jon Maloy <jmaloy@redhat.com>,
+	Ying Xue <ying.xue@windriver.com>, "David S. Miller" <davem@davemloft.net>,
+	ocfs2-devel@oss.oracle.com
+Subject: Re: [Drbd-dev] [PATCH 27/33] sctp: export sctp_setsockopt_bindx
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -118,15 +109,90 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Christoph Hellwig <hch@lst.de> wrote:
+On Wed, May 13, 2020 at 08:26:42AM +0200, Christoph Hellwig wrote:
+> And call it directly from dlm instead of going through kernel_setsockopt.
 
-> Add a helper to directly set the IPV6_RECVERR sockopt from kernel space
-> without going through a fake uaccess.
+The advantage on using kernel_setsockopt here is that sctp module will
+only be loaded if dlm actually creates a SCTP socket.  With this
+change, sctp will be loaded on setups that may not be actually using
+it. It's a quite big module and might expose the system.
+
+I'm okay with the SCTP changes, but I'll defer to DLM folks to whether
+that's too bad or what for DLM.
+
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
-
-Reviewed-by: David Howells <dhowells@redhat.com>
-
+> ---
+>  fs/dlm/lowcomms.c       | 13 ++++++++-----
+>  include/net/sctp/sctp.h |  3 +++
+>  net/sctp/socket.c       |  5 +++--
+>  3 files changed, 14 insertions(+), 7 deletions(-)
+> 
+> diff --git a/fs/dlm/lowcomms.c b/fs/dlm/lowcomms.c
+> index b722a09a7ca05..e4939d770df53 100644
+> --- a/fs/dlm/lowcomms.c
+> +++ b/fs/dlm/lowcomms.c
+> @@ -1005,14 +1005,17 @@ static int sctp_bind_addrs(struct connection *con, uint16_t port)
+>  		memcpy(&localaddr, dlm_local_addr[i], sizeof(localaddr));
+>  		make_sockaddr(&localaddr, port, &addr_len);
+>  
+> -		if (!i)
+> +		if (!i) {
+>  			result = kernel_bind(con->sock,
+>  					     (struct sockaddr *)&localaddr,
+>  					     addr_len);
+> -		else
+> -			result = kernel_setsockopt(con->sock, SOL_SCTP,
+> -						   SCTP_SOCKOPT_BINDX_ADD,
+> -						   (char *)&localaddr, addr_len);
+> +		} else {
+> +			lock_sock(con->sock->sk);
+> +			result = sctp_setsockopt_bindx(con->sock->sk,
+> +					(struct sockaddr *)&localaddr, addr_len,
+> +					SCTP_BINDX_ADD_ADDR);
+> +			release_sock(con->sock->sk);
+> +		}
+>  
+>  		if (result < 0) {
+>  			log_print("Can't bind to %d addr number %d, %d.\n",
+> diff --git a/include/net/sctp/sctp.h b/include/net/sctp/sctp.h
+> index 3ab5c6bbb90bd..f702b14d768ba 100644
+> --- a/include/net/sctp/sctp.h
+> +++ b/include/net/sctp/sctp.h
+> @@ -615,4 +615,7 @@ static inline bool sctp_newsk_ready(const struct sock *sk)
+>  	return sock_flag(sk, SOCK_DEAD) || sk->sk_socket;
+>  }
+>  
+> +int sctp_setsockopt_bindx(struct sock *sk, struct sockaddr *kaddrs,
+> +		int addrs_size, int op);
+> +
+>  #endif /* __net_sctp_h__ */
+> diff --git a/net/sctp/socket.c b/net/sctp/socket.c
+> index 1c96b52c4aa28..30c981d9f6158 100644
+> --- a/net/sctp/socket.c
+> +++ b/net/sctp/socket.c
+> @@ -979,8 +979,8 @@ int sctp_asconf_mgmt(struct sctp_sock *sp, struct sctp_sockaddr_entry *addrw)
+>   *
+>   * Returns 0 if ok, <0 errno code on error.
+>   */
+> -static int sctp_setsockopt_bindx(struct sock *sk, struct sockaddr *kaddrs,
+> -				 int addrs_size, int op)
+> +int sctp_setsockopt_bindx(struct sock *sk, struct sockaddr *kaddrs,
+> +		int addrs_size, int op)
+>  {
+>  	int err;
+>  	int addrcnt = 0;
+> @@ -1032,6 +1032,7 @@ static int sctp_setsockopt_bindx(struct sock *sk, struct sockaddr *kaddrs,
+>  		return -EINVAL;
+>  	}
+>  }
+> +EXPORT_SYMBOL(sctp_setsockopt_bindx);
+>  
+>  static int sctp_connect_new_asoc(struct sctp_endpoint *ep,
+>  				 const union sctp_addr *daddr,
+> -- 
+> 2.26.2
+> 
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
