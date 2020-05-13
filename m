@@ -2,90 +2,87 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCD001F8266
-	for <lists+drbd-dev@lfdr.de>; Sat, 13 Jun 2020 12:03:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED7161F8267
+	for <lists+drbd-dev@lfdr.de>; Sat, 13 Jun 2020 12:03:46 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A520C420400;
-	Sat, 13 Jun 2020 12:03:16 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D7C89420401;
+	Sat, 13 Jun 2020 12:03:46 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C0232420400
-	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 11:56:57 +0200 (CEST)
-Received: by mail-wr1-f68.google.com with SMTP id c3so12241050wru.12
-	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 02:56:57 -0700 (PDT)
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 64C29420401
+	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 11:57:00 +0200 (CEST)
+Received: by mail-wr1-f67.google.com with SMTP id x14so12294566wrp.2
+	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 02:57:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:resent-from:resent-date:resent-message-id
-	:resent-to:dkim-signature:mime-version:references:in-reply-to:from
-	:date:message-id:subject:to:cc;
-	bh=y3uf4cDEBcGin/ahVjDWwwqBbdeSBPGoaou/iCBc+Ng=;
-	b=J7biWoP4MZDk9UG+ucMkWiHXeST3vrxhhkv6cNwHvApuj963z6/OX50G44JeZahODr
-	s+SEtTfqIrfkO6vnzCj1TCmcUqHK/7VNBwmnowdwwzINrXyb0Z/wtO8/wk76tz+7TVIV
-	2ld5XCOlwuOTuKxK/tkqhauEK+rnl7ZEyJaUrre06VXcpSLpDQXSUhdyWC982yRl1WP+
-	jjX+M7hB3Io6C9W1oFbGqr+mhQb5lJ7qBUoEktdqHZPwhMBkf0F7tDfjegdweqo7l5H5
-	0b+Pwxt6HEAOyG2lywwJoTwifrjyu8Ecxbp6czlptUBj/czDPLgqiOMaresbfDNu7wbc
-	HbAw==
-X-Gm-Message-State: AOAM530GFFWjK0wGYBJ6sXgiVGJ8ntrGOIiFkyGHskN7uTbY4kRc6ept
-	2AJhNfatutOVB19ffGLo35QKVxYv2ScQYaSZ
-X-Google-Smtp-Source: ABdhPJwJpTJ3kQyUA5Q2zeOWP9FHeKQr0pMcEOI0/iU6am3WhGAhKUVjZ/0dkVICUZfehguVoTfmrg==
-X-Received: by 2002:adf:9795:: with SMTP id s21mr20498580wrb.166.1592042217302;
-	Sat, 13 Jun 2020 02:56:57 -0700 (PDT)
+	:resent-to:subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=oGExS5qpyhaJE9sRdyvo65rhkDZrEjTLCCqtKDwIC/k=;
+	b=ghE7CLdheVvur8k9msq2O/pMKlIh3R9pvAclSFv7eWNRgBWAYQG9GbH0oSgOllulhZ
+	1IJV8A0hBnCLhgyWVf7KCG3uASVCJUX+PHbWeMM0AmZk402+GU0suvbRy09I3fINxy9V
+	SQ/8TDyvM/EXgRvQ5jNqK2emWFlX4MmdByKAHoDBVUCTGN8Ze/Ov/TeXenZq3Y+RqFNs
+	zgdShakPdtCL7v4/PkXi3QQjSYuB//QA4l4+3qr91PW3qm5gMpPE/s5RiQCN+MP7Veuw
+	6ZkndO+no4j5Gzdw2gBmeq37mvhWYTezWyW94ulCKZ6GpoYEBQ+cfXp3LJ6d3GvAqZtP
+	IvjQ==
+X-Gm-Message-State: AOAM533lV8IPW+uMmqRnwdnSIe5umOJQoeqK9I86HikQewAQIwQ8Zw+k
+	eIJWHN9wYH9S5MpRL+b8EAqNSHrzsjbfFHB3
+X-Google-Smtp-Source: ABdhPJx9bhQOnuUsQ3nrlvu66q94Jhhsdqt/9nFrQvUiNwLoKn4+y29u8bh7clobJSE/Hpl5ygftkQ==
+X-Received: by 2002:adf:dcc3:: with SMTP id x3mr18553603wrm.93.1592042219840; 
+	Sat, 13 Jun 2020 02:56:59 -0700 (PDT)
 Received: from soda.linbit (62-99-137-214.static.upcbusiness.at.
 	[62.99.137.214]) by smtp.gmail.com with ESMTPSA id
-	h15sm13386139wrt.73.2020.06.13.02.56.56
+	w3sm13718270wmg.44.2020.06.13.02.56.59
 	for <drbd-dev@lists.linbit.com>
 	(version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 13 Jun 2020 02:56:56 -0700 (PDT)
+	Sat, 13 Jun 2020 02:56:59 -0700 (PDT)
 Resent-From: Lars Ellenberg <lars.ellenberg@linbit.com>
-Resent-Date: Sat, 13 Jun 2020 11:56:55 +0200
-Resent-Message-ID: <20200613095655.GQ4222@soda.linbit>
+Resent-Date: Sat, 13 Jun 2020 11:56:57 +0200
+Resent-Message-ID: <20200613095657.GR4222@soda.linbit>
 Resent-To: drbd-dev@lists.linbit.com
 X-Original-To: drbd-dev@lists.linbit.com
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 860F84202F0
-	for <drbd-dev@lists.linbit.com>; Wed, 13 May 2020 20:46:11 +0200 (CEST)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
-	[209.85.208.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id D4F09207C4
-	for <drbd-dev@lists.linbit.com>; Wed, 13 May 2020 18:45:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1589395541;
-	bh=y3uf4cDEBcGin/ahVjDWwwqBbdeSBPGoaou/iCBc+Ng=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=RLQfxHVcrn6lWhWEu0DDrnMIHIoZ+37WfrxEpZxqiKdV1WCyAtQwcUcFu2SvS2080
-	VTE5vGbKGPtkrp13IOlhl2+f6sYzR7NeAlwZhvD/+sHUP7ta5YnAY2Vdmt9jo9N04s
-	CEpGnXvJbsQIZi+fuoRT8dDY4nvc1HnFSDyGGc2w=
-Received: by mail-lj1-f170.google.com with SMTP id f18so681709lja.13
-	for <drbd-dev@lists.linbit.com>; Wed, 13 May 2020 11:45:39 -0700 (PDT)
-X-Received: by 2002:a2e:9258:: with SMTP id v24mr280263ljg.109.1589395538071; 
-	Wed, 13 May 2020 11:45:38 -0700 (PDT)
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+	[209.85.210.196])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2C1024202F0
+	for <drbd-dev@lists.linbit.com>; Wed, 13 May 2020 20:46:43 +0200 (CEST)
+Received: by mail-pf1-f196.google.com with SMTP id z1so143138pfn.3
+	for <drbd-dev@lists.linbit.com>; Wed, 13 May 2020 11:46:43 -0700 (PDT)
+X-Received: by 2002:a62:7d91:: with SMTP id y139mr631244pfc.172.1589395542971; 
+	Wed, 13 May 2020 11:45:42 -0700 (PDT)
+Received: from ?IPv6:2601:647:4802:9070:59e0:deac:a73c:5d11?
+	([2601:647:4802:9070:59e0:deac:a73c:5d11])
+	by smtp.gmail.com with ESMTPSA id
+	g10sm238580pfk.103.2020.05.13.11.45.40
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Wed, 13 May 2020 11:45:41 -0700 (PDT)
+To: Christoph Hellwig <hch@lst.de>, "David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>
+References: <20200513062649.2100053-1-hch@lst.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+Message-ID: <2c9a28f7-4268-2295-0d64-ada9178a5553@grimberg.me>
+Date: Wed, 13 May 2020 11:45:39 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Firefox/68.0 Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <20200508161517.252308-1-hch@lst.de>
-	<20200508161517.252308-13-hch@lst.de>
-	<CAPhsuW6_Y53_XLFeVxhTDpTi_PKNLqqnrXLn+M2fJW268eE6_w@mail.gmail.com>
-	<20200513183304.GA29895@lst.de>
-In-Reply-To: <20200513183304.GA29895@lst.de>
-From: Song Liu <song@kernel.org>
-Date: Wed, 13 May 2020 11:45:26 -0700
-X-Gmail-Original-Message-ID: <CAPhsuW6pG+-EAa-FW96r+LEP=j1nWEK0Zqk_fJeaAu2Hn9AqeA@mail.gmail.com>
-Message-ID: <CAPhsuW6pG+-EAa-FW96r+LEP=j1nWEK0Zqk_fJeaAu2Hn9AqeA@mail.gmail.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, linux-xtensa@linux-xtensa.org,
-	linux-raid <linux-raid@vger.kernel.org>,
-	Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
-	linux-nvdimm@lists.01.org, Geoff Levand <geoff@infradead.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	Jim Paris <jim@jtan.com>, linux-block@vger.kernel.org,
-	Minchan Kim <minchan@kernel.org>, linux-m68k@lists.linux-m68k.org,
-	Philip Kelleher <pjk1939@linux.ibm.com>,
-	linux-bcache@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	Joshua Morris <josh.h.morris@us.ibm.com>,
-	Nitin Gupta <ngupta@vflare.org>, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH 12/15] md: stop using ->queuedata
+In-Reply-To: <20200513062649.2100053-1-hch@lst.de>
+Content-Language: en-US
+Cc: Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-sctp@vger.kernel.org, target-devel@vger.kernel.org,
+	linux-afs@lists.infradead.org, drbd-dev@lists.linbit.com,
+	linux-cifs@vger.kernel.org, rds-devel@oss.oracle.com,
+	linux-rdma@vger.kernel.org, cluster-devel@redhat.com,
+	Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
+	linux-block@vger.kernel.org, ceph-devel@vger.kernel.org,
+	linux-nfs@vger.kernel.org, Neil Horman <nhorman@tuxdriver.com>,
+	Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+	netdev@vger.kernel.org, Vlad Yasevich <vyasevich@gmail.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jon Maloy <jmaloy@redhat.com>, Ying Xue <ying.xue@windriver.com>,
+	ocfs2-devel@oss.oracle.com
+Subject: Re: [Drbd-dev] remove kernel_setsockopt and kernel_getsockopt
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -99,23 +96,32 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Wed, May 13, 2020 at 11:33 AM Christoph Hellwig <hch@lst.de> wrote:
->
-> On Wed, May 13, 2020 at 11:29:17AM -0700, Song Liu wrote:
-> > On Fri, May 8, 2020 at 9:17 AM Christoph Hellwig <hch@lst.de> wrote:
-> > >
-> > > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> >
-> > Thanks for the cleanup. IIUC, you want this go through md tree?
->
-> Yes, please pick it up though the md tree.
 
-Thanks for the clarification. Applied to md-next.
+> Hi Dave,
+> 
+> this series removes the kernel_setsockopt and kernel_getsockopt
+> functions, and instead switches their users to small functions that
+> implement setting (or in one case getting) a sockopt directly using
+> a normal kernel function call with type safety and all the other
+> benefits of not having a function call.
+> 
+> In some cases these functions seem pretty heavy handed as they do
+> a lock_sock even for just setting a single variable, but this mirrors
+> the real setsockopt implementation - counter to that a few kernel
+> drivers just set the fields directly already.
+> 
+> Nevertheless the diffstat looks quite promising:
+> 
+>   42 files changed, 721 insertions(+), 799 deletions(-)
+
+For the nvme-tcp bits,
+
+Acked-by: Sagi Grimberg <sagi@grimberg.me>
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
