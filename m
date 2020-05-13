@@ -2,90 +2,88 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03E861F8257
-	for <lists+drbd-dev@lfdr.de>; Sat, 13 Jun 2020 11:59:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 840D11F825B
+	for <lists+drbd-dev@lfdr.de>; Sat, 13 Jun 2020 12:00:17 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E2B304203F5;
-	Sat, 13 Jun 2020 11:59:15 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 63998420447;
+	Sat, 13 Jun 2020 12:00:17 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 249A84203F5
-	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 11:56:33 +0200 (CEST)
-Received: by mail-wm1-f67.google.com with SMTP id l17so10056971wmj.0
-	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 02:56:33 -0700 (PDT)
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2C0274203F7
+	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 11:56:39 +0200 (CEST)
+Received: by mail-wr1-f66.google.com with SMTP id e1so12304323wrt.5
+	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 02:56:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:resent-from:resent-date:resent-message-id
 	:resent-to:dkim-signature:organization:from:in-reply-to:references
 	:to:cc:subject:mime-version:content-id:date:message-id;
-	bh=uvCkRI/K32PIBqaQ7LcOfghe4diMRxEm5e5JsVQlwss=;
-	b=dnr/LQnjwNfz0pex7y3BXnHTpUsVopbBhayBAINRnDxHFGJf0y+Dq+N+eHkitmeZuU
-	aR1vj3hv2e++OEuJGKCjaG0c+gZwoTvMddivZvZQ4SAY/ljv49RKpSXgluVab8mualPy
-	7t+iHX/csKYlLUmS7DbPgTapGr+CNKB05EaUHAKVK0yynY1Hy0f9jk4L+fXGi9KRrj7R
-	IU2ZLA0Amurn6KPmkE6IDlBI5WuKrmaQd4+6bcQdbGr1vT6SstExCPFmVT5eCREZ/1Rm
-	7Wx/vMW9Gryt4y8OWf7kdiXN2qChBd1n0+Thp+ITldd6juuv5ut+4ividoEiuRlr6x1e
-	mcxw==
-X-Gm-Message-State: AOAM533knsGHnJomBjW1HeEFCXOMzD7/7mSwAiPWmwsUcd9YZogE122h
-	FM5DPO2Guav2Y8TXui+X9cZNKlb9TCftaa5p
-X-Google-Smtp-Source: ABdhPJzBGIhD9RvVpNcReup6GIcAXbfcA1od38ibB1IoYjZUN28QvPFl7QQSqrZ2HyUEJSZQ/fxc4A==
-X-Received: by 2002:a7b:c3c6:: with SMTP id t6mr3095462wmj.159.1592042193344; 
-	Sat, 13 Jun 2020 02:56:33 -0700 (PDT)
+	bh=OH0J8d3K3U+hQmWR8NPajZuhzGmc4mTANodrmCJL8cs=;
+	b=kTubjQsUN+C+BNlr9ivjSIo/JpjdR9OPxfEWe0qZBZ6IV1BEwY06RFufF61xwftc3v
+	SJEY3GnP69IW2RVT6q8FRjdbxTrQX/paGRKvcaUc0+Cljnib/wlIjqgHiTugLkZIpzMO
+	REx+YpxpIxsUbOh3YXXceqnmkJr2syn7xAa2qaLELiwjRAm/syQ8JdnuuPgUKR40qSQl
+	sBsyI+fVUUxBAprhaflRDOC+LynEc7x5/GAILsag0x2P4hHea0Gj64H8Wcu8g29D4Gw5
+	9p7cH+4shqUOZtxmx+inIlozgRLD0l4xomxNC4CXmAb1ZexTpjBCZcKuZURhucW8LdYD
+	oSEg==
+X-Gm-Message-State: AOAM5330FNpglGL9KA5tnFwBTRbJ1IqeJilX7C1Nd0twX3k1TuGlYbzg
+	8AcIX22illH0Crqo/9iGE9NzqZalgs3UZnq1
+X-Google-Smtp-Source: ABdhPJwFSH66mgFpcD0DVBz4dEy7mon5mQ5wJx4tWP08K0KocCsgOhGn0kEpW8VkvloLnycds+5u4A==
+X-Received: by 2002:adf:e908:: with SMTP id f8mr19039420wrm.184.1592042199295; 
+	Sat, 13 Jun 2020 02:56:39 -0700 (PDT)
 Received: from soda.linbit (62-99-137-214.static.upcbusiness.at.
 	[62.99.137.214]) by smtp.gmail.com with ESMTPSA id
-	o20sm14861230wra.29.2020.06.13.02.56.32
+	v27sm15301979wrv.81.2020.06.13.02.56.38
 	for <drbd-dev@lists.linbit.com>
 	(version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 13 Jun 2020 02:56:32 -0700 (PDT)
+	Sat, 13 Jun 2020 02:56:38 -0700 (PDT)
 Resent-From: Lars Ellenberg <lars.ellenberg@linbit.com>
-Resent-Date: Sat, 13 Jun 2020 11:56:31 +0200
-Resent-Message-ID: <20200613095631.GI4222@soda.linbit>
+Resent-Date: Sat, 13 Jun 2020 11:56:37 +0200
+Resent-Message-ID: <20200613095637.GK4222@soda.linbit>
 Resent-To: drbd-dev@lists.linbit.com
 X-Original-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 331 seconds by postgrey-1.31 at mail19;
-	Wed, 13 May 2020 15:18:58 CEST
 Received: from us-smtp-delivery-1.mimecast.com (us-smtp-2.mimecast.com
 	[207.211.31.81])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 61277420317
-	for <drbd-dev@lists.linbit.com>; Wed, 13 May 2020 15:18:58 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C69B3420317
+	for <drbd-dev@lists.linbit.com>; Wed, 13 May 2020 15:27:21 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1589375937;
+	s=mimecast20190719; t=1589376441;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	in-reply-to:in-reply-to:references:references;
-	bh=uvCkRI/K32PIBqaQ7LcOfghe4diMRxEm5e5JsVQlwss=;
-	b=IhNm+k7PVQk1sHCfQ4mVHQrO/3uwBSm2SWWE2NOaoIPiWExjnyRa4bJFdNJm3efc9kgjb7
-	O2XOvzJn8BzOF2RPPKXZvT4IOc27m9AomIX/bhLJgnSG5yxdAqOeRztqcGi3llqN/O2VYE
-	GwDGM0sOfCPMoSiREwpOigfznaRKBZo=
+	bh=OH0J8d3K3U+hQmWR8NPajZuhzGmc4mTANodrmCJL8cs=;
+	b=W8D3X2FEvV90NYW1xXTRbHOUGvHFuOmM91+lFiFTWjxhYeX5vOwbIZ+IpivEhgcKaOYcuq
+	OvgH10YEGzNMMTDQ1/aSpXcNLeZ8IKOWwMHYOnxOEaTspHzwQLYICk7acYiKrV5wo73BaR
+	cALbHJSViNleJgksLeim5LhiE3p8uhs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
 	[209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-133-9T7X1SL4M7u16KqBfljjIQ-1; Wed, 13 May 2020 09:17:52 -0400
-X-MC-Unique: 9T7X1SL4M7u16KqBfljjIQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
+	us-mta-417-iyWGfh95OW-O_Gj4FkwCgg-1; Wed, 13 May 2020 09:27:19 -0400
+X-MC-Unique: iyWGfh95OW-O_Gj4FkwCgg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53C148014C0;
-	Wed, 13 May 2020 13:17:49 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9855835B40;
+	Wed, 13 May 2020 13:27:16 +0000 (UTC)
 Received: from warthog.procyon.org.uk (ovpn-112-59.rdu2.redhat.com
 	[10.10.112.59])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id E8A53610F2;
-	Wed, 13 May 2020 13:17:41 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 811E61C92D;
+	Wed, 13 May 2020 13:27:06 +0000 (UTC)
 Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
 	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
 	Kingdom.
 	Registered in England and Wales under Company Registration No. 3798903
 From: David Howells <dhowells@redhat.com>
-In-Reply-To: <20200513062649.2100053-22-hch@lst.de>
-References: <20200513062649.2100053-22-hch@lst.de>
+In-Reply-To: <20200513062649.2100053-7-hch@lst.de>
+References: <20200513062649.2100053-7-hch@lst.de>
 	<20200513062649.2100053-1-hch@lst.de>
 To: Christoph Hellwig <hch@lst.de>
 MIME-Version: 1.0
-Content-ID: <3123897.1589375861.1@warthog.procyon.org.uk>
-Date: Wed, 13 May 2020 14:17:41 +0100
-Message-ID: <3123898.1589375861@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-ID: <3124743.1589376425.1@warthog.procyon.org.uk>
+Date: Wed, 13 May 2020 14:27:05 +0100
+Message-ID: <3124744.1589376425@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Cc: Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
 	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
 	dhowells@redhat.com, linux-sctp@vger.kernel.org,
@@ -101,7 +99,7 @@ Cc: Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
 	Eric Dumazet <edumazet@google.com>,
 	Jon Maloy <jmaloy@redhat.com>, Ying Xue <ying.xue@windriver.com>,
 	"David S. Miller" <davem@davemloft.net>, ocfs2-devel@oss.oracle.com
-Subject: Re: [Drbd-dev] [PATCH 21/33] ipv4: add ip_sock_set_mtu_discover
+Subject: Re: [Drbd-dev] [PATCH 06/33] net: add sock_set_timestamps
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -122,13 +120,12 @@ Errors-To: drbd-dev-bounces@lists.linbit.com
 
 Christoph Hellwig <hch@lst.de> wrote:
 
-> +		ip_sock_set_mtu_discover(conn->params.local->socket->sk,
-> +				IP_PMTUDISC_DONT);
+> Add a helper to directly set the SO_TIMESTAMP* sockopts from kernel space
+> without going through a fake uaccess.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-Um... The socket in question could be an AF_INET6 socket, not an AF_INET4
-socket - I presume it will work in that case.  If so:
-
-Reviewed-by: David Howells <dhowells@redhat.com> [rxrpc bits]
+Reviewed-by: David Howells <dhowells@redhat.com>
 
 _______________________________________________
 drbd-dev mailing list
