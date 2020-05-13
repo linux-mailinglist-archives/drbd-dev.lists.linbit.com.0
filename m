@@ -2,43 +2,53 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id E07101CEED2
-	for <lists+drbd-dev@lfdr.de>; Tue, 12 May 2020 10:08:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6843E1D0872
+	for <lists+drbd-dev@lfdr.de>; Wed, 13 May 2020 08:34:34 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A90A94203E4;
-	Tue, 12 May 2020 10:08:54 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4D453420408;
+	Wed, 13 May 2020 08:34:34 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9451B4203D3
-	for <drbd-dev@lists.linbit.com>; Tue, 12 May 2020 10:08:53 +0200 (CEST)
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 1BC1368BEB; Tue, 12 May 2020 10:08:21 +0200 (CEST)
-Date: Tue, 12 May 2020 10:08:20 +0200
+Received: from bombadil.infradead.org (bombadil.infradead.org
+	[198.137.202.133])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 54F644203FF
+	for <drbd-dev@lists.linbit.com>; Wed, 13 May 2020 08:29:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=AG2RtlJ7y9O44y7CM+5Y55kgsqMdi5zmGGc+3SDRxq8=;
+	b=WCEMuVgh4ZCeigkMFy94+mId1g
+	gh0Igbk9vi9s0Nf0anxjWE8uw6ABaQK+5+LaKpNFUHA+zf0D919KpO4aJY2VWo7p1QEdzsWYbfYE1
+	ONYsiXd9fdvHslF9UXMZqp6QUOnmxAYZwP2dn34xAmDZzON/e8nSVNnr721D+sw/O5rHr7UcsK6mO
+	HSxECWTkiypKRzFQFHzArwuIE38ZopK9LEyh7+kEKbL+4aJLTGj2I5cW3gZ22+vmtXtEY9Pl73HhN
+	vcT29xWjHPMXK5XFCdsQA+ZaH+xRK6mUJGYid122hF4Ce47/IUMWYtLRChUrGSjyNKanSSQmBUX9v
+	ypmYTpGg==;
+Received: from [2001:4bb8:180:9d3f:c70:4a89:bc61:2] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+	id 1jYkqx-0003lt-48; Wed, 13 May 2020 06:26:51 +0000
 From: Christoph Hellwig <hch@lst.de>
-To: Dan Williams <dan.j.williams@intel.com>
-Message-ID: <20200512080820.GA2336@lst.de>
-References: <20200508161517.252308-1-hch@lst.de>
-	<CAPcyv4j3gVqrZWCCc2Q-6JizGAQXW0b+R1BcvWCZOvzaukGLQg@mail.gmail.com>
-	<20200509082352.GB21834@lst.de>
-	<CAPcyv4ggb7_rwzGbhHNXSHd+jjSpZC=+DMEztY6Cu8Bc=ZNzag@mail.gmail.com>
+To: "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>
+Date: Wed, 13 May 2020 08:26:15 +0200
+Message-Id: <20200513062649.2100053-1-hch@lst.de>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAPcyv4ggb7_rwzGbhHNXSHd+jjSpZC=+DMEztY6Cu8Bc=ZNzag@mail.gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: Jens Axboe <axboe@kernel.dk>, linux-xtensa@linux-xtensa.org,
-	linux-raid <linux-raid@vger.kernel.org>,
-	Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
-	linux-nvdimm <linux-nvdimm@lists.01.org>,
-	Geoff Levand <geoff@infradead.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Jim Paris <jim@jtan.com>, Joshua Morris <josh.h.morris@us.ibm.com>,
-	linux-block@vger.kernel.org, Minchan Kim <minchan@kernel.org>,
-	linux-m68k@lists.linux-m68k.org, Philip Kelleher <pjk1939@linux.ibm.com>,
-	linux-bcache@vger.kernel.org, linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-	Christoph Hellwig <hch@lst.de>, Nitin Gupta <ngupta@vflare.org>,
-	drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] remove a few uses of ->queuedata
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+	bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Cc: Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
+	Eric Dumazet <edumazet@google.com>,
+	linux-nvme@lists.infradead.org, linux-sctp@vger.kernel.org,
+	target-devel@vger.kernel.org, linux-afs@lists.infradead.org,
+	drbd-dev@lists.linbit.com, linux-cifs@vger.kernel.org,
+	rds-devel@oss.oracle.com, linux-rdma@vger.kernel.org,
+	cluster-devel@redhat.com, Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
+	linux-block@vger.kernel.org, ceph-devel@vger.kernel.org,
+	linux-nfs@vger.kernel.org, Neil Horman <nhorman@tuxdriver.com>,
+	Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+	netdev@vger.kernel.org, Vlad Yasevich <vyasevich@gmail.com>,
+	linux-kernel@vger.kernel.org, Jon Maloy <jmaloy@redhat.com>,
+	Ying Xue <ying.xue@windriver.com>, ocfs2-devel@oss.oracle.com
+Subject: [Drbd-dev] remove kernel_setsockopt and kernel_getsockopt
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -57,24 +67,22 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Sat, May 09, 2020 at 08:07:14AM -0700, Dan Williams wrote:
-> > which are all used in the I/O submission path (generic_make_request /
-> > generic_make_request_checks).  This is mostly a prep cleanup patch to
-> > also remove the pointless queue argument from ->make_request - then
-> > ->queue is an extra dereference and extra churn.
-> 
-> Ah ok. If the changelogs had been filled in with something like "In
-> preparation for removing @q from make_request_fn, stop using
-> ->queuedata", I probably wouldn't have looked twice.
-> 
-> For the nvdimm/ driver updates you can add:
-> 
->     Reviewed-by: Dan Williams <dan.j.williams@intel.com>
-> 
-> ...or just let me know if you want me to pick those up through the nvdimm tree.
+Hi Dave,
 
-I'd love you to pick them up through the nvdimm tree.  Do you want
-to fix up the commit message yourself?
+this series removes the kernel_setsockopt and kernel_getsockopt
+functions, and instead switches their users to small functions that
+implement setting (or in one case getting) a sockopt directly using
+a normal kernel function call with type safety and all the other
+benefits of not having a function call.
+
+In some cases these functions seem pretty heavy handed as they do
+a lock_sock even for just setting a single variable, but this mirrors
+the real setsockopt implementation - counter to that a few kernel
+drivers just set the fields directly already.
+
+Nevertheless the diffstat looks quite promising:
+
+ 42 files changed, 721 insertions(+), 799 deletions(-)
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
