@@ -2,75 +2,72 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A5171F8268
-	for <lists+drbd-dev@lfdr.de>; Sat, 13 Jun 2020 12:04:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59ECA1F8269
+	for <lists+drbd-dev@lfdr.de>; Sat, 13 Jun 2020 12:04:47 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 172AC4203EA;
-	Sat, 13 Jun 2020 12:04:17 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 402304203F2;
+	Sat, 13 Jun 2020 12:04:47 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5A3A2420402
-	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 11:57:03 +0200 (CEST)
-Received: by mail-wm1-f67.google.com with SMTP id j198so10587344wmj.0
-	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 02:57:03 -0700 (PDT)
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3EE23420403
+	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 11:57:05 +0200 (CEST)
+Received: by mail-wm1-f65.google.com with SMTP id r9so10049770wmh.2
+	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 02:57:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:resent-from:resent-date:resent-message-id
 	:resent-to:from:to:cc:subject:thread-topic:thread-index:date
 	:message-id:references:in-reply-to:accept-language:content-language
 	:mime-version:content-transfer-encoding;
-	bh=GNSl57J+LxonPLzG8vkL/ar7GDiVodtVdzEZg1S8fvM=;
-	b=OXeUTvKrLnlBKWX4jZaYtgtC4oAp8jHeMmEHOJdmCEIAsKQtAGWOEir6ITYWQ0JbI7
-	64DYSDvYIGB6sx9wfEBeHW5dWjd/LaMb9rGXo5eDAHzBthkP4plrDLCY580XXA5vbxWk
-	EX/+c0LX11ghSr/XF1Xb78NrXshkzoqhVcNaZrIxyUe3hUr29ZlzEYIEaKbnrb1VTYwH
-	+4DV3TJ8AhIcmcElwIXqv8EhJjDErip5jV6msf9m1alu/mm9suXvp69ibxDBBb/+3Db6
-	v/tQKTmkn8xnb+v8ghFFLlo4F5JIQkj+P48Wc1DPH2ia8EFD8WnY9L3BGPa8IAcJ8QlA
-	Rwjg==
-X-Gm-Message-State: AOAM530a4uKETIypKd4Eau+7D5h9fsuN8MAylMCYffXQmThYxPlT5Sfp
-	2e3Ch1Mbm7V5sA+uxr1ZH3WZ6uliFZWZ3n0F
-X-Google-Smtp-Source: ABdhPJxfTqDRdP4eFTMHk3BXw9srNIgGPvk0Ti9nL/jktgw5M4kpBESj4i1gB4g8xTNzJ+C7is5b+g==
-X-Received: by 2002:a1c:f608:: with SMTP id w8mr3170076wmc.78.1592042222587;
-	Sat, 13 Jun 2020 02:57:02 -0700 (PDT)
+	bh=7WTYPz6gG7Xw0f7yeSJtT3lYNL2m/92lbx+2p++GWgQ=;
+	b=K3fIbq7GWMDzavduerZK+4XhRhLylC8GfU+s1BEm2G2aUSitUPm+6dDYoYDqOzdc2h
+	m/XU6ifK71pLE/m9gVqJ3KsaOhP4OpKDW/4tiCUxeBPgtkg2F+hIZ2ThK22eWPuHeN0l
+	5gWSy+NNuG+Q1UxdAVvB0+X470vNNnUDw+Y9Ex1KV4v18oivNurMRBnXrGxow1JpWL0F
+	7dZ4UQ6vN6lu3wcGIIYvEJdUA8aKcBgsCaKgjGzz+EvXAHxFQ9L+gTDiqufFQMBOaeU2
+	NSDxQ15NYIOwLe0jmMLAkgTe7u2yctKfSqUqG0Bdi//fw9aHHwXBW2N2XSuivDoWsojR
+	KClw==
+X-Gm-Message-State: AOAM531VRKe+MVjvuna1U375iHCKlULDw97NqShwNKi6WkUruJ4oVz2m
+	pgg8FND2Jkw+nad9wG235E4G3CSYxOqeKkyp
+X-Google-Smtp-Source: ABdhPJyF8YDdcqIC0HE5Jr+2BvfAs8BeqQmpsZcOJ5EBVfgXMui5+RYxfR5JGNi6X2Rdu8/PLh5FAA==
+X-Received: by 2002:a1c:6a1a:: with SMTP id f26mr3326295wmc.80.1592042225369; 
+	Sat, 13 Jun 2020 02:57:05 -0700 (PDT)
 Received: from soda.linbit (62-99-137-214.static.upcbusiness.at.
 	[62.99.137.214]) by smtp.gmail.com with ESMTPSA id
-	c68sm6802698wmd.12.2020.06.13.02.57.01
+	p16sm15309111wru.27.2020.06.13.02.57.04
 	for <drbd-dev@lists.linbit.com>
 	(version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 13 Jun 2020 02:57:01 -0700 (PDT)
+	Sat, 13 Jun 2020 02:57:04 -0700 (PDT)
 Resent-From: Lars Ellenberg <lars.ellenberg@linbit.com>
-Resent-Date: Sat, 13 Jun 2020 11:57:00 +0200
-Resent-Message-ID: <20200613095700.GS4222@soda.linbit>
+Resent-Date: Sat, 13 Jun 2020 11:57:03 +0200
+Resent-Message-ID: <20200613095703.GT4222@soda.linbit>
 Resent-To: drbd-dev@lists.linbit.com
 X-Original-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 302 seconds by postgrey-1.31 at mail19;
-	Thu, 14 May 2020 10:30:03 CEST
 Received: from eu-smtp-delivery-151.mimecast.com
 	(eu-smtp-delivery-151.mimecast.com [146.101.78.151])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A4CA84202B5
-	for <drbd-dev@lists.linbit.com>; Thu, 14 May 2020 10:30:03 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id BF3CF4202B5
+	for <drbd-dev@lists.linbit.com>; Thu, 14 May 2020 10:31:00 +0200 (CEST)
 Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
 	TLS) by relay.mimecast.com with ESMTP id
-	uk-mta-160-NR0jAm9dMXGz0XSWuD-CMg-1; Thu, 14 May 2020 09:23:44 +0100
-X-MC-Unique: NR0jAm9dMXGz0XSWuD-CMg-1
+	uk-mta-41-3XJ_vbSSOB-Mdnc0632Mfw-1; Thu, 14 May 2020 09:29:32 +0100
+X-MC-Unique: 3XJ_vbSSOB-Mdnc0632Mfw-1
 Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
 	AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft
-	SMTP Server (TLS) id 15.0.1347.2; Thu, 14 May 2020 09:23:43 +0100
+	SMTP Server (TLS) id 15.0.1347.2; Thu, 14 May 2020 09:29:31 +0100
 Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
 	AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id
-	15.00.1347.000; Thu, 14 May 2020 09:23:43 +0100
+	15.00.1347.000; Thu, 14 May 2020 09:29:31 +0100
 From: David Laight <David.Laight@ACULAB.COM>
-To: 'Marcelo Ricardo Leitner' <marcelo.leitner@gmail.com>, Christoph Hellwig
-	<hch@lst.de>
-Thread-Topic: [PATCH 27/33] sctp: export sctp_setsockopt_bindx
-Thread-Index: AQHWKVB6yiOODFVfBEqdWGEpseVc56inPsjA
-Date: Thu, 14 May 2020 08:23:43 +0000
-Message-ID: <f22a26559aa9430ab8549c0624729082@AcuMS.aculab.com>
+To: 'Joe Perches' <joe@perches.com>, Christoph Hellwig <hch@lst.de>, "David S.
+	Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>
+Thread-Topic: remove kernel_setsockopt and kernel_getsockopt
+Thread-Index: AQHWKU15LJmP4mOGDE2/GHhLszFt9KinP7aQ
+Date: Thu, 14 May 2020 08:29:30 +0000
+Message-ID: <756758e8f0e34e2e97db470609f5fbba@AcuMS.aculab.com>
 References: <20200513062649.2100053-1-hch@lst.de>
-	<20200513062649.2100053-28-hch@lst.de>
-	<20200513180058.GB2491@localhost.localdomain>
-In-Reply-To: <20200513180058.GB2491@localhost.localdomain>
+	<ecc165c33962d964d518c80de605af632eee0474.camel@perches.com>
+In-Reply-To: <ecc165c33962d964d518c80de605af632eee0474.camel@perches.com>
 Accept-Language: en-GB, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -80,7 +77,8 @@ x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: aculab.com
-Cc: Eric Dumazet <edumazet@google.com>,
+Cc: Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
+	Eric Dumazet <edumazet@google.com>,
 	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
 	"linux-sctp@vger.kernel.org" <linux-sctp@vger.kernel.org>,
 	"target-devel@vger.kernel.org" <target-devel@vger.kernel.org>,
@@ -92,18 +90,16 @@ Cc: Eric Dumazet <edumazet@google.com>,
 	"cluster-devel@redhat.com" <cluster-devel@redhat.com>,
 	Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
 	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
 	"ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>,
 	"linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
 	Neil Horman <nhorman@tuxdriver.com>,
 	Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	Vlad Yasevich <vyasevich@gmail.com>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, Vlad
+	Yasevich <vyasevich@gmail.com>,
 	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
 	Jon Maloy <jmaloy@redhat.com>, Ying Xue <ying.xue@windriver.com>,
-	"David S. Miller" <davem@davemloft.net>,
 	"ocfs2-devel@oss.oracle.com" <ocfs2-devel@oss.oracle.com>
-Subject: Re: [Drbd-dev] [PATCH 27/33] sctp: export sctp_setsockopt_bindx
+Subject: Re: [Drbd-dev] remove kernel_setsockopt and kernel_getsockopt
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -122,25 +118,36 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-From: Marcelo Ricardo Leitner
-> Sent: 13 May 2020 19:01
-> On Wed, May 13, 2020 at 08:26:42AM +0200, Christoph Hellwig wrote:
-> > And call it directly from dlm instead of going through kernel_setsockopt.
-> 
-> The advantage on using kernel_setsockopt here is that sctp module will
-> only be loaded if dlm actually creates a SCTP socket.  With this
-> change, sctp will be loaded on setups that may not be actually using
-> it. It's a quite big module and might expose the system.
-> 
-> I'm okay with the SCTP changes, but I'll defer to DLM folks to whether
-> that's too bad or what for DLM.
+From: Joe Perches
+> Sent: 13 May 2020 18:39
+> On Wed, 2020-05-13 at 08:26 +0200, Christoph Hellwig wrote:
+> > this series removes the kernel_setsockopt and kernel_getsockopt
+> > functions, and instead switches their users to small functions that
+> > implement setting (or in one case getting) a sockopt directly using
+> > a normal kernel function call with type safety and all the other
+> > benefits of not having a function call.
+> >
+> > In some cases these functions seem pretty heavy handed as they do
+> > a lock_sock even for just setting a single variable, but this mirrors
+> > the real setsockopt implementation - counter to that a few kernel
+> > drivers just set the fields directly already.
+> >
+> > Nevertheless the diffstat looks quite promising:
+> >
+> >  42 files changed, 721 insertions(+), 799 deletions(-)
 
-I didn't see these sneak through.
+I missed this patch going through.
+Massive NACK.
 
-There is a big long list of SCTP socket options that are
-needed to make anything work.
+You need to export functions that do most of the socket options
+for all protocols.
+As well as REUSADDR and NODELAY SCTP has loads because a lot
+of stuff that should have been extra system calls got piled
+into setsockopt.
 
-They all need exporting.
+An alternate solution would be to move the copy_to/from_user()
+into a wrapper function so that the kernel_[sg]etsockopt()
+functions would bypass them completely.
 
 	David
 
