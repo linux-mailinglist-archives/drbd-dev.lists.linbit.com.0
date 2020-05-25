@@ -2,97 +2,93 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8848E1F82B4
-	for <lists+drbd-dev@lfdr.de>; Sat, 13 Jun 2020 12:18:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 238FB1F82D8
+	for <lists+drbd-dev@lfdr.de>; Sat, 13 Jun 2020 12:19:19 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 70EA24203F9;
-	Sat, 13 Jun 2020 12:18:19 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E24A14203EB;
+	Sat, 13 Jun 2020 12:19:18 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 59BB8420424
-	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 11:58:38 +0200 (CEST)
-Received: by mail-wr1-f68.google.com with SMTP id x6so12245022wrm.13
-	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 02:58:38 -0700 (PDT)
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id ECD82420426
+	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 11:58:42 +0200 (CEST)
+Received: by mail-wr1-f66.google.com with SMTP id l10so12264076wrr.10
+	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 02:58:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:resent-from:resent-date:resent-message-id
-	:resent-to:dkim-signature:date:from:to:cc:subject:message-id
-	:references:mime-version:content-disposition:in-reply-to;
-	bh=4AWH1AUEd7Au/qvsJAY3f3OpE4viRwDzW+yF47F593Y=;
-	b=DEwEouY3CpjGZW6Lbpm2CXKvJDkMiIW/HpI1Y1C4xHG1fkFQbWaQDdR8awky3AfTu1
-	r0lf3UXd5EEdebT+fk7QJQWone93I2kI5cXj6YiFpNUWaeEi+GSNIzH9ebqi3LBJsi8r
-	eHJKMdpZvaniGIksw1bGtqyBe/PreaLXEfr1XK7liBfP42da75DRcRo5jkpl/W8F7UxE
-	Ga0zsu41w0OeymKd+S609ZdfwszsY8or89je0fIofNVQS4QRDGud3DhD4w1iW58GGSBg
-	KZqnv8i6yhaV5GdkLB3BcoECzp95/SeBHBSahrCuH4V+YUrRWz8hhRrGa3T9XMIgXPKY
-	lcAQ==
-X-Gm-Message-State: AOAM530VH4qAks8ABlV5Shk74+qlFFarTu9dhUtCvzLFUkcQ45PZoCl/
-	Th7nZc9y/Z7RNkoDM8QXRiT+BI2mge15IFj7
-X-Google-Smtp-Source: ABdhPJymB8kXrPD2vVdpg2V+126ZeDuEUv0QpBSlxIm0f0wVdsCaavGdK3odV9kFmLpOWX90cV7L2A==
-X-Received: by 2002:a5d:428e:: with SMTP id k14mr19020760wrq.21.1592042317803; 
-	Sat, 13 Jun 2020 02:58:37 -0700 (PDT)
+	:resent-to:dkim-signature:subject:to:cc:references:from:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=YEG4z8qEcvv8kNO2YGjz6EufWfplHbPF3VC80TUbdQE=;
+	b=bPtVp3le3foASU7q4wt+iW7IsvCG1DPbKq1OHuPC7oKt49jyvl9OQxNtMEHYD4IbKD
+	CbktxCER0zbaJTuIFA+UuYCV/dojYbevNlmWSoLHRxOZIR+GDgCBsD5xiYWEw6DSK04W
+	rvcKBgj8baDqu4lPbrN8n8Qo6Espid+3QnWP7Ov3rkusp21eK4Dmw/OKNyoi6kvt2lki
+	b5EsXnB83d4UIHPfz6i2UKC27tke1VKjC7/xKXqIP/2VJK81N/8M68A8rk/zPxH7i5Bg
+	i4ZAvGKWGcaaQ/LaTwcl+KOrVh7581fqxqOH38R0vI6vIlSzXB1Chl+CpScfZE21qAmB
+	apWQ==
+X-Gm-Message-State: AOAM531M7kZ1X2UcNJn009zx/iENDzs6q9XzeNtHDDFKOGeFL5mmrQv9
+	yhifuBZajwIE8/EHP95ZBBMnAtgPMELkZQ==
+X-Google-Smtp-Source: ABdhPJyP989VokAPPzy5JNlZgaOLFjT+IweqZbvtjdqKGG//1EBIlw/dN/MFCoqK+7rxk1J/9v72dw==
+X-Received: by 2002:adf:e545:: with SMTP id z5mr18468250wrm.89.1592042322323; 
+	Sat, 13 Jun 2020 02:58:42 -0700 (PDT)
 Received: from soda.linbit (62-99-137-214.static.upcbusiness.at.
 	[62.99.137.214]) by smtp.gmail.com with ESMTPSA id
-	i8sm13403726wru.30.2020.06.13.02.58.37
+	d11sm14283898wrm.64.2020.06.13.02.58.41
 	for <drbd-dev@lists.linbit.com>
 	(version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 13 Jun 2020 02:58:37 -0700 (PDT)
+	Sat, 13 Jun 2020 02:58:42 -0700 (PDT)
 Resent-From: Lars Ellenberg <lars.ellenberg@linbit.com>
-Resent-Date: Sat, 13 Jun 2020 11:58:35 +0200
-Resent-Message-ID: <20200613095835.GU4222@soda.linbit>
+Resent-Date: Sat, 13 Jun 2020 11:58:40 +0200
+Resent-Message-ID: <20200613095840.GW4222@soda.linbit>
 Resent-To: drbd-dev@lists.linbit.com
 X-Original-To: drbd-dev@lists.linbit.com
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
-	[209.85.160.193])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E33974203D6
-	for <drbd-dev@lists.linbit.com>; Thu, 21 May 2020 15:54:47 +0200 (CEST)
-Received: by mail-qt1-f193.google.com with SMTP id v4so5517538qte.3
-	for <drbd-dev@lists.linbit.com>; Thu, 21 May 2020 06:54:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to;
-	bh=4AWH1AUEd7Au/qvsJAY3f3OpE4viRwDzW+yF47F593Y=;
-	b=MadH9FDDGvoxe4fUbjh7p4mwB3ng32aoog6jBUA4hFSZAKoaWEKqesMpS8Mdgd0nR2
-	mDTgZteXtTpdXw8EluT3/45VBYy3VnVHtEsyutIuba5pFOT1ONq06EfpFZxfbAM+uqBt
-	ivy6cbOcjc9wKcedTtgupAWJ4hGHRK6MDbC5Mf63igyieBqM3YqmiNMYpXIlyth7uy+c
-	dK6YjZCUy66fZodoZfuNm2c+b7Jy5HP8GX2o3qqoiVU9U/KOnqcAZfrpq9vj9G7eqhyl
-	9Xb6Y7o7onhxN0YVZPLVzb6piACyAq9ppSHsg5oJrX7hlGZSAgGYua7uGRRSN/cVwcZH
-	Oc1g==
-X-Received: by 2002:ac8:4c8b:: with SMTP id j11mr10385232qtv.58.1590069286825; 
-	Thu, 21 May 2020 06:54:46 -0700 (PDT)
-Received: from localhost.localdomain ([168.181.48.225])
-	by smtp.gmail.com with ESMTPSA id
-	n85sm1682417qkn.31.2020.05.21.06.54.45
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 21 May 2020 06:54:46 -0700 (PDT)
-Received: by localhost.localdomain (Postfix, from userid 1000)
-	id 7AEDAC0BEB; Thu, 21 May 2020 10:54:43 -0300 (-03)
-Date: Thu, 21 May 2020 10:54:43 -0300
-From: Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>
-To: Christoph Hellwig <hch@lst.de>
-Message-ID: <20200521135443.GY2491@localhost.localdomain>
-References: <20200520195509.2215098-1-hch@lst.de>
-	<20200520195509.2215098-33-hch@lst.de>
-	<20200520230025.GT2491@localhost.localdomain>
-	<20200521084224.GA7859@lst.de>
+Received: from forwardcorp1j.mail.yandex.net (forwardcorp1j.mail.yandex.net
+	[5.45.199.163])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 402E94202C3
+	for <drbd-dev@lists.linbit.com>; Mon, 25 May 2020 14:35:09 +0200 (CEST)
+Received: from mxbackcorp1j.mail.yandex.net (mxbackcorp1j.mail.yandex.net
+	[IPv6:2a02:6b8:0:1619::162])
+	by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 9EE2C2E1382;
+	Mon, 25 May 2020 15:28:09 +0300 (MSK)
+Received: from vla1-81430ab5870b.qloud-c.yandex.net
+	(vla1-81430ab5870b.qloud-c.yandex.net
+	[2a02:6b8:c0d:35a1:0:640:8143:ab5])
+	by mxbackcorp1j.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
+	DQMsTfsjhQ-S7TS4oeT; Mon, 25 May 2020 15:28:09 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+	s=default; 
+	t=1590409689; bh=YEG4z8qEcvv8kNO2YGjz6EufWfplHbPF3VC80TUbdQE=;
+	h=In-Reply-To:Message-ID:From:Date:References:To:Subject:Cc;
+	b=bl+2kqRCQsVFwc9oTK+K5T3oNcaVdrBTh8bHsU39tv2jjpDgfTTU+DaYxax9ko5mr
+	GkBjjARumtZaYQY+WluCS9B++huWYaI+1Kc/c/bUZQJoKuhSB7l6BMJKR9h9hxWZez
+	IRPdeajMC85tfdsFdxT0QjpQeA4oHy6Rq/6jCKlc=
+Authentication-Results: mxbackcorp1j.mail.yandex.net;
+	dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
+	[2a02:6b8:b081:603::1:c])
+	by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA
+	id 2d5hQC4EbC-S7Xq4M1X; Mon, 25 May 2020 15:28:07 +0300
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(Client certificate not present)
+To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
+References: <20200525113014.345997-1-hch@lst.de>
+	<20200525113014.345997-2-hch@lst.de>
+From: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
+Message-ID: <fafb94a9-cdce-5ea0-e73f-9463766a9f19@yandex-team.ru>
+Date: Mon, 25 May 2020 15:28:07 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200521084224.GA7859@lst.de>
-Cc: Eric Dumazet <edumazet@google.com>, linux-nvme@lists.infradead.org,
-	linux-sctp@vger.kernel.org, target-devel@vger.kernel.org,
-	linux-afs@lists.infradead.org, drbd-dev@lists.linbit.com,
-	linux-cifs@vger.kernel.org, rds-devel@oss.oracle.com,
-	linux-rdma@vger.kernel.org, cluster-devel@redhat.com,
-	Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
-	Jakub Kicinski <kuba@kernel.org>, ceph-devel@vger.kernel.org,
-	linux-nfs@vger.kernel.org, Neil Horman <nhorman@tuxdriver.com>,
-	Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-	netdev@vger.kernel.org, Vlad Yasevich <vyasevich@gmail.com>,
-	linux-kernel@vger.kernel.org, Jon Maloy <jmaloy@redhat.com>,
-	Ying Xue <ying.xue@windriver.com>, "David S. Miller" <davem@davemloft.net>,
-	ocfs2-devel@oss.oracle.com
-Subject: Re: [Drbd-dev] [PATCH 32/33] net: add a new bind_add method
+In-Reply-To: <20200525113014.345997-2-hch@lst.de>
+Content-Language: en-CA
+Cc: linux-nvdimm@lists.01.org, linux-bcache@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	Minchan Kim <minchan@kernel.org>, dm-devel@redhat.com,
+	Nitin Gupta <ngupta@vflare.org>, drbd-dev@lists.linbit.com
+Subject: Re: [Drbd-dev] [PATCH 01/16] block: add disk/bio-based accounting
+	helpers
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -106,80 +102,117 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Thu, May 21, 2020 at 10:42:24AM +0200, Christoph Hellwig wrote:
-> On Wed, May 20, 2020 at 08:00:25PM -0300, Marcelo Ricardo Leitner wrote:
-> > > +	if (err)
-> > > +		return err;
-> > > +
-> > > +	lock_sock(sk);
-> > > +	err = sctp_do_bind(sk, (union sctp_addr *)addr, af->sockaddr_len);
-> > > +	if (!err)
-> > > +		err = sctp_send_asconf_add_ip(sk, addr, 1);
-> > 
-> > Some problems here.
-> > - addr may contain a list of addresses
-> > - the addresses, then, are not being validated
-> > - sctp_do_bind may fail, on which it requires some undoing
-> >   (like sctp_bindx_add does)
-> > - code duplication with sctp_setsockopt_bindx.
+On 25/05/2020 14.29, Christoph Hellwig wrote:
+> Add two new helpers to simplify I/O accounting for bio based drivers.
+> Currently these drivers use the generic_start_io_acct and
+> generic_end_io_acct helpers which have very cumbersome calling
+> conventions, don't actually return the time they started accounting,
+> and try to deal with accounting for partitions, which can't happen
+> for bio based drivers.  The new helpers will be used to subsequently
+> replace uses of the old helpers.
 > 
-> sctp_do_bind and thus this function only support a single address, as
-> that is the only thing that the DLM code requires.  I could move the
-
-I see.
-
-> user copy out of sctp_setsockopt_bindx and reuse that, but it is a
-> rather rcane API.
-
-Yes. With David's patch, which is doing that, it can be as simple as:
-
-static int sctp_bind_add(struct sock *sk, struct sockaddr *addr,
-               int addrlen)
-{
-	int ret;
-	lock_sock(sk);
-	ret = sctp_setsockopt_bindx(sk, addr, addrlen, SCTP_BINDX_ADD_ADDR);
-	release_sock(sk);
-	return ret;
-}
-
-and then dlm would be using code that we can test through sctp-only tests as
-well.
-
+> The main function is the bio based wrappes in blkdev.h, but for zram
+> which wants to account rw_page based I/O lower level routines are
+> provided as well.
 > 
-> > 
-> > This patch will conflict with David's one,
-> > [PATCH net-next] sctp: Pull the user copies out of the individual sockopt functions.
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>   block/blk-core.c       | 34 ++++++++++++++++++++++++++++++++++
+>   include/linux/blkdev.h | 26 ++++++++++++++++++++++++++
+>   2 files changed, 60 insertions(+)
 > 
-> Do you have a link?  A quick google search just finds your mail that
-> I'm replying to.
+> diff --git a/block/blk-core.c b/block/blk-core.c
+> index 77e57c2e8d602..8973104f88d90 100644
+> --- a/block/blk-core.c
+> +++ b/block/blk-core.c
+> @@ -1432,6 +1432,40 @@ void blk_account_io_start(struct request *rq, bool new_io)
+>   	part_stat_unlock();
+>   }
+>   
+> +unsigned long disk_start_io_acct(struct gendisk *disk, unsigned int sectors,
+> +		unsigned int op)
+> +{
+> +	struct hd_struct *part = &disk->part0;
+> +	const int sgrp = op_stat_group(op);
+> +	unsigned long now = READ_ONCE(jiffies);
+> +
+> +	part_stat_lock();
+> +	update_io_ticks(part, now, false);
+> +	part_stat_inc(part, ios[sgrp]);
+> +	part_stat_add(part, sectors[sgrp], sectors);
+> +	part_stat_local_inc(part, in_flight[op_is_write(op)]);
+> +	part_stat_unlock();
+> +
+> +	return now;
+> +}
+> +EXPORT_SYMBOL(disk_start_io_acct);
+> +
+> +void disk_end_io_acct(struct gendisk *disk, unsigned int op,
+> +		unsigned long start_time)
+> +{
+> +	struct hd_struct *part = &disk->part0;
+> +	const int sgrp = op_stat_group(op);
+> +	unsigned long now = READ_ONCE(jiffies);
+> +	unsigned long duration = now - start_time;
 
-https://lore.kernel.org/netdev/fd94b5e41a7c4edc8f743c56a04ed2c9%40AcuMS.aculab.com/T/
+I think it would be better to leave this jiffies legacy nonsense in
+callers and pass here request duration in nanoseconds.
 
+So rewriting them to nanoseconds later wouldn't touch generic code.
+
+> +
+> +	part_stat_lock();
+> +	update_io_ticks(part, now, true);
+> +	part_stat_add(part, nsecs[sgrp], jiffies_to_nsecs(duration));
+> +	part_stat_local_dec(part, in_flight[op_is_write(op)]);
+> +	part_stat_unlock();
+> +}
+> +EXPORT_SYMBOL(disk_end_io_acct);
+> +
+>   /*
+>    * Steal bios from a request and add them to a bio list.
+>    * The request must not have been partially completed before.
+> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+> index 7d10f4e632325..76d01a8a13b80 100644
+> --- a/include/linux/blkdev.h
+> +++ b/include/linux/blkdev.h
+> @@ -1892,4 +1892,30 @@ static inline void blk_wake_io_task(struct task_struct *waiter)
+>   		wake_up_process(waiter);
+>   }
+>   
+> +unsigned long disk_start_io_acct(struct gendisk *disk, unsigned int sectors,
+> +		unsigned int op);
+> +void disk_end_io_acct(struct gendisk *disk, unsigned int op,
+> +		unsigned long start_time);
+> +
+> +/**
+> + * bio_start_io_acct - start I/O accounting for bio based drivers
+> + * @bio:	bio to start account for
+> + *
+> + * Returns the start time that should be passed back to bio_end_io_acct().
+> + */
+> +static inline unsigned long bio_start_io_acct(struct bio *bio)
+> +{
+> +	return disk_start_io_acct(bio->bi_disk, bio_sectors(bio), bio_op(bio));
+> +}
+> +
+> +/**
+> + * bio_end_io_acct - end I/O accounting for bio based drivers
+> + * @bio:	bio to end account for
+> + * @start:	start time returned by bio_start_io_acct()
+> + */
+> +static inline void bio_end_io_acct(struct bio *bio, unsigned long start_time)
+> +{
+> +	return disk_end_io_acct(bio->bi_disk, bio_op(bio), start_time);
+> +}
+> +
+>   #endif
 > 
-> > (I'll finish reviewing it in the sequence)
-> > 
-> > AFAICT, this patch could reuse/build on his work in there. The goal is
-> > pretty much the same and would avoid the issues above.
-> > 
-> > This patch could, then, point the new bind_add proto op to the updated
-> > sctp_setsockopt_bindx almost directly.
-> > 
-> > Question then is: dlm never removes an addr from the bind list. Do we
-> > want to add ops for both? Or one that handles both operations?
-> > Anyhow, having the add operation but not the del seems very weird to
-> > me.
-> 
-> We generally only add operations for things that we actually use.
-> bind_del is another logical op, but we can trivially add that when we
-> need it.
-
-Right, okay.
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
