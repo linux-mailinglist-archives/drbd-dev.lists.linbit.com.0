@@ -2,93 +2,93 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 238FB1F82D8
-	for <lists+drbd-dev@lfdr.de>; Sat, 13 Jun 2020 12:19:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D10AF1F82C8
+	for <lists+drbd-dev@lfdr.de>; Sat, 13 Jun 2020 12:18:48 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E24A14203EB;
-	Sat, 13 Jun 2020 12:19:18 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id AE29C4203FD;
+	Sat, 13 Jun 2020 12:18:48 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id ECD82420426
-	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 11:58:42 +0200 (CEST)
-Received: by mail-wr1-f66.google.com with SMTP id l10so12264076wrr.10
-	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 02:58:42 -0700 (PDT)
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 8D4DB420425
+	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 11:58:40 +0200 (CEST)
+Received: by mail-wr1-f65.google.com with SMTP id j10so12280800wrw.8
+	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 02:58:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:resent-from:resent-date:resent-message-id
 	:resent-to:dkim-signature:subject:to:cc:references:from:message-id
 	:date:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=YEG4z8qEcvv8kNO2YGjz6EufWfplHbPF3VC80TUbdQE=;
-	b=bPtVp3le3foASU7q4wt+iW7IsvCG1DPbKq1OHuPC7oKt49jyvl9OQxNtMEHYD4IbKD
-	CbktxCER0zbaJTuIFA+UuYCV/dojYbevNlmWSoLHRxOZIR+GDgCBsD5xiYWEw6DSK04W
-	rvcKBgj8baDqu4lPbrN8n8Qo6Espid+3QnWP7Ov3rkusp21eK4Dmw/OKNyoi6kvt2lki
-	b5EsXnB83d4UIHPfz6i2UKC27tke1VKjC7/xKXqIP/2VJK81N/8M68A8rk/zPxH7i5Bg
-	i4ZAvGKWGcaaQ/LaTwcl+KOrVh7581fqxqOH38R0vI6vIlSzXB1Chl+CpScfZE21qAmB
-	apWQ==
-X-Gm-Message-State: AOAM531M7kZ1X2UcNJn009zx/iENDzs6q9XzeNtHDDFKOGeFL5mmrQv9
-	yhifuBZajwIE8/EHP95ZBBMnAtgPMELkZQ==
-X-Google-Smtp-Source: ABdhPJyP989VokAPPzy5JNlZgaOLFjT+IweqZbvtjdqKGG//1EBIlw/dN/MFCoqK+7rxk1J/9v72dw==
-X-Received: by 2002:adf:e545:: with SMTP id z5mr18468250wrm.89.1592042322323; 
-	Sat, 13 Jun 2020 02:58:42 -0700 (PDT)
+	bh=ai4SFAnq/6nSINx/FBKSEuSs6VEDwe9CKXW2LSyg3rA=;
+	b=gIZwGrL4fsyrGJL76hJKHNR+XiGBo2CRt7zhu3dZSjVkHlSqo7h9QqmKg8aVmPO4wz
+	efPN7G1VbVinKG4XcToGPwxdTMOnKA5Um/rgBE2YZ1YPnLYoNHjTi6TMbiSa6mOccD0n
+	wMGIlnhv7VyL7tmbKaQ9JbZh7h6PFbvkwj2e5lrMhqBUGAX4tLL+IdpIsgPkpOeYfxuu
+	YQL0KP6629VbPQt2P2+2QfpmsEx+ELJLZS+WKNFPlK5ggUbhGtZf6UWExznArwOHIFa7
+	2rkGg4Hp+ITwtK8IlmhklHFH3gOXFAsrxe/6ofl0ackRwL5joesQs4mQErKvoqalx9ED
+	Y5gA==
+X-Gm-Message-State: AOAM533beb+Kw5fOG8L21JTR7n844Drcfqriz/VxaloRurLTwyJ9eQ2a
+	O+mK7APTk7HCIXC67K+ArBMfJOSoWFiu1w==
+X-Google-Smtp-Source: ABdhPJwfHKZq3O5Q8joif5+OwCTZH56ouNyqj6HGkHf77vqL3ubPyAGQpGezxRTPPv5gS2NGeV5spA==
+X-Received: by 2002:a5d:6144:: with SMTP id y4mr19833692wrt.185.1592042320090; 
+	Sat, 13 Jun 2020 02:58:40 -0700 (PDT)
 Received: from soda.linbit (62-99-137-214.static.upcbusiness.at.
 	[62.99.137.214]) by smtp.gmail.com with ESMTPSA id
-	d11sm14283898wrm.64.2020.06.13.02.58.41
+	m129sm13899319wmf.2.2020.06.13.02.58.39
 	for <drbd-dev@lists.linbit.com>
 	(version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 13 Jun 2020 02:58:42 -0700 (PDT)
+	Sat, 13 Jun 2020 02:58:39 -0700 (PDT)
 Resent-From: Lars Ellenberg <lars.ellenberg@linbit.com>
-Resent-Date: Sat, 13 Jun 2020 11:58:40 +0200
-Resent-Message-ID: <20200613095840.GW4222@soda.linbit>
+Resent-Date: Sat, 13 Jun 2020 11:58:38 +0200
+Resent-Message-ID: <20200613095838.GV4222@soda.linbit>
 Resent-To: drbd-dev@lists.linbit.com
 X-Original-To: drbd-dev@lists.linbit.com
+X-Greylist: delayed 374 seconds by postgrey-1.31 at mail19;
+	Mon, 25 May 2020 14:34:24 CEST
 Received: from forwardcorp1j.mail.yandex.net (forwardcorp1j.mail.yandex.net
 	[5.45.199.163])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 402E94202C3
-	for <drbd-dev@lists.linbit.com>; Mon, 25 May 2020 14:35:09 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1E6574202C3
+	for <drbd-dev@lists.linbit.com>; Mon, 25 May 2020 14:34:24 +0200 (CEST)
 Received: from mxbackcorp1j.mail.yandex.net (mxbackcorp1j.mail.yandex.net
 	[IPv6:2a02:6b8:0:1619::162])
-	by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 9EE2C2E1382;
-	Mon, 25 May 2020 15:28:09 +0300 (MSK)
-Received: from vla1-81430ab5870b.qloud-c.yandex.net
-	(vla1-81430ab5870b.qloud-c.yandex.net
-	[2a02:6b8:c0d:35a1:0:640:8143:ab5])
+	by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id C52572E1499;
+	Mon, 25 May 2020 15:34:23 +0300 (MSK)
+Received: from iva8-88b7aa9dc799.qloud-c.yandex.net
+	(iva8-88b7aa9dc799.qloud-c.yandex.net
+	[2a02:6b8:c0c:77a0:0:640:88b7:aa9d])
 	by mxbackcorp1j.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
-	DQMsTfsjhQ-S7TS4oeT; Mon, 25 May 2020 15:28:09 +0300
+	ZJIXPPS6z9-YLTi9Z9T; Mon, 25 May 2020 15:34:23 +0300
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
 	s=default; 
-	t=1590409689; bh=YEG4z8qEcvv8kNO2YGjz6EufWfplHbPF3VC80TUbdQE=;
+	t=1590410063; bh=ai4SFAnq/6nSINx/FBKSEuSs6VEDwe9CKXW2LSyg3rA=;
 	h=In-Reply-To:Message-ID:From:Date:References:To:Subject:Cc;
-	b=bl+2kqRCQsVFwc9oTK+K5T3oNcaVdrBTh8bHsU39tv2jjpDgfTTU+DaYxax9ko5mr
-	GkBjjARumtZaYQY+WluCS9B++huWYaI+1Kc/c/bUZQJoKuhSB7l6BMJKR9h9hxWZez
-	IRPdeajMC85tfdsFdxT0QjpQeA4oHy6Rq/6jCKlc=
+	b=yMuAin8OkKoPyA6fM61Kd5gq/kMQik8QtpCqmqv1ySlA0gbKNgjehnM/Avo4jesLA
+	1NJfntE9wrGKJwo4Sk3LwQYzT/Ut83m1kxlcVbmccuRAiCW947q9+smxOC+ZIq8b+K
+	PGM0Lk7vsx2iw92s7aN1ayw2f6hxBIH5GbKWN1pU=
 Authentication-Results: mxbackcorp1j.mail.yandex.net;
 	dkim=pass header.i=@yandex-team.ru
 Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
 	[2a02:6b8:b081:603::1:c])
-	by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA
-	id 2d5hQC4EbC-S7Xq4M1X; Mon, 25 May 2020 15:28:07 +0300
+	by iva8-88b7aa9dc799.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA
+	id O3BMKGQlP9-YLXqqoTf; Mon, 25 May 2020 15:34:21 +0300
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
 	(Client certificate not present)
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
 References: <20200525113014.345997-1-hch@lst.de>
-	<20200525113014.345997-2-hch@lst.de>
 From: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
-Message-ID: <fafb94a9-cdce-5ea0-e73f-9463766a9f19@yandex-team.ru>
-Date: Mon, 25 May 2020 15:28:07 +0300
+Message-ID: <81f4057b-124a-d0e7-94af-15a198d48d50@yandex-team.ru>
+Date: Mon, 25 May 2020 15:34:21 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
 	Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200525113014.345997-2-hch@lst.de>
+In-Reply-To: <20200525113014.345997-1-hch@lst.de>
 Content-Language: en-CA
 Cc: linux-nvdimm@lists.01.org, linux-bcache@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
 	Minchan Kim <minchan@kernel.org>, dm-devel@redhat.com,
 	Nitin Gupta <ngupta@vflare.org>, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH 01/16] block: add disk/bio-based accounting
-	helpers
+Subject: Re: [Drbd-dev] block I/O accounting improvements
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -108,111 +108,21 @@ Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
 On 25/05/2020 14.29, Christoph Hellwig wrote:
-> Add two new helpers to simplify I/O accounting for bio based drivers.
-> Currently these drivers use the generic_start_io_acct and
-> generic_end_io_acct helpers which have very cumbersome calling
-> conventions, don't actually return the time they started accounting,
-> and try to deal with accounting for partitions, which can't happen
-> for bio based drivers.  The new helpers will be used to subsequently
-> replace uses of the old helpers.
+> Hi Jens,
 > 
-> The main function is the bio based wrappes in blkdev.h, but for zram
-> which wants to account rw_page based I/O lower level routines are
-> provided as well.
+> they series contains various improvement for block I/O accounting.  The
+> first bunch of patches switch the bio based drivers to better accounting
+> helpers compared to the current mess.  The end contains a fix and various
+> performanc improvements.  Most of this comes from a series Konstantin
+> sent a few weeks ago, rebased on changes that landed in your tree since
+> and my change to always use the percpu version of the disk stats.
 > 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->   block/blk-core.c       | 34 ++++++++++++++++++++++++++++++++++
->   include/linux/blkdev.h | 26 ++++++++++++++++++++++++++
->   2 files changed, 60 insertions(+)
-> 
-> diff --git a/block/blk-core.c b/block/blk-core.c
-> index 77e57c2e8d602..8973104f88d90 100644
-> --- a/block/blk-core.c
-> +++ b/block/blk-core.c
-> @@ -1432,6 +1432,40 @@ void blk_account_io_start(struct request *rq, bool new_io)
->   	part_stat_unlock();
->   }
->   
-> +unsigned long disk_start_io_acct(struct gendisk *disk, unsigned int sectors,
-> +		unsigned int op)
-> +{
-> +	struct hd_struct *part = &disk->part0;
-> +	const int sgrp = op_stat_group(op);
-> +	unsigned long now = READ_ONCE(jiffies);
-> +
-> +	part_stat_lock();
-> +	update_io_ticks(part, now, false);
-> +	part_stat_inc(part, ios[sgrp]);
-> +	part_stat_add(part, sectors[sgrp], sectors);
-> +	part_stat_local_inc(part, in_flight[op_is_write(op)]);
-> +	part_stat_unlock();
-> +
-> +	return now;
-> +}
-> +EXPORT_SYMBOL(disk_start_io_acct);
-> +
-> +void disk_end_io_acct(struct gendisk *disk, unsigned int op,
-> +		unsigned long start_time)
-> +{
-> +	struct hd_struct *part = &disk->part0;
-> +	const int sgrp = op_stat_group(op);
-> +	unsigned long now = READ_ONCE(jiffies);
-> +	unsigned long duration = now - start_time;
 
-I think it would be better to leave this jiffies legacy nonsense in
-callers and pass here request duration in nanoseconds.
+Thanks for picking this up.
 
-So rewriting them to nanoseconds later wouldn't touch generic code.
+One note about possible further improvement in reply to first patch.
 
-> +
-> +	part_stat_lock();
-> +	update_io_ticks(part, now, true);
-> +	part_stat_add(part, nsecs[sgrp], jiffies_to_nsecs(duration));
-> +	part_stat_local_dec(part, in_flight[op_is_write(op)]);
-> +	part_stat_unlock();
-> +}
-> +EXPORT_SYMBOL(disk_end_io_acct);
-> +
->   /*
->    * Steal bios from a request and add them to a bio list.
->    * The request must not have been partially completed before.
-> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-> index 7d10f4e632325..76d01a8a13b80 100644
-> --- a/include/linux/blkdev.h
-> +++ b/include/linux/blkdev.h
-> @@ -1892,4 +1892,30 @@ static inline void blk_wake_io_task(struct task_struct *waiter)
->   		wake_up_process(waiter);
->   }
->   
-> +unsigned long disk_start_io_acct(struct gendisk *disk, unsigned int sectors,
-> +		unsigned int op);
-> +void disk_end_io_acct(struct gendisk *disk, unsigned int op,
-> +		unsigned long start_time);
-> +
-> +/**
-> + * bio_start_io_acct - start I/O accounting for bio based drivers
-> + * @bio:	bio to start account for
-> + *
-> + * Returns the start time that should be passed back to bio_end_io_acct().
-> + */
-> +static inline unsigned long bio_start_io_acct(struct bio *bio)
-> +{
-> +	return disk_start_io_acct(bio->bi_disk, bio_sectors(bio), bio_op(bio));
-> +}
-> +
-> +/**
-> + * bio_end_io_acct - end I/O accounting for bio based drivers
-> + * @bio:	bio to end account for
-> + * @start:	start time returned by bio_start_io_acct()
-> + */
-> +static inline void bio_end_io_acct(struct bio *bio, unsigned long start_time)
-> +{
-> +	return disk_end_io_acct(bio->bi_disk, bio_op(bio), start_time);
-> +}
-> +
->   #endif
-> 
+Reviewed-by: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
