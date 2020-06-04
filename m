@@ -2,71 +2,71 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id D73961F82F2
-	for <lists+drbd-dev@lfdr.de>; Sat, 13 Jun 2020 12:29:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 158701F82F4
+	for <lists+drbd-dev@lfdr.de>; Sat, 13 Jun 2020 12:30:20 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C0033420402;
-	Sat, 13 Jun 2020 12:29:48 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id EB55142040A;
+	Sat, 13 Jun 2020 12:30:19 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 28EC542043F
-	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 11:59:42 +0200 (CEST)
-Received: by mail-wr1-f66.google.com with SMTP id x14so12298791wrp.2
-	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 02:59:42 -0700 (PDT)
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4DCEC4203F6
+	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 11:59:45 +0200 (CEST)
+Received: by mail-wm1-f65.google.com with SMTP id d128so10162321wmc.1
+	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 02:59:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:resent-from:resent-date:resent-message-id
 	:resent-to:dkim-signature:mime-version:references:in-reply-to:from
 	:date:message-id:subject:to:cc;
-	bh=AFF1riO+rvi+JtGxWF5qzVLPXHH0Nzh8aZcDxBuji4s=;
-	b=lwhJLPha9VN4X79OqL3uAMCr6ONccbmClZFEL244zlczmReLJ/b6R6PSQfpLQqre8q
-	l43i51mmHxkrFUyKARAHVuXYaUDMEBvkwueYEa+vKkBak34O8N7CopnWDpeUC2cMb+rK
-	4bIrI5px1YXp1Mbm2rk8LRM0m/obmCTxMpXhoMmAY6LUMBIBO3GqQyWy3p7hou/lNTrs
-	EXAcZfdnDURCCMESGQCUqlHiYec/8YF124qFWDnjMffLLBklBAHKlM1n9GKDMiQ+4HJZ
-	TiCl2bSUCniW0vqb9SoGIgt97aJBIGOHQURk191JwNddHgAyRc7vrmdGs9iG0QTXk+7a
-	pT+w==
-X-Gm-Message-State: AOAM533ATDtoiTZPLxtKf4+z/pmCIZ997dCZZY7IVLWPlMt4dMJNkmxq
-	z2pQYG4zZoqCSah0ClNQfppxA2DbUoffWMwy
-X-Google-Smtp-Source: ABdhPJzP1wEsIKHqfUWrRqUQ4G56ghaO6vFd49mScgvC1INf5zLMw0OeFmPtbOjLqrkoGBPqVxi+Ew==
-X-Received: by 2002:a5d:5001:: with SMTP id e1mr20662233wrt.56.1592042381506; 
-	Sat, 13 Jun 2020 02:59:41 -0700 (PDT)
+	bh=pCXmYsl76J0CAlxoPdk8mPZO/WOJwZ5J1IK/xTYSvtY=;
+	b=lCgF+83kQAKC8GOcd1lNJVumtqsi5hNZqUDdkNPuvGk2lz3oqBEIPqHc7jy7Wnap8U
+	p87RHGkMTSJlilkf2rGvy8C/p4Vi9dG3mmV4grQDS+nB1Y64MmvrWm+2WKCmZkAg9Tni
+	q5NmybqsavlRiPXjDfMNasemuJhh4RbXPP8//WvkbgItEDBOW3IOvdcNwAWD3SEJAiTk
+	gG3BjoZY+H0BBpb/Gz9Tdbzl75BQ6N6cGO9COfh2axp6wAF5AITy3sa9t8AAnxvLx2Iv
+	QFaCVyRLaspsqDLccn2J15NoWvNz/008B7Nv4I6y0tmQrqbLwtlr6vpK4E3ITEJCTvEA
+	eU0Q==
+X-Gm-Message-State: AOAM531jpBwqwRrzAGRxzKr0w1SrepFC60njk7UxZ+YxO14jAPkYrFbC
+	8Yb85EEk2achR9GQVZqqRiGj/i3aJZtoFH6h
+X-Google-Smtp-Source: ABdhPJy4Ib//y3Tyz0bJcnspozR9iu3cAAO+p/5nanFoLqpmlaRadY3SvnxVDYrRl6onXeon8cf59A==
+X-Received: by 2002:a1c:b443:: with SMTP id d64mr3070906wmf.157.1592042384466; 
+	Sat, 13 Jun 2020 02:59:44 -0700 (PDT)
 Received: from soda.linbit (62-99-137-214.static.upcbusiness.at.
 	[62.99.137.214]) by smtp.gmail.com with ESMTPSA id
-	c16sm12602934wml.45.2020.06.13.02.59.40
+	f71sm11868709wmf.22.2020.06.13.02.59.43
 	for <drbd-dev@lists.linbit.com>
 	(version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 13 Jun 2020 02:59:41 -0700 (PDT)
+	Sat, 13 Jun 2020 02:59:43 -0700 (PDT)
 Resent-From: Lars Ellenberg <lars.ellenberg@linbit.com>
-Resent-Date: Sat, 13 Jun 2020 11:59:39 +0200
-Resent-Message-ID: <20200613095939.GR4222@soda.linbit>
+Resent-Date: Sat, 13 Jun 2020 11:59:42 +0200
+Resent-Message-ID: <20200613095942.GS4222@soda.linbit>
 Resent-To: drbd-dev@lists.linbit.com
 X-Original-To: drbd-dev@lists.linbit.com
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
-	[209.85.215.196])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A004B420302
-	for <drbd-dev@lists.linbit.com>; Thu,  4 Jun 2020 22:08:57 +0200 (CEST)
-Received: by mail-pg1-f196.google.com with SMTP id o6so4035480pgh.2
-	for <drbd-dev@lists.linbit.com>; Thu, 04 Jun 2020 13:08:57 -0700 (PDT)
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+	[209.85.210.196])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id ADC3F420302
+	for <drbd-dev@lists.linbit.com>; Thu,  4 Jun 2020 22:16:21 +0200 (CEST)
+Received: by mail-pf1-f196.google.com with SMTP id s23so2461150pfh.7
+	for <drbd-dev@lists.linbit.com>; Thu, 04 Jun 2020 13:16:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=AFF1riO+rvi+JtGxWF5qzVLPXHH0Nzh8aZcDxBuji4s=;
-	b=M0mkpsLd7B3310QKl3SLGg22ik2mXjNx5FY1vzJopMffJnCw8jRcmo9fV9LTIHikFp
-	RUv7WnBJ6K5VaUslDx62awUaItJ+YKUKSU3/LS3bQT0QPBOUmH8h7pgLYyxlBLfTzZPU
-	CwkTICvo+M0GUh+egz/pFlCv8tR424B81CNZ9aQO8/k4dMiV20ohQx7N7YX7tjfxxqqp
-	JKfbJIsE+MYGNYLFN8gpzmr0Avp6j5x4qED0RF7A5OiE4WLh5w8/DvLwZz8GAkmSlO6c
-	QbXytbk3xKeeMX1S4Xa0zICtEJbZ60RM6KlvqWwsKz3NAMy2eeUR9b8nqFf/OpAnG9F0
-	SQHw==
-X-Received: by 2002:a63:5644:: with SMTP id g4mr5811569pgm.381.1591301336363; 
-	Thu, 04 Jun 2020 13:08:56 -0700 (PDT)
+	:cc; bh=pCXmYsl76J0CAlxoPdk8mPZO/WOJwZ5J1IK/xTYSvtY=;
+	b=Ul9IqQ41ZiXh1TA37NXxQoP1MYWZkk1ImeHfZoGz6a6IPTQKCTgkI4vMbYvxIt8wpE
+	ElHA9RWwTvFCaySEtclTRP/dyePJtOWdEk29ahiOH2gLk0aIx7jxMqS8sHpI0dAD9/eD
+	v2pQeh6hmu6BRKkCyhh5mYDGk/czBtEllytZVgQeNFhavoEfrbFwLLVfzZ/2XW9eqAuC
+	T6PPxSNZdkIUyyCpj3L+bHh3A58HE+YTCCyomOaAjuPFYAu7WNLA0VPJGgc8Oy3KvimW
+	enSRBgfNysV+6XPIzSx1E3hPpfiQZPkCEErtaeB8Ewgc+PLJOHksAeBzo6J1PIYEAlTL
+	B91g==
+X-Received: by 2002:a63:4f09:: with SMTP id d9mr5970154pgb.10.1591301780211;
+	Thu, 04 Jun 2020 13:16:20 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200603233203.1695403-1-keescook@chromium.org>
-	<20200603233203.1695403-4-keescook@chromium.org>
-In-Reply-To: <20200603233203.1695403-4-keescook@chromium.org>
+	<20200603233203.1695403-5-keescook@chromium.org>
+In-Reply-To: <20200603233203.1695403-5-keescook@chromium.org>
 From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Thu, 4 Jun 2020 13:08:44 -0700
-Message-ID: <CAKwvOdnNuFySqAMk7s_cXqFM=dPX4JfvqNVLCuj90Gn4tzciAw@mail.gmail.com>
+Date: Thu, 4 Jun 2020 13:16:08 -0700
+Message-ID: <CAKwvOdnd30bcqoNXF1ugadU=KbW3aXu07+T-891amO2_b7kQdg@mail.gmail.com>
 To: Kees Cook <keescook@chromium.org>
 Cc: Andy Whitcroft <apw@canonical.com>,
 	clang-built-linux <clang-built-linux@googlegroups.com>,
@@ -81,7 +81,8 @@ Cc: Andy Whitcroft <apw@canonical.com>,
 	b43-dev@lists.infradead.org, Joe Perches <joe@perches.com>,
 	Linus Torvalds <torvalds@linux-foundation.org>,
 	linux-clk@vger.kernel.org, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH 03/10] b43: Remove uninitialized_var() usage
+Subject: Re: [Drbd-dev] [PATCH 04/10] rtlwifi: rtl8192cu: Remove
+	uninitialized_var() usage
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -107,7 +108,7 @@ On Wed, Jun 3, 2020 at 4:32 PM Kees Cook <keescook@chromium.org> wrote:
 > "unused variable"). If the compiler thinks it is uninitialized, either
 > simply initialize the variable or make compiler changes. As a precursor
 > to removing[2] this[3] macro[4], just initialize this variable to NULL,
-> and make the (unreachable!) code do a conditional test.
+> and avoid sending garbage by returning.
 >
 > [1] https://lore.kernel.org/lkml/20200603174714.192027-1-glider@google.com/
 > [2] https://lore.kernel.org/lkml/CA+55aFw+Vbj0i=1TGqCR5vQkCzWJ0QxK6CernOU6eedsudAixw@mail.gmail.com/
@@ -115,63 +116,39 @@ On Wed, Jun 3, 2020 at 4:32 PM Kees Cook <keescook@chromium.org> wrote:
 > [4] https://lore.kernel.org/lkml/CA+55aFz2500WfbKXAx8s67wrm9=yVJu65TpLgN_ybYNv0VEOKA@mail.gmail.com/
 >
 > Signed-off-by: Kees Cook <keescook@chromium.org>
+
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Fixes: dc0313f46664 ("rtlwifi: rtl8192cu: Add routine hw")
+
 > ---
->  drivers/net/wireless/broadcom/b43/phy_n.c | 10 +++++++---
->  1 file changed, 7 insertions(+), 3 deletions(-)
+>  drivers/net/wireless/realtek/rtlwifi/rtl8192cu/hw.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/net/wireless/broadcom/b43/phy_n.c b/drivers/net/wireless/broadcom/b43/phy_n.c
-> index d3c001fa8eb4..88cdcea10d61 100644
-> --- a/drivers/net/wireless/broadcom/b43/phy_n.c
-> +++ b/drivers/net/wireless/broadcom/b43/phy_n.c
-> @@ -4222,7 +4222,7 @@ static void b43_nphy_tx_gain_table_upload(struct b43_wldev *dev)
-
-The TODOs and `#if 0` in this function are concerning.  It looks like
-`rf_pwr_offset_table` is only used when `phy->rev` is >=7 && < 19.
-
-Further, the loop has a case for `phy->rev >= 19` but we would have
-returned earlier if that was the case.
-
->         u32 rfpwr_offset;
->         u8 pga_gain, pad_gain;
->         int i;
-> -       const s16 *uninitialized_var(rf_pwr_offset_table);
-> +       const s16 *rf_pwr_offset_table = NULL;
+> diff --git a/drivers/net/wireless/realtek/rtlwifi/rtl8192cu/hw.c b/drivers/net/wireless/realtek/rtlwifi/rtl8192cu/hw.c
+> index f070f25bb735..5b071b70bc08 100644
+> --- a/drivers/net/wireless/realtek/rtlwifi/rtl8192cu/hw.c
+> +++ b/drivers/net/wireless/realtek/rtlwifi/rtl8192cu/hw.c
+> @@ -592,7 +592,7 @@ static void _rtl92cu_init_chipn_one_out_ep_priority(struct ieee80211_hw *hw,
+>                                                     bool wmm_enable,
+>                                                     u8 queue_sel)
+>  {
+> -       u16 uninitialized_var(value);
+> +       u16 value;
 >
->         table = b43_nphy_get_tx_gain_table(dev);
->         if (!table)
-> @@ -4256,9 +4256,13 @@ static void b43_nphy_tx_gain_table_upload(struct b43_wldev *dev)
->                         pga_gain = (table[i] >> 24) & 0xf;
->                         pad_gain = (table[i] >> 19) & 0x1f;
->                         if (b43_current_band(dev->wl) == NL80211_BAND_2GHZ)
-> -                               rfpwr_offset = rf_pwr_offset_table[pad_gain];
-> +                               rfpwr_offset = rf_pwr_offset_table
-> +                                               ? rf_pwr_offset_table[pad_gain]
-> +                                               : 0;
->                         else
-> -                               rfpwr_offset = rf_pwr_offset_table[pga_gain];
-> +                               rfpwr_offset = rf_pwr_offset_table
-> +                                               ? rf_pwr_offset_table[pga_gain]
-> +                                               : 0;
+>         switch (queue_sel) {
+>         case TX_SELE_HQ:
+> @@ -606,7 +606,7 @@ static void _rtl92cu_init_chipn_one_out_ep_priority(struct ieee80211_hw *hw,
+>                 break;
+>         default:
+>                 WARN_ON(1); /* Shall not reach here! */
+> -               break;
+> +               return;
+>         }
+>         _rtl92c_init_chipn_reg_priority(hw, value, value, value, value,
+>                                         value, value);
 
-
-The code is trying to check `phy->rev >= 7 && phy->rev < 19` once
-before the loop, then set `rf_pwr_offset_table`, so having another
-conditional on `rf_pwr_offset_table` in the loop is unnecessary. I'm
-ok with initializing it to `NULL`, but I'm not sure the conditional
-check is necessary.  Do you get a compiler warning otherwise?
-
->                 } else {
->                         pga_gain = (table[i] >> 24) & 0xF;
->                         if (b43_current_band(dev->wl) == NL80211_BAND_2GHZ)
-> --
-> 2.25.1
->
-> --
-> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20200603233203.1695403-4-keescook%40chromium.org.
-
-
+Whew! Nothing like passing the same value 6 times! (Other callers do
+use distinct values though, just curious seeing this instance.)
 
 -- 
 Thanks,
