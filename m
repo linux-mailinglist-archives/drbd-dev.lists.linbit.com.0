@@ -2,89 +2,95 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F7F71F82EC
-	for <lists+drbd-dev@lfdr.de>; Sat, 13 Jun 2020 12:26:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4DCA1F82ED
+	for <lists+drbd-dev@lfdr.de>; Sat, 13 Jun 2020 12:27:19 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 57E6B4203FE;
-	Sat, 13 Jun 2020 12:26:49 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A6F7E420407;
+	Sat, 13 Jun 2020 12:27:19 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 43F6C4203F4
-	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 11:59:20 +0200 (CEST)
-Received: by mail-wm1-f67.google.com with SMTP id r9so10052968wmh.2
-	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 02:59:20 -0700 (PDT)
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6725042042B
+	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 11:59:23 +0200 (CEST)
+Received: by mail-wr1-f65.google.com with SMTP id y17so12257799wrn.11
+	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 02:59:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:resent-from:resent-date:resent-message-id
-	:resent-to:dkim-signature:mime-version:references:in-reply-to:from
-	:date:message-id:subject:to:cc;
-	bh=Hll+dJXiojyLXcK519mMreswBK6PHaxvzDLgh0p26WU=;
-	b=flGq1Sbf/iD9YRydCAmApxLRBLkmR4HTSwecey44uWE59hoc0Jz42lBDSoJozFQ5B8
-	3kN2KpjzQMTpn441+6nJ0c40aOGNxS/ozgd0/SKKCBfhljYYg4hfCNFm6pu6jPVU3Qe0
-	W1vovI7ZlkekwZD7ZAZXSzlrsFn8SveuAFa8chkrb8n5F5Yi3a+88QR+2/MdBxrFrD2t
-	dt5b0ktdrLX1agxUP+fIis7wNpBTLJ+KUr9tctvSn27hQXoE00mQ6lTpwrVoNNQiFpiz
-	QDw6/u7Y8gtWAqli2Gn3326BReB+Yv76h0g5fLDhzn7d1x8EJIToCHcSEOMeuS/7JGio
-	x/8Q==
-X-Gm-Message-State: AOAM530M+loHm4bpzLmbw3JVNon7+hcIYlzSk8LUfOW0JAq/Lj0tkojD
-	glL2UY1nYaSe+uIhdjg4JipF8DkGKlvNH7Uk
-X-Google-Smtp-Source: ABdhPJw7hOrzmac4tPthqsPynqsInL3cnXnrVvemRm5SveTgF5YlKLvgdMLkc354HZJSYsT5e9ebCA==
-X-Received: by 2002:a1c:4c8:: with SMTP id 191mr3179678wme.14.1592042359699;
-	Sat, 13 Jun 2020 02:59:19 -0700 (PDT)
+	:resent-to:dkim-signature:date:from:to:cc:subject:message-id
+	:references:mime-version:content-disposition:in-reply-to;
+	bh=ylFM7xcrRPttXnSFsxxMsniM496bjo9TahOp0BQ4KWQ=;
+	b=HVoUGPfvQCec+8fmJ6D9QTXPb72lCNSTyAcHWDTyxYozq0YNU2qP7u2CEYhQZpkGIY
+	Ynk3OoQaFy2c3FQjB01s7YBeVsVQzWtJHlkULuVoie2Lx6PEHNgXuMHzrzZ8WoAOLPAb
+	x31ShUco8GM9gN9d1zOD6X6MhRtxlRUK44W2YllCl233zXOHE+dKPlVK/SxTcraAaU7z
+	Ay2S13u6isQjK2/ShnK9qpD8Xv3gTD1A+0RpWshdcOxo0Y44B751YoAI20It4dHAZD4+
+	JBvQv3HwQv1gMarqZfkw31ypAng248SFI6NLYDSJvP7WZzwaka0dDjAnQgIkVOq2B1gd
+	Godw==
+X-Gm-Message-State: AOAM531S2APteawwiq2E5y7olWe4XYXNYksmR4HoFEPM56DcozMad1QL
+	VTtQ1zLb+BPFRlGxdDAOK+E0VllShmRGYRYN
+X-Google-Smtp-Source: ABdhPJz6cQtHkMGkJBMmy4fjtWzGephR97E5V6ooxw/YzWI+h+4wIE3Q0ZABo57k4XJQIsQrXr5Bxg==
+X-Received: by 2002:adf:a34d:: with SMTP id d13mr18416883wrb.270.1592042362867;
+	Sat, 13 Jun 2020 02:59:22 -0700 (PDT)
 Received: from soda.linbit (62-99-137-214.static.upcbusiness.at.
 	[62.99.137.214]) by smtp.gmail.com with ESMTPSA id
-	f71sm11867290wmf.22.2020.06.13.02.59.18
+	s7sm14114053wrr.60.2020.06.13.02.59.22
 	for <drbd-dev@lists.linbit.com>
 	(version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 13 Jun 2020 02:59:19 -0700 (PDT)
+	Sat, 13 Jun 2020 02:59:22 -0700 (PDT)
 Resent-From: Lars Ellenberg <lars.ellenberg@linbit.com>
-Resent-Date: Sat, 13 Jun 2020 11:59:17 +0200
-Resent-Message-ID: <20200613095917.GL4222@soda.linbit>
+Resent-Date: Sat, 13 Jun 2020 11:59:20 +0200
+Resent-Message-ID: <20200613095920.GM4222@soda.linbit>
 Resent-To: drbd-dev@lists.linbit.com
 X-Original-To: drbd-dev@lists.linbit.com
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
-	[209.85.208.194])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3F94C420235
-	for <drbd-dev@lists.linbit.com>; Thu,  4 Jun 2020 17:22:27 +0200 (CEST)
-Received: by mail-lj1-f194.google.com with SMTP id m18so7797886ljo.5
-	for <drbd-dev@lists.linbit.com>; Thu, 04 Jun 2020 08:22:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Hll+dJXiojyLXcK519mMreswBK6PHaxvzDLgh0p26WU=;
-	b=L2DmN0uXC2KyUjBXJZi+YdM6TZcgHaAo/hwU1tP/L4478bcM5q0UoroK+b7mXP2R4P
-	CY4dtFPVvkSyAVNSadDFjTzPdwsP+D6eUqcI3kZvGZ6ajCkMMqMOFbgr3IfT104hlH1u
-	lRWeEsjQCwyQyAj9FSqtUsV2OVn1GCiiakgSfTvZ8K2MYTUl7u0hUTkpplg3e1KrWY/9
-	snhpOMwvfzp6FxIPzFqDy43iUYePSSShfDdso4J4gku4w5tWVs2i8FRQHbva/jSkg7vd
-	YZLPjLfOXFlhjCK9IXDlSvavi8M3D5kpvb1fwEUGzSEYis+R9Un5BXefFLYIPHMBjNN1
-	WgrQ==
-X-Received: by 2002:a2e:a544:: with SMTP id e4mr2625204ljn.264.1591284147467; 
-	Thu, 04 Jun 2020 08:22:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200603233203.1695403-2-keescook@chromium.org>
-	<874krr8dps.fsf@nanos.tec.linutronix.de>
-	<CANiq72kLqvriYmMkdD3yU+xJwbn-68Eiu-fTNtC+Lb+1ZRM75g@mail.gmail.com>
-	<202006040745.525ECD1@keescook>
-In-Reply-To: <202006040745.525ECD1@keescook>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Thu, 4 Jun 2020 17:22:15 +0200
-Message-ID: <CANiq72mHhzfPMGbBn=NZfqLeejPG+t=GN++NJ-L0hg-2x4UPag@mail.gmail.com>
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
+	[209.85.222.193])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 71CCB420235
+	for <drbd-dev@lists.linbit.com>; Thu,  4 Jun 2020 19:58:01 +0200 (CEST)
+Received: by mail-qk1-f193.google.com with SMTP id w3so6995472qkb.6
+	for <drbd-dev@lists.linbit.com>; Thu, 04 Jun 2020 10:58:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to;
+	bh=ylFM7xcrRPttXnSFsxxMsniM496bjo9TahOp0BQ4KWQ=;
+	b=dp1MW0oLsIVpf8P1GqlJ7ywKbTALgi380UyzwJhLZxxjLZbExXSS3+DNraBRJx+RxA
+	2YNRIqPWKCJwUAt2Ionyk91M424aXFCth771TTbwhKuAi/5z09C6/Wr39Wytw6IFYat4
+	ROGMU+gTfjKOfKx/KnMfK4lHl61/+H90NG+NU9ft1Ad329Ugd8oNWQRmnDyTDrH84VcG
+	NHqJ/pa7Z8WtA7tv5ssR9OBolcmhh/Z0Chu/DqhjQRZD68jbMjVitMLn9/18eeVfDBtl
+	W6iFo32dBc0/Xz9TBC1xS9lWFSwriSPTsiMKkjJI2/Fy1v0kJA0h8NiDLZa3m0zxOiRF
+	iMLw==
+X-Received: by 2002:ae9:ebd2:: with SMTP id b201mr5788109qkg.409.1591293480332;
+	Thu, 04 Jun 2020 10:58:00 -0700 (PDT)
+Received: from ziepe.ca
+	(hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
+	[156.34.48.30]) by smtp.gmail.com with ESMTPSA id
+	t43sm5788444qtj.85.2020.06.04.10.57.59
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 04 Jun 2020 10:57:59 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.93) (envelope-from <jgg@ziepe.ca>)
+	id 1jgu7r-001H95-GE; Thu, 04 Jun 2020 14:57:59 -0300
+Date: Thu, 4 Jun 2020 14:57:59 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
 To: Kees Cook <keescook@chromium.org>
-Cc: clang-built-linux <clang-built-linux@googlegroups.com>,
-	linux-ide@vger.kernel.org, Network Development <netdev@vger.kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	"maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
-	linux-wireless <linux-wireless@vger.kernel.org>,
-	linux-kernel <linux-kernel@vger.kernel.org>,
-	linux-spi@vger.kernel.org, linux-block@vger.kernel.org,
-	Andy Whitcroft <apw@canonical.com>, Linux-MM <linux-mm@kvack.org>,
-	Alexander Potapenko <glider@google.com>,
+Message-ID: <20200604175759.GQ6578@ziepe.ca>
+References: <20200603233203.1695403-1-keescook@chromium.org>
+	<20200603233203.1695403-10-keescook@chromium.org>
+	<20200604132306.GO6578@ziepe.ca> <202006040757.0DFC3F28E@keescook>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <202006040757.0DFC3F28E@keescook>
+Cc: Andy Whitcroft <apw@canonical.com>, clang-built-linux@googlegroups.com,
+	linux-ide@vger.kernel.org, netdev@vger.kernel.org,
+	x86@kernel.org, linux-wireless@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+	linux-mm@kvack.org, Alexander Potapenko <glider@google.com>,
 	b43-dev@lists.infradead.org, Joe Perches <joe@perches.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
 	Linus Torvalds <torvalds@linux-foundation.org>,
 	linux-clk@vger.kernel.org, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH 01/10] x86/mm/numa: Remove
-	uninitialized_var() usage
+Subject: Re: [Drbd-dev] [PATCH 09/10] treewide: Remove uninitialized_var()
+	usage
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -103,37 +109,42 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Thu, Jun 4, 2020 at 4:56 PM Kees Cook <keescook@chromium.org> wrote:
->
-> Er? That's not what it looked like to me:
->
-> #define IS_BUILTIN(option) __is_defined(option)
-> #define IS_ENABLED(option) __or(IS_BUILTIN(option), IS_MODULE(option))
->
-> But just to be sure, I just tested in with a real build:
->
-> [    3.242160] IS_ENABLED(TEST_UNDEF) false
-> [    3.242691] __is_defined(TEST_UNDEF) false
-> [    3.243240] IS_ENABLED(TEST_VALUE_EMPTY) false
-> [    3.243794] __is_defined(TEST_VALUE_EMPTY) false
-> [    3.244353] IS_ENABLED(TEST_VALUE_1) true
-> [    3.244848] __is_defined(TEST_VALUE_1) true
->
-> and nope, it only works with a defined value present.
+On Thu, Jun 04, 2020 at 07:59:40AM -0700, Kees Cook wrote:
+> On Thu, Jun 04, 2020 at 10:23:06AM -0300, Jason Gunthorpe wrote:
+> > On Wed, Jun 03, 2020 at 04:32:02PM -0700, Kees Cook wrote:
+> > > Using uninitialized_var() is dangerous as it papers over real bugs[1]
+> > > (or can in the future), and suppresses unrelated compiler warnings
+> > > (e.g. "unused variable"). If the compiler thinks it is uninitialized,
+> > > either simply initialize the variable or make compiler changes.
+> > > 
+> > > I preparation for removing[2] the[3] macro[4], remove all remaining
+> > > needless uses with the following script:
+> > > 
+> > > git grep '\buninitialized_var\b' | cut -d: -f1 | sort -u | \
+> > > 	xargs perl -pi -e \
+> > > 		's/\buninitialized_var\(([^\)]+)\)/\1/g;
+> > > 		 s:\s*/\* (GCC be quiet|to make compiler happy) \*/$::g;'
+> > > 
+> > > drivers/video/fbdev/riva/riva_hw.c was manually tweaked to avoid
+> > > pathological white-space.
+> > > 
+> > > No outstanding warnings were found building allmodconfig with GCC 9.3.0
+> > > for x86_64, i386, arm64, arm, powerpc, powerpc64le, s390x, mips, sparc64,
+> > > alpha, and m68k.
+> > 
+> > At least in the infiniband part I'm confident that old gcc versions
+> > will print warnings after this patch.
+> > 
+> > As the warnings are wrong, do we care? Should old gcc maybe just -Wno-
+> > the warning?
+> 
+> I *think* a lot of those are from -Wmaybe-uninitialized, but Linus just
+> turned that off unconditionally in v5.7:
+> 78a5255ffb6a ("Stop the ad-hoc games with -Wno-maybe-initialized")
 
-You are right, it follows the Kconfig logic, returning false for
-defined-but-to-0 too.
+Yah, that alone is justification enough to do this purge.
 
-We should probably add an `IS_DEFINED()` macro kernel-wide for this
-(and add it to the `coding-guidelines.rst` since `IS_ENABLED()` is
-mentioned there, with a warning not to mix it with `__is_defined()`
-which looks it was only intended as an implementation detail for
-`include/linux/kconfig.h`).
-
-CC'ing Masahiro by the way.
-
-Cheers,
-Miguel
+Jason
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
