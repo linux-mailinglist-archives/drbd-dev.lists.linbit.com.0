@@ -2,37 +2,35 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id D06B21EF407
-	for <lists+drbd-dev@lfdr.de>; Fri,  5 Jun 2020 11:26:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EAAB1EF421
+	for <lists+drbd-dev@lfdr.de>; Fri,  5 Jun 2020 11:30:41 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C7B584203E1;
-	Fri,  5 Jun 2020 11:26:21 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4B8034203E1;
+	Fri,  5 Jun 2020 11:30:40 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 314 seconds by postgrey-1.31 at mail19;
-	Fri, 05 Jun 2020 11:26:19 CEST
 Received: from mail27.static.mailgun.info (mail27.static.mailgun.info
 	[104.130.122.27])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 8DB48420311
-	for <drbd-dev@lists.linbit.com>; Fri,  5 Jun 2020 11:26:19 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A081E420311
+	for <drbd-dev@lists.linbit.com>; Fri,  5 Jun 2020 11:30:38 +0200 (CEST)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
 	q=dns/txt; 
-	s=smtp; t=1591349180; h=Content-Type: MIME-Version: Message-ID:
+	s=smtp; t=1591349439; h=Content-Type: MIME-Version: Message-ID:
 	In-Reply-To: Date: References: Subject: Cc: To: From: Sender;
-	bh=kOyRDD2wM/7haweFJ6NAJPQaW5V0bTz8j0qf/YEB3F8=;
-	b=lInecL5w/Zee01P78f8q0YxLz+URsZCmOp/gl27Gf80ndo537D+YQez+2+fYVYPjY4ziZJpU
-	aM+JMuzR4uPlRhZaEpO6/uj6upnrXzwd7oqLf607eGofM1zM77KPqtqhIMSD/bLjVcM+JqVK
-	MJUIv6q/9pCmzSyZzgi39e0zJb4=
+	bh=4DMYxLsLHIEhVdnqccTaMZxujDa7ILXa6vhA3dmslLM=;
+	b=RsvvmgZAakMV5m87m/snJA99v6alEhLPRt4sL8b5YPMsHcLR6UIZ4YnroopaXt2puLtTwzNL
+	9wpNpa9kZVs8n3NcNaYy8mLwyYQE8VDbjhgmZJCdi2n6Q3qRilLJfD9W8d5DyXRccJHVERfW
+	j6Wvm2XYFb3hO7BORu8Qu7HPnRs=
 X-Mailgun-Sending-Ip: 104.130.122.27
 X-Mailgun-Sid: WyI1YWE3MCIsICJkcmJkLWRldkBsaXN0cy5saW5iaXQuY29tIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
 	(ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
-	by smtp-out-n13.prod.us-east-1.postgun.com with SMTP id
-	5eda0e7eb65440fdbaa50f41 (version=TLS1.2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 05 Jun 2020 09:21:02
+	by smtp-out-n15.prod.us-east-1.postgun.com with SMTP id
+	5eda0f79ea0dfa490e5e4b53 (version=TLS1.2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 05 Jun 2020 09:25:13
 	GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-	id 464A0C433A1; Fri,  5 Jun 2020 09:21:01 +0000 (UTC)
+	id 1F8D4C433C6; Fri,  5 Jun 2020 09:25:13 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
@@ -41,9 +39,9 @@ X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
 Received: from tynnyri.adurom.net (tynnyri.adurom.net [51.15.11.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested) (Authenticated sender: kvalo)
-	by smtp.codeaurora.org (Postfix) with ESMTPSA id 0979DC433C6;
-	Fri,  5 Jun 2020 09:20:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 0979DC433C6
+	by smtp.codeaurora.org (Postfix) with ESMTPSA id EA82AC433C6;
+	Fri,  5 Jun 2020 09:25:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org EA82AC433C6
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
 	dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
@@ -51,11 +49,11 @@ Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
 From: Kalle Valo <kvalo@codeaurora.org>
 To: Kees Cook <keescook@chromium.org>
 References: <20200603233203.1695403-1-keescook@chromium.org>
-	<20200603233203.1695403-4-keescook@chromium.org>
-Date: Fri, 05 Jun 2020 12:20:55 +0300
-In-Reply-To: <20200603233203.1695403-4-keescook@chromium.org> (Kees Cook's
-	message of "Wed, 3 Jun 2020 16:31:56 -0700")
-Message-ID: <87d06dg96w.fsf@tynnyri.adurom.net>
+	<20200603233203.1695403-10-keescook@chromium.org>
+Date: Fri, 05 Jun 2020 12:25:05 +0300
+In-Reply-To: <20200603233203.1695403-10-keescook@chromium.org> (Kees Cook's
+	message of "Wed, 3 Jun 2020 16:32:02 -0700")
+Message-ID: <878sh1g8zy.fsf@tynnyri.adurom.net>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
 Cc: Andy Whitcroft <apw@canonical.com>, clang-built-linux@googlegroups.com,
@@ -68,7 +66,8 @@ Cc: Andy Whitcroft <apw@canonical.com>, clang-built-linux@googlegroups.com,
 	b43-dev@lists.infradead.org, Joe Perches <joe@perches.com>,
 	Linus Torvalds <torvalds@linux-foundation.org>,
 	linux-clk@vger.kernel.org, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH 03/10] b43: Remove uninitialized_var() usage
+Subject: Re: [Drbd-dev] [PATCH 09/10] treewide: Remove uninitialized_var()
+	usage
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -90,11 +89,24 @@ Errors-To: drbd-dev-bounces@lists.linbit.com
 Kees Cook <keescook@chromium.org> writes:
 
 > Using uninitialized_var() is dangerous as it papers over real bugs[1]
-> (or can in the future), and suppresses unrelated compiler warnings (e.g.
-> "unused variable"). If the compiler thinks it is uninitialized, either
-> simply initialize the variable or make compiler changes. As a precursor
-> to removing[2] this[3] macro[4], just initialize this variable to NULL,
-> and make the (unreachable!) code do a conditional test.
+> (or can in the future), and suppresses unrelated compiler warnings
+> (e.g. "unused variable"). If the compiler thinks it is uninitialized,
+> either simply initialize the variable or make compiler changes.
+>
+> I preparation for removing[2] the[3] macro[4], remove all remaining
+> needless uses with the following script:
+>
+> git grep '\buninitialized_var\b' | cut -d: -f1 | sort -u | \
+> 	xargs perl -pi -e \
+> 		's/\buninitialized_var\(([^\)]+)\)/\1/g;
+> 		 s:\s*/\* (GCC be quiet|to make compiler happy) \*/$::g;'
+>
+> drivers/video/fbdev/riva/riva_hw.c was manually tweaked to avoid
+> pathological white-space.
+>
+> No outstanding warnings were found building allmodconfig with GCC 9.3.0
+> for x86_64, i386, arm64, arm, powerpc, powerpc64le, s390x, mips, sparc64,
+> alpha, and m68k.
 >
 > [1] https://lore.kernel.org/lkml/20200603174714.192027-1-glider@google.com/
 > [2] https://lore.kernel.org/lkml/CA+55aFw+Vbj0i=1TGqCR5vQkCzWJ0QxK6CernOU6eedsudAixw@mail.gmail.com/
@@ -105,21 +117,23 @@ Kees Cook <keescook@chromium.org> writes:
 
 [...]
 
-> @@ -4256,9 +4256,13 @@ static void b43_nphy_tx_gain_table_upload(struct b43_wldev *dev)
->  			pga_gain = (table[i] >> 24) & 0xf;
->  			pad_gain = (table[i] >> 19) & 0x1f;
->  			if (b43_current_band(dev->wl) == NL80211_BAND_2GHZ)
-> -				rfpwr_offset = rf_pwr_offset_table[pad_gain];
-> +				rfpwr_offset = rf_pwr_offset_table
-> +						? rf_pwr_offset_table[pad_gain]
-> +						: 0;
->  			else
-> -				rfpwr_offset = rf_pwr_offset_table[pga_gain];
-> +				rfpwr_offset = rf_pwr_offset_table
-> +						? rf_pwr_offset_table[pga_gain]
-> +						: 0;
+>  drivers/net/wireless/ath/ath10k/core.c           |  2 +-
+>  drivers/net/wireless/ath/ath6kl/init.c           |  2 +-
+>  drivers/net/wireless/ath/ath9k/init.c            |  2 +-
+>  drivers/net/wireless/broadcom/b43/debugfs.c      |  2 +-
+>  drivers/net/wireless/broadcom/b43/dma.c          |  2 +-
+>  drivers/net/wireless/broadcom/b43/lo.c           |  2 +-
+>  drivers/net/wireless/broadcom/b43/phy_n.c        |  2 +-
+>  drivers/net/wireless/broadcom/b43/xmit.c         | 12 ++++++------
+>  .../net/wireless/broadcom/b43legacy/debugfs.c    |  2 +-
+>  drivers/net/wireless/broadcom/b43legacy/main.c   |  2 +-
+>  drivers/net/wireless/intel/iwlegacy/3945.c       |  2 +-
+>  drivers/net/wireless/intel/iwlegacy/4965-mac.c   |  2 +-
+>  .../net/wireless/realtek/rtlwifi/rtl8192cu/hw.c  |  4 ++--
 
-To me this is ugly, isn't there a better way to fix this?
+For wireless drivers:
+
+Acked-by: Kalle Valo <kvalo@codeaurora.org>
 
 -- 
 https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
