@@ -2,82 +2,76 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 006C21F82FC
-	for <lists+drbd-dev@lfdr.de>; Sat, 13 Jun 2020 12:32:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8163B1FA051
+	for <lists+drbd-dev@lfdr.de>; Mon, 15 Jun 2020 21:32:54 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E0355420404;
-	Sat, 13 Jun 2020 12:32:20 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 729EE4203EC;
+	Mon, 15 Jun 2020 21:32:53 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 87F84420443
-	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 11:59:58 +0200 (CEST)
-Received: by mail-wm1-f68.google.com with SMTP id q25so10179452wmj.0
-	for <drbd-dev@lists.linbit.com>; Sat, 13 Jun 2020 02:59:58 -0700 (PDT)
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+	[209.85.214.194])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 90A0C4203E7
+	for <drbd-dev@lists.linbit.com>; Mon, 15 Jun 2020 21:32:52 +0200 (CEST)
+Received: by mail-pl1-f194.google.com with SMTP id j4so3957263plk.3
+	for <drbd-dev@lists.linbit.com>; Mon, 15 Jun 2020 12:32:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to;
+	bh=ZjAXfZy5BudfnO86h+8mAf1S7F89/y7Ht34uQW17/+U=;
+	b=QBeg3rvb86U6Tj0IyJR5u6BBRDaGksrhbixbVGEFMNAmYYAm2vi8ezn7Pzjsx+8Y/N
+	0spIQQjXlTeZa6JYxyI0WQLYZewE/IOrv1eu80kZOYOGkcIsaJYdoUbYKY8F56IoVrW7
+	todjyiaALbdigpVH6qkq1a3bhohRwm98ntcpI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:resent-from:resent-date:resent-message-id
-	:resent-to:from:to:cc:subject:in-reply-to:references:date:message-id
-	:mime-version;
-	bh=EJURT4SMM5RFVtYvkGpafF5q0/k/tbkIdIs3fJmqyXE=;
-	b=b+9wDlh8sD6uZ6zpKZj1FHjlOwYWiA09QnH9YyzDXRDowWpYqSyvKuaSQxGFDS+5Kx
-	DKrbex83aCj3yAALMS1KdKoam5H1c16ky+ZM5pMGW37ZyR25DzVOuhm8i3cKpoocGv9+
-	2fq/q0SfmYYA8OnJbF/sSlOSyHPRoY+oOjn7CFJPShT8najlkM329ZxSpIJg5JMdIanH
-	Ya6007YaFfOsnNI4FMOEchFtZS2Sy1HvcWdnM4bsn4KqMs9NUxkS0+YXB8ihhimuPVTh
-	LUdnK6COU/X16n7mThwUndKCGpou0ZUFRqKNrkwMovRu5iVn7UaL/QZOdqDoIlzfTfhy
-	5AsQ==
-X-Gm-Message-State: AOAM532VQwd8XcoFXlQwCL3Y3eYiXOsLgh1LPytvE1qmL32p/rhMNW5K
-	bp65CswXNqhHNXTxnF9upL4jp9LqRks8OaT+
-X-Google-Smtp-Source: ABdhPJz98mr5Fyg8Lup8L8FKopRdHV1xj3+04JH4r3MVm3jibW1kvnTyaVsKvc5vaCa8/hrWW8U7VQ==
-X-Received: by 2002:a05:600c:287:: with SMTP id 7mr3375037wmk.91.1592042397993;
-	Sat, 13 Jun 2020 02:59:57 -0700 (PDT)
-Received: from soda.linbit (62-99-137-214.static.upcbusiness.at.
-	[62.99.137.214]) by smtp.gmail.com with ESMTPSA id
-	k12sm14335490wrn.42.2020.06.13.02.59.57
-	for <drbd-dev@lists.linbit.com>
-	(version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 13 Jun 2020 02:59:57 -0700 (PDT)
-Resent-From: Lars Ellenberg <lars.ellenberg@linbit.com>
-Resent-Date: Sat, 13 Jun 2020 11:59:55 +0200
-Resent-Message-ID: <20200613095955.GW4222@soda.linbit>
-Resent-To: drbd-dev@lists.linbit.com
-X-Original-To: drbd-dev@lists.linbit.com
-Received: from Galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 326CD420235
-	for <drbd-dev@lists.linbit.com>; Thu,  4 Jun 2020 23:39:13 +0200 (CEST)
-Received: from p5de0bf0b.dip0.t-ipconnect.de ([93.224.191.11]
-	helo=nanos.tec.linutronix.de) by Galois.linutronix.de with esmtpsa
-	(TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256) (Exim 4.80)
-	(envelope-from <tglx@linutronix.de>)
-	id 1jgxZr-0001Jg-Vu; Thu, 04 Jun 2020 23:39:08 +0200
-Received: by nanos.tec.linutronix.de (Postfix, from userid 1000)
-	id E240BFFBE0; Thu,  4 Jun 2020 23:39:05 +0200 (CEST)
-From: Thomas Gleixner <tglx@linutronix.de>
-To: Kees Cook <keescook@chromium.org>
-In-Reply-To: <202006040728.8797FAA4@keescook>
-References: <20200603233203.1695403-2-keescook@chromium.org>
-	<874krr8dps.fsf@nanos.tec.linutronix.de>
-	<202006040728.8797FAA4@keescook>
-Date: Thu, 04 Jun 2020 23:39:05 +0200
-Message-ID: <87zh9i7bpi.fsf@nanos.tec.linutronix.de>
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to;
+	bh=ZjAXfZy5BudfnO86h+8mAf1S7F89/y7Ht34uQW17/+U=;
+	b=RiG4y7yvYuJ/QjXx8n2rK/E5F2HB724XbeaR/gECasw2cyxAL7rj5+PldN+YYXEbdm
+	AtyKek1KLSowSh1oSo9Wf6G6Ble0V3skCtXU9P37K0S2MXE6NEL5OoQgaTNOgoh8iSrA
+	zSsmqVQAhgl0Dia7MLJpE6iRqomvND+RuZNWRiyy/6yMhVVv5KjeSM9KtRfG0w2C8NIB
+	OhQEeDWlbQdaerY59CSSXHe+KE04BkxYqU24P++1eHxGN1B/luec0aJ4fWODoP65RDfA
+	ALVF1P8EnZL6IJ1PXfqZ892vR9Ku0DqzyspwDT/EJL1AxcOz9ufbTbtv0aZCGlDMuIHW
+	LAOg==
+X-Gm-Message-State: AOAM532WJDkKOQAwAfGACsvpTw1iOjlHOWfEjzX77puHQWRxey+b3pz/
+	4oR6UUMxKqgKDy1SveJVIpP44g==
+X-Google-Smtp-Source: ABdhPJxugszkh+55zcQ6ID8nCD+Y2mp2lHGMEtD9VsXD4kV92TrXKjIOZPR9BYw/ID9xL1GXxiQnCg==
+X-Received: by 2002:a17:90b:23d2:: with SMTP id
+	md18mr774459pjb.179.1592249571413; 
+	Mon, 15 Jun 2020 12:32:51 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+	by smtp.gmail.com with ESMTPSA id
+	n189sm14973604pfn.108.2020.06.15.12.32.49
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 15 Jun 2020 12:32:50 -0700 (PDT)
+Date: Mon, 15 Jun 2020 12:32:49 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Nick Desaulniers <ndesaulniers@google.com>
+Message-ID: <202006151231.74D2315450@keescook>
+References: <20200603233203.1695403-1-keescook@chromium.org>
+	<20200603233203.1695403-6-keescook@chromium.org>
+	<CAKwvOdm5zDide5RuppY_jG=r46=UMdVJBrkBqD5x=dOMTG9cZg@mail.gmail.com>
+	<202006041318.B0EA9059C7@keescook>
+	<CAKwvOdk3Wc1gC0UMsFZsZqQ8n_bkPjNAJo5u3nfcyXcBaZCMHw@mail.gmail.com>
 MIME-Version: 1.0
-X-Linutronix-Spam-Score: -1.0
-X-Linutronix-Spam-Level: -
-X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required, ALL_TRUSTED=-1,
-	SHORTCIRCUIT=-0.0001
-Cc: Andy Whitcroft <apw@canonical.com>, clang-built-linux@googlegroups.com,
-	linux-ide@vger.kernel.org, netdev@vger.kernel.org,
-	x86@kernel.org, linux-wireless@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
+Content-Disposition: inline
+In-Reply-To: <CAKwvOdk3Wc1gC0UMsFZsZqQ8n_bkPjNAJo5u3nfcyXcBaZCMHw@mail.gmail.com>
+Cc: Andy Whitcroft <apw@canonical.com>,
+	clang-built-linux <clang-built-linux@googlegroups.com>,
+	Saravana Kannan <saravanak@google.com>, linux-ide@vger.kernel.org,
+	Network Development <netdev@vger.kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	"maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
+	linux-wireless <linux-wireless@vger.kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>, linux-spi@vger.kernel.org,
 	linux-block@vger.kernel.org,
 	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-	linux-mm@kvack.org, Alexander Potapenko <glider@google.com>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Alexander Potapenko <glider@google.com>,
 	b43-dev@lists.infradead.org, Joe Perches <joe@perches.com>,
 	Linus Torvalds <torvalds@linux-foundation.org>,
 	linux-clk@vger.kernel.org, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH 01/10] x86/mm/numa: Remove
-	uninitialized_var() usage
+Subject: Re: [Drbd-dev] [PATCH 05/10] ide: Remove uninitialized_var() usage
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -96,28 +90,58 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Kees Cook <keescook@chromium.org> writes:
->> > -#define NODE_NOT_IN_PAGE_FLAGS
->> > +#define NODE_NOT_IN_PAGE_FLAGS 1
->> 
->> but if we ever lose the 1 then the above will silently compile the code
->> within the IS_ENABLED() section out.
->
-> That's true, yes. I considered two other ways to do this:
->
-> 1) smallest patch, but more #ifdef:
-> 2) medium size, weird style:
->
-> and 3 is what I sent: biggest, but removes #ifdef
->
-> Any preference?
+On Thu, Jun 04, 2020 at 01:29:44PM -0700, Nick Desaulniers wrote:
+> On Thu, Jun 4, 2020 at 1:20 PM Kees Cook <keescook@chromium.org> wrote:
+> >
+> > On Thu, Jun 04, 2020 at 12:29:17PM -0700, Nick Desaulniers wrote:
+> > > On Wed, Jun 3, 2020 at 4:32 PM Kees Cook <keescook@chromium.org> wrote:
+> > > >
+> > > > Using uninitialized_var() is dangerous as it papers over real bugs[1]
+> > > > (or can in the future), and suppresses unrelated compiler warnings (e.g.
+> > > > "unused variable"). If the compiler thinks it is uninitialized, either
+> > > > simply initialize the variable or make compiler changes. As a precursor
+> > > > to removing[2] this[3] macro[4], just remove this variable since it was
+> > > > actually unused:
+> > > >
+> > > > drivers/ide/ide-taskfile.c:232:34: warning: unused variable 'flags' [-Wunused-variable]
+> > > >         unsigned long uninitialized_var(flags);
+> > > >                                         ^
+> > > >
+> > > > [1] https://lore.kernel.org/lkml/20200603174714.192027-1-glider@google.com/
+> > > > [2] https://lore.kernel.org/lkml/CA+55aFw+Vbj0i=1TGqCR5vQkCzWJ0QxK6CernOU6eedsudAixw@mail.gmail.com/
+> > > > [3] https://lore.kernel.org/lkml/CA+55aFwgbgqhbp1fkxvRKEpzyR5J8n1vKT1VZdz9knmPuXhOeg@mail.gmail.com/
+> > > > [4] https://lore.kernel.org/lkml/CA+55aFz2500WfbKXAx8s67wrm9=yVJu65TpLgN_ybYNv0VEOKA@mail.gmail.com/
+> > > >
+> > > > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > >
+> > > Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+> >
+> > Thanks for the reviews!
+> >
+> > > Fixes ce1e518190ea ("ide: don't disable interrupts during kmap_atomic()")
+> >
+> > I originally avoided adding Fixes tags because I didn't want these
+> > changes backported into a -stable without -Wmaybe-uninitialized
+> > disabled, but in these cases (variable removal), that actually does make
+> > sense. Thanks!
+> 
+> Saravana showed me a cool trick for quickly finding commits that
+> removed a particular identifier that I find faster than `git blame` or
+> vim-fugitive for the purpose of Fixes tags:
+> $ git log -S <string> <file>
 
-From a readbility POV I surely prefer #3. i"m just wary. Add a big fat
-comment to the define might mitigate that, hmm?
+Ah yes, I always have to look up "-S". Good reminder!
 
-Thanks,
+> I've added it to our wiki:
+> https://github.com/ClangBuiltLinux/linux/wiki/Command-line-tips-and-tricks#for-finding-which-commit-may-have-removed-a-string-try.
+> I should update the first tip; what was your suggestion for
+> constraining the search to the current remote?
 
-        tglx
+Ah cool. I've updated it now. It was really to narrow to a "known set of
+tags", and Linus's tree's tags always start with "v".
+
+-- 
+Kees Cook
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
