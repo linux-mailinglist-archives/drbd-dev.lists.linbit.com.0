@@ -2,59 +2,58 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35AE72020D6
-	for <lists+drbd-dev@lfdr.de>; Sat, 20 Jun 2020 05:33:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B212C2020FE
+	for <lists+drbd-dev@lfdr.de>; Sat, 20 Jun 2020 05:34:49 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1BDF642040E;
-	Sat, 20 Jun 2020 05:33:20 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 966C4420418;
+	Sat, 20 Jun 2020 05:34:49 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4CCBA4203EF
-	for <drbd-dev@lists.linbit.com>; Sat, 20 Jun 2020 05:30:22 +0200 (CEST)
-Received: by mail-pf1-f195.google.com with SMTP id h185so5385091pfg.2
-	for <drbd-dev@lists.linbit.com>; Fri, 19 Jun 2020 20:30:22 -0700 (PDT)
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+	[209.85.210.196])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 52B0E4203F5
+	for <drbd-dev@lists.linbit.com>; Sat, 20 Jun 2020 05:30:24 +0200 (CEST)
+Received: by mail-pf1-f196.google.com with SMTP id z63so5387666pfb.1
+	for <drbd-dev@lists.linbit.com>; Fri, 19 Jun 2020 20:30:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=IA+yT7PCs96a2QLkRTxqRX0+cmxfGmmmnF6nm+mE/f4=;
-	b=MqimT0fbxuqxM+QmcrwARR+/amwNiuCI+hP1wCfX1g7kgv7NJcSBiwI/l7uGyvqsK2
-	Oxc/+t3p4QpbDzYvQgitVypdVq8W23fO1zrrGQ69Qr0YZljTlWhw1Ev4MY87zvbvDu1N
-	bh/IFvhDf4w/OsdEMgGvGYEdX6xS6wWHv8oxc=
+	bh=53EFvIpvLtL19VTcgKVkwQhb1JNYVFCG8WLiohIrzpg=;
+	b=hXEDT+oQwZV/0j93NEptSD6lkCmisgOBhpbn5Vp8lS7WhqstyLUjYh8/pubGfJlegl
+	cIZZuP2lTlcYx/X9xdQps0HcFapdlSQ3sZeyQSQTzkk3YYv8X66EUy9+bLD5pYpGJ7K8
+	f/p23iF9Lj5ZdC2ePxyPtJFko+YDM3iaXqXxg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=IA+yT7PCs96a2QLkRTxqRX0+cmxfGmmmnF6nm+mE/f4=;
-	b=HyBKCPPpokuadZPuiF9HFJfgSJESdCGpCSjUrLs0eQeavKjvRcl2inQ/6Z0WeoyFpb
-	m09h2X3WVCGCXEDW/bgwltDyLJ/Uv313QZ9I2xU8DtKlUogUcuDKMkhQdDIcJvGnktoV
-	Cs8FkNsFSdNcu/8TJIRA6Kgoc2ZJ0XLMtMUAFhV8kN9HBdBOAGyMCUjYgpyZWHSfMqtG
-	ToKWtSeUJwv+5z+3PsWvEFbBgaZ1Kam5xjJz9D/UwmZdm0tV3ciBsmDT3BEVAAiiCDoQ
-	qJWAomKZ1XoNDSdRJeZYDqNE1sIw0sJTYZ7ymHjwGHQKEuHat3bnCVhgTFDDnhnd6Wod
-	sofA==
-X-Gm-Message-State: AOAM5328o2CTVycemk1hXy0j5FG6f2LgcvQ+yCtZBzRAehc2ClIj1OpX
-	Whbn/LGn5TMEoe9lV21FR8P6Tw==
-X-Google-Smtp-Source: ABdhPJzWXmNsQYGlo/XoAt7rJ3XMQnqVn/2emw/g557qtVZoXAJYxangSZ/rdwKB6suIvTYXAUcnDQ==
-X-Received: by 2002:a65:5645:: with SMTP id m5mr5147418pgs.434.1592623822112; 
-	Fri, 19 Jun 2020 20:30:22 -0700 (PDT)
+	bh=53EFvIpvLtL19VTcgKVkwQhb1JNYVFCG8WLiohIrzpg=;
+	b=YaTZQug896avdjV8qDwJQ7DlXiCpByjScFYVPWnv7ejvRsMkb27BYDSC5egehHdJuk
+	lTCb6I7oFzbj9vqKGTqbejNOkN3lKIuhrbzhJ1nxeCwsF03RI8lGE8202yW/FX0/waGd
+	RDTbKNWWaPQHdUsKOmlpoA/2W98GWMwTA3vhlime1oE0La3+SKCH3VtgqOe7mR0S06aw
+	Jh5ir7hjKydZOYbSvAADfIJKRjuU5qluaK61TpSV11Z2Svn3KrsanDtBSekZa+9zrK6a
+	aKFZPZc+JHC+0hwORPN01ORfbheGEiSjqZ3JKYSE4ELiASjFxrw+Cyusjm1UsGKdJpzG
+	r6mg==
+X-Gm-Message-State: AOAM533urxvsBwlNB90eS9sTlZEgewirjGWGOeFp6HHLWcmHI5i/gXLu
+	H5VrthhyHd7VEoEEGxGM9/t7mg==
+X-Google-Smtp-Source: ABdhPJzWWDTo3fA3qlpxXPt9t+m0l3tQUgBSNT3cCPjCzr+IkMUIJTgiw4SJHjx8tKw0+dOG4rlAaQ==
+X-Received: by 2002:aa7:9f10:: with SMTP id g16mr10814981pfr.47.1592623824106; 
+	Fri, 19 Jun 2020 20:30:24 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
 	by smtp.gmail.com with ESMTPSA id
-	a12sm7138426pfr.44.2020.06.19.20.30.18
+	w77sm7615693pff.126.2020.06.19.20.30.19
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
 	Fri, 19 Jun 2020 20:30:20 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-kernel@vger.kernel.org
-Date: Fri, 19 Jun 2020 20:29:57 -0700
-Message-Id: <20200620033007.1444705-7-keescook@chromium.org>
+Date: Fri, 19 Jun 2020 20:29:58 -0700
+Message-Id: <20200620033007.1444705-8-keescook@chromium.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200620033007.1444705-1-keescook@chromium.org>
 References: <20200620033007.1444705-1-keescook@chromium.org>
 MIME-Version: 1.0
-Cc: Andy Whitcroft <apw@canonical.com>, linux-wireless@vger.kernel.org,
-	Kees Cook <keescook@chromium.org>, linux-doc@vger.kernel.org,
-	netdev@vger.kernel.org, x86@kernel.org,
-	Nick Desaulniers <ndesaulniers@google.com>,
+Cc: Andy Whitcroft <apw@canonical.com>, Kees Cook <keescook@chromium.org>,
+	linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+	x86@kernel.org, linux-wireless@vger.kernel.org,
 	linux-spi@vger.kernel.org, linux-block@vger.kernel.org,
 	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
 	clang-built-linux@googlegroups.com, linux-mm@kvack.org,
@@ -63,7 +62,8 @@ Cc: Andy Whitcroft <apw@canonical.com>, linux-wireless@vger.kernel.org,
 	Joe Perches <joe@perches.com>,
 	Linus Torvalds <torvalds@linux-foundation.org>,
 	linux-clk@vger.kernel.org, drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH v2 06/16] ide: Remove uninitialized_var() usage
+Subject: [Drbd-dev] [PATCH v2 07/16] clk: st: Remove uninitialized_var()
+	usage
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -77,50 +77,39 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Using uninitialized_var() is dangerous as it papers over real bugs[1]
-(or can in the future), and suppresses unrelated compiler warnings (e.g.
-"unused variable"). If the compiler thinks it is uninitialized, either
-simply initialize the variable or make compiler changes. As a precursor
-to removing[2] this[3] macro[4], just remove this variable since it was
-actually unused:
-
-drivers/ide/ide-taskfile.c:232:34: warning: unused variable 'flags' [-Wunused-variable]
-        unsigned long uninitialized_var(flags);
-                                        ^
-
-[1] https://lore.kernel.org/lkml/20200603174714.192027-1-glider@google.com/
-[2] https://lore.kernel.org/lkml/CA+55aFw+Vbj0i=1TGqCR5vQkCzWJ0QxK6CernOU6eedsudAixw@mail.gmail.com/
-[3] https://lore.kernel.org/lkml/CA+55aFwgbgqhbp1fkxvRKEpzyR5J8n1vKT1VZdz9knmPuXhOeg@mail.gmail.com/
-[4] https://lore.kernel.org/lkml/CA+55aFz2500WfbKXAx8s67wrm9=yVJu65TpLgN_ybYNv0VEOKA@mail.gmail.com/
-
-Fixes: ce1e518190ea ("ide: don't disable interrupts during kmap_atomic()")
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- drivers/ide/ide-taskfile.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/ide/ide-taskfile.c b/drivers/ide/ide-taskfile.c
-index aab6a10435b6..a26f85ab58a9 100644
---- a/drivers/ide/ide-taskfile.c
-+++ b/drivers/ide/ide-taskfile.c
-@@ -229,7 +229,6 @@ void ide_pio_bytes(ide_drive_t *drive, struct ide_cmd *cmd,
- 	ide_hwif_t *hwif = drive->hwif;
- 	struct scatterlist *sg = hwif->sg_table;
- 	struct scatterlist *cursg = cmd->cursg;
--	unsigned long uninitialized_var(flags);
- 	struct page *page;
- 	unsigned int offset;
- 	u8 *buf;
--- 
-2.25.1
-
-_______________________________________________
-drbd-dev mailing list
-drbd-dev@lists.linbit.com
-https://lists.linbit.com/mailman/listinfo/drbd-dev
+VXNpbmcgdW5pbml0aWFsaXplZF92YXIoKSBpcyBkYW5nZXJvdXMgYXMgaXQgcGFwZXJzIG92ZXIg
+cmVhbCBidWdzWzFdCihvciBjYW4gaW4gdGhlIGZ1dHVyZSksIGFuZCBzdXBwcmVzc2VzIHVucmVs
+YXRlZCBjb21waWxlciB3YXJuaW5ncyAoZS5nLgoidW51c2VkIHZhcmlhYmxlIikuIElmIHRoZSBj
+b21waWxlciB0aGlua3MgaXQgaXMgdW5pbml0aWFsaXplZCwgZWl0aGVyCnNpbXBseSBpbml0aWFs
+aXplIHRoZSB2YXJpYWJsZSBvciBtYWtlIGNvbXBpbGVyIGNoYW5nZXMuIEFzIGEgcHJlY3Vyc29y
+CnRvIHJlbW92aW5nWzJdIHRoaXNbM10gbWFjcm9bNF0sIGp1c3QgcmVtb3ZlIHRoaXMgdmFyaWFi
+bGUgc2luY2UgaXQgd2FzCmFjdHVhbGx5IHVudXNlZDoKCmRyaXZlcnMvY2xrL3N0L2Nsa2dlbi1m
+c3luLmM6IEluIGZ1bmN0aW9uIOKAmHF1YWRmc19zZXRfcmF0ZeKAmToKZHJpdmVycy9jbGsvc3Qv
+Y2xrZ2VuLWZzeW4uYzo3OTM6Njogd2FybmluZzogdW51c2VkIHZhcmlhYmxlIOKAmGnigJkgWy1X
+dW51c2VkLXZhcmlhYmxlXQogIDc5MyB8ICBpbnQgaTsKICAgICAgfCAgICAgIF4KClsxXSBodHRw
+czovL2xvcmUua2VybmVsLm9yZy9sa21sLzIwMjAwNjAzMTc0NzE0LjE5MjAyNy0xLWdsaWRlckBn
+b29nbGUuY29tLwpbMl0gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGttbC9DQSs1NWFGdytWYmow
+aT0xVEdxQ1I1dlFrQ3pXSjBReEs2Q2Vybk9VNmVlZHN1ZEFpeHdAbWFpbC5nbWFpbC5jb20vClsz
+XSBodHRwczovL2xvcmUua2VybmVsLm9yZy9sa21sL0NBKzU1YUZ3Z2JncWhicDFma3h2UktFcHp5
+UjVKOG4xdktUMVZaZHo5a25tUHVYaE9lZ0BtYWlsLmdtYWlsLmNvbS8KWzRdIGh0dHBzOi8vbG9y
+ZS5rZXJuZWwub3JnL2xrbWwvQ0ErNTVhRnoyNTAwV2ZiS1hBeDhzNjd3cm05PXlWSnU2NVRwTGdO
+X3liWU52MFZFT0tBQG1haWwuZ21haWwuY29tLwoKRml4ZXM6IDVmN2FhOTA3MWU5MyAoImNsazog
+c3Q6IFN1cHBvcnQgZm9yIFFVQURGUyBpbnNpZGUgQ2xvY2tHZW5CL0MvRC9FL0YiKQpTaWduZWQt
+b2ZmLWJ5OiBLZWVzIENvb2sgPGtlZXNjb29rQGNocm9taXVtLm9yZz4KLS0tCiBkcml2ZXJzL2Ns
+ay9zdC9jbGtnZW4tZnN5bi5jIHwgMSAtCiAxIGZpbGUgY2hhbmdlZCwgMSBkZWxldGlvbigtKQoK
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvY2xrL3N0L2Nsa2dlbi1mc3luLmMgYi9kcml2ZXJzL2Nsay9z
+dC9jbGtnZW4tZnN5bi5jCmluZGV4IGExNTZiZDBjNmFmNy4uZjFhZGM4NThiNTkwIDEwMDY0NAot
+LS0gYS9kcml2ZXJzL2Nsay9zdC9jbGtnZW4tZnN5bi5jCisrKyBiL2RyaXZlcnMvY2xrL3N0L2Ns
+a2dlbi1mc3luLmMKQEAgLTc5MCw3ICs3OTAsNiBAQCBzdGF0aWMgaW50IHF1YWRmc19zZXRfcmF0
+ZShzdHJ1Y3QgY2xrX2h3ICpodywgdW5zaWduZWQgbG9uZyByYXRlLAogCXN0cnVjdCBzdF9jbGtf
+cXVhZGZzX2ZzeW50aCAqZnMgPSB0b19xdWFkZnNfZnN5bnRoKGh3KTsKIAlzdHJ1Y3Qgc3RtX2Zz
+IHBhcmFtczsKIAlsb25nIGh3cmF0ZTsKLQlpbnQgdW5pbml0aWFsaXplZF92YXIoaSk7CiAKIAlp
+ZiAoIXJhdGUgfHwgIXBhcmVudF9yYXRlKQogCQlyZXR1cm4gLUVJTlZBTDsKLS0gCjIuMjUuMQoK
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJiZC1kZXYg
+bWFpbGluZyBsaXN0CmRyYmQtZGV2QGxpc3RzLmxpbmJpdC5jb20KaHR0cHM6Ly9saXN0cy5saW5i
+aXQuY29tL21haWxtYW4vbGlzdGluZm8vZHJiZC1kZXYK
