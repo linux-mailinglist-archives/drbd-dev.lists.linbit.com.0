@@ -2,35 +2,35 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37D7420DCC2
-	for <lists+drbd-dev@lfdr.de>; Mon, 29 Jun 2020 22:26:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4E4A20DCC0
+	for <lists+drbd-dev@lfdr.de>; Mon, 29 Jun 2020 22:25:31 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 23BA04203E1;
-	Mon, 29 Jun 2020 22:26:02 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id CEED74203EA;
+	Mon, 29 Jun 2020 22:25:31 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4324D4203E1
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0A7614203D7
 	for <drbd-dev@lists.linbit.com>; Mon, 29 Jun 2020 22:23:04 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209;
 	h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=L49detOHIFMZBv2u/yvsEnOxSRyecAx0WO9o6Vj19Gg=;
-	b=q7gNkxTFXcVg1yAszGSmCkxQn7
-	lXicqScm59nuMxQ/ket+RyBDVPYFZwPUBL8QbJkzYRiKnTqCC6BuV1tUIU5COa5jmZiGdCUCWXpMp
-	qsOeAUK20gnONWIkR6FbtECLvtbiacCGqWKlW84S5AP+AwyjFIMCGWsymdUi0+5ChWpPvdQiwJjIZ
-	3oh0r0bodWKyzTs51cS64yOUl9zpt0qof+j90crbOMYxdemomtLNgY1GUbSTiVxcX/42cdOE83NWn
-	qav4MIBz4IJSXFI5QrsdFWfKh+4UTQlX3RxOZNnXKcq0hLgWeKZauyWbFPRzhIZm8VTafcbr2+SfT
-	wcM8i5Wg==;
+	bh=KKN2Rzx949H+NoG0kbydbtU4p/7MhBgkwEQu/fGRZVo=;
+	b=oq4DxXRygnkoBpVqu4ShnFx67a
+	pJSZTPl/8bQB6t5SbLzEq7GEtk7yVppnDQoMDkwlIASlkU5Gv3TVvPrB44rfw3eqnI/6/46THwVdz
+	bpj2LW1dF9GjmaqLsSZnWCGOiWCgne+0b3/wk5CW3PxduJhQZcvYQZkZnB44cjXI3RV8EqpdASKu/
+	RkLdLy683AjRfxZt01zPKBwDhf+S1bMB3O91CxDduFf+rpctsL9V3FYWiqw0E6KmkpHgdogcoq/bv
+	FM6mYXGlxSu8Yj3wFLmkB7cMQ6vzzc2fkWPIa1S/y8ELqgdqrW/IuX4PrQsWtaDG8vRqd88y0uRuj
+	7Jl9LgYQ==;
 Received: from [2001:4bb8:184:76e3:fcca:c8dc:a4bf:12fa] (helo=localhost)
 	by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jpzdM-0004Ji-Pl; Mon, 29 Jun 2020 19:40:05 +0000
+	id 1jpzdN-0004Ju-WF; Mon, 29 Jun 2020 19:40:06 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Date: Mon, 29 Jun 2020 21:39:36 +0200
-Message-Id: <20200629193947.2705954-10-hch@lst.de>
+Date: Mon, 29 Jun 2020 21:39:37 +0200
+Message-Id: <20200629193947.2705954-11-hch@lst.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200629193947.2705954-1-hch@lst.de>
 References: <20200629193947.2705954-1-hch@lst.de>
@@ -43,7 +43,7 @@ Cc: linux-bcache@vger.kernel.org, linux-xtensa@linux-xtensa.org,
 	linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org,
 	linux-m68k@lists.linux-m68k.org, linuxppc-dev@lists.ozlabs.org,
 	drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 09/20] bcache: stop setting ->queuedata
+Subject: [Drbd-dev] [PATCH 10/20] dm: stop using ->queuedata
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -62,25 +62,35 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Nothing in bcache actually uses the ->queuedata field.
+Instead of setting up the queuedata as well just use one private data
+field.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/md/bcache/super.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/md/dm.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/md/bcache/super.c b/drivers/md/bcache/super.c
-index 2014016f9a60d3..21aa168113d30b 100644
---- a/drivers/md/bcache/super.c
-+++ b/drivers/md/bcache/super.c
-@@ -876,7 +876,6 @@ static int bcache_device_init(struct bcache_device *d, unsigned int block_size,
- 		return -ENOMEM;
+diff --git a/drivers/md/dm.c b/drivers/md/dm.c
+index e44473fe0f4873..c8d91f271c272e 100644
+--- a/drivers/md/dm.c
++++ b/drivers/md/dm.c
+@@ -1789,7 +1789,7 @@ static blk_qc_t dm_process_bio(struct mapped_device *md,
  
- 	d->disk->queue			= q;
--	q->queuedata			= d;
- 	q->backing_dev_info->congested_data = d;
- 	q->limits.max_hw_sectors	= UINT_MAX;
- 	q->limits.max_sectors		= UINT_MAX;
+ static blk_qc_t dm_make_request(struct request_queue *q, struct bio *bio)
+ {
+-	struct mapped_device *md = q->queuedata;
++	struct mapped_device *md = bio->bi_disk->private_data;
+ 	blk_qc_t ret = BLK_QC_T_NONE;
+ 	int srcu_idx;
+ 	struct dm_table *map;
+@@ -1995,7 +1995,6 @@ static struct mapped_device *alloc_dev(int minor)
+ 	md->queue = blk_alloc_queue(dm_make_request, numa_node_id);
+ 	if (!md->queue)
+ 		goto bad;
+-	md->queue->queuedata = md;
+ 
+ 	md->disk = alloc_disk_node(1, md->numa_node_id);
+ 	if (!md->disk)
 -- 
 2.26.2
 
