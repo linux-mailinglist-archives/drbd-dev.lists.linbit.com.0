@@ -2,35 +2,35 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97D5E20D6FF
-	for <lists+drbd-dev@lfdr.de>; Mon, 29 Jun 2020 22:06:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E8A920DCD7
+	for <lists+drbd-dev@lfdr.de>; Mon, 29 Jun 2020 22:43:06 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7D7CE4203F7;
-	Mon, 29 Jun 2020 22:06:37 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 06CFA420385;
+	Mon, 29 Jun 2020 22:43:05 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E255B4203E3
-	for <drbd-dev@lists.linbit.com>; Mon, 29 Jun 2020 22:04:08 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 11F0D4202BD
+	for <drbd-dev@lists.linbit.com>; Mon, 29 Jun 2020 22:43:02 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209;
 	h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=+VUsfxrjDzYG99zFj0wkRp/eNVFFwqpSgTudJApaDRc=;
-	b=ClUIhM5P87fWnhwG77qgv4ShjY
-	DPdnO0m4b9MJ04nN4PqcbgI0z5SMxykwgpOVMEcT/XLrgTjSoYwjFRVP06FH1yuM/uIfExa6QQWwY
-	TQT6gkp11h03zqvfmWXNVCto7YurF9/Uh2Hd2KxOXwdmmM+i9XbPkIyYkUkRYpkL3ZAN8ZpsQyn/C
-	I4zB805yEcbYIgxQtYH5hZNqLK7OYOBdn+9jy+pDoAUgHxN3V4miNikHoirBFpOL5dCLn6nb/+L+G
-	2Pjw4B+QypXWc4s9A5PbOHPIJwjWWl86mWmyIDuqSxeKvB8P01EbSaLvMNZf10ps9jlCd1W7PjTRN
-	hzGI6NLg==;
+	bh=8L8p6UbF45RVD9lwh+Y9njbbxbDNtEWDlp4D4BAc300=;
+	b=fZK4xo8+3EiAVx4FIVtuNf4vAv
+	zm4KGc7qiZkEK9LKiarRfAqvPpqWgTHtvE1QlHbQB0NZU32yOFMr/MNwB/ae5o6r8J1k0LS9KcWAk
+	y7NYBsiVmRRcp2FQitQb40ThskDUPPDmDPYJLe8Pz2HzRaKfT30JREsrdWRxrkBie92FmSraPeTrJ
+	5gSeTgEBrq4yvaPEIhmxj824T815wc+cDodRF3igQSRVwj8EWofccCOa9w/2vYmArzZqDITwIfqs4
+	88J/ODZsBaLBKHJTA5Q+FqqqW0H41wxD+2jejtdQOMfQBGUmjLZbPCuBmTM01I2o9gUYysjfD3sm2
+	QnEgqUIA==;
 Received: from [2001:4bb8:184:76e3:fcca:c8dc:a4bf:12fa] (helo=localhost)
 	by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jpzdm-0004Pf-Ph; Mon, 29 Jun 2020 19:40:31 +0000
+	id 1jpzdI-0004Gf-PC; Mon, 29 Jun 2020 19:40:01 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Date: Mon, 29 Jun 2020 21:39:47 +0200
-Message-Id: <20200629193947.2705954-21-hch@lst.de>
+Date: Mon, 29 Jun 2020 21:39:33 +0200
+Message-Id: <20200629193947.2705954-7-hch@lst.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200629193947.2705954-1-hch@lst.de>
 References: <20200629193947.2705954-1-hch@lst.de>
@@ -43,7 +43,7 @@ Cc: linux-bcache@vger.kernel.org, linux-xtensa@linux-xtensa.org,
 	linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org,
 	linux-m68k@lists.linux-m68k.org, linuxppc-dev@lists.ozlabs.org,
 	drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 20/20] block: remove direct_make_request
+Subject: [Drbd-dev] [PATCH 06/20] rsxx: stop using ->queuedata
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -62,97 +62,44 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Now that submit_bio_noacct has a decent blk-mq fast path there is no
-more need for this bypass.
+Instead of setting up the queuedata as well just use one private data
+field.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- block/blk-core.c              | 28 ----------------------------
- drivers/md/dm.c               |  5 +----
- drivers/nvme/host/multipath.c |  2 +-
- include/linux/blkdev.h        |  1 -
- 4 files changed, 2 insertions(+), 34 deletions(-)
+ drivers/block/rsxx/dev.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/block/blk-core.c b/block/blk-core.c
-index 46e3c0a37cc377..f127d83c4fafa5 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -1206,34 +1206,6 @@ blk_qc_t submit_bio_noacct(struct bio *bio)
+diff --git a/drivers/block/rsxx/dev.c b/drivers/block/rsxx/dev.c
+index 3ba07ab30c84f5..6a4d8d26e32cbd 100644
+--- a/drivers/block/rsxx/dev.c
++++ b/drivers/block/rsxx/dev.c
+@@ -119,7 +119,7 @@ static void bio_dma_done_cb(struct rsxx_cardinfo *card,
+ 
+ static blk_qc_t rsxx_make_request(struct request_queue *q, struct bio *bio)
+ {
+-	struct rsxx_cardinfo *card = q->queuedata;
++	struct rsxx_cardinfo *card = bio->bi_disk->private_data;
+ 	struct rsxx_bio_meta *bio_meta;
+ 	blk_status_t st = BLK_STS_IOERR;
+ 
+@@ -267,8 +267,6 @@ int rsxx_setup_dev(struct rsxx_cardinfo *card)
+ 		card->queue->limits.discard_alignment   = RSXX_HW_BLK_SIZE;
+ 	}
+ 
+-	card->queue->queuedata = card;
+-
+ 	snprintf(card->gendisk->disk_name, sizeof(card->gendisk->disk_name),
+ 		 "rsxx%d", card->disk_id);
+ 	card->gendisk->major = card->major;
+@@ -289,7 +287,6 @@ void rsxx_destroy_dev(struct rsxx_cardinfo *card)
+ 	card->gendisk = NULL;
+ 
+ 	blk_cleanup_queue(card->queue);
+-	card->queue->queuedata = NULL;
+ 	unregister_blkdev(card->major, DRIVER_NAME);
  }
- EXPORT_SYMBOL(submit_bio_noacct);
  
--/**
-- * direct_make_request - hand a buffer directly to its device driver for I/O
-- * @bio:  The bio describing the location in memory and on the device.
-- *
-- * This function behaves like submit_bio_noacct(), but does not protect
-- * against recursion.  Must only be used if the called driver is known
-- * to be blk-mq based.
-- */
--blk_qc_t direct_make_request(struct bio *bio)
--{
--	struct gendisk *disk = bio->bi_disk;
--
--	if (WARN_ON_ONCE(!disk->queue->mq_ops)) {
--		bio_io_error(bio);
--		return BLK_QC_T_NONE;
--	}
--	if (!submit_bio_checks(bio))
--		return BLK_QC_T_NONE;
--	if (unlikely(bio_queue_enter(bio)))
--		return BLK_QC_T_NONE;
--	if (!blk_crypto_bio_prep(&bio)) {
--		blk_queue_exit(disk->queue);
--		return BLK_QC_T_NONE;
--	}
--	return blk_mq_submit_bio(bio);
--}
--EXPORT_SYMBOL_GPL(direct_make_request);
--
- /**
-  * submit_bio - submit a bio to the block device layer for I/O
-  * @bio: The &struct bio which describes the I/O
-diff --git a/drivers/md/dm.c b/drivers/md/dm.c
-index b32b539dbace56..2cb33896198c4c 100644
---- a/drivers/md/dm.c
-+++ b/drivers/md/dm.c
-@@ -1302,10 +1302,7 @@ static blk_qc_t __map_bio(struct dm_target_io *tio)
- 		/* the bio has been remapped so dispatch it */
- 		trace_block_bio_remap(clone->bi_disk->queue, clone,
- 				      bio_dev(io->orig_bio), sector);
--		if (md->type == DM_TYPE_NVME_BIO_BASED)
--			ret = direct_make_request(clone);
--		else
--			ret = submit_bio_noacct(clone);
-+		ret = submit_bio_noacct(clone);
- 		break;
- 	case DM_MAPIO_KILL:
- 		free_tio(tio);
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index f07fa47c251d9d..a986ac52c4cc7f 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -314,7 +314,7 @@ blk_qc_t nvme_ns_head_submit_bio(struct bio *bio)
- 		trace_block_bio_remap(bio->bi_disk->queue, bio,
- 				      disk_devt(ns->head->disk),
- 				      bio->bi_iter.bi_sector);
--		ret = direct_make_request(bio);
-+		ret = submit_bio_noacct(bio);
- 	} else if (nvme_available_path(head)) {
- 		dev_warn_ratelimited(dev, "no usable path - requeuing I/O\n");
- 
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index b73cfa6a5141df..1cc913ffdbe21e 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -853,7 +853,6 @@ static inline void rq_flush_dcache_pages(struct request *rq)
- extern int blk_register_queue(struct gendisk *disk);
- extern void blk_unregister_queue(struct gendisk *disk);
- blk_qc_t submit_bio_noacct(struct bio *bio);
--extern blk_qc_t direct_make_request(struct bio *bio);
- extern void blk_rq_init(struct request_queue *q, struct request *rq);
- extern void blk_put_request(struct request *);
- extern struct request *blk_get_request(struct request_queue *, unsigned int op,
 -- 
 2.26.2
 
