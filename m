@@ -2,48 +2,73 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E8A920DCD7
-	for <lists+drbd-dev@lfdr.de>; Mon, 29 Jun 2020 22:43:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFBEB20F65B
+	for <lists+drbd-dev@lfdr.de>; Tue, 30 Jun 2020 15:54:53 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 06CFA420385;
-	Mon, 29 Jun 2020 22:43:05 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id AB122420385;
+	Tue, 30 Jun 2020 15:54:52 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 11F0D4202BD
-	for <drbd-dev@lists.linbit.com>; Mon, 29 Jun 2020 22:43:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209;
-	h=Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=8L8p6UbF45RVD9lwh+Y9njbbxbDNtEWDlp4D4BAc300=;
-	b=fZK4xo8+3EiAVx4FIVtuNf4vAv
-	zm4KGc7qiZkEK9LKiarRfAqvPpqWgTHtvE1QlHbQB0NZU32yOFMr/MNwB/ae5o6r8J1k0LS9KcWAk
-	y7NYBsiVmRRcp2FQitQb40ThskDUPPDmDPYJLe8Pz2HzRaKfT30JREsrdWRxrkBie92FmSraPeTrJ
-	5gSeTgEBrq4yvaPEIhmxj824T815wc+cDodRF3igQSRVwj8EWofccCOa9w/2vYmArzZqDITwIfqs4
-	88J/ODZsBaLBKHJTA5Q+FqqqW0H41wxD+2jejtdQOMfQBGUmjLZbPCuBmTM01I2o9gUYysjfD3sm2
-	QnEgqUIA==;
-Received: from [2001:4bb8:184:76e3:fcca:c8dc:a4bf:12fa] (helo=localhost)
-	by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jpzdI-0004Gf-PC; Mon, 29 Jun 2020 19:40:01 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Jens Axboe <axboe@kernel.dk>
-Date: Mon, 29 Jun 2020 21:39:33 +0200
-Message-Id: <20200629193947.2705954-7-hch@lst.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200629193947.2705954-1-hch@lst.de>
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
+	[209.85.214.193])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 73FCD42032F
+	for <drbd-dev@lists.linbit.com>; Tue, 30 Jun 2020 15:54:50 +0200 (CEST)
+Received: by mail-pl1-f193.google.com with SMTP id u9so4895748pls.13
+	for <drbd-dev@lists.linbit.com>; Tue, 30 Jun 2020 06:54:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=hKI90P9PUUShWQ5+4wQBc7xPIwXEAfQYKEsGh1MpJZs=;
+	b=DTpxaxoBrlqgFtIm8yAQMb341OyK/ndjEYjXK9tGbhGBwisW4MOxBHZ4AF4FDA/02m
+	FE1IEvNVNRcPVI4EfkzNjyzKc28vzwvcAXCPa48q88z6AfYJyEqtZavoB08GtaqwIFmZ
+	5msOaC6bHwT4f6NJcL2N48MYAird2/Xlj5iei4yfkZKl2Jgrru0q2OyYJkjRAMbDQ2kB
+	VDXDrxP8KF6sFSMpn3AGotfAimtzX2YLcVXjs0JutM1wEqD7nRFwq0bLMjlwHPYp5odZ
+	e+66w2vtmERdrhz2mTHMd0mWQ0ZRTEcZzcd3acmnQYyNunRekXJ4MMVmPw5lJJ2ybCJv
+	oP4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=hKI90P9PUUShWQ5+4wQBc7xPIwXEAfQYKEsGh1MpJZs=;
+	b=MBdroTzcL7NssV8HCiHiu+3vWaU2cempjIvkmqf8VBzAd5wu4MJ+Q/Tp4LasTxotkv
+	NmIiz3e3c9KDbjPBgyq3yVVNfrW7U7fzBsJyFCZX8uSKWqbOG7oxPY/s+k7A3mDGBU8X
+	fd3HkFhtKPRFtqBL/qKQO2MTMbVwXjBhtDMbmunk6wsXZY9pur7MOyT0NW2xV12hgWJb
+	yz1ACq1Hsr7/l6jufWHFfHvZQ/cPjC1Tsb6BNJwybTot6qBP/jaiQMz3LCFlNYHkR7oF
+	qt3wW5gLMIAMf7dNDkStYCs17lQdajBUyo30505izxvKiA7PlEuOOS/GFN4TbYBAlCqD
+	bniA==
+X-Gm-Message-State: AOAM530nFFa/M6btN3yBXiibafVdOOpwEeLRj0dOCb0nxD/Pctq7AiRX
+	GHPRE/KOyVAKqX9axmTMGVgqew==
+X-Google-Smtp-Source: ABdhPJyz40Dk+a8U1c/CjzUO1QAZkxXoTvB1Z5x2Pa5jkubAyLo6SdeOcTzcPuLBVyj9atcxDTr0Bg==
+X-Received: by 2002:a17:902:ff0c:: with SMTP id
+	f12mr18122209plj.254.1593525289171; 
+	Tue, 30 Jun 2020 06:54:49 -0700 (PDT)
+Received: from ?IPv6:2605:e000:100e:8c61:4113:50ea:3eb3:a39b?
+	([2605:e000:100e:8c61:4113:50ea:3eb3:a39b])
+	by smtp.gmail.com with ESMTPSA id
+	l12sm2722675pff.212.2020.06.30.06.54.47
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Tue, 30 Jun 2020 06:54:48 -0700 (PDT)
+To: Christoph Hellwig <hch@lst.de>
 References: <20200629193947.2705954-1-hch@lst.de>
+	<20200629193947.2705954-12-hch@lst.de>
+From: Jens Axboe <axboe@kernel.dk>
+Message-ID: <70e8de25-4e26-9c00-1492-e433ebfdbc90@kernel.dk>
+Date: Tue, 30 Jun 2020 07:54:46 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.8.0
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
-	casper.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20200629193947.2705954-12-hch@lst.de>
+Content-Language: en-US
 Cc: linux-bcache@vger.kernel.org, linux-xtensa@linux-xtensa.org,
 	linux-nvdimm@lists.01.org, linux-s390@vger.kernel.org,
 	dm-devel@redhat.com, linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org,
 	linux-m68k@lists.linux-m68k.org, linuxppc-dev@lists.ozlabs.org,
 	drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 06/20] rsxx: stop using ->queuedata
+Subject: Re: [Drbd-dev] [PATCH 11/20] fs: remove a weird comment in
+	submit_bh_wbc
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -62,46 +87,18 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Instead of setting up the queuedata as well just use one private data
-field.
+On 6/29/20 1:39 PM, Christoph Hellwig wrote:
+> All bios can get remapped if submitted to partitions.  No need to
+> comment on that.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- drivers/block/rsxx/dev.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+I'm pretty sure that comment is from me, dating back to when the bio
+code was introduced in 2001. The point wasn't the remapping, just
+that from here on down the IO was purely bio based, not buffer_heads.
+Anyway, totally agree that it should just die, it's not that
+interesting or useful anymore.
 
-diff --git a/drivers/block/rsxx/dev.c b/drivers/block/rsxx/dev.c
-index 3ba07ab30c84f5..6a4d8d26e32cbd 100644
---- a/drivers/block/rsxx/dev.c
-+++ b/drivers/block/rsxx/dev.c
-@@ -119,7 +119,7 @@ static void bio_dma_done_cb(struct rsxx_cardinfo *card,
- 
- static blk_qc_t rsxx_make_request(struct request_queue *q, struct bio *bio)
- {
--	struct rsxx_cardinfo *card = q->queuedata;
-+	struct rsxx_cardinfo *card = bio->bi_disk->private_data;
- 	struct rsxx_bio_meta *bio_meta;
- 	blk_status_t st = BLK_STS_IOERR;
- 
-@@ -267,8 +267,6 @@ int rsxx_setup_dev(struct rsxx_cardinfo *card)
- 		card->queue->limits.discard_alignment   = RSXX_HW_BLK_SIZE;
- 	}
- 
--	card->queue->queuedata = card;
--
- 	snprintf(card->gendisk->disk_name, sizeof(card->gendisk->disk_name),
- 		 "rsxx%d", card->disk_id);
- 	card->gendisk->major = card->major;
-@@ -289,7 +287,6 @@ void rsxx_destroy_dev(struct rsxx_cardinfo *card)
- 	card->gendisk = NULL;
- 
- 	blk_cleanup_queue(card->queue);
--	card->queue->queuedata = NULL;
- 	unregister_blkdev(card->major, DRIVER_NAME);
- }
- 
 -- 
-2.26.2
+Jens Axboe
 
 _______________________________________________
 drbd-dev mailing list
