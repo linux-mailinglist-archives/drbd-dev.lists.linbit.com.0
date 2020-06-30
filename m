@@ -2,64 +2,63 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFBEB20F65B
-	for <lists+drbd-dev@lfdr.de>; Tue, 30 Jun 2020 15:54:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12DD820F66C
+	for <lists+drbd-dev@lfdr.de>; Tue, 30 Jun 2020 15:57:36 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id AB122420385;
-	Tue, 30 Jun 2020 15:54:52 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 013EF4203E1;
+	Tue, 30 Jun 2020 15:57:35 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
-	[209.85.214.193])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 73FCD42032F
-	for <drbd-dev@lists.linbit.com>; Tue, 30 Jun 2020 15:54:50 +0200 (CEST)
-Received: by mail-pl1-f193.google.com with SMTP id u9so4895748pls.13
-	for <drbd-dev@lists.linbit.com>; Tue, 30 Jun 2020 06:54:49 -0700 (PDT)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+	[209.85.214.172])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 732FA420383
+	for <drbd-dev@lists.linbit.com>; Tue, 30 Jun 2020 15:57:33 +0200 (CEST)
+Received: by mail-pl1-f172.google.com with SMTP id g17so8499654plq.12
+	for <drbd-dev@lists.linbit.com>; Tue, 30 Jun 2020 06:57:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=kernel-dk.20150623.gappssmtp.com; s=20150623;
 	h=subject:to:cc:references:from:message-id:date:user-agent
 	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=hKI90P9PUUShWQ5+4wQBc7xPIwXEAfQYKEsGh1MpJZs=;
-	b=DTpxaxoBrlqgFtIm8yAQMb341OyK/ndjEYjXK9tGbhGBwisW4MOxBHZ4AF4FDA/02m
-	FE1IEvNVNRcPVI4EfkzNjyzKc28vzwvcAXCPa48q88z6AfYJyEqtZavoB08GtaqwIFmZ
-	5msOaC6bHwT4f6NJcL2N48MYAird2/Xlj5iei4yfkZKl2Jgrru0q2OyYJkjRAMbDQ2kB
-	VDXDrxP8KF6sFSMpn3AGotfAimtzX2YLcVXjs0JutM1wEqD7nRFwq0bLMjlwHPYp5odZ
-	e+66w2vtmERdrhz2mTHMd0mWQ0ZRTEcZzcd3acmnQYyNunRekXJ4MMVmPw5lJJ2ybCJv
-	oP4Q==
+	bh=6WoGClip/9lIMADlW96b66URAMpf8agavloV0J0+6z0=;
+	b=NpTXHg4eLKIDB3B017yOQCnwb3dBSkBllVoAHChdp1FGoCyQ19eq1VXevMLSrM/lhD
+	bQk0yrTpC1Irq2MNTGh49jfpD7zqgiVbJtqJYeruoqyJ31uUsOmkXd433JMWP+NtSVov
+	ZzGBWe4xhNJRj47E5aARYY/9uUmyXWiWjg1l6pljN4nXRLoWQN1OJ6HHzWlN6uNS1Lvc
+	bcrSTvkHyH7MDnkYvBu1O0JOQIAWVJgUutILN7WG8Di8qKlewR28Ariy+ojttBxfAl/B
+	FxzoT9uIuyEQaP+UAHq4/tgN7PJVGPmfXaxyS6AW/qEEAuiLEhHfUD+LyDQfCVGwqwpj
+	3wAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
 	:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=hKI90P9PUUShWQ5+4wQBc7xPIwXEAfQYKEsGh1MpJZs=;
-	b=MBdroTzcL7NssV8HCiHiu+3vWaU2cempjIvkmqf8VBzAd5wu4MJ+Q/Tp4LasTxotkv
-	NmIiz3e3c9KDbjPBgyq3yVVNfrW7U7fzBsJyFCZX8uSKWqbOG7oxPY/s+k7A3mDGBU8X
-	fd3HkFhtKPRFtqBL/qKQO2MTMbVwXjBhtDMbmunk6wsXZY9pur7MOyT0NW2xV12hgWJb
-	yz1ACq1Hsr7/l6jufWHFfHvZQ/cPjC1Tsb6BNJwybTot6qBP/jaiQMz3LCFlNYHkR7oF
-	qt3wW5gLMIAMf7dNDkStYCs17lQdajBUyo30505izxvKiA7PlEuOOS/GFN4TbYBAlCqD
-	bniA==
-X-Gm-Message-State: AOAM530nFFa/M6btN3yBXiibafVdOOpwEeLRj0dOCb0nxD/Pctq7AiRX
-	GHPRE/KOyVAKqX9axmTMGVgqew==
-X-Google-Smtp-Source: ABdhPJyz40Dk+a8U1c/CjzUO1QAZkxXoTvB1Z5x2Pa5jkubAyLo6SdeOcTzcPuLBVyj9atcxDTr0Bg==
-X-Received: by 2002:a17:902:ff0c:: with SMTP id
-	f12mr18122209plj.254.1593525289171; 
-	Tue, 30 Jun 2020 06:54:49 -0700 (PDT)
+	bh=6WoGClip/9lIMADlW96b66URAMpf8agavloV0J0+6z0=;
+	b=eAF6JynF58CJ8r9wPEHJ7x8W+IYoIu4TXxe2jbJtM3QR1P1wUBYfJRqQO3ZxNijHa8
+	6HqBmaV/Kr7eIaNgHXjwdiN26wzlMPw43tXwx857+hZVTWsCH1kAi1R7vIaY43EJZJ08
+	9pRw841DSEoY0QcG+MjheuVAppB4lcPfktFnxlbrm51jexm490h9r6QZbQ6ZlD4rm0wJ
+	+ATdX2FxwhIXw4+v38v+jPYJ6MDQA+EhbXiDBwfBGWBK3MTO5egPZ2kgg7uLE/4wwsV1
+	9hD/W1qoxnJBWy3LX51phB2ucKvEErdewFFH7eKnUhu9BJMGh0swNO92wJo0/nTuzbmc
+	bmXA==
+X-Gm-Message-State: AOAM531FvYeUWyH8FchaZSyVNCq3xmdpC2IRXGAZBR+dci023yypUEAV
+	pcTkx+ZHGoVB8iGrsMizpEweoQ==
+X-Google-Smtp-Source: ABdhPJxkJrJtaSOyTXzA8zW0V7qLT6cuFQyL+FUGsc5/cLMGVxoMFOJShXuR+F2LWbUj8PAuD022LQ==
+X-Received: by 2002:a17:90a:ec13:: with SMTP id
+	l19mr20004827pjy.81.1593525452289; 
+	Tue, 30 Jun 2020 06:57:32 -0700 (PDT)
 Received: from ?IPv6:2605:e000:100e:8c61:4113:50ea:3eb3:a39b?
 	([2605:e000:100e:8c61:4113:50ea:3eb3:a39b])
 	by smtp.gmail.com with ESMTPSA id
-	l12sm2722675pff.212.2020.06.30.06.54.47
+	m140sm2896019pfd.195.2020.06.30.06.57.30
 	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Tue, 30 Jun 2020 06:54:48 -0700 (PDT)
+	Tue, 30 Jun 2020 06:57:31 -0700 (PDT)
 To: Christoph Hellwig <hch@lst.de>
 References: <20200629193947.2705954-1-hch@lst.de>
-	<20200629193947.2705954-12-hch@lst.de>
 From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <70e8de25-4e26-9c00-1492-e433ebfdbc90@kernel.dk>
-Date: Tue, 30 Jun 2020 07:54:46 -0600
+Message-ID: <bd1443c0-be37-115b-1110-df6f0e661a50@kernel.dk>
+Date: Tue, 30 Jun 2020 07:57:29 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
 	Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200629193947.2705954-12-hch@lst.de>
+In-Reply-To: <20200629193947.2705954-1-hch@lst.de>
 Content-Language: en-US
 Cc: linux-bcache@vger.kernel.org, linux-xtensa@linux-xtensa.org,
 	linux-nvdimm@lists.01.org, linux-s390@vger.kernel.org,
@@ -67,8 +66,8 @@ Cc: linux-bcache@vger.kernel.org, linux-xtensa@linux-xtensa.org,
 	linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org,
 	linux-m68k@lists.linux-m68k.org, linuxppc-dev@lists.ozlabs.org,
 	drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH 11/20] fs: remove a weird comment in
-	submit_bh_wbc
+Subject: Re: [Drbd-dev] rename ->make_request_fn and move it to the
+ block_device_operations
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -88,14 +87,15 @@ Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
 On 6/29/20 1:39 PM, Christoph Hellwig wrote:
-> All bios can get remapped if submitted to partitions.  No need to
-> comment on that.
+> Hi Jens,
+> 
+> this series moves the make_request_fn method into block_device_operations
+> with the much more descriptive ->submit_bio name.  It then also gives
+> generic_make_request a more descriptive name, and further optimize the
+> path to issue to blk-mq, removing the need for the direct_make_request
+> bypass.
 
-I'm pretty sure that comment is from me, dating back to when the bio
-code was introduced in 2001. The point wasn't the remapping, just
-that from here on down the IO was purely bio based, not buffer_heads.
-Anyway, totally agree that it should just die, it's not that
-interesting or useful anymore.
+Looks good to me, and it's a nice cleanup as well. Applied.
 
 -- 
 Jens Axboe
