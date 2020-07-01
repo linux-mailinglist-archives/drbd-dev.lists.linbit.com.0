@@ -2,65 +2,64 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D981211040
-	for <lists+drbd-dev@lfdr.de>; Wed,  1 Jul 2020 18:08:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97FB72110CE
+	for <lists+drbd-dev@lfdr.de>; Wed,  1 Jul 2020 18:38:18 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 090BF4203ED;
-	Wed,  1 Jul 2020 18:08:30 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 611EA4203ED;
+	Wed,  1 Jul 2020 18:38:17 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
-	[209.85.208.68])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A4F544203EA
-	for <drbd-dev@lists.linbit.com>; Wed,  1 Jul 2020 18:08:28 +0200 (CEST)
-Received: by mail-ed1-f68.google.com with SMTP id d16so13799441edz.12
-	for <drbd-dev@lists.linbit.com>; Wed, 01 Jul 2020 09:08:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=NgtGRFNzMUt8UwQnpVLH6Q0lK3Q/pmzbcISwUTSvZp4=;
-	b=sgyWg0odMXUUNA+ymUvc43LaYs2s/aJwbFyXWRoPjxwdAxwM/8NDCnpUaFI4p3liR0
-	gB3SPFv0A/WozVPJacrsy3TT9HIOMMCESTpphsqE92coNdoMTDE/jB5/k99TrA7k0WXT
-	HwfvYQsx393r8hZTsu6RX5RUEhIafmeLpfC5Xxvgan8YQB6lIclWByvvZYmq9DcmZLWN
-	JlL5WK7hHhUXeDny6LC8Ts2exiDWCHCRjEx+DVoYVUZMCGpeUSrXG6yeqYlDTXCkU+hk
-	g1qHbmn4FwKHi5mTo+XYno4GD6wFdoeaM1etI9G0XSOMB6JxPVUPvp1yv+DnjQn7iHAQ
-	vT8w==
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com
+	[209.85.219.42])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id BBD724203EA
+	for <drbd-dev@lists.linbit.com>; Wed,  1 Jul 2020 18:38:16 +0200 (CEST)
+Received: by mail-qv1-f42.google.com with SMTP id p7so11286170qvl.4
+	for <drbd-dev@lists.linbit.com>; Wed, 01 Jul 2020 09:38:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=sender:date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to;
+	bh=tnWfjqu9qwTdD4KnQK/3+SjWTBx9SJibvmRRCZ2MKpw=;
+	b=U026WByv7++7/w1+Nu+RBzmT42CWmL089oP2jZPE4GfX8trhuMpatdvHRasGwxl1tp
+	esIRMJhHnW5uCzGbrrP5CE9k4nW7c65rE4KRI9NkWii4E6mEPbKGBXdTFeEP0b5/X8j1
+	RKDZhhs7eEWkZ9yrTYjSzyRQuzgfxSGkKewuCj72VWynBsVS+2Ska24TaCYNSUtYNx0h
+	tkr380dMygtpbEq4afb+a4dCf6bAwClROx8TUXDVt1XYAVILF8ZQdXine5RK1wrhdCLx
+	lurHJt08cKi6hQMnrm0IC1VIZZ5Da6Y0NgMH3p1I2KbSxRTE3WPzEilFi6RtD7avMeW2
+	+K0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=NgtGRFNzMUt8UwQnpVLH6Q0lK3Q/pmzbcISwUTSvZp4=;
-	b=pB1tkmnbc0MMDWux7E/AfkGBYLk+C7xgpbLd6WjCyPSFuSdK2Cr2tZGO2K6LgQZPP7
-	2EN1FV5yjNUSvcOs+V9H9L6jlRbQ9IUMPj6IA99VJJN27YsfpOO6fuFgZ5++K7O2QYS0
-	Pveqb/dA2v494XWqyvqtApzYkFGoCCihTakAY9IKOF8zfaVL7fmz9pptB4uvkrhOUPmu
-	1RWvZFI+6TRA/4Yc9lph7As5AZlgDQ+p+2ZQpEpKOk6j9EjwMkS8+JReXpw0CoYcdV62
-	pSjOpoLqKOSGK8cezuB+Cg6CMfXD1lTxfMAcpBaVrWIQj6dJbSfX7utlQFlvlbcEKg/C
-	m6ug==
-X-Gm-Message-State: AOAM531o5sFnAAHOFBiiCVxAh+7xTuNFD1xjRTpXMSax6RSi9koXJ2T5
-	o8uqbWZt5D8cjMr2AHIbtVKds5v4ZM3PHe2Br6eTKQ==
-X-Google-Smtp-Source: ABdhPJwTtEaJeqUJmjVrnga0zb3T87bQXg/qHVHNHjeT7uurwTRSLAeKnsyE6dqNxhAJ1jQ5OrZ9KB+p0GzE9WKAsFg=
-X-Received: by 2002:a05:6402:21c2:: with SMTP id
-	bi2mr29609575edb.296.1593619707927; 
-	Wed, 01 Jul 2020 09:08:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200701085947.3354405-1-hch@lst.de>
-	<20200701085947.3354405-17-hch@lst.de>
-In-Reply-To: <20200701085947.3354405-17-hch@lst.de>
-From: Dan Williams <dan.j.williams@intel.com>
-Date: Wed, 1 Jul 2020 09:08:17 -0700
-Message-ID: <CAPcyv4hELsX=dnqppbL72Tg2k8xMm-5ZaEsxM98eQ7XPoG5NGg@mail.gmail.com>
+	h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+	:references:mime-version:content-disposition:in-reply-to;
+	bh=tnWfjqu9qwTdD4KnQK/3+SjWTBx9SJibvmRRCZ2MKpw=;
+	b=L4Uu6uocieJEvUB8o2yKXnNRb2j3dDY7rgUP8j6MvvEPmHn+7U4jNdhxcnPZyrRunq
+	a0Bxcr/ztAlU60NGvr/0DPBnqmAxKAXnOqgWMAVy04XMrZpQbMV42DdwpUHLMh7VYiIW
+	68RSlmaXJyl4ZCEzfgUFpC8C7dfQDnBQ00OaGcgMZKamH7i3ZeKxB9clM4mjzlLmqSGb
+	PYM6HcaFGgEPkYoj2eho0xbEJKeT3kV32t6u2OgZpiezCawIE4wmbMZWGrvo+rsGqw/j
+	RraZhK+a1FpkIqEzeJvIyuhpmNYaGuNk/jpMK+E1YH5hOSu1FFZTkW1unJ+9aqhRG3AL
+	g7Cg==
+X-Gm-Message-State: AOAM531AR8sdE/iZ04njX2vFkYRXqZo5kgw+JoE0OVvK2JIu9T5ixUIZ
+	MZGYEjA/N7ILp53hT8FaZIw=
+X-Google-Smtp-Source: ABdhPJzfqJE8PIES5DnR2PTCVTamwJmruYSeMWZpKr4HJeNZUuy5RzchyjxSpfzGXXbaj1X8ONNd6g==
+X-Received: by 2002:a05:6214:10e1:: with SMTP id
+	q1mr24708355qvt.78.1593621495518; 
+	Wed, 01 Jul 2020 09:38:15 -0700 (PDT)
+Received: from localhost ([2620:10d:c091:480::1:f839])
+	by smtp.gmail.com with ESMTPSA id u1sm5792798qkf.49.2020.07.01.09.38.14
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 01 Jul 2020 09:38:14 -0700 (PDT)
+Date: Wed, 1 Jul 2020 12:38:13 -0400
+From: Tejun Heo <tj@kernel.org>
 To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, linux-xtensa@linux-xtensa.org,
-	linux-nvdimm <linux-nvdimm@lists.01.org>,
-	linux-s390 <linux-s390@vger.kernel.org>,
-	linux-m68k@lists.linux-m68k.org, linux-nvme@lists.infradead.org,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	linux-raid <linux-raid@vger.kernel.org>,
-	device-mapper development <dm-devel@redhat.com>,
-	linux-bcache@vger.kernel.org, linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-	drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH 16/20] block: move ->make_request_fn to
-	struct block_device_operations
+Message-ID: <20200701163813.GA5046@mtj.thefacebook.com>
+References: <20200701090622.3354860-1-hch@lst.de>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20200701090622.3354860-1-hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, linux-raid@vger.kernel.org,
+	linux-bcache@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-mm@kvack.org,
+	dm-devel@redhat.com, cgroups@vger.kernel.org,
+	linux-btrfs@vger.kernel.org, drbd-dev@lists.linbit.com
+Subject: Re: [Drbd-dev] remove dead bdi congestion leftovers
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -79,24 +78,19 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Wed, Jul 1, 2020 at 2:01 AM Christoph Hellwig <hch@lst.de> wrote:
->
-> The make_request_fn is a little weird in that it sits directly in
-> struct request_queue instead of an operation vector.  Replace it with
-> a block_device_operations method called submit_bio (which describes much
-> better what it does).  Also remove the request_queue argument to it, as
-> the queue can be derived pretty trivially from the bio.
->
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
-[..]
->  drivers/nvdimm/blk.c                          |  5 +-
->  drivers/nvdimm/btt.c                          |  5 +-
->  drivers/nvdimm/pmem.c                         |  5 +-
+On Wed, Jul 01, 2020 at 11:06:18AM +0200, Christoph Hellwig wrote:
+> Hi Jens,
+> 
+> we have a lot of bdi congestion related code that is left around without
+> any use.  This series removes it in preparation of sorting out the bdi
+> lifetime rules properly.
 
-For drivers/nvdimm
+Acked-by: Tejun Heo <tj@kernel.org>
 
-Acked-by: Dan Williams <dan.j.williams@intel.com>
+Thanks a lot for killing the dead code.
+
+-- 
+tejun
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
