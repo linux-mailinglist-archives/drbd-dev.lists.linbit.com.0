@@ -2,39 +2,72 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2A2821277D
-	for <lists+drbd-dev@lfdr.de>; Thu,  2 Jul 2020 17:14:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0D9B2127AB
+	for <lists+drbd-dev@lfdr.de>; Thu,  2 Jul 2020 17:22:00 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id EC8844203F1;
-	Thu,  2 Jul 2020 17:14:57 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B5B0F4203F3;
+	Thu,  2 Jul 2020 17:21:59 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id BE35A420385
-	for <drbd-dev@lists.linbit.com>; Thu,  2 Jul 2020 17:14:56 +0200 (CEST)
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 9DA8768B05; Thu,  2 Jul 2020 17:14:53 +0200 (CEST)
-Date: Thu, 2 Jul 2020 17:14:53 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Qian Cai <cai@lca.pw>
-Message-ID: <20200702151453.GA1799@lst.de>
-References: <20200629193947.2705954-1-hch@lst.de>
-	<20200629193947.2705954-19-hch@lst.de>
-	<20200702141001.GA3834@lca.pw>
+Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
+	[209.85.216.67])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 424764203EA
+	for <drbd-dev@lists.linbit.com>; Thu,  2 Jul 2020 17:21:42 +0200 (CEST)
+Received: by mail-pj1-f67.google.com with SMTP id gc15so4209949pjb.0
+	for <drbd-dev@lists.linbit.com>; Thu, 02 Jul 2020 08:21:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to;
+	bh=85NgcoW6jBNBGz0tQzl+oqewL1I9o/iwYquf90s0iyI=;
+	b=fz3Jh9EbW2QNq/2MyLiNywl+Bw+HpwfpGyCppJTlFpNOcSFS1TexJkrkG1UxqufMgU
+	DTnt8qDgoR6kpc5Uov/N8ZFtF9gBkglTu3rbJlgEgXDnMffWLDd4jgcOStrGlPxU6l/S
+	kAv+vOh2+5LMMHeltnDKRB/tSSiTCWUefTVYo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to;
+	bh=85NgcoW6jBNBGz0tQzl+oqewL1I9o/iwYquf90s0iyI=;
+	b=uRcNdYjVx3tl9kDw6TjX0vxG+gQx6W2JWv6ytx5jgyKKftLa1hhvj+oiY5qNu4mn8H
+	7OO3COkqDd9DfJWW9mQRl7to7mziyT/0NIDkxwv2nJBHSpJshKbp7Dz2kyTYnngYrzCB
+	EZJOy4XIpTpiw+eqEkct6KTInVrl9U102wEXypvNB3Q2hxFNC2CfnjDtUmKBwlhxY5mp
+	1U7xkuDqapZfxO4qjBx4/YLZ78Ld069quEWgwhvAhWI4zs9p3ojU+8Nhl6WRZjowMfuh
+	I91IoHwoj1c1ZsZKQQgZYpNyrFVC7g1joW6TWPeCLp0CoEWrImjMvQZaYt60IMT6wAWo
+	mc3g==
+X-Gm-Message-State: AOAM530gPKioBaVBY8kOkrmLsJDaQu4t/6Aa7w+TnOQcke8rvp5/EV3M
+	Ya4XDZthihNSy6RZPtX8ooiRaQ==
+X-Google-Smtp-Source: ABdhPJyPnF33faJF3QEw2ElnpTvwp44zuiTBz6WWqS/hEjfBUUANHOACCnQyGoZR2gBcK7ir4/OsKg==
+X-Received: by 2002:a17:90a:cb0e:: with SMTP id
+	z14mr31267430pjt.140.1593703302136; 
+	Thu, 02 Jul 2020 08:21:42 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+	by smtp.gmail.com with ESMTPSA id
+	c19sm8151174pjs.11.2020.07.02.08.21.41
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 02 Jul 2020 08:21:41 -0700 (PDT)
+Date: Thu, 2 Jul 2020 08:21:40 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Mark Brown <broonie@kernel.org>
+Message-ID: <202007020819.318824DA@keescook>
+References: <20200620033007.1444705-1-keescook@chromium.org>
+	<20200620033007.1444705-9-keescook@chromium.org>
+	<20200701203920.GC3776@sirena.org.uk>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200702141001.GA3834@lca.pw>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: Jens Axboe <axboe@kernel.dk>, linux-xtensa@linux-xtensa.org,
-	linux-nvdimm@lists.01.org, linux-s390@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org, linux-nvme@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org,
-	dm-devel@redhat.com, Alexander Potapenko <glider@google.com>,
-	kasan-dev@googlegroups.com, Andrey Ryabinin <aryabinin@virtuozzo.com>,
-	linux-bcache@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	Christoph Hellwig <hch@lst.de>,
-	Dmitry Vyukov <dvyukov@google.com>, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH 18/20] block: refator submit_bio_noacct
+In-Reply-To: <20200701203920.GC3776@sirena.org.uk>
+Cc: Andy Whitcroft <apw@canonical.com>, linux-wireless@vger.kernel.org,
+	clang-built-linux@googlegroups.com, linux-doc@vger.kernel.org,
+	netdev@vger.kernel.org, x86@kernel.org,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+	linux-mm@kvack.org, Alexander Potapenko <glider@google.com>,
+	b43-dev@lists.infradead.org, linux-ide@vger.kernel.org,
+	Joe Perches <joe@perches.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	linux-clk@vger.kernel.org, drbd-dev@lists.linbit.com
+Subject: Re: [Drbd-dev] [PATCH v2 08/16] spi: davinci: Remove
+	uninitialized_var() usage
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,56 +86,26 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Thu, Jul 02, 2020 at 10:10:10AM -0400, Qian Cai wrote:
-> On Mon, Jun 29, 2020 at 09:39:45PM +0200, Christoph Hellwig wrote:
-> > Split out a __submit_bio_noacct helper for the actual de-recursion
-> > algorithm, and simplify the loop by using a continue when we can't
-> > enter the queue for a bio.
-> > 
-> > Signed-off-by: Christoph Hellwig <hch@lst.de>
+On Wed, Jul 01, 2020 at 09:39:20PM +0100, Mark Brown wrote:
+> On Fri, Jun 19, 2020 at 08:29:59PM -0700, Kees Cook wrote:
+> > Using uninitialized_var() is dangerous as it papers over real bugs[1]
+> > (or can in the future), and suppresses unrelated compiler warnings (e.g.
+> > "unused variable"). If the compiler thinks it is uninitialized, either
+> > simply initialize the variable or make compiler changes. As a precursor
+> > to removing[2] this[3] macro[4], just remove this variable since it was
+> > actually unused:
 > 
-> Reverting this commit and its dependencies,
-> 
-> 5a6c35f9af41 block: remove direct_make_request
-> ff93ea0ce763 block: shortcut __submit_bio_noacct for blk-mq drivers
-> 
-> fixed the stack-out-of-bounds during boot,
-> 
-> https://lore.kernel.org/linux-block/000000000000bcdeaa05a97280e4@google.com/
+> Please copy maintainers on patches :(
 
-Yikes.  bio_alloc_bioset pokes into bio_list[1] in a totally
-undocumented way.  But even with that the problem should only show
-up with "block: shortcut __submit_bio_noacct for blk-mq drivers".
+Hi! Sorry about that; the CC list was giant, so I had opted for using
+subsystem mailing lists where possible.
 
-Can you try this patch?
+> Acked-by: Mark Brown <broonie@kernel.org>
 
-diff --git a/block/blk-core.c b/block/blk-core.c
-index bf882b8d84450c..9f1bf8658b611a 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -1155,11 +1155,10 @@ static blk_qc_t __submit_bio_noacct(struct bio *bio)
- static blk_qc_t __submit_bio_noacct_mq(struct bio *bio)
- {
- 	struct gendisk *disk = bio->bi_disk;
--	struct bio_list bio_list;
-+	struct bio_list bio_list[2] = { };
- 	blk_qc_t ret = BLK_QC_T_NONE;
- 
--	bio_list_init(&bio_list);
--	current->bio_list = &bio_list;
-+	current->bio_list = bio_list;
- 
- 	do {
- 		WARN_ON_ONCE(bio->bi_disk != disk);
-@@ -1174,7 +1173,7 @@ static blk_qc_t __submit_bio_noacct_mq(struct bio *bio)
- 		}
- 
- 		ret = blk_mq_submit_bio(bio);
--	} while ((bio = bio_list_pop(&bio_list)));
-+	} while ((bio = bio_list_pop(&bio_list[0])));
- 
- 	current->bio_list = NULL;
- 	return ret;
+Thanks!
+
+-- 
+Kees Cook
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
