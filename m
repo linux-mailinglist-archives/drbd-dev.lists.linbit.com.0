@@ -2,58 +2,60 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0D9B2127AB
-	for <lists+drbd-dev@lfdr.de>; Thu,  2 Jul 2020 17:22:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9071121282D
+	for <lists+drbd-dev@lfdr.de>; Thu,  2 Jul 2020 17:42:23 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B5B0F4203F3;
-	Thu,  2 Jul 2020 17:21:59 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 665FA4203F1;
+	Thu,  2 Jul 2020 17:42:22 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
-	[209.85.216.67])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 424764203EA
-	for <drbd-dev@lists.linbit.com>; Thu,  2 Jul 2020 17:21:42 +0200 (CEST)
-Received: by mail-pj1-f67.google.com with SMTP id gc15so4209949pjb.0
-	for <drbd-dev@lists.linbit.com>; Thu, 02 Jul 2020 08:21:42 -0700 (PDT)
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
+	[209.85.214.196])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D7BB8420385
+	for <drbd-dev@lists.linbit.com>; Thu,  2 Jul 2020 17:42:20 +0200 (CEST)
+Received: by mail-pl1-f196.google.com with SMTP id f2so11456519plr.8
+	for <drbd-dev@lists.linbit.com>; Thu, 02 Jul 2020 08:42:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-disposition:in-reply-to;
-	bh=85NgcoW6jBNBGz0tQzl+oqewL1I9o/iwYquf90s0iyI=;
-	b=fz3Jh9EbW2QNq/2MyLiNywl+Bw+HpwfpGyCppJTlFpNOcSFS1TexJkrkG1UxqufMgU
-	DTnt8qDgoR6kpc5Uov/N8ZFtF9gBkglTu3rbJlgEgXDnMffWLDd4jgcOStrGlPxU6l/S
-	kAv+vOh2+5LMMHeltnDKRB/tSSiTCWUefTVYo=
+	bh=Kybd0zpVtDTcpe4L/HEboaUKNNgAnXPFcQy8ZwcEJuI=;
+	b=MwGxMiEp5/dtTA3ogef34O3PctcdhAV3Nj892QYS7iq/+bdlneIKDksIISF88MZTJs
+	551vB7jwtgzZZvtq6shJNSIVEPChNMunEoUB8LbEsFmwqHkuUWtxgcXHKQhYMgExY7+k
+	RjFrm4VGnLlBn/66+5Gz+fn0C9B0GHrDhf0l0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to;
-	bh=85NgcoW6jBNBGz0tQzl+oqewL1I9o/iwYquf90s0iyI=;
-	b=uRcNdYjVx3tl9kDw6TjX0vxG+gQx6W2JWv6ytx5jgyKKftLa1hhvj+oiY5qNu4mn8H
-	7OO3COkqDd9DfJWW9mQRl7to7mziyT/0NIDkxwv2nJBHSpJshKbp7Dz2kyTYnngYrzCB
-	EZJOy4XIpTpiw+eqEkct6KTInVrl9U102wEXypvNB3Q2hxFNC2CfnjDtUmKBwlhxY5mp
-	1U7xkuDqapZfxO4qjBx4/YLZ78Ld069quEWgwhvAhWI4zs9p3ojU+8Nhl6WRZjowMfuh
-	I91IoHwoj1c1ZsZKQQgZYpNyrFVC7g1joW6TWPeCLp0CoEWrImjMvQZaYt60IMT6wAWo
-	mc3g==
-X-Gm-Message-State: AOAM530gPKioBaVBY8kOkrmLsJDaQu4t/6Aa7w+TnOQcke8rvp5/EV3M
-	Ya4XDZthihNSy6RZPtX8ooiRaQ==
-X-Google-Smtp-Source: ABdhPJyPnF33faJF3QEw2ElnpTvwp44zuiTBz6WWqS/hEjfBUUANHOACCnQyGoZR2gBcK7ir4/OsKg==
-X-Received: by 2002:a17:90a:cb0e:: with SMTP id
-	z14mr31267430pjt.140.1593703302136; 
-	Thu, 02 Jul 2020 08:21:42 -0700 (PDT)
+	bh=Kybd0zpVtDTcpe4L/HEboaUKNNgAnXPFcQy8ZwcEJuI=;
+	b=YnExB+cQD4Kkp7tRFi4SP52W25XhmOYJ2F9pPx+/DaHEHnlfH55lNTZ6FfiuVEp2GJ
+	Nou4TTZlAsHK3ohPOBFsaInHChEFGqimH03icYU2HdxYwtqCaKtWRqbWEC4rgHywfkKs
+	O7A/k9k2LP5QwHsrvVQ5gieGd0KlEEiVnxPNQRwpO8p4sngwLXhlBhX5V2QXxMgDe0zp
+	QW7wURhyIYwMqREnsIEWrqerWeoRvsfGhpHEiLyXtdScYQP95S1rwvIdgLUUuMU4pIsB
+	ouaHlxqdINuCfHphCv5T3GzmwZYrcwV3qHQC3jZ5S02WyAAqEUpvfflOEa3eOTvHEWdK
+	GvZQ==
+X-Gm-Message-State: AOAM530FAeGVLcJp+lp2GWdH6J8+rkgVQo4HnkBUR3vAy1yUf5gaVmMV
+	VvZJ/dLQwZkA/uk73wWkjDRmyQ==
+X-Google-Smtp-Source: ABdhPJx/V021h2YOrPd2qoUZY3+ajz3Yf7zbLlvvx3ojyPgvvotTbq49bzs576UQiATe81OrpVMgog==
+X-Received: by 2002:a17:90a:7785:: with SMTP id
+	v5mr35048412pjk.31.1593704539711; 
+	Thu, 02 Jul 2020 08:42:19 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
 	by smtp.gmail.com with ESMTPSA id
-	c19sm8151174pjs.11.2020.07.02.08.21.41
+	l191sm9749876pfd.149.2020.07.02.08.42.18
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 02 Jul 2020 08:21:41 -0700 (PDT)
-Date: Thu, 2 Jul 2020 08:21:40 -0700
+	Thu, 02 Jul 2020 08:42:18 -0700 (PDT)
+Date: Thu, 2 Jul 2020 08:42:17 -0700
 From: Kees Cook <keescook@chromium.org>
 To: Mark Brown <broonie@kernel.org>
-Message-ID: <202007020819.318824DA@keescook>
+Message-ID: <202007020839.545A571CA4@keescook>
 References: <20200620033007.1444705-1-keescook@chromium.org>
 	<20200620033007.1444705-9-keescook@chromium.org>
 	<20200701203920.GC3776@sirena.org.uk>
+	<202007020819.318824DA@keescook>
+	<20200702152335.GJ4483@sirena.org.uk>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20200701203920.GC3776@sirena.org.uk>
+In-Reply-To: <20200702152335.GJ4483@sirena.org.uk>
 Cc: Andy Whitcroft <apw@canonical.com>, linux-wireless@vger.kernel.org,
 	clang-built-linux@googlegroups.com, linux-doc@vger.kernel.org,
 	netdev@vger.kernel.org, x86@kernel.org,
@@ -86,23 +88,29 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Wed, Jul 01, 2020 at 09:39:20PM +0100, Mark Brown wrote:
-> On Fri, Jun 19, 2020 at 08:29:59PM -0700, Kees Cook wrote:
-> > Using uninitialized_var() is dangerous as it papers over real bugs[1]
-> > (or can in the future), and suppresses unrelated compiler warnings (e.g.
-> > "unused variable"). If the compiler thinks it is uninitialized, either
-> > simply initialize the variable or make compiler changes. As a precursor
-> > to removing[2] this[3] macro[4], just remove this variable since it was
-> > actually unused:
+On Thu, Jul 02, 2020 at 04:23:35PM +0100, Mark Brown wrote:
+> On Thu, Jul 02, 2020 at 08:21:40AM -0700, Kees Cook wrote:
+> > On Wed, Jul 01, 2020 at 09:39:20PM +0100, Mark Brown wrote:
 > 
-> Please copy maintainers on patches :(
+> > > Please copy maintainers on patches :(
+> 
+> > Hi! Sorry about that; the CC list was giant, so I had opted for using
+> > subsystem mailing lists where possible.
+> 
+> If you're going to err in a direction there I'd err in the direction of
+> CCing the people not the list - I only saw this since I was looking for
+> something else, I don't normally see stuff in the mailing list folder.
 
-Hi! Sorry about that; the CC list was giant, so I had opted for using
-subsystem mailing lists where possible.
+Yeah, I've gotten conflicting feedback on treewide changes:
+- please CC me on only the one patch, I don't want to see everything else
+- please CC me on the whole series, I want the full context for the change
 
-> Acked-by: Mark Brown <broonie@kernel.org>
+I opted toward "CC me on this series", but then I get stuck when the CC
+is giant. I think I may switch back to individual CCs for specific
+patches, and point people to lore if they want greater context. (lore
+didn't exist before...)
 
-Thanks!
+Thanks for the poke to make me reconsider this workflow. :)
 
 -- 
 Kees Cook
