@@ -2,58 +2,68 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD64A21293C
-	for <lists+drbd-dev@lfdr.de>; Thu,  2 Jul 2020 18:23:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CA4821941D
+	for <lists+drbd-dev@lfdr.de>; Thu,  9 Jul 2020 01:14:35 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9CFD24203F1;
-	Thu,  2 Jul 2020 18:23:13 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2495C4203F1;
+	Thu,  9 Jul 2020 01:14:34 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from smtprelay.hostedemail.com (smtprelay0223.hostedemail.com
-	[216.40.44.223])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C74D14203BB
-	for <drbd-dev@lists.linbit.com>; Thu,  2 Jul 2020 18:23:12 +0200 (CEST)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
-	[216.40.38.60])
-	by smtprelay04.hostedemail.com (Postfix) with ESMTP id 53EF6180A813A;
-	Thu,  2 Jul 2020 16:23:11 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 50, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
-	RULES_HIT:41:355:379:599:960:967:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:2393:2525:2553:2560:2563:2682:2685:2828:2859:2902:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3353:3622:3865:3866:3867:3868:3870:3871:3873:3874:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4250:4321:5007:6119:6248:6742:7875:9010:9025:9040:10004:10400:11026:11232:11658:11914:12043:12295:12297:12438:12679:12740:12760:12895:13069:13073:13095:13181:13229:13311:13357:13439:13618:14096:14097:14180:14181:14659:14721:14777:21060:21080:21324:21433:21451:21611:21627:21939:30054:30060:30070:30079:30080:30090:30091,
-	0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
-	DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none,
-	Custom_rules:0:0:0, LFtime:1, LUA_SUMMARY:none
-X-HE-Tag: eggs64_191235726e8a
-X-Filterd-Recvd-Size: 3163
-Received: from XPS-9350.home (unknown [47.151.133.149])
-	(Authenticated sender: joe@perches.com)
-	by omf06.hostedemail.com (Postfix) with ESMTPA;
-	Thu,  2 Jul 2020 16:23:08 +0000 (UTC)
-Message-ID: <f65392bbd1732eff72d5b24c5ba3ea230ab2a3ae.camel@perches.com>
-From: Joe Perches <joe@perches.com>
-To: Kees Cook <keescook@chromium.org>, Mark Brown <broonie@kernel.org>
-Date: Thu, 02 Jul 2020 09:23:07 -0700
-In-Reply-To: <202007020839.545A571CA4@keescook>
-References: <20200620033007.1444705-1-keescook@chromium.org>
-	<20200620033007.1444705-9-keescook@chromium.org>
-	<20200701203920.GC3776@sirena.org.uk> <202007020819.318824DA@keescook>
-	<20200702152335.GJ4483@sirena.org.uk>
-	<202007020839.545A571CA4@keescook>
-User-Agent: Evolution 3.36.3-0ubuntu1 
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
+	[209.85.210.175])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4CA714203BA
+	for <drbd-dev@lists.linbit.com>; Thu,  9 Jul 2020 01:14:31 +0200 (CEST)
+Received: by mail-pf1-f175.google.com with SMTP id a14so154529pfi.2
+	for <drbd-dev@lists.linbit.com>; Wed, 08 Jul 2020 16:14:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=qXlCDNHI0ZK15y0LOuAYzGPtynusnw7LtwDb5Yj2OtE=;
+	b=cMbzoT4XhkOdRuftJN/OiPsYT9RozDw+GuQh01xrUOP3mEW5tEUjydfcb4W+DKVzne
+	TFfUTMUinXgvBqCBfHGgOVgQJzkXgqOGy28APv540LEKujTVtjrvU97kbdrHqETQKtaw
+	RxfU1Mj6GTpbQeKCFE4jR13nkdUzsgeldvzxXoT9HJ1fzXpuM/Ep2USaPDxgdcyvZAzd
+	/jZjEoDC//LUR2Vf0Zhf0IGE23c90oPClyOfNFgWvDrq1zo1M5Bgvo6f9IqIwZwMBEpc
+	Bs9RuI54YBgJOxg3wIrkIpXX8DSkg4acxak06jwvZXv2M3RmK5zy1eWHCosB7prsXkuL
+	YrQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=qXlCDNHI0ZK15y0LOuAYzGPtynusnw7LtwDb5Yj2OtE=;
+	b=Roxmtyx8Q7x7fIKFu8MDQ8Z1o77NTa7R9Q0WrPDMrgDXnLjV1rZab++QdzhFfq+wJK
+	QB44iaZEteC4W5h1QsUCPj4Ij0hTuwXdy6mWsHCfCBGDbZrwxj283JFIQg+Wr1lSNKPJ
+	z1Tk0UjzLUuJTK+Zmdu9IoWQIdMlGFZ9jlJfd0r9yus9+gV8GaSQxYQgAdmJ6Jg9nPFQ
+	piFNhTRxRtRNfs41gD83io8cGP81WgvyEh2wk0mPioiteqGxRrLxTuNUzET8Fr4Q5kuh
+	VSqp4kzvBGf2hiCVgveVzFe59AggZEr1W3cUo5mv2IB7TARX4CEaMeyEUoG7HarR3d6g
+	RJ2w==
+X-Gm-Message-State: AOAM531D5FZlwB6+tproY3xhW3sOVq4KJa2r6OtFY4YhSdksNAToBSGB
+	39My7Y45offXr4e7RvUNVMNjWg==
+X-Google-Smtp-Source: ABdhPJwxXRU58dnJ8SaVTE59SieM0UMi6WQspGfeG513juta/gCc2a5inFjMHD1HHOikaeJsZTW/MA==
+X-Received: by 2002:a63:7741:: with SMTP id s62mr50514486pgc.332.1594250070946;
+	Wed, 08 Jul 2020 16:14:30 -0700 (PDT)
+Received: from [192.168.1.182] ([66.219.217.173])
+	by smtp.gmail.com with ESMTPSA id
+	n137sm721427pfd.194.2020.07.08.16.14.29
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Wed, 08 Jul 2020 16:14:30 -0700 (PDT)
+To: Christoph Hellwig <hch@lst.de>
+References: <20200701090622.3354860-1-hch@lst.de>
+From: Jens Axboe <axboe@kernel.dk>
+Message-ID: <b5d6df17-68af-d535-79e4-f95e16dd5632@kernel.dk>
+Date: Wed, 8 Jul 2020 17:14:29 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.10.0
 MIME-Version: 1.0
-Cc: linux-ide@vger.kernel.org, linux-wireless@vger.kernel.org,
-	clang-built-linux@googlegroups.com, linux-doc@vger.kernel.org,
-	netdev@vger.kernel.org, x86@kernel.org,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-	linux-mm@kvack.org, Alexander Potapenko <glider@google.com>,
-	b43-dev@lists.infradead.org, Andy Whitcroft <apw@canonical.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	linux-clk@vger.kernel.org, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH v2 08/16] spi: davinci: Remove
-	uninitialized_var() usage
+In-Reply-To: <20200701090622.3354860-1-hch@lst.de>
+Content-Language: en-US
+Cc: linux-raid@vger.kernel.org, linux-bcache@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-mm@kvack.org, dm-devel@redhat.com,
+	Tejun Heo <tj@kernel.org>, cgroups@vger.kernel.org,
+	linux-btrfs@vger.kernel.org, drbd-dev@lists.linbit.com
+Subject: Re: [Drbd-dev] remove dead bdi congestion leftovers
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -67,53 +77,27 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Thu, 2020-07-02 at 08:42 -0700, Kees Cook wrote:
-> On Thu, Jul 02, 2020 at 04:23:35PM +0100, Mark Brown wrote:
-> > On Thu, Jul 02, 2020 at 08:21:40AM -0700, Kees Cook wrote:
-> > > On Wed, Jul 01, 2020 at 09:39:20PM +0100, Mark Brown wrote:
-> > > > Please copy maintainers on patches :(
-> > > Hi! Sorry about that; the CC list was giant, so I had opted for using
-> > > subsystem mailing lists where possible.
-> > 
-> > If you're going to err in a direction there I'd err in the direction of
-> > CCing the people not the list - I only saw this since I was looking for
-> > something else, I don't normally see stuff in the mailing list folder.
-> 
-> Yeah, I've gotten conflicting feedback on treewide changes:
-> - please CC me on only the one patch, I don't want to see everything else
-> - please CC me on the whole series, I want the full context for the change
-> 
-> I opted toward "CC me on this series", but then I get stuck when the CC
-> is giant. I think I may switch back to individual CCs for specific
-> patches, and point people to lore if they want greater context. (lore
-> didn't exist before...)
-
-IMO:
-
-For a patch series that spans multiple subsystems,
-each patch should always CC any specific subsystem
-maintainers..
-
-A good trick would be to use the cover letter
-message-id: and have each individual patch in the
-series reference the cover letter id below the
---- line so any reviewer doesn't have to find the
-in-reply-to: message id and then reference the
-lore link.
-
-Something like:
-
----
-
-For complete series see: https://lore.kernel.org/r/<cover_letter_message_id>
-
-
-_______________________________________________
-drbd-dev mailing list
-drbd-dev@lists.linbit.com
-https://lists.linbit.com/mailman/listinfo/drbd-dev
+T24gNy8xLzIwIDM6MDYgQU0sIENocmlzdG9waCBIZWxsd2lnIHdyb3RlOgo+IEhpIEplbnMsCj4g
+Cj4gd2UgaGF2ZSBhIGxvdCBvZiBiZGkgY29uZ2VzdGlvbiByZWxhdGVkIGNvZGUgdGhhdCBpcyBs
+ZWZ0IGFyb3VuZCB3aXRob3V0Cj4gYW55IHVzZS4gIFRoaXMgc2VyaWVzIHJlbW92ZXMgaXQgaW4g
+cHJlcGFyYXRpb24gb2Ygc29ydGluZyBvdXQgdGhlIGJkaQo+IGxpZmV0aW1lIHJ1bGVzIHByb3Bl
+cmx5LgoKUGxlYXNlIHJ1biBzZXJpZXMgbGlrZSB0aGlzIHRocm91Z2ggYSBmdWxsIGNvbXBpbGF0
+aW9uLCBmb3IgYm90aCB0aGlzIG9uZQphbmQgdGhlIHByZXZpb3VzIHNlcmllcyBJIGhhZCB0byBm
+aXggdXAgaXNzdWVzIGxpa2UgdGhpczoKCmRyaXZlcnMvbWQvYmNhY2hlL3JlcXVlc3QuYzogSW4g
+ZnVuY3Rpb24g4oCYYmNoX2NhY2hlZF9kZXZfcmVxdWVzdF9pbml04oCZOgpkcml2ZXJzL21kL2Jj
+YWNoZS9yZXF1ZXN0LmM6MTIzMzoxODogd2FybmluZzogdW51c2VkIHZhcmlhYmxlIOKAmGfigJkg
+Wy1XdW51c2VkLXZhcmlhYmxlXQogMTIzMyB8ICBzdHJ1Y3QgZ2VuZGlzayAqZyA9IGRjLT5kaXNr
+LmRpc2s7CiAgICAgIHwgICAgICAgICAgICAgICAgICBeCmRyaXZlcnMvbWQvYmNhY2hlL3JlcXVl
+c3QuYzogSW4gZnVuY3Rpb24g4oCYYmNoX2ZsYXNoX2Rldl9yZXF1ZXN0X2luaXTigJk6CmRyaXZl
+cnMvbWQvYmNhY2hlL3JlcXVlc3QuYzoxMzIwOjE4OiB3YXJuaW5nOiB1bnVzZWQgdmFyaWFibGUg
+4oCYZ+KAmSBbLVd1bnVzZWQtdmFyaWFibGVdCiAxMzIwIHwgIHN0cnVjdCBnZW5kaXNrICpnID0g
+ZC0+ZGlzazsKICAgICAgfCAgICAgICAgICAgICAgICAgIF4KCkRpZCB0aGUgc2FtZSBoZXJlLCBh
+cHBsaWVkIGl0LgoKLS0gCkplbnMgQXhib2UKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyYmQtZGV2IG1haWxpbmcgbGlzdApkcmJkLWRldkBsaXN0cy5s
+aW5iaXQuY29tCmh0dHBzOi8vbGlzdHMubGluYml0LmNvbS9tYWlsbWFuL2xpc3RpbmZvL2RyYmQt
+ZGV2Cg==
