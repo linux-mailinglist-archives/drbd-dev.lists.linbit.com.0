@@ -2,83 +2,82 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id A84D228BCB1
-	for <lists+drbd-dev@lfdr.de>; Mon, 12 Oct 2020 17:45:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DB3B28BC9C
+	for <lists+drbd-dev@lfdr.de>; Mon, 12 Oct 2020 17:43:17 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 8F0454207C4;
-	Mon, 12 Oct 2020 17:45:46 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5C8124206C7;
+	Mon, 12 Oct 2020 17:43:17 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C02404207A2
-	for <drbd-dev@lists.linbit.com>; Mon, 12 Oct 2020 17:44:03 +0200 (CEST)
-Received: by mail-wr1-f66.google.com with SMTP id n6so19423470wrm.13
-	for <drbd-dev@lists.linbit.com>; Mon, 12 Oct 2020 08:44:03 -0700 (PDT)
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0F0D54206C7
+	for <drbd-dev@lists.linbit.com>; Mon, 12 Oct 2020 17:43:05 +0200 (CEST)
+Received: by mail-wm1-f66.google.com with SMTP id d3so17980496wma.4
+	for <drbd-dev@lists.linbit.com>; Mon, 12 Oct 2020 08:43:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:resent-from:resent-date:resent-message-id
 	:resent-to:dkim-signature:from:to:cc:subject:date:message-id
 	:in-reply-to:references;
-	bh=DRUCw0m6MRFHAU9r2+IyC0j6NTzZrJ1siX12KTm+zWI=;
-	b=L80T6uaq1tQCLulDQRmk1N2XiJBYrYdJQhlMr3ceYaqF+4Na8hMNqaabH/h4efDklC
-	dUco7SvIuINzpw5BiQ2szrnrIbn/SzfZgIK+Idra15e5fEGw7cyFv+5zo7GOpmor12c+
-	DMXx+3OAftJ/hQTNqVADA2mMrvR+po6RlhxQLqwePU77qvEXaMX376Dt7Q0HBQOiUUPK
-	TTNYeUF7KWwlxKBdCLnEk/byQ3AbOSwyhBnYeKc691psgPdsN1Q9ZvbNHQIcNGU47sNo
-	htoUmcsgWu+38D+BDmLK2CgiNZKtT4ymVYDhCKX+yP932b+YSZnh0tyL5vcSDtJDhBaF
-	S5QA==
-X-Gm-Message-State: AOAM53340iMMJt9fx3r76NRNFObSjBXKeSkS+xV+mVKISrTLu+xf+7sZ
-	ObXRwkT3zI62XwgBT6/7c/CGKrMe8VzgWI9v
-X-Google-Smtp-Source: ABdhPJymPEDKA/mCE7lBIh7DBJkKXsK3d4a5Y36OYwSRKyZmAGvB8/dtsicQlUH2GaYuajT3Uvz9jQ==
-X-Received: by 2002:adf:90c4:: with SMTP id i62mr28684563wri.98.1602517383080; 
-	Mon, 12 Oct 2020 08:43:03 -0700 (PDT)
+	bh=d1La/axhT/8d5t9Aiud14eTBdaZWaa7PgEVZl8V6a7I=;
+	b=Cz5BGrlLjg6H6WacSHuhGlfkQwtS4b5K2755mkL7RYRjhSJN/qrv8RmnBbiLRaEthD
+	Ymaro6J5ZJdRz75OKzfyXdZ8firvqOoxquuJWyS1dd/zC727IOe1EzOu6PeWq+uXwBDB
+	5fpbVN81HqUvf7l2PnY5YbmOQ6um0b5TMGvwFlsIKtZCNKEuxEZG8Cdr+xFe/uq8sa/O
+	ZC6NIGN4Zta/16G2PpaV67kFMGDjMIcWsZ4yY3kBNDiDFcoyABIhEfZNRqUsppTb3GJH
+	ieh/5bZ6+AdKg5IQgZsg2B/h48EUizNRei/N7O5HMc5EFJx0K4TUxMtzv/RWZzKzyITq
+	NWgg==
+X-Gm-Message-State: AOAM531yxAXVEopg8MdG9DNE4/BGEf2FuxkQBcqM0JYj3tVACda4Eb1B
+	urix2MRxYG01oglMFvjJN0H7DULub+AlWGNE
+X-Google-Smtp-Source: ABdhPJwPq9K86K/5SnLIXeYa4Ew0wJ+dwLhOBZhK069AKTuhu875VrLx8o6g7q3S7NSeqNpWJxMlvQ==
+X-Received: by 2002:a1c:9910:: with SMTP id b16mr10853470wme.64.1602517385186; 
+	Mon, 12 Oct 2020 08:43:05 -0700 (PDT)
 Received: from soda.linbit (62-99-137-214.static.upcbusiness.at.
-	[62.99.137.214])
-	by smtp.gmail.com with ESMTPSA id o4sm6947378wrv.8.2020.10.12.08.43.02
+	[62.99.137.214]) by smtp.gmail.com with ESMTPSA id
+	u15sm24909583wrm.77.2020.10.12.08.43.04
 	for <drbd-dev@lists.linbit.com>
 	(version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 12 Oct 2020 08:43:02 -0700 (PDT)
+	Mon, 12 Oct 2020 08:43:04 -0700 (PDT)
 Resent-From: Lars Ellenberg <lars.ellenberg@linbit.com>
-Resent-Date: Mon, 12 Oct 2020 17:43:01 +0200
-Resent-Message-ID: <20201012154301.GU2116@soda.linbit>
+Resent-Date: Mon, 12 Oct 2020 17:43:03 +0200
+Resent-Message-ID: <20201012154303.GV2116@soda.linbit>
 Resent-To: drbd-dev@lists.linbit.com
 X-Original-To: drbd-dev@lists.linbit.com
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
-	[209.85.208.65])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9B5D5420318
-	for <drbd-dev@lists.linbit.com>; Wed,  8 Jul 2020 09:59:27 +0200 (CEST)
-Received: by mail-ed1-f65.google.com with SMTP id e15so40857865edr.2
-	for <drbd-dev@lists.linbit.com>; Wed, 08 Jul 2020 00:59:27 -0700 (PDT)
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
+	[209.85.208.66])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9040A420318
+	for <drbd-dev@lists.linbit.com>; Wed,  8 Jul 2020 09:59:28 +0200 (CEST)
+Received: by mail-ed1-f66.google.com with SMTP id n2so31839583edr.5
+	for <drbd-dev@lists.linbit.com>; Wed, 08 Jul 2020 00:59:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=cloud.ionos.com; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=DRUCw0m6MRFHAU9r2+IyC0j6NTzZrJ1siX12KTm+zWI=;
-	b=MjUZ6RHWFN55P93dC82a9yD/gjsPUUjaFLqxknsxkFpTs8HUh20479lW2XamPoR2FI
-	OtOVMSWPdbYgDABJ9lHKTu3pYj2UUmELnmimyBxxdcXY0LFB4snFdrNDogrrRetmh6Fe
-	JghgMXENwj03syxYJWwSQ9CI/5GGE+mf+5WGlyYbCrn02wtQrji+i/brZCNmAB5AWIet
-	KkIJvn74qhfXbFzCsceTSJJacji/39LyPK7pacIdyzxKGVVrjk0WCigcjRxEDlZNvT6V
-	exufTaYVxHN5XXo8/FUKaXd0LXjRgCrt4q1PUDT/ROgs7ZYbcQj+hbjtYWhNIZi4jFD9
-	G55A==
-X-Received: by 2002:a05:6402:1a54:: with SMTP id
-	bf20mr65053241edb.69.1594195166763; 
-	Wed, 08 Jul 2020 00:59:26 -0700 (PDT)
+	bh=d1La/axhT/8d5t9Aiud14eTBdaZWaa7PgEVZl8V6a7I=;
+	b=Y4FjnqkAa3dAXCGTBn4aKdECC3vAa4sYo1/cDYBmmbSTpZ/YDuIL33IS4GCNQeMc4X
+	fYjFEql0UQuN/iocsdDsGOH5wGLIjpUy1hyWyFwqc8mqMWmUFhlgrlbtsquAam+Udxec
+	qKGxL6LQXUDzhk9fi0wKcKcXEb8Ot2BWPLegN+EckKh2YPbZy/1WLwJ5WRF/xPsBVjbi
+	8Aj6l+rKV8kdSQ87iZ5SQCfLsTVQoEaRheEWw4v9ykgc9raZwU9lHJeXQfCTOPnb6R5r
+	b6femXPdiKKp+tKYyLBOd9histw5KzSMzJXAKRYvs6lJykvNYT04IrHn2Ngw0ee4IKh8
+	FlAQ==
+X-Received: by 2002:a50:a451:: with SMTP id v17mr46534548edb.256.1594195167995;
+	Wed, 08 Jul 2020 00:59:27 -0700 (PDT)
 Received: from ls00508.pb.local ([2001:1438:4010:2540:b161:f409:fd1d:3a1f])
 	by smtp.gmail.com with ESMTPSA id
-	mj22sm1570858ejb.118.2020.07.08.00.59.25
+	mj22sm1570858ejb.118.2020.07.08.00.59.26
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 08 Jul 2020 00:59:26 -0700 (PDT)
+	Wed, 08 Jul 2020 00:59:27 -0700 (PDT)
 From: Guoqing Jiang <guoqing.jiang@cloud.ionos.com>
 To: axboe@kernel.dk
-Date: Wed,  8 Jul 2020 09:58:15 +0200
-Message-Id: <20200708075819.4531-2-guoqing.jiang@cloud.ionos.com>
+Date: Wed,  8 Jul 2020 09:58:16 +0200
+Message-Id: <20200708075819.4531-3-guoqing.jiang@cloud.ionos.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200708075819.4531-1-guoqing.jiang@cloud.ionos.com>
 References: <20200708075819.4531-1-guoqing.jiang@cloud.ionos.com>
 Cc: linux-block@vger.kernel.org, Guoqing Jiang <guoqing.jiang@cloud.ionos.com>,
 	Philipp Reisner <philipp.reisner@linbit.com>,
 	Lars Ellenberg <lars.ellenberg@linbit.com>, drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH RFC 1/5] block: return ns precision from
-	disk_start_io_acct
+Subject: [Drbd-dev] [PATCH RFC 2/5] drbd: remove unused argument from
+	drbd_request_prepare and __drbd_make_request
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -98,55 +97,104 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Currently the duration accounting of bio based driver is converted from
-jiffies to ns, means it could be less accurate as request based driver.
-
-So let disk_start_io_acct return from ns precision, instead of convert
-jiffies to ns in disk_end_io_acct.
+We can remove start_jif since it is not used by drbd_request_prepare,
+then remove it from __drbd_make_request further.
 
 Cc: Philipp Reisner <philipp.reisner@linbit.com>
 Cc: Lars Ellenberg <lars.ellenberg@linbit.com>
 Cc: drbd-dev@lists.linbit.com
 Signed-off-by: Guoqing Jiang <guoqing.jiang@cloud.ionos.com>
 ---
- block/blk-core.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+This had been sent before, now it is better to include it in the thread.
 
-diff --git a/block/blk-core.c b/block/blk-core.c
-index d9d632639bd1..0e806a8c62fb 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -1466,6 +1466,7 @@ unsigned long disk_start_io_acct(struct gendisk *disk, unsigned int sectors,
- 	struct hd_struct *part = &disk->part0;
- 	const int sgrp = op_stat_group(op);
- 	unsigned long now = READ_ONCE(jiffies);
-+	unsigned long start_ns = ktime_get_ns();
+https://marc.info/?l=linux-block&m=159369644305325&w=2
+
+
+ drivers/block/drbd/drbd_int.h  |  2 +-
+ drivers/block/drbd/drbd_main.c |  3 +--
+ drivers/block/drbd/drbd_req.c  | 11 ++++-------
+ 3 files changed, 6 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/block/drbd/drbd_int.h b/drivers/block/drbd/drbd_int.h
+index fe6cb99eb917..aacd2010b555 100644
+--- a/drivers/block/drbd/drbd_int.h
++++ b/drivers/block/drbd/drbd_int.h
+@@ -1450,7 +1450,7 @@ extern void conn_free_crypto(struct drbd_connection *connection);
  
- 	part_stat_lock();
- 	update_io_ticks(part, now, false);
-@@ -1474,7 +1475,7 @@ unsigned long disk_start_io_acct(struct gendisk *disk, unsigned int sectors,
- 	part_stat_local_inc(part, in_flight[op_is_write(op)]);
- 	part_stat_unlock();
+ /* drbd_req */
+ extern void do_submit(struct work_struct *ws);
+-extern void __drbd_make_request(struct drbd_device *, struct bio *, unsigned long);
++extern void __drbd_make_request(struct drbd_device *, struct bio *);
+ extern blk_qc_t drbd_submit_bio(struct bio *bio);
+ extern int drbd_read_remote(struct drbd_device *device, struct drbd_request *req);
+ extern int is_valid_ar_handle(struct drbd_request *, sector_t);
+diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
+index 7c34cc0ad8cc..42f2a235417c 100644
+--- a/drivers/block/drbd/drbd_main.c
++++ b/drivers/block/drbd/drbd_main.c
+@@ -2293,7 +2293,6 @@ static void do_retry(struct work_struct *ws)
+ 	list_for_each_entry_safe(req, tmp, &writes, tl_requests) {
+ 		struct drbd_device *device = req->device;
+ 		struct bio *bio = req->master_bio;
+-		unsigned long start_jif = req->start_jif;
+ 		bool expected;
  
--	return now;
-+	return start_ns;
+ 		expected =
+@@ -2328,7 +2327,7 @@ static void do_retry(struct work_struct *ws)
+ 		/* We are not just doing submit_bio_noacct(),
+ 		 * as we want to keep the start_time information. */
+ 		inc_ap_bio(device);
+-		__drbd_make_request(device, bio, start_jif);
++		__drbd_make_request(device, bio);
+ 	}
  }
- EXPORT_SYMBOL(disk_start_io_acct);
  
-@@ -1484,11 +1485,11 @@ void disk_end_io_acct(struct gendisk *disk, unsigned int op,
- 	struct hd_struct *part = &disk->part0;
- 	const int sgrp = op_stat_group(op);
- 	unsigned long now = READ_ONCE(jiffies);
--	unsigned long duration = now - start_time;
-+	unsigned long duration = ktime_get_ns() - start_time;
- 
- 	part_stat_lock();
- 	update_io_ticks(part, now, true);
--	part_stat_add(part, nsecs[sgrp], jiffies_to_nsecs(duration));
-+	part_stat_add(part, nsecs[sgrp], duration);
- 	part_stat_local_dec(part, in_flight[op_is_write(op)]);
- 	part_stat_unlock();
+diff --git a/drivers/block/drbd/drbd_req.c b/drivers/block/drbd/drbd_req.c
+index 674be09b2da9..f705128b4f27 100644
+--- a/drivers/block/drbd/drbd_req.c
++++ b/drivers/block/drbd/drbd_req.c
+@@ -1188,7 +1188,7 @@ static void drbd_queue_write(struct drbd_device *device, struct drbd_request *re
+  * Returns ERR_PTR(-ENOMEM) if we cannot allocate a drbd_request.
+  */
+ static struct drbd_request *
+-drbd_request_prepare(struct drbd_device *device, struct bio *bio, unsigned long start_jif)
++drbd_request_prepare(struct drbd_device *device, struct bio *bio)
+ {
+ 	const int rw = bio_data_dir(bio);
+ 	struct drbd_request *req;
+@@ -1416,9 +1416,9 @@ static void drbd_send_and_submit(struct drbd_device *device, struct drbd_request
+ 		complete_master_bio(device, &m);
  }
+ 
+-void __drbd_make_request(struct drbd_device *device, struct bio *bio, unsigned long start_jif)
++void __drbd_make_request(struct drbd_device *device, struct bio *bio)
+ {
+-	struct drbd_request *req = drbd_request_prepare(device, bio, start_jif);
++	struct drbd_request *req = drbd_request_prepare(device, bio);
+ 	if (IS_ERR_OR_NULL(req))
+ 		return;
+ 	drbd_send_and_submit(device, req);
+@@ -1596,19 +1596,16 @@ void do_submit(struct work_struct *ws)
+ blk_qc_t drbd_submit_bio(struct bio *bio)
+ {
+ 	struct drbd_device *device = bio->bi_disk->private_data;
+-	unsigned long start_jif;
+ 
+ 	blk_queue_split(&bio);
+ 
+-	start_jif = jiffies;
+-
+ 	/*
+ 	 * what we "blindly" assume:
+ 	 */
+ 	D_ASSERT(device, IS_ALIGNED(bio->bi_iter.bi_size, 512));
+ 
+ 	inc_ap_bio(device);
+-	__drbd_make_request(device, bio, start_jif);
++	__drbd_make_request(device, bio);
+ 	return BLK_QC_T_NONE;
+ }
+ 
 -- 
 2.17.1
 
