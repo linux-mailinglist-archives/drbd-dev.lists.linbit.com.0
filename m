@@ -2,71 +2,83 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CC3228BCB0
-	for <lists+drbd-dev@lfdr.de>; Mon, 12 Oct 2020 17:45:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A84D228BCB1
+	for <lists+drbd-dev@lfdr.de>; Mon, 12 Oct 2020 17:45:46 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5C8F34207C0;
-	Mon, 12 Oct 2020 17:45:17 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 8F0454207C4;
+	Mon, 12 Oct 2020 17:45:46 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id BF8264204E6
-	for <drbd-dev@lists.linbit.com>; Mon, 12 Oct 2020 17:43:52 +0200 (CEST)
-Received: by mail-wr1-f65.google.com with SMTP id y12so14351601wrp.6
-	for <drbd-dev@lists.linbit.com>; Mon, 12 Oct 2020 08:43:52 -0700 (PDT)
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C02404207A2
+	for <drbd-dev@lists.linbit.com>; Mon, 12 Oct 2020 17:44:03 +0200 (CEST)
+Received: by mail-wr1-f66.google.com with SMTP id n6so19423470wrm.13
+	for <drbd-dev@lists.linbit.com>; Mon, 12 Oct 2020 08:44:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:resent-from:resent-date:resent-message-id
-	:resent-to:date:from:to:cc:subject:message-id:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=fiIVWaDbILU2W/BLcK5tFzXBaF91l5A5OMapBWQ40+w=;
-	b=kuQ83IvSdclKrfl9S2DdbTMZ4+7I/DBMet40+dSVC1lXOl8M3Gy96jzkYJOhDtXCZq
-	J+zI9VEsq27A3frp8l4yoD7N9BXBUqPBvHCD8ILbRmu9HpgXMhqA0bmK3lvCqHL1H9w6
-	L4K3uouvdaq2oGqzg+DiYfWVCOYnLt+e+9zzhtntEGD3wXfhQPu/9449WjfaCIlQ/tSd
-	5lKQc7i23lEKHoDzQULHdU0uMpX8LaWHh4HrBqWEoHbzrRxKZziY5FDkwGznouWR+OXG
-	Q5EBnSbkTbZ4su+a73DGlvmUWvZLrXSiuHpvEfdAkM+2KQ/4M8esZmSnWLpSyMVIuQu0
-	HS3w==
-X-Gm-Message-State: AOAM532K/bGZggNnYIbXe+mt0Ud8t2+JmtcxzvrgR1rCUou7xM2aSXJS
-	tIKbqDyCnb7hEsBUsFz1TAYDe6a5b/HbTjRb
-X-Google-Smtp-Source: ABdhPJyM34PYvsMNEnnrF41fDObYpfq/MZoYb5BbPHr2CkRnXopCCytR50r805U512jabojC1wya8Q==
-X-Received: by 2002:a5d:5748:: with SMTP id q8mr30604188wrw.299.1602517372345; 
-	Mon, 12 Oct 2020 08:42:52 -0700 (PDT)
+	:resent-to:dkim-signature:from:to:cc:subject:date:message-id
+	:in-reply-to:references;
+	bh=DRUCw0m6MRFHAU9r2+IyC0j6NTzZrJ1siX12KTm+zWI=;
+	b=L80T6uaq1tQCLulDQRmk1N2XiJBYrYdJQhlMr3ceYaqF+4Na8hMNqaabH/h4efDklC
+	dUco7SvIuINzpw5BiQ2szrnrIbn/SzfZgIK+Idra15e5fEGw7cyFv+5zo7GOpmor12c+
+	DMXx+3OAftJ/hQTNqVADA2mMrvR+po6RlhxQLqwePU77qvEXaMX376Dt7Q0HBQOiUUPK
+	TTNYeUF7KWwlxKBdCLnEk/byQ3AbOSwyhBnYeKc691psgPdsN1Q9ZvbNHQIcNGU47sNo
+	htoUmcsgWu+38D+BDmLK2CgiNZKtT4ymVYDhCKX+yP932b+YSZnh0tyL5vcSDtJDhBaF
+	S5QA==
+X-Gm-Message-State: AOAM53340iMMJt9fx3r76NRNFObSjBXKeSkS+xV+mVKISrTLu+xf+7sZ
+	ObXRwkT3zI62XwgBT6/7c/CGKrMe8VzgWI9v
+X-Google-Smtp-Source: ABdhPJymPEDKA/mCE7lBIh7DBJkKXsK3d4a5Y36OYwSRKyZmAGvB8/dtsicQlUH2GaYuajT3Uvz9jQ==
+X-Received: by 2002:adf:90c4:: with SMTP id i62mr28684563wri.98.1602517383080; 
+	Mon, 12 Oct 2020 08:43:03 -0700 (PDT)
 Received: from soda.linbit (62-99-137-214.static.upcbusiness.at.
-	[62.99.137.214]) by smtp.gmail.com with ESMTPSA id
-	o6sm25500487wrm.69.2020.10.12.08.42.51
+	[62.99.137.214])
+	by smtp.gmail.com with ESMTPSA id o4sm6947378wrv.8.2020.10.12.08.43.02
 	for <drbd-dev@lists.linbit.com>
 	(version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 12 Oct 2020 08:42:52 -0700 (PDT)
+	Mon, 12 Oct 2020 08:43:02 -0700 (PDT)
 Resent-From: Lars Ellenberg <lars.ellenberg@linbit.com>
-Resent-Date: Mon, 12 Oct 2020 17:42:50 +0200
-Resent-Message-ID: <20201012154250.GT2116@soda.linbit>
+Resent-Date: Mon, 12 Oct 2020 17:43:01 +0200
+Resent-Message-ID: <20201012154301.GU2116@soda.linbit>
 Resent-To: drbd-dev@lists.linbit.com
 X-Original-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 543 seconds by postgrey-1.31 at mail19;
-	Sun, 05 Jul 2020 22:31:06 CEST
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1684E4203DE
-	for <drbd-dev@lists.linbit.com>; Sun,  5 Jul 2020 22:31:06 +0200 (CEST)
-Received: from lwn.net (localhost [127.0.0.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 0DF09739;
-	Sun,  5 Jul 2020 20:22:02 +0000 (UTC)
-Date: Sun, 5 Jul 2020 14:22:00 -0600
-From: Jonathan Corbet <corbet@lwn.net>
-To: "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Message-ID: <20200705142200.2154779f@lwn.net>
-In-Reply-To: <20200627103111.71771-1-grandmaster@al2klimov.de>
-References: <20200627103111.71771-1-grandmaster@al2klimov.de>
-Organization: LWN.net
-MIME-Version: 1.0
-Cc: axboe@kernel.dk, linux-doc@vger.kernel.org, philipp.reisner@linbit.com,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	mchehab+samsung@kernel.org, lars.ellenberg@linbit.com,
-	drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH] Replace HTTP links with HTTPS ones: DRBD
-	driver
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+	[209.85.208.65])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9B5D5420318
+	for <drbd-dev@lists.linbit.com>; Wed,  8 Jul 2020 09:59:27 +0200 (CEST)
+Received: by mail-ed1-f65.google.com with SMTP id e15so40857865edr.2
+	for <drbd-dev@lists.linbit.com>; Wed, 08 Jul 2020 00:59:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=cloud.ionos.com; s=google;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=DRUCw0m6MRFHAU9r2+IyC0j6NTzZrJ1siX12KTm+zWI=;
+	b=MjUZ6RHWFN55P93dC82a9yD/gjsPUUjaFLqxknsxkFpTs8HUh20479lW2XamPoR2FI
+	OtOVMSWPdbYgDABJ9lHKTu3pYj2UUmELnmimyBxxdcXY0LFB4snFdrNDogrrRetmh6Fe
+	JghgMXENwj03syxYJWwSQ9CI/5GGE+mf+5WGlyYbCrn02wtQrji+i/brZCNmAB5AWIet
+	KkIJvn74qhfXbFzCsceTSJJacji/39LyPK7pacIdyzxKGVVrjk0WCigcjRxEDlZNvT6V
+	exufTaYVxHN5XXo8/FUKaXd0LXjRgCrt4q1PUDT/ROgs7ZYbcQj+hbjtYWhNIZi4jFD9
+	G55A==
+X-Received: by 2002:a05:6402:1a54:: with SMTP id
+	bf20mr65053241edb.69.1594195166763; 
+	Wed, 08 Jul 2020 00:59:26 -0700 (PDT)
+Received: from ls00508.pb.local ([2001:1438:4010:2540:b161:f409:fd1d:3a1f])
+	by smtp.gmail.com with ESMTPSA id
+	mj22sm1570858ejb.118.2020.07.08.00.59.25
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 08 Jul 2020 00:59:26 -0700 (PDT)
+From: Guoqing Jiang <guoqing.jiang@cloud.ionos.com>
+To: axboe@kernel.dk
+Date: Wed,  8 Jul 2020 09:58:15 +0200
+Message-Id: <20200708075819.4531-2-guoqing.jiang@cloud.ionos.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200708075819.4531-1-guoqing.jiang@cloud.ionos.com>
+References: <20200708075819.4531-1-guoqing.jiang@cloud.ionos.com>
+Cc: linux-block@vger.kernel.org, Guoqing Jiang <guoqing.jiang@cloud.ionos.com>,
+	Philipp Reisner <philipp.reisner@linbit.com>,
+	Lars Ellenberg <lars.ellenberg@linbit.com>, drbd-dev@lists.linbit.com
+Subject: [Drbd-dev] [PATCH RFC 1/5] block: return ns precision from
+	disk_start_io_acct
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -80,98 +92,64 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Sat, 27 Jun 2020 12:31:11 +0200
-"Alexander A. Klimov" <grandmaster@al2klimov.de> wrote:
+Currently the duration accounting of bio based driver is converted from
+jiffies to ns, means it could be less accurate as request based driver.
 
-> Rationale:
-> Reduces attack surface on kernel devs opening the links for MITM
-> as HTTPS traffic is much harder to manipulate.
-> 
-> Deterministic algorithm:
-> For each file:
->   If not .svg:
->     For each line:
->       If doesn't contain `\bxmlns\b`:
->         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
->           If both the HTTP and HTTPS versions
->           return 200 OK and serve the same content:
->             Replace HTTP with HTTPS.
-> 
-> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+So let disk_start_io_acct return from ns precision, instead of convert
+jiffies to ns in disk_end_io_acct.
 
-So I've applied this but...
-> ---
->  If there are any URLs to be removed completely or at least not HTTPSified:
->  Just clearly say so and I'll *undo my change*.
->  See also https://lkml.org/lkml/2020/6/27/64
-> 
->  If there are any valid, but yet not changed URLs:
->  See https://lkml.org/lkml/2020/6/26/837
-> 
->  Documentation/admin-guide/blockdev/drbd/index.rst | 2 +-
->  Documentation/admin-guide/blockdev/floppy.rst     | 6 +++---
->  drivers/block/drbd/Kconfig                        | 2 +-
->  3 files changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/blockdev/drbd/index.rst b/Documentation/admin-guide/blockdev/drbd/index.rst
-> index 68ecd5c113e9..561fd1e35917 100644
-> --- a/Documentation/admin-guide/blockdev/drbd/index.rst
-> +++ b/Documentation/admin-guide/blockdev/drbd/index.rst
-> @@ -10,7 +10,7 @@ Description
->    clusters and in this context, is a "drop-in" replacement for shared
->    storage. Simplistically, you could see it as a network RAID 1.
->  
-> -  Please visit http://www.drbd.org to find out more.
-> +  Please visit https://www.drbd.org to find out more.
+Cc: Philipp Reisner <philipp.reisner@linbit.com>
+Cc: Lars Ellenberg <lars.ellenberg@linbit.com>
+Cc: drbd-dev@lists.linbit.com
+Signed-off-by: Guoqing Jiang <guoqing.jiang@cloud.ionos.com>
+---
+ block/blk-core.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-This link redirects to a somewhat commercial page and may not be what was
-intended back then.
+diff --git a/block/blk-core.c b/block/blk-core.c
+index d9d632639bd1..0e806a8c62fb 100644
+--- a/block/blk-core.c
++++ b/block/blk-core.c
+@@ -1466,6 +1466,7 @@ unsigned long disk_start_io_acct(struct gendisk *disk, unsigned int sectors,
+ 	struct hd_struct *part = &disk->part0;
+ 	const int sgrp = op_stat_group(op);
+ 	unsigned long now = READ_ONCE(jiffies);
++	unsigned long start_ns = ktime_get_ns();
+ 
+ 	part_stat_lock();
+ 	update_io_ticks(part, now, false);
+@@ -1474,7 +1475,7 @@ unsigned long disk_start_io_acct(struct gendisk *disk, unsigned int sectors,
+ 	part_stat_local_inc(part, in_flight[op_is_write(op)]);
+ 	part_stat_unlock();
+ 
+-	return now;
++	return start_ns;
+ }
+ EXPORT_SYMBOL(disk_start_io_acct);
+ 
+@@ -1484,11 +1485,11 @@ void disk_end_io_acct(struct gendisk *disk, unsigned int op,
+ 	struct hd_struct *part = &disk->part0;
+ 	const int sgrp = op_stat_group(op);
+ 	unsigned long now = READ_ONCE(jiffies);
+-	unsigned long duration = now - start_time;
++	unsigned long duration = ktime_get_ns() - start_time;
+ 
+ 	part_stat_lock();
+ 	update_io_ticks(part, now, true);
+-	part_stat_add(part, nsecs[sgrp], jiffies_to_nsecs(duration));
++	part_stat_add(part, nsecs[sgrp], duration);
+ 	part_stat_local_dec(part, in_flight[op_is_write(op)]);
+ 	part_stat_unlock();
+ }
+-- 
+2.17.1
 
->  
->  .. toctree::
->     :maxdepth: 1
-> diff --git a/Documentation/admin-guide/blockdev/floppy.rst b/Documentation/admin-guide/blockdev/floppy.rst
-> index 4a8f31cf4139..0328438ebe2c 100644
-> --- a/Documentation/admin-guide/blockdev/floppy.rst
-> +++ b/Documentation/admin-guide/blockdev/floppy.rst
-> @@ -6,7 +6,7 @@ FAQ list:
->  =========
->  
->  A FAQ list may be found in the fdutils package (see below), and also
-> -at <http://fdutils.linux.lu/faq.html>.
-> +at <https://fdutils.linux.lu/faq.html>.
-
-This page hasn't been updated in 15 years, and may be of limited utility.
-The document itself talks about LILO on a 2.6.9 kernel, PS/2 floppies, and
-other such bleeding-edge things.  It sure needs more help than this.
-
->  
->  
->  LILO configuration options (Thinkpad users, read this)
-> @@ -220,11 +220,11 @@ It also contains additional documentation about the floppy driver.
->  
->  The latest version can be found at fdutils homepage:
->  
-> - http://fdutils.linux.lu
-> + https://fdutils.linux.lu
->  
->  The fdutils releases can be found at:
->  
-> - http://fdutils.linux.lu/download.html
-> + https://fdutils.linux.lu/download.html
->  
->   http://www.tux.org/pub/knaff/fdutils/
-
-That link is completely dead and should just come out.
-
-But at least we have some HTTPS links.  
-
-jon
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
