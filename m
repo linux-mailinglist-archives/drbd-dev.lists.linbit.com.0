@@ -2,37 +2,75 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EBE321A1A3
-	for <lists+drbd-dev@lfdr.de>; Thu,  9 Jul 2020 16:01:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B01D7220A54
+	for <lists+drbd-dev@lfdr.de>; Wed, 15 Jul 2020 12:42:35 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 71B664203F9;
-	Thu,  9 Jul 2020 16:01:50 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id EC45F420306;
+	Wed, 15 Jul 2020 12:42:33 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4C6E14203F5
-	for <drbd-dev@lists.linbit.com>; Thu,  9 Jul 2020 16:01:47 +0200 (CEST)
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 03E3D68AEF; Thu,  9 Jul 2020 16:01:46 +0200 (CEST)
-Date: Thu, 9 Jul 2020 16:01:45 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Jens Axboe <axboe@kernel.dk>
-Message-ID: <20200709140145.GA3068@lst.de>
-References: <20200701090622.3354860-1-hch@lst.de>
-	<b5d6df17-68af-d535-79e4-f95e16dd5632@kernel.dk>
-	<20200709053233.GA3243@lst.de>
-	<82e2785d-2091-1986-0014-3b7cea7cd0d8@kernel.dk>
+X-Greylist: delayed 307 seconds by postgrey-1.31 at mail19;
+	Wed, 15 Jul 2020 12:42:31 CEST
+Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
+	[104.130.122.29])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 15CE24200D7
+	for <drbd-dev@lists.linbit.com>; Wed, 15 Jul 2020 12:42:30 +0200 (CEST)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+	q=dns/txt; 
+	s=smtp; t=1594809752; h=Date: Message-Id: Cc: To: References:
+	In-Reply-To: From: Subject: Content-Transfer-Encoding: MIME-Version:
+	Content-Type: Sender; bh=pYgx74LtrBLVD12x3ELyZuAqEdnOVxhRlDanXsj1kC8=; 
+	b=Ch3smxSru/3/noBzqrvOrBx8IyY3nt7R/SWXLE375Dz/pzCqiekG19QC0IE0HobAKM+rFlEl
+	sSIOFCpIEFl8TvPvmhSlaKrIsb7jx/UtFboY2TStc/Aqvf5D43xTgNOhaqjjTKMRDKEoTRXx
+	2zcCfElTl4Cgmb+0iNcg6o/6hDo=
+X-Mailgun-Sending-Ip: 104.130.122.29
+X-Mailgun-Sid: WyI1YWE3MCIsICJkcmJkLWRldkBsaXN0cy5saW5iaXQuY29tIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+	(ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+	by smtp-out-n13.prod.us-west-2.postgun.com with SMTP id
+	5f0edc4d512812c070d07b76 (version=TLS1.2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 15 Jul 2020 10:37:01
+	GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+	id 3EE01C433AF; Wed, 15 Jul 2020 10:37:01 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+	aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=0.5 required=2.0 tests=ALL_TRUSTED,MISSING_DATE,
+	MISSING_MID,SPF_NONE autolearn=no autolearn_force=no version=3.4.0
+Received: from potku.adurom.net (88-114-240-156.elisa-laajakaista.fi
+	[88.114.240.156])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested) (Authenticated sender: kvalo)
+	by smtp.codeaurora.org (Postfix) with ESMTPSA id 639D1C433CA;
+	Wed, 15 Jul 2020 10:36:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 639D1C433CA
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+	dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+	spf=none smtp.mailfrom=kvalo@codeaurora.org
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <82e2785d-2091-1986-0014-3b7cea7cd0d8@kernel.dk>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: linux-raid@vger.kernel.org, linux-bcache@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-mm@kvack.org, dm-devel@redhat.com,
-	Tejun Heo <tj@kernel.org>, cgroups@vger.kernel.org,
-	Christoph Hellwig <hch@lst.de>, linux-btrfs@vger.kernel.org,
-	drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] remove dead bdi congestion leftovers
+From: Kalle Valo <kvalo@codeaurora.org>
+In-Reply-To: <20200620033007.1444705-5-keescook@chromium.org>
+References: <20200620033007.1444705-5-keescook@chromium.org>
+To: Kees Cook <keescook@chromium.org>
+User-Agent: pwcli/0.1.0-git (https://github.com/kvalo/pwcli/) Python/3.5.2
+Message-Id: <20200715103701.3EE01C433AF@smtp.codeaurora.org>
+Date: Wed, 15 Jul 2020 10:37:01 +0000 (UTC)
+Cc: Andy Whitcroft <apw@canonical.com>, Kees Cook <keescook@chromium.org>,
+	linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+	x86@kernel.org, linux-wireless@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+	clang-built-linux@googlegroups.com, linux-mm@kvack.org,
+	Alexander Potapenko <glider@google.com>,
+	b43-dev@lists.infradead.org, linux-ide@vger.kernel.org,
+	Joe Perches <joe@perches.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	linux-clk@vger.kernel.org, drbd-dev@lists.linbit.com
+Subject: Re: [Drbd-dev] [PATCH v2 04/16] b43: Remove uninitialized_var()
+	usage
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,39 +84,41 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-T24gVGh1LCBKdWwgMDksIDIwMjAgYXQgMDc6NTg6NThBTSAtMDYwMCwgSmVucyBBeGJvZSB3cm90
-ZToKPiBPbiA3LzgvMjAgMTE6MzIgUE0sIENocmlzdG9waCBIZWxsd2lnIHdyb3RlOgo+ID4gT24g
-V2VkLCBKdWwgMDgsIDIwMjAgYXQgMDU6MTQ6MjlQTSAtMDYwMCwgSmVucyBBeGJvZSB3cm90ZToK
-PiA+PiBPbiA3LzEvMjAgMzowNiBBTSwgQ2hyaXN0b3BoIEhlbGx3aWcgd3JvdGU6Cj4gPj4+IEhp
-IEplbnMsCj4gPj4+Cj4gPj4+IHdlIGhhdmUgYSBsb3Qgb2YgYmRpIGNvbmdlc3Rpb24gcmVsYXRl
-ZCBjb2RlIHRoYXQgaXMgbGVmdCBhcm91bmQgd2l0aG91dAo+ID4+PiBhbnkgdXNlLiAgVGhpcyBz
-ZXJpZXMgcmVtb3ZlcyBpdCBpbiBwcmVwYXJhdGlvbiBvZiBzb3J0aW5nIG91dCB0aGUgYmRpCj4g
-Pj4+IGxpZmV0aW1lIHJ1bGVzIHByb3Blcmx5Lgo+ID4+Cj4gPj4gUGxlYXNlIHJ1biBzZXJpZXMg
-bGlrZSB0aGlzIHRocm91Z2ggYSBmdWxsIGNvbXBpbGF0aW9uLCBmb3IgYm90aCB0aGlzIG9uZQo+
-ID4+IGFuZCB0aGUgcHJldmlvdXMgc2VyaWVzIEkgaGFkIHRvIGZpeCB1cCBpc3N1ZXMgbGlrZSB0
-aGlzOgo+ID4+Cj4gPj4gZHJpdmVycy9tZC9iY2FjaGUvcmVxdWVzdC5jOiBJbiBmdW5jdGlvbiDi
-gJhiY2hfY2FjaGVkX2Rldl9yZXF1ZXN0X2luaXTigJk6Cj4gPj4gZHJpdmVycy9tZC9iY2FjaGUv
-cmVxdWVzdC5jOjEyMzM6MTg6IHdhcm5pbmc6IHVudXNlZCB2YXJpYWJsZSDigJhn4oCZIFstV3Vu
-dXNlZC12YXJpYWJsZV0KPiA+PiAgMTIzMyB8ICBzdHJ1Y3QgZ2VuZGlzayAqZyA9IGRjLT5kaXNr
-LmRpc2s7Cj4gPj4gICAgICAgfCAgICAgICAgICAgICAgICAgIF4KPiA+PiBkcml2ZXJzL21kL2Jj
-YWNoZS9yZXF1ZXN0LmM6IEluIGZ1bmN0aW9uIOKAmGJjaF9mbGFzaF9kZXZfcmVxdWVzdF9pbml0
-4oCZOgo+ID4+IGRyaXZlcnMvbWQvYmNhY2hlL3JlcXVlc3QuYzoxMzIwOjE4OiB3YXJuaW5nOiB1
-bnVzZWQgdmFyaWFibGUg4oCYZ+KAmSBbLVd1bnVzZWQtdmFyaWFibGVdCj4gPj4gIDEzMjAgfCAg
-c3RydWN0IGdlbmRpc2sgKmcgPSBkLT5kaXNrOwo+ID4+ICAgICAgIHwgICAgICAgICAgICAgICAg
-ICBeCj4gPj4KPiA+PiBEaWQgdGhlIHNhbWUgaGVyZSwgYXBwbGllZCBpdC4KPiA+IAo+ID4gQW5k
-IGp1c3QgbGlrZSB0aGUgcHJldmlvdXMgb25lIEkgZGlkLCBhbmQgdGhlIGNvbXBpbGVyIGRpZCBu
-b3QgY29tcGxhaW4uCj4gPiBUaGVyZSBtdXN0IGJlIHNvbWV0aGluZyBhYm91dCBjZXJ0YWluIGdj
-YyB2ZXJzaW9ucyBub3Qgd2FybmluZyBhYm91dAo+ID4gdmFyaWFibGVzIHRoYXQgYXJlIGluaXRp
-YWxpemVkIGJ1dCBub3Qgb3RoZXJ3aXNlIHVzZWQuCj4gCj4gQXJlIHlvdSB1c2luZyBnY2MtMTA/
-IEl0IHN1Y2tzIGZvciB0aGF0LiBnY2MtOSBzZWVtcyB0byByZWxpYWJseSBoaXQKPiB0aGVzZSBj
-YXNlcyBmb3IgbWUsIG5vdCBzdXJlIHdoeSBnY2MtMTAgZG9lc24ndC4gQW5kIHRoZSBvbmVzIHF1
-b3RlZAo+IGFib3ZlIGFyZSBhYm91dCBhcyB0cml2aWFsIGFzIHRoZXkgY2FuIGdldC4KCmdjYy05
-LjMgZnJvbSBEZWJpYW4gLXRlc3RpbmcuICBBbmQgeWVzLCBJJ20gcmVhbGx5IHN1cnByaXNlZCBp
-dCBkaWRuJ3QKZmluZCB0aG9zZS4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KZHJiZC1kZXYgbWFpbGluZyBsaXN0CmRyYmQtZGV2QGxpc3RzLmxpbmJpdC5j
-b20KaHR0cHM6Ly9saXN0cy5saW5iaXQuY29tL21haWxtYW4vbGlzdGluZm8vZHJiZC1kZXYK
+Kees Cook <keescook@chromium.org> wrote:
+
+> Using uninitialized_var() is dangerous as it papers over real bugs[1]
+> (or can in the future), and suppresses unrelated compiler warnings (e.g.
+> "unused variable"). If the compiler thinks it is uninitialized, either
+> simply initialize the variable or make compiler changes. As a precursor
+> to removing[2] this[3] macro[4], just initialize this variable to NULL.
+> No later NULL deref is possible due to the early returns outside of the
+> (phy->rev >= 7 && phy->rev < 19) case, which explicitly tests for NULL.
+> 
+> [1] https://lore.kernel.org/lkml/20200603174714.192027-1-glider@google.com/
+> [2] https://lore.kernel.org/lkml/CA+55aFw+Vbj0i=1TGqCR5vQkCzWJ0QxK6CernOU6eedsudAixw@mail.gmail.com/
+> [3] https://lore.kernel.org/lkml/CA+55aFwgbgqhbp1fkxvRKEpzyR5J8n1vKT1VZdz9knmPuXhOeg@mail.gmail.com/
+> [4] https://lore.kernel.org/lkml/CA+55aFz2500WfbKXAx8s67wrm9=yVJu65TpLgN_ybYNv0VEOKA@mail.gmail.com/
+> 
+> Fixes: 58619b14d106 ("b43: move under broadcom vendor directory")
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+
+2 patches applied to wireless-drivers-next.git, thanks.
+
+800e7a205a0f b43: Remove uninitialized_var() usage
+f8279dad4e36 rtlwifi: rtl8192cu: Remove uninitialized_var() usage
+
+-- 
+https://patchwork.kernel.org/patch/11615573/
+
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+
+_______________________________________________
+drbd-dev mailing list
+drbd-dev@lists.linbit.com
+https://lists.linbit.com/mailman/listinfo/drbd-dev
