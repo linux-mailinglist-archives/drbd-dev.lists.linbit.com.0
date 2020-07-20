@@ -1,76 +1,47 @@
 Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
-Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id B01D7220A54
-	for <lists+drbd-dev@lfdr.de>; Wed, 15 Jul 2020 12:42:35 +0200 (CEST)
+Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F850225917
+	for <lists+drbd-dev@lfdr.de>; Mon, 20 Jul 2020 09:52:36 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id EC45F420306;
-	Wed, 15 Jul 2020 12:42:33 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 623674203F8;
+	Mon, 20 Jul 2020 09:52:36 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 307 seconds by postgrey-1.31 at mail19;
-	Wed, 15 Jul 2020 12:42:31 CEST
-Received: from mail29.static.mailgun.info (mail29.static.mailgun.info
-	[104.130.122.29])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 15CE24200D7
-	for <drbd-dev@lists.linbit.com>; Wed, 15 Jul 2020 12:42:30 +0200 (CEST)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
-	q=dns/txt; 
-	s=smtp; t=1594809752; h=Date: Message-Id: Cc: To: References:
-	In-Reply-To: From: Subject: Content-Transfer-Encoding: MIME-Version:
-	Content-Type: Sender; bh=pYgx74LtrBLVD12x3ELyZuAqEdnOVxhRlDanXsj1kC8=; 
-	b=Ch3smxSru/3/noBzqrvOrBx8IyY3nt7R/SWXLE375Dz/pzCqiekG19QC0IE0HobAKM+rFlEl
-	sSIOFCpIEFl8TvPvmhSlaKrIsb7jx/UtFboY2TStc/Aqvf5D43xTgNOhaqjjTKMRDKEoTRXx
-	2zcCfElTl4Cgmb+0iNcg6o/6hDo=
-X-Mailgun-Sending-Ip: 104.130.122.29
-X-Mailgun-Sid: WyI1YWE3MCIsICJkcmJkLWRldkBsaXN0cy5saW5iaXQuY29tIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
-	(ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
-	by smtp-out-n13.prod.us-west-2.postgun.com with SMTP id
-	5f0edc4d512812c070d07b76 (version=TLS1.2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 15 Jul 2020 10:37:01
-	GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-	id 3EE01C433AF; Wed, 15 Jul 2020 10:37:01 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-	aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=0.5 required=2.0 tests=ALL_TRUSTED,MISSING_DATE,
-	MISSING_MID,SPF_NONE autolearn=no autolearn_force=no version=3.4.0
-Received: from potku.adurom.net (88-114-240-156.elisa-laajakaista.fi
-	[88.114.240.156])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested) (Authenticated sender: kvalo)
-	by smtp.codeaurora.org (Postfix) with ESMTPSA id 639D1C433CA;
-	Wed, 15 Jul 2020 10:36:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 639D1C433CA
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
-	dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
-	spf=none smtp.mailfrom=kvalo@codeaurora.org
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B44F44203D2
+	for <drbd-dev@lists.linbit.com>; Mon, 20 Jul 2020 09:52:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209;
+	h=Content-Transfer-Encoding:MIME-Version:
+	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=vvvfRy6KN2hjgDllD22K5RJhB99DHH+ZsJ+5mTbpBY0=;
+	b=TBKmeTnDSCN2OLHgbkThxI71xC
+	ceTXoyJZCq7Q7aqPvWXUlj9Oq7JgV1rVX3vOyKNtTVYLf1EpjbcvVdpOMGtHVvLn1DMS+cwH0tIUo
+	z6c66YDSF+q0DGm5nZdMKDqko7sC+5MpUqYbnf1ufShxAdQI+ha0ezYgFM1+WG6AQWw35yuEKtDYP
+	yLMEnIkrKmSFTQU57ecl+NSYiTi8odUUDykirEEMsC9O3kQmtehR2Rf0yx9+BgKPlK29w8HhOUZya
+	mvn5fyfmWBnt3lUQBAXujLRyU7en2SDqXxw2Xurqa2QtH/Q4LLHjuwyziXIpJx5hhIyHsWKwcUame
+	ZTANoRcQ==;
+Received: from [2001:4bb8:105:4a81:5185:88fc:94bb:f8bf] (helo=localhost)
+	by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+	id 1jxQaT-0003zB-8L; Mon, 20 Jul 2020 07:51:49 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Jens Axboe <axboe@kernel.dk>
+Date: Mon, 20 Jul 2020 09:51:34 +0200
+Message-Id: <20200720075148.172156-1-hch@lst.de>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-From: Kalle Valo <kvalo@codeaurora.org>
-In-Reply-To: <20200620033007.1444705-5-keescook@chromium.org>
-References: <20200620033007.1444705-5-keescook@chromium.org>
-To: Kees Cook <keescook@chromium.org>
-User-Agent: pwcli/0.1.0-git (https://github.com/kvalo/pwcli/) Python/3.5.2
-Message-Id: <20200715103701.3EE01C433AF@smtp.codeaurora.org>
-Date: Wed, 15 Jul 2020 10:37:01 +0000 (UTC)
-Cc: Andy Whitcroft <apw@canonical.com>, Kees Cook <keescook@chromium.org>,
-	linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-	x86@kernel.org, linux-wireless@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-	clang-built-linux@googlegroups.com, linux-mm@kvack.org,
-	Alexander Potapenko <glider@google.com>,
-	b43-dev@lists.infradead.org, linux-ide@vger.kernel.org,
-	Joe Perches <joe@perches.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	linux-clk@vger.kernel.org, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH v2 04/16] b43: Remove uninitialized_var()
-	usage
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+	casper.infradead.org. See http://www.infradead.org/rpr.html
+Cc: linux-raid@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
+	Richard Weinberger <richard@nod.at>,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	Song Liu <song@kernel.org>, dm-devel@redhat.com,
+	linux-mtd@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+	cgroups@vger.kernel.org, linux-mm@kvack.org, drbd-dev@lists.linbit.com
+Subject: [Drbd-dev] bdi cleanups
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -89,35 +60,62 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Kees Cook <keescook@chromium.org> wrote:
+Hi Jens,
 
-> Using uninitialized_var() is dangerous as it papers over real bugs[1]
-> (or can in the future), and suppresses unrelated compiler warnings (e.g.
-> "unused variable"). If the compiler thinks it is uninitialized, either
-> simply initialize the variable or make compiler changes. As a precursor
-> to removing[2] this[3] macro[4], just initialize this variable to NULL.
-> No later NULL deref is possible due to the early returns outside of the
-> (phy->rev >= 7 && phy->rev < 19) case, which explicitly tests for NULL.
-> 
-> [1] https://lore.kernel.org/lkml/20200603174714.192027-1-glider@google.com/
-> [2] https://lore.kernel.org/lkml/CA+55aFw+Vbj0i=1TGqCR5vQkCzWJ0QxK6CernOU6eedsudAixw@mail.gmail.com/
-> [3] https://lore.kernel.org/lkml/CA+55aFwgbgqhbp1fkxvRKEpzyR5J8n1vKT1VZdz9knmPuXhOeg@mail.gmail.com/
-> [4] https://lore.kernel.org/lkml/CA+55aFz2500WfbKXAx8s67wrm9=yVJu65TpLgN_ybYNv0VEOKA@mail.gmail.com/
-> 
-> Fixes: 58619b14d106 ("b43: move under broadcom vendor directory")
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+this series contains a bunch of different BDI cleanups.  The biggest item
+is to isolate block drivers from the BDI in preparation of changing the
+lifetime of the block device BDI in a follow up series.
 
-2 patches applied to wireless-drivers-next.git, thanks.
+Note that this is based on top of the
+"a fix and two cleanups around blk_stack_limits" series sent earlier.
 
-800e7a205a0f b43: Remove uninitialized_var() usage
-f8279dad4e36 rtlwifi: rtl8192cu: Remove uninitialized_var() usage
-
--- 
-https://patchwork.kernel.org/patch/11615573/
-
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
-
+Diffstat:
+ block/blk-core.c              |    2 
+ block/blk-integrity.c         |    4 
+ block/blk-mq-debugfs.c        |    1 
+ block/blk-settings.c          |    5 
+ block/blk-sysfs.c             |  270 ++++++++++--------------------------------
+ block/genhd.c                 |   13 +-
+ drivers/block/aoe/aoeblk.c    |    2 
+ drivers/block/brd.c           |    1 
+ drivers/block/drbd/drbd_nl.c  |   18 --
+ drivers/block/drbd/drbd_req.c |    4 
+ drivers/block/rbd.c           |    2 
+ drivers/block/zram/zram_drv.c |   17 --
+ drivers/md/bcache/super.c     |    4 
+ drivers/md/dm-table.c         |    9 -
+ drivers/md/raid0.c            |   16 --
+ drivers/md/raid10.c           |   46 ++-----
+ drivers/md/raid5.c            |   31 ++--
+ drivers/mmc/core/queue.c      |    3 
+ drivers/nvdimm/btt.c          |    2 
+ drivers/nvdimm/pmem.c         |    1 
+ drivers/nvme/host/core.c      |    3 
+ drivers/nvme/host/multipath.c |    9 -
+ drivers/scsi/iscsi_tcp.c      |    4 
+ fs/9p/vfs_file.c              |    2 
+ fs/9p/vfs_super.c             |    4 
+ fs/afs/super.c                |    1 
+ fs/btrfs/disk-io.c            |    2 
+ fs/fs-writeback.c             |    7 -
+ fs/fuse/inode.c               |    4 
+ fs/namei.c                    |    4 
+ fs/nfs/super.c                |    9 -
+ fs/super.c                    |    2 
+ include/linux/backing-dev.h   |   76 +----------
+ include/linux/blkdev.h        |    3 
+ include/linux/drbd.h          |    1 
+ include/linux/fs.h            |    2 
+ mm/backing-dev.c              |   13 --
+ mm/filemap.c                  |    4 
+ mm/memcontrol.c               |    2 
+ mm/memory-failure.c           |    2 
+ mm/migrate.c                  |    2 
+ mm/mmap.c                     |    2 
+ mm/page-writeback.c           |   18 +-
+ mm/page_io.c                  |    7 -
+ mm/swapfile.c                 |    4 
+ 45 files changed, 180 insertions(+), 458 deletions(-)
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
