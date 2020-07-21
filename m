@@ -2,33 +2,37 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4441225E2C
-	for <lists+drbd-dev@lfdr.de>; Mon, 20 Jul 2020 14:08:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A6092277D5
+	for <lists+drbd-dev@lfdr.de>; Tue, 21 Jul 2020 07:00:53 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 74D1E4203E7;
-	Mon, 20 Jul 2020 14:08:08 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5E68B42041A;
+	Tue, 21 Jul 2020 07:00:52 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4711342010C
-	for <drbd-dev@lists.linbit.com>; Mon, 20 Jul 2020 14:08:06 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 73B96420111
+	for <drbd-dev@lists.linbit.com>; Tue, 21 Jul 2020 07:00:50 +0200 (CEST)
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 18CA168BFE; Mon, 20 Jul 2020 14:07:35 +0200 (CEST)
-Date: Mon, 20 Jul 2020 14:07:34 +0200
+	id 42A716736F; Tue, 21 Jul 2020 07:00:48 +0200 (CEST)
+Date: Tue, 21 Jul 2020 07:00:47 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Richard Weinberger <richard.weinberger@gmail.com>
-Message-ID: <20200720120734.GA29061@lst.de>
+Message-ID: <20200721050047.GA9707@lst.de>
 References: <20200720075148.172156-1-hch@lst.de>
 	<20200720075148.172156-5-hch@lst.de>
 	<CAFLxGvxNHGEOrj6nKTtDeiU+Rx4xv_6asjSQYcFWXhk5m=1cBA@mail.gmail.com>
+	<20200720120734.GA29061@lst.de>
+	<2827a5dbd94bc5c2c1706a6074d9a9a32a590feb.camel@gmail.com>
+	<CAFLxGvyxtYnJ5UdD18uNA97zQaDB8-Wv8MHQn2g9GYD74v7cTg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAFLxGvxNHGEOrj6nKTtDeiU+Rx4xv_6asjSQYcFWXhk5m=1cBA@mail.gmail.com>
+In-Reply-To: <CAFLxGvyxtYnJ5UdD18uNA97zQaDB8-Wv8MHQn2g9GYD74v7cTg@mail.gmail.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: Jens Axboe <axboe@kernel.dk>, linux-raid@vger.kernel.org,
-	Hans de Goede <hdegoede@redhat.com>, Richard Weinberger <richard@nod.at>,
-	LKML <linux-kernel@vger.kernel.org>, linux-block@vger.kernel.org,
-	Song Liu <song@kernel.org>,
+Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
+	Artem Bityutskiy <dedekind1@gmail.com>,
+	Song Liu <song@kernel.org>, Richard Weinberger <richard@nod.at>,
+	LKML <linux-kernel@vger.kernel.org>, linux-raid@vger.kernel.org,
+	Hans de Goede <hdegoede@redhat.com>,
 	device-mapper development <dm-devel@redhat.com>,
 	linux-mtd@lists.infradead.org, linux-mm@kvack.org,
 	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
@@ -53,19 +57,24 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Mon, Jul 20, 2020 at 01:58:22PM +0200, Richard Weinberger wrote:
-> Hello Chrstoph,
-> 
-> On Mon, Jul 20, 2020 at 9:53 AM Christoph Hellwig <hch@lst.de> wrote:
+On Mon, Jul 20, 2020 at 11:27:57PM +0200, Richard Weinberger wrote:
+> On Mon, Jul 20, 2020 at 2:37 PM Artem Bityutskiy <dedekind1@gmail.com> wrote:
 > >
-> > Set up a readahead size by default.  This changes behavior for mtd,
-> > ubifs, and vboxsf to actually enabled readahead, the lack of which
-> > very much looks like an oversight.
+> > On Mon, 2020-07-20 at 14:07 +0200, Christoph Hellwig wrote:
+> > > What about jffs2 and blk2mtd raw block devices?
 > 
-> UBIFS doesn't enable readahead on purpose, please see:
-> http://www.linux-mtd.infradead.org/doc/ubifs.html#L_readahead
+> I don't worry much about blk2mtd.
+> 
+> > If my memory serves me correctly JFFS2 did not mind readahead.
+> 
+> This covers my knowledge too.
+> I fear enabling readahead on JFFS2 will cause performance issues, this
+> filesystem
+> is mostly used on small and slow NOR devices.
 
-What about jffs2 and blk2mtd raw block devices?
+I'm going to wait for Hans for feedback on vboxsf, but in doubt I'll
+ust add a prep patch or fold for this one to explicit set ra_pages to 0
+with a comment then.
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
