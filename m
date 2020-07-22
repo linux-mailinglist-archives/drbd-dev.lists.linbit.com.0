@@ -2,35 +2,35 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FFA22290E2
-	for <lists+drbd-dev@lfdr.de>; Wed, 22 Jul 2020 08:32:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB4822290E5
+	for <lists+drbd-dev@lfdr.de>; Wed, 22 Jul 2020 08:33:01 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5F6E54204CF;
-	Wed, 22 Jul 2020 08:32:31 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9324E4204CE;
+	Wed, 22 Jul 2020 08:33:01 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3AFA14204B8
-	for <drbd-dev@lists.linbit.com>; Wed, 22 Jul 2020 08:29:04 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6973F4204C5
+	for <drbd-dev@lists.linbit.com>; Wed, 22 Jul 2020 08:29:12 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209;
 	h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=KPpUWSz4sCeEJkcRUh8fArdJ/PEmchWYkBD3toLmmh4=;
-	b=JaL+Q75+Jgtgt3IrqBlYb0khfV
-	VvKarHKmGRCT0xJcvsM3hYDrUFdzkAnMtLd/wuZFyzE7HOeFSmsypo+irFzCFAbCM/GfD52vos8rQ
-	olNCVxhZ3BYT1/W0OkGoXTg+FoVlWUD7gFiJZERFkK0movDxoNCU5Gw/EuPAyPoVPUNba1/1q14iQ
-	KQmFI6Eb6K+yaliYtekJlw+m/u7xPRKzkoSQTi9SDK5gQLkXc8U9Togw61eaZk9d/39SIRSkkPVPG
-	RV+VAZlNIIq1AIwflBXHLpoltEkLlNYfnIVCpkncXj9D2tBAOdqwTcKQuNtBfvpfXadpyxkZnN8pD
-	5DO5LlJA==;
+	bh=Jdh+Se3a2Jmdkbd57oVwwUzzlSWemowvtj1/EcjXiHo=;
+	b=rjXQWvaS8qHBtniDPxFQ3W77Lf
+	53UqC85nCDqwBMS670ZU8cqxhPbGs900+d1eIdmxbZ04GiYESYTfGlNCJgRQPBJuB86FTUwLpkHn3
+	wPFSDOUzY5zhrDQMil0gRtDB48U4m1FpG+6tlFelSCd34zlztC8m/YowLfNo1I6/mXYie3MDWq7Wh
+	QyvLFIXsIK4EB5pGBoHLx+hnJia9LMlhD6KbRcJ4zSik1o4g3eiVehQ9Bns6aNJzBx4RZvdKoLxB1
+	JfOOksSykmuh1FyXqu4n88wDVc3dB5EDt/60gUX099FVBcr9ZkMC7D3y/p66Zj7Tco563xJ/Ht9As
+	6JeW5qow==;
 Received: from [2001:4bb8:18c:2acc:e75:d48f:65ef:e944] (helo=localhost)
 	by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1jy8DH-0004qz-Hc; Wed, 22 Jul 2020 06:26:48 +0000
+	id 1jy8DM-0004rK-1P; Wed, 22 Jul 2020 06:26:52 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Date: Wed, 22 Jul 2020 08:25:47 +0200
-Message-Id: <20200722062552.212200-10-hch@lst.de>
+Date: Wed, 22 Jul 2020 08:25:49 +0200
+Message-Id: <20200722062552.212200-12-hch@lst.de>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200722062552.212200-1-hch@lst.de>
 References: <20200722062552.212200-1-hch@lst.de>
@@ -43,7 +43,8 @@ Cc: linux-raid@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
 	Song Liu <song@kernel.org>, dm-devel@redhat.com,
 	linux-mtd@lists.infradead.org, linux-fsdevel@vger.kernel.org,
 	cgroups@vger.kernel.org, linux-mm@kvack.org, drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 09/14] bdi: remove BDI_CAP_CGROUP_WRITEBACK
+Subject: [Drbd-dev] [PATCH 11/14] mm: use SWP_SYNCHRONOUS_IO more
+	intelligently
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -62,75 +63,44 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Just checking SB_I_CGROUPWB for cgroup writeback support is enough.
-Either the file system allocates its own bdi (e.g. btrfs), in which case
-it is know to support cgroup writeback, or the bdi comes from the block
-layer, which always supports cgroup writeback.
+There is no point in trying to call bdev_read_page if SWP_SYNCHRONOUS_IO
+is not set, as the device won't support it.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- block/blk-core.c            | 1 -
- fs/btrfs/disk-io.c          | 1 -
- include/linux/backing-dev.h | 8 +++-----
- 3 files changed, 3 insertions(+), 7 deletions(-)
+ mm/page_io.c | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/block/blk-core.c b/block/blk-core.c
-index ea1665de7a2079..68db7e745b49dd 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -538,7 +538,6 @@ struct request_queue *blk_alloc_queue(int node_id)
- 	if (!q->stats)
- 		goto fail_stats;
- 
--	q->backing_dev_info->capabilities = BDI_CAP_CGROUP_WRITEBACK;
- 	q->node = node_id;
- 
- 	timer_setup(&q->backing_dev_info->laptop_mode_wb_timer,
-diff --git a/fs/btrfs/disk-io.c b/fs/btrfs/disk-io.c
-index f92c45fe019c48..4b5a8640329e4c 100644
---- a/fs/btrfs/disk-io.c
-+++ b/fs/btrfs/disk-io.c
-@@ -3032,7 +3032,6 @@ int __cold open_ctree(struct super_block *sb, struct btrfs_fs_devices *fs_device
- 		goto fail_sb_buffer;
+diff --git a/mm/page_io.c b/mm/page_io.c
+index ccda7679008851..442061348dfb26 100644
+--- a/mm/page_io.c
++++ b/mm/page_io.c
+@@ -403,15 +403,17 @@ int swap_readpage(struct page *page, bool synchronous)
+ 		goto out;
  	}
  
--	sb->s_bdi->capabilities |= BDI_CAP_CGROUP_WRITEBACK;
- 	sb->s_bdi->ra_pages *= btrfs_super_num_devices(disk_super);
- 	sb->s_bdi->ra_pages = max(sb->s_bdi->ra_pages, SZ_4M / PAGE_SIZE);
+-	ret = bdev_read_page(sis->bdev, swap_page_sector(page), page);
+-	if (!ret) {
+-		if (trylock_page(page)) {
+-			swap_slot_free_notify(page);
+-			unlock_page(page);
+-		}
++	if (sis->flags & SWP_SYNCHRONOUS_IO) {
++		ret = bdev_read_page(sis->bdev, swap_page_sector(page), page);
++		if (ret) {
++			if (trylock_page(page)) {
++				swap_slot_free_notify(page);
++				unlock_page(page);
++			}
  
-diff --git a/include/linux/backing-dev.h b/include/linux/backing-dev.h
-index 0b06b2d26c9aa3..52583b6f2ea05d 100644
---- a/include/linux/backing-dev.h
-+++ b/include/linux/backing-dev.h
-@@ -123,7 +123,6 @@ int bdi_set_max_ratio(struct backing_dev_info *bdi, unsigned int max_ratio);
-  * BDI_CAP_NO_ACCT_WB:     Don't automatically account writeback pages
-  * BDI_CAP_STRICTLIMIT:    Keep number of dirty pages below bdi threshold.
-  *
-- * BDI_CAP_CGROUP_WRITEBACK: Supports cgroup-aware writeback.
-  * BDI_CAP_SYNCHRONOUS_IO: Device is so fast that asynchronous IO would be
-  *			   inefficient.
-  */
-@@ -233,9 +232,9 @@ int inode_congested(struct inode *inode, int cong_bits);
-  * inode_cgwb_enabled - test whether cgroup writeback is enabled on an inode
-  * @inode: inode of interest
-  *
-- * cgroup writeback requires support from both the bdi and filesystem.
-- * Also, both memcg and iocg have to be on the default hierarchy.  Test
-- * whether all conditions are met.
-+ * Cgroup writeback requires support from the filesystem.  Also, both memcg and
-+ * iocg have to be on the default hierarchy.  Test whether all conditions are
-+ * met.
-  *
-  * Note that the test result may change dynamically on the same inode
-  * depending on how memcg and iocg are configured.
-@@ -247,7 +246,6 @@ static inline bool inode_cgwb_enabled(struct inode *inode)
- 	return cgroup_subsys_on_dfl(memory_cgrp_subsys) &&
- 		cgroup_subsys_on_dfl(io_cgrp_subsys) &&
- 		bdi_cap_account_dirty(bdi) &&
--		(bdi->capabilities & BDI_CAP_CGROUP_WRITEBACK) &&
- 		(inode->i_sb->s_iflags & SB_I_CGROUPWB);
- }
+-		count_vm_event(PSWPIN);
+-		goto out;
++			count_vm_event(PSWPIN);
++			goto out;
++		}
+ 	}
  
+ 	ret = 0;
 -- 
 2.27.0
 
