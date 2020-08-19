@@ -2,40 +2,37 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9783A233F11
-	for <lists+drbd-dev@lfdr.de>; Fri, 31 Jul 2020 08:27:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 487992494A7
+	for <lists+drbd-dev@lfdr.de>; Wed, 19 Aug 2020 07:51:56 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5B05442049A;
-	Fri, 31 Jul 2020 08:27:06 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3643A42093F;
+	Wed, 19 Aug 2020 07:51:55 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from mail.prgmr.com (mail.prgmr.com [71.19.149.6])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7CFF2420225
-	for <drbd-dev@lists.linbit.com>; Fri, 31 Jul 2020 08:27:04 +0200 (CEST)
-Received: from [192.168.1.99] (unknown [99.0.85.144])
-	(Authenticated sender: srn)
-	by mail.prgmr.com (Postfix) with ESMTPSA id 825BE72008F
-	for <drbd-dev@lists.linbit.com>; Fri, 31 Jul 2020 02:27:03 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.prgmr.com 825BE72008F
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 850FF42093C
+	for <drbd-dev@lists.linbit.com>; Wed, 19 Aug 2020 07:51:52 +0200 (CEST)
+Received: from localhost.localdomain (c-174-62-72-237.hsd1.ca.comcast.net
+	[174.62.72.237]) (Authenticated sender: srn)
+	by mail.prgmr.com (Postfix) with ESMTPSA id 43D77720091;
+	Wed, 19 Aug 2020 01:51:21 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.prgmr.com 43D77720091
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prgmr.com;
-	s=default; t=1596176823;
-	bh=NNWrB3ojWVLqHJgH87QmmyimSOUVLAcR9gWev6e+4VQ=;
-	h=Subject:To:References:From:Date:In-Reply-To:From;
-	b=LvXutDl1zGKK3MWPQp+z/4kJDrZF5y3vPohqRhjvOZB2CWyOU3kzGKF3+mo5IUH/X
-	MWEIpZrWpUbEGWHifCYIQ1Zbyoq8w5k2MaVh+zl/xUWAtp9AWECtsiXTRYbykkR4mF
-	kLlUZ0910CjTVNhBpfxQGa7eU7C5J2cACJlFNPxE=
-To: drbd-dev@lists.linbit.com
-References: <308845ca-17a3-43d0-b7ad-80069d9bc17f@prgmr.com>
-	<20200727071658.GH4222@soda.linbit>
+	s=default; t=1597816281;
+	bh=B2BLIaR3PrzpYx4jUtyvCHNAMuYiyDF0npfKWWz7n28=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ODQ4NGEVzxGB1RnEVb7kcgAskFwaEVeeh+EN/VU4nd2sYteM0MWzK2Mwn+SZVNOK4
+	Q61D24hqg826wikt3PSdruFrJAnTISRVNQ38lAalPDwqjRbJJNvplpfqIRk/KJpadG
+	3pkNLZhxcPLIht0Snu3O/Gvvra6IXxRy0zVFFoik=
 From: Sarah Newman <srn@prgmr.com>
-Message-ID: <d5620f65-867a-16fc-d63b-a7a1c3fdfb7b@prgmr.com>
-Date: Thu, 30 Jul 2020 23:27:03 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.10.0
+To: philipp.reisner@linbit.com, lars.ellenberg@linbit.com,
+	drbd-dev@lists.linbit.com
+Date: Tue, 18 Aug 2020 22:49:26 -0700
+Message-Id: <20200819054926.30758-1-srn@prgmr.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <20200727071658.GH4222@soda.linbit>
-Content-Language: en-US
-Subject: Re: [Drbd-dev] Bug(s) with Linux v5.4.46
+Subject: [Drbd-dev] [PATCH] block: drbd: add missing kref_get in
+	handle_write_conflicts
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,40 +46,68 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On 7/27/20 12:16 AM, Lars Ellenberg wrote:
-> On Sun, Jul 26, 2020 at 08:55:10PM -0700, Sarah Newman wrote:
-> 
->> 	kref_put(&device->kref, drbd_destroy_device);
-> 
-> At this point we are "sure" to still hold at least one
-> additional reference on device.
-> 
->> 	del_gendisk(device->vdisk);
->> 	synchronize_rcu();
-> 
-> which we put here:
-> 
->> 	kref_put(&device->kref, drbd_destroy_device);
-> 
-> 
-> But what you present here shows that in your case that is not true.
-> 
+The other place that drbd_send_acks_wf was called from already
+calls kref_get.
 
-Is there a missing kref_get (and put on failure) around calling
+This can be reproduced with the following for an existing
+connection:
 
-"queue_work(connection->ack_sender, &peer_req->peer_device->send_acks_work);"
+drbdsetup net-options local_addr remote_addr \
+  --protocol=C \
+  --allow-two-primaries
 
-from handle_write_conflicts ?
+drbsetup primary minor
+dd if=/dev/drbd<minor> of=sector bs=512 count=1
+while true; do dd if=sector of=/dev/drbd<minor>; done
 
-I don't understand at all how drbd_adm_get_initial_state is supposed to work... for that reason, that's the only other place I potentially see an 
-issue via code inspection.
+During this, if we have function tracing enabled for e_send_superseded, it
+  triggers:
 
-Thanks, Sarah
+$ sudo cat /sys/kernel/tracing/trace_pipe
+    kworker/u4:2-14838 [001] .... 113244.465689: e_send_superseded <-drbd_finish_peer_reqs
+    kworker/u4:2-14838 [001] .... 113244.468237: e_send_superseded <-drbd_finish_peer_reqs
+    kworker/u4:2-14838 [001] .... 113244.482757: e_send_superseded <-drbd_finish_peer_reqs
+    kworker/u4:1-15502 [001] .... 113244.485092: e_send_superseded <-drbd_finish_peer_reqs
+
+This eventually results in behavior like:
+
+[113418.435846] watchdog: BUG: soft lockup - CPU#1 stuck for 23s! [dd:15505]
+
+Or a message similar to
+
+block drbd0: ASSERT( device->open_cnt == 0 )
+  in drivers/block/drbd/drbd_main.c:2232
+
+Signed-off-by: Sarah Newman <srn@prgmr.com>
+---
+ drivers/block/drbd/drbd_receiver.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd_receiver.c
+index 2b3103c30857..1ad693a5aab5 100644
+--- a/drivers/block/drbd/drbd_receiver.c
++++ b/drivers/block/drbd/drbd_receiver.c
+@@ -2531,7 +2531,11 @@ static int handle_write_conflicts(struct drbd_device *device,
+ 			peer_req->w.cb = superseded ? e_send_superseded :
+ 						   e_send_retry_write;
+ 			list_add_tail(&peer_req->w.list, &device->done_ee);
+-			queue_work(connection->ack_sender, &peer_req->peer_device->send_acks_work);
++			/* put is in drbd_send_acks_wf() */
++			kref_get(&device->kref);
++			if (!queue_work(connection->ack_sender,
++					&peer_req->peer_device->send_acks_work))
++				kref_put(&device->kref, drbd_destroy_device);
+ 
+ 			err = -ENOENT;
+ 			goto out;
+-- 
+2.17.1
+
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
