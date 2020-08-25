@@ -2,37 +2,60 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81ADB2494AA
-	for <lists+drbd-dev@lfdr.de>; Wed, 19 Aug 2020 07:53:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 511D3251143
+	for <lists+drbd-dev@lfdr.de>; Tue, 25 Aug 2020 07:03:55 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6AC41420943;
-	Wed, 19 Aug 2020 07:53:03 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 229C942093C;
+	Tue, 25 Aug 2020 07:03:55 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail.prgmr.com (mail.prgmr.com [71.19.149.6])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id DB23042093E
-	for <drbd-dev@lists.linbit.com>; Wed, 19 Aug 2020 07:53:01 +0200 (CEST)
-Received: from localhost.localdomain (c-174-62-72-237.hsd1.ca.comcast.net
-	[174.62.72.237]) (Authenticated sender: srn)
-	by mail.prgmr.com (Postfix) with ESMTPSA id 79685720091;
-	Wed, 19 Aug 2020 01:53:00 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.prgmr.com 79685720091
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prgmr.com;
-	s=default; t=1597816380;
-	bh=38RGOdNIlsTAY/yPZQvJPfExszWpikc+gOKY4SFudfI=;
-	h=From:To:Cc:Subject:Date:From;
-	b=aBp/7mzkYvKV/9Ig/uPDeA9HrTQQQGs9RiK9uqDelIvXVxlJss/ZEj0B3kvL6lpOR
-	Rno15GbVNcuY5x6p0cLkxOE4tPfwZnbjVTFsLFiDRSEZWImukz3v79KY8yKiWCA1hl
-	xNdktTmHTsI+s25ZDCRCvMngcdEQIZxP0rYbxYcU=
-From: Sarah Newman <srn@prgmr.com>
-To: philipp.reisner@linbit.com, lars.ellenberg@linbit.com,
-	drbd-dev@lists.linbit.com
-Date: Tue, 18 Aug 2020 22:52:37 -0700
-Message-Id: <20200819055237.30920-1-srn@prgmr.com>
-X-Mailer: git-send-email 2.17.1
+Received: from smtprelay.hostedemail.com (smtprelay0043.hostedemail.com
+	[216.40.44.43])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2864A42092F
+	for <drbd-dev@lists.linbit.com>; Tue, 25 Aug 2020 07:03:53 +0200 (CEST)
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
+	[10.5.19.251])
+	by smtpgrave03.hostedemail.com (Postfix) with ESMTP id 79B5E18024DC1
+	for <drbd-dev@lists.linbit.com>; Tue, 25 Aug 2020 04:57:14 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+	[216.40.38.60])
+	by smtprelay04.hostedemail.com (Postfix) with ESMTP id B846B180A9F54;
+	Tue, 25 Aug 2020 04:56:42 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 50, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
+	RULES_HIT:41:355:379:541:857:966:967:973:988:989:1260:1311:1314:1345:1437:1515:1535:1544:1711:1730:1747:1777:1792:1801:2196:2199:2393:2525:2560:2563:2682:2685:2859:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3354:3865:3867:3868:3870:3874:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4321:4384:4385:4395:4605:5007:6119:6261:6737:6742:7875:9025:10004:10848:11026:11473:11658:11914:12043:12048:12050:12297:12438:12555:12679:12895:12986:13161:13229:13894:14096:14181:14394:14721:21080:21433:21451:21627:21740:21773:30054:30056,
+	0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
+	DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none,
+	Custom_rules:0:0:0, LFtime:2, LUA_SUMMARY:none
+X-HE-Tag: chalk60_631385f27059
+X-Filterd-Recvd-Size: 5825
+Received: from joe-laptop.perches.com (unknown [47.151.133.149])
+	(Authenticated sender: joe@perches.com)
+	by omf08.hostedemail.com (Postfix) with ESMTPA;
+	Tue, 25 Aug 2020 04:56:38 +0000 (UTC)
+From: Joe Perches <joe@perches.com>
+To: Jiri Kosina <trivial@kernel.org>, oprofile-list@lists.sf.net,
+	linux-ide@vger.kernel.org, drbd-dev@lists.linbit.com,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, intel-gfx@lists.freedesktop.org,
+	linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-bcache@vger.kernel.org, netdev@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org, reiserfs-devel@vger.kernel.org,
+	linux-nfs@vger.kernel.org
+Date: Mon, 24 Aug 2020 21:55:57 -0700
+Message-Id: <cover.1598331148.git.joe@perches.com>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-Subject: [Drbd-dev] [PATCH] block: drbd: defer calling kref_put until end of
-	drbd_delete_device
+Cc: devel@driverdev.osuosl.org, linux-s390@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, linux-ia64@vger.kernel.org,
+	linux-scsi@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-mtd@lists.infradead.org,
+	linux-kselftest@vger.kernel.org, linux-alpha@vger.kernel.org,
+	sparclinux@vger.kernel.org
+Subject: [Drbd-dev] [PATCH 00/29] treewide: Convert comma separated
+	statements
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,109 +74,96 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-At least once I saw:
+There are many comma separated statements in the kernel.
+See:https://lore.kernel.org/lkml/alpine.DEB.2.22.394.2008201856110.2524@hadrien/
 
-drbd resource37: ASSERTION FAILED:
-  connection->current_epoch->list not empty
-drbd resource37: Connection closed
-drbd resource37: conn( Disconnecting -> StandAlone )
-drbd resource37: receiver terminated
-drbd resource37: Terminating drbd_r_resource
-block drbd37: disk( UpToDate -> Failed )
-block drbd37: 0 KB (0 bits) marked out-of-sync by on disk bit-map.
-block drbd37: disk( Failed -> Diskless )
-general protection fault: 0000 [#1] SMP NOPTI
-CPU: 0 PID: 18526 Comm: drbdsetup-84 Not tainted 5.4.46-1.el7.x86_64 #1
-RIP: e030:kobject_uevent_env+0x1d/0x660
-RSP: e02b:ffffc900757a7a10 EFLAGS: 00010246
-RAX: 0000000000000001 RBX: fdfdfdfdfdfe023d RCX: ffff8880606f9870
-RDX: 0000000000000000 RSI: 0000000000000001 RDI: fdfdfdfdfdfe023d
-RBP: ffff8880606f9870 R08: 0000000000000040 R09: ffffffffc01ae500
-R10: ffffc900757a7aa8 R11: ffffffffc01f0b58 R12: ffff8880606f9800
-R13: ffff88800fb5dc00 R14: ffffffff824055e5 R15: ffff88800fb5dc48
-FS:  00007fbbc98e4740(0000) GS:ffff888188a00000(0000)
-     knlGS:0000000000000000
-CS:  e030 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f978b44c000 CR3: 0000000007926000 CR4: 0000000000040660
-Call Trace:
-? error_exit+0x5/0x20
-blk_integrity_del+0x1a/0x2b
-del_gendisk+0x27/0x2f0
-drbd_delete_device+0xcc/0x100 [drbd]
-adm_del_minor+0xc5/0xe0 [drbd]
-drbd_adm_down+0x13f/0x1f0 [drbd]
-genl_family_rcv_msg+0x1d2/0x410
-genl_rcv_msg+0x47/0x90
-? __kmalloc_node_track_caller+0x217/0x2e0
-? genl_family_rcv_msg+0x410/0x410
-netlink_rcv_skb+0x49/0x110
-genl_rcv+0x24/0x40
-netlink_unicast+0x191/0x220
-netlink_sendmsg+0x21d/0x3f0
-sock_sendmsg+0x5b/0x60
-sock_write_iter+0x97/0x100
-new_sync_write+0x12d/0x1d0
-vfs_write+0xa5/0x1a0
-ksys_write+0x59/0xd0
-do_syscall_64+0x5b/0x1a0
-entry_SYSCALL_64_after_hwframe+0x44/0xa9
-RIP: 0033:0x7fbbc93f1a00
+Convert the comma separated statements that are in if/do/while blocks
+to use braces and semicolons.
 
-Which I traced back to drbd_destroy_device being called early, as
-drbd_destroy_device sets memory to 0xfd and one of the pointers
-observed was an offset from 0xfdfdfdfdfdfdfdfd.
+Many comma separated statements still exist but those are changes for
+another day.
 
-Make it so that the system can be recovered even if we see this bug,
-and call out if we unexpectedly do not free the device at the end
-of drbd_delete_device.
+Joe Perches (29):
+  coding-style.rst: Avoid comma statements
+  alpha: Avoid comma separated statements
+  ia64: Avoid comma separated statements
+  sparc: Avoid comma separated statements
+  ata: Avoid comma separated statements
+  drbd: Avoid comma separated statements
+  lp: Avoid comma separated statements
+  dma-buf: Avoid comma separated statements
+  drm/gma500: Avoid comma separated statements
+  drm/i915: Avoid comma separated statements
+  hwmon: (scmi-hwmon): Avoid comma separated statements
+  Input: MT - Avoid comma separated statements
+  bcache: Avoid comma separated statements
+  media: Avoid comma separated statements
+  mtd: Avoid comma separated statements
+  8390: Avoid comma separated statements
+  fs_enet: Avoid comma separated statements
+  wan: sbni: Avoid comma separated statements
+  s390/tty3270: Avoid comma separated statements
+  scai/arm: Avoid comma separated statements
+  media: atomisp: Avoid comma separated statements
+  video: fbdev: Avoid comma separated statements
+  fuse: Avoid comma separated statements
+  reiserfs: Avoid comma separated statements
+  lib/zlib: Avoid comma separated statements
+  lib: zstd: Avoid comma separated statements
+  ipv6: fib6: Avoid comma separated statements
+  sunrpc: Avoid comma separated statements
+  tools: Avoid comma separated statements
 
-Signed-off-by: Sarah Newman <srn@prgmr.com>
----
- drivers/block/drbd/drbd_main.c | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
+ Documentation/process/coding-style.rst        |  17 +
+ arch/alpha/kernel/pci_iommu.c                 |   8 +-
+ arch/alpha/oprofile/op_model_ev4.c            |  22 +-
+ arch/alpha/oprofile/op_model_ev5.c            |   8 +-
+ arch/ia64/kernel/smpboot.c                    |   7 +-
+ arch/sparc/kernel/smp_64.c                    |   7 +-
+ drivers/ata/pata_icside.c                     |  21 +-
+ drivers/block/drbd/drbd_receiver.c            |   6 +-
+ drivers/char/lp.c                             |   6 +-
+ drivers/dma-buf/st-dma-fence.c                |   7 +-
+ drivers/gpu/drm/gma500/mdfld_intel_display.c  |  44 ++-
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c          |   8 +-
+ drivers/gpu/drm/i915/gt/intel_gt_requests.c   |   6 +-
+ .../gpu/drm/i915/gt/selftest_workarounds.c    |   6 +-
+ drivers/gpu/drm/i915/intel_runtime_pm.c       |   6 +-
+ drivers/hwmon/scmi-hwmon.c                    |   6 +-
+ drivers/input/input-mt.c                      |  11 +-
+ drivers/md/bcache/bset.c                      |  12 +-
+ drivers/md/bcache/sysfs.c                     |   6 +-
+ drivers/media/i2c/msp3400-kthreads.c          |  12 +-
+ drivers/media/pci/bt8xx/bttv-cards.c          |   6 +-
+ drivers/media/pci/saa7134/saa7134-video.c     |   7 +-
+ drivers/mtd/devices/lart.c                    |  10 +-
+ drivers/net/ethernet/8390/axnet_cs.c          |  19 +-
+ drivers/net/ethernet/8390/lib8390.c           |  14 +-
+ drivers/net/ethernet/8390/pcnet_cs.c          |   6 +-
+ .../ethernet/freescale/fs_enet/fs_enet-main.c |  11 +-
+ drivers/net/wan/sbni.c                        | 101 +++---
+ drivers/s390/char/tty3270.c                   |   6 +-
+ drivers/scsi/arm/cumana_2.c                   |  19 +-
+ drivers/scsi/arm/eesox.c                      |   9 +-
+ drivers/scsi/arm/powertec.c                   |   9 +-
+ .../media/atomisp/pci/atomisp_subdev.c        |   6 +-
+ drivers/video/fbdev/tgafb.c                   |  12 +-
+ fs/fuse/dir.c                                 |  24 +-
+ fs/reiserfs/fix_node.c                        |  36 ++-
+ lib/zlib_deflate/deftree.c                    |  49 ++-
+ lib/zstd/compress.c                           | 120 ++++---
+ lib/zstd/fse_compress.c                       |  24 +-
+ lib/zstd/huf_compress.c                       |   6 +-
+ net/ipv6/ip6_fib.c                            |  12 +-
+ net/sunrpc/sysctl.c                           |   6 +-
+ tools/lib/subcmd/help.c                       |  10 +-
+ tools/power/cpupower/utils/cpufreq-set.c      |  14 +-
+ tools/testing/selftests/vm/gup_benchmark.c    |  18 +-
+ tools/testing/selftests/vm/userfaultfd.c      | 296 +++++++++++-------
+ 46 files changed, 694 insertions(+), 382 deletions(-)
 
-diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
-index a18155cdce41..9148713e8b3b 100644
---- a/drivers/block/drbd/drbd_main.c
-+++ b/drivers/block/drbd/drbd_main.c
-@@ -2935,6 +2935,7 @@ void drbd_delete_device(struct drbd_device *device)
- 	struct drbd_resource *resource = device->resource;
- 	struct drbd_connection *connection;
- 	struct drbd_peer_device *peer_device;
-+	unsigned int minor = device_to_minor(device);
- 
- 	/* move to free_peer_device() */
- 	for_each_peer_device(peer_device, device)
-@@ -2942,15 +2943,24 @@ void drbd_delete_device(struct drbd_device *device)
- 	drbd_debugfs_device_cleanup(device);
- 	for_each_connection(connection, resource) {
- 		idr_remove(&connection->peer_devices, device->vnr);
--		kref_put(&device->kref, drbd_destroy_device);
- 	}
-+	/* There is a problem somewhere with the reference counting for
-+	 * device->kref, such that at least once we saw the last kref_put before
-+	 * the very last one actually call drbd_destroy_device. Since it should
-+	 * be syntactically equivalent, move all the kref_puts to the end. We'll
-+	 * then get a warning if calling kref_put underflows.
-+	 */
- 	idr_remove(&resource->devices, device->vnr);
--	kref_put(&device->kref, drbd_destroy_device);
- 	idr_remove(&drbd_devices, device_to_minor(device));
--	kref_put(&device->kref, drbd_destroy_device);
- 	del_gendisk(device->vdisk);
- 	synchronize_rcu();
-+	for_each_connection(connection, resource) {
-+		kref_put(&device->kref, drbd_destroy_device);
-+	}
-+	kref_put(&device->kref, drbd_destroy_device);
- 	kref_put(&device->kref, drbd_destroy_device);
-+	if (!kref_put(&device->kref, drbd_destroy_device))
-+		pr_err("invalid kref for device %d\n", minor);
- }
- 
- static int __init drbd_init(void)
 -- 
-2.17.1
+2.26.0
 
 _______________________________________________
 drbd-dev mailing list
