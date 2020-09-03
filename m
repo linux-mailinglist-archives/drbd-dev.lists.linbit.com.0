@@ -2,35 +2,35 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9428125BAC1
-	for <lists+drbd-dev@lfdr.de>; Thu,  3 Sep 2020 08:02:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC57B25BAD0
+	for <lists+drbd-dev@lfdr.de>; Thu,  3 Sep 2020 08:05:04 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 70A8B425125;
-	Thu,  3 Sep 2020 08:02:33 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9DF72425402;
+	Thu,  3 Sep 2020 08:05:04 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id EE9BF4250F5
-	for <drbd-dev@lists.linbit.com>; Thu,  3 Sep 2020 08:02:02 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0BF31425103
+	for <drbd-dev@lists.linbit.com>; Thu,  3 Sep 2020 08:02:13 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209;
 	h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=lCOMSP4uMUJ3uIKDrmMJjxXVc+8ZTxkt+4XjQNLywdE=;
-	b=eK9nvduJBsF3+cFTg4gaoVitAF
-	+ngsBu/GQmjN2Kkei/TQJDAdcxbgEbcowO4oUhDKz/X+MpdHJ9JSsYzNgq/WuQyFdrbm6GJHZWwq4
-	JrgcgyQJCGU5rIQYbwNwassLYxu40btDFlRANV2x8rC8vLwjpbiUEIdGJGVogvw/S9NBPejBnQisG
-	WCF1SMA+9B/Rbj+9uxsq98RHEWSZSmNQO1U/69CerajafRbz56F/KrD4fETqj37nQXCChnxJsMFXI
-	mGhsLBpRMs0vHulWMhQd5QEVMpgR1AWbiyszmK+fSirDb+Zn+WKblR08rDNIIHmvtGk5RoGT2sAyA
-	4jmNJ4wA==;
+	bh=R89HA/uWAzWh6mtQM1R1smd1gWJ/i0uHfxn68DDq4hk=;
+	b=JDPQt27x9LDzHp3xHz5NEZKPPl
+	cg1EuiWRYukdFbZy4VN0mNfxDjHr2RuHNXqMZSpVkHrCFOOUK7lWRrWYvFSKb5v1SQDEucgnVvWRp
+	OH9f7clF3zLQZ9eYl4A9tqYjWbQycwP+lP8x9/dj2iOe4uYHYLadmg1u4sZMa7dzCawvf0H82LJk7
+	452refCRAhb0ETWQkqawIq4z14k21fUyJhOBHTQ5tlySjIIw7a0MwidGgHSCQkgEAMhCfMmNrWMcA
+	kaFhWxbtpnA4ok/mow9izl06HmyEUW2LVJ/ZMki1gmDNIsby/OhJNkibEBkuRoZ0B+jFdIYyewx33
+	vlr6NPKw==;
 Received: from [2001:4bb8:184:af1:c70:4a89:bc61:2] (helo=localhost)
 	by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kDhzi-0007Oh-UY; Thu, 03 Sep 2020 05:41:11 +0000
+	id 1kDhzj-0007Op-VV; Thu, 03 Sep 2020 05:41:12 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Date: Thu,  3 Sep 2020 07:41:00 +0200
-Message-Id: <20200903054104.228829-6-hch@lst.de>
+Date: Thu,  3 Sep 2020 07:41:01 +0200
+Message-Id: <20200903054104.228829-7-hch@lst.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200903054104.228829-1-hch@lst.de>
 References: <20200903054104.228829-1-hch@lst.de>
@@ -43,8 +43,7 @@ Cc: linux-raid@vger.kernel.org, linux-scsi@vger.kernel.org,
 	linux-block@vger.kernel.org, linux-ide@vger.kernel.org,
 	dm-devel@redhat.com, target-devel@vger.kernel.org,
 	drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 5/9] drbd: don't detour through bd_contains for
-	the gendisk
+Subject: [Drbd-dev] [PATCH 6/9] drbd: don't set ->bd_contains
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -63,40 +62,27 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-bd_disk is set on all block devices, including those for partitions.
+The ->bd_contains field is set by __blkdev_get and drivers have no
+business manipulating it.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/block/drbd/drbd_receiver.c | 2 +-
- drivers/block/drbd/drbd_worker.c   | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/block/drbd/drbd_main.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd_receiver.c
-index 422363daa6180b..2d16fb0905999d 100644
---- a/drivers/block/drbd/drbd_receiver.c
-+++ b/drivers/block/drbd/drbd_receiver.c
-@@ -2789,7 +2789,7 @@ bool drbd_rs_should_slow_down(struct drbd_device *device, sector_t sector,
+diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
+index 04b6bde9419d2a..bd8b129196d49a 100644
+--- a/drivers/block/drbd/drbd_main.c
++++ b/drivers/block/drbd/drbd_main.c
+@@ -2766,8 +2766,6 @@ enum drbd_ret_code drbd_create_device(struct drbd_config_context *adm_ctx, unsig
+ 	disk->private_data = device;
  
- bool drbd_rs_c_min_rate_throttle(struct drbd_device *device)
- {
--	struct gendisk *disk = device->ldev->backing_bdev->bd_contains->bd_disk;
-+	struct gendisk *disk = device->ldev->backing_bdev->bd_disk;
- 	unsigned long db, dt, dbdt;
- 	unsigned int c_min_rate;
- 	int curr_events;
-diff --git a/drivers/block/drbd/drbd_worker.c b/drivers/block/drbd/drbd_worker.c
-index 7c903de5c4e103..9107b109ba7bcb 100644
---- a/drivers/block/drbd/drbd_worker.c
-+++ b/drivers/block/drbd/drbd_worker.c
-@@ -1672,7 +1672,7 @@ void drbd_resync_after_changed(struct drbd_device *device)
+ 	device->this_bdev = bdget(MKDEV(DRBD_MAJOR, minor));
+-	/* we have no partitions. we contain only ourselves. */
+-	device->this_bdev->bd_contains = device->this_bdev;
  
- void drbd_rs_controller_reset(struct drbd_device *device)
- {
--	struct gendisk *disk = device->ldev->backing_bdev->bd_contains->bd_disk;
-+	struct gendisk *disk = device->ldev->backing_bdev->bd_disk;
- 	struct fifo_buffer *plan;
- 
- 	atomic_set(&device->rs_sect_in, 0);
+ 	blk_queue_write_cache(q, true, true);
+ 	/* Setting the max_hw_sectors to an odd value of 8kibyte here
 -- 
 2.28.0
 
