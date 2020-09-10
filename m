@@ -2,42 +2,46 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A4BA25BD5B
-	for <lists+drbd-dev@lfdr.de>; Thu,  3 Sep 2020 10:34:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78B2126486D
+	for <lists+drbd-dev@lfdr.de>; Thu, 10 Sep 2020 16:52:49 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E2C53423B7A;
-	Thu,  3 Sep 2020 10:34:02 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 63C9C421020;
+	Thu, 10 Sep 2020 16:52:49 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 440 seconds by postgrey-1.31 at mail19;
-	Thu, 03 Sep 2020 10:34:01 CEST
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3899F423B77
-	for <drbd-dev@lists.linbit.com>; Thu,  3 Sep 2020 10:34:01 +0200 (CEST)
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 727D868BEB; Thu,  3 Sep 2020 10:26:09 +0200 (CEST)
-Date: Thu, 3 Sep 2020 10:26:09 +0200
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0CC59421009
+	for <drbd-dev@lists.linbit.com>; Thu, 10 Sep 2020 16:50:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209;
+	h=Content-Transfer-Encoding:MIME-Version:
+	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=G/ynTjiiaQImGikICL0Gi3SQqZvoYMtx3vuRG4L2Av0=;
+	b=qOtT7aIVEPRamwsXqaXgrJlja8
+	q2wS41r86uBmexZ/oqJQzqwyKpAFJXnGBEmvOQk5iJqrYtbDECr3uG2rXmaqm0KlEWHXxZo2RHcQy
+	0ryEeRmnT6dbxMtwimADAon7dOEyWt5hJQSsPWE6p/JAwPBc8YUj6xx4fCFPJeHAAdBN+sM5S9MTg
+	FowMF/Yyd3yg13KFYySdeZtHRrjTC7AE6aXk69XxPAfc8CnAwaBcAaGX3hEcgxs0NxH9mubGzqUma
+	0rP4/e+qVoXjVmX1AxpSX++MdR/eFn4iF7Y/DBtWhBj3C+HnendB6PWzU0TdPvPX5Jy2Fu7b2tnFc
+	EAdhi49A==;
+Received: from [2001:4bb8:184:af1:3ecc:ac5b:136f:434a] (helo=localhost)
+	by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+	id 1kGNsH-0006vT-Ul; Thu, 10 Sep 2020 14:48:34 +0000
 From: Christoph Hellwig <hch@lst.de>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Message-ID: <20200903082609.GA23498@lst.de>
-References: <20200903054104.228829-1-hch@lst.de>
-	<20200903054104.228829-3-hch@lst.de>
-	<CAPDyKFrkcpziGFPmSd8Kx4bzhoN6zxF1E8MagLQSa4sBmnicOg@mail.gmail.com>
+To: Jens Axboe <axboe@kernel.dk>
+Date: Thu, 10 Sep 2020 16:48:20 +0200
+Message-Id: <20200910144833.742260-1-hch@lst.de>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAPDyKFrkcpziGFPmSd8Kx4bzhoN6zxF1E8MagLQSa4sBmnicOg@mail.gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: Jens Axboe <axboe@kernel.dk>, linux-raid@vger.kernel.org,
-	linux-scsi <linux-scsi@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	linux-s390@vger.kernel.org,
-	"linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	linux-block <linux-block@vger.kernel.org>,
-	linux-ide@vger.kernel.org, dm-devel@redhat.com,
-	target-devel@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
-	drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH 2/9] block: add a bdev_is_partition helper
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+	casper.infradead.org. See http://www.infradead.org/rpr.html
+Cc: linux-raid@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
+	Minchan Kim <minchan@kernel.org>, Richard Weinberger <richard@nod.at>,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	Song Liu <song@kernel.org>, dm-devel@redhat.com,
+	linux-mtd@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+	cgroups@vger.kernel.org, linux-mm@kvack.org, drbd-dev@lists.linbit.com
+Subject: [Drbd-dev] bdi cleanups v4
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -56,20 +60,81 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Thu, Sep 03, 2020 at 10:19:34AM +0200, Ulf Hansson wrote:
-> On Thu, 3 Sep 2020 at 07:42, Christoph Hellwig <hch@lst.de> wrote:
-> >
-> > Add a littler helper to make the somewhat arcane bd_contains checks a
-> > little more obvious.
-> >
-> > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> 
-> Not sure why we have both "bd_contains" and "bd_partno", nevertheless,
-> feel free to add:
+Hi Jens,
 
-Right now both are needed for how blkdev_get/put work.  But I plan to
-eventual kill off bd_contains after some major surgery to that code.
+this series contains a bunch of different BDI cleanups.  The biggest item
+is to isolate block drivers from the BDI in preparation of changing the
+lifetime of the block device BDI in a follow up series.
 
+
+Changes since v3:
+ - rebased on the lasted block tree, which has some of the prep
+   changes merged
+ - extend the ->ra_pages changes to ->io_pages
+ - move initializing ->ra_pages and ->io_pages for block devices to
+   blk_register_queue
+
+Changes since v2:
+ - fix a rw_page return value check
+ - fix up various changelogs
+
+Changes since v1:
+ - rebased to the for-5.9/block-merge branch
+ - explicitly set the readahead to 0 for ubifs, vboxsf and mtd
+ - split the zram block_device operations
+ - let rw_page users fall back to bios in swap_readpage
+
+
+Diffstat:
+ block/blk-core.c              |    3 -
+ block/blk-integrity.c         |    4 +-
+ block/blk-mq-debugfs.c        |    1 
+ block/blk-settings.c          |    5 +-
+ block/blk-sysfs.c             |    4 +-
+ block/genhd.c                 |   13 +++++--
+ drivers/block/aoe/aoeblk.c    |    2 -
+ drivers/block/brd.c           |    1 
+ drivers/block/drbd/drbd_nl.c  |   18 ---------
+ drivers/block/drbd/drbd_req.c |    4 --
+ drivers/block/rbd.c           |    2 -
+ drivers/block/zram/zram_drv.c |   19 +++++++---
+ drivers/md/bcache/super.c     |    4 --
+ drivers/md/dm-table.c         |    9 +---
+ drivers/md/raid0.c            |   16 --------
+ drivers/md/raid10.c           |   46 ++++++++----------------
+ drivers/md/raid5.c            |   31 +++++++---------
+ drivers/mmc/core/queue.c      |    3 -
+ drivers/mtd/mtdcore.c         |    2 +
+ drivers/nvdimm/btt.c          |    2 -
+ drivers/nvdimm/pmem.c         |    1 
+ drivers/nvme/host/core.c      |    3 -
+ drivers/nvme/host/multipath.c |   10 +----
+ drivers/scsi/iscsi_tcp.c      |    4 +-
+ fs/9p/vfs_file.c              |    2 -
+ fs/9p/vfs_super.c             |    6 ++-
+ fs/afs/super.c                |    1 
+ fs/btrfs/disk-io.c            |    2 -
+ fs/fs-writeback.c             |    7 ++-
+ fs/fuse/inode.c               |    4 +-
+ fs/namei.c                    |    4 +-
+ fs/nfs/super.c                |    9 ----
+ fs/super.c                    |    2 +
+ fs/ubifs/super.c              |    2 +
+ fs/vboxsf/super.c             |    2 +
+ include/linux/backing-dev.h   |   78 +++++++-----------------------------------
+ include/linux/blkdev.h        |    3 +
+ include/linux/drbd.h          |    1 
+ include/linux/fs.h            |    2 -
+ mm/backing-dev.c              |   13 +++----
+ mm/filemap.c                  |    4 +-
+ mm/memcontrol.c               |    2 -
+ mm/memory-failure.c           |    2 -
+ mm/migrate.c                  |    2 -
+ mm/mmap.c                     |    2 -
+ mm/page-writeback.c           |   18 ++++-----
+ mm/page_io.c                  |   18 +++++----
+ mm/swapfile.c                 |    4 +-
+ 48 files changed, 144 insertions(+), 253 deletions(-)
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
