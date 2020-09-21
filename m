@@ -2,39 +2,49 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABEB0270B79
-	for <lists+drbd-dev@lfdr.de>; Sat, 19 Sep 2020 09:32:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E473D271D94
+	for <lists+drbd-dev@lfdr.de>; Mon, 21 Sep 2020 10:10:54 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 815D4420E20;
-	Sat, 19 Sep 2020 09:32:18 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id CAFD54203E9;
+	Mon, 21 Sep 2020 10:10:54 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 79D93420375
-	for <drbd-dev@lists.linbit.com>; Sat, 19 Sep 2020 09:32:16 +0200 (CEST)
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 544E068BEB; Sat, 19 Sep 2020 09:31:45 +0200 (CEST)
-Date: Sat, 19 Sep 2020 09:31:45 +0200
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7CBD24203AE
+	for <drbd-dev@lists.linbit.com>; Mon, 21 Sep 2020 10:07:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209;
+	h=Content-Transfer-Encoding:MIME-Version:
+	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=VM2ZDhyOxyQ2Y1dDHiBEPye1qG1o//V0l6TNm5Sr/FU=;
+	b=t0/fR3slvRiXSRxi1ANdVCAPYJ
+	cTpjX/9/46DAos1ZZSmSu9iT0bOAPH4s2IIQBYnzF5i80UAkswyyGMaX0ZSmgY9fkoz8dCCpQ3+7h
+	Adb3hpLeikh8u7CgrIF0WEBhX1fEIUEBxABgoXVNxCW1d5j5AJgOmtKyCBBj6KDhXKtSvy1xIZBCc
+	IWeakTABDNWW43uVABcmb9AXarhhnZYbB4WsyHg0bVqgcTwp9gTxUmvPRwOHYCv4yoky6MCSu5YHs
+	0Dz4Pd9AlW7rqDQtJJ5kr4i2Iv7QuEQOFdXgfTL2W5GuhU2d2n8/lsi8Wix4SdH3T6pdRU7OWXlMJ
+	GBC1k5xQ==;
+Received: from p4fdb0c34.dip0.t-ipconnect.de ([79.219.12.52] helo=localhost)
+	by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+	id 1kKGr6-0006Vp-FM; Mon, 21 Sep 2020 08:07:25 +0000
 From: Christoph Hellwig <hch@lst.de>
-To: Jan Kara <jack@suse.cz>
-Message-ID: <20200919073145.GA8514@lst.de>
-References: <20200910144833.742260-1-hch@lst.de>
-	<20200910144833.742260-7-hch@lst.de>
-	<20200917103540.GL7347@quack2.suse.cz>
+To: Jens Axboe <axboe@kernel.dk>
+Date: Mon, 21 Sep 2020 10:07:21 +0200
+Message-Id: <20200921080734.452759-1-hch@lst.de>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20200917103540.GL7347@quack2.suse.cz>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: Jens Axboe <axboe@kernel.dk>, linux-raid@vger.kernel.org,
-	Hans de Goede <hdegoede@redhat.com>, Minchan Kim <minchan@kernel.org>,
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+	casper.infradead.org. See http://www.infradead.org/rpr.html
+Cc: linux-raid@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
+	Justin Sanders <justin@coraid.com>, Minchan Kim <minchan@kernel.org>,
+	Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
+	linux-bcache@vger.kernel.org, Coly Li <colyli@suse.de>,
+	linux-block@vger.kernel.org, Song Liu <song@kernel.org>,
+	dm-devel@redhat.com, linux-mtd@lists.infradead.org,
 	Richard Weinberger <richard@nod.at>,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	Song Liu <song@kernel.org>, dm-devel@redhat.com,
-	linux-mtd@lists.infradead.org, linux-mm@kvack.org,
 	linux-fsdevel@vger.kernel.org, cgroups@vger.kernel.org,
-	Christoph Hellwig <hch@lst.de>, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH 06/12] block: lift setting the readahead size
- into the block layer
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, drbd-dev@lists.linbit.com
+Subject: [Drbd-dev] bdi cleanups v6
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,71 +63,45 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Thu, Sep 17, 2020 at 12:35:40PM +0200, Jan Kara wrote:
-> > diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
-> > index 81722cdcf0cb21..95eb35324e1a61 100644
-> > --- a/block/blk-sysfs.c
-> > +++ b/block/blk-sysfs.c
-> > @@ -245,7 +245,6 @@ queue_max_sectors_store(struct request_queue *q, const char *page, size_t count)
-> >  
-> >  	spin_lock_irq(&q->queue_lock);
-> >  	q->limits.max_sectors = max_sectors_kb << 1;
-> > -	q->backing_dev_info->io_pages = max_sectors_kb >> (PAGE_SHIFT - 10);
-> >  	spin_unlock_irq(&q->queue_lock);
-> 
-> So do I get it right that readahead won't now be limited if you store lower
-> value to max_sectors? Why? I'd consider io_pages a "cached value" of
-> max_sectors and thus expect it to change together with max_sectors...
+Hi Jens,
 
-Most to start untangling the bdi from the queue.  But I had to peddle
-back on that in the follow on series anyway, so I can add this back.
+this series contains a bunch of different BDI cleanups.  The biggest item
+is to isolate block drivers from the BDI in preparation of changing the
+lifetime of the block device BDI in a follow up series.
 
-> > @@ -812,7 +813,7 @@ static void __device_add_disk(struct device *parent, struct gendisk *disk,
-> >  		disk->flags |= GENHD_FL_SUPPRESS_PARTITION_INFO;
-> >  		disk->flags |= GENHD_FL_NO_PART_SCAN;
-> >  	} else {
-> > -		struct backing_dev_info *bdi = disk->queue->backing_dev_info;
-> > +		struct backing_dev_info *bdi = q->backing_dev_info;
-> >  		struct device *dev = disk_to_dev(disk);
-> >  		int ret;
-> 
-> Not sure how/why these changes got here... Not that I care too much :)
+Changes since v5:
+ - improve a commit message
+ - improve the stable_writes deprecation printk
+ - drop "drbd: remove RB_CONGESTED_REMOTE"
+ - drop a few hunks that add a local variable in a otherwise unchanged
+   file due to changes in the previous revisions
+ - keep updating ->io_pages in queue_max_sectors_store
+ - set an optimal I/O size in aoe
+ - inherit the optimal I/O size in bcache
 
-Because more changes in this area in earlier versions of the patches.
-But yes, this shouldn't be here, so I'll drop it.
+Changes since v4:
+ - add a back a prematurely removed assignment in dm-table.c
+ - pick up a few reviews from Johannes that got lost
 
-> > @@ -407,7 +406,6 @@ aoeblk_gdalloc(void *vp)
-> >  	WARN_ON(d->gd);
-> >  	WARN_ON(d->flags & DEVFL_UP);
-> >  	blk_queue_max_hw_sectors(q, BLK_DEF_MAX_SECTORS);
-> > -	q->backing_dev_info->ra_pages = READ_AHEAD / PAGE_SIZE;
-> >  	d->bufpool = mp;
-> >  	d->blkq = gd->queue = q;
-> >  	q->queuedata = d;
-> 
-> Shouldn't AOE set 2MB optimal IO size so that readahead is equivalent to
-> previous behavior?
+Changes since v3:
+ - rebased on the lasted block tree, which has some of the prep
+   changes merged
+ - extend the ->ra_pages changes to ->io_pages
+ - move initializing ->ra_pages and ->io_pages for block devices to
+   blk_register_queue
 
-Sure, I'll add a separate patch just for that.
+Changes since v2:
+ - fix a rw_page return value check
+ - fix up various changelogs
 
-> > diff --git a/drivers/md/bcache/super.c b/drivers/md/bcache/super.c
-> > index 1bbdc410ee3c51..ff2101d56cd7f1 100644
-> > --- a/drivers/md/bcache/super.c
-> > +++ b/drivers/md/bcache/super.c
-> > @@ -1427,10 +1427,6 @@ static int cached_dev_init(struct cached_dev *dc, unsigned int block_size)
-> >  	if (ret)
-> >  		return ret;
-> >  
-> > -	dc->disk.disk->queue->backing_dev_info->ra_pages =
-> > -		max(dc->disk.disk->queue->backing_dev_info->ra_pages,
-> > -		    q->backing_dev_info->ra_pages);
-> > -
-> 
-> So bcache is basically stacking readahead here on top of underlying cache
-> device. I don't see this being replicated by your patch so it is lost now?
-> Probably this should be replaced by properly inheriting optimal IO size?
+Changes since v1:
+ - rebased to the for-5.9/block-merge branch
+ - explicitly set the readahead to 0 for ubifs, vboxsf and mtd
+ - split the zram block_device operations
+ - let rw_page users fall back to bios in swap_readpage
 
-Yes, I'll add another patch.
+
+Diffstat:
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
