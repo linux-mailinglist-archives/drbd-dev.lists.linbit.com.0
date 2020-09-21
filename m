@@ -2,28 +2,30 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1616D27267E
-	for <lists+drbd-dev@lfdr.de>; Mon, 21 Sep 2020 16:00:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CB9B2731C4
+	for <lists+drbd-dev@lfdr.de>; Mon, 21 Sep 2020 20:19:15 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id EA13342082F;
-	Mon, 21 Sep 2020 16:00:45 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 144AF4209D1;
+	Mon, 21 Sep 2020 20:19:14 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7BD3442082A
-	for <drbd-dev@lists.linbit.com>; Mon, 21 Sep 2020 16:00:44 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 52DCF4209BF
+	for <drbd-dev@lists.linbit.com>; Mon, 21 Sep 2020 20:19:12 +0200 (CEST)
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id A75DA68AFE; Mon, 21 Sep 2020 16:00:11 +0200 (CEST)
-Date: Mon, 21 Sep 2020 16:00:10 +0200
+	id 259D968B02; Mon, 21 Sep 2020 20:18:42 +0200 (CEST)
+Date: Mon, 21 Sep 2020 20:18:41 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Coly Li <colyli@suse.de>
-Message-ID: <20200921140010.GA14672@lst.de>
+Message-ID: <20200921181841.GB2067@lst.de>
 References: <20200921080734.452759-1-hch@lst.de>
 	<20200921080734.452759-4-hch@lst.de>
 	<b547a1b6-ab03-0520-012d-86d112c83d92@suse.de>
+	<20200921140010.GA14672@lst.de>
+	<5bcc52dc-ca8f-bbdd-69ef-4b6312e7994a@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <b547a1b6-ab03-0520-012d-86d112c83d92@suse.de>
+In-Reply-To: <5bcc52dc-ca8f-bbdd-69ef-4b6312e7994a@suse.de>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 Cc: Jens Axboe <axboe@kernel.dk>, linux-raid@vger.kernel.org,
 	Hans de Goede <hdegoede@redhat.com>, Justin Sanders <justin@coraid.com>,
@@ -53,24 +55,24 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Mon, Sep 21, 2020 at 05:54:59PM +0800, Coly Li wrote:
-> I am not sure whether virtual bcache device's optimal request size can
-> be simply set like this.
+On Mon, Sep 21, 2020 at 11:09:48PM +0800, Coly Li wrote:
+> I feel this is something should be fixed. Indeed I overlooked it until
+> you point out the issue now.
 > 
-> Most of time inherit backing device's optimal request size is fine, but
-> there are two exceptions,
-> - Read request hits on cache device
-> - User sets sequential_cuttoff as 0, all writing may go into cache
-> device firstly.
-> For the above two conditions, all I/Os goes into cache device, using
-> optimal request size of backing device might be improper.
+> The optimal request size and read ahead pages hint are necessary, but
+> current initialization is simple. A better way might be dynamically
+> setting them depends on the cache mode and some special configuration.
 > 
-> Just a guess, is it OK to set the optimal request size of the virtual
-> bcache device as the least common multiple of cache device's and backing
-> device's optimal request sizes ?
+> By your inspiration, I want to ACK your original patch although it
+> doesn't work fine for all condition. Then we may know these two settings
+> (ra_pages and queue_io_opt) should be improved for more situations. At
+> lease for most part of the situations they provide proper hints.
+> 
+> How do you think of the above idea ?
 
-Well, if the optimal I/O size is wrong, the read ahead size also is
-wrong.  Can we just drop the setting?
+Sounds like a plan.  I'd reall like to get this series in to get
+some soaking before the end of the merge window, but we should still
+have plenty of time for localized bcache updates.
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
