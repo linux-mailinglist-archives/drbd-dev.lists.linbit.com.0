@@ -2,69 +2,43 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FC24278ABB
-	for <lists+drbd-dev@lfdr.de>; Fri, 25 Sep 2020 16:19:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90117278D99
+	for <lists+drbd-dev@lfdr.de>; Fri, 25 Sep 2020 18:06:33 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7B3AF420F59;
-	Fri, 25 Sep 2020 16:19:13 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 70DA6421028;
+	Fri, 25 Sep 2020 18:06:32 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
-	[209.85.215.172])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D494D420F52
-	for <drbd-dev@lists.linbit.com>; Fri, 25 Sep 2020 16:19:11 +0200 (CEST)
-Received: by mail-pg1-f172.google.com with SMTP id 197so2700124pge.8
-	for <drbd-dev@lists.linbit.com>; Fri, 25 Sep 2020 07:19:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kernel-dk.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=Izvn14aXCOd8rlHi8gt8/prckjwG/92/E8+p6vMMqzM=;
-	b=QZx7q7gI1poaxI+iNpfTHOEPysawBMN6ILpWj8VDRHvig1MWbXDH9Q/Ejh/VGdMY6V
-	XhsSRSgLJ3vyBUW4G6v5lGczlnBrfrfGUTY6Io4kTHSOwwPeeq67+GUlO0pvSbpcSc8G
-	UQSaYijRBt6BeZMDv8AdtAKiNqO1VevLatKGi1HCrNW5g8jU/dNWe2se7vKcQ5smC1Kh
-	pE6mdkVNLv/zO4pT+cJM9rz/VL4qgjegnLWF0CSvnNA3YX8nzt9KdJQrxarNDFpNgyxb
-	mdM7GAKDG1dsnTN8AV+yDCM9QF/vXMl36U6209JvGiLAPdEQelB4a/A4/bJ7gb2XykBg
-	PFCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=Izvn14aXCOd8rlHi8gt8/prckjwG/92/E8+p6vMMqzM=;
-	b=O6uiPonjTSbbG7EQA/+HjYGd/JvuTIy+LHQ949CWZ4NNbJgoohK395PHNclqkoaHMT
-	fGIq8qooNquUEZlTHYDCqOVDf6c63Kx/hYRqdrWfwWRmbmHUKWKsKavMtx5iqg4+QYOJ
-	z54nvaqRuKqprqHX2t9gf0YmtbxKgsQNYtOVYB7ZSG8Tr6tu13WBTC/Nf+tqidbU+5Mz
-	wvTDtWXXQa6rcyBkotQgTy64lr2crT8oA8MgaiWgwTvo8TglzUn20d3wXIxwu526vxkf
-	andhRygRAqhNCrjnmJKbn8gBzVFmsJYGm1Vpqtp/sS/K4hhah0aG5sIxIMnH0V4cXC04
-	xEHQ==
-X-Gm-Message-State: AOAM5323J3ThS1UcATbYK9mdu7u7Dz4IS0+q12YKB4iIJRCXFEHwcyC4
-	XfKL7riWlumo4RlWSX78oAvexA==
-X-Google-Smtp-Source: ABdhPJwRr/FwQpe7dKk8pmg8H/cUjDmWIFuRPHGSosKhPuxMlj+z/HBIhpQTLB9cSGSc+hfMahv5og==
-X-Received: by 2002:a63:e057:: with SMTP id n23mr213338pgj.87.1601043550492;
-	Fri, 25 Sep 2020 07:19:10 -0700 (PDT)
-Received: from [192.168.1.30] ([65.144.74.34])
-	by smtp.gmail.com with ESMTPSA id
-	j19sm2930829pfe.108.2020.09.25.07.19.08
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Fri, 25 Sep 2020 07:19:09 -0700 (PDT)
-To: Christoph Hellwig <hch@lst.de>
-References: <20200903054104.228829-1-hch@lst.de>
-From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <7a0600d8-d886-c546-378c-5298a16e979c@kernel.dk>
-Date: Fri, 25 Sep 2020 08:19:08 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.10.0
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3FBAB421025
+	for <drbd-dev@lists.linbit.com>; Fri, 25 Sep 2020 18:06:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209;
+	h=Content-Transfer-Encoding:MIME-Version:
+	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=9fMaPbhzAtLsK4GqLf9UO/jqtWV45pALgS6VDR5Ex6g=;
+	b=Dce1miEU6M5xuTkIphPHY2C711
+	054xElroFEhbrHjROV4X2jynnOLXPd0zHs086v8oNlq3wQXKy5Egstt5ur4pIjb2nDyNKaCBuMWtw
+	THpLx0YSF2ala+gUPUUifRv7YCYharUg8P4HOJKD1e0MQoT6i60yUFfFxI/26DS0TOWoKTvs2YJIU
+	Xi2HTY3yaS4dES1qiZFFuGeVaIhcGyh4ceRJ43jWkA7DJ+SC/N+8dj1eglSyOYIAQiEjA+yb4XufM
+	g2KOMwNW+mxe1OXq+cBeIUYpfyZZhjal7PqKCZpnX0mPgs9YMhXTU6AH8ybjhhQCXj9v9cjDBppwE
+	lVwVb2Tw==;
+Received: from [213.208.157.35] (helo=localhost)
+	by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+	id 1kLqEs-0003Nz-Tw; Fri, 25 Sep 2020 16:06:27 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Jens Axboe <axboe@kernel.dk>
+Date: Fri, 25 Sep 2020 18:06:16 +0200
+Message-Id: <20200925160618.1481450-1-hch@lst.de>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <20200903054104.228829-1-hch@lst.de>
-Content-Language: en-US
-Cc: linux-raid@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
-	linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-ide@vger.kernel.org,
-	dm-devel@redhat.com, target-devel@vger.kernel.org,
-	drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] clean up is partition checks
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+	casper.infradead.org. See http://www.infradead.org/rpr.html
+Cc: linux-block@vger.kernel.org, Lars Ellenberg <lars.ellenberg@linbit.com>,
+	drbd-dev@lists.linbit.com, Philipp Reisner <philipp.reisner@linbit.com>,
+	linux-kernel@vger.kernel.org
+Subject: [Drbd-dev] remove bdget() as a public API
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -83,18 +57,10 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On 9/2/20 11:40 PM, Christoph Hellwig wrote:
-> Hi Jens,
-> 
-> this series add a new helepr to check if a struct block_device represents
-> a parition, and removes most direct access to ->bd_contained from
-> drivers.
+Hi Jens,
 
-Applied, thanks.
-
--- 
-Jens Axboe
-
+this series first cleans up the somewhat odd size handling in
+drbd, and then kill off bdget() as a public API.
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
