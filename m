@@ -2,73 +2,69 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 794742779A0
-	for <lists+drbd-dev@lfdr.de>; Thu, 24 Sep 2020 21:45:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FC24278ABB
+	for <lists+drbd-dev@lfdr.de>; Fri, 25 Sep 2020 16:19:14 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 48F474209B6;
-	Thu, 24 Sep 2020 21:45:00 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7B3AF420F59;
+	Fri, 25 Sep 2020 16:19:13 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
-	[209.85.210.178])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9105C420110
-	for <drbd-dev@lists.linbit.com>; Thu, 24 Sep 2020 21:44:58 +0200 (CEST)
-Received: by mail-pf1-f178.google.com with SMTP id x22so401983pfo.12
-	for <drbd-dev@lists.linbit.com>; Thu, 24 Sep 2020 12:44:58 -0700 (PDT)
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
+	[209.85.215.172])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D494D420F52
+	for <drbd-dev@lists.linbit.com>; Fri, 25 Sep 2020 16:19:11 +0200 (CEST)
+Received: by mail-pg1-f172.google.com with SMTP id 197so2700124pge.8
+	for <drbd-dev@lists.linbit.com>; Fri, 25 Sep 2020 07:19:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=kernel-dk.20150623.gappssmtp.com; s=20150623;
 	h=subject:to:cc:references:from:message-id:date:user-agent
 	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=ADwlTn9rnJzlHv/xfLefERCgTh/zOY3+dj+IP5LMhIo=;
-	b=L2Wx7FlLw8QHVp62Ne3mt4GV7+MUCO/WLUazgDqXAmYbUX1Et5GwKUZRbOhKWcg1pJ
-	h3F8YG2QH8T53HlhbxkOnKDq7rYr7VYQSpBZ/SrGKbAAN0q9gjlZztvIvkLYWYD2H5p5
-	D5jWhUDJxNaNV9x10hDsgdYsv3+GqUJuih92RXGRYnyEyog4jlWpFA8o+B+sqtqEeysu
-	zXsVFR5QGsEI7lJZ39JHqx1JjZyubGP7QEwNsybW+JHQWulohPcvjDgNlPxNi7sQOhp+
-	YLXR3ph4QhgGStegDp9ue2849D7tWES5wOYPeY73GujeWcYMaP3DsMTgcgakPfQ8C4Iw
-	pmzA==
+	bh=Izvn14aXCOd8rlHi8gt8/prckjwG/92/E8+p6vMMqzM=;
+	b=QZx7q7gI1poaxI+iNpfTHOEPysawBMN6ILpWj8VDRHvig1MWbXDH9Q/Ejh/VGdMY6V
+	XhsSRSgLJ3vyBUW4G6v5lGczlnBrfrfGUTY6Io4kTHSOwwPeeq67+GUlO0pvSbpcSc8G
+	UQSaYijRBt6BeZMDv8AdtAKiNqO1VevLatKGi1HCrNW5g8jU/dNWe2se7vKcQ5smC1Kh
+	pE6mdkVNLv/zO4pT+cJM9rz/VL4qgjegnLWF0CSvnNA3YX8nzt9KdJQrxarNDFpNgyxb
+	mdM7GAKDG1dsnTN8AV+yDCM9QF/vXMl36U6209JvGiLAPdEQelB4a/A4/bJ7gb2XykBg
+	PFCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
 	:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=ADwlTn9rnJzlHv/xfLefERCgTh/zOY3+dj+IP5LMhIo=;
-	b=unvVK/tKib3l0xlOz9Ru1YUykV7uqbUt6VVwP9JGrbklvsUUB/0+pqlPBqpeSgLGxR
-	uk7de4pLW1s3dnrrKdK/RKH12NEhmEga3ElxyAU7df8OTAk6pq6YIOvFP8gHq0HjDikv
-	tsPCX/FDsqWiDCm02sX9eapCq4cIHqL83N1wSQx7St/It/MBPYeRbLKqX6sSEMxS+awT
-	WLeMkw8ec1QReqQD3YA9mhHo+XGYCYvtLxrVBsu8Naf8FCbwqbX+fZxOEpvE722aIAI3
-	WA0LHandQWNVeUkfECjz3ZP0XgBnWjoa2OmGbpuOPli7mIJLCM7Clh2KlHxP+5aBtwgX
-	Abog==
-X-Gm-Message-State: AOAM5318aNqXtb2rFG0Bn005Ltf6UQesfb9VIrn72Noyo4eSGlRXH32G
-	r/0zdwJ3Jie06pfctEAf6QHdPw==
-X-Google-Smtp-Source: ABdhPJyn7jUbiC3AGiO/dBfKmKGpcA3VV/JE4LzjEmCUjGJIbrcL8/kmgANM72e+JonEfnG9EJ77rg==
-X-Received: by 2002:a17:902:854b:b029:d1:cbf4:bb43 with SMTP id
-	d11-20020a170902854bb02900d1cbf4bb43mr778274plo.13.1600976697336;
-	Thu, 24 Sep 2020 12:44:57 -0700 (PDT)
-Received: from ?IPv6:2620:10d:c085:21d6::1911? ([2620:10d:c090:400::5:d63d])
+	bh=Izvn14aXCOd8rlHi8gt8/prckjwG/92/E8+p6vMMqzM=;
+	b=O6uiPonjTSbbG7EQA/+HjYGd/JvuTIy+LHQ949CWZ4NNbJgoohK395PHNclqkoaHMT
+	fGIq8qooNquUEZlTHYDCqOVDf6c63Kx/hYRqdrWfwWRmbmHUKWKsKavMtx5iqg4+QYOJ
+	z54nvaqRuKqprqHX2t9gf0YmtbxKgsQNYtOVYB7ZSG8Tr6tu13WBTC/Nf+tqidbU+5Mz
+	wvTDtWXXQa6rcyBkotQgTy64lr2crT8oA8MgaiWgwTvo8TglzUn20d3wXIxwu526vxkf
+	andhRygRAqhNCrjnmJKbn8gBzVFmsJYGm1Vpqtp/sS/K4hhah0aG5sIxIMnH0V4cXC04
+	xEHQ==
+X-Gm-Message-State: AOAM5323J3ThS1UcATbYK9mdu7u7Dz4IS0+q12YKB4iIJRCXFEHwcyC4
+	XfKL7riWlumo4RlWSX78oAvexA==
+X-Google-Smtp-Source: ABdhPJwRr/FwQpe7dKk8pmg8H/cUjDmWIFuRPHGSosKhPuxMlj+z/HBIhpQTLB9cSGSc+hfMahv5og==
+X-Received: by 2002:a63:e057:: with SMTP id n23mr213338pgj.87.1601043550492;
+	Fri, 25 Sep 2020 07:19:10 -0700 (PDT)
+Received: from [192.168.1.30] ([65.144.74.34])
 	by smtp.gmail.com with ESMTPSA id
-	u10sm267612pfn.122.2020.09.24.12.44.55
+	j19sm2930829pfe.108.2020.09.25.07.19.08
 	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Thu, 24 Sep 2020 12:44:56 -0700 (PDT)
+	Fri, 25 Sep 2020 07:19:09 -0700 (PDT)
 To: Christoph Hellwig <hch@lst.de>
-References: <20200924065140.726436-1-hch@lst.de>
+References: <20200903054104.228829-1-hch@lst.de>
 From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <a9235ba9-95a0-4251-ee7d-e4012775346e@kernel.dk>
-Date: Thu, 24 Sep 2020 13:44:54 -0600
+Message-ID: <7a0600d8-d886-c546-378c-5298a16e979c@kernel.dk>
+Date: Fri, 25 Sep 2020 08:19:08 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
 	Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200924065140.726436-1-hch@lst.de>
+In-Reply-To: <20200903054104.228829-1-hch@lst.de>
 Content-Language: en-US
-Cc: linux-raid@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
-	Justin Sanders <justin@coraid.com>, Minchan Kim <minchan@kernel.org>,
-	Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
-	linux-bcache@vger.kernel.org, Coly Li <colyli@suse.de>,
-	linux-block@vger.kernel.org, Song Liu <song@kernel.org>,
-	dm-devel@redhat.com, linux-mtd@lists.infradead.org,
-	Richard Weinberger <richard@nod.at>,
-	linux-fsdevel@vger.kernel.org, cgroups@vger.kernel.org,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] bdi cleanups v7
+Cc: linux-raid@vger.kernel.org, linux-scsi@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+	linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-ide@vger.kernel.org,
+	dm-devel@redhat.com, target-devel@vger.kernel.org,
+	drbd-dev@lists.linbit.com
+Subject: Re: [Drbd-dev] clean up is partition checks
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -87,12 +83,12 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On 9/24/20 12:51 AM, Christoph Hellwig wrote:
+On 9/2/20 11:40 PM, Christoph Hellwig wrote:
 > Hi Jens,
 > 
-> this series contains a bunch of different BDI cleanups.  The biggest item
-> is to isolate block drivers from the BDI in preparation of changing the
-> lifetime of the block device BDI in a follow up series.
+> this series add a new helepr to check if a struct block_device represents
+> a parition, and removes most direct access to ->bd_contained from
+> drivers.
 
 Applied, thanks.
 
