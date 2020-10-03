@@ -2,70 +2,66 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D81C28BBE9
-	for <lists+drbd-dev@lfdr.de>; Mon, 12 Oct 2020 17:31:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 961042825E7
+	for <lists+drbd-dev@lfdr.de>; Sat,  3 Oct 2020 20:41:27 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 76DC442046E;
-	Mon, 12 Oct 2020 17:31:21 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 69DF2420FC8;
+	Sat,  3 Oct 2020 20:41:26 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com
-	[209.85.218.66])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C00B942034B
-	for <drbd-dev@lists.linbit.com>; Mon, 12 Oct 2020 17:29:23 +0200 (CEST)
-Received: by mail-ej1-f66.google.com with SMTP id lw21so23772616ejb.6
-	for <drbd-dev@lists.linbit.com>; Mon, 12 Oct 2020 08:29:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:resent-from:resent-date:resent-message-id
-	:resent-to:from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=/Rg1Fu7lNBIhY267j1c394m8iVJA/XdLfvtW20iYY9c=;
-	b=lpBQrtSrSTyeqf5cx/0vCb4DAF8/zU497gwA8gMqutRHt5PHLQsy7lbBLQSt/krt7h
-	3GTECzINPuQ7Wd2EaahJv32bjjPFWgWEdB0lxPdWspuk0ehPyurVMXJTkbWsCzrXAKlK
-	cAKtvO+67SsnPHhjcfF86W5TjrCLwkEewixrF0DK8PQHTtFz2tcmol5QtugQTN4v9Dse
-	vDo/UW7o6SfQ93jGmRAO/Qe5Iffc84yigDcZKJ0x4pq5kjaAPpaJqbfeppm9ZuclVBia
-	ipFlq/5BVwJq5MyncC+CPro9WyBLUuA58+wfA3xtRUsEv6pYnRDnHg7dPosWelHYUNlr
-	ex/w==
-X-Gm-Message-State: AOAM5323yt3WnOvjepe+YY0SxFTqJGyLog8V6d3Vg9ZHQcFkrpiYaVBW
-	caLas072wLdDlJQjKkguhoMga5wQ2X4auVhD
-X-Google-Smtp-Source: ABdhPJwxqV25fYsULVUOR2n3H2P6SCZc/lhPw+rEebRXM9e1CCpUx7Stik/HG7Z8Tfzf5nK7itVzWw==
-X-Received: by 2002:a17:907:1005:: with SMTP id
-	ox5mr28194788ejb.443.1602516563275; 
-	Mon, 12 Oct 2020 08:29:23 -0700 (PDT)
-Received: from soda.linbit (62-99-137-214.static.upcbusiness.at.
-	[62.99.137.214]) by smtp.gmail.com with ESMTPSA id
-	w22sm10790014edu.15.2020.10.12.08.29.22
-	for <drbd-dev@lists.linbit.com>
-	(version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 12 Oct 2020 08:29:23 -0700 (PDT)
-Resent-From: Lars Ellenberg <lars.ellenberg@linbit.com>
-Resent-Date: Mon, 12 Oct 2020 17:29:21 +0200
-Resent-Message-ID: <20201012152921.GL2116@soda.linbit>
-Resent-To: drbd-dev@lists.linbit.com
-X-Original-To: drbd-dev@lists.linbit.com
-Received: from mail3-relais-sop.national.inria.fr
-	(mail3-relais-sop.national.inria.fr [192.134.164.104])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 09F85420385
-	for <drbd-dev@lists.linbit.com>; Sun, 27 Sep 2020 22:04:18 +0200 (CEST)
-X-IronPort-AV: E=Sophos;i="5.77,311,1596492000"; d="scan'208";a="360169506"
-Received: from palace.rsr.lip6.fr (HELO palace.lip6.fr) ([132.227.105.202])
-	by mail3-relais-sop.national.inria.fr with ESMTP/TLS/AES256-SHA256;
-	27 Sep 2020 21:55:15 +0200
-From: Julia Lawall <Julia.Lawall@inria.fr>
-To: Philipp Reisner <philipp.reisner@linbit.com>
-Date: Sun, 27 Sep 2020 21:12:28 +0200
-Message-Id: <1601233948-11629-19-git-send-email-Julia.Lawall@inria.fr>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1601233948-11629-1-git-send-email-Julia.Lawall@inria.fr>
+Received: from smtprelay.hostedemail.com (smtprelay0012.hostedemail.com
+	[216.40.44.12])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id CE5C2420ED1
+	for <drbd-dev@lists.linbit.com>; Sat,  3 Oct 2020 20:41:24 +0200 (CEST)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+	[216.40.38.60])
+	by smtprelay05.hostedemail.com (Postfix) with ESMTP id 9054F18029210;
+	Sat,  3 Oct 2020 18:40:53 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 50, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
+	RULES_HIT:41:355:379:599:800:960:966:967:968:973:982:988:989:1260:1263:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1535:1544:1593:1594:1711:1712:1730:1747:1777:1792:1801:2196:2199:2393:2525:2553:2567:2682:2685:2828:2859:2902:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3355:3770:3865:3866:3867:3868:3870:3871:3872:3873:3874:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4117:4250:4321:4385:4605:5007:6742:6743:7903:8829:9025:9121:9388:9391:10004:10848:11026:11232:11233:11473:11658:11914:12043:12262:12295:12297:12438:12555:12663:12679:12740:12760:12895:12986:13161:13229:13439:13845:14093:14096:14097:14181:14659:14721:21063:21080:21365:21433:21451:21611:21627:21740:21749:21811:21819:21939:30054:30070:30083:30090:30091,
+	0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
+	DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none,
+	Custom_rules:0:0:0, LFtime:1, LUA_SUMMARY:none
+X-HE-Tag: stop55_5311f74271af
+X-Filterd-Recvd-Size: 6242
+Received: from XPS-9350.home (unknown [47.151.133.149])
+	(Authenticated sender: joe@perches.com)
+	by omf13.hostedemail.com (Postfix) with ESMTPA;
+	Sat,  3 Oct 2020 18:40:49 +0000 (UTC)
+Message-ID: <f44d19ad596f261c0287c9ab18c45161003efb43.camel@perches.com>
+From: Joe Perches <joe@perches.com>
+To: Mark Brown <broonie@kernel.org>, tools@linux.kernel.org, Konstantin
+	Ryabitsev <konstantin@linuxfoundation.org>
+Date: Sat, 03 Oct 2020 11:40:48 -0700
+In-Reply-To: <20201001110150.GA6715@sirena.org.uk>
 References: <1601233948-11629-1-git-send-email-Julia.Lawall@inria.fr>
-Cc: Jens Axboe <axboe@kernel.dk>,
-	=?UTF-8?q?Valdis=20Kl=C4=93tnieks?= <valdis.kletnieks@vt.edu>,
-	kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, Joe Perches <joe@perches.com>,
+	<160132172369.55460.9237357219623604216.b4-ty@kernel.org>
+	<b1174f9be2ce65f6b5ebefcba0b48e792926abbc.camel@perches.com>
+	<20200929113745.GB4799@sirena.org.uk>
+	<db26d49401dc0bd6b9013a603a155f9827f404a4.camel@perches.com>
+	<20201001110150.GA6715@sirena.org.uk>
+User-Agent: Evolution 3.36.4-0ubuntu1 
+MIME-Version: 1.0
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+	linux-iio@vger.kernel.org, kernel-janitors@vger.kernel.org,
+	Valdis@linbit.com, linux-ide@vger.kernel.org,
+	linux-clk@vger.kernel.org, drbd-dev@lists.linbit.com,
+	Neil Armstrong <narmstrong@baylibre.com>,
+	linux-stm32@st-md-mailman.stormreply.com,
+	Julia Lawall <Julia.Lawall@inria.fr>, linux-acpi@vger.kernel.org,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	David Lechner <david@lechnology.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-block@vger.kernel.org, linux-amlogic@lists.infradead.org,
 	Thomas Gleixner <tglx@linutronix.de>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>, drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 18/18] drbd: use semicolons rather than commas to
-	separate statements
+	linux-arm-kernel@lists.infradead.org,
+	=?UTF-8?Q?Kl=C4=93tnieks?= <valdis.kletnieks@vt.edu>,
+	linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-crypto@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net
+Subject: Re: [Drbd-dev] [PATCH 00/18] use semicolons rather than commas to
+ separate statements
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -79,47 +75,117 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Replace commas with semicolons.  What is done is essentially described by
-the following Coccinelle semantic patch (http://coccinelle.lip6.fr/):
+(Adding tools and Konstantin Ryabitsev)
 
-// <smpl>
-@@ expression e1,e2; @@
-e1
--,
-+;
-e2
-... when any
-// </smpl>
+There seems to be some mismatch between b4's use of the
+cover letter to a patch series and what maintainers that
+apply a subset of the patches in the patch series.
 
-Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
+The merge description shows the entire patch series as
+applied, but the actual merge is only a subset of the
+series.
 
----
- drivers/block/drbd/drbd_receiver.c |    6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Can this be improved in b4?
 
-diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd_receiver.c
-index 422363daa618..87f732fb5456 100644
---- a/drivers/block/drbd/drbd_receiver.c
-+++ b/drivers/block/drbd/drbd_receiver.c
-@@ -111,8 +111,10 @@ static struct page *page_chain_tail(struct page *page, int *len)
- {
- 	struct page *tmp;
- 	int i = 1;
--	while ((tmp = page_chain_next(page)))
--		++i, page = tmp;
-+	while ((tmp = page_chain_next(page))) {
-+		++i;
-+		page = tmp;
-+	}
- 	if (len)
- 		*len = i;
- 	return page;
+For example, regarding:
+
+https://lore.kernel.org/linux-amlogic/160132172369.55460.9237357219623604216.b4-ty@kernel.org/
+https://lore.kernel.org/lkml/b1174f9be2ce65f6b5ebefcba0b48e792926abbc.camel@perches.com/#t
+
+On Thu, 2020-10-01 at 12:01 +0100, Mark Brown wrote:
+> On Wed, Sep 30, 2020 at 12:33:39PM -0700, Joe Perches wrote:
+> > On Tue, 2020-09-29 at 12:37 +0100, Mark Brown wrote:
+> > > Feel free to submit patches to b4.
+> > Have you tried the existing option to send
+> > thank you's on a specific ranges of patches?
+> 
+> I am relying on b4 to identify which patches that I've downloaded are in
+> the pushed branches.  Given that it explicitly lists the patches that
+> are applied it appears to be doing an OK job here.
+
+I'm not so sure about that.
+
+The commit merge description in -next shows 23 files
+modified but the commit range shown in the merge shows
+only a single patch applied:
+
+From next-20201002:
+
+(I've removed some of the commit description below)
+
+$ git log --stat -1 2defc3fa18a68963a330187f5386968e50832d06
+commit 2defc3fa18a68963a330187f5386968e50832d06
+Merge: eb45df24fe82 7f4a122d0b50
+Author: Mark Brown <broonie@kernel.org>
+Date:   Mon Sep 28 18:28:48 2020 +0100
+
+    Merge series "use semicolons rather than commas to separate statements" from Julia Lawall <Julia.Lawall@inria.fr>:
+    
+    These patches replace commas by semicolons.  This was done using the
+    Coccinelle semantic patch (http://coccinelle.lip6.fr/) shown below.
+
+[some of the long description elided]
+
+        ---
+    
+     drivers/acpi/processor_idle.c               |    4 +++-
+     drivers/ata/pata_icside.c                   |   21 +++++++++++++--------
+     drivers/base/regmap/regmap-debugfs.c        |    2 +-
+     drivers/bcma/driver_pci_host.c              |    4 ++--
+     drivers/block/drbd/drbd_receiver.c          |    6 ++++--
+     drivers/char/agp/amd-k7-agp.c               |    2 +-
+     drivers/char/agp/nvidia-agp.c               |    2 +-
+     drivers/char/agp/sworks-agp.c               |    2 +-
+     drivers/char/hw_random/iproc-rng200.c       |    8 ++++----
+     drivers/char/hw_random/mxc-rnga.c           |    6 +++---
+     drivers/char/hw_random/stm32-rng.c          |    8 ++++----
+     drivers/char/ipmi/bt-bmc.c                  |    6 +++---
+     drivers/clk/meson/meson-aoclk.c             |    2 +-
+     drivers/clk/mvebu/ap-cpu-clk.c              |    2 +-
+     drivers/clk/uniphier/clk-uniphier-cpugear.c |    2 +-
+     drivers/clk/uniphier/clk-uniphier-mux.c     |    2 +-
+     drivers/clocksource/mps2-timer.c            |    6 +++---
+     drivers/clocksource/timer-armada-370-xp.c   |    8 ++++----
+     drivers/counter/ti-eqep.c                   |    2 +-
+     drivers/crypto/amcc/crypto4xx_alg.c         |    2 +-
+     drivers/crypto/atmel-tdes.c                 |    2 +-
+     drivers/crypto/hifn_795x.c                  |    4 ++--
+     drivers/crypto/talitos.c                    |    8 ++++----
+     23 files changed, 60 insertions(+), 51 deletions(-)
+
+But the commit range of the merge shows only the single commit:
+
+$ git log --stat eb45df24fe82..7f4a122d0b50
+commit 7f4a122d0b50b40c64d24a5cf7aafe26dd9487ee
+Author: Julia Lawall <Julia.Lawall@inria.fr>
+Date:   Sun Sep 27 21:12:24 2020 +0200
+
+    regmap: debugfs: use semicolons rather than commas to separate statements
+    
+    Replace commas with semicolons.  What is done is essentially described by
+    the following Coccinelle semantic patch (http://coccinelle.lip6.fr/):
+    
+    // <smpl>
+    @@ expression e1,e2; @@
+    e1
+    -,
+    +;
+    e2
+    ... when any
+    // </smpl>
+    
+    Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
+    Link: https://lore.kernel.org/r/1601233948-11629-15-git-send-email-Julia.La>
+    Signed-off-by: Mark Brown <broonie@kernel.org>
+
+ drivers/base/regmap/regmap-debugfs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 
 _______________________________________________
 drbd-dev mailing list
