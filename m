@@ -2,38 +2,38 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 810DA28262C
-	for <lists+drbd-dev@lfdr.de>; Sat,  3 Oct 2020 21:27:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46A13282649
+	for <lists+drbd-dev@lfdr.de>; Sat,  3 Oct 2020 21:36:18 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 56EC9420FA6;
-	Sat,  3 Oct 2020 21:27:40 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3B08C420FC8;
+	Sat,  3 Oct 2020 21:36:17 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from smtprelay.hostedemail.com (smtprelay0112.hostedemail.com
-	[216.40.44.112])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5238F420EF8
-	for <drbd-dev@lists.linbit.com>; Sat,  3 Oct 2020 21:27:38 +0200 (CEST)
+Received: from smtprelay.hostedemail.com (smtprelay0075.hostedemail.com
+	[216.40.44.75])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5BAB0420EF1
+	for <drbd-dev@lists.linbit.com>; Sat,  3 Oct 2020 21:36:15 +0200 (CEST)
 Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
 	[216.40.38.60])
-	by smtprelay07.hostedemail.com (Postfix) with ESMTP id 08F8B181D330D;
-	Sat,  3 Oct 2020 19:27:08 +0000 (UTC)
+	by smtprelay04.hostedemail.com (Postfix) with ESMTP id DC1A2180A7FF0;
+	Sat,  3 Oct 2020 19:36:14 +0000 (UTC)
 X-Session-Marker: 6A6F6540706572636865732E636F6D
 X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
-	RULES_HIT:41:355:379:599:982:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1540:1593:1594:1711:1730:1747:1777:1792:2393:2553:2559:2562:2828:3138:3139:3140:3141:3142:3352:3622:3865:3866:3867:3868:3870:3871:3874:4321:5007:6248:6742:6743:7974:10004:10400:10848:11232:11658:11914:12297:12740:12760:12895:13069:13311:13357:13439:14096:14097:14659:14721:14777:21080:21325:21433:21627:30054:30090:30091,
+	RULES_HIT:41:355:379:599:960:973:982:988:989:1260:1277:1311:1313:1314:1345:1359:1431:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:2110:2393:2553:2559:2562:2691:2828:3138:3139:3140:3141:3142:3353:3622:3865:3866:3867:3868:3870:3871:3874:4321:5007:6248:6742:6743:7903:7974:10004:10400:10848:11232:11658:11914:12297:12740:12760:12895:13069:13311:13357:13439:14659:14721:14777:21080:21325:21433:21627:30054:30090:30091,
 	0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
 	DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none,
-	Custom_rules:0:0:0, LFtime:19, LUA_SUMMARY:none
-X-HE-Tag: bell15_5909bf3271af
-X-Filterd-Recvd-Size: 2863
+	Custom_rules:0:0:0, LFtime:1, LUA_SUMMARY:none
+X-HE-Tag: ship26_570a7fe271af
+X-Filterd-Recvd-Size: 3575
 Received: from XPS-9350.home (unknown [47.151.133.149])
 	(Authenticated sender: joe@perches.com)
-	by omf01.hostedemail.com (Postfix) with ESMTPA;
-	Sat,  3 Oct 2020 19:27:04 +0000 (UTC)
-Message-ID: <c7fd58ebd81f8731fc03434b2bdd8aa4bf99335a.camel@perches.com>
+	by omf13.hostedemail.com (Postfix) with ESMTPA;
+	Sat,  3 Oct 2020 19:36:11 +0000 (UTC)
+Message-ID: <306974234222092651f7497504f8c03e1304926b.camel@perches.com>
 From: Joe Perches <joe@perches.com>
 To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Date: Sat, 03 Oct 2020 12:27:03 -0700
-In-Reply-To: <20201003191501.o56tqq63d2buq5ox@chatter.i7.local>
+Date: Sat, 03 Oct 2020 12:36:10 -0700
+In-Reply-To: <c7fd58ebd81f8731fc03434b2bdd8aa4bf99335a.camel@perches.com>
 References: <1601233948-11629-1-git-send-email-Julia.Lawall@inria.fr>
 	<160132172369.55460.9237357219623604216.b4-ty@kernel.org>
 	<b1174f9be2ce65f6b5ebefcba0b48e792926abbc.camel@perches.com>
@@ -42,6 +42,7 @@ References: <1601233948-11629-1-git-send-email-Julia.Lawall@inria.fr>
 	<20201001110150.GA6715@sirena.org.uk>
 	<f44d19ad596f261c0287c9ab18c45161003efb43.camel@perches.com>
 	<20201003191501.o56tqq63d2buq5ox@chatter.i7.local>
+	<c7fd58ebd81f8731fc03434b2bdd8aa4bf99335a.camel@perches.com>
 User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
 Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
@@ -82,30 +83,47 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Sat, 2020-10-03 at 15:15 -0400, Konstantin Ryabitsev wrote:
-> On Sat, Oct 03, 2020 at 11:40:48AM -0700, Joe Perches wrote:
-> > (Adding tools and Konstantin Ryabitsev)
+On Sat, 2020-10-03 at 12:27 -0700, Joe Perches wrote:
+> On Sat, 2020-10-03 at 15:15 -0400, Konstantin Ryabitsev wrote:
+> > On Sat, Oct 03, 2020 at 11:40:48AM -0700, Joe Perches wrote:
+> > > (Adding tools and Konstantin Ryabitsev)
+> > > 
+> > > There seems to be some mismatch between b4's use of the
+> > > cover letter to a patch series and what maintainers that
+> > > apply a subset of the patches in the patch series.
+> > > 
+> > > The merge description shows the entire patch series as
+> > > applied, but the actual merge is only a subset of the
+> > > series.
+> > > 
+> > > Can this be improved in b4?
 > > 
-> > There seems to be some mismatch between b4's use of the
-> > cover letter to a patch series and what maintainers that
-> > apply a subset of the patches in the patch series.
+> > So, the following logic should be applied:
 > > 
-> > The merge description shows the entire patch series as
-> > applied, but the actual merge is only a subset of the
-> > series.
+> > - if the entire series was applied, reply to 0/n
+> > - if a subset only is applied, reply to each n/n of the patch that was 
+> >   cherry-picked out of the series
 > > 
-> > Can this be improved in b4?
+> > Is that an accurate summary?
 > 
-> So, the following logic should be applied:
-> 
-> - if the entire series was applied, reply to 0/n
-> - if a subset only is applied, reply to each n/n of the patch that was 
->   cherry-picked out of the series
-> 
-> Is that an accurate summary?
+> Exactly so, thanks.
 
-Exactly so, thanks.
+And there's no need to commit the [0/n] cover letter as a
+part of the merge unless the entire series was committed.
 
+Or perhaps trim the cover letter to exclude the files
+modified by the patch series and show only the actual files
+committed.
+
+And I believe b4 inserts this line ahead of the 0/n series
+cover letter description for the merge:
+
+    Merge series "<series>" from <author>:
+
+Perhaps that like could be "partial merge of" when a partial
+merge occurs or left as is if the entire series is applied.
+
+cheers, Joe
 
 _______________________________________________
 drbd-dev mailing list
