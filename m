@@ -2,109 +2,72 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DEE128BBDD
-	for <lists+drbd-dev@lfdr.de>; Mon, 12 Oct 2020 17:29:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C656828BBDF
+	for <lists+drbd-dev@lfdr.de>; Mon, 12 Oct 2020 17:29:51 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 69BB44203C3;
-	Mon, 12 Oct 2020 17:29:21 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A21D84203D9;
+	Mon, 12 Oct 2020 17:29:51 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
-	[209.85.208.66])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5D64342034B
-	for <drbd-dev@lists.linbit.com>; Mon, 12 Oct 2020 17:27:30 +0200 (CEST)
-Received: by mail-ed1-f66.google.com with SMTP id p13so17404471edi.7
-	for <drbd-dev@lists.linbit.com>; Mon, 12 Oct 2020 08:27:30 -0700 (PDT)
+Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com
+	[209.85.218.66])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 174F0420383
+	for <drbd-dev@lists.linbit.com>; Mon, 12 Oct 2020 17:27:33 +0200 (CEST)
+Received: by mail-ej1-f66.google.com with SMTP id h24so23742443ejg.9
+	for <drbd-dev@lists.linbit.com>; Mon, 12 Oct 2020 08:27:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:resent-from:resent-date:resent-message-id
-	:resent-to:dkim-signature:date:from:to:cc:subject:message-id
-	:organization:references:mime-version:content-disposition
-	:content-transfer-encoding:in-reply-to:autocrypt;
-	bh=Am2qRcQAgstTAV6s944OAh/yvd0KHHCjGz1Hw4FCgRs=;
-	b=IsGlkcdJLZrgGtifi54LtvKoWSAWGDkKjdCC2al9jwCcyVaZ2I866E4eX7vJIU7kWQ
-	pHMYM10xS0nwAz18QBASc6NqTMVjg1y6Mp43t+1pJ258AhPj83y2swqXgQWYCdyRyx0y
-	CB0Gh5qAOn58+Bt4naA48GGZj+KVW2Tj4OZ6NyVW1RQhey/B/Iv55l1L0ELpt6xQ9aUT
-	RiYzxUl+XlmsP8jHGq6shtO4fMtFnS6FIlM02qydS8WShtvww/f/j82XpX7TM7RCPAao
-	A2jpoebTj74CUwSLgjRbqHpCVGe/Z7yTHUKwRJy2D5Xoq5ibAWSCJ0CBa6tSIE3dN9T0
-	Vz1w==
-X-Gm-Message-State: AOAM530twhnGuh7hFWm36Axoz7n4GpyqJ/XcI/mQB4JXbYsj7YC0/Pg2
-	1dhQLQXa8WMWNYtBkpuSs/fl5+ZD7bC0fitT
-X-Google-Smtp-Source: ABdhPJxSK5G4cUbMcgT/Ou8bhOz18Ph8mQJUrZsqpoAzNX5TVRFlycavsE96pPckZgmf6EizpccatQ==
-X-Received: by 2002:a05:6402:13d7:: with SMTP id
-	a23mr14359570edx.352.1602516389680; 
-	Mon, 12 Oct 2020 08:26:29 -0700 (PDT)
+	:resent-to:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=Tp6nVgbPv/1Ycp31iuGFGdAHDRrVzi/gboKamZ+EFgY=;
+	b=A0AJ/WgLGj5TcDY3/y04jjOXfTYHwM/cA5peSZuQ4Z7AKtAuzEunqh6kwdyk6AHYM3
+	vUmuv2z6ly7G5wMXeD7MKc5iUu85Pfl8mUxlYY/ZwJ6nuGgBEie7yRfxHQuMWO/hS8Jl
+	zh61kolt/mSR729yYHwydlAVhGVer7XP/kV7NkhR4mmqi5+bkm5fuuI9ozmgLkXjAmQN
+	aFdEgi4sLolx9UIYzVuecyp7CDoBunXSljT4m4StA9Pdqf7juTkWWG3q2QF7sWM+z2/U
+	qEgSI2lo6fcFvHcUV629HUKziGd2Xi8kIy+j5ZkDqFWk6tVJC/1NiUEh/Da0qv1MTJ4r
+	/G9Q==
+X-Gm-Message-State: AOAM532BicQw7Rn+ATWRh8cRsd3q4XB5sdKVzkXTjCA6o7EibIGT1dJ5
+	YG33xjRlpmlhxMsINTrLe5Ya1aavuXlNhbn8
+X-Google-Smtp-Source: ABdhPJyiDzTNjDuEJNRU8sRVEg8PeqIkSzlR8mFG4WmvtJpLh3pRLWQNrfSbwi4c+XCvaZeI3D1RjA==
+X-Received: by 2002:a17:906:494:: with SMTP id
+	f20mr28189953eja.285.1602516392672; 
+	Mon, 12 Oct 2020 08:26:32 -0700 (PDT)
 Received: from soda.linbit (62-99-137-214.static.upcbusiness.at.
 	[62.99.137.214]) by smtp.gmail.com with ESMTPSA id
-	r4sm10719453edv.16.2020.10.12.08.26.29
+	j24sm10354185edq.29.2020.10.12.08.26.32
 	for <drbd-dev@lists.linbit.com>
 	(version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 12 Oct 2020 08:26:29 -0700 (PDT)
+	Mon, 12 Oct 2020 08:26:32 -0700 (PDT)
 Resent-From: Lars Ellenberg <lars.ellenberg@linbit.com>
-Resent-Date: Mon, 12 Oct 2020 17:26:27 +0200
-Resent-Message-ID: <20201012152627.GG2116@soda.linbit>
+Resent-Date: Mon, 12 Oct 2020 17:26:30 +0200
+Resent-Message-ID: <20201012152630.GH2116@soda.linbit>
 Resent-To: drbd-dev@lists.linbit.com
 X-Original-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 474 seconds by postgrey-1.31 at mail19;
-	Sun, 11 Oct 2020 21:38:44 CEST
-Received: from mailout1.hostsharing.net (mailout1.hostsharing.net
-	[83.223.95.204])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 93E9642022A
-	for <drbd-dev@lists.linbit.com>; Sun, 11 Oct 2020 21:38:44 +0200 (CEST)
-Received: from h06.hostsharing.net (h06.hostsharing.net [83.223.95.25])
+Received: from bmailout1.hostsharing.net (bmailout1.hostsharing.net
+	[83.223.95.100])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1354F4202AD
+	for <drbd-dev@lists.linbit.com>; Mon, 12 Oct 2020 02:54:10 +0200 (CEST)
+Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(Client CN "*.hostsharing.net",
 	Issuer "COMODO RSA Domain Validation Secure Server CA" (not verified))
-	by mailout1.hostsharing.net (Postfix) with ESMTPS id D66DA101920D6;
-	Sun, 11 Oct 2020 21:30:49 +0200 (CEST)
-Received: from mail.home.lxtec.de
-	(HSI-KBW-095-208-010-117.hsi5.kabel-badenwuerttemberg.de
-	[95.208.10.117])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits)
-	server-digest SHA256) (No client certificate requested)
-	by h06.hostsharing.net (Postfix) with ESMTPSA id BCBE3603E049;
-	Sun, 11 Oct 2020 21:30:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lxtec.de;
-	s=mailxtec;
-	h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:reply-to;
-	bh=Am2qRcQAgstTAV6s944OAh/yvd0KHHCjGz1Hw4FCgRs=;
-	b=pTgSZTMqcZ1/VKTvEimdIthPaL
-	idElNJddImRCxd99eovKR3m4VsVjI19hDQU8FMrN7M5JjldJ4AP9Uqr5f3ynP1JyBeSD81oS2/sv8
-	/xXz4typIJFRyksxF7NdvQR9Riw0ElQh7UXBJGXVyQQFV9+7Z7FCI7yjL5wMf0FNNJa2c9ukfch+U
-	3KHgpU0KrTD79AVtbRdnedzm24T08q1xJlH3VAuvoVsHHsEX+ZMLC2TSoepFVOBjfJToZf+/Lab/t
-	u3sh2MCVWFCHViFKLJBJg4Nimr7GaY0b0W232XW9dZvLVI7HhYfm4hx+LUsKlEqNzKKZC78mRfe1z
-	1HfbpjOQ==;
-Received: from [127.0.0.1] (helo=localhost)
-	by mail.home.lxtec.de with esmtp (Exim 4.94 2 (LXTEC))
-	id 1kRh3Q-0005KR-Ql; Sun, 11 Oct 2020 21:30:48 +0200
-X-Virus-Scanned: at mail.home.lxtec.de
-Received: from mail.home.lxtec.de ([127.0.0.1])
-	by localhost (mail.home.lxtec.de [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id sX2qgvqQ9RUf; Sun, 11 Oct 2020 21:30:48 +0200 (CEST)
-Received: from riesebie by mail.home.lxtec.de with local (Exim 4.94 2 (LXTEC))
-	id 1kRh3Q-0005KM-M4; Sun, 11 Oct 2020 21:30:48 +0200
-Date: Sun, 11 Oct 2020 21:30:48 +0200
-From: Elimar Riesebieter <riesebie@lxtec.de>
-To: Lukas Wunner <lukas@wunner.de>
-Message-ID: <20201011193048.rfe5qvuba2ovrwed@toy.home.lxtec.de>
-Organization: LXTEC
+	by bmailout1.hostsharing.net (Postfix) with ESMTPS id 66ABA30000F41;
+	Mon, 12 Oct 2020 02:54:10 +0200 (CEST)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+	id 4FCCFA0706; Mon, 12 Oct 2020 02:54:10 +0200 (CEST)
+Date: Mon, 12 Oct 2020 02:54:10 +0200
+From: Lukas Wunner <lukas@wunner.de>
+To: Elimar Riesebieter <riesebie@lxtec.de>
+Message-ID: <20201012005410.GA28362@wunner.de>
 References: <1c700caab1ce71fa144116541471b3f7bb4629fa.1602432204.git.lukas@wunner.de>
 	<20201011183930.veucf6z335njrkwe@toy.home.lxtec.de>
 	<20201011185117.GA18543@wunner.de>
+	<20201011193048.rfe5qvuba2ovrwed@toy.home.lxtec.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201011185117.GA18543@wunner.de>
-Autocrypt: addr=riesebie@lxtec.de; prefer-encrypt=mutual; keydata=
-	mDMEX1jtwhYJKwYBBAHaRw8BAQdAs61HjQAz35WpPCY10Cv+Yogn7p9Jj9h6RCCumDwgEXG0JkV
-	saW1hciBSaWVzZWJpZXRlciA8cmllc2ViaWVAbHh0ZWMuZGU+iJAEExYIADgWIQRZA1EIeV8CRb
-	fDhJMnMQo2HZmVNQUCX1jtwgIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRAnMQo2HZmVN
-	WcPAP9wwap25jg2f1mS3353l3suaXcBsfX0XNGdCSfICVzUOAEA9GBRqB3/rOgLBLhZKnpJ1GFI
-	ENN3OQ54tk+fzNVe3ga4OARfWO3CEgorBgEEAZdVAQUBAQdA6qcxjNtSY3LupzR/w0kMPsiljNb
-	VvDBVhlb1gWPsoXgDAQgHiHgEGBYIACAWIQRZA1EIeV8CRbfDhJMnMQo2HZmVNQUCX1jtwgIbDA
-	AKCRAnMQo2HZmVNSlSAP9Ip88aSckUV3dQrBgYEQdqBQ9No4/4LZLLBVJH2mDPTAEA6stoZOHJk
-	ZZOPGu9KvBC1ZzUkKJTBHKR/+M9R1sBhgw=
+In-Reply-To: <20201011193048.rfe5qvuba2ovrwed@toy.home.lxtec.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: Michael Hierweck <michael.hierweck@hostsharing.net>,
 	Lars Ellenberg <lars.ellenberg@linbit.com>,
 	Philipp Reisner <philipp.reisner@linbit.com>, drbd-dev@lists.linbit.com
@@ -128,19 +91,30 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-* Lukas Wunner <lukas@wunner.de> [2020-10-11 20:51 +0200]:
+On Sun, Oct 11, 2020 at 09:30:48PM +0200, Elimar Riesebieter wrote:
+> * Lukas Wunner <lukas@wunner.de> [2020-10-11 20:51 +0200]:
+> > The patch worked for me with v5.3.
+> 
+> Did you build with brdb master? I used tag 9.0.25-1.
 
-[...]
+The patch is meant to be applied to the drbd-9.0 branch where all
+development seems to happen.  It also applies cleanly to the
+drbd-9.0.25-1 tag.
 
-> The patch worked for me with v5.3.
+I'm afraid I cannot reproduce the issue you're seeing with your
+DKMS package on v4.19.  Using tag drbd-9.0.25-1 and v4.19.95,
+the call to __vmalloc() is correctly patched in drbd_bitmap.c
+but the build fails for a different reason (conflicting types
+for blkdev_issue_zeroout()).  Doesn't look like 4.19 is well
+supported.
 
-Did you build with brdb master? I used tag 9.0.25-1.
+If you're unsuccessful debugging the build failure on your own,
+maybe you can upload your drbd build directory somewhere so I
+can take a look.
 
-Elimar
--- 
-  Never make anything simple and efficient when a way
-  can be found to make it complex and wonderful ;-)
+Thanks,
 
+Lukas
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
