@@ -2,35 +2,35 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 477E32A9D0B
-	for <lists+drbd-dev@lfdr.de>; Fri,  6 Nov 2020 20:04:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D05752A9CE7
+	for <lists+drbd-dev@lfdr.de>; Fri,  6 Nov 2020 20:04:12 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 08F1A4207B5;
-	Fri,  6 Nov 2020 20:04:41 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 8D2474207A5;
+	Fri,  6 Nov 2020 20:04:11 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id F127142079F
-	for <drbd-dev@lists.linbit.com>; Fri,  6 Nov 2020 20:04:09 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id F3BE84207A0
+	for <drbd-dev@lists.linbit.com>; Fri,  6 Nov 2020 20:04:08 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209;
 	h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=stmwFAlkeYayJwqxLAzxAb5snaHT5ewOrHfW4MD4mwk=;
-	b=tB2Wdu/PMT4HaSqbNXLjbJSinK
-	5hsrT8s37btBvfcSB9O4uU93SD5PFBnxHXny99OrIualpr25xUxUD6huKCkWn/+mqbBjsPu8GBT2K
-	BThvX+OWl/FleZFRHiOhjc346V7c34ia1qBhD1BbATvc5xUrGPzH/rmzYuoB0ZX7+lPL+RKQlCljc
-	jG3EgsYXLaMRAjav+9rOo/D7/8GwP4iHme6XgziXy4nXb8g0UObGiuuRw0pjd58Xmnsj883VpUPPn
-	/WqbOngIbQjdRi22wAva6IBkP7TmfNzppcbD1VYiYpN4uQufsS9sHdI0GfKYll6bY7LU3TdfwkqXU
-	DJQocnLQ==;
+	bh=GTpuLBfYyo8TaeZo/z07ad7aIfYXt5VjexG6J+Un22Y=;
+	b=kl8AxnoJUKENxdqbmGjtDUBKGr
+	4VvvwsWDbIWXpjZUE80AyVmG5Pw1VqJDYsJwtH7NNnxp0mOGVXqwKxHaePcIX2QLEgCS8sFueGPzE
+	AiTGABB6Xp+kXJg8ish427RVP/SfCFu0d17IOJ1V1HiYBELRoZFB92ZTq6pCfkW0lsJkkJrifhsmZ
+	pmg+34MTaZP2+QSox6FaZ3V/B2bz9YfsUA2FysiawKz4wfLjLQFNhJ856xgqwRX1KDIB3yvZOlRbF
+	NcZ4l5avCx+EDEjbrxqOm6DFPEMZDdVeorTynAxTtJLBiF/5eE5hDbP4cAerzfFjspBXGft5tkdz/
+	xM4wPyUw==;
 Received: from [2001:4bb8:184:9a8d:9e34:f7f4:e59e:ad6f] (helo=localhost)
 	by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kb71X-0000tW-UC; Fri, 06 Nov 2020 19:03:50 +0000
+	id 1kb71b-0000th-31; Fri, 06 Nov 2020 19:03:52 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Date: Fri,  6 Nov 2020 20:03:13 +0100
-Message-Id: <20201106190337.1973127-2-hch@lst.de>
+Date: Fri,  6 Nov 2020 20:03:14 +0100
+Message-Id: <20201106190337.1973127-3-hch@lst.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201106190337.1973127-1-hch@lst.de>
 References: <20201106190337.1973127-1-hch@lst.de>
@@ -52,8 +52,7 @@ Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
 	Minchan Kim <minchan@kernel.org>, linux-fsdevel@vger.kernel.org,
 	Paolo Bonzini <pbonzini@redhat.com>,
 	=?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.com>
-Subject: [Drbd-dev] [PATCH 01/24] block: remove the call to
-	__invalidate_device in check_disk_size_change
+Subject: [Drbd-dev] [PATCH 02/24] loop: remove loop_set_size
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -72,35 +71,93 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-__invalidate_device without the kill_dirty parameter just invalidates
-various clean entries in caches, which doesn't really help us with
-anything, but can cause all kinds of horrible lock orders due to how
-it calls into the file system.  The only reason this hasn't been a
-major issue is because so many people use partitions, for which no
-invalidation was performed anyway.
+Just use set_capacity_revalidate_and_notify directly, as this function
+can update the block device size as well when the last parameter is set
+to true.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- fs/block_dev.c | 6 ------
- 1 file changed, 6 deletions(-)
+ drivers/block/loop.c | 37 +++++++------------------------------
+ 1 file changed, 7 insertions(+), 30 deletions(-)
 
-diff --git a/fs/block_dev.c b/fs/block_dev.c
-index 9e84b1928b9401..66ebf594c97f47 100644
---- a/fs/block_dev.c
-+++ b/fs/block_dev.c
-@@ -1334,12 +1334,6 @@ static void check_disk_size_change(struct gendisk *disk,
- 		i_size_write(bdev->bd_inode, disk_size);
- 	}
- 	spin_unlock(&bdev->bd_size_lock);
--
--	if (bdev_size > disk_size) {
--		if (__invalidate_device(bdev, false))
--			pr_warn("VFS: busy inodes on resized disk %s\n",
--				disk->disk_name);
--	}
+diff --git a/drivers/block/loop.c b/drivers/block/loop.c
+index cb1191d6e945f2..86eb7e0691eef5 100644
+--- a/drivers/block/loop.c
++++ b/drivers/block/loop.c
+@@ -241,23 +241,6 @@ loop_validate_block_size(unsigned short bsize)
+ 	return 0;
  }
  
- /**
+-/**
+- * loop_set_size() - sets device size and notifies userspace
+- * @lo: struct loop_device to set the size for
+- * @size: new size of the loop device
+- *
+- * Callers must validate that the size passed into this function fits into
+- * a sector_t, eg using loop_validate_size()
+- */
+-static void loop_set_size(struct loop_device *lo, loff_t size)
+-{
+-	struct block_device *bdev = lo->lo_device;
+-
+-	bd_set_nr_sectors(bdev, size);
+-
+-	set_capacity_revalidate_and_notify(lo->lo_disk, size, false);
+-}
+-
+ static inline int
+ lo_do_transfer(struct loop_device *lo, int cmd,
+ 	       struct page *rpage, unsigned roffs,
+@@ -1076,7 +1059,6 @@ static int loop_configure(struct loop_device *lo, fmode_t mode,
+ 	struct address_space *mapping;
+ 	struct block_device *claimed_bdev = NULL;
+ 	int		error;
+-	loff_t		size;
+ 	bool		partscan;
+ 	unsigned short  bsize;
+ 
+@@ -1164,9 +1146,8 @@ static int loop_configure(struct loop_device *lo, fmode_t mode,
+ 	loop_update_dio(lo);
+ 	loop_sysfs_init(lo);
+ 
+-	size = get_loop_size(lo, file);
+-	loop_set_size(lo, size);
+-
++	set_capacity_revalidate_and_notify(lo->lo_disk, get_loop_size(lo, file),
++			true);
+ 	set_blocksize(bdev, S_ISBLK(inode->i_mode) ?
+ 		      block_size(inode->i_bdev) : PAGE_SIZE);
+ 
+@@ -1402,9 +1383,9 @@ loop_set_status(struct loop_device *lo, const struct loop_info64 *info)
+ 	lo->lo_flags |= prev_lo_flags & ~LOOP_SET_STATUS_CLEARABLE_FLAGS;
+ 
+ 	if (size_changed) {
+-		loff_t new_size = get_size(lo->lo_offset, lo->lo_sizelimit,
+-					   lo->lo_backing_file);
+-		loop_set_size(lo, new_size);
++		set_capacity_revalidate_and_notify(lo->lo_disk,
++				get_size(lo->lo_offset, lo->lo_sizelimit,
++					 lo->lo_backing_file), true);
+ 	}
+ 
+ 	loop_config_discard(lo);
+@@ -1580,14 +1561,10 @@ loop_get_status64(struct loop_device *lo, struct loop_info64 __user *arg) {
+ 
+ static int loop_set_capacity(struct loop_device *lo)
+ {
+-	loff_t size;
+-
+ 	if (unlikely(lo->lo_state != Lo_bound))
+ 		return -ENXIO;
+-
+-	size = get_loop_size(lo, lo->lo_backing_file);
+-	loop_set_size(lo, size);
+-
++	set_capacity_revalidate_and_notify(lo->lo_disk,
++			get_loop_size(lo, lo->lo_backing_file), true);
+ 	return 0;
+ }
+ 
 -- 
 2.28.0
 
