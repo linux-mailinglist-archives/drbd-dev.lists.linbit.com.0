@@ -1,45 +1,56 @@
 Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
-Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37DFA29A4C7
-	for <lists+drbd-dev@lfdr.de>; Tue, 27 Oct 2020 07:37:51 +0100 (CET)
+Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F8832A9D38
+	for <lists+drbd-dev@lfdr.de>; Fri,  6 Nov 2020 20:05:12 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6E2E5420629;
-	Tue, 27 Oct 2020 07:37:49 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 665A84207B9;
+	Fri,  6 Nov 2020 20:05:12 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 19D2F420621
-	for <drbd-dev@lists.linbit.com>; Mon, 26 Oct 2020 22:57:54 +0100 (CET)
-Received: from localhost.localdomain (unknown [192.30.34.233])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 1D396207E8;
-	Mon, 26 Oct 2020 21:51:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1603749063;
-	bh=f18+YYO36+VPphTtiqB2BItLkQXJGL58MdoL6F+07ws=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=arg345ekDPB+aYgx7YEhAXpCXOxypeKaeML9Sk4wxNp2TKPUrXFcnxv1RB8ks2+BH
-	eems8pMSm3vn4pcR3xmKraOxrUT4zePERaecUbGd4YRU64BDl48+lSwgLW5hSIEBX6
-	TMPZ4znkbFJuR9ZeyVBTJUTCqdYvNmJdeMGYwhAE=
-From: Arnd Bergmann <arnd@kernel.org>
-To: Philipp Reisner <philipp.reisner@linbit.com>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>, Jens Axboe <axboe@kernel.dk>
-Date: Mon, 26 Oct 2020 22:50:34 +0100
-Message-Id: <20201026215043.3893318-2-arnd@kernel.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201026215043.3893318-1-arnd@kernel.org>
-References: <20201026215043.3893318-1-arnd@kernel.org>
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9FB5A4207A0
+	for <drbd-dev@lists.linbit.com>; Fri,  6 Nov 2020 20:04:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209;
+	h=Content-Transfer-Encoding:MIME-Version:
+	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=KZOj2ixaxfr+x29An18oeDfaJx3FSv//8uc71Hhn2A0=;
+	b=snjJGRx7qVkoWA28XGyBSN/FU5
+	1P5/6U8yQxPbAyQppy+ZGNo7hD7TWcSzoG9wJV5MoXxMDDYieBlcG6uvG1NU21CqTnxt3WKQtAuJf
+	UqKqna1ID0lcpQmhrivJzFz3YtmWKpZm0KUamzMFajaTMK5TOilliU8pAMmZ7jcA4xKsEPe9u9FQe
+	QLgag4ggR9M8REy4gaAzi95ookXu/+vKsN1gxvlBcIDCNpbUaA+k+bepajweHAsKHRlnIci3X0/gt
+	+qiwIBcx7dd+5GmJaUUfQwr2V0s1euix28lr0Y0k8IK6gPjGXKGEZvDvsOwgNI/M1zhmywSH4Q6X6
+	FMOFWKCQ==;
+Received: from [2001:4bb8:184:9a8d:9e34:f7f4:e59e:ad6f] (helo=localhost)
+	by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+	id 1kb71P-0000t7-34; Fri, 06 Nov 2020 19:03:47 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Jens Axboe <axboe@kernel.dk>
+Date: Fri,  6 Nov 2020 20:03:12 +0100
+Message-Id: <20201106190337.1973127-1-hch@lst.de>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-X-Mailman-Approved-At: Tue, 27 Oct 2020 07:37:48 +0100
-Cc: Jan Kara <jack@suse.cz>, Arnd Bergmann <arnd@arndb.de>,
-	Johannes Thumshirn <johannes.thumshirn@wdc.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 2/2] drbd: address enum mismatch warnings
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+	casper.infradead.org. See http://www.infradead.org/rpr.html
+Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>, linux-nvme@lists.infradead.org,
+	Song Liu <song@kernel.org>, dm-devel@redhat.com,
+	drbd-dev@lists.linbit.com, linux-scsi@vger.kernel.org,
+	xen-devel@lists.xenproject.org, Ilya Dryomov <idryomov@gmail.com>,
+	Jack Wang <jinpu.wang@cloud.ionos.com>,
+	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+	Josef Bacik <josef@toxicpanda.com>, nbd@other.debian.org,
+	linux-raid@vger.kernel.org, Stefan Hajnoczi <stefanha@redhat.com>,
+	ceph-devel@vger.kernel.org, linux-block@vger.kernel.org,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Minchan Kim <minchan@kernel.org>, linux-fsdevel@vger.kernel.org,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	=?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.com>
+Subject: [Drbd-dev] cleanup updating the size of block devices
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -58,122 +69,34 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-From: Arnd Bergmann <arnd@arndb.de>
+Hi Jens,
 
-gcc -Wextra warns about mixing drbd_state_rv with drbd_ret_code
-in a couple of places:
+this series builds on top of the work that went into the last merge window,
+and make sure we have a single coherent interfac for updating the size of a
+block device.
 
-drivers/block/drbd/drbd_nl.c: In function 'drbd_adm_set_role':
-drivers/block/drbd/drbd_nl.c:777:14: warning: comparison between 'enum drbd_state_rv' and 'enum drbd_ret_code' [-Wenum-compare]
-  777 |  if (retcode != NO_ERROR)
-      |              ^~
-drivers/block/drbd/drbd_nl.c:784:12: warning: implicit conversion from 'enum drbd_ret_code' to 'enum drbd_state_rv' [-Wenum-conversion]
-  784 |    retcode = ERR_MANDATORY_TAG;
-      |            ^
-drivers/block/drbd/drbd_nl.c: In function 'drbd_adm_attach':
-drivers/block/drbd/drbd_nl.c:1965:10: warning: implicit conversion from 'enum drbd_state_rv' to 'enum drbd_ret_code' [-Wenum-conversion]
- 1965 |  retcode = rv;  /* FIXME: Type mismatch. */
-      |          ^
-drivers/block/drbd/drbd_nl.c: In function 'drbd_adm_connect':
-drivers/block/drbd/drbd_nl.c:2690:10: warning: implicit conversion from 'enum drbd_state_rv' to 'enum drbd_ret_code' [-Wenum-conversion]
- 2690 |  retcode = conn_request_state(connection, NS(conn, C_UNCONNECTED), CS_VERBOSE);
-      |          ^
-drivers/block/drbd/drbd_nl.c: In function 'drbd_adm_disconnect':
-drivers/block/drbd/drbd_nl.c:2803:11: warning: implicit conversion from 'enum drbd_state_rv' to 'enum drbd_ret_code' [-Wenum-conversion]
- 2803 |   retcode = rv;  /* FIXME: Type mismatch. */
-      |           ^
-
-In each case, both are passed into drbd_adm_finish(), which just takes
-a 32-bit integer and is happy with either, presumably intentionally.
-
-Restructure the code to pass either type directly in there in most
-cases, avoiding the warnings.
-
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/block/drbd/drbd_nl.c | 23 ++++++++++++++---------
- 1 file changed, 14 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/block/drbd/drbd_nl.c b/drivers/block/drbd/drbd_nl.c
-index bf7de4c7b96c..3d6995ee675b 100644
---- a/drivers/block/drbd/drbd_nl.c
-+++ b/drivers/block/drbd/drbd_nl.c
-@@ -770,6 +770,7 @@ int drbd_adm_set_role(struct sk_buff *skb, struct genl_info *info)
- 	struct set_role_parms parms;
- 	int err;
- 	enum drbd_ret_code retcode;
-+	enum drbd_state_rv rv;
- 
- 	retcode = drbd_adm_prepare(&adm_ctx, skb, info, DRBD_ADM_NEED_MINOR);
- 	if (!adm_ctx.reply_skb)
-@@ -790,12 +791,14 @@ int drbd_adm_set_role(struct sk_buff *skb, struct genl_info *info)
- 	mutex_lock(&adm_ctx.resource->adm_mutex);
- 
- 	if (info->genlhdr->cmd == DRBD_ADM_PRIMARY)
--		retcode = drbd_set_role(adm_ctx.device, R_PRIMARY, parms.assume_uptodate);
-+		rv = drbd_set_role(adm_ctx.device, R_PRIMARY, parms.assume_uptodate);
- 	else
--		retcode = drbd_set_role(adm_ctx.device, R_SECONDARY, 0);
-+		rv = drbd_set_role(adm_ctx.device, R_SECONDARY, 0);
- 
- 	mutex_unlock(&adm_ctx.resource->adm_mutex);
- 	genl_lock();
-+	drbd_adm_finish(&adm_ctx, info, rv);
-+	return 0;
- out:
- 	drbd_adm_finish(&adm_ctx, info, retcode);
- 	return 0;
-@@ -1962,7 +1965,7 @@ int drbd_adm_attach(struct sk_buff *skb, struct genl_info *info)
- 	drbd_flush_workqueue(&connection->sender_work);
- 
- 	rv = _drbd_request_state(device, NS(disk, D_ATTACHING), CS_VERBOSE);
--	retcode = rv;  /* FIXME: Type mismatch. */
-+	retcode = (enum drbd_ret_code)(int)rv;  /* FIXME: Type mismatch. */
- 	drbd_resume_io(device);
- 	if (rv < SS_SUCCESS)
- 		goto fail;
-@@ -2568,6 +2571,7 @@ int drbd_adm_connect(struct sk_buff *skb, struct genl_info *info)
- 	struct drbd_resource *resource;
- 	struct drbd_connection *connection;
- 	enum drbd_ret_code retcode;
-+	enum drbd_state_rv rv;
- 	int i;
- 	int err;
- 
-@@ -2687,11 +2691,11 @@ int drbd_adm_connect(struct sk_buff *skb, struct genl_info *info)
- 	}
- 	rcu_read_unlock();
- 
--	retcode = conn_request_state(connection, NS(conn, C_UNCONNECTED), CS_VERBOSE);
-+	rv = conn_request_state(connection, NS(conn, C_UNCONNECTED), CS_VERBOSE);
- 
- 	conn_reconfig_done(connection);
- 	mutex_unlock(&adm_ctx.resource->adm_mutex);
--	drbd_adm_finish(&adm_ctx, info, retcode);
-+	drbd_adm_finish(&adm_ctx, info, rv);
- 	return 0;
- 
- fail:
-@@ -2799,11 +2803,12 @@ int drbd_adm_disconnect(struct sk_buff *skb, struct genl_info *info)
- 
- 	mutex_lock(&adm_ctx.resource->adm_mutex);
- 	rv = conn_try_disconnect(connection, parms.force_disconnect);
--	if (rv < SS_SUCCESS)
--		retcode = rv;  /* FIXME: Type mismatch. */
--	else
--		retcode = NO_ERROR;
- 	mutex_unlock(&adm_ctx.resource->adm_mutex);
-+	if (rv < SS_SUCCESS) {
-+		drbd_adm_finish(&adm_ctx, info, rv);
-+		return 0;
-+	}
-+	retcode = NO_ERROR;
-  fail:
- 	drbd_adm_finish(&adm_ctx, info, retcode);
- 	return 0;
--- 
-2.27.0
-
+Diffstat:
+ block/genhd.c                  |   16 +++----
+ drivers/block/aoe/aoecmd.c     |   15 +-----
+ drivers/block/drbd/drbd_main.c |    6 --
+ drivers/block/loop.c           |   36 ++--------------
+ drivers/block/nbd.c            |   88 +++++++++++++----------------------------
+ drivers/block/pktcdvd.c        |    3 -
+ drivers/block/rbd.c            |    3 -
+ drivers/block/rnbd/rnbd-clt.c  |    3 -
+ drivers/block/virtio_blk.c     |    3 -
+ drivers/block/xen-blkfront.c   |    2 
+ drivers/block/zram/zram_drv.c  |    7 ---
+ drivers/md/dm-raid.c           |    3 -
+ drivers/md/dm.c                |    3 -
+ drivers/md/md-cluster.c        |    8 ---
+ drivers/md/md-linear.c         |    3 -
+ drivers/md/md.c                |   24 ++++-------
+ drivers/nvme/host/core.c       |   18 --------
+ drivers/scsi/sd.c              |    9 +---
+ fs/block_dev.c                 |    7 ---
+ include/linux/genhd.h          |    3 -
+ 20 files changed, 76 insertions(+), 184 deletions(-)
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
