@@ -2,35 +2,35 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 018B52A9DF6
-	for <lists+drbd-dev@lfdr.de>; Fri,  6 Nov 2020 20:25:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79E162A9DF5
+	for <lists+drbd-dev@lfdr.de>; Fri,  6 Nov 2020 20:25:09 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B5AD74207F3;
-	Fri,  6 Nov 2020 20:25:39 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3F1DF4207F1;
+	Fri,  6 Nov 2020 20:25:09 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 091284207CB
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B7E7C4207C7
 	for <drbd-dev@lists.linbit.com>; Fri,  6 Nov 2020 20:21:38 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209;
 	h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=tNHc+yKxFex2BA3VRJKRfYT+Q/BQGvkbTVBIgZi7Zak=;
-	b=uwbAYUWtYsWNkpwUoogtJngFDI
-	X2niLn/0gDbVghXFusMEzeWZ+C5KIQwkGtGxGZ6oxJj5WI+iW+O0SJnD2dR7Qk1cxpxM1Piqqibv1
-	W2PHD40tu/vh96I3Z/yauJblfPpdXElTpc73LpnmGWgwgPicld7nbqsXMhQ6te+RWkgdNHLDoexl6
-	4ZtBRCP240kPDW2iHuDGSh6PBKkb6TKwmX9M9z5dbJ2wi7u/yKw5Ye3Y1JEeN7/i6H6eJ4opYNCFv
-	Z6kB/Jw1bpis23wpaAMdzULdhHjFYROT27VSovcE6cIP+UJFN2KPawN+zY68HvUyNDxCK9BDtcB3r
-	KthEYJEA==;
+	bh=N8UuGGw9lDirN906bdHNl2lOQB2uewg0ZSFqxQb7Dc4=;
+	b=EbShoq0e9ZdxuHzJ//Stacuw58
+	fWC0EbT3bDkc4a76CHYJxCWttwRI59GvoSaEU0SW0M22mNQkH3EhRrAKd+QvVHizyPlJeJ0kMVJ4i
+	zHx7ItnO6W/fLLrYnw+S/gSCKqgdFCCws7Nqwvf507VfDEMI+rvO4uJnsRlROtxVrdeIy2E7YL3TL
+	S7BmHPSe96rpbKQWzhRBiwcBzWjvB4sisrJVYeefsUF98+rDlF7LunTgLETgKBtlqQ1KRVmOxV937
+	0aBRSGfCuluO2qQ6XYWclmFOBtO86wc6DyjOSAZKELdbbXCgn+Cmrf4JQhJv1RVmx1A2l424dcPHJ
+	70sIudTA==;
 Received: from [2001:4bb8:184:9a8d:9e34:f7f4:e59e:ad6f] (helo=localhost)
 	by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kb723-00010x-Br; Fri, 06 Nov 2020 19:04:20 +0000
+	id 1kb725-00012H-Kj; Fri, 06 Nov 2020 19:04:22 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Date: Fri,  6 Nov 2020 20:03:28 +0100
-Message-Id: <20201106190337.1973127-17-hch@lst.de>
+Date: Fri,  6 Nov 2020 20:03:29 +0100
+Message-Id: <20201106190337.1973127-18-hch@lst.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201106190337.1973127-1-hch@lst.de>
 References: <20201106190337.1973127-1-hch@lst.de>
@@ -52,7 +52,7 @@ Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
 	Minchan Kim <minchan@kernel.org>, linux-fsdevel@vger.kernel.org,
 	Paolo Bonzini <pbonzini@redhat.com>,
 	=?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.com>
-Subject: [Drbd-dev] [PATCH 16/24] drbd: use set_capacity_and_notify
+Subject: [Drbd-dev] [PATCH 17/24] rbd: use set_capacity_and_notify
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -76,33 +76,23 @@ device.  This also gets the uevent notifications for the resize for free.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/block/drbd/drbd_main.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/block/rbd.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
-index 65b95aef8dbc95..1c8c18b2a25f33 100644
---- a/drivers/block/drbd/drbd_main.c
-+++ b/drivers/block/drbd/drbd_main.c
-@@ -2036,8 +2036,7 @@ void drbd_set_my_capacity(struct drbd_device *device, sector_t size)
- {
- 	char ppb[10];
- 
--	set_capacity(device->vdisk, size);
--	revalidate_disk_size(device->vdisk, false);
-+	set_capacity_and_notify(device->vdisk, size);
- 
- 	drbd_info(device, "size = %s (%llu KB)\n",
- 		ppsize(ppb, size>>1), (unsigned long long)size>>1);
-@@ -2068,8 +2067,7 @@ void drbd_device_cleanup(struct drbd_device *device)
+diff --git a/drivers/block/rbd.c b/drivers/block/rbd.c
+index f84128abade319..b7a194ffda55b4 100644
+--- a/drivers/block/rbd.c
++++ b/drivers/block/rbd.c
+@@ -4920,8 +4920,7 @@ static void rbd_dev_update_size(struct rbd_device *rbd_dev)
+ 	    !test_bit(RBD_DEV_FLAG_REMOVING, &rbd_dev->flags)) {
+ 		size = (sector_t)rbd_dev->mapping.size / SECTOR_SIZE;
+ 		dout("setting size to %llu sectors", (unsigned long long)size);
+-		set_capacity(rbd_dev->disk, size);
+-		revalidate_disk_size(rbd_dev->disk, true);
++		set_capacity_and_notify(rbd_dev->disk, size);
  	}
- 	D_ASSERT(device, first_peer_device(device)->connection->net_conf == NULL);
+ }
  
--	set_capacity(device->vdisk, 0);
--	revalidate_disk_size(device->vdisk, false);
-+	set_capacity_and_notify(device->vdisk, 0);
- 	if (device->bitmap) {
- 		/* maybe never allocated. */
- 		drbd_bm_resize(device, 0, 1);
 -- 
 2.28.0
 
