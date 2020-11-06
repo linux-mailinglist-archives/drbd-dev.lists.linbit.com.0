@@ -2,35 +2,35 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA12A2A9D51
-	for <lists+drbd-dev@lfdr.de>; Fri,  6 Nov 2020 20:05:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 592942A9D6D
+	for <lists+drbd-dev@lfdr.de>; Fri,  6 Nov 2020 20:06:12 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B15174207BE;
-	Fri,  6 Nov 2020 20:05:41 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1E38E4207C4;
+	Fri,  6 Nov 2020 20:06:12 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 58DB24207A7
-	for <drbd-dev@lists.linbit.com>; Fri,  6 Nov 2020 20:04:14 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C42DA4207A9
+	for <drbd-dev@lists.linbit.com>; Fri,  6 Nov 2020 20:04:15 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209;
 	h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=xoeiriVlvBvSZjV6Q4wYdmBzo8f6g+sLoFZ2s4edyk8=;
-	b=NxVhEEHR/C1EYxh35k4vDv/Uce
-	dlWSgLAuqe0PKAr557dVmJ6lHVGfcgVFnBUblSiUPXhcm7QnYEpJyfIExsL2RkvO0AWimJ5hCVMid
-	98+jZXSuhAiXHDHIp7itgE4sFgG/X1barPzhD8UvMkia+uZ7DGb5lf04+4P3nYn+v8TAMz9uQ9kf9
-	7AB5YlkNoWmNCdg+jrCrZV0P85fSt8+cPZJVIKiJuJdYGwSt895sPIIaNicR7kG1wfcYnfRHs/XmY
-	WH3KVWDg4MFGBPTPloHXoU/v9MRzD7180eeFlpDdxvrfJdvQ4lqjy6ouInvMW3GmGAOlPSZXFmrve
-	l411IOvA==;
+	bh=z4FJvyEBdJUNH2ICfgDhXYhI93Iugb+FUQTixBMdEJs=;
+	b=N/BTEsalf53sWMF1NynFhjnBWQ
+	uMEzJhDiUhbdgTn6HR32ujb4p0zRiPS+sOoVdEnyZv+Dij8IJUweK1eMVi2RBr1hXUSEwwavtHExg
+	sNr9j1HAVcinwU0zvVZ9QarhyRI4g+YDE9woukNnt8R+toHJE6Yyj0N6xE2RsmnTfWYuqVKiRBcdc
+	C+RJ0pjKXC9y7PJrEmbrlFyzinEMuLJP5ArJM2hoiLEKHH5IAxDcyRZUkdM+9P4+gn1Pn36IKFZYO
+	AdL3p37VKRLnvBgnAkwYvUIBdzrmEngx2OqoC8PTe/8DN9HA5diR/JaO+uxOByGNXLNxU91/DaxUA
+	FUf64JDg==;
 Received: from [2001:4bb8:184:9a8d:9e34:f7f4:e59e:ad6f] (helo=localhost)
 	by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kb71d-0000tx-H2; Fri, 06 Nov 2020 19:03:54 +0000
+	id 1kb71f-0000uK-9c; Fri, 06 Nov 2020 19:03:56 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Date: Fri,  6 Nov 2020 20:03:15 +0100
-Message-Id: <20201106190337.1973127-4-hch@lst.de>
+Date: Fri,  6 Nov 2020 20:03:16 +0100
+Message-Id: <20201106190337.1973127-5-hch@lst.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201106190337.1973127-1-hch@lst.de>
 References: <20201106190337.1973127-1-hch@lst.de>
@@ -52,8 +52,8 @@ Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
 	Minchan Kim <minchan@kernel.org>, linux-fsdevel@vger.kernel.org,
 	Paolo Bonzini <pbonzini@redhat.com>,
 	=?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.com>
-Subject: [Drbd-dev] [PATCH 03/24] nvme: let
-	set_capacity_revalidate_and_notify update the bdev size
+Subject: [Drbd-dev] [PATCH 04/24] sd: update the bdev size in
+	sd_revalidate_disk
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -72,43 +72,49 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-There is no good reason to call revalidate_disk_size separately.
+This avoids the extra call to revalidate_disk_size in sd_rescan and
+is otherwise a no-op because the size did not change, or we are in
+the probe path.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/host/core.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drivers/scsi/sd.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 376096bfc54a83..4e86c9aafd88a7 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2053,7 +2053,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
- 			capacity = 0;
- 	}
+diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
+index 656bcf4940d6d1..4a34dd5b153196 100644
+--- a/drivers/scsi/sd.c
++++ b/drivers/scsi/sd.c
+@@ -1750,10 +1750,8 @@ static int sd_sync_cache(struct scsi_disk *sdkp, struct scsi_sense_hdr *sshdr)
+ static void sd_rescan(struct device *dev)
+ {
+ 	struct scsi_disk *sdkp = dev_get_drvdata(dev);
+-	int ret;
  
--	set_capacity_revalidate_and_notify(disk, capacity, false);
-+	set_capacity_revalidate_and_notify(disk, capacity, true);
- 
- 	nvme_config_discard(disk, ns);
- 	nvme_config_write_zeroes(disk, ns);
-@@ -2136,7 +2136,6 @@ static int nvme_update_ns_info(struct nvme_ns *ns, struct nvme_id_ns *id)
- 		blk_stack_limits(&ns->head->disk->queue->limits,
- 				 &ns->queue->limits, 0);
- 		blk_queue_update_readahead(ns->head->disk->queue);
--		nvme_update_bdev_size(ns->head->disk);
- 		blk_mq_unfreeze_queue(ns->head->disk->queue);
- 	}
- #endif
-@@ -3965,8 +3964,6 @@ static void nvme_validate_ns(struct nvme_ns *ns, struct nvme_ns_ids *ids)
- 	 */
- 	if (ret && ret != -ENOMEM && !(ret > 0 && !(ret & NVME_SC_DNR)))
- 		nvme_ns_remove(ns);
--	else
--		revalidate_disk_size(ns->disk, true);
+-	ret = sd_revalidate_disk(sdkp->disk);
+-	revalidate_disk_size(sdkp->disk, ret == 0);
++	sd_revalidate_disk(sdkp->disk);
  }
  
- static void nvme_validate_or_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ static int sd_ioctl(struct block_device *bdev, fmode_t mode,
+@@ -3266,7 +3264,7 @@ static int sd_revalidate_disk(struct gendisk *disk)
+ 	sdkp->first_scan = 0;
+ 
+ 	set_capacity_revalidate_and_notify(disk,
+-		logical_to_sectors(sdp, sdkp->capacity), false);
++		logical_to_sectors(sdp, sdkp->capacity), true);
+ 	sd_config_write_same(sdkp);
+ 	kfree(buffer);
+ 
+@@ -3276,7 +3274,7 @@ static int sd_revalidate_disk(struct gendisk *disk)
+ 	 * capacity to 0.
+ 	 */
+ 	if (sd_zbc_revalidate_zones(sdkp))
+-		set_capacity_revalidate_and_notify(disk, 0, false);
++		set_capacity_revalidate_and_notify(disk, 0, true);
+ 
+  out:
+ 	return 0;
 -- 
 2.28.0
 
