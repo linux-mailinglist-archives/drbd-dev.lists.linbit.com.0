@@ -2,35 +2,35 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EAD12A9E3D
-	for <lists+drbd-dev@lfdr.de>; Fri,  6 Nov 2020 20:43:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87F972A9E39
+	for <lists+drbd-dev@lfdr.de>; Fri,  6 Nov 2020 20:42:06 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1CA1E420807;
-	Fri,  6 Nov 2020 20:43:07 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 599A1420802;
+	Fri,  6 Nov 2020 20:42:06 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id DAD8B4207FC
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 420234207F0
 	for <drbd-dev@lists.linbit.com>; Fri,  6 Nov 2020 20:41:34 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209;
 	h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=9taUiqSTACcH2Z0NVyYeu1wIyxjTgsg3N9q7Quy2bf8=;
-	b=oAMtLVxzr+OO0PcilibN4J+7cY
-	A6aOsonM11li6ilkHUPp8kBC6QK8Ku1WKyvUPQIIKS3Yr6ShhFM9rGgNGOqajADhudPZ+3vFzZY6G
-	+awcIimxh/Z01UGkGMBjmo+ldoYOMeGf99KhzTGQ+98goXtxgdupqyVgT6d6XIW8QFrnGYE8B3eI/
-	NdxJOwyx/XyOCFGOvQCYVgahj/lrrL/KLrr4bytAMgZd96iY0MMc/Ta+sFWjeoqP7n+5l0TOF6jMP
-	v4PEZnAOD042+hSq/ZESdR+3iJ6Oge2OfUHEz6Jei3G3ygfq/wegQ3JrDRIV0DxROiAOfQJF8vFZL
-	LUGQzlHA==;
+	bh=bgbs5emPj5p7gTWcmnEuks79StD6TA5roIn47mScHH4=;
+	b=sLqpFn8MNMp2YVoGVzCC1sBIXZ
+	scwxQBBRwMeOtLFZWVrnLhmqAhpHB975gQ6WhMbBX7APBR0vehT4+yU9XVRSGJ7txwf7VaLg9o6JD
+	n4qb1rjrSe93F3xdo4HwsLfWw1Ux1ZKT9gBfGV4g0JQkTvIgByB0fJieiXaBI+eAOsaBPVbYBZDPK
+	moYTJgW59lvKQuEcYEegtN9nvNnkj3NxbJNdENCRUI7j7M4HEcbxon2U3BQHJDMmukuCyiMp5ARdR
+	N1W4pYYyu024rCnDN5Y4HDqX8OoRWdoKkyf91EigCA3QKgSODr8ohYGjl37kclee4PDOrPelHnjnO
+	+OGLxhGg==;
 Received: from [2001:4bb8:184:9a8d:9e34:f7f4:e59e:ad6f] (helo=localhost)
 	by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kb71t-0000x7-8S; Fri, 06 Nov 2020 19:04:10 +0000
+	id 1kb71v-0000xc-3a; Fri, 06 Nov 2020 19:04:11 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Date: Fri,  6 Nov 2020 20:03:23 +0100
-Message-Id: <20201106190337.1973127-12-hch@lst.de>
+Date: Fri,  6 Nov 2020 20:03:24 +0100
+Message-Id: <20201106190337.1973127-13-hch@lst.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201106190337.1973127-1-hch@lst.de>
 References: <20201106190337.1973127-1-hch@lst.de>
@@ -52,7 +52,8 @@ Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
 	Minchan Kim <minchan@kernel.org>, linux-fsdevel@vger.kernel.org,
 	Paolo Bonzini <pbonzini@redhat.com>,
 	=?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.com>
-Subject: [Drbd-dev] [PATCH 11/24] nbd: use set_capacity_and_notify
+Subject: [Drbd-dev] [PATCH 12/24] aoe: don't call set_capacity from irq
+	context
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -71,49 +72,58 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Use set_capacity_and_notify to update the disk and block device sizes and
-send a RESIZE uevent to userspace.  Note that blktests relies on uevents
-being sent also for updates that did not change the device size, so the
-explicit kobject_uevent remains for that case.
+Updating the block device size from irq context can lead to torn
+writes of the 64-bit value, and prevents us from using normal
+process context locking primitives to serialize access to the 64-bit
+nr_sectors value.  Defer the set_capacity to the already existing
+workqueue handler, where it can be merged with the update of the
+block device size by using set_capacity_and_notify.  As an extra
+bonus this also adds proper uevent notifications for the resize.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/block/nbd.c | 15 +++------------
- 1 file changed, 3 insertions(+), 12 deletions(-)
+ drivers/block/aoe/aoecmd.c | 15 ++++-----------
+ 1 file changed, 4 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/block/nbd.c b/drivers/block/nbd.c
-index 327060e01ad58e..a6f51934391edb 100644
---- a/drivers/block/nbd.c
-+++ b/drivers/block/nbd.c
-@@ -299,8 +299,6 @@ static void nbd_size_clear(struct nbd_device *nbd)
- static int nbd_set_size(struct nbd_device *nbd, loff_t bytesize,
- 		loff_t blksize)
+diff --git a/drivers/block/aoe/aoecmd.c b/drivers/block/aoe/aoecmd.c
+index 313f0b946fe2b3..ac720bdcd983e7 100644
+--- a/drivers/block/aoe/aoecmd.c
++++ b/drivers/block/aoe/aoecmd.c
+@@ -890,19 +890,13 @@ void
+ aoecmd_sleepwork(struct work_struct *work)
  {
--	struct block_device *bdev;
--
- 	if (!blksize)
- 		blksize = NBD_DEF_BLKSIZE;
- 	if (blksize < 512 || blksize > PAGE_SIZE || !is_power_of_2(blksize))
-@@ -320,16 +318,9 @@ static int nbd_set_size(struct nbd_device *nbd, loff_t bytesize,
- 	blk_queue_logical_block_size(nbd->disk->queue, blksize);
- 	blk_queue_physical_block_size(nbd->disk->queue, blksize);
+ 	struct aoedev *d = container_of(work, struct aoedev, work);
+-	struct block_device *bd;
+-	u64 ssize;
  
--	set_capacity(nbd->disk, bytesize >> 9);
--	bdev = bdget_disk(nbd->disk, 0);
--	if (bdev) {
--		if (bdev->bd_disk)
--			bd_set_nr_sectors(bdev, bytesize >> 9);
--		else
--			set_bit(GD_NEED_PART_SCAN, &nbd->disk->state);
--		bdput(bdev);
--	}
--	kobject_uevent(&nbd_to_dev(nbd)->kobj, KOBJ_CHANGE);
-+	set_bit(GD_NEED_PART_SCAN, &nbd->disk->state);
-+	if (!set_capacity_and_notify(nbd->disk, bytesize >> 9))
-+		kobject_uevent(&nbd_to_dev(nbd)->kobj, KOBJ_CHANGE);
- 	return 0;
+ 	if (d->flags & DEVFL_GDALLOC)
+ 		aoeblk_gdalloc(d);
+ 
+ 	if (d->flags & DEVFL_NEWSIZE) {
+-		ssize = get_capacity(d->gd);
+-		bd = bdget_disk(d->gd, 0);
+-		if (bd) {
+-			bd_set_nr_sectors(bd, ssize);
+-			bdput(bd);
+-		}
++		set_capacity_and_notify(d->gd, d->ssize);
++
+ 		spin_lock_irq(&d->lock);
+ 		d->flags |= DEVFL_UP;
+ 		d->flags &= ~DEVFL_NEWSIZE;
+@@ -971,10 +965,9 @@ ataid_complete(struct aoedev *d, struct aoetgt *t, unsigned char *id)
+ 	d->geo.start = 0;
+ 	if (d->flags & (DEVFL_GDALLOC|DEVFL_NEWSIZE))
+ 		return;
+-	if (d->gd != NULL) {
+-		set_capacity(d->gd, ssize);
++	if (d->gd != NULL)
+ 		d->flags |= DEVFL_NEWSIZE;
+-	} else
++	else
+ 		d->flags |= DEVFL_GDALLOC;
+ 	schedule_work(&d->work);
  }
- 
 -- 
 2.28.0
 
