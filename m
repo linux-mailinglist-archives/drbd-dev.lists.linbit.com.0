@@ -2,57 +2,64 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC01A2A9E40
-	for <lists+drbd-dev@lfdr.de>; Fri,  6 Nov 2020 20:43:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86E012AB164
+	for <lists+drbd-dev@lfdr.de>; Mon,  9 Nov 2020 07:45:37 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 85B5642080B;
-	Fri,  6 Nov 2020 20:43:38 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id EF4904207A9;
+	Mon,  9 Nov 2020 07:45:35 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5F4354207FD
-	for <drbd-dev@lists.linbit.com>; Fri,  6 Nov 2020 20:41:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209;
-	h=Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=lumJq5B2fyOOj2vqJR3cb92lXUnjwfkYYs/CdjVL7AE=;
-	b=eyjkFqW2Lg8XRbrrVkiRkq/qq2
-	49XVx9Yxw07JHDacMMOeLzZz8HG1JveigO/MGLL9NyNBjvo9oJC6aYyW+UCA7pyMcIg2mlykFZ8zX
-	ty8nCCzVLygdCiZkudRiTdi/W/FqGRVOeMQ9wpUURGDFOeF8z5DD8i/HOXTvwBHN3fV5U4peZe9Pq
-	DgD3Jqo41QfIfZOp1cR5hXwFKm1Z/l9ILA6PmCBeYnfhJASEsooVpF4wac7NBiKSpHFXTDdkS/nwj
-	fC+l47uqcwWBpLri1fI067m613ULNzIVBLSf1JS15xnnKfEZd/fTWViAQq5S1YviscxPom3cx2ros
-	iJRrYOEA==;
-Received: from [2001:4bb8:184:9a8d:9e34:f7f4:e59e:ad6f] (helo=localhost)
-	by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kb71y-0000yy-W9; Fri, 06 Nov 2020 19:04:15 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Jens Axboe <axboe@kernel.dk>
-Date: Fri,  6 Nov 2020 20:03:26 +0100
-Message-Id: <20201106190337.1973127-15-hch@lst.de>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201106190337.1973127-1-hch@lst.de>
-References: <20201106190337.1973127-1-hch@lst.de>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 297DB4207B1
+	for <drbd-dev@lists.linbit.com>; Sat,  7 Nov 2020 01:32:21 +0100 (CET)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+	[209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id 7ABC922210
+	for <drbd-dev@lists.linbit.com>; Sat,  7 Nov 2020 00:32:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1604709140;
+	bh=KcpIPe+A58yFNxxgdAdaS3ugXYdHOBtuseeQrVYguHI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=O7dyOXal7YL7+3TQPR507WAWXuCRa9VXvh3tl/XZ3Wmey5p91Ew7PyDj8k/tZUsUX
+	XY5D3+3MbK8y+gvrbaa+8QamA+h71zwFvUqQhxnEoaqEjETZ+k6/bM4uDXaudNmc1c
+	Llst5cl3Ll69uQ67EfsvLxy48UchXaU9XWGm+pGE=
+Received: by mail-lf1-f48.google.com with SMTP id h6so4386113lfj.3
+	for <drbd-dev@lists.linbit.com>; Fri, 06 Nov 2020 16:32:20 -0800 (PST)
+X-Gm-Message-State: AOAM530MFQjH/VqolhE5ODxw5u11CF12ZQXTwGrcA4guFgrWxEcQRbDR
+	5c6BPbijTPoj0R4zTnmBexMUPYHvUs4kQzWvdjM=
+X-Google-Smtp-Source: ABdhPJzPKJgvb0YpcBOATticPbEhSqNhkf0gjO34lXWldMg14DmOELWQsnbdEhjrrSsS6KPE2QcSxjJkDLUT8kUmj4w=
+X-Received: by 2002:a19:ae13:: with SMTP id f19mr1682538lfc.193.1604709138508; 
+	Fri, 06 Nov 2020 16:32:18 -0800 (PST)
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
-	casper.infradead.org. See http://www.infradead.org/rpr.html
+References: <20201106190337.1973127-1-hch@lst.de>
+	<20201106190337.1973127-22-hch@lst.de>
+In-Reply-To: <20201106190337.1973127-22-hch@lst.de>
+From: Song Liu <song@kernel.org>
+Date: Fri, 6 Nov 2020 16:32:07 -0800
+X-Gmail-Original-Message-ID: <CAPhsuW6GuXe_2YKnP5wRHg7ytOxjUzTQZ=fG2RKxs6woNVPFaQ@mail.gmail.com>
+Message-ID: <CAPhsuW6GuXe_2YKnP5wRHg7ytOxjUzTQZ=fG2RKxs6woNVPFaQ@mail.gmail.com>
+To: Christoph Hellwig <hch@lst.de>
+X-Mailman-Approved-At: Mon, 09 Nov 2020 07:45:34 +0100
 Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
 	"Michael S. Tsirkin" <mst@redhat.com>,
 	Jason Wang <jasowang@redhat.com>, linux-nvme@lists.infradead.org,
-	Song Liu <song@kernel.org>, dm-devel@redhat.com,
-	drbd-dev@lists.linbit.com, linux-scsi@vger.kernel.org,
-	xen-devel@lists.xenproject.org, Ilya Dryomov <idryomov@gmail.com>,
-	Jack Wang <jinpu.wang@cloud.ionos.com>,
+	dm-devel@redhat.com, drbd-dev@lists.linbit.com,
+	linux-scsi@vger.kernel.org, xen-devel@lists.xenproject.org,
+	Ilya Dryomov <idryomov@gmail.com>, Jack Wang <jinpu.wang@cloud.ionos.com>,
 	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
 	Josef Bacik <josef@toxicpanda.com>, nbd@other.debian.org,
-	linux-raid@vger.kernel.org, Stefan Hajnoczi <stefanha@redhat.com>,
-	ceph-devel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-raid <linux-raid@vger.kernel.org>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	ceph-devel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+	linux-block@vger.kernel.org,
 	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Minchan Kim <minchan@kernel.org>, linux-fsdevel@vger.kernel.org,
+	Minchan Kim <minchan@kernel.org>,
+	Linux-Fsdevel <linux-fsdevel@vger.kernel.org>,
 	Paolo Bonzini <pbonzini@redhat.com>,
-	=?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.com>
-Subject: [Drbd-dev] [PATCH 14/24] pktcdvd: use set_capacity_and_notify
+	=?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>
+Subject: Re: [Drbd-dev] [PATCH 21/24] md: use set_capacity_and_notify
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -71,31 +78,14 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Use set_capacity_and_notify to set the size of both the disk and block
-device.  This also gets the uevent notifications for the resize for free.
+On Fri, Nov 6, 2020 at 11:04 AM Christoph Hellwig <hch@lst.de> wrote:
+>
+> Use set_capacity_and_notify to set the size of both the disk and block
+> device.  This also gets the uevent notifications for the resize for free.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- drivers/block/pktcdvd.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/drivers/block/pktcdvd.c b/drivers/block/pktcdvd.c
-index 467dbd06b7cdb1..4326401cede445 100644
---- a/drivers/block/pktcdvd.c
-+++ b/drivers/block/pktcdvd.c
-@@ -2130,8 +2130,7 @@ static int pkt_open_dev(struct pktcdvd_device *pd, fmode_t write)
- 	}
- 
- 	set_capacity(pd->disk, lba << 2);
--	set_capacity(pd->bdev->bd_disk, lba << 2);
--	bd_set_nr_sectors(pd->bdev, lba << 2);
-+	set_capacity_and_notify(pd->bdev->bd_disk, lba << 2);
- 
- 	q = bdev_get_queue(pd->bdev);
- 	if (write) {
--- 
-2.28.0
-
+Acked-by: Song Liu <song@kernel.org>
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
