@@ -2,91 +2,72 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 467552AD38F
-	for <lists+drbd-dev@lfdr.de>; Tue, 10 Nov 2020 11:23:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F8752AD390
+	for <lists+drbd-dev@lfdr.de>; Tue, 10 Nov 2020 11:23:13 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id DDAD44207DE;
-	Tue, 10 Nov 2020 11:23:05 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3233D4207E2;
+	Tue, 10 Nov 2020 11:23:06 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 302 seconds by postgrey-1.31 at mail19;
-	Mon, 09 Nov 2020 12:36:28 CET
-Received: from us-smtp-delivery-124.mimecast.com
-	(us-smtp-delivery-124.mimecast.com [63.128.21.124])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 06D804207B7
-	for <drbd-dev@lists.linbit.com>; Mon,  9 Nov 2020 12:36:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1604921788;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	in-reply-to:in-reply-to:references:references;
-	bh=qJPHU79Z9aFII+RXhVTkpUcHO9yLNqjEBCGqyvXY310=;
-	b=ONHWpkbq2ScZlreLe2KU1v4fARlvdEMqOzMj6FZ9lXc6/GfSnpjq5j3dWaa77Ep+RHZcjv
-	elt2qGiHt8VTcsFo6UetipHKU/JRjwpL6z3XvoHZxRwqaZFPLxElkWZEo1m3tqqV0ntXVZ
-	3jk3ql9F+V0lrhx/dXsGff22fhkv9SQ=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
-	[209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-495-W27gt3SuNSWrOzXTIgAGmg-1; Mon, 09 Nov 2020 06:30:20 -0500
-X-MC-Unique: W27gt3SuNSWrOzXTIgAGmg-1
-Received: by mail-wr1-f71.google.com with SMTP id p16so1573222wrx.4
-	for <drbd-dev@lists.linbit.com>; Mon, 09 Nov 2020 03:30:20 -0800 (PST)
+Received: from mail-il1-f194.google.com (mail-il1-f194.google.com
+	[209.85.166.194])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A2EC6420662
+	for <drbd-dev@lists.linbit.com>; Mon,  9 Nov 2020 14:52:08 +0100 (CET)
+Received: by mail-il1-f194.google.com with SMTP id z2so8305506ilh.11
+	for <drbd-dev@lists.linbit.com>; Mon, 09 Nov 2020 05:52:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=kU2Lz6FCVrZiuEoHabGbCYI8mZi4aQygf2Kr0fLfGG4=;
+	b=Lb/BkUcVIcd6xhv8oVONfECjW/ZB+eIGRHnh0dm3V/Dcve1CHMxGnjqr8op+1v76K7
+	BboZLuIC9lFoWJc8zRN7ckG8JYkUCEMrBXYH3LeqwWaeQw6FiksBZKkC4/rY+nMcbUOP
+	mcyx+jHFLBCXxcHO2RHq4/pyA2nmEefVK9oOy9OsQ2fr8vLqz43v1yvxxZclHh7D+k2N
+	Qw7b/fXaJ5trjyicYsioOneOxQN4Qzfe8MAWER1MvLiN60BX2gzHW6baJIDiu8cGcvYG
+	BbC7br0UMOuvYPQzgHxuAO2xrcgSSEORe8jj2L4/gatFyG+wbhw19VFJICOjyYa/QKXf
+	TWnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to;
-	bh=qJPHU79Z9aFII+RXhVTkpUcHO9yLNqjEBCGqyvXY310=;
-	b=oAKQuMWBu0ztA/BKGvmfVOPUIBxrJXhVkD5U9VEXfpsdH7uDkQE2OfGi7NbrN6YLXA
-	jAQkplpWhEG/siWRs7dJ3il1eiFxWnczUuYGP8TvdNLQyKBPeDTSxmuqEio6EbaQKP3Q
-	FHhuy8x1XCnjuxtsiRVk33rDgkqzpLICJ4SPpd0yS/sUFuTGUrMni0pTtS4dugKJD4TN
-	c8o+s4BljS5pLJdEq+wcyYwA9sl8DwgwyDkOYduQ+lBKXbWw6ll//qax+zg6hqubd/sf
-	JGI0FsMH3XrmhR1EIS3jLylTD3dSdVFEZ2fTPPwTe1gncVB3QMyxXxId3D0QX2A6S6Dt
-	gEaA==
-X-Gm-Message-State: AOAM532f65h7WN6A5i4MQzO4oVrTSjxVdnm1xOrMizZzv2vhmOUUB7R3
-	INAApBEGELzlTiipKKLdmhorkT9NF9xxJr/lWvk4sRvAwuCuAazzr49OvoRd9fxDDX58VlRoSF3
-	rwwA+Ykj3dSS9f1GOLCzK
-X-Received: by 2002:a05:6000:1005:: with SMTP id
-	a5mr10320357wrx.425.1604921419107; 
-	Mon, 09 Nov 2020 03:30:19 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxfMfmWa9Cv9HNLSs0dLMrckBnIhQ+LX5gsNBfqeNBoHRKN7zV/cjWgtINNh6h724r5DlDOEA==
-X-Received: by 2002:a05:6000:1005:: with SMTP id
-	a5mr10320328wrx.425.1604921418961; 
-	Mon, 09 Nov 2020 03:30:18 -0800 (PST)
-Received: from redhat.com (bzq-79-181-34-244.red.bezeqint.net. [79.181.34.244])
-	by smtp.gmail.com with ESMTPSA id
-	35sm10972366wro.71.2020.11.09.03.30.12
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 09 Nov 2020 03:30:17 -0800 (PST)
-Date: Mon, 9 Nov 2020 06:30:10 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Christoph Hellwig <hch@lst.de>
-Message-ID: <20201109063004-mutt-send-email-mst@kernel.org>
-References: <20201106190337.1973127-1-hch@lst.de>
-	<20201106190337.1973127-24-hch@lst.de>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=kU2Lz6FCVrZiuEoHabGbCYI8mZi4aQygf2Kr0fLfGG4=;
+	b=gT8c0xXW8yexWnxGALOW1T+O93apnEuW1aMjHG4KNrtSrq+J46KFNxwAFMiMZQS8L0
+	1z35IfCX5jFcxokecnQa+0B1yU1d0K66KXhMvaBm3UGj6WL/TFUUNblPj5TzGqhFdCdR
+	8Cc5ap//hj/WMbc9wPMz20YvXbjUQnNYd0nCCjMv6i/QCIKTwruPmpwyckNC1fHgTsDO
+	vuk8chFpywPWNJq34GO8URGfj908A0Tqan9bvE56INQgXcMenNlGz63Tt6yCzt0WSaql
+	khRWzGPhE/1j+2ngctVd42ASn3+fsC5aKuqVZVoM7f3VKvlllFvehKoQ+SzMmNptyhk5
+	a3hQ==
+X-Gm-Message-State: AOAM530XRYbpvBCuZjLVAc/ygqmzL6zn4KfpeECq/eiRmDA/9w3hIKrb
+	CDCcBvLYkkULtee9+gjUoZDSShbQC4bEH8N0FXs=
+X-Google-Smtp-Source: ABdhPJyXm5ijaiShQDd7Xj0k0fsOvCm3U5j3JctcQpIY73kNN30YAUsNc9VfJ5DemzskInCCw4oOffcooZ/r5dSiKD8=
+X-Received: by 2002:a05:6e02:c:: with SMTP id
+	h12mr10623495ilr.177.1604929927708; 
+	Mon, 09 Nov 2020 05:52:07 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201106190337.1973127-24-hch@lst.de>
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
+References: <20201106190337.1973127-1-hch@lst.de>
+	<20201106190337.1973127-18-hch@lst.de>
+In-Reply-To: <20201106190337.1973127-18-hch@lst.de>
+From: Ilya Dryomov <idryomov@gmail.com>
+Date: Mon, 9 Nov 2020 14:52:08 +0100
+Message-ID: <CAOi1vP83cOt_FOFLXQmgBpDgmaq8o8OQcUYWOb97jzkgOw6r4A@mail.gmail.com>
+To: Christoph Hellwig <hch@lst.de>
 X-Mailman-Approved-At: Tue, 10 Nov 2020 11:23:02 +0100
 Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
 	Jason Wang <jasowang@redhat.com>, linux-nvme@lists.infradead.org,
 	Song Liu <song@kernel.org>, dm-devel@redhat.com,
-	drbd-dev@lists.linbit.com, linux-scsi@vger.kernel.org,
-	xen-devel@lists.xenproject.org, Ilya Dryomov <idryomov@gmail.com>,
+	Lars Ellenberg <drbd-dev@lists.linbit.com>,
+	linux-scsi@vger.kernel.org, xen-devel@lists.xenproject.org,
 	Jack Wang <jinpu.wang@cloud.ionos.com>,
 	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
 	Josef Bacik <josef@toxicpanda.com>, nbd@other.debian.org,
 	linux-raid@vger.kernel.org, Stefan Hajnoczi <stefanha@redhat.com>,
-	ceph-devel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-	linux-block@vger.kernel.org,
+	Ceph Development <ceph-devel@vger.kernel.org>,
+	Jens Axboe <axboe@kernel.dk>, linux-block <linux-block@vger.kernel.org>,
 	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Minchan Kim <minchan@kernel.org>, linux-fsdevel@vger.kernel.org,
+	Minchan Kim <minchan@kernel.org>,
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
 	Paolo Bonzini <pbonzini@redhat.com>,
-	Roger Pau =?iso-8859-1?Q?Monn=E9?= <roger.pau@citrix.com>
-Subject: Re: [Drbd-dev] [PATCH 23/24] virtio-blk: remove a spurious call to
- revalidate_disk_size
+	=?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>
+Subject: Re: [Drbd-dev] [PATCH 17/24] rbd: use set_capacity_and_notify
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -105,34 +86,39 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Fri, Nov 06, 2020 at 08:03:35PM +0100, Christoph Hellwig wrote:
-> revalidate_disk_size just updates the block device size from the disk
-> size.  Thus calling it from revalidate_disk_size doesn't actually do
-> anything.
-> 
+On Fri, Nov 6, 2020 at 8:04 PM Christoph Hellwig <hch@lst.de> wrote:
+>
+> Use set_capacity_and_notify to set the size of both the disk and block
+> device.  This also gets the uevent notifications for the resize for free.
+>
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
-
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-
 > ---
->  drivers/block/virtio_blk.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
-> index 3e812b4c32e669..145606dc52db1e 100644
-> --- a/drivers/block/virtio_blk.c
-> +++ b/drivers/block/virtio_blk.c
-> @@ -598,7 +598,6 @@ static void virtblk_update_cache_mode(struct virtio_device *vdev)
->  	struct virtio_blk *vblk = vdev->priv;
->  
->  	blk_queue_write_cache(vblk->disk->queue, writeback, false);
-> -	revalidate_disk_size(vblk->disk, true);
+>  drivers/block/rbd.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/drivers/block/rbd.c b/drivers/block/rbd.c
+> index f84128abade319..b7a194ffda55b4 100644
+> --- a/drivers/block/rbd.c
+> +++ b/drivers/block/rbd.c
+> @@ -4920,8 +4920,7 @@ static void rbd_dev_update_size(struct rbd_device *rbd_dev)
+>             !test_bit(RBD_DEV_FLAG_REMOVING, &rbd_dev->flags)) {
+>                 size = (sector_t)rbd_dev->mapping.size / SECTOR_SIZE;
+>                 dout("setting size to %llu sectors", (unsigned long long)size);
+> -               set_capacity(rbd_dev->disk, size);
+> -               revalidate_disk_size(rbd_dev->disk, true);
+> +               set_capacity_and_notify(rbd_dev->disk, size);
+>         }
 >  }
->  
->  static const char *const virtblk_cache_types[] = {
-> -- 
+>
+> --
 > 2.28.0
+>
 
+Acked-by: Ilya Dryomov <idryomov@gmail.com>
+
+Thanks,
+
+                Ilya
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
