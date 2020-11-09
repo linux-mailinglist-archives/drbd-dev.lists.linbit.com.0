@@ -2,72 +2,79 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F8752AD390
-	for <lists+drbd-dev@lfdr.de>; Tue, 10 Nov 2020 11:23:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 652C72AD391
+	for <lists+drbd-dev@lfdr.de>; Tue, 10 Nov 2020 11:23:14 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3233D4207E2;
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7AC1C4207E6;
 	Tue, 10 Nov 2020 11:23:06 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-il1-f194.google.com (mail-il1-f194.google.com
-	[209.85.166.194])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A2EC6420662
-	for <drbd-dev@lists.linbit.com>; Mon,  9 Nov 2020 14:52:08 +0100 (CET)
-Received: by mail-il1-f194.google.com with SMTP id z2so8305506ilh.11
-	for <drbd-dev@lists.linbit.com>; Mon, 09 Nov 2020 05:52:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=kU2Lz6FCVrZiuEoHabGbCYI8mZi4aQygf2Kr0fLfGG4=;
-	b=Lb/BkUcVIcd6xhv8oVONfECjW/ZB+eIGRHnh0dm3V/Dcve1CHMxGnjqr8op+1v76K7
-	BboZLuIC9lFoWJc8zRN7ckG8JYkUCEMrBXYH3LeqwWaeQw6FiksBZKkC4/rY+nMcbUOP
-	mcyx+jHFLBCXxcHO2RHq4/pyA2nmEefVK9oOy9OsQ2fr8vLqz43v1yvxxZclHh7D+k2N
-	Qw7b/fXaJ5trjyicYsioOneOxQN4Qzfe8MAWER1MvLiN60BX2gzHW6baJIDiu8cGcvYG
-	BbC7br0UMOuvYPQzgHxuAO2xrcgSSEORe8jj2L4/gatFyG+wbhw19VFJICOjyYa/QKXf
-	TWnw==
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com
+	[209.85.160.181])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A3CFA420666
+	for <drbd-dev@lists.linbit.com>; Mon,  9 Nov 2020 19:07:56 +0100 (CET)
+Received: by mail-qt1-f181.google.com with SMTP id i7so6635660qti.6
+	for <drbd-dev@lists.linbit.com>; Mon, 09 Nov 2020 10:07:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=toxicpanda-com.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=7NGOsjZERbiE5w2MHC1mFU2jxp4Wb+n3njEEiJYjdrs=;
+	b=O4/l9OEaWnaVVx9mA/+hODfmoKgGQIEUNKB0HmUGrD+LhRciIQAcMV79vjoQi/4L15
+	CDVLebLFqwtrXUj2MValkzQKsvuvZ+bIj/HDHunVOXdD5rmqC2zDcm6G2ntA+MvXnqhC
+	vTEl8uxCxkWixlkEepU/54lrdZYMGD0U3koL7aiUg0SUzZXfN7ZexvE/u58j8exqrb0L
+	/O1jcvVnjraSt/kGOG4mDP8TkZHx3MoMGZRLY1X+es3rUicc6WotFmSs08rTBby/Yuep
+	Z7z6vRhPWjHEqJ+TL+UexVhcPZExA43AO0zs4xR+XnsHWVoRk8SDKKD+pe0DirmCEgT1
+	wWqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=kU2Lz6FCVrZiuEoHabGbCYI8mZi4aQygf2Kr0fLfGG4=;
-	b=gT8c0xXW8yexWnxGALOW1T+O93apnEuW1aMjHG4KNrtSrq+J46KFNxwAFMiMZQS8L0
-	1z35IfCX5jFcxokecnQa+0B1yU1d0K66KXhMvaBm3UGj6WL/TFUUNblPj5TzGqhFdCdR
-	8Cc5ap//hj/WMbc9wPMz20YvXbjUQnNYd0nCCjMv6i/QCIKTwruPmpwyckNC1fHgTsDO
-	vuk8chFpywPWNJq34GO8URGfj908A0Tqan9bvE56INQgXcMenNlGz63Tt6yCzt0WSaql
-	khRWzGPhE/1j+2ngctVd42ASn3+fsC5aKuqVZVoM7f3VKvlllFvehKoQ+SzMmNptyhk5
-	a3hQ==
-X-Gm-Message-State: AOAM530XRYbpvBCuZjLVAc/ygqmzL6zn4KfpeECq/eiRmDA/9w3hIKrb
-	CDCcBvLYkkULtee9+gjUoZDSShbQC4bEH8N0FXs=
-X-Google-Smtp-Source: ABdhPJyXm5ijaiShQDd7Xj0k0fsOvCm3U5j3JctcQpIY73kNN30YAUsNc9VfJ5DemzskInCCw4oOffcooZ/r5dSiKD8=
-X-Received: by 2002:a05:6e02:c:: with SMTP id
-	h12mr10623495ilr.177.1604929927708; 
-	Mon, 09 Nov 2020 05:52:07 -0800 (PST)
-MIME-Version: 1.0
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=7NGOsjZERbiE5w2MHC1mFU2jxp4Wb+n3njEEiJYjdrs=;
+	b=plQqfBoa1Imd2cvBNnXw9vuf8aF8fgbq+TX6Y/7pLt+dWbkVT0+ur4guhk3FglkiDC
+	I7GlfS0t24ZDsJsejxyf3zv2Qop45Ct8xuqz4SM7m/tIuDzRAaPLA1eHh9Lq5NdbPLX0
+	55zdnxJGeIkAqwPAMHIbAjjJFQxmub4eaT17Orq70e7h5kzYK2TgXFynY1qq8IF6sQa0
+	/AtsfxGzw7+2pOz1uI1hxRKfFDYEX0WBA+uSeeEF2jZbssRe18/+Lssw9wzSmc/mmOoI
+	Iketk9O73+FFlmMwe94YEcqaEw3q1CFIP8jWeskItJNuKLkV8vtXi08aehDw7fsJC8k4
+	XnVg==
+X-Gm-Message-State: AOAM532lwa3qrknt/0bwAlYugwDtLuug8AF274WBbubc2frEKlKPaRsO
+	okwUoE+2AH30gM/mUIYUZExm5g==
+X-Google-Smtp-Source: ABdhPJz1XdtisV/lRv5ASDEyKBu7yVqtI15E3NOcCNcW+bkgomAeHWz+gX9FyFOWQktTiYmlqxOYiw==
+X-Received: by 2002:aed:3147:: with SMTP id 65mr14719130qtg.295.1604945276157; 
+	Mon, 09 Nov 2020 10:07:56 -0800 (PST)
+Received: from [192.168.1.45] (cpe-174-109-172-136.nc.res.rr.com.
+	[174.109.172.136])
+	by smtp.gmail.com with ESMTPSA id z2sm6588768qkl.22.2020.11.09.10.07.54
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Mon, 09 Nov 2020 10:07:55 -0800 (PST)
+To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
 References: <20201106190337.1973127-1-hch@lst.de>
-	<20201106190337.1973127-18-hch@lst.de>
-In-Reply-To: <20201106190337.1973127-18-hch@lst.de>
-From: Ilya Dryomov <idryomov@gmail.com>
-Date: Mon, 9 Nov 2020 14:52:08 +0100
-Message-ID: <CAOi1vP83cOt_FOFLXQmgBpDgmaq8o8OQcUYWOb97jzkgOw6r4A@mail.gmail.com>
-To: Christoph Hellwig <hch@lst.de>
+From: Josef Bacik <josef@toxicpanda.com>
+Message-ID: <7ddd60ce-f588-028f-7e47-2df4d52e22d5@toxicpanda.com>
+Date: Mon, 9 Nov 2020 13:07:53 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+	Gecko/20100101 Thunderbird/78.4.1
+MIME-Version: 1.0
+In-Reply-To: <20201106190337.1973127-1-hch@lst.de>
+Content-Language: en-US
 X-Mailman-Approved-At: Tue, 10 Nov 2020 11:23:02 +0100
 Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
 	"Michael S. Tsirkin" <mst@redhat.com>,
 	Jason Wang <jasowang@redhat.com>, linux-nvme@lists.infradead.org,
 	Song Liu <song@kernel.org>, dm-devel@redhat.com,
-	Lars Ellenberg <drbd-dev@lists.linbit.com>,
-	linux-scsi@vger.kernel.org, xen-devel@lists.xenproject.org,
+	drbd-dev@lists.linbit.com, linux-scsi@vger.kernel.org,
+	xen-devel@lists.xenproject.org, Ilya Dryomov <idryomov@gmail.com>,
 	Jack Wang <jinpu.wang@cloud.ionos.com>,
 	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-	Josef Bacik <josef@toxicpanda.com>, nbd@other.debian.org,
-	linux-raid@vger.kernel.org, Stefan Hajnoczi <stefanha@redhat.com>,
-	Ceph Development <ceph-devel@vger.kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, linux-block <linux-block@vger.kernel.org>,
+	nbd@other.debian.org, linux-raid@vger.kernel.org,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	ceph-devel@vger.kernel.org, linux-block@vger.kernel.org,
 	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Minchan Kim <minchan@kernel.org>,
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+	Minchan Kim <minchan@kernel.org>, linux-fsdevel@vger.kernel.org,
 	Paolo Bonzini <pbonzini@redhat.com>,
-	=?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>
-Subject: Re: [Drbd-dev] [PATCH 17/24] rbd: use set_capacity_and_notify
+	=?UTF-8?Q?Roger_Pau_Monn=c3=a9?= <roger.pau@citrix.com>
+Subject: Re: [Drbd-dev] cleanup updating the size of block devices
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -81,44 +88,26 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Fri, Nov 6, 2020 at 8:04 PM Christoph Hellwig <hch@lst.de> wrote:
->
-> Use set_capacity_and_notify to set the size of both the disk and block
-> device.  This also gets the uevent notifications for the resize for free.
->
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  drivers/block/rbd.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/drivers/block/rbd.c b/drivers/block/rbd.c
-> index f84128abade319..b7a194ffda55b4 100644
-> --- a/drivers/block/rbd.c
-> +++ b/drivers/block/rbd.c
-> @@ -4920,8 +4920,7 @@ static void rbd_dev_update_size(struct rbd_device *rbd_dev)
->             !test_bit(RBD_DEV_FLAG_REMOVING, &rbd_dev->flags)) {
->                 size = (sector_t)rbd_dev->mapping.size / SECTOR_SIZE;
->                 dout("setting size to %llu sectors", (unsigned long long)size);
-> -               set_capacity(rbd_dev->disk, size);
-> -               revalidate_disk_size(rbd_dev->disk, true);
-> +               set_capacity_and_notify(rbd_dev->disk, size);
->         }
->  }
->
-> --
-> 2.28.0
->
+On 11/6/20 2:03 PM, Christoph Hellwig wrote:
+> Hi Jens,
+> 
+> this series builds on top of the work that went into the last merge window,
+> and make sure we have a single coherent interfac for updating the size of a
+> block device.
+> 
 
-Acked-by: Ilya Dryomov <idryomov@gmail.com>
+You can add
 
-Thanks,
+Reviewed-by: Josef Bacik <josef@toxicpanda.com>
 
-                Ilya
+for the nbd bits, thanks,
+
+Josef
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
