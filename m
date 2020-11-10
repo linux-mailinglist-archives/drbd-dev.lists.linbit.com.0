@@ -2,55 +2,57 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9D0C2AD757
-	for <lists+drbd-dev@lfdr.de>; Tue, 10 Nov 2020 14:18:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AF792ADC61
+	for <lists+drbd-dev@lfdr.de>; Tue, 10 Nov 2020 17:48:11 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B01DD420668;
-	Tue, 10 Nov 2020 14:18:50 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 56FA14207A1;
+	Tue, 10 Nov 2020 17:48:10 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
-	[209.85.166.68])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 50B1E420668
-	for <drbd-dev@lists.linbit.com>; Tue, 10 Nov 2020 14:18:48 +0100 (CET)
-Received: by mail-io1-f68.google.com with SMTP id u19so13976010ion.3
-	for <drbd-dev@lists.linbit.com>; Tue, 10 Nov 2020 05:18:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linbit-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=oEepPjoxQh4by2i1OUx0PczgyO82cTraxc4u4YycwTI=;
-	b=Xmn6aluTO4DHhV/TY1XoC9mpgeQdsCVP6ELet/LL14/oJE3u6iCZ7q0bSEez7AOwEN
-	+eaeB0B8pp29mqdJralYw4DJU0tc+w+6Ycy8n/z64IRFetypz0mPABcsA7Ub9RvTsT0f
-	teFyemPWLZAmJG6COCilJc2TBmeCu4Y+P0xvg3JRfKQdZ2vL3iPLAQgRVt6Adi3rDa5d
-	T+66Gzq8dKcbiPZuySkG2JMC9viLbJ/smSxAhE3nhh5TqO/5FDwoWU9uyaYPQSnPeTmG
-	3HoEYnRCGpW6Ip4XKrGOFeQAKooDdwymkngoxMU13Y4FDjx31OjtYs2rMsgV8/7+wPDI
-	Iwdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=oEepPjoxQh4by2i1OUx0PczgyO82cTraxc4u4YycwTI=;
-	b=nOB1htSuPLF/GB/wMseYGPhzw3fvfRpab1bYrW1kJDWQ9gDJx2eE/Rvw06ysLqDgoZ
-	WV0E1d1TsPOaggM6GwVfhOr5iNbMf8y2RHsIXiRT18iuBF281utPCOkOwqpB3URE+rHG
-	qmR2uwmd73t3VekGuxKQSFkGSF3jWn4DX3AC0NQzRKMq1yzSm9KsYqUjDP5JOL3kVF1y
-	lo6r+GzihXAL8S267zV/4XXHfOD3QQ8IrPua3S2sZ9EXSq9giF9v9QhbE9/KDK2gAn6i
-	N3U3hb1TuIsHnKzCRyduDcbkKnef8gWMJV/fe1wWVNQVXESqnNaHsqCpdtPl8s5brdUN
-	w2jg==
-X-Gm-Message-State: AOAM533FHZ3rMXGV0bYWif9Yv0lvvypf883o4l3MRRZneTpcQzCsbBRW
-	RFqhGf7lKMrgdtWWdg7KpDUoyApKuzb1PZn/ct6YtnMGwrq5JYOp
-X-Google-Smtp-Source: ABdhPJx++SmLo5gt87teHiR7aAkHBXB7kc5g9zNikPdorH55ojPkRPezwG2MFUzfGDN3gtoiHZ3nqr+tnJ36mEgsw1k=
-X-Received: by 2002:a6b:5007:: with SMTP id e7mr13647239iob.185.1605014328199; 
-	Tue, 10 Nov 2020 05:18:48 -0800 (PST)
+X-Greylist: delayed 409 seconds by postgrey-1.31 at mail19;
+	Tue, 10 Nov 2020 17:48:08 CET
+Received: from zimbra.alteeve.com (mail.alteeve.ca [65.39.153.71])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id AFA4742062B
+	for <drbd-dev@lists.linbit.com>; Tue, 10 Nov 2020 17:48:08 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by zimbra.alteeve.com (Postfix) with ESMTP id E337813FD
+	for <drbd-dev@lists.linbit.com>; Tue, 10 Nov 2020 11:41:13 -0500 (EST)
+Received: from zimbra.alteeve.com ([127.0.0.1])
+	by localhost (zimbra.alteeve.com [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id 8ze04s4yqP2S for <drbd-dev@lists.linbit.com>;
+	Tue, 10 Nov 2020 11:41:13 -0500 (EST)
+Received: from localhost (localhost [127.0.0.1])
+	by zimbra.alteeve.com (Postfix) with ESMTP id 4ACD4CC4
+	for <drbd-dev@lists.linbit.com>; Tue, 10 Nov 2020 11:41:13 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra.alteeve.com 4ACD4CC4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alteeve.ca;
+	s=3658BF78-91B3-11E8-A999-AEFD2914AE28; t=1605026473;
+	bh=kARE6ydEYVEq6mjeUcCLjKBoCgK8W9rORrjVJuNkKoc=;
+	h=To:From:Message-ID:Date:MIME-Version;
+	b=o2Ku1YA42IbDY2CD7ZHzPrjv6PhCPdOv3CnzUfpwjen8coIfpzY9bSa9qryQuLv+7
+	IG7yA/Bkxxny184s5oTeIoI1Ums9wle89PCjgS1QTJjpFRG4/GmG9FKWyc6lzm4X+4
+	QaRFfj6JOerWiwIVVqRCHBpq589Xlu7jNDj9FaJpq1VfnWy93EA7LppELEKfYUj8fu
+	1MKFrEXPw64byYc3g0NsyLkfQRMSjybIYasT/FIJdQZtaOYqODdq//Of/dxUV8RP5S
+	5wfXoN7qok93WAscbVQcozQaxmgWOm8EfHgUDDs/Kf1MOlINfhjdipfF3Tz3LqdKqI
+	UGa0r7G4oMRsg==
+X-Virus-Scanned: amavisd-new at zimbra.alteeve.com
+Received: from zimbra.alteeve.com ([127.0.0.1])
+	by localhost (zimbra.alteeve.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id ax1HUV5iAPcf for <drbd-dev@lists.linbit.com>;
+	Tue, 10 Nov 2020 11:41:13 -0500 (EST)
+Received: from pulsar.alteeve.com (dhcp-108-168-17-168.cable.user.start.ca
+	[108.168.17.168])
+	by zimbra.alteeve.com (Postfix) with ESMTPSA id 1BB52589
+	for <drbd-dev@lists.linbit.com>; Tue, 10 Nov 2020 11:41:13 -0500 (EST)
+To: drbd-dev@lists.linbit.com
+From: Digimer <lists@alteeve.ca>
+Message-ID: <3e0af4f3-00fd-0aa3-93c6-eea48baccac6@alteeve.ca>
+Date: Tue, 10 Nov 2020 11:41:13 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+	Thunderbird/78.4.0
 MIME-Version: 1.0
-References: <c8a948e4-5bd0-f5e0-363d-7abd2d0a41f1@easystack.cn>
-In-Reply-To: <c8a948e4-5bd0-f5e0-363d-7abd2d0a41f1@easystack.cn>
-From: Philipp Reisner <philipp.reisner@linbit.com>
-Date: Tue, 10 Nov 2020 14:18:37 +0100
-Message-ID: <CADGDV=X=H0zoste5SqnT-nhJMS1HE-WQ+W6nWkq5L_2akE-q9A@mail.gmail.com>
-To: Zhang Duan <duan.zhang@easystack.cn>
-Cc: drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH] drbd: reply cancel to source when target of
- verify becomes inconsistent
+Content-Language: en-US
+Subject: [Drbd-dev] Possible obscure bug
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -64,155 +66,62 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2579457459174813762=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
---===============2579457459174813762==
-Content-Type: multipart/alternative; boundary="000000000000e4697305b3c084c9"
-
---000000000000e4697305b3c084c9
-Content-Type: text/plain; charset="UTF-8"
-
-Hi Zhang,
-
-Thanks for the patch. I verified it. Everything is as you describe. I
-applied it to the drbd-9.0 branch.
-
-best regards,
- Phil
-
-On Tue, Nov 10, 2020 at 3:31 AM Zhang Duan <duan.zhang@easystack.cn> wrote:
-
-> Consider one situation below:
-> 1. primary A disconnects with secondary B & C both of which are Uptodate
-> 2. start a verify from B to C
-> 3. during the verify above, A reconnects and starts a resync to C because
-> of
-> primary-lost-quorum
-> 4. C becomes resync target and Inconsistent, then ignore the verify
-> requests
-> from B which are already in its receive buffer
-> 5. verify from B to C stalls here
->
-> To resolve it, at step 4, C should reply a message of P_RS_CANCEL to B
-> Here is the result if do that:
-> Nov 6 16:25:46 node-2 kernel: drbd drbd1/0 drbd1 node-3: Skipped verify,
-> too busy: start=170208, size=48 (sectors)
-> Nov 6 16:25:46 node-2 kernel: drbd drbd1/0 drbd1 node-3: Online verify
-> done but 6 4k blocks skipped (total 314 sec; paused 0 sec; 3336 K/sec)
-> Nov 6 16:25:46 node-2 kernel: drbd drbd1/0 drbd1 node-3: repl( VerifyS ->
-> Established )
->
-> Signed-off-by: ZhangDuan
-> ---
-> drbd/drbd_receiver.c | 2 ++
-> 1 file changed, 2 insertions(+)
->
-> diff --git a/drbd/drbd_receiver.c b/drbd/drbd_receiver.c
-> index 268dbf4d..c6d4b7c9 100644
-> --- a/drbd/drbd_receiver.c
-> +++ b/drbd/drbd_receiver.c
-> @@ -3273,6 +3273,8 @@ static int receive_DataRequest(struct
-> drbd_connection *connection, struct packet
-> break;
-> case P_OV_REQUEST:
-> verify_skipped_block(peer_device, sector, size);
-> + drbd_send_ack_rp(peer_device, P_RS_CANCEL, p);
-> + break;
-> /* Fall through */
-> case P_RS_THIN_REQ:
-> case P_RS_DATA_REQUEST:
-> --
-> 2.24.0.windows.2
->
-> --
-> Sincerely Yours,
-> Zhang Duan
->
->
-
---000000000000e4697305b3c084c9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi Zhang,<div><br></div><div>Thanks for the patch. I verif=
-ied it. Everything is as you describe. I applied it to the drbd-9.0=C2=A0br=
-anch.</div><div><br></div><div>best regards,</div><div>=C2=A0Phil</div></di=
-v><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On T=
-ue, Nov 10, 2020 at 3:31 AM Zhang Duan &lt;<a href=3D"mailto:duan.zhang@eas=
-ystack.cn">duan.zhang@easystack.cn</a>&gt; wrote:<br></div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex">
- =20
-
-   =20
- =20
-  <div>
-    <p>Consider one situation below:</p>
-    1. primary A disconnects with secondary B &amp; C both of which are
-    Uptodate<br>
-    2. start a verify from B to C<br>
-    3. during the verify above, A reconnects and starts a resync to C
-    because of<br>
-    primary-lost-quorum<br>
-    4. C becomes resync target and Inconsistent, then ignore the verify
-    requests<br>
-    from B which are already in its receive buffer<br>
-    5. verify from B to C stalls here<br>
-    <br>
-    To resolve it, at step 4, C should reply a message of P_RS_CANCEL to
-    B<br>
-    Here is the result if do that:<br>
-    Nov 6 16:25:46 node-2 kernel: drbd drbd1/0 drbd1 node-3: Skipped
-    verify, too busy: start=3D170208, size=3D48 (sectors)<br>
-    Nov 6 16:25:46 node-2 kernel: drbd drbd1/0 drbd1 node-3: Online
-    verify done but 6 4k blocks skipped (total 314 sec; paused 0 sec;
-    3336 K/sec)<br>
-    Nov 6 16:25:46 node-2 kernel: drbd drbd1/0 drbd1 node-3: repl(
-    VerifyS -&gt; Established )<br>
-    <br>
-    Signed-off-by: ZhangDuan <u></u><br>
-      ---<br>
-      drbd/drbd_receiver.c | 2 ++<br>
-      1 file changed, 2 insertions(+)<br>
-      <br>
-      diff --git a/drbd/drbd_receiver.c b/drbd/drbd_receiver.c<br>
-      index 268dbf4d..c6d4b7c9 100644<br>
-      --- a/drbd/drbd_receiver.c<br>
-      +++ b/drbd/drbd_receiver.c<br>
-      @@ -3273,6 +3273,8 @@ static int receive_DataRequest(struct
-      drbd_connection *connection, struct packet<br>
-      break;<br>
-      case P_OV_REQUEST:<br>
-      verify_skipped_block(peer_device, sector, size);<br>
-      + drbd_send_ack_rp(peer_device, P_RS_CANCEL, p);<br>
-      + break;<br>
-      /* Fall through */<br>
-      case P_RS_THIN_REQ:<br>
-      case P_RS_DATA_REQUEST:<br>
-      -- <br>
-      2.24.0.windows.2<br>
-      <br>
-    <u></u>
-    <pre cols=3D"72">--=20
-Sincerely Yours,
-Zhang Duan</pre>
-  </div>
-
-</blockquote></div>
-
---000000000000e4697305b3c084c9--
-
---===============2579457459174813762==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-drbd-dev mailing list
-drbd-dev@lists.linbit.com
-https://lists.linbit.com/mailman/listinfo/drbd-dev
-
---===============2579457459174813762==--
+SGkgYWxsLAoKICBEUkJEIHY4LjQuMTEuCgogIFdlIGhhZCBhIGNhc2Ugd2hlcmUgYSBjbGllbnQg
+d2FzIHVwZ3JhZGluZyBmcm9tIDFHYnBzIHRvIDEwR2JwcyBOSUNzCmZvciBiYWNraW5nIERSQkQu
+IFRoZSBpbnRlcmZhY2Ugd2FzIGFuIG1vZGU9MSAoYWN0aXZlL3Bhc3NpdmUpIGJvbmQsIHR3bwpp
+bnRlcmZhY2VzLiBXZSBuZWVkZWQgdG8gc3dpdGNoIG9uZSBvZiB0aGUgYm9uZGVkIGludGVyZmFj
+ZXMgdG8gYSBuZXcKcGh5c2ljYWwgTklDIHBvcnQuIFRoaXMgaXMgYSBwcm9jZXNzIEkndmUgZG9u
+ZSBjb3VudGxlc3MgdGltZXMgYmVmb3JlLApidXQgdGhpcyB3YXMgdGhlIGZpcnN0IHRpbWUgSSBk
+aWQgaXQgd2hpbGUgRFJCRCB3YXMgdXAgb24gb25lIG5vZGUuCgogIFdlIGRpc2Nvbm5lY3RlZCB0
+aGUgcGVlciB0aGF0IHdhc24ndCBuZWVkZWQsIHNvIERSQkQgd2FzIHJ1bm5pbmcgYWxvbmUKb24g
+dGhlIGFjdGl2ZSBub2RlLiBXZSAnaWZkb3duIHNuX2xpbmsxJyAodGhlIG5hbWUgb2YgdGhlIGlu
+dGVyZmFjZSB3ZQp3ZXJlIGFib3V0IHRvIGNoYW5nZSwgd2hpY2ggaGFkIGJlZW4gdGhlIGFjdGl2
+ZSBsaW5rKS4gQ29uZmlybWVkIHdpdGgKL3Byb2MvbmV0L2JvbmQvc25fYm9uZDEgKGJvbmQgbmFt
+ZSkgdGhhdCB0aGUgc25fbGluazEgKGludGVyZmFjZSkgd2FzCm91dCBvZiB0aGUgYm9uZCBhbmQg
+dGhlIGJvbmQgd2FzIHVzaW5nICdzbl9saW5rMicgKGludGVyZmFjZSB0aGF0IHdhcwpub3QgdG8g
+YmUgY2hhbmdlZCkuIFdlIGFsc28gY29uZmlybWVkIHRoYXQgdGhlIGV0aFggZGV2aWNlIHRoYXQg
+d2FzCmdvaW5nIHRvIGJlIG1vdmVkIG92ZXIgd2FzIGFsc28gZG93bi4KCiAgV2UgdXBkYXRlZCAv
+ZXRjL3VkZXYvcnVsZXMuZC83MC1wZXJzaXN0ZW50LW5ldC5ydWxlcyB0byBzd2FwIHRoZSBNQUMs
+CnRoZW4gZGlkICdzdGFydF91ZGV2JyB0byByZW5hbWUgdGhlIGludGVyZmFjZS4gTm9ybWFsbHkg
+dGhpcyByZXR1cm5zIGluCmEgY291cGxlIHNlY29uZHMsIGJ1dCBpbiB0aGlzIGluc3RhbmNlLCBp
+dCB0b29rIGEgY291cGxlIG9mIG1pbnV0ZXMgdG8KcmV0dXJuLiBXaGVuIGl0IGRpZCwgc25fbGlu
+azEgZGlkbid0IGV4aXN0IGFueW1vcmUgYW5kIHRoZSBib25kIHByb2MKZmlsZSBhbHNvIHNob3dl
+ZCB0aGF0IHRoZSBpbnRlcmZhY2UgaGFkbid0IGNvbWUgdXAuCgogIE9LLCBzbyBhbGwgdGhpcyBz
+byBmYXIgd2Fzbid0IGEgYmlnIGRlYWwuIFRoZSByZWFsIGNvbmNlcm4gd2FzIHRoYXQKYWxsIG9m
+IHRoZSBWTXMgdGhhdCB3ZXJlIG9uIExWcyBiYWNrZWQgYnkgRFJCRCBhY3RlZCBsaWtlIHRoZXkg
+bG9zdAp0aGVpciBoYXJkIGRyaXZlcy4gSSB3YXMgdGFpbCdpbmcgc3lzbG9nIGFuZCB0aGVyZSB3
+ZXJlIG5vIGVudHJpZXMgZnJvbQpEUkJEIGF0IGFsbC4KCiAgSSBoYWQgdG8gc3RvcCBEUkJEIGFu
+ZCByZWJvb3QgdGhlIG5vZGUgdG8gcmVjb3Zlci4gT24gcmVib290LCB0aGUKaW50ZXJmYWNlIChz
+bl9saW5rMSkgY2FtZSB1cCBwcm9wZXJseSBvbiB0aGUgbmV3IE5JQyBhbmQgRFJCRCBzdGFydGVk
+Cm5vcm1hbGx5LgoKICBJIGZ1bGx5IHVuZGVyc3RhbmQgIndlbGwgZG9uJ3QgZG8gdGhhdCIgYXMg
+YSAiZml4IiwgYW5kIEkgY2VydGFpbmx5CndpbGwgbm90IHRyeSB0aGlzIGFnYWluLgoKICBJJ20g
+d3JpdGluZyB0aGlzIHRob3VnaCBhcyBJIHRoaW5rIGl0IG1pZ2h0IGJlIGFuIGluZGljYXRpb24g
+b2YgYQpkZWVwZXIgaXNzdWUgdGhhdCBtaWdodCBiaXRlIG90aGVycyBpbiB0aGUgZnV0dXJlLiBJ
+dCBzZWVtcyBsaWtlIERSQkQKImhlbGQgb3BlbiIgdGhlIGludGVyZmFjZSB1bmRlciB0aGUgYm9u
+ZGVkIGludGVyZmFjZSwgZGVzcGl0ZSB0aGUgTklDCmJlaW5nIGRvd24nZWQuIFRoYXQgRFJCRCB0
+b3RhbGx5IHN0b3BwZWQgYWxsb3dpbmcgZGlzayBhY2Nlc3Mgd2l0aG91dAphbnkgbG9nIG1lc3Nh
+Z2VzIHRvIGluZGljYXRlIGl0IGhpdCBhIHByb2JsZW0gbWFrZXMgbWUgdGhpbmcgdGhpcyBpcyBu
+b3QKYSBrbm93biBmYWlsdXJlIGNvbmRpdGlvbi4KCiAgT25lIG1vcmUgaW50ZXJlc3RpbmcgdGlk
+Yml0OwoKICBUaGVyZSdzIGEgc2luZ2xlIERSQkQgcmVzb3VyY2Ugb24gdGhpcyBzeXN0ZW0sIGFj
+dGluZyBhcyBhIFBWIGZvciBhCmNsdXN0ZXJlZCBWRy4gRWFjaCBWTSBnZXRzIGFuIExWLCBhbmQg
+dGhlcmUncyBvbmUgYWRkaXRpb25hbCBMViBmb3IgYQpHRlMyIHBhcnRpdGlvbi4gVGhlIGdmczIg
+cGFydGl0aW9uIHdhcyBub3QgaW4gdXNlIHdoZW4gdGhlIHJlbmFtZSBvZiB0aGUKaW50ZXJmYWNl
+IHdhcyByZXF1ZXN0ZWQsIGFuZCBvZGRseSBlbm91Z2gsIEkgX2NvdWxkXyB3cml0ZSB0byBpdCBh
+ZnRlci4KU28gaXQgc2VlbXMgbGlrZSBvbmx5IHBhcnRzIHRoYXQgd2VyZSBpbiB1c2UgaHVuZywg
+d2hpbGUgcGFydHMgdGhhdCB3ZXJlCm5vdC4KCiAgV3JpdGluZyB0aGlzIG91dCwgSSBhbHNvIHdv
+bmRlciBpZiB0aGlzIG1pZ2h0IGJlIGFuIExWTSBpc3N1ZSwgYW5kIG5vdAphIGRyYmQgaXNzdWU/
+CgogIEFueSBpbnNpZ2h0L2ZlZWRiYWNrIHdvdWxkIGJlIG11Y2ggYXBwcmVjaWF0ZWQuIEl0IHdh
+cyBxdWl0ZSB0aGUKcGFudGFsb29uIHNvaWxpbmcgZXZlbnQsIGFuZCBJJ2QgbGlrZSB0byB1bmRl
+cnN0YW5kIGp1c3Qgd2hhdCBoYXBwZW5lZC4KCmRpZ2ltZXIKCi0tIApEaWdpbWVyClBhcGVycyBh
+bmQgUHJvamVjdHM6IGh0dHBzOi8vYWx0ZWV2ZS5jb20vdy8KIkkgYW0sIHNvbWVob3csIGxlc3Mg
+aW50ZXJlc3RlZCBpbiB0aGUgd2VpZ2h0IGFuZCBjb252b2x1dGlvbnMgb2YKRWluc3RlaW7igJlz
+IGJyYWluIHRoYW4gaW4gdGhlIG5lYXIgY2VydGFpbnR5IHRoYXQgcGVvcGxlIG9mIGVxdWFsIHRh
+bGVudApoYXZlIGxpdmVkIGFuZCBkaWVkIGluIGNvdHRvbiBmaWVsZHMgYW5kIHN3ZWF0c2hvcHMu
+IiAtIFN0ZXBoZW4gSmF5IEdvdWxkCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fCmRyYmQtZGV2IG1haWxpbmcgbGlzdApkcmJkLWRldkBsaXN0cy5saW5iaXQu
+Y29tCmh0dHBzOi8vbGlzdHMubGluYml0LmNvbS9tYWlsbWFuL2xpc3RpbmZvL2RyYmQtZGV2Cg==
