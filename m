@@ -2,75 +2,55 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17D3C2AD396
-	for <lists+drbd-dev@lfdr.de>; Tue, 10 Nov 2020 11:23:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9D0C2AD757
+	for <lists+drbd-dev@lfdr.de>; Tue, 10 Nov 2020 14:18:51 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7C0914207FB;
-	Tue, 10 Nov 2020 11:23:08 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B01DD420668;
+	Tue, 10 Nov 2020 14:18:50 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3DC7142066A
-	for <drbd-dev@lists.linbit.com>; Tue, 10 Nov 2020 09:48:31 +0100 (CET)
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1604998111;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	in-reply-to:in-reply-to:references:references;
-	bh=+lFM+Dy1hrzRRrrrA3qnbGkxEtyVqIh0g4peYrriLeU=;
-	b=iuo8f+7vFglLggVRQElkiZ2WEkqCMbTG8xoMGtVyBk3DBfZOlzK9bn4iYE9n5TJlXEeyiw
-	mK2AsUoeE727uJ+eyVgbEeyt2qz1CsngbkfMTC30zg6BSGbxrFxVJV/nTlcmtj9NHSMsJn
-	sU38ljGJ30NJ8ooIZ53QTax6dO6NfnLLpRxklxBphTMVejdacYZZqkmCK8e4gkxhfN2Hq9
-	zuGNw+h8VUH3NFZO14JlYgbkNPH833xVYFQ2lmqEAC35a4/baTqfi6uG7ey36+HQyygrEi
-	Jy4I41umlX4stejJrRBLu7awPrfWhbLcelHNMzqQQSqRZrKTpO34TDntXU+02A==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1604998111;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	in-reply-to:in-reply-to:references:references;
-	bh=+lFM+Dy1hrzRRrrrA3qnbGkxEtyVqIh0g4peYrriLeU=;
-	b=y7osrUd/437dzM5/Hc5G9cQ/HuZ2jh7vgX8EDHSswmJuPLkHyLG6iEX8rrCl2sg3XohELe
-	1aQhUu8PTNjq+DAw==
-To: Ira Weiny <ira.weiny@intel.com>
-In-Reply-To: <20201110045954.GL3976735@iweiny-DESK2.sc.intel.com>
-References: <20201009195033.3208459-1-ira.weiny@intel.com>
-	<20201009195033.3208459-6-ira.weiny@intel.com>
-	<87h7pyhv3f.fsf@nanos.tec.linutronix.de>
-	<20201110045954.GL3976735@iweiny-DESK2.sc.intel.com>
-Date: Tue, 10 Nov 2020 09:48:31 +0100
-Message-ID: <87eel1iom8.fsf@nanos.tec.linutronix.de>
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+	[209.85.166.68])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 50B1E420668
+	for <drbd-dev@lists.linbit.com>; Tue, 10 Nov 2020 14:18:48 +0100 (CET)
+Received: by mail-io1-f68.google.com with SMTP id u19so13976010ion.3
+	for <drbd-dev@lists.linbit.com>; Tue, 10 Nov 2020 05:18:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linbit-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=oEepPjoxQh4by2i1OUx0PczgyO82cTraxc4u4YycwTI=;
+	b=Xmn6aluTO4DHhV/TY1XoC9mpgeQdsCVP6ELet/LL14/oJE3u6iCZ7q0bSEez7AOwEN
+	+eaeB0B8pp29mqdJralYw4DJU0tc+w+6Ycy8n/z64IRFetypz0mPABcsA7Ub9RvTsT0f
+	teFyemPWLZAmJG6COCilJc2TBmeCu4Y+P0xvg3JRfKQdZ2vL3iPLAQgRVt6Adi3rDa5d
+	T+66Gzq8dKcbiPZuySkG2JMC9viLbJ/smSxAhE3nhh5TqO/5FDwoWU9uyaYPQSnPeTmG
+	3HoEYnRCGpW6Ip4XKrGOFeQAKooDdwymkngoxMU13Y4FDjx31OjtYs2rMsgV8/7+wPDI
+	Iwdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=oEepPjoxQh4by2i1OUx0PczgyO82cTraxc4u4YycwTI=;
+	b=nOB1htSuPLF/GB/wMseYGPhzw3fvfRpab1bYrW1kJDWQ9gDJx2eE/Rvw06ysLqDgoZ
+	WV0E1d1TsPOaggM6GwVfhOr5iNbMf8y2RHsIXiRT18iuBF281utPCOkOwqpB3URE+rHG
+	qmR2uwmd73t3VekGuxKQSFkGSF3jWn4DX3AC0NQzRKMq1yzSm9KsYqUjDP5JOL3kVF1y
+	lo6r+GzihXAL8S267zV/4XXHfOD3QQ8IrPua3S2sZ9EXSq9giF9v9QhbE9/KDK2gAn6i
+	N3U3hb1TuIsHnKzCRyduDcbkKnef8gWMJV/fe1wWVNQVXESqnNaHsqCpdtPl8s5brdUN
+	w2jg==
+X-Gm-Message-State: AOAM533FHZ3rMXGV0bYWif9Yv0lvvypf883o4l3MRRZneTpcQzCsbBRW
+	RFqhGf7lKMrgdtWWdg7KpDUoyApKuzb1PZn/ct6YtnMGwrq5JYOp
+X-Google-Smtp-Source: ABdhPJx++SmLo5gt87teHiR7aAkHBXB7kc5g9zNikPdorH55ojPkRPezwG2MFUzfGDN3gtoiHZ3nqr+tnJ36mEgsw1k=
+X-Received: by 2002:a6b:5007:: with SMTP id e7mr13647239iob.185.1605014328199; 
+	Tue, 10 Nov 2020 05:18:48 -0800 (PST)
 MIME-Version: 1.0
-X-Mailman-Approved-At: Tue, 10 Nov 2020 11:23:02 +0100
-Cc: linux-aio@kvack.org, linux-efi@vger.kernel.org, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
-	linux-mmc@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
-	dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
-	target-devel@vger.kernel.org, linux-mtd@lists.infradead.org,
-	linux-kselftest@vger.kernel.org, samba-technical@lists.samba.org,
-	ceph-devel@vger.kernel.org, drbd-dev@lists.linbit.com,
-	devel@driverdev.osuosl.org, linux-cifs@vger.kernel.org,
-	linux-nilfs@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-nvdimm@lists.01.org, linux-rdma@vger.kernel.org,
-	x86@kernel.org, amd-gfx@lists.freedesktop.org,
-	io-uring@vger.kernel.org, cluster-devel@redhat.com,
-	Ingo Molnar <mingo@redhat.com>, intel-wired-lan@lists.osuosl.org,
-	xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org,
-	Fenghua Yu <fenghua.yu@intel.com>, linux-afs@lists.infradead.org,
-	linux-um@lists.infradead.org, intel-gfx@lists.freedesktop.org,
-	ecryptfs@vger.kernel.org, linux-erofs@lists.ozlabs.org,
-	reiserfs-devel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-bcache@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
-	Andy Lutomirski <luto@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-cachefs@redhat.com, linux-nfs@vger.kernel.org,
-	linux-ntfs-dev@lists.sourceforge.net, netdev@vger.kernel.org,
-	Randy Dunlap <rdunlap@infradead.org>, kexec@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-btrfs@vger.kernel.org
-Subject: Re: [Drbd-dev] [PATCH RFC PKS/PMEM 05/58] kmap: Introduce
-	k[un]map_thread
+References: <c8a948e4-5bd0-f5e0-363d-7abd2d0a41f1@easystack.cn>
+In-Reply-To: <c8a948e4-5bd0-f5e0-363d-7abd2d0a41f1@easystack.cn>
+From: Philipp Reisner <philipp.reisner@linbit.com>
+Date: Tue, 10 Nov 2020 14:18:37 +0100
+Message-ID: <CADGDV=X=H0zoste5SqnT-nhJMS1HE-WQ+W6nWkq5L_2akE-q9A@mail.gmail.com>
+To: Zhang Duan <duan.zhang@easystack.cn>
+Cc: drbd-dev@lists.linbit.com
+Subject: Re: [Drbd-dev] [PATCH] drbd: reply cancel to source when target of
+ verify becomes inconsistent
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -84,29 +64,155 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============2579457459174813762=="
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Mon, Nov 09 2020 at 20:59, Ira Weiny wrote:
-> On Tue, Nov 10, 2020 at 02:13:56AM +0100, Thomas Gleixner wrote:
-> Also, we can convert the new memcpy_*_page() calls to kmap_local() as well.
-> [For now my patch just uses kmap_atomic().]
+--===============2579457459174813762==
+Content-Type: multipart/alternative; boundary="000000000000e4697305b3c084c9"
+
+--000000000000e4697305b3c084c9
+Content-Type: text/plain; charset="UTF-8"
+
+Hi Zhang,
+
+Thanks for the patch. I verified it. Everything is as you describe. I
+applied it to the drbd-9.0 branch.
+
+best regards,
+ Phil
+
+On Tue, Nov 10, 2020 at 3:31 AM Zhang Duan <duan.zhang@easystack.cn> wrote:
+
+> Consider one situation below:
+> 1. primary A disconnects with secondary B & C both of which are Uptodate
+> 2. start a verify from B to C
+> 3. during the verify above, A reconnects and starts a resync to C because
+> of
+> primary-lost-quorum
+> 4. C becomes resync target and Inconsistent, then ignore the verify
+> requests
+> from B which are already in its receive buffer
+> 5. verify from B to C stalls here
 >
-> I've not looked at all of the patches in your latest version.  Have you
-> included converting any of the kmap() call sites?  I thought you were more
-> focused on converting the kmap_atomic() to kmap_local()?
+> To resolve it, at step 4, C should reply a message of P_RS_CANCEL to B
+> Here is the result if do that:
+> Nov 6 16:25:46 node-2 kernel: drbd drbd1/0 drbd1 node-3: Skipped verify,
+> too busy: start=170208, size=48 (sectors)
+> Nov 6 16:25:46 node-2 kernel: drbd drbd1/0 drbd1 node-3: Online verify
+> done but 6 4k blocks skipped (total 314 sec; paused 0 sec; 3336 K/sec)
+> Nov 6 16:25:46 node-2 kernel: drbd drbd1/0 drbd1 node-3: repl( VerifyS ->
+> Established )
+>
+> Signed-off-by: ZhangDuan
+> ---
+> drbd/drbd_receiver.c | 2 ++
+> 1 file changed, 2 insertions(+)
+>
+> diff --git a/drbd/drbd_receiver.c b/drbd/drbd_receiver.c
+> index 268dbf4d..c6d4b7c9 100644
+> --- a/drbd/drbd_receiver.c
+> +++ b/drbd/drbd_receiver.c
+> @@ -3273,6 +3273,8 @@ static int receive_DataRequest(struct
+> drbd_connection *connection, struct packet
+> break;
+> case P_OV_REQUEST:
+> verify_skipped_block(peer_device, sector, size);
+> + drbd_send_ack_rp(peer_device, P_RS_CANCEL, p);
+> + break;
+> /* Fall through */
+> case P_RS_THIN_REQ:
+> case P_RS_DATA_REQUEST:
+> --
+> 2.24.0.windows.2
+>
+> --
+> Sincerely Yours,
+> Zhang Duan
+>
+>
 
-I did not touch any of those yet, but it's a logical consequence to
-convert all kmap() instances which are _not_ creating a global mapping
-over to it.
+--000000000000e4697305b3c084c9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
+<div dir=3D"ltr">Hi Zhang,<div><br></div><div>Thanks for the patch. I verif=
+ied it. Everything is as you describe. I applied it to the drbd-9.0=C2=A0br=
+anch.</div><div><br></div><div>best regards,</div><div>=C2=A0Phil</div></di=
+v><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On T=
+ue, Nov 10, 2020 at 3:31 AM Zhang Duan &lt;<a href=3D"mailto:duan.zhang@eas=
+ystack.cn">duan.zhang@easystack.cn</a>&gt; wrote:<br></div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
+gb(204,204,204);padding-left:1ex">
+ =20
 
-        tglx
+   =20
+ =20
+  <div>
+    <p>Consider one situation below:</p>
+    1. primary A disconnects with secondary B &amp; C both of which are
+    Uptodate<br>
+    2. start a verify from B to C<br>
+    3. during the verify above, A reconnects and starts a resync to C
+    because of<br>
+    primary-lost-quorum<br>
+    4. C becomes resync target and Inconsistent, then ignore the verify
+    requests<br>
+    from B which are already in its receive buffer<br>
+    5. verify from B to C stalls here<br>
+    <br>
+    To resolve it, at step 4, C should reply a message of P_RS_CANCEL to
+    B<br>
+    Here is the result if do that:<br>
+    Nov 6 16:25:46 node-2 kernel: drbd drbd1/0 drbd1 node-3: Skipped
+    verify, too busy: start=3D170208, size=3D48 (sectors)<br>
+    Nov 6 16:25:46 node-2 kernel: drbd drbd1/0 drbd1 node-3: Online
+    verify done but 6 4k blocks skipped (total 314 sec; paused 0 sec;
+    3336 K/sec)<br>
+    Nov 6 16:25:46 node-2 kernel: drbd drbd1/0 drbd1 node-3: repl(
+    VerifyS -&gt; Established )<br>
+    <br>
+    Signed-off-by: ZhangDuan <u></u><br>
+      ---<br>
+      drbd/drbd_receiver.c | 2 ++<br>
+      1 file changed, 2 insertions(+)<br>
+      <br>
+      diff --git a/drbd/drbd_receiver.c b/drbd/drbd_receiver.c<br>
+      index 268dbf4d..c6d4b7c9 100644<br>
+      --- a/drbd/drbd_receiver.c<br>
+      +++ b/drbd/drbd_receiver.c<br>
+      @@ -3273,6 +3273,8 @@ static int receive_DataRequest(struct
+      drbd_connection *connection, struct packet<br>
+      break;<br>
+      case P_OV_REQUEST:<br>
+      verify_skipped_block(peer_device, sector, size);<br>
+      + drbd_send_ack_rp(peer_device, P_RS_CANCEL, p);<br>
+      + break;<br>
+      /* Fall through */<br>
+      case P_RS_THIN_REQ:<br>
+      case P_RS_DATA_REQUEST:<br>
+      -- <br>
+      2.24.0.windows.2<br>
+      <br>
+    <u></u>
+    <pre cols=3D"72">--=20
+Sincerely Yours,
+Zhang Duan</pre>
+  </div>
+
+</blockquote></div>
+
+--000000000000e4697305b3c084c9--
+
+--===============2579457459174813762==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
 https://lists.linbit.com/mailman/listinfo/drbd-dev
+
+--===============2579457459174813762==--
