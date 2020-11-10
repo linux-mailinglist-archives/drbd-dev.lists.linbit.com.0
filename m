@@ -2,72 +2,54 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33B932AD394
-	for <lists+drbd-dev@lfdr.de>; Tue, 10 Nov 2020 11:23:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 545912AD395
+	for <lists+drbd-dev@lfdr.de>; Tue, 10 Nov 2020 11:23:18 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A5C534207F2;
-	Tue, 10 Nov 2020 11:23:07 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1116C4207F7;
+	Tue, 10 Nov 2020 11:23:08 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1E9DC4205FD
-	for <drbd-dev@lists.linbit.com>; Tue, 10 Nov 2020 05:59:58 +0100 (CET)
-IronPort-SDR: Kj7RCLu7Bb6Zy/HZtlO9IOKdJsdh6U++eXHkviBpardx9vnhhu868DmIdr2lbQ/igCrkxb7cAp
-	9bBsgyChgG7A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9800"; a="170071605"
-X-IronPort-AV: E=Sophos;i="5.77,465,1596524400"; d="scan'208";a="170071605"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
-	09 Nov 2020 20:59:56 -0800
-IronPort-SDR: hhtGbVHiYEduO62f/jUORNlQE29+PA61IlKuvPXTtZvvOlHxHT75TW+y4i0J9B1O2lrgZ7K2Sp
-	gskiAxl5TCew==
-X-IronPort-AV: E=Sophos;i="5.77,465,1596524400"; d="scan'208";a="531063331"
-Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
-	by fmsmga005-auth.fm.intel.com with
-	ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2020 20:59:54 -0800
-Date: Mon, 9 Nov 2020 20:59:54 -0800
-From: Ira Weiny <ira.weiny@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Message-ID: <20201110045954.GL3976735@iweiny-DESK2.sc.intel.com>
-References: <20201009195033.3208459-1-ira.weiny@intel.com>
-	<20201009195033.3208459-6-ira.weiny@intel.com>
-	<87h7pyhv3f.fsf@nanos.tec.linutronix.de>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 000A2420372
+	for <drbd-dev@lists.linbit.com>; Tue, 10 Nov 2020 08:00:29 +0100 (CET)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+	by mx2.suse.de (Postfix) with ESMTP id 4ADE6ABCC;
+	Tue, 10 Nov 2020 07:00:29 +0000 (UTC)
+To: Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
+References: <20201106190337.1973127-1-hch@lst.de>
+	<20201106190337.1973127-4-hch@lst.de>
+	<1d06cdfa-a904-30be-f3ec-08ae2fa85cbd@suse.de>
+	<20201109085340.GB27483@lst.de>
+	<e79f9a96-ef53-d6ea-f6e7-e141bdd2e2d2@suse.de>
+	<d28042e3-3123-5dfc-d0a2-aab0012150c8@grimberg.me>
+From: Hannes Reinecke <hare@suse.de>
+Message-ID: <c883475d-c154-a123-521e-4723b87534cd@suse.de>
+Date: Tue, 10 Nov 2020 08:00:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+	Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <87h7pyhv3f.fsf@nanos.tec.linutronix.de>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+In-Reply-To: <d28042e3-3123-5dfc-d0a2-aab0012150c8@grimberg.me>
+Content-Language: en-US
 X-Mailman-Approved-At: Tue, 10 Nov 2020 11:23:02 +0100
-Cc: linux-aio@kvack.org, linux-efi@vger.kernel.org, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
-	linux-mmc@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
-	dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
-	target-devel@vger.kernel.org, linux-mtd@lists.infradead.org,
-	linux-kselftest@vger.kernel.org, samba-technical@lists.samba.org,
-	ceph-devel@vger.kernel.org, drbd-dev@lists.linbit.com,
-	devel@driverdev.osuosl.org, linux-cifs@vger.kernel.org,
-	linux-nilfs@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-nvdimm@lists.01.org, linux-rdma@vger.kernel.org,
-	x86@kernel.org, amd-gfx@lists.freedesktop.org,
-	io-uring@vger.kernel.org, cluster-devel@redhat.com,
-	Ingo Molnar <mingo@redhat.com>, intel-wired-lan@lists.osuosl.org,
-	xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org,
-	Fenghua Yu <fenghua.yu@intel.com>, linux-afs@lists.infradead.org,
-	linux-um@lists.infradead.org, intel-gfx@lists.freedesktop.org,
-	ecryptfs@vger.kernel.org, linux-erofs@lists.ozlabs.org,
-	reiserfs-devel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-bcache@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
-	Andy Lutomirski <luto@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-cachefs@redhat.com, linux-nfs@vger.kernel.org,
-	linux-ntfs-dev@lists.sourceforge.net, netdev@vger.kernel.org,
-	Randy Dunlap <rdunlap@infradead.org>, kexec@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-btrfs@vger.kernel.org
-Subject: Re: [Drbd-dev] [PATCH RFC PKS/PMEM 05/58] kmap: Introduce
-	k[un]map_thread
+Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>, linux-nvme@lists.infradead.org,
+	Song Liu <song@kernel.org>, dm-devel@redhat.com,
+	drbd-dev@lists.linbit.com, linux-scsi@vger.kernel.org,
+	xen-devel@lists.xenproject.org, Ilya Dryomov <idryomov@gmail.com>,
+	Jack Wang <jinpu.wang@cloud.ionos.com>,
+	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+	Josef Bacik <josef@toxicpanda.com>, nbd@other.debian.org,
+	linux-raid@vger.kernel.org, Stefan Hajnoczi <stefanha@redhat.com>,
+	ceph-devel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+	linux-block@vger.kernel.org,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Minchan Kim <minchan@kernel.org>, linux-fsdevel@vger.kernel.org,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	=?UTF-8?Q?Roger_Pau_Monn=c3=a9?= <roger.pau@citrix.com>
+Subject: Re: [Drbd-dev] [PATCH 03/24] nvme: let
+ set_capacity_revalidate_and_notify update the bdev size
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -81,113 +63,47 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Tue, Nov 10, 2020 at 02:13:56AM +0100, Thomas Gleixner wrote:
-> Ira,
-> 
-> On Fri, Oct 09 2020 at 12:49, ira weiny wrote:
-> > From: Ira Weiny <ira.weiny@intel.com>
-> >
-> > To correctly support the semantics of kmap() with Kernel protection keys
-> > (PKS), kmap() may be required to set the protections on multiple
-> > processors (globally).  Enabling PKS globally can be very expensive
-> > depending on the requested operation.  Furthermore, enabling a domain
-> > globally reduces the protection afforded by PKS.
-> >
-> > Most kmap() (Aprox 209 of 229) callers use the map within a single thread and
-> > have no need for the protection domain to be enabled globally.  However, the
-> > remaining callers do not follow this pattern and, as best I can tell, expect
-> > the mapping to be 'global' and available to any thread who may access the
-> > mapping.[1]
-> >
-> > We don't anticipate global mappings to pmem, however in general there is a
-> > danger in changing the semantics of kmap().  Effectively, this would cause an
-> > unresolved page fault with little to no information about why the failure
-> > occurred.
-> >
-> > To resolve this a number of options were considered.
-> >
-> > 1) Attempt to change all the thread local kmap() calls to kmap_atomic()[2]
-> > 2) Introduce a flags parameter to kmap() to indicate if the mapping should be
-> >    global or not
-> > 3) Change ~20 call sites to 'kmap_global()' to indicate that they require a
-> >    global enablement of the pages.
-> > 4) Change ~209 call sites to 'kmap_thread()' to indicate that the mapping is to
-> >    be used within that thread of execution only
-> >
-> > Option 1 is simply not feasible.  Option 2 would require all of the call sites
-> > of kmap() to change.  Option 3 seems like a good minimal change but there is a
-> > danger that new code may miss the semantic change of kmap() and not get the
-> > behavior the developer intended.  Therefore, #4 was chosen.
-> 
-> There is Option #5:
-
-There is now yes.  :-D
-
-> 
-> Convert the thread local kmap() invocations to the proposed kmap_local()
-> interface which is coming along [1].
-
-I've been trying to follow that thread.
-
-> 
-> That solves a couple of issues:
-> 
->  1) It relieves the current kmap_atomic() usage sites from the implict
->     pagefault/preempt disable semantics which apply even when
->     CONFIG_HIGHMEM is disabled. kmap_local() still can be invoked from
->     atomic context.
-> 
->  2) Due to #1 it allows to replace the conditional usage of kmap() and
->     kmap_atomic() for purely thread local mappings.
-> 
->  3) It puts the burden on the HIGHMEM inflicted systems
-> 
->  4) It is actually more efficient for most of the pure thread local use
->     cases on HIGHMEM inflicted systems because it avoids the overhead of
->     the global lock and the potential kmap slot exhaustion. A potential
->     preemption will be more expensive, but that's not really the case we
->     want to optimize for.
-> 
->  5) It solves the RT issue vs. kmap_atomic()
-> 
-> So instead of creating yet another variety of kmap() which is just
-> scratching the particular PKRS itch, can we please consolidate all of
-> that on the wider reaching kmap_local() approach?
-
-Yes I agree.  We absolutely don't want more kmap*() calls and I was hoping to
-dovetail into your kmap_local() work.[2]
-
-I've pivoted away from this work a bit to clean up all the
-kmap()/memcpy*()/kunmaps() as discussed elsewhere in the thread first.[3]  I
-was hoping your work would land and then I could s/kmap_thread()/kmap_local()/
-on all of these patches.
-
-Also, we can convert the new memcpy_*_page() calls to kmap_local() as well.
-[For now my patch just uses kmap_atomic().]
-
-I've not looked at all of the patches in your latest version.  Have you
-included converting any of the kmap() call sites?  I thought you were more
-focused on converting the kmap_atomic() to kmap_local()?
-
-Ira
-
-> 
-> Thanks,
-> 
->         tglx
->      
-> [1] https://lore.kernel.org/lkml/20201103092712.714480842@linutronix.de/
-
-[2] https://lore.kernel.org/lkml/20201012195354.GC2046448@iweiny-DESK2.sc.intel.com/
-[3] https://lore.kernel.org/lkml/20201009213434.GA839@sol.localdomain/
-    https://lore.kernel.org/lkml/20201013200149.GI3576660@ZenIV.linux.org.uk/
-
-_______________________________________________
-drbd-dev mailing list
-drbd-dev@lists.linbit.com
-https://lists.linbit.com/mailman/listinfo/drbd-dev
+T24gMTEvMTAvMjAgMTI6MjggQU0sIFNhZ2kgR3JpbWJlcmcgd3JvdGU6Cj4gCj4+IFsgLi4gXQo+
+Pj4+IE9yaWdpbmFsbHkgbnZtZSBtdWx0aXBhdGggd291bGQgdXBkYXRlL2NoYW5nZSB0aGUgc2l6
+ZSBvZiB0aGUgbXVsdGlwYXRoCj4+Pj4gZGV2aWNlIGFjY29yZGluZyB0byB0aGUgdW5kZXJseWlu
+ZyBwYXRoIGRldmljZXMuCj4+Pj4gV2l0aCB0aGlzIHBhdGNoIHRoZSBzaXplIG9mIHRoZSBtdWx0
+aXBhdGggZGV2aWNlIHdpbGwgX25vdF8gY2hhbmdlIAo+Pj4+IGlmIHRoZXJlCj4+Pj4gaXMgYSBj
+aGFuZ2Ugb24gdGhlIHVuZGVybHlpbmcgZGV2aWNlcy4KPj4+Cj4+PiBZZXMsIGl0IHdpbGwuwqAg
+VGFrZSBhIGNsb3NlIGxvb2sgYXQgbnZtZV91cGRhdGVfZGlza19pbmZvIGFuZCBob3cgaXQgaXMK
+Pj4+IGNhbGxlZC4KPj4+Cj4+IE9rYXksIHRoZW46IFdoYXQgd291bGQgYmUgdGhlIGNvcnJlY3Qg
+d2F5IG9mIGhhbmRsaW5nIGEgc2l6ZSB1cGRhdGUgCj4+IGZvciBOVk1lIG11bHRpcGF0aD8KPj4g
+QXNzdW1pbmcgd2UncmUgZ2V0dGluZyBhbiBBRU4gZm9yIGVhY2ggcGF0aCBzaWduYWxsaW5nIHRo
+ZSBzaXplIGNoYW5nZQo+PiAob3IgYSBjb250cm9sbGVyIHJlc2V0IGxlYWRpbmcgdG8gYSBzaXpl
+IGNoYW5nZSkuCj4+IFNvIGlmIHdlJ3JlIHVwZGF0aW5nIHRoZSBzaXplIG9mIHRoZSBtdWx0aXBh
+dGggZGV2aWNlIHRvZ2V0aGVyIHdpdGggCj4+IHRoZSBwYXRoIGRldmljZSBhdCB0aGUgZmlyc3Qg
+QUVOL3Jlc2V0IHdlJ2xsIGVuZCB1cCB3aXRoIHRoZSBvdGhlciAKPj4gcGF0aHMgaGF2aW5nIGEg
+ZGlmZmVyZW50IHNpemUgdGhhbiB0aGUgbXVsdGlwYXRoIGRldmljZSAoYW5kIHRoZSBwYXRoIAo+
+PiB3ZSd2ZSBqdXN0IGJlZW4gdXBkYXRpbmcpLgo+PiAtIERvIHdlIGNhcmUsIG9yIGNyb3NzIGZp
+bmdlcnMgYW5kIGhvcGUgZm9yIHRoZSBiZXN0Pwo+PiAtIFNob3VsZG4ndCB3ZSBkZXRlY3QgdGhl
+IGNhc2Ugd2hlcmUgd2Ugd29uJ3QgZ2V0IGEgc2l6ZSB1cGRhdGUgZm9yIAo+PiB0aGUgb3RoZXIg
+cGF0aHMsIG9yLCBpbmRlZWQsIHdlIGhhdmUgYSBnZW51aW5lIGRldmljZSBzaXplIG1pc21hdGNo
+IAo+PiBkdWUgdG8gYSBtaXNjb25maWd1cmF0aW9uIG9uIHRoZSB0YXJnZXQ/Cj4+Cj4+IElFIHNo
+b3VsZG4ndCB3ZSBoYXZlIGEgZmxhZyAnc2l6ZSB1cGRhdGUgcGVuZGluZycgZm9yIHRoZSBvdGhl
+ciAKPj4gcGF0aHMsLCB0byB0YWtlIHRoZW0gb3V0IG91ZiB1c2UgdGVtcG9yYXJpbHkgdW50aWwg
+dGhlIG90aGVyIAo+PiBBRU5zL3Jlc2V0cyBoYXZlIGJlZW4gcHJvY2Vzc2VkPwo+IAo+IHRoZSBt
+cGF0aCBkZXZpY2Ugd2lsbCB0YWtlIHRoZSBtaW5pbXVtIHNpemUgZnJvbSBhbGwgdGhlIHBhdGhz
+LCB0aGF0IGlzCj4gd2hhdCBibGtfc3RhY2tfbGltaXRzIGRvZXMuIFdoZW4gdGhlIEFFTiBmb3Ig
+YWxsIHRoZSBwYXRocyB3aWxsIGFycml2ZQo+IHRoZSBtcGF0aCBzaXplIHdpbGwgdXBkYXRlLgo+
+IApCdXQgdGhhdCdzIHByZWNpc2VseSBteSBwb2ludDsgdGhlcmUgd29uJ3QgYmUgYW4gQUVOIGZv
+ciBfYWxsXyBwYXRocywgCmJ1dCByYXRoZXIgb25lIEFFTiBwZXIgcGF0aC4gV2hpY2ggd2lsbCBi
+ZSBwcm9jZXNzZWQgc2VwYXJhdGVseSwgbGVhZGluZyAKdG8gdGhlIGlzc3VlIGRlc2NyaWJlZCBh
+Ym92ZS4KCj4gTm90IHN1cmUgaG93IHRoaXMgaXMgZGlmZmVyZW50IHRoYW4gd2hhdCB3ZSBoYXZl
+IHRvZGF5Li4uCgpPaCwgdGhhdCBpcyBhIHByb2JsZW0gZXZlbiB0b2RheS4KU28gd2Ugc2hvdWxk
+IHByb2JhYmx5IG1vdmUgaXQgdG8gYSBkaWZmZXJlbnQgdGhyZWFkLi4uCgpDaGVlcnMsCgpIYW5u
+ZXMKLS0gCkRyLiBIYW5uZXMgUmVpbmVja2UgICAgICAgICAgICAgICAgS2VybmVsIFN0b3JhZ2Ug
+QXJjaGl0ZWN0CmhhcmVAc3VzZS5kZSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICs0OSA5
+MTEgNzQwNTMgNjg4ClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdtYkgsIE1heGZlbGRzdHIuIDUs
+IDkwNDA5IE7DvHJuYmVyZwpIUkIgMzY4MDkgKEFHIE7DvHJuYmVyZyksIEdlc2Now6RmdHNmw7xo
+cmVyOiBGZWxpeCBJbWVuZMO2cmZmZXIKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KZHJiZC1kZXYgbWFpbGluZyBsaXN0CmRyYmQtZGV2QGxpc3RzLmxpbmJp
+dC5jb20KaHR0cHM6Ly9saXN0cy5saW5iaXQuY29tL21haWxtYW4vbGlzdGluZm8vZHJiZC1kZXYK
