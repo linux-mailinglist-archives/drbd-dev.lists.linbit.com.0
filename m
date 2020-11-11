@@ -2,36 +2,38 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 055AA2AEB4B
-	for <lists+drbd-dev@lfdr.de>; Wed, 11 Nov 2020 09:27:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 611212AEB86
+	for <lists+drbd-dev@lfdr.de>; Wed, 11 Nov 2020 09:28:57 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 934014207CC;
-	Wed, 11 Nov 2020 09:27:25 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1E9864207D2;
+	Wed, 11 Nov 2020 09:28:57 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 967794207A1
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0305B4207B6
 	for <drbd-dev@lists.linbit.com>; Wed, 11 Nov 2020 09:27:22 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209;
 	h=Content-Transfer-Encoding:MIME-Version:
-	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=JAKJjNQpsrrbjmsxnYVVJRTgGHrM34ycZR/npT/boCU=;
-	b=b1ddQnGWc2jtHoKywAuScN8Zdh
-	JpUZaUqXCtKuY0r1wvcQJho9I5LlxQ+Jf1PeuV9MT8HozEqz08MjPlQ2bflOzs5jN6AtnzX9UZLvR
-	TP+ksdGoX+zMrKqAYf6UV/230oaeX+lnludtn/sFHHGEZUrrgeMSlNkGj8LNwkKSIL8M1BtpRD8QW
-	JHnmwoGSdoYRlX13Qq80Wbx/PB+8AMxck1eRfIb4ZyOL7mf/BnfhPUzDrVsEYY2/hN12f5r+V4/aB
-	CJTa0r5tvV0A5l4JwwqEcBTVEhomL9IDTnuaOQ3CyD1joSKU5ImqC0esiM6bTSJ+Tq3LxQEN03v+h
-	/wjoDc/w==;
+	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-Type:Content-ID:Content-Description;
+	bh=stmwFAlkeYayJwqxLAzxAb5snaHT5ewOrHfW4MD4mwk=;
+	b=WGdyaw45qmIaK2SmatQbzEUT8g
+	sEQj1d8rAjkxLN2VkCVTmqZPll/LHGpxSV/Ir/IILaWgwYuFt2ICDMLJQCEBXEhKh5VnaPge+eYYF
+	IOkQ1MFG821grDHDC93JDllTw4BY36AXV/yFqmryZ3vHvbukA3hGqUm74A8voHvu45uxjEGSyanL7
+	IphCk+rTO/osj709X1NFm11SrN6uOCMdFEiCn4af1goiKlpL+OEwTfsYuGysBGdA57IRinYRl+Iz0
+	iyGlhXels8NLzlL13cFL+YI5aSIARz+l1EkZoUoEk2NSPyid+0DXdQDDf19mhfxK6pCa6I7Rf7UkB
+	L8AvM4RA==;
 Received: from [2001:4bb8:180:6600:bcde:334f:863c:27b8] (helo=localhost)
 	by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kclT1-0007Z4-Lb; Wed, 11 Nov 2020 08:27:00 +0000
+	id 1kclT3-0007Ze-1h; Wed, 11 Nov 2020 08:27:01 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Date: Wed, 11 Nov 2020 09:26:34 +0100
-Message-Id: <20201111082658.3401686-1-hch@lst.de>
+Date: Wed, 11 Nov 2020 09:26:35 +0100
+Message-Id: <20201111082658.3401686-2-hch@lst.de>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201111082658.3401686-1-hch@lst.de>
+References: <20201111082658.3401686-1-hch@lst.de>
 MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
 	casper.infradead.org. See http://www.infradead.org/rpr.html
@@ -50,7 +52,8 @@ Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
 	Minchan Kim <minchan@kernel.org>, linux-fsdevel@vger.kernel.org,
 	Paolo Bonzini <pbonzini@redhat.com>,
 	=?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.com>
-Subject: [Drbd-dev] cleanup updating the size of block devices v2
+Subject: [Drbd-dev] [PATCH 01/24] block: remove the call to
+	__invalidate_device in check_disk_size_change
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -69,37 +72,38 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Hi Jens,
+__invalidate_device without the kill_dirty parameter just invalidates
+various clean entries in caches, which doesn't really help us with
+anything, but can cause all kinds of horrible lock orders due to how
+it calls into the file system.  The only reason this hasn't been a
+major issue is because so many people use partitions, for which no
+invalidation was performed anyway.
 
-this series builds on top of the work that went into the last merge window,
-and make sure we have a single coherent interfac for updating the size of a
-block device.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ fs/block_dev.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-Changes since v1:
- - minor spelling fixes
+diff --git a/fs/block_dev.c b/fs/block_dev.c
+index 9e84b1928b9401..66ebf594c97f47 100644
+--- a/fs/block_dev.c
++++ b/fs/block_dev.c
+@@ -1334,12 +1334,6 @@ static void check_disk_size_change(struct gendisk *disk,
+ 		i_size_write(bdev->bd_inode, disk_size);
+ 	}
+ 	spin_unlock(&bdev->bd_size_lock);
+-
+-	if (bdev_size > disk_size) {
+-		if (__invalidate_device(bdev, false))
+-			pr_warn("VFS: busy inodes on resized disk %s\n",
+-				disk->disk_name);
+-	}
+ }
+ 
+ /**
+-- 
+2.28.0
 
-Diffstat:
- block/genhd.c                  |   16 +++----
- drivers/block/aoe/aoecmd.c     |   15 +-----
- drivers/block/drbd/drbd_main.c |    6 --
- drivers/block/loop.c           |   36 ++--------------
- drivers/block/nbd.c            |   88 +++++++++++++----------------------------
- drivers/block/pktcdvd.c        |    3 -
- drivers/block/rbd.c            |    3 -
- drivers/block/rnbd/rnbd-clt.c  |    3 -
- drivers/block/virtio_blk.c     |    3 -
- drivers/block/xen-blkfront.c   |    2 
- drivers/block/zram/zram_drv.c  |    7 ---
- drivers/md/dm-raid.c           |    3 -
- drivers/md/dm.c                |    3 -
- drivers/md/md-cluster.c        |    8 ---
- drivers/md/md-linear.c         |    3 -
- drivers/md/md.c                |   24 ++++-------
- drivers/nvme/host/core.c       |   18 --------
- drivers/scsi/sd.c              |    9 +---
- fs/block_dev.c                 |    7 ---
- include/linux/genhd.h          |    3 -
- 20 files changed, 76 insertions(+), 184 deletions(-)
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
