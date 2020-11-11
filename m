@@ -2,35 +2,35 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9CCA2AEBA8
-	for <lists+drbd-dev@lfdr.de>; Wed, 11 Nov 2020 09:29:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43C0C2AEB4C
+	for <lists+drbd-dev@lfdr.de>; Wed, 11 Nov 2020 09:27:54 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C91504207DE;
-	Wed, 11 Nov 2020 09:29:25 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 03C214207D2;
+	Wed, 11 Nov 2020 09:27:54 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 23C974207C1
-	for <drbd-dev@lists.linbit.com>; Wed, 11 Nov 2020 09:27:24 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E7A514207A1
+	for <drbd-dev@lists.linbit.com>; Wed, 11 Nov 2020 09:27:23 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209;
 	h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=Dvn0FaNo/8PBixGEN3RzjNI2ye67KoyGrHfPj2XKGOY=;
-	b=WfHCfS71T0TlhdvdbiXY0IUJ8U
-	bFjui3wewAtFhnUKYMrqWtx+i0W8oU/rkJ68nfC84r/sgjSLKesqYl+LT9MxjkfIhV2YTB/lNyksS
-	j/Ma+k+L39dMRnJ4DnC0BBG1vNY6MsJRcjXsUNa3IEC5qM8G5omocTWx7s3nxSQr/YVEyCYzhXbju
-	AJV3R/DCKbNdD66opVe6ukpbs82VppTy5jpH2yHVSitj5R3kIMaDir+nLwKfkxE4rWI320Dyx/PCA
-	fL//0AN3krkEY9dv/bES4MDMy4OGu4aGoO5akaYEh2hPkUKoi/NBucV8JuvZjnti7SqFRNyGBHBY8
-	vw4CPzkg==;
+	bh=DxpFRHQFxTQEJeN4GgGJQ0kD3jbey5oDwaxlpVZafNQ=;
+	b=vJB9c0ufLsJ+1Xo5f8NEg4RHaC
+	98XDL7CsYrrMKs9Q11bCNE34XEPD2IqwS7KKo5742pBrutf+nBOji8TuquAbexo/jmfAH5rN6yLvg
+	vynvG1kS12vAEnRM0qCOkqzj4K6wx65p08QSCU6KweYUO41Ky9CBvAueWqKzfwAL2Izvf1mxdkMSH
+	CF7dcunxgYm95R69mW8FLbnawc67+JRWKMKFSvpCi7sea2728l+t/4wD3D6d8xlKV/lA1rlhsloEC
+	MoxWwOngvmgMlyXhXRA8eKa8tBI6ITu5Prbwd5gH9fsErYkZCfFYsvFdRkWPc5VOc0QL8QZblikj5
+	EJ2PRWpw==;
 Received: from [2001:4bb8:180:6600:bcde:334f:863c:27b8] (helo=localhost)
 	by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kclT7-0007a6-HW; Wed, 11 Nov 2020 08:27:05 +0000
+	id 1kclT9-0007aX-Sw; Wed, 11 Nov 2020 08:27:08 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Date: Wed, 11 Nov 2020 09:26:39 +0100
-Message-Id: <20201111082658.3401686-6-hch@lst.de>
+Date: Wed, 11 Nov 2020 09:26:41 +0100
+Message-Id: <20201111082658.3401686-8-hch@lst.de>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201111082658.3401686-1-hch@lst.de>
 References: <20201111082658.3401686-1-hch@lst.de>
@@ -52,8 +52,7 @@ Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
 	Minchan Kim <minchan@kernel.org>, linux-fsdevel@vger.kernel.org,
 	Paolo Bonzini <pbonzini@redhat.com>,
 	=?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.com>
-Subject: [Drbd-dev] [PATCH 05/24] block: remove the update_bdev parameter
-	from set_capacity_revalidate_and_notify
+Subject: [Drbd-dev] [PATCH 07/24] nbd: remove the call to set_blocksize
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -72,171 +71,60 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-The update_bdev argument is always set to true, so remove it.  Also
-rename the function to the slighly less verbose set_capacity_and_notify,
-as propagating the disk size to the block device isn't really
-revalidation.
+Block driver have no business setting the file system concept of a
+block size.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Josef Bacik <josef@toxicpanda.com>
 ---
- block/genhd.c                | 13 +++++--------
- drivers/block/loop.c         | 11 +++++------
- drivers/block/virtio_blk.c   |  2 +-
- drivers/block/xen-blkfront.c |  2 +-
- drivers/nvme/host/core.c     |  2 +-
- drivers/scsi/sd.c            |  5 ++---
- include/linux/genhd.h        |  3 +--
- 7 files changed, 16 insertions(+), 22 deletions(-)
+ drivers/block/nbd.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/block/genhd.c b/block/genhd.c
-index 0a273211fec283..d8d9d6c1c916e1 100644
---- a/block/genhd.c
-+++ b/block/genhd.c
-@@ -46,17 +46,15 @@ static void disk_del_events(struct gendisk *disk);
- static void disk_release_events(struct gendisk *disk);
+diff --git a/drivers/block/nbd.c b/drivers/block/nbd.c
+index c4f9ccf5cc2ac5..f618688a196654 100644
+--- a/drivers/block/nbd.c
++++ b/drivers/block/nbd.c
+@@ -296,7 +296,7 @@ static void nbd_size_clear(struct nbd_device *nbd)
+ 	}
+ }
  
- /*
-- * Set disk capacity and notify if the size is not currently
-- * zero and will not be set to zero
-+ * Set disk capacity and notify if the size is not currently zero and will not
-+ * be set to zero.
-  */
--void set_capacity_revalidate_and_notify(struct gendisk *disk, sector_t size,
--					bool update_bdev)
-+void set_capacity_and_notify(struct gendisk *disk, sector_t size)
+-static void nbd_size_update(struct nbd_device *nbd, bool start)
++static void nbd_size_update(struct nbd_device *nbd)
  {
- 	sector_t capacity = get_capacity(disk);
- 
- 	set_capacity(disk, size);
--	if (update_bdev)
--		revalidate_disk_size(disk, true);
-+	revalidate_disk_size(disk, true);
- 
- 	if (capacity != size && capacity != 0 && size != 0) {
- 		char *envp[] = { "RESIZE=1", NULL };
-@@ -64,8 +62,7 @@ void set_capacity_revalidate_and_notify(struct gendisk *disk, sector_t size,
- 		kobject_uevent_env(&disk_to_dev(disk)->kobj, KOBJ_CHANGE, envp);
+ 	struct nbd_config *config = nbd->config;
+ 	struct block_device *bdev = bdget_disk(nbd->disk, 0);
+@@ -311,11 +311,9 @@ static void nbd_size_update(struct nbd_device *nbd, bool start)
+ 	blk_queue_physical_block_size(nbd->disk->queue, config->blksize);
+ 	set_capacity(nbd->disk, nr_sectors);
+ 	if (bdev) {
+-		if (bdev->bd_disk) {
++		if (bdev->bd_disk)
+ 			bd_set_nr_sectors(bdev, nr_sectors);
+-			if (start)
+-				set_blocksize(bdev, config->blksize);
+-		} else
++		else
+ 			set_bit(GD_NEED_PART_SCAN, &nbd->disk->state);
+ 		bdput(bdev);
  	}
- }
--
--EXPORT_SYMBOL_GPL(set_capacity_revalidate_and_notify);
-+EXPORT_SYMBOL_GPL(set_capacity_and_notify);
- 
- /*
-  * Format the device name of the indicated disk into the supplied buffer and
-diff --git a/drivers/block/loop.c b/drivers/block/loop.c
-index 86eb7e0691eef5..77937b760ee0fc 100644
---- a/drivers/block/loop.c
-+++ b/drivers/block/loop.c
-@@ -1146,8 +1146,7 @@ static int loop_configure(struct loop_device *lo, fmode_t mode,
- 	loop_update_dio(lo);
- 	loop_sysfs_init(lo);
- 
--	set_capacity_revalidate_and_notify(lo->lo_disk, get_loop_size(lo, file),
--			true);
-+	set_capacity_and_notify(lo->lo_disk, get_loop_size(lo, file));
- 	set_blocksize(bdev, S_ISBLK(inode->i_mode) ?
- 		      block_size(inode->i_bdev) : PAGE_SIZE);
- 
-@@ -1383,9 +1382,9 @@ loop_set_status(struct loop_device *lo, const struct loop_info64 *info)
- 	lo->lo_flags |= prev_lo_flags & ~LOOP_SET_STATUS_CLEARABLE_FLAGS;
- 
- 	if (size_changed) {
--		set_capacity_revalidate_and_notify(lo->lo_disk,
-+		set_capacity_and_notify(lo->lo_disk,
- 				get_size(lo->lo_offset, lo->lo_sizelimit,
--					 lo->lo_backing_file), true);
-+					 lo->lo_backing_file));
- 	}
- 
- 	loop_config_discard(lo);
-@@ -1563,8 +1562,8 @@ static int loop_set_capacity(struct loop_device *lo)
- {
- 	if (unlikely(lo->lo_state != Lo_bound))
- 		return -ENXIO;
--	set_capacity_revalidate_and_notify(lo->lo_disk,
--			get_loop_size(lo, lo->lo_backing_file), true);
-+	set_capacity_and_notify(lo->lo_disk,
-+			get_loop_size(lo, lo->lo_backing_file));
- 	return 0;
+@@ -329,7 +327,7 @@ static void nbd_size_set(struct nbd_device *nbd, loff_t blocksize,
+ 	config->blksize = blocksize;
+ 	config->bytesize = blocksize * nr_blocks;
+ 	if (nbd->task_recv != NULL)
+-		nbd_size_update(nbd, false);
++		nbd_size_update(nbd);
  }
  
-diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
-index a314b9382442b6..3e812b4c32e669 100644
---- a/drivers/block/virtio_blk.c
-+++ b/drivers/block/virtio_blk.c
-@@ -470,7 +470,7 @@ static void virtblk_update_capacity(struct virtio_blk *vblk, bool resize)
- 		   cap_str_10,
- 		   cap_str_2);
- 
--	set_capacity_revalidate_and_notify(vblk->disk, capacity, true);
-+	set_capacity_and_notify(vblk->disk, capacity);
+ static void nbd_complete_rq(struct request *req)
+@@ -1309,7 +1307,7 @@ static int nbd_start_device(struct nbd_device *nbd)
+ 		args->index = i;
+ 		queue_work(nbd->recv_workq, &args->work);
+ 	}
+-	nbd_size_update(nbd, true);
++	nbd_size_update(nbd);
+ 	return error;
  }
  
- static void virtblk_config_changed_work(struct work_struct *work)
-diff --git a/drivers/block/xen-blkfront.c b/drivers/block/xen-blkfront.c
-index 48629d3433b4c3..79521e33d30ed5 100644
---- a/drivers/block/xen-blkfront.c
-+++ b/drivers/block/xen-blkfront.c
-@@ -2370,7 +2370,7 @@ static void blkfront_connect(struct blkfront_info *info)
- 			return;
- 		printk(KERN_INFO "Setting capacity to %Lu\n",
- 		       sectors);
--		set_capacity_revalidate_and_notify(info->gd, sectors, true);
-+		set_capacity_and_notify(info->gd, sectors);
- 
- 		return;
- 	case BLKIF_STATE_SUSPENDED:
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 66129b86e97bed..445274b28518fb 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2053,7 +2053,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
- 			capacity = 0;
- 	}
- 
--	set_capacity_revalidate_and_notify(disk, capacity, true);
-+	set_capacity_and_notify(disk, capacity);
- 
- 	nvme_config_discard(disk, ns);
- 	nvme_config_write_zeroes(disk, ns);
-diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
-index 4a34dd5b153196..a2a4f385833d6c 100644
---- a/drivers/scsi/sd.c
-+++ b/drivers/scsi/sd.c
-@@ -3263,8 +3263,7 @@ static int sd_revalidate_disk(struct gendisk *disk)
- 
- 	sdkp->first_scan = 0;
- 
--	set_capacity_revalidate_and_notify(disk,
--		logical_to_sectors(sdp, sdkp->capacity), true);
-+	set_capacity_and_notify(disk, logical_to_sectors(sdp, sdkp->capacity));
- 	sd_config_write_same(sdkp);
- 	kfree(buffer);
- 
-@@ -3274,7 +3273,7 @@ static int sd_revalidate_disk(struct gendisk *disk)
- 	 * capacity to 0.
- 	 */
- 	if (sd_zbc_revalidate_zones(sdkp))
--		set_capacity_revalidate_and_notify(disk, 0, true);
-+		set_capacity_and_notify(disk, 0);
- 
-  out:
- 	return 0;
-diff --git a/include/linux/genhd.h b/include/linux/genhd.h
-index 38f23d75701379..596f31b5a3e133 100644
---- a/include/linux/genhd.h
-+++ b/include/linux/genhd.h
-@@ -315,8 +315,7 @@ static inline int get_disk_ro(struct gendisk *disk)
- extern void disk_block_events(struct gendisk *disk);
- extern void disk_unblock_events(struct gendisk *disk);
- extern void disk_flush_events(struct gendisk *disk, unsigned int mask);
--void set_capacity_revalidate_and_notify(struct gendisk *disk, sector_t size,
--		bool update_bdev);
-+void set_capacity_and_notify(struct gendisk *disk, sector_t size);
- 
- /* drivers/char/random.c */
- extern void add_disk_randomness(struct gendisk *disk) __latent_entropy;
 -- 
 2.28.0
 
