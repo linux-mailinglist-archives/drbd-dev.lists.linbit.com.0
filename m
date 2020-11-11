@@ -2,30 +2,30 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id D156F2AF2CB
-	for <lists+drbd-dev@lfdr.de>; Wed, 11 Nov 2020 14:59:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99FE02AF2DB
+	for <lists+drbd-dev@lfdr.de>; Wed, 11 Nov 2020 15:00:29 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id DDC6D4207C5;
-	Wed, 11 Nov 2020 14:59:38 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3C3FC4205E4;
+	Wed, 11 Nov 2020 15:00:29 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id CCEBA4205A8
-	for <drbd-dev@lists.linbit.com>; Wed, 11 Nov 2020 14:59:37 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 344BC4205F6
+	for <drbd-dev@lists.linbit.com>; Wed, 11 Nov 2020 15:00:27 +0100 (CET)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
-	by mx2.suse.de (Postfix) with ESMTP id 8ABF3ABD6;
-	Wed, 11 Nov 2020 13:59:37 +0000 (UTC)
+	by mx2.suse.de (Postfix) with ESMTP id EB5D2ABD6;
+	Wed, 11 Nov 2020 14:00:26 +0000 (UTC)
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
 References: <20201111082658.3401686-1-hch@lst.de>
-	<20201111082658.3401686-16-hch@lst.de>
+	<20201111082658.3401686-21-hch@lst.de>
 From: Hannes Reinecke <hare@suse.de>
-Message-ID: <878d9852-4b8d-c5a7-36d4-0fda80fd74c4@suse.de>
-Date: Wed, 11 Nov 2020 14:59:36 +0100
+Message-ID: <a9b7c6bc-5496-9489-95f9-f86f63ea2b14@suse.de>
+Date: Wed, 11 Nov 2020 15:00:25 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
 	Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201111082658.3401686-16-hch@lst.de>
+In-Reply-To: <20201111082658.3401686-21-hch@lst.de>
 Content-Language: en-US
 Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
 	"Michael S. Tsirkin" <mst@redhat.com>,
@@ -42,8 +42,7 @@ Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
 	Minchan Kim <minchan@kernel.org>, linux-fsdevel@vger.kernel.org,
 	Paolo Bonzini <pbonzini@redhat.com>,
 	=?UTF-8?Q?Roger_Pau_Monn=c3=a9?= <roger.pau@citrix.com>
-Subject: Re: [Drbd-dev] [PATCH 15/24] nvme: use set_capacity_and_notify in
- nvme_set_queue_dying
+Subject: Re: [Drbd-dev] [PATCH 20/24] dm-raid: use set_capacity_and_notify
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -62,18 +61,17 @@ Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-T24gMTEvMTEvMjAgOToyNiBBTSwgQ2hyaXN0b3BoIEhlbGx3aWcgd3JvdGU6Cj4gVXNlIHRoZSBi
-bG9jayBsYXllciBoZWxwZXIgdG8gdXBkYXRlIGJvdGggdGhlIGRpc2sgYW5kIGJsb2NrIGRldmlj
-ZQo+IHNpemVzLiAgQ29udHJhcnkgdG8gdGhlIG5hbWUgbm8gbm90aWZpY2F0aW9uIGlzIHNlbnQg
-aW4gdGhpcyBjYXNlLAo+IGFzIGEgc2l6ZSAwIGlzIHNwZWNpYWwgY2FzZWQuCj4gCj4gU2lnbmVk
-LW9mZi1ieTogQ2hyaXN0b3BoIEhlbGx3aWcgPGhjaEBsc3QuZGU+Cj4gLS0tCj4gICBkcml2ZXJz
-L252bWUvaG9zdC9jb3JlLmMgfCAxMyArLS0tLS0tLS0tLS0tCj4gICAxIGZpbGUgY2hhbmdlZCwg
-MSBpbnNlcnRpb24oKyksIDEyIGRlbGV0aW9ucygtKQo+IApSZXZpZXdlZC1ieTogSGFubmVzIFJl
-aW5lY2tlIDxoYXJlQHN1c2UuZGU+CgpDaGVlcnMsCgpIYW5uZXMKLS0gCkRyLiBIYW5uZXMgUmVp
-bmVja2UgICAgICAgICAgICAgICAgS2VybmVsIFN0b3JhZ2UgQXJjaGl0ZWN0CmhhcmVAc3VzZS5k
-ZSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICs0OSA5MTEgNzQwNTMgNjg4ClNVU0UgU29m
-dHdhcmUgU29sdXRpb25zIEdtYkgsIE1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZwpIUkIg
-MzY4MDkgKEFHIE7DvHJuYmVyZyksIEdlc2Now6RmdHNmw7xocmVyOiBGZWxpeCBJbWVuZMO2cmZm
-ZXIKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJiZC1k
-ZXYgbWFpbGluZyBsaXN0CmRyYmQtZGV2QGxpc3RzLmxpbmJpdC5jb20KaHR0cHM6Ly9saXN0cy5s
-aW5iaXQuY29tL21haWxtYW4vbGlzdGluZm8vZHJiZC1kZXYK
+T24gMTEvMTEvMjAgOToyNiBBTSwgQ2hyaXN0b3BoIEhlbGx3aWcgd3JvdGU6Cj4gVXNlIHNldF9j
+YXBhY2l0eV9hbmRfbm90aWZ5IHRvIHNldCB0aGUgc2l6ZSBvZiBib3RoIHRoZSBkaXNrIGFuZCBi
+bG9jawo+IGRldmljZS4gIFRoaXMgYWxzbyBnZXRzIHRoZSB1ZXZlbnQgbm90aWZpY2F0aW9ucyBm
+b3IgdGhlIHJlc2l6ZSBmb3IgZnJlZS4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3RvcGggSGVs
+bHdpZyA8aGNoQGxzdC5kZT4KPiAtLS0KPiAgIGRyaXZlcnMvbWQvZG0tcmFpZC5jIHwgMyArLS0K
+PiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMiBkZWxldGlvbnMoLSkKPiAKUmV2
+aWV3ZWQtYnk6IEhhbm5lcyBSZWluZWNrZSA8aGFyZUBzdXNlLmRlPgoKQ2hlZXJzLAoKSGFubmVz
+Ci0tIApEci4gSGFubmVzIFJlaW5lY2tlICAgICAgICAgICAgICAgIEtlcm5lbCBTdG9yYWdlIEFy
+Y2hpdGVjdApoYXJlQHN1c2UuZGUgICAgICAgICAgICAgICAgICAgICAgICAgICAgICArNDkgOTEx
+IDc0MDUzIDY4OApTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHbWJILCBNYXhmZWxkc3RyLiA1LCA5
+MDQwOSBOw7xybmJlcmcKSFJCIDM2ODA5IChBRyBOw7xybmJlcmcpLCBHZXNjaMOkZnRzZsO8aHJl
+cjogRmVsaXggSW1lbmTDtnJmZmVyCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fCmRyYmQtZGV2IG1haWxpbmcgbGlzdApkcmJkLWRldkBsaXN0cy5saW5iaXQu
+Y29tCmh0dHBzOi8vbGlzdHMubGluYml0LmNvbS9tYWlsbWFuL2xpc3RpbmZvL2RyYmQtZGV2Cg==
