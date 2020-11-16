@@ -2,35 +2,35 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65B652B4A5A
-	for <lists+drbd-dev@lfdr.de>; Mon, 16 Nov 2020 17:11:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65AA22B4A61
+	for <lists+drbd-dev@lfdr.de>; Mon, 16 Nov 2020 17:13:11 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2F925420821;
-	Mon, 16 Nov 2020 17:11:40 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2CD0E420836;
+	Mon, 16 Nov 2020 17:13:11 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id F1B924207E4
-	for <drbd-dev@lists.linbit.com>; Mon, 16 Nov 2020 17:11:37 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 11811420819
+	for <drbd-dev@lists.linbit.com>; Mon, 16 Nov 2020 17:11:39 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209;
 	h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=9xKkbsaYgLwhE10hNLQkbULUUrvPvOI5lAnm4OXLvPs=;
-	b=oYdX9nzKoJif6AkXObIozxVfvj
-	7cGF/f/pUnJJHDQ6T2624151wrdwaTi3mmORA1Sk4dkNQXTLpvcPq6k6KdWEaLJxRF4lDmEXm8qw9
-	oYE1wB5V9C5rcNG0vg2/s/RZq7WpvPXksRbrz6BhFVFbp3fgW6Cu8Ei10wVmFRzzU2lZbNkryPPwp
-	UyZEBLPwZzIDOtCGDnQaZ/yC0WN3H+ttyOeryQQMS7541LF9/8zj21iM7fknwF/oyMb92PdRg+U+/
-	bjDqshSNF4XCVwta4ehBG8dKT/cx10oylnvhgVmCv3gk5lCpRUkUrEy9iufHfdIZqR7G/SymA4RHz
-	LVTtFmtA==;
+	bh=Ub9jpknBNltWl/xM1z440GPAq6lbWyOu/cfyXRrsD14=;
+	b=VtALb1vlttJ0buxeem4ez+UVG4
+	Hu+Wqzb0QtgrS5QrZw/6aENv47GRNNh/CISIBQASNaoUt+cYAFXDVK4WXECNVL5dVc+xc/uVQOnIg
+	HTLM6KHwDsX+QnIalbhYcS8kk7anQ8yPF0pzoGt/ezmRxs/uYaG5KB5LFuw2m65+v4FLJ9BMD4Ovz
+	FfsRasFisl+b2XzsGmdUtlricIuZ6vBTkUhVjcJ0lMBS4vQc6DLTXfAo6MDzYuO1bB1gpNPStxfTg
+	5oO+avG3iudqBw1sow49CGkIHR2P/HvdJHVOxannWGYHrDjws6h+iO/erNUOkLsTjti8W+DcHNPIc
+	3Oq8t4Bg==;
 Received: from [2001:4bb8:180:6600:255b:7def:a93:4a09] (helo=localhost)
 	by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kefxu-0003sm-C6; Mon, 16 Nov 2020 14:58:46 +0000
+	id 1kefyG-0003yI-1n; Mon, 16 Nov 2020 14:59:08 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Date: Mon, 16 Nov 2020 15:57:17 +0100
-Message-Id: <20201116145809.410558-27-hch@lst.de>
+Date: Mon, 16 Nov 2020 15:57:32 +0100
+Message-Id: <20201116145809.410558-42-hch@lst.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201116145809.410558-1-hch@lst.de>
 References: <20201116145809.410558-1-hch@lst.de>
@@ -46,13 +46,14 @@ Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
 	Jack Wang <jinpu.wang@cloud.ionos.com>,
 	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
 	Josef Bacik <josef@toxicpanda.com>, nbd@other.debian.org,
-	linux-raid@vger.kernel.org, Stefan Hajnoczi <stefanha@redhat.com>,
+	linux-raid@vger.kernel.org, Hannes Reinecke <hare@suse.de>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
 	ceph-devel@vger.kernel.org, linux-block@vger.kernel.org,
 	"Martin K. Petersen" <martin.petersen@oracle.com>,
 	Minchan Kim <minchan@kernel.org>, linux-fsdevel@vger.kernel.org,
 	Paolo Bonzini <pbonzini@redhat.com>,
 	=?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.com>
-Subject: [Drbd-dev] [PATCH 26/78] block: add a new set_read_only method
+Subject: [Drbd-dev] [PATCH 41/78] swim: don't call blk_register_region
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -71,44 +72,59 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Add a new method to allow for driver-specific processing when setting or
-clearing the block device read-only state.  This allows to replace the
-cumbersome and error-prone override of the whole ioctl implementation.
+The swim driver (unlike various other floppy drivers) doesn't have
+magic device nodes for certain modes, and already registers a gendisk
+for each of the floppies supported by a device.  Thus the region
+registered is a no-op and can be removed.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 ---
- block/ioctl.c          | 5 +++++
- include/linux/blkdev.h | 1 +
- 2 files changed, 6 insertions(+)
+ drivers/block/swim.c | 17 -----------------
+ 1 file changed, 17 deletions(-)
 
-diff --git a/block/ioctl.c b/block/ioctl.c
-index c6d8863f040945..a6fa16b9770593 100644
---- a/block/ioctl.c
-+++ b/block/ioctl.c
-@@ -389,6 +389,11 @@ static int blkdev_roset(struct block_device *bdev, fmode_t mode,
- 		return ret;
- 	if (get_user(n, (int __user *)arg))
- 		return -EFAULT;
-+	if (bdev->bd_disk->fops->set_read_only) {
-+		ret = bdev->bd_disk->fops->set_read_only(bdev, n);
-+		if (ret)
-+			return ret;
-+	}
- 	set_device_ro(bdev, n);
+diff --git a/drivers/block/swim.c b/drivers/block/swim.c
+index 52dd1efa00f9c5..cc6a0bc6c005a7 100644
+--- a/drivers/block/swim.c
++++ b/drivers/block/swim.c
+@@ -745,18 +745,6 @@ static const struct block_device_operations floppy_fops = {
+ 	.check_events	 = floppy_check_events,
+ };
+ 
+-static struct kobject *floppy_find(dev_t dev, int *part, void *data)
+-{
+-	struct swim_priv *swd = data;
+-	int drive = (*part & 3);
+-
+-	if (drive >= swd->floppy_count)
+-		return NULL;
+-
+-	*part = 0;
+-	return get_disk_and_module(swd->unit[drive].disk);
+-}
+-
+ static int swim_add_floppy(struct swim_priv *swd, enum drive_location location)
+ {
+ 	struct floppy_state *fs = &swd->unit[swd->floppy_count];
+@@ -846,9 +834,6 @@ static int swim_floppy_init(struct swim_priv *swd)
+ 		add_disk(swd->unit[drive].disk);
+ 	}
+ 
+-	blk_register_region(MKDEV(FLOPPY_MAJOR, 0), 256, THIS_MODULE,
+-			    floppy_find, NULL, swd);
+-
  	return 0;
- }
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 639cae2c158b59..5c1ba8a8d2bc7e 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -1850,6 +1850,7 @@ struct block_device_operations {
- 	void (*unlock_native_capacity) (struct gendisk *);
- 	int (*revalidate_disk) (struct gendisk *);
- 	int (*getgeo)(struct block_device *, struct hd_geometry *);
-+	int (*set_read_only)(struct block_device *bdev, bool ro);
- 	/* this callback is with swap_lock and sometimes page table lock held */
- 	void (*swap_slot_free_notify) (struct block_device *, unsigned long);
- 	int (*report_zones)(struct gendisk *, sector_t sector,
+ 
+ exit_put_disks:
+@@ -932,8 +917,6 @@ static int swim_remove(struct platform_device *dev)
+ 	int drive;
+ 	struct resource *res;
+ 
+-	blk_unregister_region(MKDEV(FLOPPY_MAJOR, 0), 256);
+-
+ 	for (drive = 0; drive < swd->floppy_count; drive++) {
+ 		del_gendisk(swd->unit[drive].disk);
+ 		blk_cleanup_queue(swd->unit[drive].disk->queue);
 -- 
 2.29.2
 
