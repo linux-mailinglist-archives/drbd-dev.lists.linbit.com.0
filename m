@@ -2,35 +2,35 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F8AA2B491F
-	for <lists+drbd-dev@lfdr.de>; Mon, 16 Nov 2020 16:25:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 015002B491D
+	for <lists+drbd-dev@lfdr.de>; Mon, 16 Nov 2020 16:25:10 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2552A4207E0;
-	Mon, 16 Nov 2020 16:25:40 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id BCE9642080E;
+	Mon, 16 Nov 2020 16:25:09 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 979D74207E0
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 538984205F6
 	for <drbd-dev@lists.linbit.com>; Mon, 16 Nov 2020 16:21:41 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209;
 	h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=hARJkWQlpNoJdj/vxwczaVdCfVVvfIUC8NDH/Nikt6k=;
-	b=in7tsAV0pYzdDaH23WhnwAKR3R
-	7xf04zdmNOdEtYs8arbN89y3kw4LApo5bLo3N/m4GrsdUYv2To+bUfGPGTQpzQd4TQGyrpK4e5lHC
-	eCShsJJjHfdRG2ZVv14MPwihM8z3yu6kfNX1CiibXDctlXHH5jeZRUvheSFxZ/0kcEtUXIuEjWms/
-	mhndsgiWlZLvqm1AI73/nDAEmdFQJYfIewjJl63lmaezSXoLWkADqyILaKsE+S6dzaUQc9rbYpEsZ
-	grwi29hhSKISbnn7jD3DaEY2GFWHItE9E68g0ieNppWIL+4Ck8rzVBmAR0Eftf+VYl62odfp1ooaP
-	Zg8s5EIQ==;
+	bh=9s01ven/lnjzAuhlV063ntSY/vXy7NuM1J7SpBiZFfk=;
+	b=Iz0K1z2gG+m/yrqS3PHmWRLoWX
+	iQ2r9VCIRC1F/onM60kJvAH6c1Mq4RlXW7ec+E4URlz5EGNYvgdquPHqNY52gjE8nE20X9RXX7VMi
+	1DOJ7Vtr4lrIBJ7aVOvb8UqrR2nwcvWP6ZnS5k2cLIXw3A5Dbiaen1+C+S/XhWHMOfqQAtP9C+gT2
+	bC1yTTqhuANia6Zl9uBJicixvJBbdGfQlRzf4UsN7IZa6iajX16uM9PSh5wgGK5K5zsV7yVWM/HD7
+	+fT3KXcxxU4zJu5OS1H+5N5e66rH7O41GjcCcL5p8HAE3cZQ+D+MIf49gWr+tF6YubeZAmAdPRe+t
+	MQay8zLg==;
 Received: from [2001:4bb8:180:6600:255b:7def:a93:4a09] (helo=localhost)
 	by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kefz0-0004Hn-7B; Mon, 16 Nov 2020 14:59:54 +0000
+	id 1kefz1-0004IE-BR; Mon, 16 Nov 2020 14:59:55 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Date: Mon, 16 Nov 2020 15:58:03 +0100
-Message-Id: <20201116145809.410558-73-hch@lst.de>
+Date: Mon, 16 Nov 2020 15:58:04 +0100
+Message-Id: <20201116145809.410558-74-hch@lst.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201116145809.410558-1-hch@lst.de>
 References: <20201116145809.410558-1-hch@lst.de>
@@ -52,8 +52,7 @@ Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
 	Minchan Kim <minchan@kernel.org>, linux-fsdevel@vger.kernel.org,
 	Paolo Bonzini <pbonzini@redhat.com>,
 	=?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.com>
-Subject: [Drbd-dev] [PATCH 72/78] block: use disk_part_iter_exit in
-	disk_part_iter_next
+Subject: [Drbd-dev] [PATCH 73/78] block: use put_device in put_disk
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -72,28 +71,27 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Call disk_part_iter_exit in disk_part_iter_next instead of duplicating
-the functionality.
+Use put_device to put the device instead of poking into the internals
+and using kobject_put.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- block/genhd.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ block/genhd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/block/genhd.c b/block/genhd.c
-index 999f7142b04e7d..56bc37e98ed852 100644
+index 56bc37e98ed852..f1e20ec1b62887 100644
 --- a/block/genhd.c
 +++ b/block/genhd.c
-@@ -230,8 +230,7 @@ struct hd_struct *disk_part_iter_next(struct disk_part_iter *piter)
- 	int inc, end;
+@@ -1659,7 +1659,7 @@ EXPORT_SYMBOL(__alloc_disk_node);
+ void put_disk(struct gendisk *disk)
+ {
+ 	if (disk)
+-		kobject_put(&disk_to_dev(disk)->kobj);
++		put_device(disk_to_dev(disk));
+ }
+ EXPORT_SYMBOL(put_disk);
  
- 	/* put the last partition */
--	disk_put_part(piter->part);
--	piter->part = NULL;
-+	disk_part_iter_exit(piter);
- 
- 	/* get part_tbl */
- 	rcu_read_lock();
 -- 
 2.29.2
 
