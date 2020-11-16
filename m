@@ -2,62 +2,41 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50FC52B4991
-	for <lists+drbd-dev@lfdr.de>; Mon, 16 Nov 2020 16:40:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65B652B4A5A
+	for <lists+drbd-dev@lfdr.de>; Mon, 16 Nov 2020 17:11:41 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3B7A2420812;
-	Mon, 16 Nov 2020 16:40:14 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2F925420821;
+	Mon, 16 Nov 2020 17:11:40 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com
-	[209.85.166.45])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 48EB242080F
-	for <drbd-dev@lists.linbit.com>; Mon, 16 Nov 2020 16:40:12 +0100 (CET)
-Received: by mail-io1-f45.google.com with SMTP id s24so17793324ioj.13
-	for <drbd-dev@lists.linbit.com>; Mon, 16 Nov 2020 07:40:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kernel-dk.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=tp0p5PHbr2FkOYp8vx6enMy9SJ7npMGO8ToOlTZAVD0=;
-	b=vJHuCgkLtyaYNtKWJGKWTC2HAaX7Y9m8y1VpqDKgvUWa8d0I51VY3ALJeXJtOlsGpr
-	QzxZZWfSIBe9Z9YJVgCkUF04iuHI0uFspV4JwGcoTFtYktgjnY7A8CRm243mremkxSFW
-	/W8ZuC0hXxmoHn+ezTFvYhGe2XU1ttQu6xlHRIQZSFb9V/9nguKyH01uIZBsQIBla1sm
-	kSpCVk0QJdWteogX0XEWe3MJV6jr1Lh++tWh99mrFKS4zYsaeRBflt08zg4X1OBFoLaD
-	OZKwfBprL/CxXZIUp5e8ounGHLLXOFSswyyzQU1smV5YfKh+taZ0KanaNv47asHmejvk
-	eLpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=tp0p5PHbr2FkOYp8vx6enMy9SJ7npMGO8ToOlTZAVD0=;
-	b=C2KhMEtF2eAN2HqYEHXA9JA7k0zU2nAYWbmUNNzCrsue/V9TvmjwOPgmQYEsq6nD/m
-	iMDP/o66WnKB8S1mXL3ChTIBa9dznVaw/Ji3hK6uzTpuTWM1i8baWJXvVaPXA2cKJKqc
-	idbj6cZMPpXFyfTbrFdY3JffMJpPwHtXNWox5nLeX7oyRzX0FOT8Ztw+ZTXpYyd22OXG
-	oGRs/4YxXq+27mUso4SC7+vzZikNYYZr0m96qMV8PjyANZ2pNFT1F5V90PWwgsfPduVa
-	xSCz3YwKcIykRJj9uHHA8J4j0cFFZgiUmcsIZ+U1LKEbZZnzFEk4srK5sJfGzCw0qsv8
-	L0Ag==
-X-Gm-Message-State: AOAM531/6bq7t7cip86jKB5jva0SyQhaJG+y03sB6KOBb8w10gGEgonY
-	eqtsfx1sG6Moh0RqKhok5AxzGw==
-X-Google-Smtp-Source: ABdhPJzORiPywjBgXN2NzytHbmvXHQyepXDfzUWSZfRzXJXzcmliMaw8xrhzAaFsEhdxvHHHShuK7g==
-X-Received: by 2002:a5e:9e0b:: with SMTP id i11mr3534187ioq.33.1605541212314; 
-	Mon, 16 Nov 2020 07:40:12 -0800 (PST)
-Received: from [192.168.1.30] ([65.144.74.34])
-	by smtp.gmail.com with ESMTPSA id
-	i82sm10491839ill.84.2020.11.16.07.40.10
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Mon, 16 Nov 2020 07:40:11 -0800 (PST)
-To: Christoph Hellwig <hch@lst.de>
-References: <20201116145809.410558-1-hch@lst.de>
-From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <506876ff-65b0-7610-6f9e-8228fcd201c8@kernel.dk>
-Date: Mon, 16 Nov 2020 08:40:10 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.10.0
-MIME-Version: 1.0
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id F1B924207E4
+	for <drbd-dev@lists.linbit.com>; Mon, 16 Nov 2020 17:11:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209;
+	h=Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-Type:Content-ID:Content-Description;
+	bh=9xKkbsaYgLwhE10hNLQkbULUUrvPvOI5lAnm4OXLvPs=;
+	b=oYdX9nzKoJif6AkXObIozxVfvj
+	7cGF/f/pUnJJHDQ6T2624151wrdwaTi3mmORA1Sk4dkNQXTLpvcPq6k6KdWEaLJxRF4lDmEXm8qw9
+	oYE1wB5V9C5rcNG0vg2/s/RZq7WpvPXksRbrz6BhFVFbp3fgW6Cu8Ei10wVmFRzzU2lZbNkryPPwp
+	UyZEBLPwZzIDOtCGDnQaZ/yC0WN3H+ttyOeryQQMS7541LF9/8zj21iM7fknwF/oyMb92PdRg+U+/
+	bjDqshSNF4XCVwta4ehBG8dKT/cx10oylnvhgVmCv3gk5lCpRUkUrEy9iufHfdIZqR7G/SymA4RHz
+	LVTtFmtA==;
+Received: from [2001:4bb8:180:6600:255b:7def:a93:4a09] (helo=localhost)
+	by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+	id 1kefxu-0003sm-C6; Mon, 16 Nov 2020 14:58:46 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Jens Axboe <axboe@kernel.dk>
+Date: Mon, 16 Nov 2020 15:57:17 +0100
+Message-Id: <20201116145809.410558-27-hch@lst.de>
+X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201116145809.410558-1-hch@lst.de>
-Content-Language: en-US
+References: <20201116145809.410558-1-hch@lst.de>
+MIME-Version: 1.0
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+	casper.infradead.org. See http://www.infradead.org/rpr.html
 Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
 	"Michael S. Tsirkin" <mst@redhat.com>,
 	Jason Wang <jasowang@redhat.com>, linux-nvme@lists.infradead.org,
@@ -72,8 +51,8 @@ Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
 	"Martin K. Petersen" <martin.petersen@oracle.com>,
 	Minchan Kim <minchan@kernel.org>, linux-fsdevel@vger.kernel.org,
 	Paolo Bonzini <pbonzini@redhat.com>,
-	=?UTF-8?Q?Roger_Pau_Monn=c3=a9?= <roger.pau@citrix.com>
-Subject: Re: [Drbd-dev] cleanup updating the size of block devices v3
+	=?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.com>
+Subject: [Drbd-dev] [PATCH 26/78] block: add a new set_read_only method
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -92,22 +71,46 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On 11/16/20 7:56 AM, Christoph Hellwig wrote:
-> Hi Jens,
-> 
-> this series builds on top of the work that went into the last merge window,
-> and make sure we have a single coherent interfac for updating the size of a
-> block device.
-> 
-> Changes since v2:
->  - rebased to the set_capacity_revalidate_and_notify in mainline
->  - keep the loop_set_size function
->  - fix two mixed up acks
+Add a new method to allow for driver-specific processing when setting or
+clearing the block device read-only state.  This allows to replace the
+cumbersome and error-prone override of the whole ioctl implementation.
 
-Applied 1-23 for 5.11, thanks.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ block/ioctl.c          | 5 +++++
+ include/linux/blkdev.h | 1 +
+ 2 files changed, 6 insertions(+)
 
+diff --git a/block/ioctl.c b/block/ioctl.c
+index c6d8863f040945..a6fa16b9770593 100644
+--- a/block/ioctl.c
++++ b/block/ioctl.c
+@@ -389,6 +389,11 @@ static int blkdev_roset(struct block_device *bdev, fmode_t mode,
+ 		return ret;
+ 	if (get_user(n, (int __user *)arg))
+ 		return -EFAULT;
++	if (bdev->bd_disk->fops->set_read_only) {
++		ret = bdev->bd_disk->fops->set_read_only(bdev, n);
++		if (ret)
++			return ret;
++	}
+ 	set_device_ro(bdev, n);
+ 	return 0;
+ }
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 639cae2c158b59..5c1ba8a8d2bc7e 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -1850,6 +1850,7 @@ struct block_device_operations {
+ 	void (*unlock_native_capacity) (struct gendisk *);
+ 	int (*revalidate_disk) (struct gendisk *);
+ 	int (*getgeo)(struct block_device *, struct hd_geometry *);
++	int (*set_read_only)(struct block_device *bdev, bool ro);
+ 	/* this callback is with swap_lock and sometimes page table lock held */
+ 	void (*swap_slot_free_notify) (struct block_device *, unsigned long);
+ 	int (*report_zones)(struct gendisk *, sector_t sector,
 -- 
-Jens Axboe
+2.29.2
 
 _______________________________________________
 drbd-dev mailing list
