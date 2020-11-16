@@ -2,35 +2,35 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E3182B4BBE
-	for <lists+drbd-dev@lfdr.de>; Mon, 16 Nov 2020 17:56:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B6FA2B4BBA
+	for <lists+drbd-dev@lfdr.de>; Mon, 16 Nov 2020 17:55:10 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 54A844208D1;
-	Mon, 16 Nov 2020 17:56:12 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 637714208C6;
+	Mon, 16 Nov 2020 17:55:10 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6144A420891
-	for <drbd-dev@lists.linbit.com>; Mon, 16 Nov 2020 17:51:41 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D6D54420890
+	for <drbd-dev@lists.linbit.com>; Mon, 16 Nov 2020 17:51:40 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209;
 	h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=Vj0GgZOGZUCqHagrDbWIgIb68CNEMN1B5n/upu75+9M=;
-	b=vJvWy+M6q2aairpF0Q89oICkxI
-	PS5amLRUZxt3TDLOTCJKifVBAbRS3ozPh9ssbARTX05RTcowruj+r6DaYiko+IA8YM6yKnqqO9hZ0
-	YLPWVj8bReI6zNXL311McIRo6JgWss20/ic0IkcgvXqouBBov4LHHRc3LFvEHbyGhAEZ6L49Q+h8z
-	LPV18Yh1YwBXDnHfnQyxhLqXZkED99bdFyjJYXBanIYI+26WlIFdrhNuludlP3Zi5bFQ1Jai7SYT8
-	kxlPZdfsH/hR1Of6f1mV+sb6fFGWqYqS2gk4bZxnQp6B+oIaE6yoC0rkzi1aN8TgGTKSgtY0FwCjd
-	PfyxB0dA==;
+	bh=oHer8RhXp63g2o7G9aHUvzNO/U6So+wGZ90GcOP+Dmc=;
+	b=gtGrbYoF3IfV2RkEJ0q/yjRhPm
+	u76YggegzqwLDaW2wmtp0guycHd1DdJJXPC3l6bTCvZCUYePgzv3dFWOHEUXPC4So8yc5A2gvS4tR
+	Hy1VCX8Q73aU1KV7sS6JXYB1g1s3pqYGejG2zrJp4z+yeUQPmcBPT4l540gRaJENO1IAv7EZfB7Lb
+	lyoF7Dy4LZPRSHsVYIhEZuzqHRyruSHYZCLAQq9fL+cQKB4NITwomCUWwED4eV5+fsaYLCNOmHJqM
+	0gddd4nl/e3/vrSUtpbS5Ut7YYhzUYZW8brx5egS7KnCoMTgxDAyPhKVlNw9lvJjh85+Rt/sRchjX
+	rDNgymUw==;
 Received: from [2001:4bb8:180:6600:255b:7def:a93:4a09] (helo=localhost)
 	by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kefxo-0003rX-KZ; Mon, 16 Nov 2020 14:58:41 +0000
+	id 1kefxq-0003ro-7G; Mon, 16 Nov 2020 14:58:42 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Date: Mon, 16 Nov 2020 15:57:13 +0100
-Message-Id: <20201116145809.410558-23-hch@lst.de>
+Date: Mon, 16 Nov 2020 15:57:14 +0100
+Message-Id: <20201116145809.410558-24-hch@lst.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201116145809.410558-1-hch@lst.de>
 References: <20201116145809.410558-1-hch@lst.de>
@@ -52,8 +52,7 @@ Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
 	Minchan Kim <minchan@kernel.org>, linux-fsdevel@vger.kernel.org,
 	Paolo Bonzini <pbonzini@redhat.com>,
 	=?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.com>
-Subject: [Drbd-dev] [PATCH 22/78] virtio-blk: remove a spurious call to
-	revalidate_disk_size
+Subject: [Drbd-dev] [PATCH 23/78] block: unexport revalidate_disk_size
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -72,29 +71,26 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-revalidate_disk_size just updates the block device size from the disk
-size.  Thus calling it from virtblk_update_cache_mode doesn't actually
-do anything.
+revalidate_disk_size is now only called from set_capacity_and_notify,
+so drop the export.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
-Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- drivers/block/virtio_blk.c | 1 -
+ fs/block_dev.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
-index 3e812b4c32e669..145606dc52db1e 100644
---- a/drivers/block/virtio_blk.c
-+++ b/drivers/block/virtio_blk.c
-@@ -598,7 +598,6 @@ static void virtblk_update_cache_mode(struct virtio_device *vdev)
- 	struct virtio_blk *vblk = vdev->priv;
- 
- 	blk_queue_write_cache(vblk->disk->queue, writeback, false);
--	revalidate_disk_size(vblk->disk, true);
+diff --git a/fs/block_dev.c b/fs/block_dev.c
+index 66ebf594c97f47..d8664f5c1ff669 100644
+--- a/fs/block_dev.c
++++ b/fs/block_dev.c
+@@ -1362,7 +1362,6 @@ void revalidate_disk_size(struct gendisk *disk, bool verbose)
+ 		bdput(bdev);
+ 	}
  }
+-EXPORT_SYMBOL(revalidate_disk_size);
  
- static const char *const virtblk_cache_types[] = {
+ void bd_set_nr_sectors(struct block_device *bdev, sector_t sectors)
+ {
 -- 
 2.29.2
 
