@@ -2,35 +2,35 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDC7A2B49BB
-	for <lists+drbd-dev@lfdr.de>; Mon, 16 Nov 2020 16:46:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 597962B49B9
+	for <lists+drbd-dev@lfdr.de>; Mon, 16 Nov 2020 16:45:40 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7540A42080F;
-	Mon, 16 Nov 2020 16:46:10 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 29EFE42083B;
+	Mon, 16 Nov 2020 16:45:40 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3C0A8420819
-	for <drbd-dev@lists.linbit.com>; Mon, 16 Nov 2020 16:41:42 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E819C420818
+	for <drbd-dev@lists.linbit.com>; Mon, 16 Nov 2020 16:41:41 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209;
 	h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=Y+mF6kfZyX+9LgfiO2Btb3TAVeGp89oda3czGJwGTJs=;
-	b=Bes/KMf+bs1I4DR5G0Q9TOnUPD
-	9joDl/S6qw6ZpxOQWG6Y+yldMhWM6mFKnMzJr+i8TYoCpaeYndLIsJKL+sOlXlAuclhKSFhnR3UCp
-	WJXOKeNHtc4MABM6hp7JGjCiE6fZ5ela9kirrVONq5fnIhmy+U+4tfsuOJVOXCYA5RBzKC83RR+4b
-	qxZP1ZXarE/IKEORkzrEG4OGuYDREZTgbRj7xCtCOKoPFN8CeO4jN+bDAHNrnlIjkHnkpCPznvP9h
-	3EPL5v3wV+4q+MPr35MSCL+n6p7mkMnCAwjivusEswSTw73cM8G2TKRKASqaQHIQNMCssmGTd1M3h
-	18UxRfvA==;
+	bh=2AKcef4DY6iJcprvQynjGgbCIgh8d3+qztu8J6nwbBU=;
+	b=pWF6GiYZwuWwwwCepRCy7HJGry
+	ebNMkKhyrUdm7IJyWpCzL1mHXVX2uHrDvMEZnLp7EDprwz/Ixpo6UyIkP9C/eBgJtKePlQ9iOFGEX
+	anVcipPAM3jKhn7+W0pAqmOpSUkPyf5/WcShPIbr+Kvrkdy7ShEiMu40JORvE9Eu7vJW7k1YP9SBn
+	x4dzOxFL2eT+4GeR6EmljUox59XCLVLuOr/c4rirnRVpl1nSS3OL1hT4yGJ4ATQQt0nK9jflQBVkF
+	1F1WeS9cKSzs/UYR7bWm7TOPnDssO/WwxWuvt6FJ3Za4yj5tMQ3BhtLdQ4aklV0fV0Tw57B/U2ugq
+	BAULThIQ==;
 Received: from [2001:4bb8:180:6600:255b:7def:a93:4a09] (helo=localhost)
 	by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kefyk-0004BJ-HE; Mon, 16 Nov 2020 14:59:38 +0000
+	id 1kefyl-0004C5-Vu; Mon, 16 Nov 2020 14:59:40 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Date: Mon, 16 Nov 2020 15:57:52 +0100
-Message-Id: <20201116145809.410558-62-hch@lst.de>
+Date: Mon, 16 Nov 2020 15:57:53 +0100
+Message-Id: <20201116145809.410558-63-hch@lst.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201116145809.410558-1-hch@lst.de>
 References: <20201116145809.410558-1-hch@lst.de>
@@ -52,7 +52,7 @@ Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
 	Minchan Kim <minchan@kernel.org>, linux-fsdevel@vger.kernel.org,
 	Paolo Bonzini <pbonzini@redhat.com>,
 	=?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.com>
-Subject: [Drbd-dev] [PATCH 61/78] zram:  do not call set_blocksize
+Subject: [Drbd-dev] [PATCH 62/78] loop: do not call set_blocksize
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -76,64 +76,23 @@ block size.  Block drivers should not set it.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/block/zram/zram_drv.c | 11 +----------
- drivers/block/zram/zram_drv.h |  1 -
- 2 files changed, 1 insertion(+), 11 deletions(-)
+ drivers/block/loop.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
-index 3641434a9b154d..d00b5761ec0b21 100644
---- a/drivers/block/zram/zram_drv.c
-+++ b/drivers/block/zram/zram_drv.c
-@@ -403,13 +403,10 @@ static void reset_bdev(struct zram *zram)
- 		return;
+diff --git a/drivers/block/loop.c b/drivers/block/loop.c
+index 9a27d4f1c08aac..b42c728620c9e4 100644
+--- a/drivers/block/loop.c
++++ b/drivers/block/loop.c
+@@ -1164,9 +1164,6 @@ static int loop_configure(struct loop_device *lo, fmode_t mode,
+ 	size = get_loop_size(lo, file);
+ 	loop_set_size(lo, size);
  
- 	bdev = zram->bdev;
--	if (zram->old_block_size)
--		set_blocksize(bdev, zram->old_block_size);
- 	blkdev_put(bdev, FMODE_READ|FMODE_WRITE|FMODE_EXCL);
- 	/* hope filp_close flush all of IO */
- 	filp_close(zram->backing_dev, NULL);
- 	zram->backing_dev = NULL;
--	zram->old_block_size = 0;
- 	zram->bdev = NULL;
- 	zram->disk->fops = &zram_devops;
- 	kvfree(zram->bitmap);
-@@ -454,7 +451,7 @@ static ssize_t backing_dev_store(struct device *dev,
- 	struct file *backing_dev = NULL;
- 	struct inode *inode;
- 	struct address_space *mapping;
--	unsigned int bitmap_sz, old_block_size = 0;
-+	unsigned int bitmap_sz;
- 	unsigned long nr_pages, *bitmap = NULL;
- 	struct block_device *bdev = NULL;
- 	int err;
-@@ -509,14 +506,8 @@ static ssize_t backing_dev_store(struct device *dev,
- 		goto out;
- 	}
- 
--	old_block_size = block_size(bdev);
--	err = set_blocksize(bdev, PAGE_SIZE);
--	if (err)
--		goto out;
+-	set_blocksize(bdev, S_ISBLK(inode->i_mode) ?
+-		      block_size(inode->i_bdev) : PAGE_SIZE);
 -
- 	reset_bdev(zram);
- 
--	zram->old_block_size = old_block_size;
- 	zram->bdev = bdev;
- 	zram->backing_dev = backing_dev;
- 	zram->bitmap = bitmap;
-diff --git a/drivers/block/zram/zram_drv.h b/drivers/block/zram/zram_drv.h
-index f2fd46daa76045..712354a4207c77 100644
---- a/drivers/block/zram/zram_drv.h
-+++ b/drivers/block/zram/zram_drv.h
-@@ -118,7 +118,6 @@ struct zram {
- 	bool wb_limit_enable;
- 	u64 bd_wb_limit;
- 	struct block_device *bdev;
--	unsigned int old_block_size;
- 	unsigned long *bitmap;
- 	unsigned long nr_pages;
- #endif
+ 	lo->lo_state = Lo_bound;
+ 	if (part_shift)
+ 		lo->lo_flags |= LO_FLAGS_PARTSCAN;
 -- 
 2.29.2
 
