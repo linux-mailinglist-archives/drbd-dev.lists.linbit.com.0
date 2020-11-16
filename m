@@ -2,35 +2,35 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BB342B473A
-	for <lists+drbd-dev@lfdr.de>; Mon, 16 Nov 2020 16:02:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C6C32B4739
+	for <lists+drbd-dev@lfdr.de>; Mon, 16 Nov 2020 16:02:04 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 250D64205E2;
-	Mon, 16 Nov 2020 16:02:35 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C0F954207B6;
+	Mon, 16 Nov 2020 16:02:03 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 291A54207AF
-	for <drbd-dev@lists.linbit.com>; Mon, 16 Nov 2020 15:58:36 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A67454206CF
+	for <drbd-dev@lists.linbit.com>; Mon, 16 Nov 2020 15:58:35 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209;
 	h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=oD/feK/kknJy8NgrN6GUwKk4j5cIe6yLgGU87KzsgtI=;
-	b=IrFVDJmAyDCdyIjxW0mx/wM+i0
-	EfULIltaIxUj6jxf0IidNz1l2jSw8Ksulh7xmd0CBDNRy5YCjxY1r+V6kXvdMfu4B/jrKJGjZItyY
-	pmVnQEQV+OHhGl4k/Fbj2BhN/m0dlPmLgbtOB54UGEgkstKPEUU8vGqNKmkcDv/niskfsfpX18U5w
-	8InEkFKVUp9ZNaV7h0/GILJT1k3XrBuLsYqtDA+gf+w4j99DHcs4CUnHwP7kXuwaUANPik+3qgqiI
-	RHxMSvMovWPDR+Oayh36XrbKH+oZyCtI9oB6aJjNi0FJ0TmkB7C1+oOtTu6BFVjYIqdqBrv/I5gjp
-	v+ue0wAw==;
+	bh=YQCkYpiR+RuSjw9R7vDwMY44hzy/9NL3g9qrdbmxMFk=;
+	b=HuU1N08umhPWRzRkQAVOlDiSNO
+	Y5j48ahm1U4rxXSELx//58ov5M5R00+ej85c1E3MBvCyecR4yR2cgqtKYkt9V3dNt+quIJozcCBeX
+	WPA8B/IKoZftjjg2jH6j+dq4zw7Gz8yXBI2NZ7GBnuJHBl7W1bUNn67cyDYXeIZonzQ/U5gzZrKtR
+	UicxfKaceFDmMrM1y5GR5hJiePP26G+LeVa+UjKbCS4wIeYo10xky6q9H8WGZ+bIH3j/ha72rBAQO
+	EKu1yiHImNOmaNaYQ5bumJh9PwV5TGLZR2S3ZJroR9ocZLpjKIzaAqDOwZuPMjOxdlzcqdmFyrHIz
+	2YkZ/D2g==;
 Received: from [2001:4bb8:180:6600:255b:7def:a93:4a09] (helo=localhost)
 	by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kefxT-0003kh-MQ; Mon, 16 Nov 2020 14:58:20 +0000
+	id 1kefxX-0003lT-Gv; Mon, 16 Nov 2020 14:58:23 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Date: Mon, 16 Nov 2020 15:56:58 +0100
-Message-Id: <20201116145809.410558-8-hch@lst.de>
+Date: Mon, 16 Nov 2020 15:57:01 +0100
+Message-Id: <20201116145809.410558-11-hch@lst.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201116145809.410558-1-hch@lst.de>
 References: <20201116145809.410558-1-hch@lst.de>
@@ -52,8 +52,7 @@ Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
 	Minchan Kim <minchan@kernel.org>, linux-fsdevel@vger.kernel.org,
 	Paolo Bonzini <pbonzini@redhat.com>,
 	=?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.com>
-Subject: [Drbd-dev] [PATCH 07/78] nbd: move the task_recv check into
-	nbd_size_update
+Subject: [Drbd-dev] [PATCH 10/78] nbd: use set_capacity_and_notify
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -72,52 +71,50 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-nbd_size_update is about to acquire a few more callers, so lift the check
-into the function.
+Use set_capacity_and_notify to update the disk and block device sizes and
+send a RESIZE uevent to userspace.  Note that blktests relies on uevents
+being sent also for updates that did not change the device size, so the
+explicit kobject_uevent remains for that case.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Josef Bacik <josef@toxicpanda.com>
 ---
- drivers/block/nbd.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ drivers/block/nbd.c | 15 +++------------
+ 1 file changed, 3 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/block/nbd.c b/drivers/block/nbd.c
-index a9a0b49ff16101..48054051e281e6 100644
+index 7478a5e02bc1ed..45b0423ef2c53d 100644
 --- a/drivers/block/nbd.c
 +++ b/drivers/block/nbd.c
-@@ -299,8 +299,11 @@ static void nbd_size_clear(struct nbd_device *nbd)
- static void nbd_size_update(struct nbd_device *nbd)
+@@ -299,8 +299,6 @@ static void nbd_size_clear(struct nbd_device *nbd)
+ static int nbd_set_size(struct nbd_device *nbd, loff_t bytesize,
+ 		loff_t blksize)
  {
- 	struct nbd_config *config = nbd->config;
--	struct block_device *bdev = bdget_disk(nbd->disk, 0);
- 	sector_t nr_sectors = config->bytesize >> 9;
-+	struct block_device *bdev;
-+
-+	if (!nbd->task_recv)
-+		return;
+-	struct block_device *bdev;
+-
+ 	if (!blksize)
+ 		blksize = NBD_DEF_BLKSIZE;
+ 	if (blksize < 512 || blksize > PAGE_SIZE || !is_power_of_2(blksize))
+@@ -320,16 +318,9 @@ static int nbd_set_size(struct nbd_device *nbd, loff_t bytesize,
+ 	blk_queue_logical_block_size(nbd->disk->queue, blksize);
+ 	blk_queue_physical_block_size(nbd->disk->queue, blksize);
  
- 	if (config->flags & NBD_FLAG_SEND_TRIM) {
- 		nbd->disk->queue->limits.discard_granularity = config->blksize;
-@@ -309,7 +312,9 @@ static void nbd_size_update(struct nbd_device *nbd)
- 	}
- 	blk_queue_logical_block_size(nbd->disk->queue, config->blksize);
- 	blk_queue_physical_block_size(nbd->disk->queue, config->blksize);
-+
- 	set_capacity(nbd->disk, nr_sectors);
-+	bdev = bdget_disk(nbd->disk, 0);
- 	if (bdev) {
- 		if (bdev->bd_disk)
- 			bd_set_nr_sectors(bdev, nr_sectors);
-@@ -326,8 +331,7 @@ static void nbd_size_set(struct nbd_device *nbd, loff_t blocksize,
- 	struct nbd_config *config = nbd->config;
- 	config->blksize = blocksize;
- 	config->bytesize = blocksize * nr_blocks;
--	if (nbd->task_recv != NULL)
--		nbd_size_update(nbd);
-+	nbd_size_update(nbd);
+-	set_capacity(nbd->disk, bytesize >> 9);
+-	bdev = bdget_disk(nbd->disk, 0);
+-	if (bdev) {
+-		if (bdev->bd_disk)
+-			bd_set_nr_sectors(bdev, bytesize >> 9);
+-		else
+-			set_bit(GD_NEED_PART_SCAN, &nbd->disk->state);
+-		bdput(bdev);
+-	}
+-	kobject_uevent(&nbd_to_dev(nbd)->kobj, KOBJ_CHANGE);
++	set_bit(GD_NEED_PART_SCAN, &nbd->disk->state);
++	if (!set_capacity_and_notify(nbd->disk, bytesize >> 9))
++		kobject_uevent(&nbd_to_dev(nbd)->kobj, KOBJ_CHANGE);
+ 	return 0;
  }
  
- static void nbd_complete_rq(struct request *req)
 -- 
 2.29.2
 
