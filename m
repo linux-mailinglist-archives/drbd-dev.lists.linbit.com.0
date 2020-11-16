@@ -2,35 +2,35 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id C172C2B4BB3
-	for <lists+drbd-dev@lfdr.de>; Mon, 16 Nov 2020 17:53:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CEB12B4BAC
+	for <lists+drbd-dev@lfdr.de>; Mon, 16 Nov 2020 17:52:39 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 92C694208BA;
-	Mon, 16 Nov 2020 17:53:09 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 26B7F4208B7;
+	Mon, 16 Nov 2020 17:52:39 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E4581420874
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9965F42083A
 	for <drbd-dev@lists.linbit.com>; Mon, 16 Nov 2020 17:51:39 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209;
 	h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=haCFfej0iNxilydygMyUNjj0Bzl5Tk5LXJ0r2tE8cD8=;
-	b=LW4/6M2BzdkZTdqoW9FpaTex6c
-	yeKDdiRW6YnjlyAChX8LOEfPaouAWA0tFFvwyKbNtb7HoVUHscIVNlHgeVi2r165V1Tgx2aKkdZoP
-	5MjECd6pnbCNmIKVL6LmyxCwiO5++Zt+k2n/pjncfbsde1PoD8Cu5ziFp6YpuimOpFnfiFXcluzY4
-	HbgmfYC3nd/XNICvtV7c6pBxIpTCRYdTKbASCAZ7TD3/gUoOQTvaAnYemXljNQV80vURAaL809+Vh
-	hU7hK9mcTqnz4YcJiM0y5yyLVhx38oqqfkWNTgrF7gN0aHG6mAnvRtyuEG1/Rhv1Yoe0OxefT5aK2
-	GBVJ9+jg==;
+	bh=d0zI0xiIcFHFTwTdsA7t1wqk2DnkvBTfmLOxL2TnUek=;
+	b=DKAlryWF5aHE8/B3DVx5lhXd8h
+	RQsT9hPX38SbguocnZS554oaNmM9+EcgOmPSe3bSy4pQSqGGct2tuNtJ0yCfFmplFU4Jcw4DNR+Gz
+	J7Oz/e2SFesb/6AMnzcvu+cf+7L4KALASo9qO1gsK4PDLlxYsYhRBm5wzHXCJ4YuBYsjvABidOfFo
+	p48i+zCOuzCBz9Jt3Qs/XvlKgbU+XBWYolicobbwk3FUzb3sQBQPT35cBdmlTfMB9Ru0tm2W7/68r
+	NFrH8b8PC5q1fbzQHqZSTq90cUOcrpwyoWr9RhxuehKghoJ6srJuGYzg6d5pU+2MePhUr2LoGYkUr
+	biWVcMtQ==;
 Received: from [2001:4bb8:180:6600:255b:7def:a93:4a09] (helo=localhost)
 	by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kefxx-0003tO-1m; Mon, 16 Nov 2020 14:58:49 +0000
+	id 1kefxy-0003tn-LS; Mon, 16 Nov 2020 14:58:51 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Date: Mon, 16 Nov 2020 15:57:19 +0100
-Message-Id: <20201116145809.410558-29-hch@lst.de>
+Date: Mon, 16 Nov 2020 15:57:20 +0100
+Message-Id: <20201116145809.410558-30-hch@lst.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201116145809.410558-1-hch@lst.de>
 References: <20201116145809.410558-1-hch@lst.de>
@@ -52,8 +52,8 @@ Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
 	Minchan Kim <minchan@kernel.org>, linux-fsdevel@vger.kernel.org,
 	Paolo Bonzini <pbonzini@redhat.com>,
 	=?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.com>
-Subject: [Drbd-dev] [PATCH 28/78] md: implement ->set_read_only to hook into
-	BLKROSET processing
+Subject: [Drbd-dev] [PATCH 29/78] dasd: implement ->set_read_only to hook
+	into BLKROSET processing
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -77,110 +77,89 @@ ioctl command.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/md/md.c | 62 ++++++++++++++++++++++++-------------------------
- 1 file changed, 31 insertions(+), 31 deletions(-)
+ drivers/s390/block/dasd.c       |  1 +
+ drivers/s390/block/dasd_int.h   |  3 ++-
+ drivers/s390/block/dasd_ioctl.c | 27 +++++++++------------------
+ 3 files changed, 12 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/md/md.c b/drivers/md/md.c
-index 32e375d50fee17..fa31b71a72a35d 100644
---- a/drivers/md/md.c
-+++ b/drivers/md/md.c
-@@ -7477,7 +7477,6 @@ static inline bool md_ioctl_valid(unsigned int cmd)
- {
- 	switch (cmd) {
- 	case ADD_NEW_DISK:
--	case BLKROSET:
- 	case GET_ARRAY_INFO:
- 	case GET_BITMAP_FILE:
- 	case GET_DISK_INFO:
-@@ -7504,7 +7503,6 @@ static int md_ioctl(struct block_device *bdev, fmode_t mode,
- 	int err = 0;
- 	void __user *argp = (void __user *)arg;
- 	struct mddev *mddev = NULL;
--	int ro;
- 	bool did_set_md_closing = false;
- 
- 	if (!md_ioctl_valid(cmd))
-@@ -7684,35 +7682,6 @@ static int md_ioctl(struct block_device *bdev, fmode_t mode,
- 			goto unlock;
- 		}
- 		break;
--
--	case BLKROSET:
--		if (get_user(ro, (int __user *)(arg))) {
--			err = -EFAULT;
--			goto unlock;
--		}
--		err = -EINVAL;
--
--		/* if the bdev is going readonly the value of mddev->ro
--		 * does not matter, no writes are coming
--		 */
--		if (ro)
--			goto unlock;
--
--		/* are we are already prepared for writes? */
--		if (mddev->ro != 1)
--			goto unlock;
--
--		/* transitioning to readauto need only happen for
--		 * arrays that call md_write_start
--		 */
--		if (mddev->pers) {
--			err = restart_array(mddev);
--			if (err == 0) {
--				mddev->ro = 2;
--				set_disk_ro(mddev->gendisk, 0);
--			}
--		}
--		goto unlock;
- 	}
- 
- 	/*
-@@ -7806,6 +7775,36 @@ static int md_compat_ioctl(struct block_device *bdev, fmode_t mode,
- }
- #endif /* CONFIG_COMPAT */
- 
-+static int md_set_read_only(struct block_device *bdev, bool ro)
-+{
-+	struct mddev *mddev = bdev->bd_disk->private_data;
-+	int err;
-+
-+	err = mddev_lock(mddev);
-+	if (err)
-+		return err;
-+
-+	if (!mddev->raid_disks && !mddev->external) {
-+		err = -ENODEV;
-+		goto out_unlock;
-+	}
-+
-+	/*
-+	 * Transitioning to read-auto need only happen for arrays that call
-+	 * md_write_start and which are not ready for writes yet.
-+	 */
-+	if (!ro && mddev->ro == 1 && mddev->pers) {
-+		err = restart_array(mddev);
-+		if (err)
-+			goto out_unlock;
-+		mddev->ro = 2;
-+	}
-+
-+out_unlock:
-+	mddev_unlock(mddev);
-+	return err;
-+}
-+
- static int md_open(struct block_device *bdev, fmode_t mode)
- {
- 	/*
-@@ -7883,6 +7882,7 @@ const struct block_device_operations md_fops =
- #endif
- 	.getgeo		= md_getgeo,
- 	.check_events	= md_check_events,
-+	.set_read_only	= md_set_read_only,
+diff --git a/drivers/s390/block/dasd.c b/drivers/s390/block/dasd.c
+index eb17fea8075c6f..db24e04ee9781e 100644
+--- a/drivers/s390/block/dasd.c
++++ b/drivers/s390/block/dasd.c
+@@ -3394,6 +3394,7 @@ dasd_device_operations = {
+ 	.ioctl		= dasd_ioctl,
+ 	.compat_ioctl	= dasd_ioctl,
+ 	.getgeo		= dasd_getgeo,
++	.set_read_only	= dasd_set_read_only,
  };
  
- static int md_thread(void *arg)
+ /*******************************************************************************
+diff --git a/drivers/s390/block/dasd_int.h b/drivers/s390/block/dasd_int.h
+index fa552f9f166671..c59a0d63b506e6 100644
+--- a/drivers/s390/block/dasd_int.h
++++ b/drivers/s390/block/dasd_int.h
+@@ -844,7 +844,8 @@ int dasd_scan_partitions(struct dasd_block *);
+ void dasd_destroy_partitions(struct dasd_block *);
+ 
+ /* externals in dasd_ioctl.c */
+-int  dasd_ioctl(struct block_device *, fmode_t, unsigned int, unsigned long);
++int dasd_ioctl(struct block_device *, fmode_t, unsigned int, unsigned long);
++int dasd_set_read_only(struct block_device *bdev, bool ro);
+ 
+ /* externals in dasd_proc.c */
+ int dasd_proc_init(void);
+diff --git a/drivers/s390/block/dasd_ioctl.c b/drivers/s390/block/dasd_ioctl.c
+index cb6427fb9f3d16..3359559517bfcf 100644
+--- a/drivers/s390/block/dasd_ioctl.c
++++ b/drivers/s390/block/dasd_ioctl.c
+@@ -532,28 +532,22 @@ static int dasd_ioctl_information(struct dasd_block *block, void __user *argp,
+ /*
+  * Set read only
+  */
+-static int
+-dasd_ioctl_set_ro(struct block_device *bdev, void __user *argp)
++int dasd_set_read_only(struct block_device *bdev, bool ro)
+ {
+ 	struct dasd_device *base;
+-	int intval, rc;
++	int rc;
+ 
+-	if (!capable(CAP_SYS_ADMIN))
+-		return -EACCES;
++	/* do not manipulate hardware state for partitions */
+ 	if (bdev_is_partition(bdev))
+-		// ro setting is not allowed for partitions
+-		return -EINVAL;
+-	if (get_user(intval, (int __user *)argp))
+-		return -EFAULT;
++		return 0;
++
+ 	base = dasd_device_from_gendisk(bdev->bd_disk);
+ 	if (!base)
+ 		return -ENODEV;
+-	if (!intval && test_bit(DASD_FLAG_DEVICE_RO, &base->flags)) {
+-		dasd_put_device(base);
+-		return -EROFS;
+-	}
+-	set_disk_ro(bdev->bd_disk, intval);
+-	rc = dasd_set_feature(base->cdev, DASD_FEATURE_READONLY, intval);
++	if (!ro && test_bit(DASD_FLAG_DEVICE_RO, &base->flags))
++		rc = -EROFS;
++	else
++		rc = dasd_set_feature(base->cdev, DASD_FEATURE_READONLY, ro);
+ 	dasd_put_device(base);
+ 	return rc;
+ }
+@@ -633,9 +627,6 @@ int dasd_ioctl(struct block_device *bdev, fmode_t mode,
+ 	case BIODASDPRRST:
+ 		rc = dasd_ioctl_reset_profile(block);
+ 		break;
+-	case BLKROSET:
+-		rc = dasd_ioctl_set_ro(bdev, argp);
+-		break;
+ 	case DASDAPIVER:
+ 		rc = dasd_ioctl_api_version(argp);
+ 		break;
 -- 
 2.29.2
 
