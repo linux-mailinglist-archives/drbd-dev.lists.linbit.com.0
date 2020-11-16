@@ -2,35 +2,35 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 597962B49B9
-	for <lists+drbd-dev@lfdr.de>; Mon, 16 Nov 2020 16:45:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A87E2B49B7
+	for <lists+drbd-dev@lfdr.de>; Mon, 16 Nov 2020 16:45:11 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 29EFE42083B;
-	Mon, 16 Nov 2020 16:45:40 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id CB93D420839;
+	Mon, 16 Nov 2020 16:45:10 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E819C420818
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A9C0F420817
 	for <drbd-dev@lists.linbit.com>; Mon, 16 Nov 2020 16:41:41 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209;
 	h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=2AKcef4DY6iJcprvQynjGgbCIgh8d3+qztu8J6nwbBU=;
-	b=pWF6GiYZwuWwwwCepRCy7HJGry
-	ebNMkKhyrUdm7IJyWpCzL1mHXVX2uHrDvMEZnLp7EDprwz/Ixpo6UyIkP9C/eBgJtKePlQ9iOFGEX
-	anVcipPAM3jKhn7+W0pAqmOpSUkPyf5/WcShPIbr+Kvrkdy7ShEiMu40JORvE9Eu7vJW7k1YP9SBn
-	x4dzOxFL2eT+4GeR6EmljUox59XCLVLuOr/c4rirnRVpl1nSS3OL1hT4yGJ4ATQQt0nK9jflQBVkF
-	1F1WeS9cKSzs/UYR7bWm7TOPnDssO/WwxWuvt6FJ3Za4yj5tMQ3BhtLdQ4aklV0fV0Tw57B/U2ugq
-	BAULThIQ==;
+	bh=IuZ426HAkGqkpmUmDFrK/jtW75cQ9xEgfhlt4WVjI90=;
+	b=FbV09+iwI8V/pddqU1sEXr5MRG
+	2LGeCEdJzbpooxAikaWsNr5YfxH34ymPyuCnSJiwiRrphkz09RICgAbMVyHqGKWH6sHHkHvoruwW2
+	nCorG1tvxjOd6vHnEE7swqUtKyD+8syeAG7c9+VEIxM/4sCmK8n7wJLvPzvcwP62k5ghl2GH7p6CA
+	bmJY/GpCYWKc3Q69Wkb4Pf5N62nndPgbrmqv4yTNQic3S4e4YxaEGByMc1ZRJgWTOUB49DbdAAXXh
+	7s2MiZc7fa4gFYEJLSLS59VU/0nxQ+mwt1zxXN8laEEd1sAgMYK6+cPM77anChY7SAPVWwdnlrtv1
+	YRLIq+dw==;
 Received: from [2001:4bb8:180:6600:255b:7def:a93:4a09] (helo=localhost)
 	by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kefyl-0004C5-Vu; Mon, 16 Nov 2020 14:59:40 +0000
+	id 1kefyn-0004Cl-AQ; Mon, 16 Nov 2020 14:59:41 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Date: Mon, 16 Nov 2020 15:57:53 +0100
-Message-Id: <20201116145809.410558-63-hch@lst.de>
+Date: Mon, 16 Nov 2020 15:57:54 +0100
+Message-Id: <20201116145809.410558-64-hch@lst.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201116145809.410558-1-hch@lst.de>
 References: <20201116145809.410558-1-hch@lst.de>
@@ -52,7 +52,7 @@ Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
 	Minchan Kim <minchan@kernel.org>, linux-fsdevel@vger.kernel.org,
 	Paolo Bonzini <pbonzini@redhat.com>,
 	=?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.com>
-Subject: [Drbd-dev] [PATCH 62/78] loop: do not call set_blocksize
+Subject: [Drbd-dev] [PATCH 63/78] bcache: remove a superflous lookup_bdev all
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -71,28 +71,35 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-set_blocksize is used by file systems to use their preferred buffer cache
-block size.  Block drivers should not set it.
+Don't bother to call lookup_bdev for just a slightly different error
+message without any functional change.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/block/loop.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/md/bcache/super.c | 10 +---------
+ 1 file changed, 1 insertion(+), 9 deletions(-)
 
-diff --git a/drivers/block/loop.c b/drivers/block/loop.c
-index 9a27d4f1c08aac..b42c728620c9e4 100644
---- a/drivers/block/loop.c
-+++ b/drivers/block/loop.c
-@@ -1164,9 +1164,6 @@ static int loop_configure(struct loop_device *lo, fmode_t mode,
- 	size = get_loop_size(lo, file);
- 	loop_set_size(lo, size);
- 
--	set_blocksize(bdev, S_ISBLK(inode->i_mode) ?
--		      block_size(inode->i_bdev) : PAGE_SIZE);
--
- 	lo->lo_state = Lo_bound;
- 	if (part_shift)
- 		lo->lo_flags |= LO_FLAGS_PARTSCAN;
+diff --git a/drivers/md/bcache/super.c b/drivers/md/bcache/super.c
+index 46a00134a36ae1..d36ccdda16ed2e 100644
+--- a/drivers/md/bcache/super.c
++++ b/drivers/md/bcache/super.c
+@@ -2538,15 +2538,7 @@ static ssize_t register_bcache(struct kobject *k, struct kobj_attribute *attr,
+ 				  sb);
+ 	if (IS_ERR(bdev)) {
+ 		if (bdev == ERR_PTR(-EBUSY)) {
+-			bdev = lookup_bdev(strim(path));
+-			mutex_lock(&bch_register_lock);
+-			if (!IS_ERR(bdev) && bch_is_open(bdev))
+-				err = "device already registered";
+-			else
+-				err = "device busy";
+-			mutex_unlock(&bch_register_lock);
+-			if (!IS_ERR(bdev))
+-				bdput(bdev);
++			err = "device busy";
+ 			if (attr == &ksysfs_register_quiet)
+ 				goto done;
+ 		}
 -- 
 2.29.2
 
