@@ -2,35 +2,35 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 363A32B4678
-	for <lists+drbd-dev@lfdr.de>; Mon, 16 Nov 2020 15:58:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E88AB2B4718
+	for <lists+drbd-dev@lfdr.de>; Mon, 16 Nov 2020 16:00:34 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 121F0420662;
-	Mon, 16 Nov 2020 15:58:33 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 936E74207B6;
+	Mon, 16 Nov 2020 16:00:34 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0D05B4205F6
-	for <drbd-dev@lists.linbit.com>; Mon, 16 Nov 2020 15:58:31 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7E2F442066A
+	for <drbd-dev@lists.linbit.com>; Mon, 16 Nov 2020 15:58:33 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209;
 	h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=82UVn9JDhZ7kcS3JGvYaAt4iz84QDJp/mOdtcI/Npsk=;
-	b=usuU2sefAFYqsEXj3qbul/Q7Un
-	CCv9GjY0IirraZHVxERI0VFsNKbIJNWWfb9W2amAmbgPQFz1SQQGP9jucGmGFK5Dmz+uV/dQrh4EZ
-	Yz7+inlUGGRZ2SENP6FNBzSsnyPPr/9g2oHpP/gfHR3aZh9bCC9SRkZky62gN2xUhMktrW7I1gC8O
-	OlLKrcM8QGapUy4m0OUacF0pEkCV+NYMm0cjABSANyQg80uGZOPlSQK6hRsBvshv4teWYRl87jbJA
-	+wqxRblm4gAKo4kgFpaUcUBO3YCWIyQ/tck3EBg4rNw0ym4xMAVhVwQ1xnNmFGgIlSjLbsb6rNNg5
-	l7qTv7cQ==;
+	bh=k53tbKeUbVsb5uwUbGW8UpW/h79If5n0w+H4eZR3xSU=;
+	b=tuJMnQttaybo9F4t8cP+N2hLQq
+	RXrM7+cD1yLqquFQbtlx4GxTcGrgpRY8HWo0g3CxND1nv1GYyQPkp8q3K2wzD/dngpDWkkquqHkp4
+	sHuLCh62/kacnFU017uJ6lg3sIxNoOE/FenrUxQsyI4PysSw0WPutcnk5f8h8OTz6qITqDy4OBoNX
+	j839YHJ1VKl6fCqCZwFmQOwQQf+y4oyipnv0MRAtvY48Ogo6z5wy5t7KJxz/QqkUnQuTFox/n8y/r
+	oz3SnuiJlz5Z/j6oveEA/Y/B74scFktzTg4AjYglEkJ4LnQzCz3bmbG+4ANwTszKKWHBb195E+1pa
+	yP5eNyVA==;
 Received: from [2001:4bb8:180:6600:255b:7def:a93:4a09] (helo=localhost)
 	by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kefxL-0003ie-Nn; Mon, 16 Nov 2020 14:58:12 +0000
+	id 1kefxM-0003ii-UU; Mon, 16 Nov 2020 14:58:13 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Date: Mon, 16 Nov 2020 15:56:52 +0100
-Message-Id: <20201116145809.410558-2-hch@lst.de>
+Date: Mon, 16 Nov 2020 15:56:53 +0100
+Message-Id: <20201116145809.410558-3-hch@lst.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201116145809.410558-1-hch@lst.de>
 References: <20201116145809.410558-1-hch@lst.de>
@@ -53,8 +53,8 @@ Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
 	Minchan Kim <minchan@kernel.org>, linux-fsdevel@vger.kernel.org,
 	Paolo Bonzini <pbonzini@redhat.com>,
 	=?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.com>
-Subject: [Drbd-dev] [PATCH 01/78] block: remove the call to
-	__invalidate_device in check_disk_size_change
+Subject: [Drbd-dev] [PATCH 02/78] loop: let
+	set_capacity_revalidate_and_notify update the bdev size
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -73,36 +73,33 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-__invalidate_device without the kill_dirty parameter just invalidates
-various clean entries in caches, which doesn't really help us with
-anything, but can cause all kinds of horrible lock orders due to how
-it calls into the file system.  The only reason this hasn't been a
-major issue is because so many people use partitions, for which no
-invalidation was performed anyway.
+There is no good reason to call revalidate_disk_size separately.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 ---
- fs/block_dev.c | 6 ------
- 1 file changed, 6 deletions(-)
+ drivers/block/loop.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/fs/block_dev.c b/fs/block_dev.c
-index 9e84b1928b9401..66ebf594c97f47 100644
---- a/fs/block_dev.c
-+++ b/fs/block_dev.c
-@@ -1334,12 +1334,6 @@ static void check_disk_size_change(struct gendisk *disk,
- 		i_size_write(bdev->bd_inode, disk_size);
- 	}
- 	spin_unlock(&bdev->bd_size_lock);
+diff --git a/drivers/block/loop.c b/drivers/block/loop.c
+index a58084c2ed7ceb..0a0c0c3a68ec4c 100644
+--- a/drivers/block/loop.c
++++ b/drivers/block/loop.c
+@@ -251,12 +251,8 @@ loop_validate_block_size(unsigned short bsize)
+  */
+ static void loop_set_size(struct loop_device *lo, loff_t size)
+ {
+-	struct block_device *bdev = lo->lo_device;
 -
--	if (bdev_size > disk_size) {
--		if (__invalidate_device(bdev, false))
--			pr_warn("VFS: busy inodes on resized disk %s\n",
--				disk->disk_name);
--	}
+-	bd_set_nr_sectors(bdev, size);
+-
+-	if (!set_capacity_revalidate_and_notify(lo->lo_disk, size, false))
+-		kobject_uevent(&disk_to_dev(bdev->bd_disk)->kobj, KOBJ_CHANGE);
++	if (!set_capacity_revalidate_and_notify(lo->lo_disk, size, true))
++		kobject_uevent(&disk_to_dev(lo->lo_disk)->kobj, KOBJ_CHANGE);
  }
  
- /**
+ static inline int
 -- 
 2.29.2
 
