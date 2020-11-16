@@ -2,35 +2,35 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 843132B49C3
-	for <lists+drbd-dev@lfdr.de>; Mon, 16 Nov 2020 16:47:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDC7A2B49BB
+	for <lists+drbd-dev@lfdr.de>; Mon, 16 Nov 2020 16:46:10 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 595BE42084F;
-	Mon, 16 Nov 2020 16:47:20 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7540A42080F;
+	Mon, 16 Nov 2020 16:46:10 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 298E5420026
-	for <drbd-dev@lists.linbit.com>; Mon, 16 Nov 2020 16:46:49 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3C0A8420819
+	for <drbd-dev@lists.linbit.com>; Mon, 16 Nov 2020 16:41:42 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209;
 	h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=0e+oH+92GlExM9i4SIPWTJvhHTDsEZRU6nAY6yeduas=;
-	b=mMFTZRsVcAqmf+VlCpySbI4/AO
-	Lvk1YHPUUx2pLWe6CEfyYTfSvNVAKhdEDtRNYgv0KknubQs4EEfe4Ww43hMMGLiSPbCzUY8fYe5/w
-	ImRQodVw+JPRr2LxSfoDq1Ob9sBNVvCDmhGgUHYNdyodB9r7BgLKKuS1T5JHMOpydlwgeRX6CcH24
-	Xj6k8bM1XYWX3OFouuNz5g4QXxFiyroDeYHmHTh09EcbYvOCQHjjCyVR/50jwzxvRUfG7haNExoXj
-	/C/YqFeSVuEWf5BDvfiyEyGDUrvIYpPAoZpqWlPGo4+IH/9U+ubwIYwcVjNgFnqzPbQcgexYh8oWx
-	MBTM2Vjg==;
+	bh=Y+mF6kfZyX+9LgfiO2Btb3TAVeGp89oda3czGJwGTJs=;
+	b=Bes/KMf+bs1I4DR5G0Q9TOnUPD
+	9joDl/S6qw6ZpxOQWG6Y+yldMhWM6mFKnMzJr+i8TYoCpaeYndLIsJKL+sOlXlAuclhKSFhnR3UCp
+	WJXOKeNHtc4MABM6hp7JGjCiE6fZ5ela9kirrVONq5fnIhmy+U+4tfsuOJVOXCYA5RBzKC83RR+4b
+	qxZP1ZXarE/IKEORkzrEG4OGuYDREZTgbRj7xCtCOKoPFN8CeO4jN+bDAHNrnlIjkHnkpCPznvP9h
+	3EPL5v3wV+4q+MPr35MSCL+n6p7mkMnCAwjivusEswSTw73cM8G2TKRKASqaQHIQNMCssmGTd1M3h
+	18UxRfvA==;
 Received: from [2001:4bb8:180:6600:255b:7def:a93:4a09] (helo=localhost)
 	by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-	id 1kefyh-00049g-7K; Mon, 16 Nov 2020 14:59:35 +0000
+	id 1kefyk-0004BJ-HE; Mon, 16 Nov 2020 14:59:38 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Date: Mon, 16 Nov 2020 15:57:50 +0100
-Message-Id: <20201116145809.410558-60-hch@lst.de>
+Date: Mon, 16 Nov 2020 15:57:52 +0100
+Message-Id: <20201116145809.410558-62-hch@lst.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201116145809.410558-1-hch@lst.de>
 References: <20201116145809.410558-1-hch@lst.de>
@@ -52,8 +52,7 @@ Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
 	Minchan Kim <minchan@kernel.org>, linux-fsdevel@vger.kernel.org,
 	Paolo Bonzini <pbonzini@redhat.com>,
 	=?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.com>
-Subject: [Drbd-dev] [PATCH 59/78] mtip32xx: remove the call to fsync_bdev on
-	removal
+Subject: [Drbd-dev] [PATCH 61/78] zram:  do not call set_blocksize
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -72,75 +71,69 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-del_gendisk already calls fsync_bdev for every partition, no need
-to do this twice.
+set_blocksize is used by file systems to use their preferred buffer cache
+block size.  Block drivers should not set it.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/block/mtip32xx/mtip32xx.c | 15 ---------------
- drivers/block/mtip32xx/mtip32xx.h |  2 --
- 2 files changed, 17 deletions(-)
+ drivers/block/zram/zram_drv.c | 11 +----------
+ drivers/block/zram/zram_drv.h |  1 -
+ 2 files changed, 1 insertion(+), 11 deletions(-)
 
-diff --git a/drivers/block/mtip32xx/mtip32xx.c b/drivers/block/mtip32xx/mtip32xx.c
-index 153e2cdecb4d40..53ac59d19ae530 100644
---- a/drivers/block/mtip32xx/mtip32xx.c
-+++ b/drivers/block/mtip32xx/mtip32xx.c
-@@ -3687,7 +3687,6 @@ static int mtip_block_initialize(struct driver_data *dd)
- 	/* Enable the block device and add it to /dev */
- 	device_add_disk(&dd->pdev->dev, dd->disk, NULL);
+diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
+index 3641434a9b154d..d00b5761ec0b21 100644
+--- a/drivers/block/zram/zram_drv.c
++++ b/drivers/block/zram/zram_drv.c
+@@ -403,13 +403,10 @@ static void reset_bdev(struct zram *zram)
+ 		return;
  
--	dd->bdev = bdget_disk(dd->disk, 0);
- 	/*
- 	 * Now that the disk is active, initialize any sysfs attributes
- 	 * managed by the protocol layer.
-@@ -3721,9 +3720,6 @@ static int mtip_block_initialize(struct driver_data *dd)
- 	return rv;
+ 	bdev = zram->bdev;
+-	if (zram->old_block_size)
+-		set_blocksize(bdev, zram->old_block_size);
+ 	blkdev_put(bdev, FMODE_READ|FMODE_WRITE|FMODE_EXCL);
+ 	/* hope filp_close flush all of IO */
+ 	filp_close(zram->backing_dev, NULL);
+ 	zram->backing_dev = NULL;
+-	zram->old_block_size = 0;
+ 	zram->bdev = NULL;
+ 	zram->disk->fops = &zram_devops;
+ 	kvfree(zram->bitmap);
+@@ -454,7 +451,7 @@ static ssize_t backing_dev_store(struct device *dev,
+ 	struct file *backing_dev = NULL;
+ 	struct inode *inode;
+ 	struct address_space *mapping;
+-	unsigned int bitmap_sz, old_block_size = 0;
++	unsigned int bitmap_sz;
+ 	unsigned long nr_pages, *bitmap = NULL;
+ 	struct block_device *bdev = NULL;
+ 	int err;
+@@ -509,14 +506,8 @@ static ssize_t backing_dev_store(struct device *dev,
+ 		goto out;
+ 	}
  
- kthread_run_error:
--	bdput(dd->bdev);
--	dd->bdev = NULL;
+-	old_block_size = block_size(bdev);
+-	err = set_blocksize(bdev, PAGE_SIZE);
+-	if (err)
+-		goto out;
 -
- 	/* Delete our gendisk. This also removes the device from /dev */
- 	del_gendisk(dd->disk);
+ 	reset_bdev(zram);
  
-@@ -3804,14 +3800,6 @@ static int mtip_block_remove(struct driver_data *dd)
- 	blk_mq_tagset_busy_iter(&dd->tags, mtip_no_dev_cleanup, dd);
- 	blk_mq_unquiesce_queue(dd->queue);
- 
--	/*
--	 * Delete our gendisk structure. This also removes the device
--	 * from /dev
--	 */
--	if (dd->bdev) {
--		bdput(dd->bdev);
--		dd->bdev = NULL;
--	}
- 	if (dd->disk) {
- 		if (test_bit(MTIP_DDF_INIT_DONE_BIT, &dd->dd_flag))
- 			del_gendisk(dd->disk);
-@@ -4206,9 +4194,6 @@ static void mtip_pci_remove(struct pci_dev *pdev)
- 	} while (atomic_read(&dd->irq_workers_active) != 0 &&
- 		time_before(jiffies, to));
- 
--	if (!dd->sr)
--		fsync_bdev(dd->bdev);
--
- 	if (atomic_read(&dd->irq_workers_active) != 0) {
- 		dev_warn(&dd->pdev->dev,
- 			"Completion workers still active!\n");
-diff --git a/drivers/block/mtip32xx/mtip32xx.h b/drivers/block/mtip32xx/mtip32xx.h
-index e22a7f0523bf30..88f4206310e4c8 100644
---- a/drivers/block/mtip32xx/mtip32xx.h
-+++ b/drivers/block/mtip32xx/mtip32xx.h
-@@ -463,8 +463,6 @@ struct driver_data {
- 
- 	int isr_binding;
- 
--	struct block_device *bdev;
--
- 	struct list_head online_list; /* linkage for online list */
- 
- 	struct list_head remove_list; /* linkage for removing list */
+-	zram->old_block_size = old_block_size;
+ 	zram->bdev = bdev;
+ 	zram->backing_dev = backing_dev;
+ 	zram->bitmap = bitmap;
+diff --git a/drivers/block/zram/zram_drv.h b/drivers/block/zram/zram_drv.h
+index f2fd46daa76045..712354a4207c77 100644
+--- a/drivers/block/zram/zram_drv.h
++++ b/drivers/block/zram/zram_drv.h
+@@ -118,7 +118,6 @@ struct zram {
+ 	bool wb_limit_enable;
+ 	u64 bd_wb_limit;
+ 	struct block_device *bdev;
+-	unsigned int old_block_size;
+ 	unsigned long *bitmap;
+ 	unsigned long nr_pages;
+ #endif
 -- 
 2.29.2
 
