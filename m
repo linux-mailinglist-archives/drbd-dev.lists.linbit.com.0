@@ -2,65 +2,37 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CCA12B4D39
-	for <lists+drbd-dev@lfdr.de>; Mon, 16 Nov 2020 18:37:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85F3E2B7905
+	for <lists+drbd-dev@lfdr.de>; Wed, 18 Nov 2020 09:46:27 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7FFD74208E9;
-	Mon, 16 Nov 2020 18:37:50 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 476CC4205F4;
+	Wed, 18 Nov 2020 09:46:26 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 92CFC4208E5
-	for <drbd-dev@lists.linbit.com>; Mon, 16 Nov 2020 18:37:48 +0100 (CET)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
-	[209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 1B49F22450
-	for <drbd-dev@lists.linbit.com>; Mon, 16 Nov 2020 17:37:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1605548267;
-	bh=ftduAERcAIXDqH3TIoaKNDFMaog9lpKkHZKNbYpzPJA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=wH0K96aiOcV3zWDXEfO4eGXrSbfel4fzpavvJrcvlGnm+IOvE6CCXcyPRZ9CDEpWQ
-	ERyPgn3goZaj4Rjri8kCDsRD2QqVIDrl9bwMtmzAsZXelVyGcoi/J8IVVb6h9ki8ms
-	Nt6zKSXy/JZjbcTnM2HNzH4y+CQMSryqUl+eemUA=
-Received: by mail-wm1-f43.google.com with SMTP id d142so19498wmd.4
-	for <drbd-dev@lists.linbit.com>; Mon, 16 Nov 2020 09:37:47 -0800 (PST)
-X-Gm-Message-State: AOAM53037tNx2VQCE9067IklFlyp2ylLjFgnhAqaseGXExMFUELPR+dz
-	vPdGzeISKUIllX1PzdGK90rEBU3r/HsHLt4ePck=
-X-Google-Smtp-Source: ABdhPJwSJNXG5A+c75VC7fB+eg5ocrYD0cMopnWErnzA3/FY5Qe4JfgRdEHZElz1KxxX9qTRF1opV72EejXl51sD+G0=
-X-Received: by 2002:a1c:bbc4:: with SMTP id
-	l187mr17490114wmf.133.1605548265533; 
-	Mon, 16 Nov 2020 09:37:45 -0800 (PST)
+Received: from m9784.mail.qiye.163.com (m9784.mail.qiye.163.com
+	[220.181.97.84])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 029874202DB
+	for <drbd-dev@lists.linbit.com>; Wed, 18 Nov 2020 09:46:22 +0100 (CET)
+Received: from [192.168.9.105] (unknown [101.207.233.66])
+	by m9784.mail.qiye.163.com (Hmail) with ESMTPA id 456C941C1F;
+	Wed, 18 Nov 2020 16:46:21 +0800 (CST)
+From: Zhang Duan <duan.zhang@easystack.cn>
+To: philipp.reisner@linbit.com
+Message-ID: <859ad180-0e92-5542-4d52-730589e99682@easystack.cn>
+Date: Wed, 18 Nov 2020 16:46:21 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+	Thunderbird/78.4.3
 MIME-Version: 1.0
-References: <20201116145809.410558-1-hch@lst.de>
-	<20201116145809.410558-29-hch@lst.de>
-In-Reply-To: <20201116145809.410558-29-hch@lst.de>
-From: Song Liu <song@kernel.org>
-Date: Mon, 16 Nov 2020 09:37:34 -0800
-X-Gmail-Original-Message-ID: <CAPhsuW5YeO0-Cb=avHu2osRKjz19Lvk4jWqaCdaqFnjbdPJtrw@mail.gmail.com>
-Message-ID: <CAPhsuW5YeO0-Cb=avHu2osRKjz19Lvk4jWqaCdaqFnjbdPJtrw@mail.gmail.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>, linux-nvme@lists.infradead.org,
-	dm-devel@redhat.com, drbd-dev@lists.linbit.com,
-	linux-scsi@vger.kernel.org, xen-devel@lists.xenproject.org,
-	Ilya Dryomov <idryomov@gmail.com>, Jack Wang <jinpu.wang@cloud.ionos.com>,
-	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-	Josef Bacik <josef@toxicpanda.com>, nbd@other.debian.org,
-	linux-raid <linux-raid@vger.kernel.org>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	ceph-devel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-	linux-block@vger.kernel.org,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Minchan Kim <minchan@kernel.org>,
-	Linux-Fsdevel <linux-fsdevel@vger.kernel.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	=?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>
-Subject: Re: [Drbd-dev] [PATCH 28/78] md: implement ->set_read_only to hook
-	into BLKROSET processing
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSUI3V1ktWUFJV1kPCR
+	oVCBIfWUFZHU1PHxpJTUMeHUNCVkpNS05NQ0JKQ0pPSkJVGRETFhoSFyQUDg9ZV1kWGg8SFR0UWU
+	FZT0tIVUpKS0hKTFVLWQY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Pgg6TSo*Sz0zIjw2ExQMHDlW
+	Nh8wCy9VSlVKTUtOTUNCSkNKTkJKVTMWGhIXVR8OGhVVARMaFRw7HhoIAggPGhgQVRgVRVlXWRIL
+	WUFZSktKVUlLTFVJSEhVTU1ZV1kIAVlBSU5NSzcG
+X-HM-Tid: 0a75da8884b72086kuqy456c941c1f
+Cc: drbd-dev@lists.linbit.com
+Subject: [Drbd-dev] [PATCH 2/2] drbd: delay resync start unless source has
+ transferred to L_SYNC_SOURCE
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -74,21 +46,57 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Mon, Nov 16, 2020 at 6:58 AM Christoph Hellwig <hch@lst.de> wrote:
->
-> Implement the ->set_read_only method instead of parsing the actual
-> ioctl command.
->
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+drbd_start_resync may be rescheduled due to down_trylock failure, leaves a
+state of L_WF_BITMAP_S while target state is L_SYNC_TARGET and already has
+sent its resync request. Then, resync going on while the source is 
+L_WF_BITMAP_S
+will lead to data lose by time sequence below:
 
-Acked-by: Song Liu <song@kernel.org>
+L_WF_BITMAP_S                   L_SYNC_TARGET
+                                 resync request(sector A)
+reply old data(A)               read & write old data(A)
+new IO(A)
+send oos(A)                     set oos(A)
+A is at new version             resync write A done
+                                 set in sync(A) but A is at old version
 
-[...]
+Signed-off-by: ZhangDuan <duan.zhang@easystack.cn>
+---
+  drbd/drbd_receiver.c | 9 +++++++++
+  1 file changed, 9 insertions(+)
+
+diff --git drbd/drbd_receiver.c drbd/drbd_receiver.c
+index a31e44b2..7a9ce4d0 100644
+--- drbd/drbd_receiver.c
++++ drbd/drbd_receiver.c
+@@ -3301,6 +3301,15 @@ static int receive_DataRequest(struct 
+drbd_connection *connection, struct packet
+  		return ignore_remaining_packet(connection, pi->size);
+  	}
+  +	/* Tell target to have a retry, waiting for the rescheduled
++	 * drbd_start_resync to complete. Otherwise the concurrency
++	 * of send oos and resync may lead to a data lose. */
++	if ((pi->cmd == P_RS_DATA_REQUEST || pi->cmd == P_CSUM_RS_REQUEST) &&
++			peer_device->repl_state[NOW] == L_WF_BITMAP_S) {
++		drbd_send_ack_rp(peer_device, P_RS_CANCEL, p);
++		return ignore_remaining_packet(connection, pi->size);
++	}
++	
+  	peer_req = drbd_alloc_peer_req(peer_device, GFP_TRY);
+  	err = -ENOMEM;
+  	if (!peer_req)
+-- 
+2.24.0.windows.2
+
+
+-- 
+Sincerely Yours,
+Zhang Duan
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
