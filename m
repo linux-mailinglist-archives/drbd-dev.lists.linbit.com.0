@@ -2,30 +2,30 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35B382BA345
-	for <lists+drbd-dev@lfdr.de>; Fri, 20 Nov 2020 08:34:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D0652BA365
+	for <lists+drbd-dev@lfdr.de>; Fri, 20 Nov 2020 08:35:36 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D68E44207C0;
-	Fri, 20 Nov 2020 08:34:26 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 629474207C6;
+	Fri, 20 Nov 2020 08:35:36 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1DFA44207AE
-	for <drbd-dev@lists.linbit.com>; Fri, 20 Nov 2020 08:34:26 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B775F4207BD
+	for <drbd-dev@lists.linbit.com>; Fri, 20 Nov 2020 08:35:34 +0100 (CET)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
-	by mx2.suse.de (Postfix) with ESMTP id C2EBBAB3D;
-	Fri, 20 Nov 2020 07:34:25 +0000 (UTC)
+	by mx2.suse.de (Postfix) with ESMTP id 7837DAB3D;
+	Fri, 20 Nov 2020 07:35:34 +0000 (UTC)
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
 References: <20201116145809.410558-1-hch@lst.de>
-	<20201116145809.410558-59-hch@lst.de>
+	<20201116145809.410558-60-hch@lst.de>
 From: Hannes Reinecke <hare@suse.de>
-Message-ID: <1742f81b-32e5-4bff-e10c-2c547ee345b6@suse.de>
-Date: Fri, 20 Nov 2020 08:34:24 +0100
+Message-ID: <5ee8dd18-f420-280c-84b9-78b70f528e26@suse.de>
+Date: Fri, 20 Nov 2020 08:35:33 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
 	Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201116145809.410558-59-hch@lst.de>
+In-Reply-To: <20201116145809.410558-60-hch@lst.de>
 Content-Language: en-US
 Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
 	"Michael S. Tsirkin" <mst@redhat.com>,
@@ -42,8 +42,8 @@ Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
 	Minchan Kim <minchan@kernel.org>, linux-fsdevel@vger.kernel.org,
 	Paolo Bonzini <pbonzini@redhat.com>,
 	=?UTF-8?Q?Roger_Pau_Monn=c3=a9?= <roger.pau@citrix.com>
-Subject: Re: [Drbd-dev] [PATCH 58/78] init: cleanup match_dev_by_uuid and
- match_dev_by_label
+Subject: Re: [Drbd-dev] [PATCH 59/78] mtip32xx: remove the call to
+	fsync_bdev on removal
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -62,17 +62,17 @@ Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-T24gMTEvMTYvMjAgMzo1NyBQTSwgQ2hyaXN0b3BoIEhlbGx3aWcgd3JvdGU6Cj4gQXZvaWQgYSB0
-b3RhbGx5IHBvaW50bGVzcyBnb3RvIGxhYmVsLCBhbmQgdXNlIHRoZSBzYW1lIHN0eWxlIG9mCj4g
-Y29tcGFyaXNtIGZvciBib3RoIGhlbHBlcnMuCj4gCj4gU2lnbmVkLW9mZi1ieTogQ2hyaXN0b3Bo
-IEhlbGx3aWcgPGhjaEBsc3QuZGU+Cj4gLS0tCj4gICBpbml0L2RvX21vdW50cy5jIHwgMTggKysr
-KysrLS0tLS0tLS0tLS0tCj4gICAxIGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCAxMiBk
-ZWxldGlvbnMoLSkKPiAKUmV2aWV3ZWQtYnk6IEhhbm5lcyBSZWluZWNrZSA8aGFyZUBzdXNlLmRl
-PgoKQ2hlZXJzLAoKSGFubmVzCi0tIApEci4gSGFubmVzIFJlaW5lY2tlICAgICAgICAgICAgICAg
-IEtlcm5lbCBTdG9yYWdlIEFyY2hpdGVjdApoYXJlQHN1c2UuZGUgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICArNDkgOTExIDc0MDUzIDY4OApTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHbWJI
-LCBNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcKSFJCIDM2ODA5IChBRyBOw7xybmJlcmcp
-LCBHZXNjaMOkZnRzZsO8aHJlcjogRmVsaXggSW1lbmTDtnJmZmVyCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyYmQtZGV2IG1haWxpbmcgbGlzdApkcmJk
-LWRldkBsaXN0cy5saW5iaXQuY29tCmh0dHBzOi8vbGlzdHMubGluYml0LmNvbS9tYWlsbWFuL2xp
-c3RpbmZvL2RyYmQtZGV2Cg==
+T24gMTEvMTYvMjAgMzo1NyBQTSwgQ2hyaXN0b3BoIEhlbGx3aWcgd3JvdGU6Cj4gZGVsX2dlbmRp
+c2sgYWxyZWFkeSBjYWxscyBmc3luY19iZGV2IGZvciBldmVyeSBwYXJ0aXRpb24sIG5vIG5lZWQK
+PiB0byBkbyB0aGlzIHR3aWNlLgo+IAo+IFNpZ25lZC1vZmYtYnk6IENocmlzdG9waCBIZWxsd2ln
+IDxoY2hAbHN0LmRlPgo+IC0tLQo+ICAgZHJpdmVycy9ibG9jay9tdGlwMzJ4eC9tdGlwMzJ4eC5j
+IHwgMTUgLS0tLS0tLS0tLS0tLS0tCj4gICBkcml2ZXJzL2Jsb2NrL210aXAzMnh4L210aXAzMnh4
+LmggfCAgMiAtLQo+ICAgMiBmaWxlcyBjaGFuZ2VkLCAxNyBkZWxldGlvbnMoLSkKPiAKUmV2aWV3
+ZWQtYnk6IEhhbm5lcyBSZWluZWNrZSA8aGFyZUBzdXNlLmRlPgoKQ2hlZXJzLAoKSGFubmVzCi0t
+IApEci4gSGFubmVzIFJlaW5lY2tlICAgICAgICAgICAgICAgIEtlcm5lbCBTdG9yYWdlIEFyY2hp
+dGVjdApoYXJlQHN1c2UuZGUgICAgICAgICAgICAgICAgICAgICAgICAgICAgICArNDkgOTExIDc0
+MDUzIDY4OApTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHbWJILCBNYXhmZWxkc3RyLiA1LCA5MDQw
+OSBOw7xybmJlcmcKSFJCIDM2ODA5IChBRyBOw7xybmJlcmcpLCBHZXNjaMOkZnRzZsO8aHJlcjog
+RmVsaXggSW1lbmTDtnJmZmVyCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCmRyYmQtZGV2IG1haWxpbmcgbGlzdApkcmJkLWRldkBsaXN0cy5saW5iaXQuY29t
+Cmh0dHBzOi8vbGlzdHMubGluYml0LmNvbS9tYWlsbWFuL2xpc3RpbmZvL2RyYmQtZGV2Cg==
