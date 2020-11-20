@@ -2,47 +2,35 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75DE62BFFE8
-	for <lists+drbd-dev@lfdr.de>; Mon, 23 Nov 2020 07:21:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 636262BFFE9
+	for <lists+drbd-dev@lfdr.de>; Mon, 23 Nov 2020 07:21:52 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 902DA420236;
-	Mon, 23 Nov 2020 07:21:50 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 09CF14207BB;
+	Mon, 23 Nov 2020 07:21:51 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 558 seconds by postgrey-1.31 at mail19;
-	Fri, 20 Nov 2020 19:38:19 CET
-Received: from smtprelay.hostedemail.com (smtprelay0224.hostedemail.com
-	[216.40.44.224])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 59C0B420605
-	for <drbd-dev@lists.linbit.com>; Fri, 20 Nov 2020 19:38:18 +0100 (CET)
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
-	[10.5.19.251])
-	by smtpgrave07.hostedemail.com (Postfix) with ESMTP id E26F518014CA5
-	for <drbd-dev@lists.linbit.com>; Fri, 20 Nov 2020 18:29:02 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
-	[216.40.38.60])
-	by smtprelay04.hostedemail.com (Postfix) with ESMTP id 2DC80180A7FF1;
-	Fri, 20 Nov 2020 18:29:00 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
-	RULES_HIT:41:355:379:599:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1539:1593:1594:1711:1730:1747:1777:1792:2198:2199:2393:2559:2562:2731:2828:3138:3139:3140:3141:3142:3352:3622:3865:3866:3867:3870:3871:3874:4321:4362:5007:6742:6743:10004:10400:10848:11232:11658:11914:12297:12740:12760:12895:13069:13311:13357:13439:14180:14659:14721:21060:21067:21080:21627:21990:30012:30054:30070:30091,
-	0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
-	DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none,
-	Custom_rules:0:0:0, LFtime:1, LUA_SUMMARY:none
-X-HE-Tag: woman67_620d0012734d
-X-Filterd-Recvd-Size: 3843
-Received: from XPS-9350.home (unknown [47.151.133.149])
-	(Authenticated sender: joe@perches.com)
-	by omf05.hostedemail.com (Postfix) with ESMTPA;
-	Fri, 20 Nov 2020 18:28:49 +0000 (UTC)
-Message-ID: <3e0bbb1644fe53d79322c2feb28ccaf3e20c0e94.camel@perches.com>
-From: Joe Perches <joe@perches.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
-	linux-kernel@vger.kernel.org
-Date: Fri, 20 Nov 2020 10:28:48 -0800
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B687242062D
+	for <drbd-dev@lists.linbit.com>; Fri, 20 Nov 2020 19:53:50 +0100 (CET)
+Received: from kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com (unknown
+	[163.114.132.6])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id D19712242B;
+	Fri, 20 Nov 2020 18:53:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1605898429;
+	bh=RlEnelajx5E1UvOiu4TwGuYZq41CYqRzy+OE2vpEZwM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=y6BwGzsUDu1zr4tV0nGpfLuqNb1AQVwTl3HIlZXKXQmalkVaXzcKTw6PaiYzn6cs4
+	cCrQcjpmBltf5qc0pbll6lEfWSr4jv5MMDA/VHBdadKQQtZqXFk9pYOspqu5FdKf1A
+	HiIo+vycYYhwL3jW0KIV5eL5D/2xlLalPiHVxUuA=
+Date: Fri, 20 Nov 2020 10:53:44 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Message-ID: <20201120105344.4345c14e@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
 In-Reply-To: <cover.1605896059.git.gustavoars@kernel.org>
 References: <cover.1605896059.git.gustavoars@kernel.org>
-User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 23 Nov 2020 07:21:47 +0100
 Cc: alsa-devel@alsa-project.org, linux-atm-general@lists.sourceforge.net,
@@ -60,7 +48,8 @@ Cc: alsa-devel@alsa-project.org, linux-atm-general@lists.sourceforge.net,
 	rds-devel@oss.oracle.com, Nick Desaulniers <ndesaulniers@google.com>,
 	linux-scsi@vger.kernel.org, linux-rdma@vger.kernel.org,
 	oss-drivers@netronome.com, bridge@lists.linux-foundation.org,
-	amd-gfx@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
+	linux-security-module@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+	linux-stm32@st-md-mailman.stormreply.com,
 	cluster-devel@redhat.com, linux-acpi@vger.kernel.org,
 	coreteam@netfilter.org, intel-wired-lan@lists.osuosl.org,
 	linux-input@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
@@ -79,11 +68,11 @@ Cc: alsa-devel@alsa-project.org, linux-atm-general@lists.sourceforge.net,
 	linux-nfs@vger.kernel.org, Kees Cook <keescook@chromium.org>,
 	linux-mm@kvack.org, netdev@vger.kernel.org,
 	linux-decnet-user@lists.sourceforge.net,
-	linux-mmc@vger.kernel.org, linux-sctp@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-usb@vger.kernel.org,
-	netfilter-devel@vger.kernel.org, linux-crypto@vger.kernel.org,
-	patches@opensource.cirrus.com, linux-integrity@vger.kernel.org,
+	linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-sctp@vger.kernel.org,
+	linux-usb@vger.kernel.org, netfilter-devel@vger.kernel.org,
+	linux-crypto@vger.kernel.org, patches@opensource.cirrus.com,
+	Joe Perches <joe@perches.com>, linux-integrity@vger.kernel.org,
 	target-devel@vger.kernel.org
 Subject: Re: [Drbd-dev] [PATCH 000/141] Fix fall-through warnings for Clang
 X-BeenThere: drbd-dev@lists.linbit.com
@@ -104,9 +93,7 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Fri, 2020-11-20 at 12:21 -0600, Gustavo A. R. Silva wrote:
-> Hi all,
-> 
+On Fri, 20 Nov 2020 12:21:39 -0600 Gustavo A. R. Silva wrote:
 > This series aims to fix almost all remaining fall-through warnings in
 > order to enable -Wimplicit-fallthrough for Clang.
 > 
@@ -117,14 +104,19 @@ On Fri, 2020-11-20 at 12:21 -0600, Gustavo A. R. Silva wrote:
 > Notice that in order to enable -Wimplicit-fallthrough for Clang, this
 > change[1] is meant to be reverted at some point. So, this patch helps
 > to move in that direction.
+> 
+> Something important to mention is that there is currently a discrepancy
+> between GCC and Clang when dealing with switch fall-through to empty case
+> statements or to cases that only contain a break/continue/return
+> statement[2][3][4].
 
-This was a bit hard to parse for a second or three.
+Are we sure we want to make this change? Was it discussed before?
 
-Thanks Gustavo.
+Are there any bugs Clangs puritanical definition of fallthrough helped
+find?
 
-How was this change done?
-
-
+IMVHO compiler warnings are supposed to warn about issues that could
+be bugs. Falling through to default: break; can hardly be a bug?!
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
