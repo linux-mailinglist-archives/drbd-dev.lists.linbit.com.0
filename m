@@ -2,37 +2,48 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85F3E2B7905
-	for <lists+drbd-dev@lfdr.de>; Wed, 18 Nov 2020 09:46:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3EE92BA2E4
+	for <lists+drbd-dev@lfdr.de>; Fri, 20 Nov 2020 08:20:00 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 476CC4205F4;
-	Wed, 18 Nov 2020 09:46:26 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 90B5842066B;
+	Fri, 20 Nov 2020 08:19:59 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from m9784.mail.qiye.163.com (m9784.mail.qiye.163.com
-	[220.181.97.84])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 029874202DB
-	for <drbd-dev@lists.linbit.com>; Wed, 18 Nov 2020 09:46:22 +0100 (CET)
-Received: from [192.168.9.105] (unknown [101.207.233.66])
-	by m9784.mail.qiye.163.com (Hmail) with ESMTPA id 456C941C1F;
-	Wed, 18 Nov 2020 16:46:21 +0800 (CST)
-From: Zhang Duan <duan.zhang@easystack.cn>
-To: philipp.reisner@linbit.com
-Message-ID: <859ad180-0e92-5542-4d52-730589e99682@easystack.cn>
-Date: Wed, 18 Nov 2020 16:46:21 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
-	Thunderbird/78.4.3
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B4614420639
+	for <drbd-dev@lists.linbit.com>; Fri, 20 Nov 2020 08:19:57 +0100 (CET)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+	by mx2.suse.de (Postfix) with ESMTP id 1A314AB3D;
+	Fri, 20 Nov 2020 07:19:57 +0000 (UTC)
+To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
+References: <20201116145809.410558-1-hch@lst.de>
+	<20201116145809.410558-31-hch@lst.de>
+From: Hannes Reinecke <hare@suse.de>
+Message-ID: <7cad2b6b-cf14-8cbc-9cea-6f0add4a198c@suse.de>
+Date: Fri, 20 Nov 2020 08:19:55 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+	Thunderbird/78.4.0
 MIME-Version: 1.0
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSUI3V1ktWUFJV1kPCR
-	oVCBIfWUFZHU1PHxpJTUMeHUNCVkpNS05NQ0JKQ0pPSkJVGRETFhoSFyQUDg9ZV1kWGg8SFR0UWU
-	FZT0tIVUpKS0hKTFVLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Pgg6TSo*Sz0zIjw2ExQMHDlW
-	Nh8wCy9VSlVKTUtOTUNCSkNKTkJKVTMWGhIXVR8OGhVVARMaFRw7HhoIAggPGhgQVRgVRVlXWRIL
-	WUFZSktKVUlLTFVJSEhVTU1ZV1kIAVlBSU5NSzcG
-X-HM-Tid: 0a75da8884b72086kuqy456c941c1f
-Cc: drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 2/2] drbd: delay resync start unless source has
- transferred to L_SYNC_SOURCE
+In-Reply-To: <20201116145809.410558-31-hch@lst.de>
+Content-Language: en-US
+Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>, linux-nvme@lists.infradead.org,
+	Song Liu <song@kernel.org>, dm-devel@redhat.com,
+	drbd-dev@lists.linbit.com, linux-scsi@vger.kernel.org,
+	xen-devel@lists.xenproject.org, Ilya Dryomov <idryomov@gmail.com>,
+	Jack Wang <jinpu.wang@cloud.ionos.com>,
+	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+	Josef Bacik <josef@toxicpanda.com>, nbd@other.debian.org,
+	linux-raid@vger.kernel.org, Stefan Hajnoczi <stefanha@redhat.com>,
+	ceph-devel@vger.kernel.org, linux-block@vger.kernel.org,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Minchan Kim <minchan@kernel.org>, linux-fsdevel@vger.kernel.org,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	=?UTF-8?Q?Roger_Pau_Monn=c3=a9?= <roger.pau@citrix.com>
+Subject: Re: [Drbd-dev] [PATCH 30/78] block: don't call into the driver for
+	BLKROSET
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,58 +57,22 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-drbd_start_resync may be rescheduled due to down_trylock failure, leaves a
-state of L_WF_BITMAP_S while target state is L_SYNC_TARGET and already has
-sent its resync request. Then, resync going on while the source is 
-L_WF_BITMAP_S
-will lead to data lose by time sequence below:
-
-L_WF_BITMAP_S                   L_SYNC_TARGET
-                                 resync request(sector A)
-reply old data(A)               read & write old data(A)
-new IO(A)
-send oos(A)                     set oos(A)
-A is at new version             resync write A done
-                                 set in sync(A) but A is at old version
-
-Signed-off-by: ZhangDuan <duan.zhang@easystack.cn>
----
-  drbd/drbd_receiver.c | 9 +++++++++
-  1 file changed, 9 insertions(+)
-
-diff --git drbd/drbd_receiver.c drbd/drbd_receiver.c
-index a31e44b2..7a9ce4d0 100644
---- drbd/drbd_receiver.c
-+++ drbd/drbd_receiver.c
-@@ -3301,6 +3301,15 @@ static int receive_DataRequest(struct 
-drbd_connection *connection, struct packet
-  		return ignore_remaining_packet(connection, pi->size);
-  	}
-  +	/* Tell target to have a retry, waiting for the rescheduled
-+	 * drbd_start_resync to complete. Otherwise the concurrency
-+	 * of send oos and resync may lead to a data lose. */
-+	if ((pi->cmd == P_RS_DATA_REQUEST || pi->cmd == P_CSUM_RS_REQUEST) &&
-+			peer_device->repl_state[NOW] == L_WF_BITMAP_S) {
-+		drbd_send_ack_rp(peer_device, P_RS_CANCEL, p);
-+		return ignore_remaining_packet(connection, pi->size);
-+	}
-+	
-  	peer_req = drbd_alloc_peer_req(peer_device, GFP_TRY);
-  	err = -ENOMEM;
-  	if (!peer_req)
--- 
-2.24.0.windows.2
-
-
--- 
-Sincerely Yours,
-Zhang Duan
-_______________________________________________
-drbd-dev mailing list
-drbd-dev@lists.linbit.com
-https://lists.linbit.com/mailman/listinfo/drbd-dev
+T24gMTEvMTYvMjAgMzo1NyBQTSwgQ2hyaXN0b3BoIEhlbGx3aWcgd3JvdGU6Cj4gTm93IHRoYXQg
+YWxsIGRyaXZlcnMgdGhhdCB3YW50IHRvIGhvb2sgaW50byBzZXR0aW5nIG9yIGNsZWFyaW5nIHRo
+ZQo+IHJlYWQtb25seSBmbGFnIHVzZSB0aGUgc2V0X3JlYWRfb25seSBtZXRob2QsIHRoaXMgY29k
+ZSBjYW4gYmUgcmVtb3ZlZC4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3RvcGggSGVsbHdpZyA8
+aGNoQGxzdC5kZT4KPiAtLS0KPiAgIGJsb2NrL2lvY3RsLmMgfCAyMyAtLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLQo+ICAgMSBmaWxlIGNoYW5nZWQsIDIzIGRlbGV0aW9ucygtKQo+IApSZXZpZXdlZC1i
+eTogSGFubmVzIFJlaW5lY2tlIDxoYXJlQHN1c2UuZGU+CgpDaGVlcnMsCgpIYW5uZXMKLS0gCkRy
+LiBIYW5uZXMgUmVpbmVja2UgICAgICAgICAgICAgICAgS2VybmVsIFN0b3JhZ2UgQXJjaGl0ZWN0
+CmhhcmVAc3VzZS5kZSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICs0OSA5MTEgNzQwNTMg
+Njg4ClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdtYkgsIE1heGZlbGRzdHIuIDUsIDkwNDA5IE7D
+vHJuYmVyZwpIUkIgMzY4MDkgKEFHIE7DvHJuYmVyZyksIEdlc2Now6RmdHNmw7xocmVyOiBGZWxp
+eCBJbWVuZMO2cmZmZXIKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KZHJiZC1kZXYgbWFpbGluZyBsaXN0CmRyYmQtZGV2QGxpc3RzLmxpbmJpdC5jb20KaHR0
+cHM6Ly9saXN0cy5saW5iaXQuY29tL21haWxtYW4vbGlzdGluZm8vZHJiZC1kZXYK
