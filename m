@@ -2,48 +2,55 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68C5A2BA54C
-	for <lists+drbd-dev@lfdr.de>; Fri, 20 Nov 2020 09:58:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 193DF2BA59D
+	for <lists+drbd-dev@lfdr.de>; Fri, 20 Nov 2020 10:13:37 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 33B7E4207E4;
-	Fri, 20 Nov 2020 09:58:44 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 07B684207E9;
+	Fri, 20 Nov 2020 10:13:36 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2BEDC4207DE
-	for <drbd-dev@lists.linbit.com>; Fri, 20 Nov 2020 09:58:42 +0100 (CET)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-	by mx2.suse.de (Postfix) with ESMTP id 5CAD1AC23;
-	Fri, 20 Nov 2020 08:58:42 +0000 (UTC)
-To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
-References: <20201116145809.410558-1-hch@lst.de>
-	<20201116145809.410558-75-hch@lst.de>
-From: Hannes Reinecke <hare@suse.de>
-Message-ID: <f6e6b948-44c8-50f0-beea-921eb3a268dd@suse.de>
-Date: Fri, 20 Nov 2020 09:58:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
-	Thunderbird/78.4.0
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
+	[209.85.166.66])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 670194207E4
+	for <drbd-dev@lists.linbit.com>; Fri, 20 Nov 2020 10:13:34 +0100 (CET)
+Received: by mail-io1-f66.google.com with SMTP id u21so9179079iol.12
+	for <drbd-dev@lists.linbit.com>; Fri, 20 Nov 2020 01:13:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linbit-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=2zRE/ngI8nW9pepj06Wkfz4UngmzBlhBZDu0v1Fe2g4=;
+	b=gEQggfyl2ooVIBOeLbW+ZcC5OdfXAwRS9E/PLNzIdCg0GY/c89ic6uGnhSYG2uExl+
+	Zir/LKwLqz0hBj6khXtifVkhSkEYw3X1uehuw+v735kARYJuz75fh5XLFnV9cDS8i6Wu
+	RMfkQBiU5zgOHM3+aNESgdXOhPqIJw72J1KpawyKXLmJ3PxRzi9yxTAD6SkbUDGyGebV
+	89HPBJTXLl7gOdComAG6hITVRDeZwpcJiKq33MHfx7vauXF0VpnkST0HNycx4Qn9aup5
+	65ExSwnupNMvfgPJq0FxVqTAWpQP6xT3TqE4VGX6AEB1/MBpN6yoGVTgY6RJzHsdunD7
+	Cmwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=2zRE/ngI8nW9pepj06Wkfz4UngmzBlhBZDu0v1Fe2g4=;
+	b=Gt7KyeoXcYcC+Ko8GT4BZx2icK+QD62wt+k3guuWvsTr8RJ0e99nRfatKcEd5LFIzt
+	9AGZQIv4ijH5YChOrKUlZHJM+Htju+Z9ezvmS6RDdsWZZsLnrGxx1u3IA8RMl7EFTAF5
+	zRFvWG1o6i6YnpOpZTuVcZiiRZqvgFcJu505bmbBdmboIB7Ts792tV69EwxfWWGGc1dm
+	mnzrnpKF6phghbrbwnUvyqfreymOtSSPImjhMO8GNPZHbx0jCr9orCCY7TTQC5uos7qT
+	KBbEpBFhbAsVMK9HVXInmEu4hEpbIJ/nm8D0P7Q7c/4ZayJrTjfqQw3urlNzt7JUs2T0
+	2lCA==
+X-Gm-Message-State: AOAM5311ta7/h925NWNNrVsoU4RUauGqJF1cujMbb5/s7pprtaOwRbmN
+	B5ArC+MtX53xH/FGrp3psSHgvFPCNKPEOt+2lQ+cDMaYBKsD0j+IfRs=
+X-Google-Smtp-Source: ABdhPJyJJu7JEYi7Q9HHD/DbmnBNMARsXU0i++d3Cr767DW4G3FtAfQAwgYVBEdI5sYXdXgTKDnLzWv2b269WAnXuV4=
+X-Received: by 2002:a5d:9d16:: with SMTP id j22mr24662235ioj.172.1605863613287;
+	Fri, 20 Nov 2020 01:13:33 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201116145809.410558-75-hch@lst.de>
-Content-Language: en-US
-Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>, linux-nvme@lists.infradead.org,
-	Song Liu <song@kernel.org>, dm-devel@redhat.com,
-	drbd-dev@lists.linbit.com, linux-scsi@vger.kernel.org,
-	xen-devel@lists.xenproject.org, Ilya Dryomov <idryomov@gmail.com>,
-	Jack Wang <jinpu.wang@cloud.ionos.com>,
-	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-	Josef Bacik <josef@toxicpanda.com>, nbd@other.debian.org,
-	linux-raid@vger.kernel.org, Stefan Hajnoczi <stefanha@redhat.com>,
-	ceph-devel@vger.kernel.org, linux-block@vger.kernel.org,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Minchan Kim <minchan@kernel.org>, linux-fsdevel@vger.kernel.org,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	=?UTF-8?Q?Roger_Pau_Monn=c3=a9?= <roger.pau@citrix.com>
-Subject: Re: [Drbd-dev] [PATCH 74/78] block: merge struct block_device and
- struct hd_struct
+References: <859ad180-0e92-5542-4d52-730589e99682@easystack.cn>
+In-Reply-To: <859ad180-0e92-5542-4d52-730589e99682@easystack.cn>
+From: Philipp Reisner <philipp.reisner@linbit.com>
+Date: Fri, 20 Nov 2020 10:13:22 +0100
+Message-ID: <CADGDV=X9P9A+ig-K-nCcTvTD11jTWE6ai0SH17BDm1MLb+DCzQ@mail.gmail.com>
+To: Zhang Duan <duan.zhang@easystack.cn>
+Cc: drbd-dev@lists.linbit.com
+Subject: Re: [Drbd-dev] [PATCH 2/2] drbd: delay resync start unless source
+ has transferred to L_SYNC_SOURCE
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -57,58 +64,72 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-T24gMTEvMTYvMjAgMzo1OCBQTSwgQ2hyaXN0b3BoIEhlbGx3aWcgd3JvdGU6Cj4gSW5zdGVhZCBv
-ZiBoYXZpbmcgdHdvIHN0cnVjdHVyZXMgdGhhdCByZXByZXNlbnQgZWFjaCBibG9jayBkZXZpY2Ug
-d2l0aAo+IGRpZmZlcmVudCBsaWZ0IHRpbWUgcnVsZXMgbWVyZ2VkIHRoZW0gaW50byBhIHNpbmds
-ZSBvbmUuICBUaGlzIGFsc28KPiBncmVhdGx5IHNpbXBsaWZpZXMgdGhlIHJlZmVyZW5jZSBjb3Vu
-dGluZyBydWxlcywgYXMgd2UgY2FuIHVzZSB0aGUgaW5vZGUKPiByZWZlcmVuY2UgY291bnQgYXMg
-dGhlIG1haW4gcmVmZXJlbmNlIGNvdW50IGZvciB0aGUgbmV3IHN0cnVjdAo+IGJsb2NrX2Rldmlj
-ZSwgd2l0aCB0aGUgZGV2aWNlIG1vZGVsIHJlZmVyZW5jZSBmcm9udCBlbmRpbmcgaXQgZm9yIGRl
-dmljZQo+IG1vZGVsIGludGVyYWN0aW9uLiAgVGhlIHBlcmNwdSByZWZjb3VudCBpbiBzdHJ1Y3Qg
-aGRfc3RydWN0IGlzIGVudGlyZWx5Cj4gZ29uZSBnaXZlbiB0aGF0IHN0cnVjdCBibG9ja19kZXZp
-Y2UgbXVzdCBiZSBvcGVuZWQgYW5kIHRodXMgdmFsaWQgZm9yCj4gdGhlIGR1cmF0aW9uIG9mIHRo
-ZSBJL08uCj4gCj4gU2lnbmVkLW9mZi1ieTogQ2hyaXN0b3BoIEhlbGx3aWcgPGhjaEBsc3QuZGU+
-Cj4gLS0tCj4gICBibG9jay9iaW8uYyAgICAgICAgICAgICAgICAgICAgICAgIHwgICA2ICstCj4g
-ICBibG9jay9ibGstY2dyb3VwLmMgICAgICAgICAgICAgICAgIHwgICA5ICstCj4gICBibG9jay9i
-bGstY29yZS5jICAgICAgICAgICAgICAgICAgIHwgIDg1ICsrKysrLS0tLS0KPiAgIGJsb2NrL2Js
-ay1mbHVzaC5jICAgICAgICAgICAgICAgICAgfCAgIDIgKy0KPiAgIGJsb2NrL2Jsay1saWIuYyAg
-ICAgICAgICAgICAgICAgICAgfCAgIDIgKy0KPiAgIGJsb2NrL2Jsay1tZXJnZS5jICAgICAgICAg
-ICAgICAgICAgfCAgIDYgKy0KPiAgIGJsb2NrL2Jsay1tcS5jICAgICAgICAgICAgICAgICAgICAg
-fCAgMTEgKy0KPiAgIGJsb2NrL2Jsay1tcS5oICAgICAgICAgICAgICAgICAgICAgfCAgIDUgKy0K
-PiAgIGJsb2NrL2Jsay5oICAgICAgICAgICAgICAgICAgICAgICAgfCAgMzggKystLS0KPiAgIGJs
-b2NrL2dlbmhkLmMgICAgICAgICAgICAgICAgICAgICAgfCAyNDIgKysrKysrKysrKystLS0tLS0t
-LS0tLS0tLS0tLS0KPiAgIGJsb2NrL2lvY3RsLmMgICAgICAgICAgICAgICAgICAgICAgfCAgIDQg
-Ky0KPiAgIGJsb2NrL3BhcnRpdGlvbnMvY29yZS5jICAgICAgICAgICAgfCAyMjEgKysrKysrKy0t
-LS0tLS0tLS0tLS0tLS0tLS0KPiAgIGRyaXZlcnMvYmxvY2svZHJiZC9kcmJkX3JlY2VpdmVyLmMg
-fCAgIDIgKy0KPiAgIGRyaXZlcnMvYmxvY2svZHJiZC9kcmJkX3dvcmtlci5jICAgfCAgIDIgKy0K
-PiAgIGRyaXZlcnMvYmxvY2svenJhbS96cmFtX2Rydi5jICAgICAgfCAgIDIgKy0KPiAgIGRyaXZl
-cnMvbWQvYmNhY2hlL3JlcXVlc3QuYyAgICAgICAgfCAgIDQgKy0KPiAgIGRyaXZlcnMvbWQvZG0u
-YyAgICAgICAgICAgICAgICAgICAgfCAgIDggKy0KPiAgIGRyaXZlcnMvbWQvbWQuYyAgICAgICAg
-ICAgICAgICAgICAgfCAgIDQgKy0KPiAgIGRyaXZlcnMvbnZtZS90YXJnZXQvYWRtaW4tY21kLmMg
-ICAgfCAgMjAgKy0tCj4gICBkcml2ZXJzL3MzOTAvYmxvY2svZGFzZC5jICAgICAgICAgIHwgICA4
-ICstCj4gICBmcy9ibG9ja19kZXYuYyAgICAgICAgICAgICAgICAgICAgIHwgIDY4ICsrKy0tLS0t
-Cj4gICBmcy9leHQ0L3N1cGVyLmMgICAgICAgICAgICAgICAgICAgIHwgIDE4ICstLQo+ICAgZnMv
-ZXh0NC9zeXNmcy5jICAgICAgICAgICAgICAgICAgICB8ICAxMCArLQo+ICAgZnMvZjJmcy9jaGVj
-a3BvaW50LmMgICAgICAgICAgICAgICB8ICAgNSArLQo+ICAgZnMvZjJmcy9mMmZzLmggICAgICAg
-ICAgICAgICAgICAgICB8ICAgMiArLQo+ICAgZnMvZjJmcy9zdXBlci5jICAgICAgICAgICAgICAg
-ICAgICB8ICAgNiArLQo+ICAgZnMvZjJmcy9zeXNmcy5jICAgICAgICAgICAgICAgICAgICB8ICAg
-OSAtLQo+ICAgaW5jbHVkZS9saW51eC9ibGtfdHlwZXMuaCAgICAgICAgICB8ICAyMyArKy0KPiAg
-IGluY2x1ZGUvbGludXgvYmxrZGV2LmggICAgICAgICAgICAgfCAgMTMgKy0KPiAgIGluY2x1ZGUv
-bGludXgvZ2VuaGQuaCAgICAgICAgICAgICAgfCAgNjcgKystLS0tLS0KPiAgIGluY2x1ZGUvbGlu
-dXgvcGFydF9zdGF0LmggICAgICAgICAgfCAgMTcgKy0KPiAgIGluaXQvZG9fbW91bnRzLmMgICAg
-ICAgICAgICAgICAgICAgfCAgMjAgKy0tCj4gICBrZXJuZWwvdHJhY2UvYmxrdHJhY2UuYyAgICAg
-ICAgICAgIHwgIDU0ICsrLS0tLS0KPiAgIDMzIGZpbGVzIGNoYW5nZWQsIDM1MSBpbnNlcnRpb25z
-KCspLCA2NDIgZGVsZXRpb25zKC0pCj4gClJldmlld2VkLWJ5OiBIYW5uZXMgUmVpbmVja2UgPGhh
-cmVAc3VzZS5kZT4KCkNoZWVycywKCkhhbm5lcwotLSAKRHIuIEhhbm5lcyBSZWluZWNrZSAgICAg
-ICAgICAgICAgICBLZXJuZWwgU3RvcmFnZSBBcmNoaXRlY3QKaGFyZUBzdXNlLmRlICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgKzQ5IDkxMSA3NDA1MyA2ODgKU1VTRSBTb2Z0d2FyZSBTb2x1
-dGlvbnMgR21iSCwgTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnCkhSQiAzNjgwOSAoQUcg
-TsO8cm5iZXJnKSwgR2VzY2jDpGZ0c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcgpfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmJkLWRldiBtYWlsaW5n
-IGxpc3QKZHJiZC1kZXZAbGlzdHMubGluYml0LmNvbQpodHRwczovL2xpc3RzLmxpbmJpdC5jb20v
-bWFpbG1hbi9saXN0aW5mby9kcmJkLWRldgo=
+Hi Zhang,
+
+The explanation is sound, the patch looks good. I am going to apply this.
+
+What I wanted to ask:
+Are you using automated tests to find this kind of defects?
+The tests we maintain are here: https://github.com/LINBIT/drbd9-tests
+We would welcome very much if you contribute your tests to this as well.
+
+best regards,
+ Phil
+
+On Wed, Nov 18, 2020 at 9:46 AM Zhang Duan <duan.zhang@easystack.cn> wrote:
+>
+> drbd_start_resync may be rescheduled due to down_trylock failure, leaves a
+> state of L_WF_BITMAP_S while target state is L_SYNC_TARGET and already has
+> sent its resync request. Then, resync going on while the source is
+> L_WF_BITMAP_S
+> will lead to data lose by time sequence below:
+>
+> L_WF_BITMAP_S                   L_SYNC_TARGET
+>                                  resync request(sector A)
+> reply old data(A)               read & write old data(A)
+> new IO(A)
+> send oos(A)                     set oos(A)
+> A is at new version             resync write A done
+>                                  set in sync(A) but A is at old version
+>
+> Signed-off-by: ZhangDuan <duan.zhang@easystack.cn>
+> ---
+>   drbd/drbd_receiver.c | 9 +++++++++
+>   1 file changed, 9 insertions(+)
+>
+> diff --git drbd/drbd_receiver.c drbd/drbd_receiver.c
+> index a31e44b2..7a9ce4d0 100644
+> --- drbd/drbd_receiver.c
+> +++ drbd/drbd_receiver.c
+> @@ -3301,6 +3301,15 @@ static int receive_DataRequest(struct
+> drbd_connection *connection, struct packet
+>                 return ignore_remaining_packet(connection, pi->size);
+>         }
+>   +     /* Tell target to have a retry, waiting for the rescheduled
+> +        * drbd_start_resync to complete. Otherwise the concurrency
+> +        * of send oos and resync may lead to a data lose. */
+> +       if ((pi->cmd == P_RS_DATA_REQUEST || pi->cmd == P_CSUM_RS_REQUEST) &&
+> +                       peer_device->repl_state[NOW] == L_WF_BITMAP_S) {
+> +               drbd_send_ack_rp(peer_device, P_RS_CANCEL, p);
+> +               return ignore_remaining_packet(connection, pi->size);
+> +       }
+> +
+>         peer_req = drbd_alloc_peer_req(peer_device, GFP_TRY);
+>         err = -ENOMEM;
+>         if (!peer_req)
+> --
+> 2.24.0.windows.2
+>
+>
+> --
+> Sincerely Yours,
+> Zhang Duan
+_______________________________________________
+drbd-dev mailing list
+drbd-dev@lists.linbit.com
+https://lists.linbit.com/mailman/listinfo/drbd-dev
