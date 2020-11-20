@@ -2,30 +2,30 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BC942BA37B
-	for <lists+drbd-dev@lfdr.de>; Fri, 20 Nov 2020 08:38:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B34FF2BA381
+	for <lists+drbd-dev@lfdr.de>; Fri, 20 Nov 2020 08:38:35 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2A7EC4207CA;
-	Fri, 20 Nov 2020 08:38:05 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 842EF420605;
+	Fri, 20 Nov 2020 08:38:35 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 8BC44420605
-	for <drbd-dev@lists.linbit.com>; Fri, 20 Nov 2020 08:38:04 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 75FFE420605
+	for <drbd-dev@lists.linbit.com>; Fri, 20 Nov 2020 08:38:31 +0100 (CET)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
-	by mx2.suse.de (Postfix) with ESMTP id 4661CAC83;
-	Fri, 20 Nov 2020 07:38:04 +0000 (UTC)
+	by mx2.suse.de (Postfix) with ESMTP id 39FC4AB3D;
+	Fri, 20 Nov 2020 07:38:31 +0000 (UTC)
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
 References: <20201116145809.410558-1-hch@lst.de>
-	<20201116145809.410558-62-hch@lst.de>
+	<20201116145809.410558-63-hch@lst.de>
 From: Hannes Reinecke <hare@suse.de>
-Message-ID: <e6f89f0b-602b-f297-87f5-86b7c1b353f0@suse.de>
-Date: Fri, 20 Nov 2020 08:38:03 +0100
+Message-ID: <b1703b65-244d-e445-2e81-0b63dd1518f2@suse.de>
+Date: Fri, 20 Nov 2020 08:38:29 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
 	Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201116145809.410558-62-hch@lst.de>
+In-Reply-To: <20201116145809.410558-63-hch@lst.de>
 Content-Language: en-US
 Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
 	"Michael S. Tsirkin" <mst@redhat.com>,
@@ -42,7 +42,7 @@ Cc: Justin Sanders <justin@coraid.com>, Mike Snitzer <snitzer@redhat.com>,
 	Minchan Kim <minchan@kernel.org>, linux-fsdevel@vger.kernel.org,
 	Paolo Bonzini <pbonzini@redhat.com>,
 	=?UTF-8?Q?Roger_Pau_Monn=c3=a9?= <roger.pau@citrix.com>
-Subject: Re: [Drbd-dev] [PATCH 61/78] zram: do not call set_blocksize
+Subject: Re: [Drbd-dev] [PATCH 62/78] loop: do not call set_blocksize
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -65,14 +65,13 @@ T24gMTEvMTYvMjAgMzo1NyBQTSwgQ2hyaXN0b3BoIEhlbGx3aWcgd3JvdGU6Cj4gc2V0X2Jsb2Nr
 c2l6ZSBpcyB1c2VkIGJ5IGZpbGUgc3lzdGVtcyB0byB1c2UgdGhlaXIgcHJlZmVycmVkIGJ1ZmZl
 ciBjYWNoZQo+IGJsb2NrIHNpemUuICBCbG9jayBkcml2ZXJzIHNob3VsZCBub3Qgc2V0IGl0Lgo+
 IAo+IFNpZ25lZC1vZmYtYnk6IENocmlzdG9waCBIZWxsd2lnIDxoY2hAbHN0LmRlPgo+IC0tLQo+
-ICAgZHJpdmVycy9ibG9jay96cmFtL3pyYW1fZHJ2LmMgfCAxMSArLS0tLS0tLS0tLQo+ICAgZHJp
-dmVycy9ibG9jay96cmFtL3pyYW1fZHJ2LmggfCAgMSAtCj4gICAyIGZpbGVzIGNoYW5nZWQsIDEg
-aW5zZXJ0aW9uKCspLCAxMSBkZWxldGlvbnMoLSkKPiAKUmV2aWV3ZWQtYnk6IEhhbm5lcyBSZWlu
-ZWNrZSA8aGFyZUBzdXNlLmRlPgoKQ2hlZXJzLAoKSGFubmVzCi0tIApEci4gSGFubmVzIFJlaW5l
-Y2tlICAgICAgICAgICAgICAgIEtlcm5lbCBTdG9yYWdlIEFyY2hpdGVjdApoYXJlQHN1c2UuZGUg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICArNDkgOTExIDc0MDUzIDY4OApTVVNFIFNvZnR3
-YXJlIFNvbHV0aW9ucyBHbWJILCBNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcKSFJCIDM2
-ODA5IChBRyBOw7xybmJlcmcpLCBHZXNjaMOkZnRzZsO8aHJlcjogRmVsaXggSW1lbmTDtnJmZmVy
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyYmQtZGV2
-IG1haWxpbmcgbGlzdApkcmJkLWRldkBsaXN0cy5saW5iaXQuY29tCmh0dHBzOi8vbGlzdHMubGlu
-Yml0LmNvbS9tYWlsbWFuL2xpc3RpbmZvL2RyYmQtZGV2Cg==
+ICAgZHJpdmVycy9ibG9jay9sb29wLmMgfCAzIC0tLQo+ICAgMSBmaWxlIGNoYW5nZWQsIDMgZGVs
+ZXRpb25zKC0pCj4gClJldmlld2VkLWJ5OiBIYW5uZXMgUmVpbmVja2UgPGhhcmVAc3VzZS5kZT4K
+CkNoZWVycywKCkhhbm5lcwotLSAKRHIuIEhhbm5lcyBSZWluZWNrZSAgICAgICAgICAgICAgICBL
+ZXJuZWwgU3RvcmFnZSBBcmNoaXRlY3QKaGFyZUBzdXNlLmRlICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgKzQ5IDkxMSA3NDA1MyA2ODgKU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR21iSCwg
+TWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnCkhSQiAzNjgwOSAoQUcgTsO8cm5iZXJnKSwg
+R2VzY2jDpGZ0c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcgpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmJkLWRldiBtYWlsaW5nIGxpc3QKZHJiZC1k
+ZXZAbGlzdHMubGluYml0LmNvbQpodHRwczovL2xpc3RzLmxpbmJpdC5jb20vbWFpbG1hbi9saXN0
+aW5mby9kcmJkLWRldgo=
