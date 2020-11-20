@@ -2,43 +2,90 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AC4A2BFFE7
-	for <lists+drbd-dev@lfdr.de>; Mon, 23 Nov 2020 07:21:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75DE62BFFE8
+	for <lists+drbd-dev@lfdr.de>; Mon, 23 Nov 2020 07:21:51 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1F3334207A4;
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 902DA420236;
 	Mon, 23 Nov 2020 07:21:50 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 244EC42062D
-	for <drbd-dev@lists.linbit.com>; Fri, 20 Nov 2020 19:28:02 +0100 (CET)
-Received: from embeddedor (187-162-31-110.static.axtel.net [187.162.31.110])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 5D6772224C;
-	Fri, 20 Nov 2020 18:28:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1605896881;
-	bh=kZP/yJ0fC48nk2mQjLHjxqe4jwNkrL9OlMX67rrCfeM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aSGFVJL9JogUdypN/ZQyffCYDFsJCGJixU+LHOGoE5LJZ6ez1a/tr/mVSC6YJKauR
-	3BPVhKZKtScgBwYWR4sYpZ3ohALDf8WFjDkB7GVCOROu/g9eu2wkT2hn2knGy8pEvX
-	lCGdldmuh5vBvBDOmfhVQjMMdSd7z1YzrlgMaMUo=
-Date: Fri, 20 Nov 2020 12:28:06 -0600
-From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To: Philipp Reisner <philipp.reisner@linbit.com>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>, Jens Axboe <axboe@kernel.dk>
-Message-ID: <44663f18fb12e39c53b0e69039c98505b7c6d5da.1605896059.git.gustavoars@kernel.org>
-References: <cover.1605896059.git.gustavoars@kernel.org>
-MIME-Version: 1.0
-Content-Disposition: inline
+X-Greylist: delayed 558 seconds by postgrey-1.31 at mail19;
+	Fri, 20 Nov 2020 19:38:19 CET
+Received: from smtprelay.hostedemail.com (smtprelay0224.hostedemail.com
+	[216.40.44.224])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 59C0B420605
+	for <drbd-dev@lists.linbit.com>; Fri, 20 Nov 2020 19:38:18 +0100 (CET)
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
+	[10.5.19.251])
+	by smtpgrave07.hostedemail.com (Postfix) with ESMTP id E26F518014CA5
+	for <drbd-dev@lists.linbit.com>; Fri, 20 Nov 2020 18:29:02 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+	[216.40.38.60])
+	by smtprelay04.hostedemail.com (Postfix) with ESMTP id 2DC80180A7FF1;
+	Fri, 20 Nov 2020 18:29:00 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
+	RULES_HIT:41:355:379:599:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1539:1593:1594:1711:1730:1747:1777:1792:2198:2199:2393:2559:2562:2731:2828:3138:3139:3140:3141:3142:3352:3622:3865:3866:3867:3870:3871:3874:4321:4362:5007:6742:6743:10004:10400:10848:11232:11658:11914:12297:12740:12760:12895:13069:13311:13357:13439:14180:14659:14721:21060:21067:21080:21627:21990:30012:30054:30070:30091,
+	0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
+	DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none,
+	Custom_rules:0:0:0, LFtime:1, LUA_SUMMARY:none
+X-HE-Tag: woman67_620d0012734d
+X-Filterd-Recvd-Size: 3843
+Received: from XPS-9350.home (unknown [47.151.133.149])
+	(Authenticated sender: joe@perches.com)
+	by omf05.hostedemail.com (Postfix) with ESMTPA;
+	Fri, 20 Nov 2020 18:28:49 +0000 (UTC)
+Message-ID: <3e0bbb1644fe53d79322c2feb28ccaf3e20c0e94.camel@perches.com>
+From: Joe Perches <joe@perches.com>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+	linux-kernel@vger.kernel.org
+Date: Fri, 20 Nov 2020 10:28:48 -0800
 In-Reply-To: <cover.1605896059.git.gustavoars@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <cover.1605896059.git.gustavoars@kernel.org>
+User-Agent: Evolution 3.38.1-1 
+MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 23 Nov 2020 07:21:47 +0100
-Cc: linux-block@vger.kernel.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org,
-	drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 027/141] drbd: Fix fall-through warnings for Clang
+Cc: alsa-devel@alsa-project.org, linux-atm-general@lists.sourceforge.net,
+	reiserfs-devel@vger.kernel.org, linux-iio@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+	Nathan Chancellor <natechancellor@gmail.com>,
+	linux-ide@vger.kernel.org, dm-devel@redhat.com,
+	keyrings@vger.kernel.org, linux-mtd@lists.infradead.org,
+	linux-hardening@vger.kernel.org, wcn36xx@lists.infradead.org,
+	samba-technical@lists.samba.org, linux-i3c@lists.infradead.org,
+	linux1394-devel@lists.sourceforge.net, linux-afs@lists.infradead.org,
+	usb-storage@lists.one-eyed-alien.net, drbd-dev@lists.linbit.com,
+	devel@driverdev.osuosl.org, linux-cifs@vger.kernel.org,
+	rds-devel@oss.oracle.com, Nick Desaulniers <ndesaulniers@google.com>,
+	linux-scsi@vger.kernel.org, linux-rdma@vger.kernel.org,
+	oss-drivers@netronome.com, bridge@lists.linux-foundation.org,
+	amd-gfx@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
+	cluster-devel@redhat.com, linux-acpi@vger.kernel.org,
+	coreteam@netfilter.org, intel-wired-lan@lists.osuosl.org,
+	linux-input@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
+	tipc-discussion@lists.sourceforge.net,
+	linux-ext4@vger.kernel.org, linux-media@vger.kernel.org,
+	GR-Linux-NIC-Dev@marvell.com, linux-watchdog@vger.kernel.org,
+	selinux@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	intel-gfx@lists.freedesktop.org, linux-geode@lists.infradead.org,
+	linux-can@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-gpio@vger.kernel.org, op-tee@lists.trustedfirmware.org,
+	linux-mediatek@lists.infradead.org,
+	GR-everest-linux-l2@marvell.com, xen-devel@lists.xenproject.org,
+	nouveau@lists.freedesktop.org, linux-hams@vger.kernel.org,
+	ceph-devel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-hwmon@vger.kernel.org, x86@kernel.org,
+	linux-nfs@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+	linux-mm@kvack.org, netdev@vger.kernel.org,
+	linux-decnet-user@lists.sourceforge.net,
+	linux-mmc@vger.kernel.org, linux-sctp@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-security-module@vger.kernel.org, linux-usb@vger.kernel.org,
+	netfilter-devel@vger.kernel.org, linux-crypto@vger.kernel.org,
+	patches@opensource.cirrus.com, linux-integrity@vger.kernel.org,
+	target-devel@vger.kernel.org
+Subject: Re: [Drbd-dev] [PATCH 000/141] Fix fall-through warnings for Clang
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -57,44 +104,26 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-In preparation to enable -Wimplicit-fallthrough for Clang, fix a couple
-of warnings by explicitly adding a break statement instead of just
-letting the code fall through to the next, and by adding a fallthrough
-pseudo-keyword in places whre the code is intended to fall through.
+On Fri, 2020-11-20 at 12:21 -0600, Gustavo A. R. Silva wrote:
+> Hi all,
+> 
+> This series aims to fix almost all remaining fall-through warnings in
+> order to enable -Wimplicit-fallthrough for Clang.
+> 
+> In preparation to enable -Wimplicit-fallthrough for Clang, explicitly
+> add multiple break/goto/return/fallthrough statements instead of just
+> letting the code fall through to the next case.
+> 
+> Notice that in order to enable -Wimplicit-fallthrough for Clang, this
+> change[1] is meant to be reverted at some point. So, this patch helps
+> to move in that direction.
 
-Link: https://github.com/KSPP/linux/issues/115
-Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
----
- drivers/block/drbd/drbd_receiver.c | 1 +
- drivers/block/drbd/drbd_req.c      | 1 +
- 2 files changed, 2 insertions(+)
+This was a bit hard to parse for a second or three.
 
-diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd_receiver.c
-index dc333dbe5232..c19bb74ac935 100644
---- a/drivers/block/drbd/drbd_receiver.c
-+++ b/drivers/block/drbd/drbd_receiver.c
-@@ -5863,6 +5863,7 @@ static int got_NegRSDReply(struct drbd_connection *connection, struct packet_inf
- 		switch (pi->cmd) {
- 		case P_NEG_RS_DREPLY:
- 			drbd_rs_failed_io(device, sector, size);
-+			break;
- 		case P_RS_CANCEL:
- 			break;
- 		default:
-diff --git a/drivers/block/drbd/drbd_req.c b/drivers/block/drbd/drbd_req.c
-index 330f851cb8f0..9f212a923a3c 100644
---- a/drivers/block/drbd/drbd_req.c
-+++ b/drivers/block/drbd/drbd_req.c
-@@ -750,6 +750,7 @@ int __req_mod(struct drbd_request *req, enum drbd_req_event what,
- 
- 	case WRITE_ACKED_BY_PEER_AND_SIS:
- 		req->rq_state |= RQ_NET_SIS;
-+		fallthrough;
- 	case WRITE_ACKED_BY_PEER:
- 		/* Normal operation protocol C: successfully written on peer.
- 		 * During resync, even in protocol != C,
--- 
-2.27.0
+Thanks Gustavo.
+
+How was this change done?
+
 
 _______________________________________________
 drbd-dev mailing list
