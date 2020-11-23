@@ -2,44 +2,44 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A6682C10E1
+	by mail.lfdr.de (Postfix) with ESMTPS id C447A2C10E2
 	for <lists+drbd-dev@lfdr.de>; Mon, 23 Nov 2020 17:42:29 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D89C64207BB;
-	Mon, 23 Nov 2020 17:42:28 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 8487F4207C0;
+	Mon, 23 Nov 2020 17:42:29 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-yb1-f193.google.com (mail-yb1-f193.google.com
-	[209.85.219.193])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6836A42062F
-	for <drbd-dev@lists.linbit.com>; Mon, 23 Nov 2020 15:05:44 +0100 (CET)
-Received: by mail-yb1-f193.google.com with SMTP id 10so16032889ybx.9
-	for <drbd-dev@lists.linbit.com>; Mon, 23 Nov 2020 06:05:44 -0800 (PST)
+Received: from mail-yb1-f196.google.com (mail-yb1-f196.google.com
+	[209.85.219.196])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A8BA842062F
+	for <drbd-dev@lists.linbit.com>; Mon, 23 Nov 2020 15:20:06 +0100 (CET)
+Received: by mail-yb1-f196.google.com with SMTP id o71so16087691ybc.2
+	for <drbd-dev@lists.linbit.com>; Mon, 23 Nov 2020 06:20:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=RhHqKgQbKUW77nc47JuvCnp+w8QNxENxQLSt6AHkTqQ=;
-	b=uc3VE1PZNnY/Z1NgZXLeWe/Nj5hsoBfQkeeHXaE+d0SDr9xNRMPYxU1o6fpuaiqkgi
-	yuFjhawxyOxFbziEfkWs4inb92LCIVTnNTVXAL7657JtY5jUPnHae9XC4JONvfltcDzK
-	9TpDS0ylXwfesoyru6or5tLuj2Wgq4fxc0XGG5evkxw7F5K63x1NbbMukm854FcfQLy0
-	gnTDe+NWIPcxyPxl6ZwlkcZY1OnasK1C98JFaIzSzrlrdcg6icgY2nCNokwGspTvBpMG
-	u0c2fJxhgJsKPBZAzgP85ZG8VhKJUulmNcJ8sZ+phgCZ9U4trQ3IF/NnqsJiuQ1qY+5Q
-	UH8Q==
+	:cc; bh=WUYMqcUnfpAQa1YuH9tQ3ze5bp2bxaoGLXc9Sg/470Y=;
+	b=b0LkeT2q71Z3peIccxL7MkU5QadaCN3igdEC89IE4ykmdOxIlhuoo/0+H7pQCoNmlh
+	0UX19Z7soasUpz2fDZHX56luUWrH4GLKAJ9K28HwPu9km7qlcvasqfBffaQW+LtXvh6a
+	fVP4J8wQFxbi1QWFB10Wsq9dLONxRShLcqQtcaktrZCy3tSRV5R4FOw2MSdgwNuCxNwd
+	cKQMyE/jYgmlc9Qm972BZKz9xJaasT5iW6gpZgai8YpCh1sxJNgZFzlfCpv21Fvd7rwb
+	akOsznbnFT4mJT95mXFDUPnplTdAJirWAcm8YfzHFRAfOGn9Vk91PuRcq7JipLelDPMB
+	VWgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=RhHqKgQbKUW77nc47JuvCnp+w8QNxENxQLSt6AHkTqQ=;
-	b=XTRhByJ6/+e5aEtrevUvL4+5jM6ngFeBWAiXUG1XPCUa46gKJ5PTM0l9DKUlI1JKzN
-	yBSLr6RMERL427Gf50KVv6KiuU8KNQ2gcidmQi/iauZqfXXvmpmV9q4BDqUxjM29J9VR
-	dVLFRPCFsxQQRsnI6aCV7e8O2OMCwIIWWW1x8hgbZY0nN0jzqUIJtMYJpMlRrO1twR1e
-	BDbj/Okoghw8+LNvlFrvwL8mVDas6zHs62WOoSXNhSGF6lGhvqax1IwBI4T5L787Roki
-	zkNFA/FkGGLyy/O8HB7ya4OjHPvnp5nkxGDZwOv9cTExdHWFJHQnAyhYpinZQlOhDwMt
-	VLcw==
-X-Gm-Message-State: AOAM533+6Edw3poplGAfx8kKFjD2cLbJMkwAakw8SaY9j3HNPoKbv9cb
-	elFub3qWgXwykjyRV2xpmy7z6Dx7XKBMOhOrPf4=
-X-Google-Smtp-Source: ABdhPJz9DsZ58e7OIIOr/VE9Xtax3PWaLuFuRyVLpjTsCzIYcuPGWJiVUhGusztX9v02ET+47HU3GtURC6oS5LfC9Lw=
-X-Received: by 2002:a5b:40e:: with SMTP id m14mr35121900ybp.33.1606140343388; 
-	Mon, 23 Nov 2020 06:05:43 -0800 (PST)
+	bh=WUYMqcUnfpAQa1YuH9tQ3ze5bp2bxaoGLXc9Sg/470Y=;
+	b=irDNi7hOz0N6Oq18XYMiLTgYveiEWpBsdJXXCF+k2uPxo7kaMG5wqfZho3McmmJCOI
+	EUe6LqhbYX22BS7KgamTdKdZrDw6OPjtLO86uVNwtqs9TaVgLtEZpmimk9BBe7UDywvt
+	4ec17KC0Vqm8In/apPJiFg7Sfx88YpnTcMU6gCNPngAZBVAmpWNs3thpI7qS/iDgRjFJ
+	DvT1k+7NdDP6F8LFtfLqNt2iSSwjXg0rt4Zr7QHTmV2DNcTQTNMT0xVw4lGlvenudcKi
+	LlrKfcGqg3GzfH6GpWwpks1Jq/8ijQm97ozz9e+ts8DZtYWS4dhmokbF7b5fDBfZqGEo
+	zETg==
+X-Gm-Message-State: AOAM533gGinscBHZvw+bAXCvujqrn+Cr3TunSqIsd0s/1JaM35e7BHVJ
+	3zKFrKbjIDW+Ail/gQdWWRzvL8eZtolJEoPdqXk=
+X-Google-Smtp-Source: ABdhPJyiJqjBIpEzWlk5pyqpoGG3+KpoWdKnlyza2YA6ODhXnRhATytwh5Bq+iGOzNqc5gs+zuqHC8iB1cjfDTXU/ik=
+X-Received: by 2002:a25:bcc7:: with SMTP id l7mr32380985ybm.115.1606141205830; 
+	Mon, 23 Nov 2020 06:20:05 -0800 (PST)
 MIME-Version: 1.0
 References: <cover.1605896059.git.gustavoars@kernel.org>
 	<20201120105344.4345c14e@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
@@ -48,15 +48,14 @@ References: <cover.1605896059.git.gustavoars@kernel.org>
 	<202011220816.8B6591A@keescook>
 	<9b57fd4914b46f38d54087d75e072d6e947cb56d.camel@HansenPartnership.com>
 	<CANiq72nZrHWTA4_Msg6MP9snTyenC6-eGfD27CyfNSu7QoVZbw@mail.gmail.com>
-	<alpine.LNX.2.23.453.2011230938390.7@nippy.intranet>
-In-Reply-To: <alpine.LNX.2.23.453.2011230938390.7@nippy.intranet>
+	<1c7d7fde126bc0acf825766de64bf2f9b888f216.camel@HansenPartnership.com>
+In-Reply-To: <1c7d7fde126bc0acf825766de64bf2f9b888f216.camel@HansenPartnership.com>
 From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 23 Nov 2020 15:05:31 +0100
-Message-ID: <CANiq72=z+tmuey9wj3Kk7wX5s0hTHpsQdLhAqcOVNrHon6xn5Q@mail.gmail.com>
-To: Finn Thain <fthain@telegraphics.com.au>
+Date: Mon, 23 Nov 2020 15:19:55 +0100
+Message-ID: <CANiq72m22Jb5_+62NnwX8xds2iUdWDMAqD8PZw9cuxdHd95W0A@mail.gmail.com>
+To: James Bottomley <James.Bottomley@hansenpartnership.com>
 X-Mailman-Approved-At: Mon, 23 Nov 2020 17:42:26 +0100
-Cc: linux-watchdog@vger.kernel.org, alsa-devel@alsa-project.org,
-	linux-atm-general@lists.sourceforge.net,
+Cc: alsa-devel@alsa-project.org, linux-atm-general@lists.sourceforge.net,
 	reiserfs-devel@vger.kernel.org, linux-iio@vger.kernel.org,
 	linux-wireless <linux-wireless@vger.kernel.org>,
 	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
@@ -83,15 +82,14 @@ Cc: linux-watchdog@vger.kernel.org, alsa-devel@alsa-project.org,
 	GR-Linux-NIC-Dev@marvell.com, Kees Cook <keescook@chromium.org>,
 	selinux@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 	intel-gfx@lists.freedesktop.org, linux-geode@lists.infradead.org,
-	linux-can@vger.kernel.org,
-	James Bottomley <James.Bottomley@hansenpartnership.com>,
+	linux-can@vger.kernel.org, linux-block@vger.kernel.org,
 	linux-gpio@vger.kernel.org, op-tee@lists.trustedfirmware.org,
 	linux-mediatek@lists.infradead.org,
 	GR-everest-linux-l2@marvell.com, xen-devel@lists.xenproject.org,
 	nouveau@lists.freedesktop.org, linux-hams@vger.kernel.org,
 	ceph-devel@vger.kernel.org, virtualization@lists.linux-foundation.org,
 	Linux ARM <linux-arm-kernel@lists.infradead.org>,
-	linux-hwmon@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-watchdog@vger.kernel.org,
 	linux-nfs@vger.kernel.org, tipc-discussion@lists.sourceforge.net,
 	Linux-MM <linux-mm@kvack.org>,
 	Network Development <netdev@vger.kernel.org>,
@@ -122,41 +120,38 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Sun, Nov 22, 2020 at 11:54 PM Finn Thain <fthain@telegraphics.com.au> wrote:
+On Sun, Nov 22, 2020 at 11:36 PM James Bottomley
+<James.Bottomley@hansenpartnership.com> wrote:
 >
-> We should also take into account optimisim about future improvements in
-> tooling.
+> Well, it seems to be three years of someone's time plus the maintainer
+> review time and series disruption of nearly a thousand patches.  Let's
+> be conservative and assume the producer worked about 30% on the series
+> and it takes about 5-10 minutes per patch to review, merge and for
+> others to rework existing series.  So let's say it's cost a person year
+> of a relatively junior engineer producing the patches and say 100h of
+> review and application time.  The latter is likely the big ticket item
+> because it's what we have in least supply in the kernel (even though
+> it's 20x vs the producer time).
 
-Not sure what you mean here. There is no reliable way to guess what
-the intention was with a missing fallthrough, even if you parsed
-whitespace and indentation.
+How are you arriving at such numbers? It is a total of ~200 trivial lines.
 
-> It is if you want to spin it that way.
+> It's not about the risk of the changes it's about the cost of
+> implementing them.  Even if you discount the producer time (which
+> someone gets to pay for, and if I were the engineering manager, I'd be
+> unhappy about), the review/merge/rework time is pretty significant in
+> exchange for six minor bug fixes.  Fine, when a new compiler warning
+> comes along it's certainly reasonable to see if we can benefit from it
+> and the fact that the compiler people think it's worthwhile is enough
+> evidence to assume this initially.  But at some point you have to ask
+> whether that assumption is supported by the evidence we've accumulated
+> over the time we've been using it.  And if the evidence doesn't support
+> it perhaps it is time to stop the experiment.
 
-How is that a "spin"? It is a fact that we won't get *implicit*
-fallthrough mistakes anymore (in particular if we make it a hard
-error).
+Maintainers routinely review 1-line trivial patches, not to mention
+internal API changes, etc.
 
-> But what we inevitably get is changes like this:
->
->  case 3:
->         this();
-> +       break;
->  case 4:
->         hmmm();
->
-> Why? Mainly to silence the compiler. Also because the patch author argued
-> successfully that they had found a theoretical bug, often in mature code.
-
-If someone changes control flow, that is on them. Every kernel
-developer knows what `break` does.
-
-> But is anyone keeping score of the regressions? If unreported bugs count,
-> what about unreported regressions?
-
-Introducing `fallthrough` does not change semantics. If you are really
-keen, you can always compare the objects because the generated code
-shouldn't change.
+If some company does not want to pay for that, that's fine, but they
+don't get to be maintainers and claim `Supported`.
 
 Cheers,
 Miguel
