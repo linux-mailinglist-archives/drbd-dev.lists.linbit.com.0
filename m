@@ -2,45 +2,45 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15D012C6051
-	for <lists+drbd-dev@lfdr.de>; Fri, 27 Nov 2020 08:09:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FC732C6052
+	for <lists+drbd-dev@lfdr.de>; Fri, 27 Nov 2020 08:09:14 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3A8054206CD;
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 8C5024207A7;
 	Fri, 27 Nov 2020 08:09:11 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
-	[209.85.215.194])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id AD7E34205FE
-	for <drbd-dev@lists.linbit.com>; Wed, 25 Nov 2020 23:09:20 +0100 (CET)
-Received: by mail-pg1-f194.google.com with SMTP id t21so3639961pgl.3
-	for <drbd-dev@lists.linbit.com>; Wed, 25 Nov 2020 14:09:20 -0800 (PST)
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+	[209.85.214.194])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 21BC84205FE
+	for <drbd-dev@lists.linbit.com>; Wed, 25 Nov 2020 23:09:41 +0100 (CET)
+Received: by mail-pl1-f194.google.com with SMTP id l1so96309pld.5
+	for <drbd-dev@lists.linbit.com>; Wed, 25 Nov 2020 14:09:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=u18D3LcbSYuoMMQXGcZuOSSHQ97aqFAj6PSwZPKzyfI=;
-	b=WifNdkiftaOaD4ZZckvIqaLo1oDpErEfQOeEaPPqC9ugBqwKDiWX7cyNX9NNokqABc
-	3rs8Xkh/xt0eSkb8xVKJLxbZ9ctD9N09POwkigNrKsLe837qPjgVNlPjii1YQ7Ys5fEN
-	J1ztqI2SdAxczb+fxW5+t1BuuInt0J3EnKhYhGXUx/Ycs4OeMqDUGayCvZ/rK/2hwzHv
-	fvNTfM4yxqfrW/W8EGBwEJD3ef8E6CIFveHPM/2Vwj3USBV6V1sXpGOaikzNc+dcQTTs
-	sQr+N2RUFmFahGpkDJgGJRdpjSZFKGXDT4Evw9946EQKZvU8LN7QRJCs+4k3wXo2GKBl
-	nncg==
+	:cc; bh=/ob3FEJdYP5qhdHPeLajEb6PUDm9frxLF1mdXzRdH3M=;
+	b=L3KZpP3LXxZlW/DP5AmTnD4MuZ72/rcy+coOeUVeCNTiwrWtzoVQx/hBMoKUsqDMm0
+	Foet9vcyJsJZ2PSgueU+Q+MvDj0KUWyeWX5guwBWRMdbnXZ08cX56htqXhsZrxHUuRIn
+	vYFnIpmbgrasg1vSD5AH5hKwOy9NejMhVovtjBrzY+2P0ug3w3+5RlYsOk03C83VD9da
+	OdGtf9c6uotPHdYcmuyOqbnF5k3fP8Yo6l5eFDVR7n6m5okfFX1oHlXNOB3u6UsnrVGE
+	wa6MluYkHn1XOYZTDyrE2KQmcun7Qe6vVmhaYurLDnZVMQG/lFJsGakXcuEY3+Obie2U
+	RVfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=u18D3LcbSYuoMMQXGcZuOSSHQ97aqFAj6PSwZPKzyfI=;
-	b=en+42n4bzJE41G2Zc2ZBC56LBcPnCzY5yuT9C5KPdEEay2Lxfp1EXSYCAcQYa87xbJ
-	TB0LTnrkYHcg19MOGkYq/WY6vO73c8FZa9toNiTXRx9VqEEK/YHNkXV0vYHuMeRXvmDJ
-	CF5l5zsHe94PcOkaPXeZoofk9sZFSHNL24H/7v7LAg1Bgz583ybiajDqtqg3XHvHkB0n
-	wfYuiJwcYMkqx1+XHizJo491M8C8urBkHmLn6K1wGKk1IbUUxzV7jNi5ft351uUUslON
-	buz0QVFGs3Xp2AnaA20BduEOMMwjahDqInhSjuP4lOPkGgLCCgktkVIOTuwWM8Ua3+Lx
-	fQsg==
-X-Gm-Message-State: AOAM5318BhLb5Zn6KJaLssq2kj05VBj2QgqPYBAyOdlgykUsbdchftXz
-	HtX3OZKhRT2M+86nbXGFhyUpLlVpJFcA6rHO8a/rug==
-X-Google-Smtp-Source: ABdhPJxX4YdX/dgPSH4qNW13nZ+NPFnsWrpBgteZRS2UfRF2x25a9zmwdzqZA/h0sTtapVP+ZBS7Enbowp+5Zxn/Mxo=
-X-Received: by 2002:a17:90a:d250:: with SMTP id
-	o16mr6463569pjw.25.1606342159332; 
-	Wed, 25 Nov 2020 14:09:19 -0800 (PST)
+	bh=/ob3FEJdYP5qhdHPeLajEb6PUDm9frxLF1mdXzRdH3M=;
+	b=P2Jwm+Se8yP6ypeJI6dYdPJxTnpW2hkiAQstivuJHl3u39ERkz9/S+UlbxmOj6U1Dx
+	K4BVnawQq+sE9Ew2bBWt3SPs5N+THL2wrq1RLibeaTiMwT9yb2/KC3gVp2vVKlMTkdmB
+	clmMt8eWZKIMchNaIyupahL0P2BEbOpXvA1HvyAGj3STLaSf6el6N3n0EXZJ6Rq4yRyp
+	CZ2QAcSMCCWktRukMIe0RuVDuQxuAzo24i2WFLfKgp8lpDVuLDXzhpIZX5enyaE4E2iz
+	foLc0KdaNhzdLsGgkY+oSej+Eslfn/CGC9wcqHy/JXJ+4X2vpCMh6ckkGADWawSXACQW
+	WBxA==
+X-Gm-Message-State: AOAM533P4fnqNswtynWuv4KaEbzWL8R3tJej82glBOS+jSmBtV2VtBz9
+	0tsdV4EILsjt9l9MEBK5rxKj0EYOgQXZSeeW68SqOQ==
+X-Google-Smtp-Source: ABdhPJz8lLt/1COGEMpWkFDfyIK6h7HwbxIAa+xtHaAqLUfnjsVh22wexUgkVgdtXLczfRnuDI51yr8PXCWqKuZKul4=
+X-Received: by 2002:a17:902:c14a:b029:d8:dc05:d7ef with SMTP id
+	10-20020a170902c14ab02900d8dc05d7efmr4885886plj.83.1606342180784;
+	Wed, 25 Nov 2020 14:09:40 -0800 (PST)
 MIME-Version: 1.0
 References: <202011201129.B13FDB3C@keescook>
 	<20201120115142.292999b2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
@@ -55,64 +55,64 @@ References: <202011201129.B13FDB3C@keescook>
 	<202011241327.BB28F12F6@keescook>
 	<a841536fe65bb33f1c72ce2455a6eb47a0107565.camel@HansenPartnership.com>
 	<CAKwvOdkGBn7nuWTAqrORMeN1G+w3YwBfCqqaRD2nwvoAXKi=Aw@mail.gmail.com>
-	<20201125082405.1d8c23dc@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <20201125082405.1d8c23dc@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+	<alpine.LNX.2.23.453.2011260750300.6@nippy.intranet>
+In-Reply-To: <alpine.LNX.2.23.453.2011260750300.6@nippy.intranet>
 From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Wed, 25 Nov 2020 14:09:08 -0800
-Message-ID: <CAKwvOdkWGE5qdFZUuMzcL63LDOu_iZQJOGbeBNjcPi8sJPMkag@mail.gmail.com>
-To: Jakub Kicinski <kuba@kernel.org>
+Date: Wed, 25 Nov 2020 14:09:29 -0800
+Message-ID: <CAKwvOdna5Zj_O=sB7Q0jHZX0BJSaakX=ZyftwQ_3=L3-ZB54XQ@mail.gmail.com>
+To: Finn Thain <fthain@telegraphics.com.au>
 X-Mailman-Approved-At: Fri, 27 Nov 2020 08:09:08 +0100
 Cc: alsa-devel@alsa-project.org, bridge@lists.linux-foundation.org,
-	=?UTF-8?Q?n=40huawei=2Ecom=3E=2C_Greg_KH?= <gregkh@linuxfoundation.org>,
-	linux-iio@vger.kernel.org,
+	target-devel@vger.kernel.org,
+	Greg KH <gregkh@linuxfoundation.org>, linux-iio@vger.kernel.org,
 	linux-wireless <linux-wireless@vger.kernel.org>,
-	linux-fbdev@vger.kernel.org,
-	dri-devel <dri-devel@lists.freedesktop.org>,
+	linux-fbdev@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
 	linux-ide@vger.kernel.org, dm-devel@redhat.com,
 	keyrings@vger.kernel.org, linux-mtd@lists.infradead.org,
+	linux-hardening@vger.kernel.org,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
 	wcn36xx@lists.infradead.org, linux-i3c@lists.infradead.org,
-	linux1394-devel@lists.sourceforge.net, linux-afs@lists.infradead.org,
-	drbd-dev@lists.linbit.com, devel@driverdev.osuosl.org,
-	linux-cifs@vger.kernel.org, rds-devel@oss.oracle.com,
-	linux-scsi@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-rdma@vger.kernel.org, oss-drivers@netronome.com,
-	linux-atm-general@lists.sourceforge.net, ceph-devel@vger.kernel.org,
-	amd-gfx list <amd-gfx@lists.freedesktop.org>,
-	linux-stm32@st-md-mailman.stormreply.com, cluster-devel@redhat.com,
-	usb-storage@lists.one-eyed-alien.net, linux-mmc@vger.kernel.org,
-	coreteam@netfilter.org, intel-wired-lan@lists.osuosl.org,
-	linux-input@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
-	xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org,
+	linux1394-devel@lists.sourceforge.net,
+	linux-afs@lists.infradead.org, drbd-dev@lists.linbit.com,
+	devel@driverdev.osuosl.org, linux-cifs@vger.kernel.org,
+	rds-devel@oss.oracle.com, linux-scsi@vger.kernel.org,
+	linux-acpi@vger.kernel.org, linux-rdma@vger.kernel.org,
+	oss-drivers@netronome.com, linux-atm-general@lists.sourceforge.net,
+	ceph-devel@vger.kernel.org, amd-gfx list <amd-gfx@lists.freedesktop.org>,
+	linux-stm32@st-md-mailman.stormreply.com,
+	cluster-devel@redhat.com, usb-storage@lists.one-eyed-alien.net,
+	linux-mmc@vger.kernel.org, coreteam@netfilter.org,
+	intel-wired-lan@lists.osuosl.org, linux-input@vger.kernel.org,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, linux-ext4@vger.kernel.org,
 	virtualization@lists.linux-foundation.org,
 	netfilter-devel@vger.kernel.org, linux-media@vger.kernel.org,
-	=?UTF-8?Q?egrity=40vger=2Ekernel=2Eorg=2C_target=2Ddevel=40vger=2Ekernel=2Eorg=2C_linux=2D?=@linbit.com,
-	=?UTF-8?Q?o=40vger=2Ekernel=2Eorg=3E=2C_patches=40opensource=2Ecirrus=2Ecom=2C_linux=2Dint?=@linbit.com,
 	GR-Linux-NIC-Dev@marvell.com, Kees Cook <keescook@chromium.org>,
-	selinux@vger.kernel.org,
-	linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+	selinux@vger.kernel.org, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
 	intel-gfx@lists.freedesktop.org, linux-sctp@vger.kernel.org,
 	reiserfs-devel@vger.kernel.org, linux-geode@lists.infradead.org,
 	James Bottomley <James.Bottomley@hansenpartnership.com>,
 	linux-gpio@vger.kernel.org, op-tee@lists.trustedfirmware.org,
-	linux-mediatek@lists.infradead.org, GR-everest-linux-l2@marvell.com,
+	linux-mediatek@lists.infradead.org,
+	GR-everest-linux-l2@marvell.com, xen-devel@lists.xenproject.org,
 	nouveau@lists.freedesktop.org, linux-hams@vger.kernel.org,
-	Nathan Chancellor <natechancellor@gmail.com>,
-	linux-can@vger.kernel.org,
+	Nathan Chancellor <natechancellor@gmail.com>, linux-can@vger.kernel.org,
 	Linux ARM <linux-arm-kernel@lists.infradead.org>,
 	linux-hwmon@vger.kernel.org, linux-block@vger.kernel.org,
 	linux-watchdog@vger.kernel.org,
 	Linux Memory Management List <linux-mm@kvack.org>,
 	Network Development <netdev@vger.kernel.org>,
-	linux-decnet-user@lists.sourceforge.net,
-	samba-technical@lists.samba.org, LKML <linux-kernel@vger.kernel.org>,
-	=?UTF-8?Q?open_list=3AHARDWARE_RANDOM_NUMBER_GENERATOR_CORE_=3Clinux=2Dcrypt?=@linbit.com,
+	linux-decnet-user@lists.sourceforge.net, samba-technical@lists.samba.org,
+	LKML <linux-kernel@vger.kernel.org>,
 	Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
 	linux-security-module@vger.kernel.org, linux-usb@vger.kernel.org,
 	tipc-discussion@lists.sourceforge.net,
-	=?UTF-8?Q?hardening=40vger=2Ekernel=2Eorg=2C_Jonathan_Cameron_=3CJonathan=2ECamero?=@linbit.com,
-	Joe Perches <joe@perches.com>, linux-nfs@vger.kernel.org,
-	"maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
+	"open list:HARDWARE RANDOM NUMBER GENERATOR CORE"
+	<linux-crypto@vger.kernel.org>, patches@opensource.cirrus.com,
+	Joe Perches <joe@perches.com>, linux-integrity@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	"maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>
 Subject: Re: [Drbd-dev] [Intel-wired-lan] [PATCH 000/141] Fix fall-through
 	warnings for Clang
 X-BeenThere: drbd-dev@lists.linbit.com
@@ -133,23 +133,33 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Wed, Nov 25, 2020 at 8:24 AM Jakub Kicinski <kuba@kernel.org> wrote:
+On Wed, Nov 25, 2020 at 1:33 PM Finn Thain <fthain@telegraphics.com.au> wrote:
 >
-> Applying a real patch set and then getting a few follow ups the next day
-> for trivial coding things like fallthrough missing or static missing,
-> just because I didn't have the full range of compilers to check with
-> before applying makes me feel pretty shitty, like I'm not doing a good
-> job. YMMV.
+> Or do you think that a codebase can somehow satisfy multiple checkers and
+> their divergent interpretations of the language spec?
 
-I understand. Everyone feels that way, except maybe Bond villains and
-robots.  My advice in that case is don't take it personally.  We're
-working with a language that's more error prone relative to others.
-While one would like to believe they are flawless, over time they
-can't beat the aggregate statistics.  A balance between Imposter
-Syndrome and Dunning Kruger is walked by all software developers, and
-the fear of making mistakes in public is one of the number one reasons
-folks don't take the plunge contributing to open source software or
-even the kernel.  My advice to them is "don't sweat the small stuff."
+Have we found any cases yet that are divergent? I don't think so.  It
+sounds to me like GCC's cases it warns for is a subset of Clang's.
+Having additional coverage with Clang then should ensure coverage for
+both.
+
+> > This is not a shiny new warning; it's already on for GCC and has existed
+> > in both compilers for multiple releases.
+> >
+>
+> Perhaps you're referring to the compiler feature that lead to the
+> ill-fated, tree-wide /* fallthrough */ patch series.
+>
+> When the ink dries on the C23 language spec and the implementations figure
+> out how to interpret it then sure, enforce the warning for new code -- the
+> cost/benefit analysis is straight forward. However, the case for patching
+> existing mature code is another story.
+
+I don't think we need to wait for the ink to dry on the C23 language
+spec to understand that implicit fallthrough is an obvious defect of
+the C language.  While the kernel is a mature codebase, it's not
+immune to bugs.  And its maturity has yet to slow its rapid pace of
+development.
 -- 
 Thanks,
 ~Nick Desaulniers
