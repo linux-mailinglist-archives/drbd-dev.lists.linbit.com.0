@@ -2,53 +2,44 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FFA72C6055
-	for <lists+drbd-dev@lfdr.de>; Fri, 27 Nov 2020 08:09:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EADC2C6056
+	for <lists+drbd-dev@lfdr.de>; Fri, 27 Nov 2020 08:09:17 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 8B5B04207C4;
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id DBB274207C8;
 	Fri, 27 Nov 2020 08:09:12 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 302 seconds by postgrey-1.31 at mail19;
-	Thu, 26 Nov 2020 17:25:04 CET
-Received: from us-smtp-delivery-124.mimecast.com
-	(us-smtp-delivery-124.mimecast.com [216.205.24.124])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C0218420636
-	for <drbd-dev@lists.linbit.com>; Thu, 26 Nov 2020 17:25:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1606407904;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	in-reply-to:in-reply-to:references:references;
-	bh=IL7sPB68gF1YeWIUFuBJ//YIBDjI3bDL6qHHKubt/Z0=;
-	b=JXLgwj0ybuQsw46SCPAmb0UcVg03/VwZCg5171GEE1tD8++LBR1953nX8brr2p6KZqTVcs
-	LodwIGnc3YEMCtNrQM7gTPNuOe/pMfYPTNd6wP1GO2JEVjAuLRr5E8gNCBxgVGegvSuHYt
-	JeNro9Dk6Z+yUnTmr3Oij282ieiPbj8=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
-	[209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
-	us-mta-448-XreNw7c5MO2iMfq4Cz5Vpg-1; Thu, 26 Nov 2020 11:18:25 -0500
-X-MC-Unique: XreNw7c5MO2iMfq4Cz5Vpg-1
-Received: by mail-qt1-f198.google.com with SMTP id t22so1505611qtq.2
-	for <drbd-dev@lists.linbit.com>; Thu, 26 Nov 2020 08:18:25 -0800 (PST)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com
+	[209.85.219.176])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2887542061B
+	for <drbd-dev@lists.linbit.com>; Thu, 26 Nov 2020 18:05:57 +0100 (CET)
+Received: by mail-yb1-f176.google.com with SMTP id t33so2217225ybd.0
+	for <drbd-dev@lists.linbit.com>; Thu, 26 Nov 2020 09:05:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=O/jaIJrbif54isUECHds/J8Ujq0NdoNxUTCCwJWwQ80=;
+	b=YymqsvqKytU8xghgrWvO9q2MBm/qo/QfMLfSKpWw4/r/4uRHhZxuPq9ek+nW3ctzYi
+	vs3zi1yLEuFoGUDgrnF15wpJAK9RqJ1aO9sTXa0PjOzjLe+d4O/pTFiiO013Mx2qKoL4
+	SkUMUUIjag5bjqwHGLYc9f20TwOaOWbGTale/6i8ahvnaZymX26ArF3ReuQKFVdof495
+	iKDDkr6mQvIIbdynQAd2wxd2GUAuBku/vDm4jIdtOw4Ph7wkJ5rD2TxigEVm3yQ5C9tu
+	pJCfZKqtAfLebSyeKrm6VDCN2G4oKvj4TFU9uFOnavPNoLjuB5eIt+ODZ6yyvDDDthAD
+	GeSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=IL7sPB68gF1YeWIUFuBJ//YIBDjI3bDL6qHHKubt/Z0=;
-	b=ANYu+OxHG+SMq8usp/wrWwyZ883cBTIUJw6b+56O582H2dW7mldH1BwhoXgsT2ye7B
-	k9pZ2rS1ybbZgyu7AWGY/3mLvYsMkIgf13aV7jYnJzeyDS0gt5pEln0YT08Up3KTUMdo
-	Ncn5VpQ/uS+RG7P75RyS/2dZ1tA04eWmeS+n0DUbmTU6Fa5b4KvGpRCmzd8PA326ZIG1
-	QZybousHq/CJ7OT+RfRDSq3r8JmzYnfFxvJzSqosSybnwNaRK04dIMGht48qN6gM02xz
-	4Cs7gyMfVJMxOYLhhHmqaOzPnpERVxVfy1gpCcgBi0I9y5/SI6JatV80Kz7pyRedMEhX
-	uKAg==
-X-Gm-Message-State: AOAM530oSitRiyxaI9ort0lyv3/O7a4ecmmp6P1gT7JXDJoBenyOOL0x
-	bEo3bN5bVJ1FIdyae9qjgRRlHxXQ8Sh98rMz6xvIz3fBpn91K0qe2YFyUpfZEKCSuM17x4DKxl2
-	hWp9B02IcNStEw+KB1mfq6//gnMCMCaHv2SYK
-X-Received: by 2002:a37:ac8:: with SMTP id 191mr3793923qkk.381.1606407504813; 
-	Thu, 26 Nov 2020 08:18:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzCU4CKAolN2PpaYdMoKCHma/+NC3lHjkQkQkRPTWC20j3rANbYTTy+FG9V7n634RRlgf0kcsxPjR4LO+NB5fA=
-X-Received: by 2002:a37:ac8:: with SMTP id 191mr3793888qkk.381.1606407504531; 
-	Thu, 26 Nov 2020 08:18:24 -0800 (PST)
+	bh=O/jaIJrbif54isUECHds/J8Ujq0NdoNxUTCCwJWwQ80=;
+	b=iGmWgOhBpZUFBfk0MejixPF1jZfBwP/mSOpEWYSiVqHcY4Sqb5/U8QFcKH3jkUqj8Q
+	hXFkHf5ilYvElBm/+446ONRUbq4GlL4PGnRdET5HRBWItnX3pN915OltIhV4dTB06cud
+	oapH7LCPIj/QyQj/KYbuNK1KM5YImcHGrVwuSitSJZEDKirdu1AN9BuEnEKYjgfK4kXe
+	+O/r3Me5QC2Z7g5735vB/bWsr8bRfT584wnc569OYhTnXk9abQGxzZFdiEM6j1lKi7PO
+	wHPSutdVZ707He0yxZZM6dKH+t2p9luDDNZCrVM+AiKHpYdANP1pyXyS3+TGzB3SsZHn
+	VSOg==
+X-Gm-Message-State: AOAM531aSon5Kwz9+bwCjCmIO3gPD5SBKEz+dokoCjLuiAk/xqpJbnib
+	gUFSKZQ7lNwMBFhtDWBLf1O5LLcTdUAvq/JBCp4=
+X-Google-Smtp-Source: ABdhPJxMy5ncXEZ6TSWkZ0cAXTnkQ7iw+jjdg+cNNUWTZPlZcmFMrQQcJd2JAoeBontKFrtwmzLazAacI3fdsjx9xvQ=
+X-Received: by 2002:a5b:40e:: with SMTP id m14mr4835621ybp.33.1606410357153;
+	Thu, 26 Nov 2020 09:05:57 -0800 (PST)
 MIME-Version: 1.0
 References: <cover.1605896059.git.gustavoars@kernel.org>
 	<20201120105344.4345c14e@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
@@ -67,74 +58,70 @@ References: <cover.1605896059.git.gustavoars@kernel.org>
 	<CANiq72nobq=ptWK-qWxU91JHqkKhMcRtJNnw2XJd5-vSJWZd8Q@mail.gmail.com>
 	<CAMuHMdV5kOakvZJMWLxbpigFPS+Xuw6DVYsWCWZy7wGsv3idcw@mail.gmail.com>
 In-Reply-To: <CAMuHMdV5kOakvZJMWLxbpigFPS+Xuw6DVYsWCWZy7wGsv3idcw@mail.gmail.com>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Thu, 26 Nov 2020 17:18:13 +0100
-Message-ID: <CACO55tsBj3gLECoMWtViDitd7fVTnW+Cp0LVmqYkR=QFBJkEmQ@mail.gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Thu, 26 Nov 2020 18:05:45 +0100
+Message-ID: <CANiq72=n4rVvmKt0RCb5aOfQydA8bgDxfntRLDieV8Q2efP8Zg@mail.gmail.com>
 To: Geert Uytterhoeven <geert@linux-m68k.org>
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 X-Mailman-Approved-At: Fri, 27 Nov 2020 08:09:08 +0100
 Cc: ALSA Development Mailing List <alsa-devel@alsa-project.org>,
-	linux-atm-general@lists.sourceforge.net, linux-iio@vger.kernel.org,
+	bridge@lists.linux-foundation.org,
+	target-devel <target-devel@vger.kernel.org>, linux-iio@vger.kernel.org,
 	linux-wireless <linux-wireless@vger.kernel.org>,
 	Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
 	dri-devel <dri-devel@lists.freedesktop.org>,
 	virtualization@lists.linux-foundation.org,
-	Nathan Chancellor <natechancellor@gmail.com>,
-	linux-ide@vger.kernel.org, dm-devel@redhat.com,
-	target-devel <target-devel@vger.kernel.org>,
-	MTD Maling List <linux-mtd@lists.infradead.org>, "open list:NFS,
-	SUNRPC, AND..." <linux-nfs@vger.kernel.org>,
-	wcn36xx@lists.infradead.org, linux-i3c@lists.infradead.org,
-	linux1394-devel@lists.sourceforge.net, linux-afs@lists.infradead.org,
-	usb-storage@lists.one-eyed-alien.net,
-	Lars Ellenberg <drbd-dev@lists.linbit.com>,
+	linux-ide@vger.kernel.org, dm-devel@redhat.com, keyrings@vger.kernel.org,
+	MTD Maling List <linux-mtd@lists.infradead.org>,
+	linux-hardening@vger.kernel.org, wcn36xx@lists.infradead.org,
+	linux-i3c@lists.infradead.org, linux1394-devel@lists.sourceforge.net,
+	linux-afs@lists.infradead.org, Lars Ellenberg <drbd-dev@lists.linbit.com>,
 	driverdevel <devel@driverdev.osuosl.org>,
 	linux-cifs@vger.kernel.org, rds-devel@oss.oracle.com,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	scsi <linux-scsi@vger.kernel.org>, Edward Cree <ecree.xilinx@gmail.com>,
-	linux-rdma <linux-rdma@vger.kernel.org>,
-	oss-drivers@netronome.com, bridge@lists.linux-foundation.org,
-	amd-gfx list <amd-gfx@lists.freedesktop.org>,
-	linux-stm32@st-md-mailman.stormreply.com, cluster-devel@redhat.com,
+	scsi <linux-scsi@vger.kernel.org>,
 	ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+	linux-rdma <linux-rdma@vger.kernel.org>, oss-drivers@netronome.com,
+	linux-atm-general@lists.sourceforge.net,
+	ceph-devel <ceph-devel@vger.kernel.org>,
+	amd-gfx list <amd-gfx@lists.freedesktop.org>,
+	linux-stm32@st-md-mailman.stormreply.com,
+	cluster-devel@redhat.com, usb-storage@lists.one-eyed-alien.net,
+	Linux MMC List <linux-mmc@vger.kernel.org>,
 	coreteam@netfilter.org, intel-wired-lan@lists.osuosl.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
 	linux-input <linux-input@vger.kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
 	Jakub Kicinski <kuba@kernel.org>,
 	Ext4 Developers List <linux-ext4@vger.kernel.org>,
+	NetFilter <netfilter-devel@vger.kernel.org>,
 	Linux Media Mailing List <linux-media@vger.kernel.org>,
 	GR-Linux-NIC-Dev@marvell.com, Kees Cook <keescook@chromium.org>,
 	selinux@vger.kernel.org, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
 	Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-	reiserfs-devel@vger.kernel.org, linux-geode@lists.infradead.org,
+	linux-sctp@vger.kernel.org, reiserfs-devel@vger.kernel.org,
+	linux-geode@lists.infradead.org,
 	James Bottomley <James.Bottomley@hansenpartnership.com>,
 	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-	op-tee@lists.trustedfirmware.org, linux-mediatek@lists.infradead.org,
+	op-tee@lists.trustedfirmware.org, linux-block@vger.kernel.org,
 	GR-everest-linux-l2@marvell.com, xen-devel@lists.xenproject.org,
 	Nouveau Dev <nouveau@lists.freedesktop.org>, linux-hams@vger.kernel.org,
-	ceph-devel <ceph-devel@vger.kernel.org>, linux-can@vger.kernel.org,
+	Nathan Chancellor <natechancellor@gmail.com>, linux-can@vger.kernel.org,
 	Linux ARM <linux-arm-kernel@lists.infradead.org>,
-	linux-hwmon@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, Nick Desaulniers <ndesaulniers@google.com>,
 	Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
-	tipc-discussion@lists.sourceforge.net, Linux-MM <linux-mm@kvack.org>,
+	Linux-MM <linux-mm@kvack.org>,
 	Network Development <netdev@vger.kernel.org>,
-	linux-decnet-user@lists.sourceforge.net,
-	Linux MMC List <linux-mmc@vger.kernel.org>, linux-sctp@vger.kernel.org,
+	linux-decnet-user@lists.sourceforge.net, samba-technical@lists.samba.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
 	linux-kernel <linux-kernel@vger.kernel.org>,
-	samba-technical@lists.samba.org,
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+	Edward Cree <ecree.xilinx@gmail.com>,
 	linux-security-module <linux-security-module@vger.kernel.org>,
-	keyrings@vger.kernel.org, NetFilter <netfilter-devel@vger.kernel.org>,
+	USB list <linux-usb@vger.kernel.org>,
+	tipc-discussion@lists.sourceforge.net,
 	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
 	patches@opensource.cirrus.com, Joe Perches <joe@perches.com>,
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+	linux-mediatek@lists.infradead.org,
 	linux-integrity <linux-integrity@vger.kernel.org>,
-	USB list <linux-usb@vger.kernel.org>,
-	"maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
-	linux-hardening@vger.kernel.org
+	"open list:NFS, SUNRPC, AND..." <linux-nfs@vger.kernel.org>,
+	"maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>
 Subject: Re: [Drbd-dev] [PATCH 000/141] Fix fall-through warnings for Clang
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
@@ -156,62 +143,27 @@ Errors-To: drbd-dev-bounces@lists.linbit.com
 
 On Thu, Nov 26, 2020 at 4:28 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
-> Hi Miguel,
->
-> On Thu, Nov 26, 2020 at 3:54 PM Miguel Ojeda
-> <miguel.ojeda.sandonis@gmail.com> wrote:
-> > On Wed, Nov 25, 2020 at 11:44 PM Edward Cree <ecree.xilinx@gmail.com> wrote:
-> > > To make the intent clear, you have to first be certain that you
-> > >  understand the intent; otherwise by adding either a break or a
-> > >  fallthrough to suppress the warning you are just destroying the
-> > >  information that "the intent of this code is unknown".
-> >
-> > If you don't know what the intent of your own code is, then you
-> > *already* have a problem in your hands.
->
 > The maintainer is not necessarily the owner/author of the code, and
 > thus may not know the intent of the code.
->
-> > > or does it flag up code
-> > >  that can be mindlessly "fixed" (in which case the warning is
-> > >  worthless)?  Proponents in this thread seem to be trying to
-> > >  have it both ways.
-> >
-> > A warning is not worthless just because you can mindlessly fix it.
-> > There are many counterexamples, e.g. many
-> > checkpatch/lint/lang-format/indentation warnings, functional ones like
-> > the `if (a = b)` warning...
->
+
+Agreed, I was not blaming maintainers -- just trying to point out that
+the problem is there :-)
+
+In those cases, it is still very useful: we add the `fallthrough` and
+a comment saying `FIXME: fallthrough intended? Figure this out...`.
+Thus a previous unknown unknown is now a known unknown. And no new
+unknown unknowns will be introduced since we enabled the warning
+globally.
+
 > BTW, you cannot mindlessly fix the latter, as you cannot know if
 > "(a == b)" or "((a = b))" was intended, without understanding the code
 > (and the (possibly unavailable) data sheet, and the hardware, ...).
->
 
-to allow assignments in if statements was clearly a mistake and if you
-need outside information to understand the code, your code is the
-issue already.
+That's right, I was referring to the cases where the compiler saves
+someone time from a typo they just made.
 
-> P.S. So far I've stayed out of this thread, as I like it if the compiler
->      flags possible mistakes.  After all I was the one fixing new
->      "may be used uninitialized" warnings thrown up by gcc-4.1, until
->      (a bit later than) support for that compiler was removed...
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->
-
+Cheers,
+Miguel
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
