@@ -2,60 +2,58 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32FB92D9315
+	by mail.lfdr.de (Postfix) with ESMTPS id E43F22D9316
 	for <lists+drbd-dev@lfdr.de>; Mon, 14 Dec 2020 06:56:25 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1E43A42083A;
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3E68442083F;
 	Mon, 14 Dec 2020 06:56:14 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-il1-f193.google.com (mail-il1-f193.google.com
-	[209.85.166.193])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 55F2A42062C
+Received: from mail-il1-f194.google.com (mail-il1-f194.google.com
+	[209.85.166.194])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 23FEE420634
 	for <drbd-dev@lists.linbit.com>; Sun, 13 Dec 2020 06:59:11 +0100 (CET)
-Received: by mail-il1-f193.google.com with SMTP id q1so12796032ilt.6
-	for <drbd-dev@lists.linbit.com>; Sat, 12 Dec 2020 21:59:10 -0800 (PST)
+Received: by mail-il1-f194.google.com with SMTP id t9so12778973ilf.2
+	for <drbd-dev@lists.linbit.com>; Sat, 12 Dec 2020 21:59:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=b7ALxxBeZClVOnn+kimzQ76vWzYXCYgM5l/GowdpwGs=;
-	b=reN/20dMq9JtwXMeddDGNjSjEyxJI2sJK7DFF+cdfA8BnR0VWvZ/LHk6jK8dLhp4OS
-	M6RKpo7sBo/8SA7ms75xfM718xgOVQj7e0P8/6ZZpZaNrp6Z7/7Cd+DyThu78TIzO21z
-	id3aKtELslThxAfNuckckPtF1seehGpht/nSFvXu8KEsB/xt/Iq63CuKK6UI4GsmQVx4
-	arZqp4Me7z5NtFkG7/qSmeLhKqFzZNiP0T41936LK73DfiySJYxrswMiTrPbVYVs455M
-	ZB63k8+87ZvxoAbwSvN9U3Whz/mwT/PZ/voxMA0HBXjCbgYw/TAEZ9TQi3+7fqIb5yfg
-	EKkg==
+	bh=sIxoDP8vzpNwOr/ZONrMGfaq9DZp+SERLzwAxCVxlUo=;
+	b=BfiQfWNjGdPo0faIFGOc52DVWeIRfa7aQcYJIp88PN6cRSYplTtnE0jR47PD7PnEuJ
+	EitX06yspLiNYrMnkZf6n8ARfxtZkjVICwu6JbcIq3OwFQuIIadllDXGTt/D68UglPV8
+	2DIHpF1IYxV9HF4Agyixxg9gYnJhDimXdBDkBlM9pQ7oEQronQo0ux9fNtrDmx5tJqpE
+	SQbd1glSe9ORyDw8aiOHqZSALUQZ8UC6Jkx6wAVq2eLTCKbYWWlONhSo9+6OMwQ8vEeg
+	FTvt4hVpw0G9Z7jogEw1zNFPAYeJQPcsybw1OVuUEuJl4sK+YgUUpeKCp5txQ3RNlt5w
+	ySrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=b7ALxxBeZClVOnn+kimzQ76vWzYXCYgM5l/GowdpwGs=;
-	b=qvJsRmRqcDG+kkP6zm2R9FUjqJQDxy2gwukX7sYUOqNgcackn3GzGPyRDbNnFvg6an
-	c9F06IyCkgW/PZO/z+I/SNBMg1J49LWpoiORg2CvfprCd6A+mdSgAJvcbdJJH79R6a6t
-	l4HSv+2Rlan7esRD3A58GVB7IPv6+WyIq9wj/DbQoDneF1ETrdFr2yP8BpmjtfrugcvI
-	TcBQMEwxb7R3J7FTLqs+3SMxEgCtGfl62vj4hrBOjvv3uPsrXYTAMnMZYxWQpx3JwU29
-	hsfadlMhavoKoub9mWKMqSbR0LGvkTbvfbtGs2UmpnPxHRO2ChXLvAin6ViAqmaGuwhd
-	z23A==
-X-Gm-Message-State: AOAM532RybSf3PjTfm8I2LdnfCzfR0/cku1SjGrA3WkauY8fva5CW8Nb
-	YDw28FetNX2HJEywNXOUn+NQSXIGFEPIhg==
-X-Google-Smtp-Source: ABdhPJzxDI5eEuhgtpEpBddl9ZaLnSa0Ep/2aM3tuXgmn7UrnJX0CvdGmSmIhHXfNlHYJjn0fdg3Vg==
-X-Received: by 2002:a05:6e02:e86:: with SMTP id
-	t6mr25324836ilj.39.1607839150340; 
-	Sat, 12 Dec 2020 21:59:10 -0800 (PST)
+	bh=sIxoDP8vzpNwOr/ZONrMGfaq9DZp+SERLzwAxCVxlUo=;
+	b=Z5+DdD/D/9x8Q8pfwkRKHlo9dvktZPU+dbrM1WEPYbn4Qd6XRZCZG0wbRnlIbetFTW
+	p8zziFoix9vk1xfDKdWuXoe8J/zjToL4dLHb2DzDojd/Py48qivNLmqne4PNs1n2EHrE
+	BI2v+0aeTAHE1g1+ox5jTE9gDbSNW+zPDiKMAImia55DBisKXKnIi4KHdcZ39JjBlr/J
+	MVPgFx0vGPiIf4NMV6Nnnjj+p2I0gOcrV4HF218L9RqVpvF74lR0haDQLjTndIkjzBLJ
+	717xtTiZxrQCCr/FUL7zktYb3U5xd+FhgLqVHbuZ/mW1xE2SBTHyy7uD8wzlJZsPOhJH
+	VvZg==
+X-Gm-Message-State: AOAM532b6c6KkXrHCoY3Uq0qv82SgZYuljx+CnEACKof4q1cuAqaVYQ3
+	5Db7fGSQ+qj/lk9Qnh1o7bQAqLxQYNzXTw==
+X-Google-Smtp-Source: ABdhPJzYtq3Ols+BoktA9q2elGm4YtLP6tgk3eDCy9BkgYSbmJ3YqflMsWacSlJWQBJ24M6BwwEsiQ==
+X-Received: by 2002:a92:dc11:: with SMTP id t17mr27063000iln.307.1607839151119;
+	Sat, 12 Dec 2020 21:59:11 -0800 (PST)
 Received: from aldarion.fios-router.home
 	(pool-74-97-22-49.prvdri.fios.verizon.net. [74.97.22.49])
-	by smtp.gmail.com with ESMTPSA id s1sm6962752iot.0.2020.12.12.21.59.09
+	by smtp.gmail.com with ESMTPSA id s1sm6962752iot.0.2020.12.12.21.59.10
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 12 Dec 2020 21:59:09 -0800 (PST)
+	Sat, 12 Dec 2020 21:59:10 -0800 (PST)
 From: Michael D Labriola <michael.d.labriola@gmail.com>
 To: drbd-dev@lists.linbit.com
-Date: Sun, 13 Dec 2020 00:58:56 -0500
-Message-Id: <20201213055859.3305-6-michael.d.labriola@gmail.com>
+Date: Sun, 13 Dec 2020 00:58:57 -0500
+Message-Id: <20201213055859.3305-7-michael.d.labriola@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201213055859.3305-1-michael.d.labriola@gmail.com>
 References: <20201213055859.3305-1-michael.d.labriola@gmail.com>
 X-Mailman-Approved-At: Mon, 14 Dec 2020 06:56:11 +0100
-Subject: [Drbd-dev] [PATCH 5/8] drbd: use sock_set_keepalive() instead of
-	kernel_setsockopt()
+Subject: [Drbd-dev] [PATCH 6/8] drbd: get rid of set_fs() usage
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -75,37 +73,45 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Looks like the rest of the code has been updated to use 5.8's sock_set_*
-and tcp_set_* functions, but we've missed this one case.
+5.10 is getting rid of set_fs().  When I went looking through git commits
+to figure out how to properly protect sendpage, what I found was this
+commit from 4.13:
+
+    10428957 drbd: ->sendpage() never needed set_fs()
 
 Signed-off-by: Michael D Labriola <michael.d.labriola@gmail.com>
 ---
- drbd/drbd_transport_tcp.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drbd/drbd_transport_tcp.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
 diff --git a/drbd/drbd_transport_tcp.c b/drbd/drbd_transport_tcp.c
-index 203dc4e0..3b1d4273 100644
+index 3b1d4273..4e076460 100644
 --- a/drbd/drbd_transport_tcp.c
 +++ b/drbd/drbd_transport_tcp.c
-@@ -883,7 +883,6 @@ static int dtt_connect(struct drbd_transport *transport)
- 	struct socket *dsocket, *csocket;
- 	struct net_conf *nc;
- 	int timeout, err;
--	int one = 1;
- 	bool ok;
+@@ -1138,7 +1138,6 @@ static int dtt_send_page(struct drbd_transport *transport, enum drbd_stream stre
+ 	struct drbd_tcp_transport *tcp_transport =
+ 		container_of(transport, struct drbd_tcp_transport, transport);
+ 	struct socket *socket = tcp_transport->stream[stream];
+-	mm_segment_t oldfs = get_fs();
+ 	int len = size;
+ 	int err = -EIO;
  
- 	dsocket = NULL;
-@@ -1065,9 +1064,7 @@ randomize:
- 	dsocket->sk->sk_sndtimeo = timeout;
- 	csocket->sk->sk_sndtimeo = timeout;
+@@ -1147,7 +1146,6 @@ static int dtt_send_page(struct drbd_transport *transport, enum drbd_stream stre
  
--	err = kernel_setsockopt(dsocket, SOL_SOCKET, SO_KEEPALIVE, (char *)&one, sizeof(one));
--	if (err)
--		tr_warn(transport, "Failed to enable SO_KEEPALIVE %d\n", err);
-+	sock_set_keepalive(dsocket->sk);
+ 	msg_flags |= MSG_NOSIGNAL;
+ 	dtt_update_congested(tcp_transport);
+-	set_fs(KERNEL_DS);
+ 	do {
+ 		int sent;
  
- 	return 0;
+@@ -1173,7 +1171,6 @@ static int dtt_send_page(struct drbd_transport *transport, enum drbd_stream stre
+ 		 * and add that to the while() condition below.
+ 		 */
+ 	} while (len > 0 /* THINK && peer_device->repl_state[NOW] >= L_ESTABLISHED */);
+-	set_fs(oldfs);
+ 	clear_bit(NET_CONGESTED, &tcp_transport->transport.flags);
  
+ 	if (len == 0)
 -- 
 2.17.1
 
