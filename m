@@ -2,58 +2,59 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7CC12D9317
-	for <lists+drbd-dev@lfdr.de>; Mon, 14 Dec 2020 06:56:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81FDA2D9318
+	for <lists+drbd-dev@lfdr.de>; Mon, 14 Dec 2020 06:56:27 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5EA56420843;
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9B2DD420847;
 	Mon, 14 Dec 2020 06:56:14 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-il1-f193.google.com (mail-il1-f193.google.com
-	[209.85.166.193])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 99246420636
-	for <drbd-dev@lists.linbit.com>; Sun, 13 Dec 2020 06:59:12 +0100 (CET)
-Received: by mail-il1-f193.google.com with SMTP id c18so12764227iln.10
-	for <drbd-dev@lists.linbit.com>; Sat, 12 Dec 2020 21:59:12 -0800 (PST)
+Received: from mail-il1-f195.google.com (mail-il1-f195.google.com
+	[209.85.166.195])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id DAA8F420637
+	for <drbd-dev@lists.linbit.com>; Sun, 13 Dec 2020 06:59:13 +0100 (CET)
+Received: by mail-il1-f195.google.com with SMTP id t9so12779006ilf.2
+	for <drbd-dev@lists.linbit.com>; Sat, 12 Dec 2020 21:59:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=ATctDvSorLPrXp1SKQJHRaW20qCQV72hfrLZocFRIZg=;
-	b=AeBb/SV8w0VbGcstrybVBfk5TxtG9muW8TZgPvvcE086Ruk1INdlKgbJSzvm8z0vho
-	npdXOALYmb/EoNXEbiSIVj23nvkcTVYcfzNKEr7AXJlS05mJNpRLK883sdt7e4QnSatf
-	IZeM4XLPOKs2LgOvQM847sETSfqX1cH1cQtrv7qFg2jF/yK0Us23TRlPZPUZd9pIJ7Xh
-	K3JjnehN7QjS4LfCYwelZy8ueTbXPlvXmBAyAwotgw/hm40c+O+fR1QW1Jc+TfXbY3Su
-	TfwWBySO3byZtzin1ks/cgILQAHdnFrWAieSIlM53WDxro7eTWj9A81yjRaXEd6w8/OO
-	/04Q==
+	bh=YfL57PitswGm9UxzHXFWk6g0RK7ok7U8h7K8e7pfBds=;
+	b=Y3S1xlK1xm7WMSLgpoUiGrO/bL8uXrdp3y362iiMXtCsjcPNlOfeIVOoZtA6zsD2H7
+	xZkRCyE7cQ3yviRVKDDKTWftD9R1Ufgxei/L5F5FQX/FmjGtsbYdEVDSAKgccTZNQVTp
+	BQZgl82gqYYv66Z88xo5IoTeEcZ82TiYfgHhIn8RODO0AhHn+W1CkpHKb2iTUW1ufXRh
+	bZWtrKx7ZJIrA8EqXwu1uLGMqy80+GjaFrrGdHxFogMtrhZj+Ni+/wkyzAVqDmlzDgob
+	LYo/gMM2e/iKORgtXa8VKU3Dud9Ec8iKG8PMZ3ckknaUmK/Ms4yEGQQsMVWhq+9uVNs6
+	V30Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=ATctDvSorLPrXp1SKQJHRaW20qCQV72hfrLZocFRIZg=;
-	b=PJ/fQJanHU1O32jjnrVZVoKlawhbUjOTXuqg5RNKf+mtyudAigws+4sJNPoGrf8bK/
-	PxUWzmD12+GW3zQlphfUZNsvahUwQyB7Aw18Pgpfa7ai3D7Yj5RSezysiMolPwjz0hGp
-	ROOLBUROGzRqnwyZoUdadJ/RQWaMBa4+7OWaiaKrDva155tgQlM+iqJHdFRJ6K4KrUxM
-	oLVdeECrD1KkqiPJwo4AT4jIE/jl9Gr4mLNm25aXxqRoI6XCz3tyCDKCsxuT1TVnD9Q6
-	BY6xsTL/4y6qWbuVnjWDMMU0iQnCGc4Euw/WFnOBqT/+C+KicPcTRW9Dqc40fZ8ENhtT
-	e4gA==
-X-Gm-Message-State: AOAM531FfyFIMNy8ooxBwlyxcxAenG/t8GBKOThgnbL8DmL4m3ElYK2y
-	7UqtgRJVkvvmkma3qqtDv92VeiCuLA3kcA==
-X-Google-Smtp-Source: ABdhPJxPiGpdhM4l1m9ii67thEw8zgbjgV6mrb2gDmcKsYeF/4icPYxFyJtup2waT1Dmm6nj/vqqsg==
-X-Received: by 2002:a92:c052:: with SMTP id o18mr27198183ilf.245.1607839151911;
-	Sat, 12 Dec 2020 21:59:11 -0800 (PST)
+	bh=YfL57PitswGm9UxzHXFWk6g0RK7ok7U8h7K8e7pfBds=;
+	b=ohlfolbfopN8M8gV1QWAUX3yLbkJCyZ+nkhiLVA/JSjxCVU/ekS4nfGzRQnaC5XTgd
+	lrKw6T2rpX5ecuZAuE7vO2tIMC1Sv/7jEEI+4EgVh7u7yWOFRrMFddoXNrjWjs5ASg60
+	PuTjkFnaRt6s4DCEi7qmbagcD74TmtRePqiN3pVykVvh6QWGDRTYj8E65N5T6DrmhJ2/
+	wPsEUxf5gGSWqJWTwQ3hCFlOwAPI1fDQYfFrn/Xfx//4GC/EFsm4zSeUXFwlX7XApz5g
+	UAcS/l1lxdu0LT0iRHvPN36fqC/t4PZjOx4LoAVy/vHoxU4R/Mzkd0pJTcAF6lqACkWC
+	2ggQ==
+X-Gm-Message-State: AOAM531AX9oXLXDtIvs/x+J9V3NSPFj6aJ+Yf6BO+auw+RREUqYx3pcF
+	/6uVDaRg8iKxEb4/opERh8w0mr5Z8SDpbA==
+X-Google-Smtp-Source: ABdhPJxck33WFbfxwbj7KH4Tn4MFEDyrBpGY9OC1ZXDjyVo7/zgH/XyRKaBYg9YoZII7Td1W0OyWsw==
+X-Received: by 2002:a92:41d2:: with SMTP id
+	o201mr27440299ila.117.1607839152716; 
+	Sat, 12 Dec 2020 21:59:12 -0800 (PST)
 Received: from aldarion.fios-router.home
 	(pool-74-97-22-49.prvdri.fios.verizon.net. [74.97.22.49])
 	by smtp.gmail.com with ESMTPSA id s1sm6962752iot.0.2020.12.12.21.59.11
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 12 Dec 2020 21:59:11 -0800 (PST)
+	Sat, 12 Dec 2020 21:59:12 -0800 (PST)
 From: Michael D Labriola <michael.d.labriola@gmail.com>
 To: drbd-dev@lists.linbit.com
-Date: Sun, 13 Dec 2020 00:58:58 -0500
-Message-Id: <20201213055859.3305-8-michael.d.labriola@gmail.com>
+Date: Sun, 13 Dec 2020 00:58:59 -0500
+Message-Id: <20201213055859.3305-9-michael.d.labriola@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201213055859.3305-1-michael.d.labriola@gmail.com>
 References: <20201213055859.3305-1-michael.d.labriola@gmail.com>
 X-Mailman-Approved-At: Mon, 14 Dec 2020 06:56:11 +0100
-Subject: [Drbd-dev] [PATCH 7/8] drbd: don't use sched_setscheduler()
+Subject: [Drbd-dev] [PATCH 8/8] compat: remove set_bdi_cap_stable_writes
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -73,35 +74,34 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-The sched_setscheduler() function was removed in 5.9.  Use
-sched_set_fifo_low() like the mainline drbd8 module did here:
-
-    c9ec0524 sched,drbd: Convert to sched_set_fifo*()
+BDI_CAP_STABLE_WRITES goes away in 5.10, resulting in tons of warnings at
+compile time.  It doesn't look like anything in either drbd or drbd-utils
+is using the resulting set_bdi_cap_stable_writes macro anyways, so this
+commit removes it.
 
 Signed-off-by: Michael D Labriola <michael.d.labriola@gmail.com>
 ---
- drbd/drbd_receiver.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drbd/drbd-kernel-compat/drbd_wrappers.h | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/drbd/drbd_receiver.c b/drbd/drbd_receiver.c
-index 46368949..6fb2ec39 100644
---- a/drbd/drbd_receiver.c
-+++ b/drbd/drbd_receiver.c
-@@ -9390,13 +9390,10 @@ int drbd_ack_receiver(struct drbd_thread *thi)
- 	unsigned int header_size = drbd_header_size(connection);
- 	int expect   = header_size;
- 	bool ping_timeout_active = false;
--	struct sched_param param = { .sched_priority = 2 };
- 	struct drbd_transport *transport = &connection->transport;
- 	struct drbd_transport_ops *tr_ops = transport->ops;
+diff --git a/drbd/drbd-kernel-compat/drbd_wrappers.h b/drbd/drbd-kernel-compat/drbd_wrappers.h
+index c0d8981c..01fdbf22 100644
+--- a/drbd/drbd-kernel-compat/drbd_wrappers.h
++++ b/drbd/drbd-kernel-compat/drbd_wrappers.h
+@@ -127,13 +127,6 @@ static inline void blk_queue_write_cache(struct request_queue *q, bool enabled,
+ #define KREF_INIT(N) { ATOMIC_INIT(N) }
+ #endif
  
--	rv = sched_setscheduler(current, SCHED_RR, &param);
--	if (rv < 0)
--		drbd_err(connection, "drbd_ack_receiver: ERROR set priority, ret=%d\n", rv);
-+	sched_set_fifo_low(current);
- 
- 	while (get_t_state(thi) == RUNNING) {
- 		drbd_thread_current_set_cpu(thi);
+-#ifdef BDI_CAP_STABLE_WRITES /* >= v3.9 */
+-#define set_bdi_cap_stable_writes(cap)	do { (cap) |= BDI_CAP_STABLE_WRITES; } while (0)
+-#else /* < v3.9 */
+-#warning "BDI_CAP_STABLE_WRITES not available"
+-#define set_bdi_cap_stable_writes(cap)	do { } while (0)
+-#endif
+-
+ #ifdef COMPAT_HAVE_POINTER_BACKING_DEV_INFO /* >= v4.11 */
+ #define bdi_from_device(device) (device->ldev->backing_bdev->bd_disk->queue->backing_dev_info)
+ #else /* < v4.11 */
 -- 
 2.17.1
 
