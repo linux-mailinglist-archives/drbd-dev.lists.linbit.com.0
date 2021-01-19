@@ -2,53 +2,53 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 726C52FB33B
-	for <lists+drbd-dev@lfdr.de>; Tue, 19 Jan 2021 08:38:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E9822FB33C
+	for <lists+drbd-dev@lfdr.de>; Tue, 19 Jan 2021 08:38:21 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1FBAB42080D;
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4E391420812;
 	Tue, 19 Jan 2021 08:37:59 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from esa4.hgst.iphmx.com (esa4.hgst.iphmx.com [216.71.154.42])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1A1AE420607
-	for <drbd-dev@lists.linbit.com>; Tue, 19 Jan 2021 06:15:11 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A790742060C
+	for <drbd-dev@lists.linbit.com>; Tue, 19 Jan 2021 06:15:12 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
 	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
 	t=1611033312; x=1642569312;
 	h=from:to:cc:subject:date:message-id:in-reply-to:
 	references:mime-version:content-transfer-encoding;
-	bh=xDvxltQy2dTITc0BsqVzj/cnHCYvpegwiBh4lFEjP/k=;
-	b=Wp0oG5aNk3jEf5m13/xuk41FJNPxd3F6gEEa9Vquq4Pyh/efPInv8Lf5
-	iW1fY5oYNkfD8bUzVthN4tlyyHpPTRBEd0sD5E44y3YalDPZ6fZmP9FfH
-	UqYHawp7iF5yQFb9Upri/+I4aqOxAutKcdheHRi+rcqgCkm7wwABK3Sw1
-	LIK7ZwoAIfHdYHioNQS4+KKEfjUPHCfesJUIJ6JEM8guvz2nzwCvZ+5U0
-	9NNVNkulWDI4cidqhLvh9YZ02lRtPb90lRYJhKiumKd8WHdTEAcLWDFMN
-	rG32gVmQ/uiuFTnnRlLmtskaDvkEx+g6hlI51y8t211rglcCgcGBzJBUA A==;
-IronPort-SDR: U5LUts1BCY8p/zgLK5yci83057OBesu8FNfQiR5TywDjpknxlH5+pymoyFkv4gNHrRDBt9VpdQ
-	jHKh71U3lF/TvgwADA00h4UR3LKAZ8NVTfExXXcKWQD8ymjCOtKwwdvvqBsBwR5Y7zrS6dvfL8
-	OE/4b08yekS/KOS/9SBppQPoKfdf3fuHwjs4KgcbT7JBfzv5O9stBTdJ9zKECSG3yDjJgADKWj
-	+b3hKgc8pfo5mytlVTHTJlztJ50iA6ALJxBDoATe89/X9KBIRCnH3Zyq3BTpKuKBReZZNkQMvV
-	kkQ=
-X-IronPort-AV: E=Sophos;i="5.79,357,1602518400"; d="scan'208";a="157763744"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
-	([199.255.45.15])
-	by ob1.hgst.iphmx.com with ESMTP; 19 Jan 2021 13:06:42 +0800
-IronPort-SDR: z1qhpYgERjIJSN9nABQvAzwPB/V8Mw/fr8n4/h4eCgDYZuUj4bxwBRC0rZPxqxPIYtuyyXb2gN
-	++zXcCk+76EsgE2b7vtO0s9ofqlTJKyZzfdGqnzRM07se+MyAvLUvJ7VsqL1SlpbzfLPp/xst4
-	VTFFfafcb2o7DL2Ky1w0CyGRuwk46y7/NX2QkR9blzDyCmVX7SUKSiDBLKtQB2ehVEXwPc1b6x
-	oxDPxuruCnhtB1dDiy0VuE4jFqRHnlSus1+/Wy8GbJA68jwNN4llbeYStvQBVyommNCBKNg0P/
-	dkfGEsc3ZjdNA4gZJDZZMHQc
+	bh=ZpEdbwVtPI0wVPLoSXxNauBL5CtIsv1pRUC3n0RI/T8=;
+	b=bnwpWM/gRZWHtwBAdInhJ/XMq33eWqoVXFSNFxMbHbBKNEQ2uE1FU1kD
+	b4FDiyv7zZCHiMfuwYiwxD2RZUAeII+7nr90Mqk31YVafkrvxAUhjQ9dM
+	vXA+toh8tc98qgSQkjmcQmXRg6zx7HHHqWNBbtPPeuLSDHSI7qnJxTUD6
+	fXkfDZKayNYPaU5rWw/M32E74uxWPtBGPztu0GlV+IOtEvc3zoZIyQXRP
+	fPrbG9TsAjwL1/PxYIj/6Oun/JhOrPhic5uJ/lbCfOUEPJX3ZDiZSzVtT
+	Z9UC8sy8ehYeIK/IdNeXu+M1AO/4UOtKo5dGrgCimu316nfJ2y2DdF/Ze g==;
+IronPort-SDR: xyP2oUhN9mGmY85af2yIu4/MEdhIHd8LpShMo3ZycjUuLZO2kwjNewe3vSYTs2eJ0sLJB4UZzU
+	NPqBlCNEGsTEmvSQKN6dEdKJi4G89KpNVg0cFziWiTRUpKKsV4clXP+RaDnSBro5rACDLWUtIX
+	6eG7TADBFkwFQqgaANHNqjL2zyqlEJzJPE1jjPQ3GPVKaSO1+gobT4aN7DXYJ5rDCcu2Hi0MzZ
+	bODS3DWKtpMmsavYhZdlhfm8rUMdr6cKG3n2TaUxgiaWBhrXMxK7roRKMTxPA96UZpEtT1izRc
+	0e8=
+X-IronPort-AV: E=Sophos;i="5.79,357,1602518400"; d="scan'208";a="157763753"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+	([199.255.45.14])
+	by ob1.hgst.iphmx.com with ESMTP; 19 Jan 2021 13:06:49 +0800
+IronPort-SDR: V7kMM93jgzjLqj1GUy1EJPVGcmRyPgGe7q+23GDe9vJMSE/Z695aQJ0FpD5D67RvqLCggnse4m
+	9QwyYtIk4nrG7l1FRlD/f4gNpn6hCQ6oh+5joUneUyoY5YbaEmy8XfvTEKc9qUUrDTQIl+Wg2c
+	xhHrkwnbEAC/CN+hUfDujeZfpNap1vSlzq3WtrhBYxNqxMgECsfJCythQLVX6dmnwMH1KUKFDi
+	A3sUfjOHxvDu841VmZqar63akIAj0OhE1oGHwRH0ahxYacuQyEbIkisj4iPiWkfiKoxLTNPY8x
+	HFHGkrf4QDH7/tx5A/W6/v/i
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
-	by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
-	18 Jan 2021 20:49:17 -0800
-IronPort-SDR: +NpnU1qF6QR8N8XBneIu3ZiZvasLVseQjYJJ1MMaKJ+OglnqkmtIQug/+7v1w/r2fkDf84edQB
-	DjafWMcc4nOfiH+Mk03qupgTmYSJWzjHG319wMnHdznvAZeqQCPvdsGd5DhsBkszoippTGcVSA
-	HK0sa0ldtVZMuvow8gFchGX7RsHVWH4qFN2Kntl3WSC7I2G5w7F3PvWz0KvKk1ACpfqrdG9xEj
-	nchAe07v2IYGlvMXlxEBOdpBs6EbbN/Fyy3RtZL7kH3VABJ8RZFvQM1pZVPOuoiP0DweMhWYKY
-	mtU=
+	by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+	18 Jan 2021 20:51:27 -0800
+IronPort-SDR: XoCPpBnEyAS0C26NACpPNr6hc2mgCkBhR/slXc8vz6d3NBxAPkngsmR+924mOBWvaQi6WZHAP1
+	e4hIrlRuqs07ngks51wLmgnhqz6gvPVZzt6c/xtYGHpktVNv4G+tlyQwdXjSld+DKB31WM3e0X
+	o4xJZXi1ZVzEGxYUOHxoYuaGW27b5AhyEnbnJEWPqSGnvSmb4YAK4r55aDWz+qouFqxTNJ1Ve4
+	MmaSi236cQpo5ubtxkwfTjN+hUw7qXvWgQEEinw8kPT9rlOQYeg6qJM9v7qJDF5MBv1NXcWrD2
+	OOA=
 WDCIronportException: Internal
 Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
-	by uls-op-cesaip02.wdc.com with ESMTP; 18 Jan 2021 21:06:42 -0800
+	by uls-op-cesaip02.wdc.com with ESMTP; 18 Jan 2021 21:06:49 -0800
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-block@vger.kernel.org, linux-xfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -57,8 +57,8 @@ To: linux-block@vger.kernel.org, linux-xfs@vger.kernel.org,
 	linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
 	linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
 	cluster-devel@redhat.com
-Date: Mon, 18 Jan 2021 21:05:55 -0800
-Message-Id: <20210119050631.57073-2-chaitanya.kulkarni@wdc.com>
+Date: Mon, 18 Jan 2021 21:05:56 -0800
+Message-Id: <20210119050631.57073-3-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1
 In-Reply-To: <20210119050631.57073-1-chaitanya.kulkarni@wdc.com>
 References: <20210119050631.57073-1-chaitanya.kulkarni@wdc.com>
@@ -77,8 +77,7 @@ Cc: shaggy@kernel.org, jfs-discussion@lists.sourceforge.net, snitzer@redhat.com,
 	song@kernel.org, philipp.reisner@linbit.com,
 	jefflexu@linux.alibaba.com, rpeterso@redhat.com,
 	lars.ellenberg@linbit.com, jth@kernel.org, asml.silence@gmail.com
-Subject: [Drbd-dev] [RFC PATCH 01/37] block: introduce bio_init_fields()
-	helper
+Subject: [Drbd-dev] [RFC PATCH 02/37] fs: use bio_init_fields in block_dev
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -97,87 +96,46 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-There are several places in the file-system, block layer, device drivers
-where struct bio members such as bdev, sector, private, end io callback,
-io priority, write hints are initialized where we can use a helper
-function.
-
-This pach introduces a helper function which we use in the block lyaer
-code. Subsequent patches use this function to reduce repeated code.
-
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 ---
- block/blk-lib.c     | 13 +++++--------
- include/linux/bio.h | 13 +++++++++++++
- 2 files changed, 18 insertions(+), 8 deletions(-)
+ fs/block_dev.c | 17 +++++------------
+ 1 file changed, 5 insertions(+), 12 deletions(-)
 
-diff --git a/block/blk-lib.c b/block/blk-lib.c
-index 752f9c722062..5ee488c1bcc6 100644
---- a/block/blk-lib.c
-+++ b/block/blk-lib.c
-@@ -95,8 +95,7 @@ int __blkdev_issue_discard(struct block_device *bdev, sector_t sector,
- 		WARN_ON_ONCE((req_sects << 9) > UINT_MAX);
+diff --git a/fs/block_dev.c b/fs/block_dev.c
+index 3e5b02f6606c..44b992976ee5 100644
+--- a/fs/block_dev.c
++++ b/fs/block_dev.c
+@@ -239,12 +239,9 @@ __blkdev_direct_IO_simple(struct kiocb *iocb, struct iov_iter *iter,
+ 	}
  
- 		bio = blk_next_bio(bio, 0, gfp_mask);
--		bio->bi_iter.bi_sector = sector;
--		bio_set_dev(bio, bdev);
-+		bio_init_fields(bio, bdev, sector, NULL, NULL, 0, 0);
- 		bio_set_op_attrs(bio, op, 0);
- 
- 		bio->bi_iter.bi_size = req_sects << 9;
-@@ -189,8 +188,7 @@ static int __blkdev_issue_write_same(struct block_device *bdev, sector_t sector,
- 
- 	while (nr_sects) {
- 		bio = blk_next_bio(bio, 1, gfp_mask);
--		bio->bi_iter.bi_sector = sector;
--		bio_set_dev(bio, bdev);
-+		bio_init_fields(bio, bdev, sector, NULL, NULL, 0, 0);
- 		bio->bi_vcnt = 1;
- 		bio->bi_io_vec->bv_page = page;
- 		bio->bi_io_vec->bv_offset = 0;
-@@ -265,8 +263,7 @@ static int __blkdev_issue_write_zeroes(struct block_device *bdev,
- 
- 	while (nr_sects) {
- 		bio = blk_next_bio(bio, 0, gfp_mask);
--		bio->bi_iter.bi_sector = sector;
--		bio_set_dev(bio, bdev);
-+		bio_init_fields(bio, bdev, sector, NULL, NULL, 0, 0);
- 		bio->bi_opf = REQ_OP_WRITE_ZEROES;
- 		if (flags & BLKDEV_ZERO_NOUNMAP)
- 			bio->bi_opf |= REQ_NOUNMAP;
-@@ -317,8 +314,8 @@ static int __blkdev_issue_zero_pages(struct block_device *bdev,
- 	while (nr_sects != 0) {
- 		bio = blk_next_bio(bio, __blkdev_sectors_to_bio_pages(nr_sects),
- 				   gfp_mask);
--		bio->bi_iter.bi_sector = sector;
--		bio_set_dev(bio, bdev);
-+		bio_init_fields(bio, bdev, sector, NULL, NULL, 0, 0);
+ 	bio_init(&bio, vecs, nr_pages);
+-	bio_set_dev(&bio, bdev);
+-	bio.bi_iter.bi_sector = pos >> 9;
+-	bio.bi_write_hint = iocb->ki_hint;
+-	bio.bi_private = current;
+-	bio.bi_end_io = blkdev_bio_end_io_simple;
+-	bio.bi_ioprio = iocb->ki_ioprio;
++	bio_init_fields(&bio, bdev, pos >> 9, current, blkdev_bio_end_io_simple,
++			iocb->ki_ioprio, iocb->ki_hint);
 +
- 		bio_set_op_attrs(bio, REQ_OP_WRITE, 0);
  
- 		while (nr_sects != 0) {
-diff --git a/include/linux/bio.h b/include/linux/bio.h
-index 1edda614f7ce..fbeaa5e42a5d 100644
---- a/include/linux/bio.h
-+++ b/include/linux/bio.h
-@@ -820,4 +820,17 @@ static inline void bio_set_polled(struct bio *bio, struct kiocb *kiocb)
- 		bio->bi_opf |= REQ_NOWAIT;
- }
+ 	ret = bio_iov_iter_get_pages(&bio, iter);
+ 	if (unlikely(ret))
+@@ -390,12 +387,8 @@ __blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter, int nr_pages)
+ 		blk_start_plug(&plug);
  
-+static inline void bio_init_fields(struct bio *bio, struct block_device *bdev,
-+				   sector_t sect, void *priv,
-+				   bio_end_io_t *end_io,
-+				   unsigned short prio, unsigned short whint)
-+{
-+	bio_set_dev(bio, bdev);
-+	bio->bi_iter.bi_sector = sect;
-+	bio->bi_private = priv;
-+	bio->bi_end_io = end_io;
-+	bio->bi_ioprio = prio;
-+	bio->bi_write_hint = whint;
-+}
-+
- #endif /* __LINUX_BIO_H */
+ 	for (;;) {
+-		bio_set_dev(bio, bdev);
+-		bio->bi_iter.bi_sector = pos >> 9;
+-		bio->bi_write_hint = iocb->ki_hint;
+-		bio->bi_private = dio;
+-		bio->bi_end_io = blkdev_bio_end_io;
+-		bio->bi_ioprio = iocb->ki_ioprio;
++		bio_init_fields(bio, bdev, pos >> 9, dio, blkdev_bio_end_io,
++				iocb->ki_ioprio, iocb->ki_hint);
+ 
+ 		ret = bio_iov_iter_get_pages(bio, iter);
+ 		if (unlikely(ret)) {
 -- 
 2.22.1
 
