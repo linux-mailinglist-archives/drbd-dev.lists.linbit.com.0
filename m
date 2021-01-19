@@ -2,54 +2,80 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83F022DB5F3
-	for <lists+drbd-dev@lfdr.de>; Tue, 15 Dec 2020 22:37:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 527962FB323
+	for <lists+drbd-dev@lfdr.de>; Tue, 19 Jan 2021 08:37:57 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5F7414207CD;
-	Tue, 15 Dec 2020 22:37:36 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 09EA24205EE;
+	Tue, 19 Jan 2021 08:37:55 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
-	[209.85.160.177])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 03D3C42066C
-	for <drbd-dev@lists.linbit.com>; Tue, 15 Dec 2020 22:37:34 +0100 (CET)
-Received: by mail-qt1-f177.google.com with SMTP id y15so15793496qtv.5
-	for <drbd-dev@lists.linbit.com>; Tue, 15 Dec 2020 13:37:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:message-id:from:to:subject;
-	bh=q3Jgj33vgvGRODK/IyCAKMe5oqBoKFZcmZU0+rY/cwQ=;
-	b=cliULWUQWQu87M06y2Nk/I4MwERfrjxczKhl0Y0bHnOcpCfOeWhnCSw4qKyXq/mxpW
-	SGrm+4BXswYNd03OUWTXt13M43GnSZVtju+ElYskU1FXgTHCfCnzwiZU/6aM+Ac6kC/e
-	uG2GGEUYVNpOx+EyID/9QTsxJ58NLXDROgPXsxNOs+295GKn82iwTlqORMHMwAk7yARY
-	Fr0YLhTD2sAeE/GgaeXpwOXJnv4bw8d7B2tcrxmb3WVsEC4q0hKkTQAd6WFNt5xr2vze
-	6u5OCpC2UZ/bpQ4s9eaWMoOkIHtekpqw12PIeckaT9QMM3+EwpB9tbSn+gfoycOvg+3K
-	06nQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:message-id:from:to:subject;
-	bh=q3Jgj33vgvGRODK/IyCAKMe5oqBoKFZcmZU0+rY/cwQ=;
-	b=B1ospi46zPEU3x9dDM2iisTX2Z5diClq5p6bmkEs7sDn863Ar/IuhHN0vlMbLEK/16
-	d6ylbyBqTW0r7Wntjtku8LFvgUcWsgbebuwNn4i6T+U7io9lqT6k8rgeslHC2vZZu1wS
-	YWYKWOHUzk4iMTWQc+itcb2pc4WOEyESy0yOADDtD859GcYl02J8Dq7vYwa2lFFCpz+8
-	vUWzK19qFD1SkWeBj3s3bmwfZAJcEQZCpkPUS/9aOzMC2vknlZccHD7CJiylX4UyDNLC
-	oRPQf/UupEkWmcEgz3WE3Iwbf06AQ1gP9xKJHDjsDv0SQK3v/xN/AGotgRVCRIJrhmAm
-	EbjQ==
-X-Gm-Message-State: AOAM531zNZ6VsqYjdYTPasidFSH21GpfAZVREG7UJMyU1Q718/r1DO1/
-	mnKjej0a3zt1ZjgyoNyVqeyci52Hm+3nPg==
-X-Google-Smtp-Source: ABdhPJwfGuVAuwh9v8uReIXor1/INl6izeeaFf/dCpjMB2B2qaXLHtpshJIyi+8W13TbBnZ5RCr/rQ==
-X-Received: by 2002:aed:3064:: with SMTP id 91mr39354113qte.151.1608068253463; 
-	Tue, 15 Dec 2020 13:37:33 -0800 (PST)
-Received: from aldarion (pool-74-97-22-49.prvdri.fios.verizon.net.
-	[74.97.22.49]) by smtp.gmail.com with ESMTPSA id
-	q194sm18189357qka.102.2020.12.15.13.37.32
-	for <drbd-dev@lists.linbit.com>
-	(version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 15 Dec 2020 13:37:33 -0800 (PST)
-Date: Tue, 15 Dec 2020 16:37:29 -0500
-Message-Id: <2n7dpisqcm.fsf@aldarion.sourceruckus.org>
-From: Michael D Labriola <michael.d.labriola@gmail.com>
-To: drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] size zero read from upper layers warning in 9.0.26-rc4
+Received: from esa2.hgst.iphmx.com (esa2.hgst.iphmx.com [68.232.143.124])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A91A6420231
+	for <drbd-dev@lists.linbit.com>; Tue, 19 Jan 2021 06:12:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+	t=1611033897; x=1642569897;
+	h=from:to:cc:subject:date:message-id:mime-version:
+	content-transfer-encoding;
+	bh=2EwAg85Rl2+jMe62nRnS8RL98bOCXmnfO5riJrV6i0c=;
+	b=pvrfAmVqGa8pio9atMXs9y2z+ykExJ2lUd52toYu/vUbfPzxxmZ538hs
+	TLpwVsEONJP9H2xaBdbD3wFTfxnrlx9FNQBLyfOFThGZ5gCCTYn5hWb93
+	sHmtNycn6ASLbEkT9roUswE935NOvEM1xQw3ThNOB1QMlKLxWnWcnBCa1
+	bUOH3s91O1Oe+3zMhpuJ/wySlDADQYVQ055QdZL2zAcYVuYklZ+KusTqq
+	4Qa18fvhH0jRuUDd0RuDDeSmA8/RDs6I2bXNU7gR2+HjV+hfymh9kuENt
+	pbYjJTbEtQhtvzZSf3rqw/p7nHCdd17I5tYqpPCqAA7EXZLq80AbhxRPh A==;
+IronPort-SDR: Glmv3mcv0Ed8l4Dmjd1k7sCMwMB9pgkFOWsGIn2shtWEbAehGWjYTY2ZxU3gW8JuDbjpsj0EW4
+	mJKZjeXHsN4JHeF2oacudTQy11Pt+EU/bNGAl0Uv8HLb6Avz5Pzt7Y9RymxvEyjqgDrzXoRbCS
+	OlEbY0jnMCcOBNQMlEa0Ezq4Ql3jXkH7ft2pqqhizA2ofexbiWEP1pQR9M4+zRGS9gxlgEno/J
+	2IU2tpS0cdWUIANDJRCJZYS9tIIwKpyomUUrIvqs8RU0+dZAlvAGEKG6dfPyYFEnz1gl0O9zl0
+	jJw=
+X-IronPort-AV: E=Sophos;i="5.79,357,1602518400"; d="scan'208";a="261722071"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+	([199.255.45.14])
+	by ob1.hgst.iphmx.com with ESMTP; 19 Jan 2021 13:16:17 +0800
+IronPort-SDR: oKBHXt8+S9t4Xdy4j2gJP8NT7+pBnh2LEQMXaj2gtj14dH22PWPTM9fLOzBD9xahGz+0zK5cHI
+	BdS9gkg9s8ar/M83QVzsQRYV6OXm0uTI6n5DR27ZPHTJbDRGXQltWVh1BaL0ir8vkYbt2J/ZVW
+	9OFN9rC9awJi2TqQWzu0SPMYbbTc73x6TeLvhc7Ki+gVmFI5yBEmEcb13OHDZ/HtCLkRsGRAb3
+	1bSUDBdeVbS293k5z1j4xlg9ztOZ3RK6aSfTQKeqjzjaLyrWeQTeJP7s6uy6mK8IOF0/HhpoiY
+	MaLN89TnVnsDNuOibnf2khLB
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+	by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+	18 Jan 2021 20:51:12 -0800
+IronPort-SDR: w8TQaHPmOf4afpFLhHFiHm4s9YBVvwz1nCheCJ4OBOH8yQ2UY0NC3Tt/JdFHF9KkeR+DlxZGUH
+	e7bQB+02ddXqKaR8b/7v1Y7wXKviC9dKqJTPF9aSTC9cHooTn06sxWBBnh6ybRkpJPiq1eaXml
+	Li9XSEIsEl1dTBAvxWyxQKBso9dBp+WZiRKxmJUsbAqs+G/qtiWTWXlVZWjYoZKV0OKSYwZfdM
+	WxDGvor0MhqHOPvWCUI9b0h4sFeSeNraJk/cdT+mEYZtqS1ubVV2lyl7ZqDz6u2Z/jCzzw/RkG
+	Jdo=
+WDCIronportException: Internal
+Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
+	by uls-op-cesaip02.wdc.com with ESMTP; 18 Jan 2021 21:06:34 -0800
+From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+To: linux-block@vger.kernel.org, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	drbd-dev@lists.linbit.com, linux-bcache@vger.kernel.org,
+	linux-raid@vger.kernel.org, linux-nvme@lists.infradead.org,
+	linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
+	linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
+	cluster-devel@redhat.com
+Date: Mon, 18 Jan 2021 21:05:54 -0800
+Message-Id: <20210119050631.57073-1-chaitanya.kulkarni@wdc.com>
+X-Mailer: git-send-email 2.22.1
+MIME-Version: 1.0
+X-Mailman-Approved-At: Tue, 19 Jan 2021 08:37:53 +0100
+Cc: shaggy@kernel.org, jfs-discussion@lists.sourceforge.net, snitzer@redhat.com,
+	gustavo@embeddedor.com, clm@fb.com, dm-devel@redhat.com,
+	adilger.kernel@dilger.ca, hch@lst.de, agk@redhat.com,
+	naohiro.aota@wdc.com, sagi@grimberg.me, darrick.wong@oracle.com,
+	osandov@fb.com, kent.overstreet@gmail.com,
+	Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
+	josef@toxicpanda.com, efremov@linux.com, colyli@suse.de,
+	tj@kernel.org, viro@zeniv.linux.org.uk, dsterba@suse.com,
+	bvanassche@acm.org, agruenba@redhat.com, axboe@kernel.dk,
+	damien.lemoal@wdc.com, tytso@mit.edu, martin.petersen@oracle.com,
+	song@kernel.org, philipp.reisner@linbit.com,
+	jefflexu@linux.alibaba.com, rpeterso@redhat.com,
+	lars.ellenberg@linbit.com, jth@kernel.org, asml.silence@gmail.com
+Subject: [Drbd-dev] [RFC PATCH 00/37] block: introduce bio_init_fields()
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -63,82 +89,122 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============7844249466814339453=="
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Hmm.  I'm testing on Linux 5.10.1, along with the latest ZFS which
-you'll see in the following WARNING I'm getting.  I seem to recall
-seing a commit about zero-size reads w/ ZFS a few days ago while
-perusing the drbd commit logs.  What I don't remember is if I should
-be worried.
+--===============7844249466814339453==
+Content-Type: text/plain; charset=y
+Content-Transfer-Encoding: 8bit
 
-Was the WARNING we stuck in the code warning me, the user, whose data
-might got kabloom, or a warning I should pass on to the ZFS folks
-because they're doing something wrong that they should fix?  Or
-perhaps both?
+Hi,
 
-Thanks!
+This is a *compile only RFC* which adds a generic helper to initialize
+the various fields of the bio that is repeated all the places in
+file-systems, block layer, and drivers.
 
-[  365.901499] ------------[ cut here ]------------
-[  365.901502] size zero read from upper layers
-[  365.901528] WARNING: CPU: 2 PID: 1794 at drbd_submit_bio+0xe6/0x100 [drbd]
-[  365.901529] Modules linked in: wireguard curve25519_x86_64 libcurve25519_generic libchacha20
-poly1305 chacha_x86_64 libchacha poly1305_x86_64 libblake2s blake2s_x86_64 libblake2s_generic d
-rbd_transport_tcp drbd lru_cache rfkill xen_netfront crc32c_intel aesni_intel glue_helper crypt
-o_simd cryptd parport_pc ppdev lp parport sunrpc autofs4 xen_blkfront loop
-[  365.901553] CPU: 2 PID: 1794 Comm: txg_sync Not tainted 5.10.1-mdl+ #7
-[  365.901562] RIP: 0010:drbd_submit_bio+0xe6/0x100 [drbd]
-[  365.901565] Code: c0 99 9a c1 48 89 df e8 88 f3 ff ff 48 83 c4 08 b8 ff ff ff ff 5b c3 48 c7
- c7 a0 ce 2a c0 c6 05 09 7f 05 00 01 e8 2a 5f 22 c0 <0f> 0b 48 8b 34 24 e9 64 ff ff ff 0f 1f 44
- 00 00 66 2e 0f 1f 84 00
-[  365.901567] RSP: 0018:ffffc90001e27aa8 EFLAGS: 00010282
-[  365.901570] RAX: 0000000000000000 RBX: ffff888005497000 RCX: 0000000000000001
-[  365.901572] RDX: 0000000080000001 RSI: ffffffff818b1556 RDI: 00000000ffffffff
-[  365.901573] RBP: ffffc90001e27b20 R08: 0000000000000000 R09: 0000000000000001
-[  365.901574] R10: ffffc90001e27b40 R11: ffffc90001e278c8 R12: 00000000ffffffff
-[  365.901575] R13: ffff8880051cdca0 R14: ffff888005494800 R15: ffff88801ff9f440
-[  365.901630] FS:  0000000000000000(0000) GS:ffff888103d00000(0000) knlGS:0000000000000000
-[  365.901632] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  365.901633] CR2: 0000556f4bb8a038 CR3: 0000000004f7a000 CR4: 00000000003506e0
-[  365.901636] Call Trace:
-[  365.901643]  submit_bio_noacct+0x14c/0x410
-[  365.901647]  ? submit_bio+0x40/0x130
-[  365.901650]  submit_bio+0x40/0x130
-[  365.901654]  vdev_disk_io_start+0x946/0x9f0
-[  365.901658]  ? kmem_cache_alloc+0x1c/0x140
-[  365.901661]  ? preempt_count_add+0x63/0x90
-[  365.901665]  ? _raw_spin_lock+0xe/0x30
-[  365.901668]  ? zio_add_child+0x13f/0x160
-[  365.901671]  ? taskq_init_ent+0x33/0x70
-[  365.901674]  ? zio_create+0x405/0x4b0
-[  365.901677]  ? zio_vdev_io_start+0x120/0x2d0
-[  365.901679]  ? zio_ready+0x27d/0x450
-[  365.901681]  zio_vdev_io_start+0x120/0x2d0
-[  365.901685]  zio_nowait+0x9e/0x160
-[  365.901688]  zio_ioctl+0x7c/0xe0
-[  365.901691]  zio_flush+0x1f/0x30
-[  365.901695]  vdev_config_sync+0xcc/0x230
-[  365.901699]  spa_sync+0xbba/0xf70
-[  365.901703]  txg_sync_thread+0x281/0x410
-[  365.901707]  ? txg_quiesce_thread+0x380/0x380
-[  365.901709]  ? __thread_exit+0x10/0x10
-[  365.901712]  thread_generic_wrapper+0x6a/0x80
-[  365.901714]  kthread+0x134/0x160
-[  365.901717]  ? kthread_park+0x80/0x80
-[  365.901720]  ret_from_fork+0x22/0x30
-[  365.901724] ---[ end trace 628d60b3830d674a ]---
-[  368.576735] EXT4-fs (zd0): mounted filesystem with ordered data mode. Opts: (null)
+The new helper allows callers to initialize various members such as
+bdev, sector, private, end io callback, io priority, and write hints.
 
+The objective of this RFC is to only start a discussion, this it not 
+completely tested at all.                                                                                                            
+Following diff shows code level benefits of this helper :-
+ 38 files changed, 124 insertions(+), 236 deletions(-)
+
+-ck
+
+Chaitanya Kulkarni (37):
+  block: introduce bio_init_fields() helper
+  fs: use bio_init_fields in block_dev
+  btrfs: use bio_init_fields in disk-io
+  btrfs: use bio_init_fields in volumes
+  ext4: use bio_init_fields in page_io
+  gfs2: use bio_init_fields in lops
+  gfs2: use bio_init_fields in meta_io
+  gfs2: use bio_init_fields in ops_fstype
+  iomap: use bio_init_fields in buffered-io
+  iomap: use bio_init_fields in direct-io
+  jfs: use bio_init_fields in logmgr
+  zonefs: use bio_init_fields in append
+  drdb: use bio_init_fields in actlog
+  drdb: use bio_init_fields in bitmap
+  drdb: use bio_init_fields in receiver
+  floppy: use bio_init_fields
+  pktcdvd: use bio_init_fields
+  bcache: use bio_init_fields in journal
+  bcache: use bio_init_fields in super
+  bcache: use bio_init_fields in writeback
+  dm-bufio: use bio_init_fields
+  dm-crypt: use bio_init_fields
+  dm-zoned: use bio_init_fields metadata
+  dm-zoned: use bio_init_fields target
+  dm-zoned: use bio_init_fields
+  dm log writes: use bio_init_fields
+  nvmet: use bio_init_fields in bdev-ns
+  target: use bio_init_fields in iblock
+  btrfs: use bio_init_fields in scrub
+  fs: use bio_init_fields in buffer
+  eros: use bio_init_fields in data
+  eros: use bio_init_fields in zdata
+  jfs: use bio_init_fields in metadata
+  nfs: use bio_init_fields in blocklayout
+  ocfs: use bio_init_fields in heartbeat
+  xfs: use bio_init_fields in xfs_buf
+  xfs: use bio_init_fields in xfs_log
+
+ block/blk-lib.c                     | 13 +++++--------
+ drivers/block/drbd/drbd_actlog.c    |  5 +----
+ drivers/block/drbd/drbd_bitmap.c    |  5 +----
+ drivers/block/drbd/drbd_receiver.c  | 11 +++--------
+ drivers/block/floppy.c              |  5 +----
+ drivers/block/pktcdvd.c             | 12 ++++--------
+ drivers/md/bcache/journal.c         | 21 ++++++++-------------
+ drivers/md/bcache/super.c           | 19 +++++--------------
+ drivers/md/bcache/writeback.c       | 14 ++++++--------
+ drivers/md/dm-bufio.c               |  5 +----
+ drivers/md/dm-crypt.c               |  4 +---
+ drivers/md/dm-log-writes.c          | 21 ++++++---------------
+ drivers/md/dm-zoned-metadata.c      | 15 +++++----------
+ drivers/md/dm-zoned-target.c        |  9 +++------
+ drivers/md/md.c                     |  6 ++----
+ drivers/nvme/target/io-cmd-bdev.c   |  4 +---
+ drivers/target/target_core_iblock.c | 11 +++--------
+ fs/block_dev.c                      | 17 +++++------------
+ fs/btrfs/disk-io.c                  | 11 ++++-------
+ fs/btrfs/scrub.c                    |  6 ++----
+ fs/btrfs/volumes.c                  |  4 +---
+ fs/buffer.c                         |  7 ++-----
+ fs/erofs/data.c                     |  6 ++----
+ fs/erofs/zdata.c                    |  9 +++------
+ fs/ext4/page-io.c                   |  6 ++----
+ fs/gfs2/lops.c                      |  6 ++----
+ fs/gfs2/meta_io.c                   |  5 ++---
+ fs/gfs2/ops_fstype.c                |  7 ++-----
+ fs/iomap/buffered-io.c              |  5 ++---
+ fs/iomap/direct-io.c                | 15 +++++----------
+ fs/jfs/jfs_logmgr.c                 | 16 ++++------------
+ fs/jfs/jfs_metapage.c               | 16 +++++++---------
+ fs/nfs/blocklayout/blocklayout.c    |  8 ++------
+ fs/ocfs2/cluster/heartbeat.c        |  4 +---
+ fs/xfs/xfs_buf.c                    |  6 ++----
+ fs/xfs/xfs_log.c                    |  6 ++----
+ fs/zonefs/super.c                   |  7 +++----
+ include/linux/bio.h                 | 13 +++++++++++++
+ 38 files changed, 124 insertions(+), 236 deletions(-)
 
 -- 
-Michael D Labriola
-21 Rip Van Winkle Cir
-Warwick, RI 02886
-401-316-9844 (cell)
+2.22.1
+
+
+--===============7844249466814339453==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
 https://lists.linbit.com/mailman/listinfo/drbd-dev
+
+--===============7844249466814339453==--
