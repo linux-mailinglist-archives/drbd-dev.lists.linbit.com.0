@@ -2,53 +2,53 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 780B12FB349
-	for <lists+drbd-dev@lfdr.de>; Tue, 19 Jan 2021 08:38:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 333A12FB32F
+	for <lists+drbd-dev@lfdr.de>; Tue, 19 Jan 2021 08:38:11 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 27731420847;
-	Tue, 19 Jan 2021 08:38:07 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E947242079D;
+	Tue, 19 Jan 2021 08:37:56 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from esa4.hgst.iphmx.com (esa4.hgst.iphmx.com [216.71.154.42])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 491AC42061D
-	for <drbd-dev@lists.linbit.com>; Tue, 19 Jan 2021 06:17:23 +0100 (CET)
+Received: from esa2.hgst.iphmx.com (esa2.hgst.iphmx.com [68.232.143.124])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 721C2420356
+	for <drbd-dev@lists.linbit.com>; Tue, 19 Jan 2021 06:14:43 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
 	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-	t=1611033443; x=1642569443;
+	t=1611034116; x=1642570116;
 	h=from:to:cc:subject:date:message-id:in-reply-to:
 	references:mime-version:content-transfer-encoding;
-	bh=BDROplFBhH1R4EEGILjaJK5BhqTJ1siF7I5dea87B68=;
-	b=D7nMdFGvmqMDSFpMdjbkETaAO+0dLp+l467xo6QOxp391r7Y90i3WNQg
-	x7K0nuD4DBZ6t48fU3aLI9QGUK6jrFVdB+sE4Wdo7D2Rwqx61rd1JuJVL
-	B9HP8BNrEzkCOb4yqtgprTwqPuHXIueKbbFfw0ZUxWFrWV9sMmktltkHj
-	uMDcDGFifV6XPNhcqC9cwp/w7c1OJWKW86DhgbwNoByJ31wrPrCx9qYDS
-	oEhWPYaynXLxZO+P13AVEVVa2qo+TnpB5Gt1z9D00Rt2gU5eEIPRCeV9Z
-	YMTZZKuxz0DH+upgs42jxuWuyyEE5KdCrni6J/QUK3C2VIAx2Tr2oUT7K A==;
-IronPort-SDR: sBrEm1+x/IoRPbkBCEOCRYu7A3cGSr8jxlPvlTesEEAP0FhrIZ08PuipAbYG2Aoqxm5sy7+if8
-	2ZlhgpWSowpsO3gtG7KCEmGpuLxS6w4FUxOESv4KshFMxnVVjgcQMYFuG4b7ib7SXeMw3DN83u
-	VaZBIgStI4RvCoL3Gbl/Sp0BmjKjHduLP/57xJz97gouDua4Y2e0MONhEPlc+quBoIoySIsosU
-	R7dKRX/A26Jj87he9+wCjqOjXI68X5idIGcuZmHQvhCfr7mzZK0Fy+VZNIKiv3OdirHy0FnWpy
-	few=
-X-IronPort-AV: E=Sophos;i="5.79,357,1602518400"; d="scan'208";a="157763987"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
-	([199.255.45.15])
-	by ob1.hgst.iphmx.com with ESMTP; 19 Jan 2021 13:09:14 +0800
-IronPort-SDR: ic5sHv6e45Q9g0E/BQLuMzP5G4UqFe3eGA3smTJ+NvfSEvzlWCUt3MwLCKW3Y92izm2yMloNUe
-	QBC0GmYH4MLD4dtvtJzWmjaj4Xw/aQ/3zBL8OJd01mUbzdAnMnswMoGMsZ6C7mk8BxJvlxiznY
-	F4Cj73hq12nOECKcYsw8OrEODKT2dgT3rEn8FxocLmLsZ3zdE/5f7MyolWqzf80Hpk89t7cnvp
-	YxFfL0IRdZml2FhQUSiPMoY31qJ/MFiD2uX9OhzouRsQgkpFe0IAWpRXCD6FWUHCGuWt9ozPDh
-	zMtOdW9llj40EjCJ0XVSJXu5
+	bh=sO8d5HxadQ7ae8msAnPJWRe2/j+HLSlO2d0uhqsgZy0=;
+	b=XOa2RvBUQsv1psgd6Bu2lxdGb9RKhFCUgHTZwpAANYgkEBPXDkjnl1a3
+	XSU9Wx+4PBx4jXYlQuCCKcghNlNZk7oOb/VdXtz0F2tICrpBH4UfJHMVp
+	m+Ox3bhaoKN8PdK/CqI4eU38kCUdxCplTWDdUx9tFTfY6jAr9YqRm9hvV
+	eZ6PWbMDP2WBlsvxVrYvFUUJlmW6t9ie1CN3LVxsvOvn1rOEI1ddR+4iz
+	ZYFSxvm1oCUtxNLccwUM09G/jWpR7NA6lo6suCaj0u4LbtlLKMLCn5o6N
+	B29ux6b6MuGwkOIliNTaWtu67IV5uJozyW9c1aSN157M2IKS/lPWMOdNv A==;
+IronPort-SDR: 3NfsDvnoYcNpT+qvGrk4HJjTFeQyqTpc/FRESs/6zUQsm+tF8J1NojKzzqYKn4BFZwVax1/2R0
+	GhKE8zGmvr5sxWSSpNNdicPPy3lnl1f7LRIFJeQyANlHXGu01FWeJ+0oX3KJHoYl7rqlIKbrpV
+	JT+jEgqj17yVydecIK+5sgFn2WrEUYmjs2FbSddN6XCZV0UegTMOnetpyPZgTerM9INaF9ruR+
+	aUCd2o43mSt2ALTAFxQZfRgqC80RO23iZFuq3fDB4QnBfW8IaTOj0GsWYpxCC/Z/GgBWcE6Id6
+	W+c=
+X-IronPort-AV: E=Sophos;i="5.79,357,1602518400"; d="scan'208";a="261722369"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+	([199.255.45.14])
+	by ob1.hgst.iphmx.com with ESMTP; 19 Jan 2021 13:20:31 +0800
+IronPort-SDR: 7s5RI/1M2875rMqLNGo1AwI9DVWaD9OET7KcOdx+mq8FKPeibMq05y1Y/z6pcKcGnIEJchYq3n
+	7QtrCNiUCPkyBOAv1hkygi3+zmcCWOQ0ECMpRMxV0X7+f0h6NDr8y17rrD97sNeno9tdAlnEg6
+	rV3zS6EuEfSA3uEc1lPaw8xu0FAAWyEq3X7uA7RidcbXbG3PqHjHVpqX20Yr2kg+hABPGK9CyE
+	BRrSvuLqk5PpoXhk7B2DHjAvkbUwJ8YvjtBpShSJnpjmRHeRcq67lQBBF4nzbjLwYIccqSAGHZ
+	VT9KdojVwKyl0N0T9kUrcO0S
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
-	by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
-	18 Jan 2021 20:51:50 -0800
-IronPort-SDR: TUB4fUCiZmYYR74Zcq3vSkW9sI4g+StmmNi9bjrhbbXw9jVqPyfJUUEFsMQdyN9Xq4K6n7Gn8a
-	Xr6vVD5OtZEwhLTDm6sJ+DJHPnZcY1k4fpGLKffcDnsEbkcmhWxrNLKyN/hbblQkxxwTcZE2KU
-	qYtpp06Bbo/MdAwTBedKhVuo+MaJ3eMXDG6FXDQH5gjW129P5pemibZ8rtfa1SbEY1fp51cPiu
-	ZnsBDBB15dkF/zopQoBN7n0qT3SGiHxK3hsHzU8k+P+0nyNJdJcQLu/AX3kBJLLH5SuOOpZND1
-	ur4=
+	by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+	18 Jan 2021 20:54:00 -0800
+IronPort-SDR: WDMfO4KSjZ85dQnSqJHGqhPnau1IPWBJa7ouAx7fSY8Jjs07UadggeWCP1wGZdoVsyHikSCSBo
+	NjR3hTBoDZYf083INEVXN/g/gzRcE8c69hDQ3bHF1CnrxKItq/1x7A8KFxUF9hsEZwznMnu465
+	WdZoTY5ZKFKbPPmsD6E9kgpTCXMTN98PIQwHFSUfz5GsmitLQ4YX+7Kt3he3pE680JbUdUcIwc
+	w3TKORGekwZavC6DFj/L4eyCUg1ECleXwXNyg9AYomurOycfkdloWjts9kBTsEWz8yA/ZIB3I9
+	J7c=
 WDCIronportException: Internal
 Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
-	by uls-op-cesaip02.wdc.com with ESMTP; 18 Jan 2021 21:09:14 -0800
+	by uls-op-cesaip02.wdc.com with ESMTP; 18 Jan 2021 21:09:22 -0800
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-block@vger.kernel.org, linux-xfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -57,8 +57,8 @@ To: linux-block@vger.kernel.org, linux-xfs@vger.kernel.org,
 	linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
 	linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
 	cluster-devel@redhat.com
-Date: Mon, 18 Jan 2021 21:06:16 -0800
-Message-Id: <20210119050631.57073-23-chaitanya.kulkarni@wdc.com>
+Date: Mon, 18 Jan 2021 21:06:17 -0800
+Message-Id: <20210119050631.57073-24-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1
 In-Reply-To: <20210119050631.57073-1-chaitanya.kulkarni@wdc.com>
 References: <20210119050631.57073-1-chaitanya.kulkarni@wdc.com>
@@ -77,7 +77,7 @@ Cc: shaggy@kernel.org, jfs-discussion@lists.sourceforge.net, snitzer@redhat.com,
 	song@kernel.org, philipp.reisner@linbit.com,
 	jefflexu@linux.alibaba.com, rpeterso@redhat.com,
 	lars.ellenberg@linbit.com, jth@kernel.org, asml.silence@gmail.com
-Subject: [Drbd-dev] [RFC PATCH 22/37] dm-crypt: use bio_init_fields
+Subject: [Drbd-dev] [RFC PATCH 23/37] dm-zoned: use bio_init_fields metadata
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -98,24 +98,49 @@ Errors-To: drbd-dev-bounces@lists.linbit.com
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 ---
- drivers/md/dm-crypt.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/md/dm-zoned-metadata.c | 15 +++++----------
+ 1 file changed, 5 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/md/dm-crypt.c b/drivers/md/dm-crypt.c
-index 53791138d78b..b03dbcbff491 100644
---- a/drivers/md/dm-crypt.c
-+++ b/drivers/md/dm-crypt.c
-@@ -1764,9 +1764,7 @@ static void clone_init(struct dm_crypt_io *io, struct bio *clone)
- {
- 	struct crypt_config *cc = io->cc;
+diff --git a/drivers/md/dm-zoned-metadata.c b/drivers/md/dm-zoned-metadata.c
+index b298fefb022e..f114d595ce23 100644
+--- a/drivers/md/dm-zoned-metadata.c
++++ b/drivers/md/dm-zoned-metadata.c
+@@ -577,10 +577,8 @@ static struct dmz_mblock *dmz_get_mblock_slow(struct dmz_metadata *zmd,
+ 	spin_unlock(&zmd->mblk_lock);
  
--	clone->bi_private = io;
--	clone->bi_end_io  = crypt_endio;
--	bio_set_dev(clone, cc->dev->bdev);
-+	bio_init_fields(clone, cc->dev->bdev, 0, io, crypt_endio, 0, 0);
- 	clone->bi_opf	  = io->base_bio->bi_opf;
- }
+ 	/* Submit read BIO */
+-	bio->bi_iter.bi_sector = dmz_blk2sect(block);
+-	bio_set_dev(bio, dev->bdev);
+-	bio->bi_private = mblk;
+-	bio->bi_end_io = dmz_mblock_bio_end_io;
++	bio_init_fields(bio, dev->bdev, dmz_blk2sect(block), mblk,
++			dmz_mblock_bio_end_io, 0, 0);
+ 	bio_set_op_attrs(bio, REQ_OP_READ, REQ_META | REQ_PRIO);
+ 	bio_add_page(bio, mblk->page, DMZ_BLOCK_SIZE, 0);
+ 	submit_bio(bio);
+@@ -733,10 +731,8 @@ static int dmz_write_mblock(struct dmz_metadata *zmd, struct dmz_mblock *mblk,
  
+ 	set_bit(DMZ_META_WRITING, &mblk->state);
+ 
+-	bio->bi_iter.bi_sector = dmz_blk2sect(block);
+-	bio_set_dev(bio, dev->bdev);
+-	bio->bi_private = mblk;
+-	bio->bi_end_io = dmz_mblock_bio_end_io;
++	bio_init_fields(bio, dev->bdev, dmz_blk2sect(block), mblk,
++			dmz_mblock_bio_end_io, 0, 0);
+ 	bio_set_op_attrs(bio, REQ_OP_WRITE, REQ_META | REQ_PRIO);
+ 	bio_add_page(bio, mblk->page, DMZ_BLOCK_SIZE, 0);
+ 	submit_bio(bio);
+@@ -763,8 +759,7 @@ static int dmz_rdwr_block(struct dmz_dev *dev, int op,
+ 	if (!bio)
+ 		return -ENOMEM;
+ 
+-	bio->bi_iter.bi_sector = dmz_blk2sect(block);
+-	bio_set_dev(bio, dev->bdev);
++	bio_init_fields(bio, dev->bdev, dmz_blk2sect(block), NULL, NULL, 0, 0);
+ 	bio_set_op_attrs(bio, op, REQ_SYNC | REQ_META | REQ_PRIO);
+ 	bio_add_page(bio, page, DMZ_BLOCK_SIZE, 0);
+ 	ret = submit_bio_wait(bio);
 -- 
 2.22.1
 
