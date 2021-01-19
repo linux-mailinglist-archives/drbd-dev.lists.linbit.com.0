@@ -2,82 +2,73 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CBFE2FB33A
-	for <lists+drbd-dev@lfdr.de>; Tue, 19 Jan 2021 08:38:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 414BE2FB6D2
+	for <lists+drbd-dev@lfdr.de>; Tue, 19 Jan 2021 15:20:50 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E3DCB420809;
-	Tue, 19 Jan 2021 08:37:58 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 30B6D4207DA;
+	Tue, 19 Jan 2021 15:20:49 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from esa4.hgst.iphmx.com (esa4.hgst.iphmx.com [216.71.154.42])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 810264205FF
-	for <drbd-dev@lists.linbit.com>; Tue, 19 Jan 2021 06:15:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-	t=1611033311; x=1642569311;
-	h=from:to:cc:subject:date:message-id:in-reply-to:
-	references:mime-version:content-transfer-encoding;
-	bh=cW+SY0F4uLtssGzI42l+SJRJJ7OOq+Ii5A3v3sT7Yes=;
-	b=YNkuL6qwR3R49kYuVtZyysuIasGdlTwk0nqS9+cd4rezrPV2zAlNcCvJ
-	RocmR2U+AT+KvGPncSMEK6/S22gDijJPiSVZx+ZA2lreiREymjzmixmda
-	ffPA00z7yebmMkiKQihw2V7jeUes52UqVPLnJswHYh5By4tR8hfl6yrzM
-	9QjI05687fUgHWjiTsFxPuYlvvtCRN6ITgYWgJa3XumA6r2494I0vjiZx
-	cv6zQREyTvCIAO/Z8DRSH+7TFiCp9mwTHw0vvdPShv4fgVhivLMcYqnAN
-	oTFALreSuZYCNTeXXqgIlt5v2lM/eTTOeRw0mbGzEv9f3vcF3N1KI5vWb g==;
-IronPort-SDR: bScGyyM/B04gsEuo1/J5UHClJkUdLb6Z/MnG6ZqH0cmK3Yf51AIZ3jPmlC0ZKSmCkNT2V2bPbf
-	mMu+tTDsoMZ9R4wI7rLZG0J9UhpY2qiJcZlTste/QOpKjcjOXaoIOnGsOsphQDo67Xd9BHoCxI
-	+fY9yYPuW/MUuvkGBR/s9WlBSFyw6bxPBiZhevHnKQJNJktrYCdl98NeBDT0RIlog6mDvSmxyH
-	wO53nn76RHMaSY09oRjPIjU64cr22v+UDtEyqh6bcC31HwFlwDwBcVa/BNt+f9LloPSt/78uwd
-	sik=
-X-IronPort-AV: E=Sophos;i="5.79,357,1602518400"; d="scan'208";a="157764120"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
-	([199.255.45.15])
-	by ob1.hgst.iphmx.com with ESMTP; 19 Jan 2021 13:11:05 +0800
-IronPort-SDR: iY5pD5B2RRAFb/WzDiUjZl0fkwkNonmJC2dELbqtycb0R2N9dLfKTmhmbBCcDCps5KqS7JFFde
-	lCA5qe+qdtc/HJbI9g8qNPwnwUOzkZUuaRVakN+FVpp35JADLvZvT4I13TEqllyQe0zc6P+dAN
-	6ox+by3nsmJIieax5V3XGpRYHWDaLyILlCUF2wy53VwBoC4q/0w8UPUBdLefF5oJ6wMLe9b9nQ
-	S4oQR/kMjuT8Az9TxJ04NjLp0PPc9QuAVmp3qlvmD4374QC1Rybm2n+gi8P0/DsHLArJznZVxn
-	WSjUiKYIcC8rSnKq9EWrdVCy
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
-	by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
-	18 Jan 2021 20:53:41 -0800
-IronPort-SDR: JhXhgWS0+e3HTDStYfAXJ39RQBEk0euVnqe58ziJOnn1c9Zev+zyQZ1feT8Pf3jy1k/0jfejeB
-	9eRQsJQYlpsXL/MQdwG+RKeojvlhwZb7/kK3K8LYVIUeWuWwf4teK/xrJ6FiTzChv1xe4/bY5+
-	eWHUFZ+nWTw4YtzlPxnn6S3DZ4LcVreyfhizYCPM9a4WY7tqwq6bMPlFdYm38BooiwkcJvUlM2
-	jto6KJJwnZYWpzG78qeBvec0imqsf+1kIqtJBGsfGtjSerNFR4ZUCja3e3hANc2sx71Lno1zNp
-	h1M=
-WDCIronportException: Internal
-Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
-	by uls-op-cesaip02.wdc.com with ESMTP; 18 Jan 2021 21:11:05 -0800
-From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-To: linux-block@vger.kernel.org, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	drbd-dev@lists.linbit.com, linux-bcache@vger.kernel.org,
-	linux-raid@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
-	linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
-	cluster-devel@redhat.com
-Date: Mon, 18 Jan 2021 21:06:31 -0800
-Message-Id: <20210119050631.57073-38-chaitanya.kulkarni@wdc.com>
-X-Mailer: git-send-email 2.22.1
-In-Reply-To: <20210119050631.57073-1-chaitanya.kulkarni@wdc.com>
+X-Greylist: delayed 305 seconds by postgrey-1.31 at mail19;
+	Tue, 19 Jan 2021 15:20:47 CET
+Received: from us-smtp-delivery-124.mimecast.com
+	(us-smtp-delivery-124.mimecast.com [216.205.24.124])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 42D4B42006E
+	for <drbd-dev@lists.linbit.com>; Tue, 19 Jan 2021 15:20:47 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1611066046;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	content-transfer-encoding:content-transfer-encoding:
+	in-reply-to:in-reply-to:references:references;
+	bh=2ycJhE8mXTZkoJTspQiF4eAdjjIOqaHJTzxw51QUBpw=;
+	b=gQCFpDFdkIV2VS5ggXBnts8v5Hicw8V7ey9DUgrUT8ne2AwhTycPmgvMV+bbn6igB4af6F
+	/SAXpLM3dJ/tCspblJQ4kRTUjVR7yp0m25Znc9Dq39bs2XjxJtf6E8JnOJfpm/Yr/VLTZ3
+	P3ZXgW8GNjSQRbuJFv6EdwjA7jYawvM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+	[209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+	us-mta-504-Na2rrFESP2-59Jhvxs6BgA-1; Tue, 19 Jan 2021 09:14:34 -0500
+X-MC-Unique: Na2rrFESP2-59Jhvxs6BgA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9A58806661;
+	Tue, 19 Jan 2021 14:14:29 +0000 (UTC)
+Received: from localhost (unknown [10.18.25.174])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2AA0D19C47;
+	Tue, 19 Jan 2021 14:14:23 +0000 (UTC)
+Date: Tue, 19 Jan 2021 09:14:22 -0500
+From: Mike Snitzer <snitzer@redhat.com>
+To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Message-ID: <20210119141422.GA23758@redhat.com>
 References: <20210119050631.57073-1-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Tue, 19 Jan 2021 08:37:53 +0100
-Cc: shaggy@kernel.org, jfs-discussion@lists.sourceforge.net, snitzer@redhat.com,
-	gustavo@embeddedor.com, clm@fb.com, dm-devel@redhat.com,
-	adilger.kernel@dilger.ca, hch@lst.de, agk@redhat.com,
-	naohiro.aota@wdc.com, sagi@grimberg.me, darrick.wong@oracle.com,
-	osandov@fb.com, kent.overstreet@gmail.com,
-	Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>,
+Content-Disposition: inline
+In-Reply-To: <20210119050631.57073-1-chaitanya.kulkarni@wdc.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Cc: shaggy@kernel.org, jfs-discussion@lists.sourceforge.net,
+	gustavo@embeddedor.com, linux-nvme@lists.infradead.org,
+	philipp.reisner@linbit.com, song@kernel.org, dm-devel@redhat.com,
+	target-devel@vger.kernel.org, adilger.kernel@dilger.ca,
+	hch@lst.de, agk@redhat.com, drbd-dev@lists.linbit.com,
+	naohiro.aota@wdc.com, sagi@grimberg.me,
+	linux-scsi@vger.kernel.org, darrick.wong@oracle.com,
+	osandov@fb.com, cluster-devel@redhat.com,
+	linux-ext4@vger.kernel.org, kent.overstreet@gmail.com,
 	josef@toxicpanda.com, efremov@linux.com, colyli@suse.de,
-	tj@kernel.org, viro@zeniv.linux.org.uk, dsterba@suse.com,
-	bvanassche@acm.org, agruenba@redhat.com, axboe@kernel.dk,
+	linux-raid@vger.kernel.org, rpeterso@redhat.com,
+	linux-bcache@vger.kernel.org, viro@zeniv.linux.org.uk,
+	dsterba@suse.com, bvanassche@acm.org, agruenba@redhat.com,
+	axboe@kernel.dk, linux-block@vger.kernel.org,
 	damien.lemoal@wdc.com, tytso@mit.edu, martin.petersen@oracle.com,
-	song@kernel.org, philipp.reisner@linbit.com,
-	jefflexu@linux.alibaba.com, rpeterso@redhat.com,
-	lars.ellenberg@linbit.com, jth@kernel.org, asml.silence@gmail.com
-Subject: [Drbd-dev] [RFC PATCH 37/37] xfs: use bio_init_fields in xfs_log
+	clm@fb.com, linux-kernel@vger.kernel.org,
+	linux-xfs@vger.kernel.org, jefflexu@linux.alibaba.com,
+	linux-fsdevel@vger.kernel.org, tj@kernel.org,
+	lars.ellenberg@linbit.com, jth@kernel.org,
+	asml.silence@gmail.com, linux-btrfs@vger.kernel.org
+Subject: Re: [Drbd-dev] [RFC PATCH 00/37] block: introduce bio_init_fields()
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -91,35 +82,45 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
----
- fs/xfs/xfs_log.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+On Tue, Jan 19 2021 at 12:05am -0500,
+Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com> wrote:
 
-diff --git a/fs/xfs/xfs_log.c b/fs/xfs/xfs_log.c
-index fa2d05e65ff1..062ee664a910 100644
---- a/fs/xfs/xfs_log.c
-+++ b/fs/xfs/xfs_log.c
-@@ -1702,10 +1702,8 @@ xlog_write_iclog(
- 	}
- 
- 	bio_init(&iclog->ic_bio, iclog->ic_bvec, howmany(count, PAGE_SIZE));
--	bio_set_dev(&iclog->ic_bio, log->l_targ->bt_bdev);
--	iclog->ic_bio.bi_iter.bi_sector = log->l_logBBstart + bno;
--	iclog->ic_bio.bi_end_io = xlog_bio_end_io;
--	iclog->ic_bio.bi_private = iclog;
-+	bio_init_fields(&iclog->ic_bio, log->l_targ->bt_bdev,
-+			log->l_logBBstart + bno, iclog, xlog_bio_end_io, 0, 0);
- 
- 	/*
- 	 * We use REQ_SYNC | REQ_IDLE here to tell the block layer the are more
--- 
-2.22.1
+> Hi,
+> =
+
+> This is a *compile only RFC* which adds a generic helper to initialize
+> the various fields of the bio that is repeated all the places in
+> file-systems, block layer, and drivers.
+> =
+
+> The new helper allows callers to initialize various members such as
+> bdev, sector, private, end io callback, io priority, and write hints.
+> =
+
+> The objective of this RFC is to only start a discussion, this it not =
+
+> completely tested at all. =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0
+> Following diff shows code level benefits of this helper :-
+> =C2=A038 files changed, 124 insertions(+), 236 deletions(-)
+
+
+Please no... this is just obfuscation.
+
+Adding yet another field to set would create a cascade of churn
+throughout kernel (and invariably many callers won't need the new field
+initialized, so you keep passing 0 for more and more fields).
+
+Nacked-by: Mike Snitzer <snitzer@redhat.com>
 
 _______________________________________________
 drbd-dev mailing list
