@@ -2,55 +2,53 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E1492FB322
-	for <lists+drbd-dev@lfdr.de>; Tue, 19 Jan 2021 08:37:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CB142FB335
+	for <lists+drbd-dev@lfdr.de>; Tue, 19 Jan 2021 08:38:15 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D17C94203D7;
-	Tue, 19 Jan 2021 08:37:54 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id DCCFE4207DA;
+	Tue, 19 Jan 2021 08:37:57 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 302 seconds by postgrey-1.31 at mail19;
-	Tue, 19 Jan 2021 06:12:17 CET
-Received: from esa2.hgst.iphmx.com (esa2.hgst.iphmx.com [68.232.143.124])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C4E80420231
-	for <drbd-dev@lists.linbit.com>; Tue, 19 Jan 2021 06:12:17 +0100 (CET)
+Received: from esa6.hgst.iphmx.com (esa6.hgst.iphmx.com [216.71.154.45])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id AFFBF4203D7
+	for <drbd-dev@lists.linbit.com>; Tue, 19 Jan 2021 06:15:03 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
 	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-	t=1611033896; x=1642569896;
+	t=1611033304; x=1642569304;
 	h=from:to:cc:subject:date:message-id:in-reply-to:
 	references:mime-version:content-transfer-encoding;
-	bh=xjsJb5PcJFfs7EA4rzkbsgQNMxTmWsRroHWsaZepkNU=;
-	b=TCJ6AWSlVeCqFUl18mjhN9OGD9H7bM3YGiDNW2JWgUBdodIY2e5h4rZk
-	QkfXT+rGhlaBc5Q8BudP7tTq0888GHIKtG7KquCwP+ZEfiP88Z+4wDRup
-	xlMGDs7oxYPC5qmMmJo/6sRgy2KCTmcInH8ydjqOkBjevYiL2bbDEZ6nB
-	QUAfptj9zfRpi0q1ROBrvMBZe/Fg8yIog5GbXs9KxpFBCq4MX2tMWfFAX
-	XLRRaNeWllhdQtvceXH9siXeohL40XfYWhpXPA0ymoxDUWe3hM9awWDy9
-	ZsM5swQ6jxS8O2iTfzB7XUUD/iEJIpqujhKFLvnLkw1lr9jVQFULSrR7s g==;
-IronPort-SDR: 71jXauv4+2owagctq/csPJfsqEc9L/KkUvrft/gkCkza9s0KGpxzRwmZn55KmgZwZd+NPNQmIz
-	YE9WAFr04NSr6zExdwD6NSGaQdzhyTbGNM8aM6rdak9l31FvmQSfURLF6xIZ47oM5BxT6MscyJ
-	1dPH4ldwiI4LesX3Qr+o++p3SOEX7Xih9SVXz49ctvRPx51Ojg3kEKF1yVftPZ+ZqkJSXBKUah
-	Hi15hMNDisFlP9YKpauOGcEbUKNoRhY6EoEII+XhEqO3Kl9mXfabo4jzjdvwBoEhFGIon8e56R
-	jnU=
-X-IronPort-AV: E=Sophos;i="5.79,357,1602518400"; d="scan'208";a="261722456"
+	bh=AAA7t74fBBFYvhmmUXL9ltnfWbGOnWjeqm/UNzN2uR4=;
+	b=j3hPcsrhL+5IDgspVLRizEmtYKJO5a98KUjEp5lHyIk+Juh98Yuzh13C
+	c50wtZvPHXT6jeECWX3FSNlH701231u6Gd82dKuJaVU6NVrlzubwDlOt2
+	7v8jAJkcVJaQSM3czd4Y5KISfztIER7RMw6qnQEBdrHgxXox9U7mpguCv
+	55Il/Oh9iyEWknivaC1htwGkoZudkSnxFIp0+pV2PEnQkyy6e3WQGs7Te
+	1TwH3g0grCJShMVyaOukZDujVmL0T4GXdn/FLUHt8NjaOvjOzezPZEGQ4
+	5dv/AEZ39CJEg+Nr6kuzSS6L553HKHkTNH/xWoBufTSfdcnKnI+OZX0M0 g==;
+IronPort-SDR: KRTvA0z0YXT2EkOKzFj13jmrfTO0xGJ6cZVkjp8u41Q3rJY2eU9hiABdOqA6j/ZLc7GRZ8m4RZ
+	FKgsM5szhyIrjZ9LTUVzpVTs8XHkzPAr0uDS0aQsR6sH5QflvE/1DMfG7cliWVEXyVuQ08stq9
+	w2d8KC2k+PqEtMQVIySd4bG2R+fSpVEotnoMYCI5U5GRKiQDuz59XC318Dpw4aNzPyvZfLIaln
+	D+Itq535fQvkBxnFJ37Kx4O6krHPf+eXWzp3waiViWZHsnGiNZpZ5yNZ9p65d1pKEJR0duHSaL
+	8CY=
+X-IronPort-AV: E=Sophos;i="5.79,357,1602518400"; d="scan'208";a="158940763"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
 	([199.255.45.14])
-	by ob1.hgst.iphmx.com with ESMTP; 19 Jan 2021 13:21:46 +0800
-IronPort-SDR: Ung5jhBw3U91PbsPdjdCKfzuRVvAo7SOnupEsKAuv0MdVm5EoCyCsiSoreUc1Qz75aLKV3842S
-	2WSU5OAwOLMdmkjzQvYrCWRXVJkeSUUGZxplU8JbescGV0S07OCic36ijevOra91pKVIQJW5eC
-	L2ywjpgcH3qrUEB68kAuyXVwKIhSiYd0uKCRsh50peETQ3I3kIcAQSCL2+QMQnYpmWTavT6Lmu
-	dkT2LTwhfJEH+MJpwXL9I74q5SoYyFDTWIugwK+7WJ2NrYZ8qOoN3xk+V455sAqVxx3bNTuPFf
-	xMey0YIE7d2HNXGiQKvulew9
+	by ob1.hgst.iphmx.com with ESMTP; 19 Jan 2021 13:10:19 +0800
+IronPort-SDR: pimCBhoL0HDSw+/4CEkueGT/B138zSpiPwrGPZ3fwhCzKbYr3yXVtkTi9QEHZP/01XP02TlTnq
+	osuzlc7CvhJEjUM7osssD6WcgX5oZevyzMswGbmonin7ERzGnBRNkk/tA0LVjQpiWlfB7xelqj
+	8tZxbPjOJwChksJZSDlJMgBvuvSD+2fteZcDYZFx2rmaGZ1daV76UxeuvNQffMwrd7nBo+UpCG
+	Y7652Vf8vgDja6miJBvdUcqF64d+OMz6VpumjYoL/TXBJA83tCAdxXpwEjKqnN/oYqXgWYD4Af
+	L8F8Bpf/dszx1TefLH8TXfoO
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
 	by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
-	18 Jan 2021 20:54:48 -0800
-IronPort-SDR: sUJEXVVGtr6hdXWriU6va4OHVDFOeCqexBkNQgHd29bupqR1FAk1FagKslaqLW3ZUUxGQzR8Ug
-	NtO68JgANUVdRxpoSQWII/hxMhExDp+a994ofqnoDT8BbVyZ1XbW5GYb7r0UZsyIyvfIjO50yw
-	MZh/UChC09g0/v2Fmm2Ka8Iym4W7jfv3l61pY/GYFfEKqEthOGPxecFMe1viLbkfMh+TmPOZOJ
-	niLv3X9jvTg8OiAwbkqtrE2GRDLktY9HmYFpEeDkaOstLITBHpJmhuyQTx4ICZPfsDRpeUTWvU
-	THQ=
+	18 Jan 2021 20:54:55 -0800
+IronPort-SDR: cPCtUc/IRHJ6v0mRHjS8V8MFIsoN0oL2wMbe6Ozxyn7u6Jlq2FjrgvACBEr/lheyPR/5wD4N+M
+	KEDIu5wE7UWz8Cv9qJDWZum4DMbM7mOvzj/7tfqqgYPHbQ1LhSR/PgR8NGyaDkjJQEt2LBkn32
+	1OZrCSpTxv+AMTCn8V0WZgKvKOAI/tj1Sffo8uYhn7bxkZYYg0/EqRTNAqMwUOaWkw/9SrZbM5
+	n6bVFFI/rd2QJwwAKHXPwXh+bmpzJXrCR4jV/u3YAVKTR0Pw0jMhQst/htFOvMCrlOnknkAxQ9
+	MSM=
 WDCIronportException: Internal
 Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
-	by uls-op-cesaip02.wdc.com with ESMTP; 18 Jan 2021 21:10:11 -0800
+	by uls-op-cesaip02.wdc.com with ESMTP; 18 Jan 2021 21:10:18 -0800
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-block@vger.kernel.org, linux-xfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -59,8 +57,8 @@ To: linux-block@vger.kernel.org, linux-xfs@vger.kernel.org,
 	linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
 	linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
 	cluster-devel@redhat.com
-Date: Mon, 18 Jan 2021 21:06:24 -0800
-Message-Id: <20210119050631.57073-31-chaitanya.kulkarni@wdc.com>
+Date: Mon, 18 Jan 2021 21:06:25 -0800
+Message-Id: <20210119050631.57073-32-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1
 In-Reply-To: <20210119050631.57073-1-chaitanya.kulkarni@wdc.com>
 References: <20210119050631.57073-1-chaitanya.kulkarni@wdc.com>
@@ -79,7 +77,7 @@ Cc: shaggy@kernel.org, jfs-discussion@lists.sourceforge.net, snitzer@redhat.com,
 	song@kernel.org, philipp.reisner@linbit.com,
 	jefflexu@linux.alibaba.com, rpeterso@redhat.com,
 	lars.ellenberg@linbit.com, jth@kernel.org, asml.silence@gmail.com
-Subject: [Drbd-dev] [RFC PATCH 30/37] fs: use bio_init_fields in buffer
+Subject: [Drbd-dev] [RFC PATCH 31/37] eros: use bio_init_fields in data
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -100,32 +98,26 @@ Errors-To: drbd-dev-bounces@lists.linbit.com
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 ---
- fs/buffer.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ fs/erofs/data.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/fs/buffer.c b/fs/buffer.c
-index 32647d2011df..32e9f780e134 100644
---- a/fs/buffer.c
-+++ b/fs/buffer.c
-@@ -3027,16 +3027,13 @@ static int submit_bh_wbc(int op, int op_flags, struct buffer_head *bh,
+diff --git a/fs/erofs/data.c b/fs/erofs/data.c
+index ea4f693bee22..15f3a3f01fa3 100644
+--- a/fs/erofs/data.c
++++ b/fs/erofs/data.c
+@@ -220,10 +220,8 @@ static inline struct bio *erofs_read_raw_page(struct bio *bio,
  
- 	fscrypt_set_bio_crypt_ctx_bh(bio, bh, GFP_NOIO);
+ 		bio = bio_alloc(GFP_NOIO, nblocks);
  
--	bio->bi_iter.bi_sector = bh->b_blocknr * (bh->b_size >> 9);
--	bio_set_dev(bio, bh->b_bdev);
-+	bio_init_fields(bio, bh->b_bdev, bh->b_blocknr * (bh->b_size >> 9),
-+			bh, end_bio_bh_io_sync, 0, 0);
- 	bio->bi_write_hint = write_hint;
+-		bio->bi_end_io = erofs_readendio;
+-		bio_set_dev(bio, sb->s_bdev);
+-		bio->bi_iter.bi_sector = (sector_t)blknr <<
+-			LOG_SECTORS_PER_BLOCK;
++		bio_init_fields(bio, sb->s_bdev, (sector_t)blknr <<
++			LOG_SECTORS_PER_BLOCK, NULL, erofs_readendio, 0, 0);
+ 		bio->bi_opf = REQ_OP_READ | (ra ? REQ_RAHEAD : 0);
+ 	}
  
- 	bio_add_page(bio, bh->b_page, bh->b_size, bh_offset(bh));
- 	BUG_ON(bio->bi_iter.bi_size != bh->b_size);
- 
--	bio->bi_end_io = end_bio_bh_io_sync;
--	bio->bi_private = bh;
--
- 	if (buffer_meta(bh))
- 		op_flags |= REQ_META;
- 	if (buffer_prio(bh))
 -- 
 2.22.1
 
