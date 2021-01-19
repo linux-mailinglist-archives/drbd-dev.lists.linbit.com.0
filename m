@@ -2,53 +2,55 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EDA52FB32E
-	for <lists+drbd-dev@lfdr.de>; Tue, 19 Jan 2021 08:38:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D161C2FB325
+	for <lists+drbd-dev@lfdr.de>; Tue, 19 Jan 2021 08:37:58 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id BF3BD42066A;
-	Tue, 19 Jan 2021 08:37:56 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5BD03420619;
+	Tue, 19 Jan 2021 08:37:55 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from esa2.hgst.iphmx.com (esa2.hgst.iphmx.com [68.232.143.124])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0ACC9420329
-	for <drbd-dev@lists.linbit.com>; Tue, 19 Jan 2021 06:14:02 +0100 (CET)
+X-Greylist: delayed 309 seconds by postgrey-1.31 at mail19;
+	Tue, 19 Jan 2021 06:12:37 CET
+Received: from esa5.hgst.iphmx.com (esa5.hgst.iphmx.com [216.71.153.144])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id DF2DD420329
+	for <drbd-dev@lists.linbit.com>; Tue, 19 Jan 2021 06:12:37 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
 	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-	t=1611034055; x=1642570055;
+	t=1611033157; x=1642569157;
 	h=from:to:cc:subject:date:message-id:in-reply-to:
 	references:mime-version:content-transfer-encoding;
-	bh=aM7JQIyW0SiKsSN5jKrINUGLCUPGl+Twv+vS/lM3j18=;
-	b=a5BcW1awGpYrGhBiVGfgpy1xGN/EN0oPvDy8Fn3IbwqUQMl+o05ty5dk
-	J4EV2iLHtik0MTTNF1XZupjuOImVVIdqjRXh0OpIX6tRFxNntuG4JO+84
-	Myim9oG/T31fkYZFzUopPOBEYW0TUEUFrVJKOOz2a/W16xc+/C8b1Ig2e
-	JGxq2hZ+VjIprkHzPmJ7TSnPJxCgbUBPqiLNRI6m9tDXHDp/WkZnZ4ODD
-	+2jANrxvhEoHEvWpf54trtDD6IlEA3UFikCjIo4RqHHBOF7pz4dX3JpUN
-	XjCBKXrfFXX3xqMZJ1idMDSJ0ZNWYzU9yXi8PVUlzl5rQxtOizxDrwLx0 w==;
-IronPort-SDR: RCaTGgGLm6wn+ZAbMDG44ygVb2jOyn5D522uaie/wzgLxcY/YAq0XaFucRz7nEVvUiCnpVtUmH
-	gNYgLeb4Tsd+CHerJUOOPBs1kXZMDD3fIOottZ2mvjSuDqPqvrpiOW/3VLE6vj0m4ccRkaPPSE
-	8KJ2hhxCp0dD0BPhczByf2KF8gRFKsZa/QFohjRyRUzqwEXCG16pMB8g2UeDQMzAM2g8cFt6U5
-	Xv2WuuQ+FX8mugr81ZWKmI2MhV2RXIzwO1E6RCVXE5GbZ8dF0Xl5NngkulHtB9WETrw1v4D5Vq
-	Uh4=
-X-IronPort-AV: E=Sophos;i="5.79,357,1602518400"; d="scan'208";a="261722486"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+	bh=dUZxU7BncWFawkbUm0QHtY0n6f/CWqD/WEdprzvrR/c=;
+	b=lUiL9llGs8m6HC9b/GCHilqaeryissSBDx85vgqkiblJxj1PAN/kLigM
+	85PNR2CXJzMg3ohJcyFyZgKXYuJml8S4FI3ZOrDuIW5isSw8xkNxDZD8/
+	HxAYO835xI/3xfrs7RGiUrXPjsdM4Zg7gHkbGxSLJbBZBCWxw/BcHiIzJ
+	ooOj5l4xDYihppbvY4Lr8SO5NAUY9fBHsOvWq8zDZWABki7MkAdg1S0vN
+	WdZeEHXSUgJbdtdARyQgQ8Z10fdY//Xb/MZm1n1VCkOYwcuVHzRYC6ZTG
+	EJWpdhR7biGl7SlB+mE/B8HPT3Z9cbOfVY4nFye8Bk80iQovA90MpNRtN A==;
+IronPort-SDR: sBbqu3pu3+jEFWvHBrot7B9/6e1A+j0gM2ly1bPJSfnSeL1bQKJTvXpw9tCDZPmeFhrXheACOX
+	28fF3Q5XpwfhDH1DGzPLJCg6mLt3WstqzjEATHiwRMIkIDrEjjuc+iWtw32/epq1MBhsWnUZrK
+	az9aP4DskSyeTF5dL1O4n63+xxly2ySr7cEvVboGtL6u1SVimlPXy+MOmaIHe3hUfb5LwIg9lv
+	nn+QyP+Y0tE72DYJnuelHIsyrzzOsxU+NU64i0dY97HAztpPtRve6/qP9IrypsfB4A+flkuzs0
+	608=
+X-IronPort-AV: E=Sophos;i="5.79,357,1602518400"; d="scan'208";a="157758857"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
 	([199.255.45.15])
-	by ob1.hgst.iphmx.com with ESMTP; 19 Jan 2021 13:22:29 +0800
-IronPort-SDR: vKYnvyF8ClO5Gg0mjGWcnhocpPQisEIK5pluAlD+rv2AWhE1g47N0YxKzND9Y5d1tDlFlbxw3x
-	qgeHQJbsDw6YiMlwVZPgfhzFh569azo0zjPJ2Bj/zKq5P3DwN6cSYZBNTF9Z/0XQdOct9gjFXu
-	yQ1iuC0r9EnhtUmGxI/V60+lbn/pSrQuI+jtY6Z+wx7/TStmdmhxWhXwVhRfuFwXlF98N0S85J
-	AbikZvzPiIGumSpyNbLY7UDC6664PMmACv0AP/xbHTA9ZiXSPMF4MyAFhzk5BuhrexsbE0BYNT
-	nvpYQ4W+eYt2UlRDm6BMNQhg
+	by ob1.hgst.iphmx.com with ESMTP; 19 Jan 2021 13:10:49 +0800
+IronPort-SDR: n7S+huvmI7Bz26AZl2Bww/BgVVlQHQsVy6Lj0WKiShlrLEsO7kY3jnprI7VSefvkfMdwVg8cKA
+	j03sHDhro924Ta0pg//xd32ZNlRE+uf26bvC6ZaYek+LrgmQpWMPNJQu0VhTJy0Bc4mW3E5fZ2
+	SqZzLRFs6Ldw/5zG0CqM542aDr6L9xPTfn/Xx3aC5vWuFoVfaqUfrWtV1BK8+1e+lwdGmzxl8J
+	HA8u/Mhh7q8SKh0jU+sHeGEU/AeBxmWg85f5xk25Ji6Xz/mucpxPbSQ7t5xjO+dA7jWA6Dwlt0
+	L2JMFsW0ApKNx3JwGRm7K2aW
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
 	by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
-	18 Jan 2021 20:53:16 -0800
-IronPort-SDR: oklSZwC4T98igITkHvUN5/cFLVu1yS+dVuRFw1rj6Sypghilpv1dq004ftoRiIcXr+1cvb1C+g
-	e1+GCw894PQkPu1QcGSBSC17BzbJVdUoKLEKnb23R5ToJPinuljlR2aaNZBBxuQfj4BqaudRJa
-	XDGeUKlYGqrX0PkiJf+ZiBwJ6Ik8t4zeEDjdqLOFU05xrby1lNOvGG7JThAaPObtceSdxUj1c7
-	/m5QwBatTkcZcWmVuIDWjsPnj5ACeHofJxm9d2p07oDQHlNegcWml37RbpxW8gEnNxSajg/OqB
-	c4E=
+	18 Jan 2021 20:53:25 -0800
+IronPort-SDR: l/PshN71cWYbTK1WTMMOJErnyUYZ9w/R4z1nl3IAFxlbXv4liArup+WsFD5ickHhD3utQPm1yk
+	sDJR5xYPW7Rk4AOBaj9ddtkrfHNoDjxcLvYwqKoJ+zSMrb2LgwmOyjvRLWCwQh66m+L31DF3GG
+	cbQQZKVcF02VZtZcPCLoG656Pl8BFav/PRzS4RekqjE2nR1vtzK5A4F7XeBguGBUnZrVICH30u
+	hENXcQH2DncOb3p9BCQrIXCeB58uVf13+u9S+duV8v8olXF+1fRyqTUCKPFMBWOtqHC+TvB1s2
+	T2w=
 WDCIronportException: Internal
 Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
-	by uls-op-cesaip02.wdc.com with ESMTP; 18 Jan 2021 21:10:40 -0800
+	by uls-op-cesaip02.wdc.com with ESMTP; 18 Jan 2021 21:10:49 -0800
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-block@vger.kernel.org, linux-xfs@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -57,8 +59,8 @@ To: linux-block@vger.kernel.org, linux-xfs@vger.kernel.org,
 	linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
 	linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
 	cluster-devel@redhat.com
-Date: Mon, 18 Jan 2021 21:06:28 -0800
-Message-Id: <20210119050631.57073-35-chaitanya.kulkarni@wdc.com>
+Date: Mon, 18 Jan 2021 21:06:29 -0800
+Message-Id: <20210119050631.57073-36-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1
 In-Reply-To: <20210119050631.57073-1-chaitanya.kulkarni@wdc.com>
 References: <20210119050631.57073-1-chaitanya.kulkarni@wdc.com>
@@ -77,7 +79,7 @@ Cc: shaggy@kernel.org, jfs-discussion@lists.sourceforge.net, snitzer@redhat.com,
 	song@kernel.org, philipp.reisner@linbit.com,
 	jefflexu@linux.alibaba.com, rpeterso@redhat.com,
 	lars.ellenberg@linbit.com, jth@kernel.org, asml.silence@gmail.com
-Subject: [Drbd-dev] [RFC PATCH 34/37] nfs: use bio_init_fields in blocklayout
+Subject: [Drbd-dev] [RFC PATCH 35/37] ocfs: use bio_init_fields in heartbeat
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -98,28 +100,25 @@ Errors-To: drbd-dev-bounces@lists.linbit.com
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 ---
- fs/nfs/blocklayout/blocklayout.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ fs/ocfs2/cluster/heartbeat.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/fs/nfs/blocklayout/blocklayout.c b/fs/nfs/blocklayout/blocklayout.c
-index 3be6836074ae..7ac96519c8b7 100644
---- a/fs/nfs/blocklayout/blocklayout.c
-+++ b/fs/nfs/blocklayout/blocklayout.c
-@@ -128,12 +128,8 @@ bl_alloc_init_bio(int npg, struct block_device *bdev, sector_t disk_sector,
- 			bio = bio_alloc(GFP_NOIO, npg);
+diff --git a/fs/ocfs2/cluster/heartbeat.c b/fs/ocfs2/cluster/heartbeat.c
+index 0179a73a3fa2..dd37aaac4f32 100644
+--- a/fs/ocfs2/cluster/heartbeat.c
++++ b/fs/ocfs2/cluster/heartbeat.c
+@@ -528,10 +528,8 @@ static struct bio *o2hb_setup_one_bio(struct o2hb_region *reg,
  	}
  
--	if (bio) {
--		bio->bi_iter.bi_sector = disk_sector;
--		bio_set_dev(bio, bdev);
--		bio->bi_end_io = end_io;
--		bio->bi_private = par;
--	}
-+	if (bio)
-+		bio_init_fields(bio, bdev, disk_sector, par, end_io, 0, 0);
- 	return bio;
- }
+ 	/* Must put everything in 512 byte sectors for the bio... */
++	bio_init_fields(bio, reg->hr_bdev, 0, wc, o2hb_bio_end_io, 0, 0);
+ 	bio->bi_iter.bi_sector = (reg->hr_start_block + cs) << (bits - 9);
+-	bio_set_dev(bio, reg->hr_bdev);
+-	bio->bi_private = wc;
+-	bio->bi_end_io = o2hb_bio_end_io;
+ 	bio_set_op_attrs(bio, op, op_flags);
  
+ 	vec_start = (cs << bits) % PAGE_SIZE;
 -- 
 2.22.1
 
