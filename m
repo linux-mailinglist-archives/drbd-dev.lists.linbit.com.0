@@ -2,66 +2,54 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59E87303105
-	for <lists+drbd-dev@lfdr.de>; Tue, 26 Jan 2021 01:52:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7024B304166
+	for <lists+drbd-dev@lfdr.de>; Tue, 26 Jan 2021 16:05:45 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3C5FD4205F9;
-	Tue, 26 Jan 2021 01:52:18 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4D50F4205FB;
+	Tue, 26 Jan 2021 16:05:45 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
-	[209.85.214.178])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5A93A4205EE
-	for <drbd-dev@lists.linbit.com>; Tue, 26 Jan 2021 01:52:16 +0100 (CET)
-Received: by mail-pl1-f178.google.com with SMTP id d4so8739183plh.5
-	for <drbd-dev@lists.linbit.com>; Mon, 25 Jan 2021 16:52:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=cloud.ionos.com; s=google;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=D3jPNTYhrIxrX4H/Bz2CWIz5jRxLbk7blKyKqQ1JDpo=;
-	b=LKcUVdvEzOmxeYA3vu7HPUTya6UHwtIgF3ymsagxdFZmQeaDU+yuxvOp72YzfbSWLf
-	YVimj9mREiq+GO8RVAMrgGn00N6l4x86MLdnBMfRC8TI/5VISkU02XF+NOh6uvcdqqAJ
-	7vVhecU05cWTqxjVRfwZCYJvybHmEAu9RGNiso4G7vKNHZ0fi8DJgGxgdqD9w3f7kNxY
-	7vGI8KMv8vlPDj/5s091d/Te9CBP8UWGZNVSrui13kCnSysNn4nSWZS0ZOl+kAe1Lnc1
-	zK146/hZpwDsZZcNsOYzof1oyCgLXBFYotdgVd/3kpqz7DFW1B20gVOLIogzs9IydycV
-	9V1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=D3jPNTYhrIxrX4H/Bz2CWIz5jRxLbk7blKyKqQ1JDpo=;
-	b=YkUyaa0kV9BLU3xrW0xiNL3B+AUzDDYwYwYWLySxpJe4YoqAgkxrhs9lVusZY9/loK
-	n7pebn5W6azDkdO7IBoh/tktaybBv4fOyE2ezKDCuMAcOADyCgImTmyRwDEzH/CveNiS
-	1MBKBR/TVD+fQBx1+33JxsN4R2av2UQMTljvaSPNGikAUWKo7yL6SIAHq9217bFKPD4D
-	ZZm1tvOSBoo9fwTREOC6zToEblOLBaUkIUXT5GSqzebCdOL6KppQbwky8n+PeosW1i7y
-	dr3q/YpkjA0hlWX1zC67rM4qs+l+t4M6VMpPRT1HLagHNrsnvlCDgmAgzpiV6HoaqU+D
-	fT/g==
-X-Gm-Message-State: AOAM5323Zmrmy5mL+u1trP4QdxZc32u7V8NJUDupGmbQ5w99kG/dk131
-	oI8IFYP+g34I9R94Tr7KlLXegRwKDHmrNQ==
-X-Google-Smtp-Source: ABdhPJzJAJXcVAwbnQsX7li30Ext+hUqlTUC4FsKKHPtCu6xVYdkIktiqvbNpqLznTw0AWEy317+iQ==
-X-Received: by 2002:a17:902:d70f:b029:de:b33a:891a with SMTP id
-	w15-20020a170902d70fb02900deb33a891amr3098526ply.70.1611622333769;
-	Mon, 25 Jan 2021 16:52:13 -0800 (PST)
-Received: from [10.8.1.5] ([185.125.207.232]) by smtp.gmail.com with ESMTPSA id
-	v2sm16948930pgs.50.2021.01.25.16.52.08
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Mon, 25 Jan 2021 16:52:13 -0800 (PST)
-To: axboe@kernel.dk
-References: <20210121142150.12998-1-guoqing.jiang@cloud.ionos.com>
-From: Guoqing Jiang <guoqing.jiang@cloud.ionos.com>
-Message-ID: <11599fea-e0e8-f6c8-5931-0c37491ee6d7@cloud.ionos.com>
-Date: Tue, 26 Jan 2021 01:52:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.10.0
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 8C4FF420012
+	for <drbd-dev@lists.linbit.com>; Tue, 26 Jan 2021 16:05:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209;
+	h=Content-Transfer-Encoding:MIME-Version:
+	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=DlGuhvUuF5545bhBTyuoYUED18e0Xo1tptPGH+ZCVWM=;
+	b=jMQTwjqfgxOzhYVUlZs0z9WFMS
+	HRM3mdeuPCtX41haFTd6hK9e25Otzz6mCyGNcv34gLl3lwXKlK5lNyLTebUWNNaFab+hdAbStB327
+	6X13dSBciQr1C4yXzcvGmt62gd3mz/quTqo9WjsRSWJx4E4YtRztVJUQF2aYf33t7c4ozLh5cmFBq
+	jtTnUIVw6VgPNfzXwq64Crdqp9Bei9fIWZOg+evdMuBCYdR8RMjwHbP99COwLm/oF7u4+vzFrU+Tm
+	2WUpSisrQMH9uO9aOlv+vEiHmHKQMMIj8qQj2cijQqFQjcvZAiJ5jVKPz8liZXt3v3QT/yndTE765
+	OTjGoq6g==;
+Received: from [2001:4bb8:191:e347:5918:ac86:61cb:8801] (helo=localhost)
+	by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+	id 1l4Pi4-005luv-Pc; Tue, 26 Jan 2021 14:53:04 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Jens Axboe <axboe@kernel.dk>,
+	Song Liu <song@kernel.org>
+Date: Tue, 26 Jan 2021 15:52:30 +0100
+Message-Id: <20210126145247.1964410-1-hch@lst.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20210121142150.12998-1-guoqing.jiang@cloud.ionos.com>
-Content-Language: en-US
-Cc: linux-block@vger.kernel.org, Lars Ellenberg <lars.ellenberg@linbit.com>,
-	Philipp Reisner <philipp.reisner@linbit.com>, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH RESEND] drbd: remove unused argument from
- drbd_request_prepare and __drbd_make_request
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+	casper.infradead.org. See http://www.infradead.org/rpr.html
+Cc: Mike Snitzer <snitzer@redhat.com>, linux-mm@kvack.org, dm-devel@redhat.com,
+	drbd-dev@lists.linbit.com, Naohiro Aota <naohiro.aota@wdc.com>,
+	linux-nilfs@vger.kernel.org, Josef Bacik <josef@toxicpanda.com>,
+	Chao Yu <chao@kernel.org>, linux-nfs@vger.kernel.org,
+	Coly Li <colyli@suse.de>, linux-raid@vger.kernel.org,
+	linux-bcache@vger.kernel.org, David Sterba <dsterba@suse.com>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	Ryusuke Konishi <konishi.ryusuke@gmail.com>, linux-block@vger.kernel.org,
+	Damien Le Moal <damien.lemoal@wdc.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Philipp Reisner <philipp.reisner@linbit.com>,
+	linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org,
+	Lars Ellenberg <lars.ellenberg@linbit.com>, linux-btrfs@vger.kernel.org
+Subject: [Drbd-dev] misc bio allocation cleanups
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -75,108 +63,68 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Ping
+Hi Jens,
 
-On 1/21/21 15:21, Guoqing Jiang wrote:
-> We can remove start_jif since it is not used by drbd_request_prepare,
-> then remove it from __drbd_make_request further.
-> 
-> Cc: Philipp Reisner <philipp.reisner@linbit.com>
-> Cc: Lars Ellenberg <lars.ellenberg@linbit.com>
-> Cc: drbd-dev@lists.linbit.com
-> Signed-off-by: Guoqing Jiang <guoqing.jiang@cloud.ionos.com>
-> ---
->   drivers/block/drbd/drbd_int.h  |  2 +-
->   drivers/block/drbd/drbd_main.c |  3 +--
->   drivers/block/drbd/drbd_req.c  | 11 ++++-------
->   3 files changed, 6 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/block/drbd/drbd_int.h b/drivers/block/drbd/drbd_int.h
-> index 8f879e5c2f67..8faa31a17b8f 100644
-> --- a/drivers/block/drbd/drbd_int.h
-> +++ b/drivers/block/drbd/drbd_int.h
-> @@ -1449,7 +1449,7 @@ extern void conn_free_crypto(struct drbd_connection *connection);
->   
->   /* drbd_req */
->   extern void do_submit(struct work_struct *ws);
-> -extern void __drbd_make_request(struct drbd_device *, struct bio *, unsigned long);
-> +extern void __drbd_make_request(struct drbd_device *, struct bio *);
->   extern blk_qc_t drbd_submit_bio(struct bio *bio);
->   extern int drbd_read_remote(struct drbd_device *device, struct drbd_request *req);
->   extern int is_valid_ar_handle(struct drbd_request *, sector_t);
-> diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
-> index 1c8c18b2a25f..7e5fcce812e1 100644
-> --- a/drivers/block/drbd/drbd_main.c
-> +++ b/drivers/block/drbd/drbd_main.c
-> @@ -2288,7 +2288,6 @@ static void do_retry(struct work_struct *ws)
->   	list_for_each_entry_safe(req, tmp, &writes, tl_requests) {
->   		struct drbd_device *device = req->device;
->   		struct bio *bio = req->master_bio;
-> -		unsigned long start_jif = req->start_jif;
->   		bool expected;
->   
->   		expected =
-> @@ -2323,7 +2322,7 @@ static void do_retry(struct work_struct *ws)
->   		/* We are not just doing submit_bio_noacct(),
->   		 * as we want to keep the start_time information. */
->   		inc_ap_bio(device);
-> -		__drbd_make_request(device, bio, start_jif);
-> +		__drbd_make_request(device, bio);
->   	}
->   }
->   
-> diff --git a/drivers/block/drbd/drbd_req.c b/drivers/block/drbd/drbd_req.c
-> index 330f851cb8f0..5e5602af9643 100644
-> --- a/drivers/block/drbd/drbd_req.c
-> +++ b/drivers/block/drbd/drbd_req.c
-> @@ -1188,7 +1188,7 @@ static void drbd_queue_write(struct drbd_device *device, struct drbd_request *re
->    * Returns ERR_PTR(-ENOMEM) if we cannot allocate a drbd_request.
->    */
->   static struct drbd_request *
-> -drbd_request_prepare(struct drbd_device *device, struct bio *bio, unsigned long start_jif)
-> +drbd_request_prepare(struct drbd_device *device, struct bio *bio)
->   {
->   	const int rw = bio_data_dir(bio);
->   	struct drbd_request *req;
-> @@ -1416,9 +1416,9 @@ static void drbd_send_and_submit(struct drbd_device *device, struct drbd_request
->   		complete_master_bio(device, &m);
->   }
->   
-> -void __drbd_make_request(struct drbd_device *device, struct bio *bio, unsigned long start_jif)
-> +void __drbd_make_request(struct drbd_device *device, struct bio *bio)
->   {
-> -	struct drbd_request *req = drbd_request_prepare(device, bio, start_jif);
-> +	struct drbd_request *req = drbd_request_prepare(device, bio);
->   	if (IS_ERR_OR_NULL(req))
->   		return;
->   	drbd_send_and_submit(device, req);
-> @@ -1596,19 +1596,16 @@ void do_submit(struct work_struct *ws)
->   blk_qc_t drbd_submit_bio(struct bio *bio)
->   {
->   	struct drbd_device *device = bio->bi_disk->private_data;
-> -	unsigned long start_jif;
->   
->   	blk_queue_split(&bio);
->   
-> -	start_jif = jiffies;
-> -
->   	/*
->   	 * what we "blindly" assume:
->   	 */
->   	D_ASSERT(device, IS_ALIGNED(bio->bi_iter.bi_size, 512));
->   
->   	inc_ap_bio(device);
-> -	__drbd_make_request(device, bio, start_jif);
-> +	__drbd_make_request(device, bio);
->   	return BLK_QC_T_NONE;
->   }
->   
-> 
+this series contains various cleanups for how bios are allocated or
+initialized plus related fallout.
+
+Diffstat:
+ Documentation/filesystems/f2fs.rst |    1 
+ block/bio.c                        |  167 ++++++++++++++++++-------------------
+ block/blk-crypto-fallback.c        |    2 
+ block/blk-flush.c                  |   17 +--
+ drivers/block/drbd/drbd_actlog.c   |    2 
+ drivers/block/drbd/drbd_bitmap.c   |    2 
+ drivers/block/drbd/drbd_int.h      |    2 
+ drivers/block/drbd/drbd_main.c     |   13 --
+ drivers/block/drbd/drbd_req.c      |    5 -
+ drivers/block/drbd/drbd_req.h      |   12 --
+ drivers/block/drbd/drbd_worker.c   |    5 -
+ drivers/md/dm-clone-target.c       |   14 ---
+ drivers/md/dm-zoned-metadata.c     |    6 -
+ drivers/md/md.c                    |   48 +++-------
+ drivers/md/md.h                    |    2 
+ drivers/md/raid1.c                 |    2 
+ drivers/md/raid10.c                |    2 
+ drivers/md/raid5-ppl.c             |    2 
+ drivers/md/raid5.c                 |  108 +++++++++--------------
+ drivers/nvme/target/io-cmd-bdev.c  |    2 
+ fs/block_dev.c                     |    2 
+ fs/btrfs/volumes.c                 |    2 
+ fs/exfat/file.c                    |    2 
+ fs/ext4/fast_commit.c              |    4 
+ fs/ext4/fsync.c                    |    2 
+ fs/ext4/ialloc.c                   |    2 
+ fs/ext4/super.c                    |    2 
+ fs/f2fs/data.c                     |   28 ------
+ fs/f2fs/f2fs.h                     |    2 
+ fs/f2fs/segment.c                  |   12 --
+ fs/f2fs/super.c                    |    1 
+ fs/fat/file.c                      |    2 
+ fs/hfsplus/inode.c                 |    2 
+ fs/hfsplus/super.c                 |    2 
+ fs/jbd2/checkpoint.c               |    2 
+ fs/jbd2/commit.c                   |    4 
+ fs/jbd2/recovery.c                 |    2 
+ fs/libfs.c                         |    2 
+ fs/nfs/blocklayout/blocklayout.c   |    5 -
+ fs/nilfs2/segbuf.c                 |    4 
+ fs/nilfs2/the_nilfs.h              |    2 
+ fs/ocfs2/file.c                    |    2 
+ fs/reiserfs/file.c                 |    2 
+ fs/xfs/xfs_super.c                 |    2 
+ fs/zonefs/super.c                  |    4 
+ include/linux/bio.h                |    6 -
+ include/linux/blkdev.h             |    4 
+ include/linux/swap.h               |    1 
+ mm/page_io.c                       |   45 ++-------
+ mm/swapfile.c                      |   10 --
+ 50 files changed, 213 insertions(+), 363 deletions(-)
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
