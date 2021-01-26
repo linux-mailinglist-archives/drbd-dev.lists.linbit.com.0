@@ -2,56 +2,78 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E066304263
-	for <lists+drbd-dev@lfdr.de>; Tue, 26 Jan 2021 16:26:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D506304145
+	for <lists+drbd-dev@lfdr.de>; Tue, 26 Jan 2021 16:01:42 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 21DBB4206D1;
-	Tue, 26 Jan 2021 16:26:02 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 64604420356;
+	Tue, 26 Jan 2021 16:01:41 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 57B8B42053E
-	for <drbd-dev@lists.linbit.com>; Tue, 26 Jan 2021 16:26:00 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209;
-	h=Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=imDKE4404TVupECTT3CTRw+cqCPUxNPppd2/iiQCXMs=;
-	b=aQgfKd6q628v0njktwMXtO+tpa
-	VQ6AN2ML+AjC9smASiy0wrdfS4sFFCnIEmcIXu/uC9Ta7v/gFWb+6z6PpQmY8jMFGWtYqV8VJSHA0
-	dXAF/4pi0+HC8kVchlMaU5GmAZa714wa2/luSOmABw0GZfAT6AU7MbJuMKkGL5tnR0JtqQacKoy8n
-	WCCfmaNoO8QrPSmsSJPHsjQGoOnH268uw3Hhya2Ewhml5arq/gCxUDMs/smtqApFBFC+qBFUve6kd
-	hWTlztN9lb5yJebq1pTZJuSmAUl3qDJDAbW4e+pnBNWS1tiUosnRkCm/5hJV/Kb0mS6xYMUviraAV
-	ixL6cw1Q==;
-Received: from [2001:4bb8:191:e347:5918:ac86:61cb:8801] (helo=localhost)
-	by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-	id 1l4QAZ-005opo-7d; Tue, 26 Jan 2021 15:22:55 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Jens Axboe <axboe@kernel.dk>,
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com
+	[209.85.219.47])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id AF49D420231
+	for <drbd-dev@lists.linbit.com>; Tue, 26 Jan 2021 16:01:38 +0100 (CET)
+Received: by mail-qv1-f47.google.com with SMTP id 2so7955333qvd.0
+	for <drbd-dev@lists.linbit.com>; Tue, 26 Jan 2021 07:01:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=toxicpanda-com.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=dHYhIJF3/5XU6YJf87js06xMy71uM3p96Vow3DtEX9o=;
+	b=WdWUmiJC+8UYJRTvh/5UIitEcjh/T2145UmBmoaEWnGQ/iLavq64t6tRlvb//BGAQq
+	3VCUG37Nar51k+dPiNF3CzPvHK3JYiJMW85otOgYWbeCX8vxizRUbZSXeXuWWIFycBGr
+	fjqPj8+dHcL6KrbrlAi0FZAluWAKHuAaVSWDnScYSZ0p7yKyiHcHTUW3cqp+KZfgaCw9
+	l/BFmjP/bpcNjnwBO+KhBHjChy/Tbk4sRM98bPFs+rrmeqOQ8iSzM6+HYZ1M0z/ww7C4
+	WfRtB8FMyXiifrNQasVAdg6AbxCHsU54Unw0rZbDzO556nGQA5ZP7DBCURAC4mHWVVQI
+	+Uxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=dHYhIJF3/5XU6YJf87js06xMy71uM3p96Vow3DtEX9o=;
+	b=LGlqhZGxGYVAODNq6fmYPCmL4flSqlV0Z89xsft1qrdphM/1cdAT5cKTj3RxscO79D
+	JfjDBTNHAKQtBlTdEKm471CNGdGp4NUYbM4Ru8uEFOb4EQYBue/67NXcg+1rG0NeAE+r
+	9QDaq+DVZVqTzG9Bs9WvVOpYy/zG8hbdDMZBcoqhmN+9cF8laEwcL29PlOrO2WI+IwXW
+	y6hPN3PTxYxTAMgMJa8xgrWJm39WPsEeDTymIJvKr3oOwFCpbsOOznncC8+FnuWEa01O
+	bQ/4Q5HqIUl5XJ4o7afvivSyT0G3qYnbfw92UGjOghIytzOF416C1BTiVu+wPBMFfqIO
+	3ugg==
+X-Gm-Message-State: AOAM533BmmkKRPeqJlitrwvTWupxGUr0QrFSskWLjPerAUWg5pSibc7e
+	jcoSHEMKCSHCKZwuQWMuAO9wpA==
+X-Google-Smtp-Source: ABdhPJy3NpFp+R6tlPWp0jY9EiL4vU+Cs/B3eEjfsSBgMM797jtRUTY+hlBsCIlFeHp5zjWk+0XbYg==
+X-Received: by 2002:a0c:fdc4:: with SMTP id g4mr5783824qvs.18.1611673298035;
+	Tue, 26 Jan 2021 07:01:38 -0800 (PST)
+Received: from [192.168.1.45] (cpe-174-109-172-136.nc.res.rr.com.
+	[174.109.172.136]) by smtp.gmail.com with ESMTPSA id
+	m190sm14220105qkb.42.2021.01.26.07.01.35
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Tue, 26 Jan 2021 07:01:36 -0800 (PST)
+To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
 	Song Liu <song@kernel.org>
-Date: Tue, 26 Jan 2021 15:52:47 +0100
-Message-Id: <20210126145247.1964410-18-hch@lst.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210126145247.1964410-1-hch@lst.de>
 References: <20210126145247.1964410-1-hch@lst.de>
+	<20210126145247.1964410-3-hch@lst.de>
+From: Josef Bacik <josef@toxicpanda.com>
+Message-ID: <d3717e48-9e42-fa7a-12c2-a6c97eaf4a7b@toxicpanda.com>
+Date: Tue, 26 Jan 2021 10:01:34 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+	Gecko/20100101 Thunderbird/78.6.1
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
-	casper.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20210126145247.1964410-3-hch@lst.de>
+Content-Language: en-US
 Cc: Mike Snitzer <snitzer@redhat.com>, linux-mm@kvack.org, dm-devel@redhat.com,
 	drbd-dev@lists.linbit.com, Naohiro Aota <naohiro.aota@wdc.com>,
-	linux-nilfs@vger.kernel.org, Josef Bacik <josef@toxicpanda.com>,
-	Chao Yu <chao@kernel.org>, linux-nfs@vger.kernel.org,
-	Coly Li <colyli@suse.de>, linux-raid@vger.kernel.org,
-	linux-bcache@vger.kernel.org, David Sterba <dsterba@suse.com>,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
+	linux-nilfs@vger.kernel.org, Chao Yu <chao@kernel.org>,
+	linux-nfs@vger.kernel.org, Coly Li <colyli@suse.de>,
+	linux-raid@vger.kernel.org, linux-bcache@vger.kernel.org,
+	David Sterba <dsterba@suse.com>, Jaegeuk Kim <jaegeuk@kernel.org>,
 	Ryusuke Konishi <konishi.ryusuke@gmail.com>, linux-block@vger.kernel.org,
 	Damien Le Moal <damien.lemoal@wdc.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	Philipp Reisner <philipp.reisner@linbit.com>,
 	linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org,
 	Lars Ellenberg <lars.ellenberg@linbit.com>, linux-btrfs@vger.kernel.org
-Subject: [Drbd-dev] [PATCH 17/17] mm: remove get_swap_bio
+Subject: Re: [Drbd-dev] [PATCH 02/17] btrfs: use bio_kmalloc in
+	__alloc_device
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -65,135 +87,21 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Just reuse the block_device and sector from the swap_info structure,
-just as used by the SWP_SYNCHRONOUS path.  Also remove the checks for
-NULL returns from bio_alloc as that can't happen for sleeping
-allocations.
+On 1/26/21 9:52 AM, Christoph Hellwig wrote:
+> Use bio_kmalloc instead of open coding it.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- include/linux/swap.h |  1 -
- mm/page_io.c         | 45 +++++++++++++-------------------------------
- mm/swapfile.c        | 10 ----------
- 3 files changed, 13 insertions(+), 43 deletions(-)
+Reviewed-by: Josef Bacik <josef@toxicpanda.com>
 
-diff --git a/include/linux/swap.h b/include/linux/swap.h
-index 596bc2f4d9b03e..3f1f7ae0fbe9e1 100644
---- a/include/linux/swap.h
-+++ b/include/linux/swap.h
-@@ -468,7 +468,6 @@ extern int free_swap_and_cache(swp_entry_t);
- int swap_type_of(dev_t device, sector_t offset);
- int find_first_swap(dev_t *device);
- extern unsigned int count_swap_pages(int, int);
--extern sector_t map_swap_page(struct page *, struct block_device **);
- extern sector_t swapdev_block(int, pgoff_t);
- extern int page_swapcount(struct page *);
- extern int __swap_count(swp_entry_t entry);
-diff --git a/mm/page_io.c b/mm/page_io.c
-index a75f35464a4e73..92f7941c6d018b 100644
---- a/mm/page_io.c
-+++ b/mm/page_io.c
-@@ -26,25 +26,6 @@
- #include <linux/uio.h>
- #include <linux/sched/task.h>
- 
--static struct bio *get_swap_bio(gfp_t gfp_flags,
--				struct page *page, bio_end_io_t end_io)
--{
--	struct bio *bio;
--
--	bio = bio_alloc(gfp_flags, 1);
--	if (bio) {
--		struct block_device *bdev;
--
--		bio->bi_iter.bi_sector = map_swap_page(page, &bdev);
--		bio_set_dev(bio, bdev);
--		bio->bi_iter.bi_sector <<= PAGE_SHIFT - 9;
--		bio->bi_end_io = end_io;
--
--		bio_add_page(bio, page, thp_size(page), 0);
--	}
--	return bio;
--}
--
- void end_swap_bio_write(struct bio *bio)
- {
- 	struct page *page = bio_first_page_all(bio);
-@@ -361,13 +342,13 @@ int __swap_writepage(struct page *page, struct writeback_control *wbc,
- 		return 0;
- 	}
- 
--	bio = get_swap_bio(GFP_NOIO, page, end_write_func);
--	if (bio == NULL) {
--		set_page_dirty(page);
--		unlock_page(page);
--		return -ENOMEM;
--	}
-+	bio = bio_alloc(GFP_NOIO, 1);
-+	bio_set_dev(bio, sis->bdev);
-+	bio->bi_iter.bi_sector = swap_page_sector(page);
- 	bio->bi_opf = REQ_OP_WRITE | REQ_SWAP | wbc_to_write_flags(wbc);
-+	bio->bi_end_io = end_write_func;
-+	bio_add_page(bio, page, thp_size(page), 0);
-+
- 	bio_associate_blkg_from_page(bio, page);
- 	count_swpout_vm_event(page);
- 	set_page_writeback(page);
-@@ -427,18 +408,18 @@ int swap_readpage(struct page *page, bool synchronous)
- 	}
- 
- 	ret = 0;
--	bio = get_swap_bio(GFP_KERNEL, page, end_swap_bio_read);
--	if (bio == NULL) {
--		unlock_page(page);
--		ret = -ENOMEM;
--		goto out;
--	}
-+	bio = bio_alloc(GFP_KERNEL, 1);
-+	bio_set_dev(bio, sis->bdev);
-+	bio->bi_opf = REQ_OP_READ;
-+	bio->bi_iter.bi_sector = swap_page_sector(page);
-+	bio->bi_end_io = end_swap_bio_read;
-+	bio_add_page(bio, page, thp_size(page), 0);
-+
- 	disk = bio->bi_bdev->bd_disk;
- 	/*
- 	 * Keep this task valid during swap readpage because the oom killer may
- 	 * attempt to access it in the page fault retry time check.
- 	 */
--	bio_set_op_attrs(bio, REQ_OP_READ, 0);
- 	if (synchronous) {
- 		bio->bi_opf |= REQ_HIPRI;
- 		get_task_struct(current);
-diff --git a/mm/swapfile.c b/mm/swapfile.c
-index 9fffc5af29d1b9..bfa9e8b0c2ef61 100644
---- a/mm/swapfile.c
-+++ b/mm/swapfile.c
-@@ -2301,16 +2301,6 @@ static sector_t map_swap_entry(swp_entry_t entry, struct block_device **bdev)
- 	return se->start_block + (offset - se->start_page);
- }
- 
--/*
-- * Returns the page offset into bdev for the specified page's swap entry.
-- */
--sector_t map_swap_page(struct page *page, struct block_device **bdev)
--{
--	swp_entry_t entry;
--	entry.val = page_private(page);
--	return map_swap_entry(entry, bdev);
--}
--
- /*
-  * Free all of a swapdev's extent information
-  */
--- 
-2.29.2
+yay I contributed,
 
+Josef
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
