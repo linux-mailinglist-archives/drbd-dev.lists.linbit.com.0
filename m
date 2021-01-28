@@ -2,69 +2,67 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DA40309D43
-	for <lists+drbd-dev@lfdr.de>; Sun, 31 Jan 2021 16:06:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CBDD30A265
+	for <lists+drbd-dev@lfdr.de>; Mon,  1 Feb 2021 08:06:05 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id DE4294205FF;
-	Sun, 31 Jan 2021 16:06:10 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 200E5420624;
+	Mon,  1 Feb 2021 08:06:04 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
-	[209.85.210.179])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6DA11420308
-	for <drbd-dev@lists.linbit.com>; Sun, 31 Jan 2021 16:06:09 +0100 (CET)
-Received: by mail-pf1-f179.google.com with SMTP id o20so9856330pfu.0
-	for <drbd-dev@lists.linbit.com>; Sun, 31 Jan 2021 07:06:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kernel-dk.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=RhAfW3bOZ/JfCqopnjfz8hQSvqyWBPdhdc6w/zDiwfc=;
-	b=IuEYztJTmZOs0kVtPjKiHZTmlePgiPP90jNwlu7kB0YG9jG1mKAoE771JYPnoB+d3s
-	7qYP8K7lWDPtq9EOszLpt9J17q0um0JnaJuFIWJy9UcWwyBJQjfZ1EP3NWWnN7C5U+d1
-	C8UepgnzBNj+bK8L0ipZFYzLtAcgC2CKj1WpmSe8kqzByWUL1OBceXEGDaTsY1VKLE9D
-	lP/6IehcIgj4OYhEacOjra0NC0R4BCqBczxMGbpKb+SxfPRPvQRW6XNPqxeyOdErN5JT
-	Xp1jnN+1wjwAxsumwoIbJ0Ft+loZsWg7EojlasfXNk/+T3/IJLu2Xvp/T4+KrTx0YtL7
-	49bA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=RhAfW3bOZ/JfCqopnjfz8hQSvqyWBPdhdc6w/zDiwfc=;
-	b=pu/3XkUJDqUg5nlUAQd0M4Lh7BsP6SSYUbYy5ZZTk/8TZWcyXh/qvGH0RNxyZL6Qzx
-	kEM9VXFt3PnukoBp6B0ONpEIaaY5hY0KaEzxXCaA4gj3EhOaEGQZKVDwJixxJ9r3kFeg
-	8DcxHmONrjcaOz66DOwG5u0S9vifFY6kDYPqETit3cQN95G08Duyuxi5E73mDJKdsFIt
-	B540/6qMp9MXN642t8adQnRwOsEJypmT7QYMvjMnqHmi5aqPS1e5QApGDbhOOcETThDM
-	c6maaqTI6JsO6nYkb5mruh+FT5pKip/sRFuVolnwqE9Jdm659pAU2h1Qhih0uO+Ht+lk
-	emMw==
-X-Gm-Message-State: AOAM532Rk8H+RBTav2+gdQm2dfI3KqN+K0XoKWU21uo2kBYnEpIGh1yC
-	4hHxLqo8TJ8kOyNFlPixq6Lg/A==
-X-Google-Smtp-Source: ABdhPJwIrY3pQVuft9bDOjJNjgrxQ/cadRkh846SmN1+jYXqxUz3/NqaB3dVRUWbkzUeNQQTZX3MkQ==
-X-Received: by 2002:a63:1c42:: with SMTP id c2mr13354451pgm.304.1612105568223; 
-	Sun, 31 Jan 2021 07:06:08 -0800 (PST)
-Received: from [192.168.1.134] ([66.219.217.173])
-	by smtp.gmail.com with ESMTPSA id
-	c17sm14357248pfi.88.2021.01.31.07.06.06
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Sun, 31 Jan 2021 07:06:07 -0800 (PST)
-To: Joe Perches <joe@perches.com>, Jiri Kosina <trivial@kernel.org>,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>
-References: <cover.1598331148.git.joe@perches.com>
-	<1c8081264d82101d7837220c5ee221c307da5d91.1598331148.git.joe@perches.com>
-	<5deee552f4bcfd81c6dc6ec3e8139c0c4ba27d31.camel@perches.com>
-From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <8a2099ab-9b25-d79c-f421-0a3a2ca15720@kernel.dk>
-Date: Sun, 31 Jan 2021 08:06:09 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.10.0
+X-Greylist: delayed 507 seconds by postgrey-1.31 at mail19;
+	Thu, 28 Jan 2021 18:08:15 CET
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id F0BE942006B
+	for <drbd-dev@lists.linbit.com>; Thu, 28 Jan 2021 18:08:15 +0100 (CET)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0EEE564E0E;
+	Thu, 28 Jan 2021 16:59:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1611853187;
+	bh=f6FDYR+2fbZ3ZjuVDKmJrkeFHlqyA4P3vGdmoyOPa1M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Rzag2xxRHgFBGSJ365/QUldWd9CTCZVGt3cs71rJutBhKs94QB4O0wVHJ78U0xIF9
+	n96V7cXtAmPsB9hu9gUYvKXwcH1SXtYNdkFw15Hr/lW1MQ6ApKzq4voIl5psE+u1SS
+	oIYlBt3CEfmzYKr/W9GKeV1ES9XtHwmC1KiXTL4cmN2/9EoY9kXCbDD71u9sIp+Nfr
+	FbyyfdHM+E5ZA+F8801PzzCElIq3kyLXwweF8LRAnfmH79wwG+57YuSijr3uE7kbk9
+	/DpcS6Ckt3f1RwDjmwI1QhKt/MkNHods9aX+BJj1ComGJOXJH3o25qnvlVltgShwCo
+	r/bA/dJbtb2Sw==
+Date: Thu, 28 Jan 2021 08:59:46 -0800
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Message-ID: <20210128165946.GL7698@magnolia>
+References: <20210128071133.60335-1-chaitanya.kulkarni@wdc.com>
+	<20210128071133.60335-18-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
-In-Reply-To: <5deee552f4bcfd81c6dc6ec3e8139c0c4ba27d31.camel@perches.com>
-Content-Language: en-US
-Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH 06/29] drbd: Avoid comma separated statements
+Content-Disposition: inline
+In-Reply-To: <20210128071133.60335-18-chaitanya.kulkarni@wdc.com>
+X-Mailman-Approved-At: Mon, 01 Feb 2021 08:06:02 +0100
+Cc: shaggy@kernel.org, jfs-discussion@lists.sourceforge.net,
+	gustavoars@kernel.org, sergey.senozhatsky.work@gmail.com,
+	snitzer@redhat.com, tiwai@suse.de,
+	linux-nvme@lists.infradead.org, philipp.reisner@linbit.com,
+	linux-mm@kvack.org, dm-devel@redhat.com,
+	target-devel@vger.kernel.org, pavel@ucw.cz,
+	alex.shi@linux.alibaba.com, hch@lst.de, agk@redhat.com,
+	drbd-dev@lists.linbit.com, naohiro.aota@wdc.com,
+	linux-nilfs@vger.kernel.org, sagi@grimberg.me,
+	linux-scsi@vger.kernel.org, mark@fasheh.com,
+	konrad.wilk@oracle.com, osandov@fb.com, ebiggers@kernel.org,
+	xen-devel@lists.xenproject.org, ngupta@vflare.org,
+	len.brown@intel.com, linux-pm@vger.kernel.org, hare@suse.de,
+	ming.lei@redhat.com, linux-block@vger.kernel.org, tj@kernel.org,
+	linux-fscrypt@vger.kernel.org, viro@zeniv.linux.org.uk,
+	jefflexu@linux.alibaba.com, jaegeuk@kernel.org,
+	jlbec@evilplan.org, konishi.ryusuke@gmail.com,
+	bvanassche@acm.org, axboe@kernel.dk, damien.lemoal@wdc.com,
+	tytso@mit.edu, akpm@linux-foundation.org,
+	martin.petersen@oracle.com, joseph.qi@linux.alibaba.com,
+	rjw@rjwysocki.net, linux-kernel@vger.kernel.org,
+	linux-xfs@vger.kernel.org, minchan@kernel.org,
+	linux-fsdevel@vger.kernel.org, lars.ellenberg@linbit.com,
+	jth@kernel.org, asml.silence@gmail.com,
+	ocfs2-devel@oss.oracle.com, roger.pau@citrix.com
+Subject: Re: [Drbd-dev] [RFC PATCH 17/34] iomap: use bio_new in
+	iomap_dio_zero
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -83,17 +81,43 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On 1/30/21 11:57 AM, Joe Perches wrote:
-> On Mon, 2020-08-24 at 21:56 -0700, Joe Perches wrote:
->> Use semicolons and braces.
+On Wed, Jan 27, 2021 at 11:11:16PM -0800, Chaitanya Kulkarni wrote:
+> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+
+Looks ok to me,
+Reviewed-by: Darrick J. Wong <djwong@kernel.org>
+
+--D
+
+> ---
+>  fs/iomap/direct-io.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
 > 
-> ping?
-
-Queued for 5.12.
-
--- 
-Jens Axboe
-
+> diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
+> index ea1e8f696076..f6c557a1bd25 100644
+> --- a/fs/iomap/direct-io.c
+> +++ b/fs/iomap/direct-io.c
+> @@ -189,15 +189,13 @@ iomap_dio_zero(struct iomap_dio *dio, struct iomap *iomap, loff_t pos,
+>  	int flags = REQ_SYNC | REQ_IDLE;
+>  	struct bio *bio;
+>  
+> -	bio = bio_alloc(GFP_KERNEL, 1);
+> -	bio_set_dev(bio, iomap->bdev);
+> -	bio->bi_iter.bi_sector = iomap_sector(iomap, pos);
+> +	bio = bio_new(iomap->bdev, iomap_sector(iomap, pos), REQ_OP_WRITE,
+> +		      flags, 1, GFP_KERNEL);
+>  	bio->bi_private = dio;
+>  	bio->bi_end_io = iomap_dio_bio_end_io;
+>  
+>  	get_page(page);
+>  	__bio_add_page(bio, page, len, 0);
+> -	bio_set_op_attrs(bio, REQ_OP_WRITE, flags);
+>  	iomap_dio_submit_bio(dio, iomap, bio, pos);
+>  }
+>  
+> -- 
+> 2.22.1
+> 
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
