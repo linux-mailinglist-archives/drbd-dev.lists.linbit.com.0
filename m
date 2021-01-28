@@ -2,55 +2,55 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7489D306EDF
-	for <lists+drbd-dev@lfdr.de>; Thu, 28 Jan 2021 08:21:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 278F4306E90
+	for <lists+drbd-dev@lfdr.de>; Thu, 28 Jan 2021 08:17:03 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4533942079D;
-	Thu, 28 Jan 2021 08:21:02 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 12F374205E5;
+	Thu, 28 Jan 2021 08:17:02 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 347 seconds by postgrey-1.31 at mail19;
-	Thu, 28 Jan 2021 08:17:35 CET
-Received: from esa2.hgst.iphmx.com (esa2.hgst.iphmx.com [68.232.143.124])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 988A7420356
-	for <drbd-dev@lists.linbit.com>; Thu, 28 Jan 2021 08:17:35 +0100 (CET)
+X-Greylist: delayed 303 seconds by postgrey-1.31 at mail19;
+	Thu, 28 Jan 2021 08:16:42 CET
+Received: from esa1.hgst.iphmx.com (esa1.hgst.iphmx.com [68.232.141.245])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4DAF2420341
+	for <drbd-dev@lists.linbit.com>; Thu, 28 Jan 2021 08:16:42 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
 	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-	t=1611818500; x=1643354500;
+	t=1611818202; x=1643354202;
 	h=from:to:cc:subject:date:message-id:in-reply-to:
 	references:mime-version:content-transfer-encoding;
-	bh=cXmRF2Su1ZKio9gUSME8BeoE9pXLYvn976s4DXPYmio=;
-	b=kmGhfVlDlQXPADjj920RtdVCAj7j3ZwSwEzuC9njOkHA8km1KJYU21vZ
-	J8wLCX0qyI4bNL5Lfb42fciBSwUAkNl54ebSXrgqXeFjzPlqVYoKQ0H+G
-	cBw/n4kLEg4Gli7ejNQ+i0ot0pGKy61FL4zLIfzGxmg50ERJrcwzrQKc/
-	FXAifSh95O+d0k7C9rYbD6wtTQhSIfa65Ku+HW8YBBE44xC/Ygtb7SwaL
-	6OkvaPDYIm6UV/2bcP8TgN62r5VPLeyaxfbqN4og/SHRKEViVKy20gcKX
-	12H5NEAGF0j2qzC2ivOyts4VEHMMQ4SgpBj+bWEjozbzIZophvQiv2ib3 w==;
-IronPort-SDR: KMtXM7/t3UTYWp1ULWzUKGyBY3afWLdJ+h47wCL5XFvg2aBs3c7zqpuCJoz0P4ZzHulIj7/v43
-	VVHabNmWPsT3UXVuII4SUPLcqF/LRjISB4JTXNoFRHzomZx+KVQLdLCYeWylZSw1PJYwXXqFEv
-	4Dx5G5u16HyJREBpimrBfTmbAKJ2McgnKYBBv6yA+0HbG/Wc3Y9DnswKj+pqPSXxTko9Y1ija4
-	XW22m+8JFRn33L73xVPvNx1yuPTom0ENrVJ3xlrLiSOfChmS/jlNPFkfeX2+vx7zbOZmH9yjQJ
-	WH4=
-X-IronPort-AV: E=Sophos;i="5.79,381,1602518400"; d="scan'208";a="262549191"
+	bh=mX0lBXgZV5dDDUNO5/xUPQTxA6WXojrnDbaB4rJIAQ4=;
+	b=OgRyydZvRUT+EDqSBKpCWDoQpnRKiL+D0owBvpcfqmq14icBZyo1T7M0
+	WiEBycLT+qMRhzsOJQLES3IstEz6U19/h6G8n1DJfNvkH+e5AMksYdgLm
+	EHxgg6SvjX/C+Zd2QqpldiybaaPhJoha1uu6EB3FzLT7fgYdo6FI7kRn4
+	geJT/MQsIjHMUMFuX3/5sVYwofw3W0EU+N75u2qkuPIzyaoLEFiZVUEYH
+	TH9JGRTU3k0dQdzdZJPJLGZX5AAu/Z5UKUHHvPHO3zm21EsDYvRaJn6HI
+	ye+Zo12weUqeQ1y9WBSQHFHp/Q9bIIAujzKvphZ4oRIXGQ+oUtgph8eOG Q==;
+IronPort-SDR: q8a6/CUpMYVpHkpxs2L3fGaoHhWQgPOcl1n3j8G23eXG7zs/gCHRxuvRZDuR2vT1KGyUexJuVM
+	Lpi+rfMrkqZNsQ+AARjVsecYgQHRxTHIj3h8ErT4dddd0M7pbtz1BIQJmxZemZILICIa+mHIVL
+	iOXDLPPfpVIkMg7TVxfOZeaXk8uLJ/rSbcTCt/UZxqtt1gAeM/H2KHL9Val/tYGfDdkTCuUQON
+	R93v/9ZLp0IwxTSjVauwJYNjJ4FhcW7xmLNkrUT63laeWGCIZbD1k0hcSlowYVCLq+ZPMJw/k7
+	IG4=
+X-IronPort-AV: E=Sophos;i="5.79,381,1602518400"; d="scan'208";a="268892671"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
 	([199.255.45.14])
-	by ob1.hgst.iphmx.com with ESMTP; 28 Jan 2021 15:18:33 +0800
-IronPort-SDR: NzDx+Wj0Y63JJIFXVqBtJGa33VMRjR2nMScYQf1Nex0F0c3LuMRiWMNnAeCP6/4wyw7Jy90br5
-	KxS+etFVUaaeJuiO11e40t54Fxms8RpqIw+M2M825iqMuGB+nOLrd8dbDuazBRRu2FTaumTGc5
-	l+PZ1i/4l2RI7O0JSvMqp4yNIBFBVmgqmo1aS79tvEKjOvEb4/ZcWH3vPpZ1AoLMrJdMng0Wnp
-	C7f6Q6EOE6QAi9R28Cb3Lf+rfR3vABYS+4/emmkz2ZWy1QBchQsJZ1YaBX9amhT0yDXJzDRE62
-	7JGJnNIErc7to2P+cVRr92xp
+	by ob1.hgst.iphmx.com with ESMTP; 28 Jan 2021 15:15:39 +0800
+IronPort-SDR: ca5pj8INTJ8VWk+s1SsLUGU6vlfpQo+YQhpA5ivmcj28G43zslkIbdsTnLyGXriBbHOrC45Tt8
+	9wUp4Uw7VscgJv5z24VHHZSbxnHTdjcLVOBCFvOQz2GtXH/wzQVOjPypmCRUTFeDX+dEXZucZd
+	1qijgiaVC6Dii44d9/6rsFneiS/cYgQ4tC7fsGIUeG24XktcUV2zvfDzlI5+SO66vR6hLkBxHY
+	AvXRMdLQCeGY7Kh4Uw2H3E9RZnwwxUHfg/auTAb9J/+rFS3N9vlVkUJB9GqTJcAwRGEv2b6C/H
+	S5fCzEkgZP6OIDyzXQGL7Q7T
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
 	by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
-	27 Jan 2021 22:59:52 -0800
-IronPort-SDR: m+UU9TJBIXCvSyFz/7O2vaYmlOCexk8ewW0e2kOKkWSuwpQEVFGI+DHENO7Q1Bf8IQzN352Mi5
-	5dDETfg3/zd0aL0yHDjcbUD/eS6byN5dveWHS0JlUn01j5YdJYnuzvRhCyGEwEvsPLeiwlo6h7
-	h47UPjLb7UDOPAPFC4EqcqtJYlkeHUwpVqBF6C8WUdWbiBbzIaj0jcLgB21R8kA1PJHycwAnr3
-	51c0CVR8EMmKQ6pEvymjZcIoINYcADZvl3xn96JSQjk6KW59eeMqwpBFLuZiCrCp4Zkdz1bD1j
-	kZU=
+	27 Jan 2021 22:59:59 -0800
+IronPort-SDR: +tiKd6++/IklFSy7iDJaHbayhG5AQMYy46sQaNwq7O80dac1IZ8ZNlxjx4DxYbXvKYV6ua9+Jn
+	RJlpIO7cWN3eoJjRXIKMWDgWPb2hxGv4A2WF6qkOCUmJWGu679NggrholDw0Y/zhUvvPmDPwT6
+	YMwbiHmVzfz4ihKs4Lc84G8Ml2oUugQkKwA3saHG7RouPgTCEOWIbUjZGA0E7lav6RMiRyuWgb
+	NQVibBmtLzaPM7sNDSYSURpVt5muhPgCfKQdUKPwhH4mY9hUDkI5QyIoSDd8h2S0Ai5kAfU9pn
+	AHM=
 WDCIronportException: Internal
 Received: from vm.labspan.wdc.com (HELO vm.sc.wdc.com) ([10.6.137.102])
-	by uls-op-cesaip02.wdc.com with ESMTP; 27 Jan 2021 23:15:32 -0800
+	by uls-op-cesaip02.wdc.com with ESMTP; 27 Jan 2021 23:15:39 -0800
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 To: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
 	dm-devel@redhat.com, linux-block@vger.kernel.org,
@@ -60,8 +60,8 @@ To: linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
 	linux-fscrypt@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
 	linux-nilfs@vger.kernel.org, ocfs2-devel@oss.oracle.com,
 	linux-pm@vger.kernel.org, linux-mm@kvack.org
-Date: Wed, 27 Jan 2021 23:11:27 -0800
-Message-Id: <20210128071133.60335-29-chaitanya.kulkarni@wdc.com>
+Date: Wed, 27 Jan 2021 23:11:28 -0800
+Message-Id: <20210128071133.60335-30-chaitanya.kulkarni@wdc.com>
 X-Mailer: git-send-email 2.22.1
 In-Reply-To: <20210128071133.60335-1-chaitanya.kulkarni@wdc.com>
 References: <20210128071133.60335-1-chaitanya.kulkarni@wdc.com>
@@ -82,7 +82,8 @@ Cc: shaggy@kernel.org, sergey.senozhatsky.work@gmail.com, snitzer@redhat.com,
 	philipp.reisner@linbit.com, minchan@kernel.org, tj@kernel.org,
 	lars.ellenberg@linbit.com, jth@kernel.org,
 	asml.silence@gmail.com, jlbec@evilplan.org, roger.pau@citrix.com
-Subject: [Drbd-dev] [RFC PATCH 28/34] zonefs: use bio_new
+Subject: [Drbd-dev] [RFC PATCH 29/34] power/swap: use bio_new in
+	hib_submit_io
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -103,38 +104,30 @@ Errors-To: drbd-dev-bounces@lists.linbit.com
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 ---
- fs/zonefs/super.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ kernel/power/swap.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/fs/zonefs/super.c b/fs/zonefs/super.c
-index ab68e27bb322..620d67965a22 100644
---- a/fs/zonefs/super.c
-+++ b/fs/zonefs/super.c
-@@ -661,6 +661,7 @@ static const struct iomap_dio_ops zonefs_write_dio_ops = {
- 
- static ssize_t zonefs_file_dio_append(struct kiocb *iocb, struct iov_iter *from)
+diff --git a/kernel/power/swap.c b/kernel/power/swap.c
+index c73f2e295167..e92e36c053a6 100644
+--- a/kernel/power/swap.c
++++ b/kernel/power/swap.c
+@@ -271,13 +271,12 @@ static int hib_submit_io(int op, int op_flags, pgoff_t page_off, void *addr,
+ 		struct hib_bio_batch *hb)
  {
-+	unsigned int op = REQ_OP_ZONE_APPEND | REQ_SYNC | REQ_IDLE;
- 	struct inode *inode = file_inode(iocb->ki_filp);
- 	struct zonefs_inode_info *zi = ZONEFS_I(inode);
- 	struct block_device *bdev = inode->i_sb->s_bdev;
-@@ -678,15 +679,12 @@ static ssize_t zonefs_file_dio_append(struct kiocb *iocb, struct iov_iter *from)
- 	if (!nr_pages)
- 		return 0;
+ 	struct page *page = virt_to_page(addr);
++	sector_t sect = page_off * (PAGE_SIZE >> 9);
+ 	struct bio *bio;
+ 	int error = 0;
  
--	bio = bio_alloc(GFP_NOFS, nr_pages);
-+	bio = bio_new(bdev, zi->i_zsector, op, 0, GFP_NOFS, nr_pages);
- 	if (!bio)
- 		return -ENOMEM;
+-	bio = bio_alloc(GFP_NOIO | __GFP_HIGH, 1);
+-	bio->bi_iter.bi_sector = page_off * (PAGE_SIZE >> 9);
+-	bio_set_dev(bio, hib_resume_bdev);
+-	bio_set_op_attrs(bio, op, op_flags);
++	bio = bio_new(hib_resume_bdev, sect, op, op_flags, 1,
++		      GFP_NOIO | __GFP_HIGH);
  
--	bio_set_dev(bio, bdev);
--	bio->bi_iter.bi_sector = zi->i_zsector;
- 	bio->bi_write_hint = iocb->ki_hint;
- 	bio->bi_ioprio = iocb->ki_ioprio;
--	bio->bi_opf = REQ_OP_ZONE_APPEND | REQ_SYNC | REQ_IDLE;
- 	if (iocb->ki_flags & IOCB_DSYNC)
- 		bio->bi_opf |= REQ_FUA;
- 
+ 	if (bio_add_page(bio, page, PAGE_SIZE, 0) < PAGE_SIZE) {
+ 		pr_err("Adding page to bio failed at %llu\n",
 -- 
 2.22.1
 
