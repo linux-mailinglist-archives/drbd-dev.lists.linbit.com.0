@@ -2,37 +2,37 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 754E730A266
-	for <lists+drbd-dev@lfdr.de>; Mon,  1 Feb 2021 08:06:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 477E730A267
+	for <lists+drbd-dev@lfdr.de>; Mon,  1 Feb 2021 08:06:07 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 61ADF420629;
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A071442062D;
 	Mon,  1 Feb 2021 08:06:04 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 44A18420341
-	for <drbd-dev@lists.linbit.com>; Thu, 28 Jan 2021 18:21:33 +0100 (CET)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C458764DED;
-	Thu, 28 Jan 2021 17:21:32 +0000 (UTC)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 16C17420341
+	for <drbd-dev@lists.linbit.com>; Thu, 28 Jan 2021 18:21:53 +0100 (CET)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 14BA564E14;
+	Thu, 28 Jan 2021 17:21:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1611854492;
-	bh=wN/vYbjN9dGjcLcGdnyPwaVCaPorwnyIWndgrJa+c0Q=;
+	s=k20201202; t=1611854512;
+	bh=3wcbDXIsfKokQbmfUCYjGrgS3GF5z08Qdptdga5fUN4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=h4Jj9WXKrn+6FaWHbaqLTTirarAYDVXXbmjKm43Pwyv9CvWF/FCcMNgRPgrx3ByMo
-	28fxrNXlVVTo5g3juSTT+7sNpMpJgqbGb4DuHZ8KF3an7+1BY6+nbU2z1+n7iGhwih
-	wkXCxISTeJgnl/ygSyJKGjvjcoECGRGnzVlWu3E9jKtn6wt5VP3JuKjRalNmzU1hCy
-	4OORtBiU8sk9BK43/E82eZ6NyUeC5IBPMIffBmVCBQkowGnqLXw2BEreMWAztT9vas
-	UyeabZv1xy0SE+hBOV4TAGEolTup4mRCss8y10V/Fh7qEXQ2ropSARSls0wsWRnCVn
-	9DTzlrlwSUtJA==
-Date: Thu, 28 Jan 2021 09:21:32 -0800
+	b=QWOP7EPqmN6b3MiW9yEAgNNtNjSRtrXyFEpjaAGYBZII1sVNYI1YtSMwAvt9fuQBa
+	67CiLo3o5RvfcoATyHS1j02NITEEA3iqExwlLXezGs5RMp4QWJbqX9Dn+nc6m+I4rS
+	ryQ81C45k5DR4mIk6Zm2DTepJlJx7ughkR/Vt0AUwH3+rYDSQLjDOWM7DJGp0ETUnl
+	xurghfp/gRCwfqedNMDMPHZbg7F0alqw1H/gKUa0SjDmFnvopggMP4TjgUC2t6LP2S
+	1ujXulQBT2zqjOQLupxjXSsgT0HMqyI+WyoITl6y/0OvHf8iHp4HzyLmR4yVI/FSxp
+	yznAeENjD3n6w==
+Date: Thu, 28 Jan 2021 09:21:51 -0800
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Message-ID: <20210128172132.GM7698@magnolia>
+Message-ID: <20210128172151.GN7698@magnolia>
 References: <20210128071133.60335-1-chaitanya.kulkarni@wdc.com>
-	<20210128071133.60335-27-chaitanya.kulkarni@wdc.com>
+	<20210128071133.60335-28-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210128071133.60335-27-chaitanya.kulkarni@wdc.com>
+In-Reply-To: <20210128071133.60335-28-chaitanya.kulkarni@wdc.com>
 X-Mailman-Approved-At: Mon, 01 Feb 2021 08:06:02 +0100
 Cc: shaggy@kernel.org, jfs-discussion@lists.sourceforge.net,
 	gustavoars@kernel.org, sergey.senozhatsky.work@gmail.com,
@@ -59,7 +59,8 @@ Cc: shaggy@kernel.org, jfs-discussion@lists.sourceforge.net,
 	linux-fsdevel@vger.kernel.org, lars.ellenberg@linbit.com,
 	jth@kernel.org, asml.silence@gmail.com,
 	ocfs2-devel@oss.oracle.com, roger.pau@citrix.com
-Subject: Re: [Drbd-dev] [RFC PATCH 26/34] xfs: use bio_new in xfs_rw_bdev
+Subject: Re: [Drbd-dev] [RFC PATCH 27/34] xfs: use bio_new in
+	xfs_buf_ioapply_map
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -78,36 +79,36 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Wed, Jan 27, 2021 at 11:11:25PM -0800, Chaitanya Kulkarni wrote:
+On Wed, Jan 27, 2021 at 11:11:26PM -0800, Chaitanya Kulkarni wrote:
 > Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
-Seems fine to me...
 Reviewed-by: Darrick J. Wong <djwong@kernel.org>
 
 --D
 
 > ---
->  fs/xfs/xfs_bio_io.c | 7 ++-----
->  1 file changed, 2 insertions(+), 5 deletions(-)
+>  fs/xfs/xfs_buf.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
 > 
-> diff --git a/fs/xfs/xfs_bio_io.c b/fs/xfs/xfs_bio_io.c
-> index e2148f2d5d6b..e4644f22ebe6 100644
-> --- a/fs/xfs/xfs_bio_io.c
-> +++ b/fs/xfs/xfs_bio_io.c
-> @@ -26,11 +26,8 @@ xfs_rw_bdev(
->  	if (is_vmalloc && op == REQ_OP_WRITE)
->  		flush_kernel_vmap_range(data, count);
+> diff --git a/fs/xfs/xfs_buf.c b/fs/xfs/xfs_buf.c
+> index f8400bbd6473..3ff6235e4f94 100644
+> --- a/fs/xfs/xfs_buf.c
+> +++ b/fs/xfs/xfs_buf.c
+> @@ -1507,12 +1507,10 @@ xfs_buf_ioapply_map(
+>  	atomic_inc(&bp->b_io_remaining);
+>  	nr_pages = min(total_nr_pages, BIO_MAX_PAGES);
 >  
-> -	bio = bio_alloc(GFP_KERNEL, bio_max_vecs(left));
-> -	bio_set_dev(bio, bdev);
+> -	bio = bio_alloc(GFP_NOIO, nr_pages);
+> -	bio_set_dev(bio, bp->b_target->bt_bdev);
 > -	bio->bi_iter.bi_sector = sector;
-> -	bio->bi_opf = op | REQ_META | REQ_SYNC;
-> -
-> +	bio = bio_new(bdev, sector, op, REQ_META | REQ_SYNC, bio_max_vecs(left),
-> +		      GFP_KERNEL);
->  	do {
->  		struct page	*page = kmem_to_page(data);
->  		unsigned int	off = offset_in_page(data);
+> +	bio = bio_new(bp->b_target->bt_bdev, sector, op, 0, nr_pages,
+> +		      GFP_NOIO);
+>  	bio->bi_end_io = xfs_buf_bio_end_io;
+>  	bio->bi_private = bp;
+> -	bio->bi_opf = op;
+>  
+>  	for (; size && nr_pages; nr_pages--, page_index++) {
+>  		int	rbytes, nbytes = PAGE_SIZE - offset;
 > -- 
 > 2.22.1
 > 
