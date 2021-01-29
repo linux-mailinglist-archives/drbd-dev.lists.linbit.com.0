@@ -2,34 +2,36 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8E4930A26A
-	for <lists+drbd-dev@lfdr.de>; Mon,  1 Feb 2021 08:06:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB02A30A269
+	for <lists+drbd-dev@lfdr.de>; Mon,  1 Feb 2021 08:06:08 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 46C5442063F;
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 17D04420639;
 	Mon,  1 Feb 2021 08:06:05 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
+X-Greylist: delayed 1091 seconds by postgrey-1.31 at mail19;
+	Fri, 29 Jan 2021 02:22:16 CET
 Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 13C2B420620
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D4F6042061F
 	for <drbd-dev@lists.linbit.com>;
-	Fri, 29 Jan 2021 02:22:17 +0100 (CET)
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
-	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DRfFz6BZlz1614j;
-	Fri, 29 Jan 2021 09:02:47 +0800 (CST)
+	Fri, 29 Jan 2021 02:22:16 +0100 (CET)
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
+	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DRfFy4p1VzlCJD;
+	Fri, 29 Jan 2021 09:02:46 +0800 (CST)
 Received: from [10.136.110.154] (10.136.110.154) by smtp.huawei.com
-	(10.3.19.210) with Microsoft SMTP Server (TLS) id 14.3.498.0;
-	Fri, 29 Jan 2021 09:03:59 +0800
+	(10.3.19.211) with Microsoft SMTP Server (TLS) id 14.3.498.0;
+	Fri, 29 Jan 2021 09:04:19 +0800
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, Song Liu
 	<song@kernel.org>
 References: <20210126145247.1964410-1-hch@lst.de>
-	<20210126145247.1964410-8-hch@lst.de>
+	<20210126145247.1964410-9-hch@lst.de>
 From: Chao Yu <yuchao0@huawei.com>
-Message-ID: <a36e80ab-20b5-47db-7e20-6ac1c7fc4517@huawei.com>
-Date: Fri, 29 Jan 2021 09:03:57 +0800
+Message-ID: <3301f2da-60c5-79ca-ab3b-0fe3345f0731@huawei.com>
+Date: Fri, 29 Jan 2021 09:04:17 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
 	Thunderbird/52.9.1
 MIME-Version: 1.0
-In-Reply-To: <20210126145247.1964410-8-hch@lst.de>
+In-Reply-To: <20210126145247.1964410-9-hch@lst.de>
 Content-Language: en-US
 X-Originating-IP: [10.136.110.154]
 X-CFilter-Loop: Reflected
@@ -46,8 +48,7 @@ Cc: Mike Snitzer <snitzer@redhat.com>, linux-mm@kvack.org, dm-devel@redhat.com,
 	Philipp Reisner <philipp.reisner@linbit.com>,
 	linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org,
 	Andrew Morton <akpm@linux-foundation.org>, linux-btrfs@vger.kernel.org
-Subject: Re: [Drbd-dev] [f2fs-dev] [PATCH 07/17] f2fs: use
- blkdev_issue_flush in __submit_flush_wait
+Subject: Re: [Drbd-dev] [f2fs-dev] [PATCH 08/17] f2fs: remove FAULT_ALLOC_BIO
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -67,13 +68,15 @@ Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
 On 2021/1/26 22:52, Christoph Hellwig wrote:
-> Use the blkdev_issue_flush helper instead of duplicating it.
+> Sleeping bio allocations do not fail, which means that injecting an error
+> into sleeping bio allocations is a little silly.
 > 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Signed-off-by: Christoph Hellwig<hch@lst.de>
 
 Acked-by: Chao Yu <yuchao0@huawei.com>
 
 Thanks,
+
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
