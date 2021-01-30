@@ -2,56 +2,50 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DE893091BF
-	for <lists+drbd-dev@lfdr.de>; Sat, 30 Jan 2021 04:57:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9CD03097D4
+	for <lists+drbd-dev@lfdr.de>; Sat, 30 Jan 2021 20:10:56 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id DAFA54203D1;
-	Sat, 30 Jan 2021 04:57:06 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9FF06420168;
+	Sat, 30 Jan 2021 20:10:55 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 100EE420341
-	for <drbd-dev@lists.linbit.com>; Sat, 30 Jan 2021 04:57:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209;
-	h=In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=DenP85I1Njjb0sm/Pv5awH6u78JiwmjeMN74Dl7XDmA=;
-	b=H8SDl3brId4iyEQMOwW4BfEUQ2
-	Xy9mZcqFmFvcWvR6dxLgQ3QUwF+RwC9GNnBM28jr+2J7JQ5Bm8pWtzkJy9Bu5683unOHOgLMv+gFM
-	jYIfOM6Ao2NNEjEzqoWU83ro0i2k1QtT++2jpOr8mpPL1+MxGJTvy2GRgyUg+z6xssmGMSAnWY2zd
-	lqlVaZEtkQfNNrYTdAkx5Dh4tKL60XSKbWMPsTXg7ShS8Q1MALyQ1L4XvADIPpEa3DQT7A35auYCK
-	RYKeUzMDMR7ROqaOWCMHMSpzECR3dkUR8mtXMmO0lgMzXZcgza2tXYiFwaZvQ9UvVr3UoISIOLjsY
-	syMo01WQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat
-	Linux)) id 1l5hNO-00Afhm-T1; Sat, 30 Jan 2021 03:56:47 +0000
-Date: Sat, 30 Jan 2021 03:56:46 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Christoph Hellwig <hch@lst.de>
-Message-ID: <20210130035646.GH308988@casper.infradead.org>
-References: <20210126145247.1964410-1-hch@lst.de>
-	<20210126145247.1964410-5-hch@lst.de>
+Received: from smtprelay.hostedemail.com (smtprelay0065.hostedemail.com
+	[216.40.44.65])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 40015420069
+	for <drbd-dev@lists.linbit.com>; Sat, 30 Jan 2021 20:10:53 +0100 (CET)
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
+	[10.5.19.251])
+	by smtpgrave06.hostedemail.com (Postfix) with ESMTP id 673828009649
+	for <drbd-dev@lists.linbit.com>; Sat, 30 Jan 2021 18:57:53 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+	[216.40.38.60])
+	by smtprelay01.hostedemail.com (Postfix) with ESMTP id 2EBA1100E7B46;
+	Sat, 30 Jan 2021 18:57:51 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
+	RULES_HIT:41:355:379:599:800:960:973:988:989:1260:1261:1277:1311:1313:1314:1345:1359:1515:1516:1518:1534:1540:1593:1594:1711:1730:1747:1777:1792:2393:2559:2562:2828:3138:3139:3140:3141:3142:3352:3622:3868:4321:5007:6119:7652:10004:10400:10848:11026:11232:11658:11914:12043:12297:12555:12740:12895:12986:13069:13311:13357:13439:13894:14181:14659:14721:21080:21627:21990:30054:30091,
+	0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
+	DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none,
+	Custom_rules:0:0:0, LFtime:1, LUA_SUMMARY:none
+X-HE-Tag: dad66_00075af275b3
+X-Filterd-Recvd-Size: 1822
+Received: from [192.168.1.159] (unknown [47.151.137.21])
+	(Authenticated sender: joe@perches.com)
+	by omf02.hostedemail.com (Postfix) with ESMTPA;
+	Sat, 30 Jan 2021 18:57:49 +0000 (UTC)
+Message-ID: <5deee552f4bcfd81c6dc6ec3e8139c0c4ba27d31.camel@perches.com>
+From: Joe Perches <joe@perches.com>
+To: Jiri Kosina <trivial@kernel.org>, Philipp Reisner
+	<philipp.reisner@linbit.com>, Lars Ellenberg <lars.ellenberg@linbit.com>
+Date: Sat, 30 Jan 2021 10:57:48 -0800
+In-Reply-To: <1c8081264d82101d7837220c5ee221c307da5d91.1598331148.git.joe@perches.com>
+References: <cover.1598331148.git.joe@perches.com>
+	<1c8081264d82101d7837220c5ee221c307da5d91.1598331148.git.joe@perches.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210126145247.1964410-5-hch@lst.de>
-Cc: Mike Snitzer <snitzer@redhat.com>, Song Liu <song@kernel.org>,
-	dm-devel@redhat.com, drbd-dev@lists.linbit.com,
-	Naohiro Aota <naohiro.aota@wdc.com>, linux-nilfs@vger.kernel.org,
-	Chao Yu <chao@kernel.org>, Josef Bacik <josef@toxicpanda.com>,
-	Coly Li <colyli@suse.de>, linux-raid@vger.kernel.org,
-	linux-bcache@vger.kernel.org, David Sterba <dsterba@suse.com>,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-	Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
-	Damien Le Moal <damien.lemoal@wdc.com>,
-	Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	linux-nfs@vger.kernel.org, linux-btrfs@vger.kernel.org
-Subject: Re: [Drbd-dev] [PATCH 04/17] block: split bio_kmalloc from
-	bio_alloc_bioset
+Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, drbd-dev@lists.linbit.com
+Subject: Re: [Drbd-dev] [PATCH 06/29] drbd: Avoid comma separated statements
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -65,29 +59,42 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Tue, Jan 26, 2021 at 03:52:34PM +0100, Christoph Hellwig wrote:
-> bio_kmalloc shares almost no logic with the bio_set based fast path
-> in bio_alloc_bioset.  Split it into an entirely separate implementation.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+On Mon, 2020-08-24 at 21:56 -0700, Joe Perches wrote:
+> Use semicolons and braces.
+
+ping?
+
+> Signed-off-by: Joe Perches <joe@perches.com>
 > ---
->  block/bio.c         | 167 ++++++++++++++++++++++----------------------
->  include/linux/bio.h |   6 +-
->  2 files changed, 86 insertions(+), 87 deletions(-)
+> =A0drivers/block/drbd/drbd_receiver.c | 6 ++++--
+> =A01 file changed, 4 insertions(+), 2 deletions(-)
+> =
 
-This patch causes current linux-next to OOM for me when running xfstests
-after about ten minutes.  Haven't looked into why yet, this is just the
-results of a git bisect.
+> diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd=
+_receiver.c
+> index 422363daa618..87f732fb5456 100644
+> --- a/drivers/block/drbd/drbd_receiver.c
+> +++ b/drivers/block/drbd/drbd_receiver.c
+> @@ -111,8 +111,10 @@ static struct page *page_chain_tail(struct page *pag=
+e, int *len)
+> =A0{
+> =A0	struct page *tmp;
+> =A0	int i =3D 1;
+> -	while ((tmp =3D page_chain_next(page)))
+> -		++i, page =3D tmp;
+> +	while ((tmp =3D page_chain_next(page))) {
+> +		++i;
+> +		page =3D tmp;
+> +	}
+> =A0	if (len)
+> =A0		*len =3D i;
+> =A0	return page;
 
-The qemu command line is:
-
-qemu-system-x86_64 -nodefaults -nographic -cpu host -machine accel=kvm,nvdimm -m 2G,slots=8,maxmem=1T -smp 6 -kernel /home/willy/kernel/folio/.build_test_kernel-x86_64/kpgk/vmlinuz -append console=hvc0 root=/dev/sda rw log_buf_len=8M ktest.dir=/home/willy/kernel/ktest ktest.env=/tmp/build-test-kernel-nJO6QgxOmo/env quiet systemd.show_status=0 systemd.log-target=journal crashkernel=128M no_console_suspend -device virtio-serial -chardev stdio,id=console -device virtconsole,chardev=console -serial unix:/tmp/build-test-kernel-nJO6QgxOmo/vm-kgdb,server,nowait -monitor unix:/tmp/build-test-kernel-nJO6QgxOmo/vm-mon,server,nowait -gdb unix:/tmp/build-test-kernel-nJO6QgxOmo/vm-gdb,server,nowait -device virtio-rng-pci -virtfs local,path=/,mount_tag=host,security_model=none -device virtio-scsi-pci,id=hba -nic user,model=virtio,hostfwd=tcp:127.0.0.1:24674-:22 -drive if=none,format=raw,id=disk0,file=/var/lib/ktest/root.amd64,snapshot=on -device scsi-hd,bus=hba.0,drive=disk0 -drive if=none
- ,format=raw,id=disk1,file=/tmp/build-test-kernel-nJO6QgxOmo/dev-1,cache=unsafe -device scsi-hd,bus=hba.0,drive=disk1 -drive if=none,format=raw,id=disk2,file=/tmp/build-test-kernel-nJO6QgxOmo/dev-2,cache=unsafe -device scsi-hd,bus=hba.0,drive=disk2 -drive if=none,format=raw,id=disk3,file=/tmp/build-test-kernel-nJO6QgxOmo/dev-3,cache=unsafe -device scsi-hd,bus=hba.0,drive=disk3
 
 _______________________________________________
 drbd-dev mailing list
