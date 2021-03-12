@@ -2,56 +2,67 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CD2C31E7C2
-	for <lists+drbd-dev@lfdr.de>; Thu, 18 Feb 2021 10:07:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5FD433ABE5
+	for <lists+drbd-dev@lfdr.de>; Mon, 15 Mar 2021 08:01:37 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0C72F420317;
-	Thu, 18 Feb 2021 10:07:53 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6AF3A42061A;
+	Mon, 15 Mar 2021 08:01:36 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 639 seconds by postgrey-1.31 at mail19;
-	Wed, 17 Feb 2021 23:13:39 CET
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 54ED642011A
-	for <drbd-dev@lists.linbit.com>; Wed, 17 Feb 2021 23:13:39 +0100 (CET)
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id 88A821C0B8E; Wed, 17 Feb 2021 23:02:59 +0100 (CET)
-Date: Wed, 17 Feb 2021 23:02:58 +0100
-From: Pavel Machek <pavel@ucw.cz>
-To: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Message-ID: <20210217220257.GA10791@amd>
-References: <20210128071133.60335-1-chaitanya.kulkarni@wdc.com>
-	<20210128071133.60335-30-chaitanya.kulkarni@wdc.com>
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+	[209.85.128.49])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id EADCA420231
+	for <drbd-dev@lists.linbit.com>; Fri, 12 Mar 2021 11:55:34 +0100 (CET)
+Received: by mail-wm1-f49.google.com with SMTP id g20so3530154wmk.3
+	for <drbd-dev@lists.linbit.com>; Fri, 12 Mar 2021 02:55:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=U8krqYE8Ef8qnGsiAipJzGQpaVm5t8lDtkhTxaSOQf8=;
+	b=yo+0Pv1vGiiRr+BRTMkp3T9EiYl7WyqiXEjQPicDPEauSFiYyR62sktJewMDa8dedY
+	TtEdyo/qjJQ2oVaYRSQ7M53MZM7dmCSqleG5phx9kfrPM/3iQZKaUrptoZGtnKshKPhT
+	k8vBK+orZOsk37DTLhw4a5zMwn0ZRe0W0KpUJE4c2vUJnFGNzRTKNOrfj7BUVsMiySCS
+	KpG8zUZke0l4urksnmr+8FXqKdvK/LQQp9twKzZeG5Anzi66F3YJXeBbnAbLfyEs9Mdm
+	33HdF8a5+NO+J+PGn7XcVBn02oWNoEAEpdVHkH2yt2jK9lzPK6A0zywtAJ78xDs41uwS
+	Okkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=U8krqYE8Ef8qnGsiAipJzGQpaVm5t8lDtkhTxaSOQf8=;
+	b=szPT6u4q1GyJkaHGW9SOJLR1ZVi7DtO2G2QvgJ1sZ1A7lCnIFcL0UJMFTiGHWbQq7u
+	Z3e0mzABaZ+uoZWpvenn6Y3KSGv+YwMd77JwIViZ4PWu/CDORL3LO+VlweZ/AF4X0gYK
+	T32UZxdL9NsI561PYN15yrAW7cx0lWwBMXiAQeip+rZgxh5SXJSNott16DSHO54NBSB6
+	EP3M7bUX1rPBeCDmYrxV2qx5IW2BvdzofV6YKTeV38B0UWinpTBQetPBVELrXZVAgdlO
+	EAE9GuPINin7Z+Pxo+3VvIROVXb3zmfPMnOyeO1uVqW7I3o9lejQmNcISQ3qaLh93wLM
+	Q4Aw==
+X-Gm-Message-State: AOAM532k19r3Uf41C9dIt7rMJ++i62RXr6rNUazR8KNVwdx/HHho1I0r
+	f9gX4ZpzZggts4r9FTaQX5e5lg==
+X-Google-Smtp-Source: ABdhPJwGy2yiZng+8p42AiTsODzcXCoCU2A55jsurjv+Rkg7hZ8K/NGYGP3VtK/HkA0LP08aOZ4tBg==
+X-Received: by 2002:a1c:7e16:: with SMTP id z22mr12397544wmc.74.1615546534304; 
+	Fri, 12 Mar 2021 02:55:34 -0800 (PST)
+Received: from dell.default ([91.110.221.204])
+	by smtp.gmail.com with ESMTPSA id
+	q15sm7264962wrr.58.2021.03.12.02.55.32
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 12 Mar 2021 02:55:33 -0800 (PST)
+From: Lee Jones <lee.jones@linaro.org>
+To: lee.jones@linaro.org
+Date: Fri, 12 Mar 2021 10:55:19 +0000
+Message-Id: <20210312105530.2219008-1-lee.jones@linaro.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <20210128071133.60335-30-chaitanya.kulkarni@wdc.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-X-Mailman-Approved-At: Thu, 18 Feb 2021 10:07:51 +0100
-Cc: shaggy@kernel.org, jfs-discussion@lists.sourceforge.net,
-	gustavoars@kernel.org, sergey.senozhatsky.work@gmail.com,
-	snitzer@redhat.com, tiwai@suse.de, djwong@kernel.org,
-	linux-nvme@lists.infradead.org, philipp.reisner@linbit.com,
-	linux-mm@kvack.org, dm-devel@redhat.com,
-	target-devel@vger.kernel.org, alex.shi@linux.alibaba.com,
-	hch@lst.de, agk@redhat.com, drbd-dev@lists.linbit.com,
-	naohiro.aota@wdc.com, linux-nilfs@vger.kernel.org,
-	sagi@grimberg.me, linux-scsi@vger.kernel.org, mark@fasheh.com,
-	konrad.wilk@oracle.com, osandov@fb.com, ebiggers@kernel.org,
-	xen-devel@lists.xenproject.org, ngupta@vflare.org,
-	len.brown@intel.com, linux-pm@vger.kernel.org, hare@suse.de,
-	ming.lei@redhat.com, linux-block@vger.kernel.org, tj@kernel.org,
-	linux-fscrypt@vger.kernel.org, viro@zeniv.linux.org.uk,
-	jefflexu@linux.alibaba.com, jaegeuk@kernel.org,
-	jlbec@evilplan.org, konishi.ryusuke@gmail.com,
-	bvanassche@acm.org, axboe@kernel.dk, damien.lemoal@wdc.com,
-	tytso@mit.edu, akpm@linux-foundation.org,
-	martin.petersen@oracle.com, joseph.qi@linux.alibaba.com,
-	rjw@rjwysocki.net, linux-kernel@vger.kernel.org,
-	linux-xfs@vger.kernel.org, minchan@kernel.org,
-	linux-fsdevel@vger.kernel.org, lars.ellenberg@linbit.com,
-	jth@kernel.org, asml.silence@gmail.com,
-	ocfs2-devel@oss.oracle.com, roger.pau@citrix.com
-Subject: Re: [Drbd-dev] [RFC PATCH 29/34] power/swap: use bio_new in
-	hib_submit_io
+X-Mailman-Approved-At: Mon, 15 Mar 2021 08:01:35 +0100
+Cc: Jens Axboe <axboe@kernel.dk>, Juergen Gross <jgross@suse.com>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+	linux-kernel@vger.kernel.org, Philipp Reisner <philipp.reisner@linbit.com>,
+	linux-block@vger.kernel.org, Lars Ellenberg <lars.ellenberg@linbit.com>,
+	xen-devel@lists.xenproject.org, Philip Kelleher <pjk1939@linux.ibm.com>,
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+	=?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.com>,
+	Joshua Morris <josh.h.morris@us.ibm.com>, drbd-dev@lists.linbit.com
+Subject: [Drbd-dev] [PATCH 00/11] Rid W=1 warnings from Block
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -65,77 +76,46 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============5912322698622868088=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-
---===============5912322698622868088==
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="LQksG6bCIzRHxTLp"
-Content-Disposition: inline
-
-
---LQksG6bCIzRHxTLp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi!
->=20
-> diff --git a/kernel/power/swap.c b/kernel/power/swap.c
-> index c73f2e295167..e92e36c053a6 100644
-> --- a/kernel/power/swap.c
-> +++ b/kernel/power/swap.c
-> @@ -271,13 +271,12 @@ static int hib_submit_io(int op, int op_flags, pgof=
-f_t page_off, void *addr,
->  		struct hib_bio_batch *hb)
->  {
->  	struct page *page =3D virt_to_page(addr);
-> +	sector_t sect =3D page_off * (PAGE_SIZE >> 9);
->  	struct bio *bio;
->  	int error =3D 0;
-> =20
-> -	bio =3D bio_alloc(GFP_NOIO | __GFP_HIGH, 1);
-> -	bio->bi_iter.bi_sector =3D page_off * (PAGE_SIZE >> 9);
-> -	bio_set_dev(bio, hib_resume_bdev);
-> -	bio_set_op_attrs(bio, op, op_flags);
-> +	bio =3D bio_new(hib_resume_bdev, sect, op, op_flags, 1,
-> +		      GFP_NOIO | __GFP_HIGH);
-> =20
-
-C function with 6 arguments... dunno. Old version looks comparable or
-even more readable...
-
-Best regards,
-							Pavel
-
---=20
-http://www.livejournal.com/~pavelmachek
-
---LQksG6bCIzRHxTLp
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAmAtkpEACgkQMOfwapXb+vL5ywCguk9XRtMJ4/rJgwKlR42qzH7B
-ww4AoK8H3c5uHgpu/eHAUqpvoYMrxHuL
-=Rk1V
------END PGP SIGNATURE-----
-
---LQksG6bCIzRHxTLp--
-
---===============5912322698622868088==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-drbd-dev mailing list
-drbd-dev@lists.linbit.com
-https://lists.linbit.com/mailman/listinfo/drbd-dev
-
---===============5912322698622868088==--
+VGhpcyBzZXQgaXMgcGFydCBvZiBhIGxhcmdlciBlZmZvcnQgYXR0ZW1wdGluZyB0byBjbGVhbi11
+cCBXPTEKa2VybmVsIGJ1aWxkcywgd2hpY2ggYXJlIGN1cnJlbnRseSBvdmVyd2hlbG1pbmdseSBy
+aWRkbGVkIHdpdGgKbmlnZ2x5IGxpdHRsZSB3YXJuaW5ncy4KCkxlZSBKb25lcyAoMTEpOgogIGJs
+b2NrOiByc3h4OiBjb3JlOiBSZW1vdmUgc3VwZXJmbHVvdXMgY29uc3QgcXVhbGlmaWVyCiAgYmxv
+Y2s6IGRyYmQ6IGRyYmRfaW50ZXJ2YWw6IERlbW90ZSBzb21lIGtlcm5lbC1kb2MgYWJ1c2VzIGFu
+ZCBmaXgKICAgIGFub3RoZXIgaGVhZGVyCiAgYmxvY2s6IG10aXAzMnh4OiBtdGlwMzJ4eDogTWFy
+ayBkZWJ1Z2dpbmcgdmFyaWFibGUgJ3N0YXJ0JyBhcwogICAgX19tYXliZV91bnVzZWQKICBibG9j
+azogZHJiZDogZHJiZF9zdGF0ZTogRml4IHNvbWUgZnVuY3Rpb24gZG9jdW1lbnRhdGlvbiBpc3N1
+ZXMKICBibG9jazogZHJiZDogZHJiZF9yZWNlaXZlcjogRGVtb3RlIG5vbi1jb25mb3JtYW50IGtl
+cm5lbC1kb2MgaGVhZGVycwogIGJsb2NrOiBkcmJkOiBkcmJkX21haW46IFJlbW92ZSBkdXBsaWNh
+dGUgZmllbGQgaW5pdGlhbGlzYXRpb24KICBibG9jazogZHJiZDogZHJiZF9ubDogTWFrZSBjb252
+ZXJzaW9uIHRvICdlbnVtIGRyYmRfcmV0X2NvZGUnIGV4cGxpY2l0CiAgYmxvY2s6IGRyYmQ6IGRy
+YmRfbWFpbjogRml4IGEgYnVuY2ggb2YgZnVuY3Rpb24gZG9jdW1lbnRhdGlvbgogICAgZGlzY3Jl
+cGFuY2llcwogIGJsb2NrOiBkcmJkOiBkcmJkX3JlY2VpdmVyOiBEZW1vdGUgbGVzcyB0aGFuIGhh
+bGYgY29tcGxldGUga2VybmVsLWRvYwogICAgaGVhZGVyCiAgYmxvY2s6IHhlbi1ibGtmcm9udDog
+RGVtb3RlIGtlcm5lbC1kb2MgYWJ1c2VzCiAgYmxvY2s6IGRyYmQ6IGRyYmRfbmw6IERlbW90ZSBo
+YWxmLWNvbXBsZXRlIGtlcm5lbC1kb2MgaGVhZGVycwoKIGRyaXZlcnMvYmxvY2svZHJiZC9kcmJk
+X2ludGVydmFsLmMgfCAgOCArKysrKy0tLQogZHJpdmVycy9ibG9jay9kcmJkL2RyYmRfbWFpbi5j
+ICAgICB8IDMwICsrKysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0tLQogZHJpdmVycy9ibG9jay9k
+cmJkL2RyYmRfbmwuYyAgICAgICB8IDE3ICsrKysrKysrKystLS0tLS0tCiBkcml2ZXJzL2Jsb2Nr
+L2RyYmQvZHJiZF9yZWNlaXZlci5jIHwgMjYgKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0KIGRy
+aXZlcnMvYmxvY2svZHJiZC9kcmJkX3N0YXRlLmMgICAgfCAgNyArKysrLS0tCiBkcml2ZXJzL2Js
+b2NrL210aXAzMnh4L210aXAzMnh4LmMgIHwgIDIgKy0KIGRyaXZlcnMvYmxvY2svcnN4eC9jb3Jl
+LmMgICAgICAgICAgfCAgMiArLQogZHJpdmVycy9ibG9jay94ZW4tYmxrZnJvbnQuYyAgICAgICB8
+ICA2ICsrKy0tLQogOCBmaWxlcyBjaGFuZ2VkLCA1MSBpbnNlcnRpb25zKCspLCA0NyBkZWxldGlv
+bnMoLSkKCkNjOiBCb3JpcyBPc3Ryb3Zza3kgPGJvcmlzLm9zdHJvdnNreUBvcmFjbGUuY29tPgpD
+YzogZHJiZC1kZXZAbGlzdHMubGluYml0LmNvbQpDYzogSmVucyBBeGJvZSA8YXhib2VAa2VybmVs
+LmRrPgpDYzogSm9zaHVhIE1vcnJpcyA8am9zaC5oLm1vcnJpc0B1cy5pYm0uY29tPgpDYzogSnVl
+cmdlbiBHcm9zcyA8amdyb3NzQHN1c2UuY29tPgpDYzogS29ucmFkIFJ6ZXN6dXRlayBXaWxrIDxr
+b25yYWQud2lsa0BvcmFjbGUuY29tPgpDYzogTGFycyBFbGxlbmJlcmcgPGxhcnMuZWxsZW5iZXJn
+QGxpbmJpdC5jb20+CkNjOiBsaW51eC1ibG9ja0B2Z2VyLmtlcm5lbC5vcmcKQ2M6IFBoaWxpcCBL
+ZWxsZWhlciA8cGprMTkzOUBsaW51eC5pYm0uY29tPgpDYzogUGhpbGlwcCBSZWlzbmVyIDxwaGls
+aXBwLnJlaXNuZXJAbGluYml0LmNvbT4KQ2M6ICJSb2dlciBQYXUgTW9ubsOpIiA8cm9nZXIucGF1
+QGNpdHJpeC5jb20+CkNjOiBTdGVmYW5vIFN0YWJlbGxpbmkgPHNzdGFiZWxsaW5pQGtlcm5lbC5v
+cmc+CkNjOiB4ZW4tZGV2ZWxAbGlzdHMueGVucHJvamVjdC5vcmcKLS0gCjIuMjcuMAoKX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJiZC1kZXYgbWFpbGlu
+ZyBsaXN0CmRyYmQtZGV2QGxpc3RzLmxpbmJpdC5jb20KaHR0cHM6Ly9saXN0cy5saW5iaXQuY29t
+L21haWxtYW4vbGlzdGluZm8vZHJiZC1kZXYK
