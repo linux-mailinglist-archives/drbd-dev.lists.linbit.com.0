@@ -2,54 +2,49 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B663342075
-	for <lists+drbd-dev@lfdr.de>; Fri, 19 Mar 2021 16:03:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95F7034965A
+	for <lists+drbd-dev@lfdr.de>; Thu, 25 Mar 2021 17:04:16 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7F46F4203A6;
-	Fri, 19 Mar 2021 16:03:45 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B3EC64203DF;
+	Thu, 25 Mar 2021 17:04:15 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 427 seconds by postgrey-1.31 at mail19;
-	Fri, 19 Mar 2021 16:03:44 CET
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1BC674202B5
-	for <drbd-dev@lists.linbit.com>; Fri, 19 Mar 2021 16:03:44 +0100 (CET)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 971A364F59
-	for <drbd-dev@lists.linbit.com>; Fri, 19 Mar 2021 14:56:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1616165796;
-	bh=LMF6VcFLzMWcvJlrobie++1BU4E1KOgfLPmAne7lKKo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=OGLl458+qA7HrVWVEkJBIjl2/SyMntcd5k1C5HCbg2hs9InlN7I2SGH9wJN/UArnO
-	dlNyjV0AWxqr/F9OXBK8mxaeEKdFrbONTjAWDMaCVDQ7Va4s69Uhz5fg5OauZtUdWo
-	Q1OgxNbnvWnRHp3AbMwTTCFfekSNmMx3NNj8G0kLaYC4pegPbIJfvKqFfw7pQ7IzY9
-	yVbmIycWzkB+oDAepgQkPmFIkJUcdcf2Yn/eIplcyds5wOCXddZYzzpIsot7xhk4QR
-	oi7X8GuaS3zkBlpSAbIUDYAFVSGYWwEZ3mBPY2pf+FOdZPY1xzdY2fvAXJbwX9R6GR
-	AFXv0ZDlmIXuA==
-Received: by mail-oi1-f170.google.com with SMTP id d133so5038724oib.3
-	for <drbd-dev@lists.linbit.com>; Fri, 19 Mar 2021 07:56:36 -0700 (PDT)
-X-Gm-Message-State: AOAM532bF9GEgZ3ryX8exjEVuaCOqjFGZkrajPSev8vKpwDOeQiZwnx/
-	sJkDv/mmN5V+URqZI8OVTam2LuauXKCFx4O0BdM=
-X-Google-Smtp-Source: ABdhPJzs22NYplRNCgFniIEUfcVHb2z9VYKGx4WfHkWBTnO61TWk1PXtdP6RhG5AXzRZAFRg/1jqwU2AWebZF31Q7JI=
-X-Received: by 2002:a05:6808:313:: with SMTP id
-	i19mr1250554oie.67.1616165795957; 
-	Fri, 19 Mar 2021 07:56:35 -0700 (PDT)
+X-Greylist: delayed 379 seconds by postgrey-1.31 at mail19;
+	Thu, 25 Mar 2021 15:57:36 CET
+Received: from ustc.edu.cn (smtp2.ustc.edu.cn [202.38.64.46])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id BFC924203B4
+	for <drbd-dev@lists.linbit.com>; Thu, 25 Mar 2021 15:57:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mail.ustc.edu.cn; s=dkim; h=Received:Date:From:To:Cc:Subject:
+	Content-Type:MIME-Version:Message-ID; bh=d2YYrzxjTJ16YomBQGUSuvC
+	l4NkSHzIE75VMJ2ZIw7A=; b=A/KJtWvkhbw8tuGk7KeHjl7yLhHSd5WRvtTS9nW
+	JXh6IY3hjUFkhnRZnHbpPSftF6lpGcYyqQzJZl3AaTGLhUnBeoT7IsuBn3Hz7kiO
+	gpphoLTgkwoL4EVNXgitkwW+qALQjwzWReAayb+0f0KXJOfuOeCCA3awu2kMZdba
+	u0WQ=
+Received: by ajax-webmail-newmailweb.ustc.edu.cn (Coremail) ; Thu, 25 Mar
+	2021 22:51:13 +0800 (GMT+08:00)
+X-Originating-IP: [202.38.69.14]
+Date: Thu, 25 Mar 2021 22:51:13 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: lyl2019@mail.ustc.edu.cn
+To: philipp.reisner@linbit.com, lars.ellenberg@linbit.com, axboe@kernel.dk
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT3.0.8 dev build
+	20190610(cb3344cf) Copyright (c) 2002-2021 www.mailtech.cn ustc-xl
+X-SendMailWithSms: false
 MIME-Version: 1.0
-References: <20210312105530.2219008-1-lee.jones@linaro.org>
-	<20210312105530.2219008-7-lee.jones@linaro.org>
-In-Reply-To: <20210312105530.2219008-7-lee.jones@linaro.org>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Fri, 19 Mar 2021 15:56:19 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a234A2WmPFJxXmf-n+J7TP3A=DyDWEr657zxaML7V9UWQ@mail.gmail.com>
-Message-ID: <CAK8P3a234A2WmPFJxXmf-n+J7TP3A=DyDWEr657zxaML7V9UWQ@mail.gmail.com>
-To: Lee Jones <lee.jones@linaro.org>
-Cc: Jens Axboe <axboe@kernel.dk>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	linux-block <linux-block@vger.kernel.org>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH 06/11] block: drbd: drbd_main: Remove
-	duplicate field initialisation
+Message-ID: <1c8188b4.143d5.17869de3301.Coremail.lyl2019@mail.ustc.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: LkAmygCXn39ho1xgHA5DAA--.2W
+X-CM-SenderInfo: ho1ojiyrz6zt1loo32lwfovvfxof0/1tbiAQoLBlQhn5cDsQABsI
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VW7Jw
+	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+	daVFxhVjvjDU=
+X-Mailman-Approved-At: Thu, 25 Mar 2021 17:04:14 +0100
+Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	drbd-dev@lists.linbit.com
+Subject: [Drbd-dev] [Bug] block: drdb: A use after free bug in
+	get_initial_state
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -63,27 +58,56 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0577666082417352171=="
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-T24gRnJpLCBNYXIgMTIsIDIwMjEgYXQgMTE6NTcgQU0gTGVlIEpvbmVzIDxsZWUuam9uZXNAbGlu
-YXJvLm9yZz4gd3JvdGU6Cj4KPiBbUF9SRVRSWV9XUklURV0gaXMgaW5pdGlhbGlzZWQgbW9yZSB0
-aGFuIG9uY2UuCj4KPiBGaXhlcyB0aGUgZm9sbG93aW5nIFc9MSBrZXJuZWwgYnVpbGQgd2Fybmlu
-ZyhzKToKPgo+ICBkcml2ZXJzL2Jsb2NrL2RyYmQvZHJiZF9tYWluLmM6IEluIGZ1bmN0aW9uIOKA
-mGNtZG5hbWXigJk6Cj4gIGRyaXZlcnMvYmxvY2svZHJiZC9kcmJkX21haW4uYzozNjYwOjIyOiB3
-YXJuaW5nOiBpbml0aWFsaXplZCBmaWVsZCBvdmVyd3JpdHRlbiBbLVdvdmVycmlkZS1pbml0XQo+
-ICBkcml2ZXJzL2Jsb2NrL2RyYmQvZHJiZF9tYWluLmM6MzY2MDoyMjogbm90ZTogKG5lYXIgaW5p
-dGlhbGl6YXRpb24gZm9yIOKAmGNtZG5hbWVzWzQ0XeKAmSkKPgo+IENjOiBQaGlsaXBwIFJlaXNu
-ZXIgPHBoaWxpcHAucmVpc25lckBsaW5iaXQuY29tPgo+IENjOiBMYXJzIEVsbGVuYmVyZyA8bGFy
-cy5lbGxlbmJlcmdAbGluYml0LmNvbT4KPiBDYzogSmVucyBBeGJvZSA8YXhib2VAa2VybmVsLmRr
-Pgo+IENjOiBkcmJkLWRldkBsaXN0cy5saW5iaXQuY29tCj4gQ2M6IGxpbnV4LWJsb2NrQHZnZXIu
-a2VybmVsLm9yZwo+IFNpZ25lZC1vZmYtYnk6IExlZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFyby5v
-cmc+CgpMb29rcyBjb3JyZWN0LiBJIGhhZCBhY3R1YWxseSBwb3N0ZWQgYSBzbGlnaHRseSBkaWZm
-ZXJlbnQgZml4IGxhc3QgeWVhciwKYnV0IGVpdGhlciBvbmUgYWRkcmVzc2VzIHRoZSB3YXJuaW5n
-OgoKaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGttbC8yMDIwMTAyNjIxNTA0My4zODkzMzE4LTEt
-YXJuZEBrZXJuZWwub3JnLwoKICAgICAgICAgQXJuZApfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmJkLWRldiBtYWlsaW5nIGxpc3QKZHJiZC1kZXZAbGlz
-dHMubGluYml0LmNvbQpodHRwczovL2xpc3RzLmxpbmJpdC5jb20vbWFpbG1hbi9saXN0aW5mby9k
-cmJkLWRldgo=
+--===============0577666082417352171==
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_288240_864765227.1616683873024"
+
+------=_Part_288240_864765227.1616683873024
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
+
+SGksCiBJbiBmdW5jdGlvbiBnZXRfaW5pdGlhbF9zdGF0ZSwgaXQgY2FsbHMgbm90aWZ5X2luaXRp
+YWxfc3RhdGVfZG9uZShza2IsIHNlcSkKYW5kIGdvdG8gb3V0LiBJbnNpZGUgbm90aWZ5X2luaXRp
+YWxfc3RhdGVfZG9uZSgpLCB0aGUgc2tiIHdpbGwgYmUgZnJlZWQgYnkKbmxtc2dfZnJlZShza2Ip
+IGluIHRoZSBubGFfcHV0X2ZhaWx1cmUgbGFiZWwuIEJ1dCBhZnRlciB0aGUgc2tiIGlzIHVzZWQg
+YnkgdGhlCnJldHVybiB2YWx1ZSBvZiBnZXRfaW5pdGlhbF9zdGF0ZSB3aXRoIHNrYi0+bGVuLgoK
+CklzIHRoaXMgYW4gaXNzdWXvvJ8KCgpUaGFua3MuCgoKCgrkuIvovb3op4bpopE=
+------=_Part_288240_864765227.1616683873024
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: base64
+
+SGksPGRpdj4mbmJzcDtJbiBmdW5jdGlvbiBnZXRfaW5pdGlhbF9zdGF0ZSwgaXQgY2FsbHMgbm90
+aWZ5X2luaXRpYWxfc3RhdGVfZG9uZShza2IsIHNlcSk8L2Rpdj48ZGl2PmFuZCBnb3RvIG91dC4g
+SW5zaWRlIG5vdGlmeV9pbml0aWFsX3N0YXRlX2RvbmUoKSwgdGhlIHNrYiB3aWxsIGJlIGZyZWVk
+IGJ5PC9kaXY+PGRpdj5ubG1zZ19mcmVlKHNrYikgaW4gdGhlIG5sYV9wdXRfZmFpbHVyZSBsYWJl
+bC4gQnV0IGFmdGVyIHRoZSBza2IgaXMgdXNlZCBieSB0aGU8L2Rpdj48ZGl2PnJldHVybiB2YWx1
+ZSBvZiBnZXRfaW5pdGlhbF9zdGF0ZSB3aXRoIHNrYi0mZ3Q7bGVuLjwvZGl2PjxkaXY+PGJyPjwv
+ZGl2PjxkaXY+SXMgdGhpcyBhbiBpc3N1Ze+8nzwvZGl2PjxkaXY+PGJyPjwvZGl2PjxkaXY+VGhh
+bmtzLjwvZGl2PjxkaXY+PGJyPjwvZGl2PjxkaXY+PGJyPjwvZGl2PjxkaXYgY2xhc3M9InhsLWNo
+cm9tZS1leHQtYmFyIiBpZD0ieGxfY2hyb21lX2V4dF97NERCMzYxREUtMDFGNy00Mzc2LUI0OTQt
+NjM5RTQ4OUQxOUVEfSIgc3R5bGU9ImRpc3BsYXk6IG5vbmU7Ij4KICAgICAgPGRpdiBjbGFzcz0i
+eGwtY2hyb21lLWV4dC1iYXJfX2xvZ28iPjwvZGl2PgoKICAgICAgPGEgaWQ9InhsX2Nocm9tZV9l
+eHRfZG93bmxvYWQiIGhyZWY9ImphdmFzY3JpcHQ6OyIgY2xhc3M9InhsLWNocm9tZS1leHQtYmFy
+X19vcHRpb24iIHRhcmdldD0iX2JsYW5rIj7kuIvovb3op4bpopE8L2E+CiAgICAgIDxhIGlkPSJ4
+bF9jaHJvbWVfZXh0X2Nsb3NlIiBocmVmPSJqYXZhc2NyaXB0OjsiIGNsYXNzPSJ4bC1jaHJvbWUt
+ZXh0LWJhcl9fY2xvc2UiIHRhcmdldD0iX2JsYW5rIj48L2E+CiAgICA8L2Rpdj4=
+------=_Part_288240_864765227.1616683873024--
+
+
+--===============0577666082417352171==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+drbd-dev mailing list
+drbd-dev@lists.linbit.com
+https://lists.linbit.com/mailman/listinfo/drbd-dev
+
+--===============0577666082417352171==--
+
