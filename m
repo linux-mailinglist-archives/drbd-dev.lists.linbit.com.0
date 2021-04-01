@@ -2,67 +2,56 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4BC434E8DF
-	for <lists+drbd-dev@lfdr.de>; Tue, 30 Mar 2021 15:21:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BCEA3514A2
+	for <lists+drbd-dev@lfdr.de>; Thu,  1 Apr 2021 13:58:09 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B7A7642053E;
-	Tue, 30 Mar 2021 15:21:35 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3AAE4420640;
+	Thu,  1 Apr 2021 13:58:08 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
-	[209.85.221.49])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id AC2DA4203D2
-	for <drbd-dev@lists.linbit.com>; Tue, 30 Mar 2021 15:21:33 +0200 (CEST)
-Received: by mail-wr1-f49.google.com with SMTP id c8so16208106wrq.11
-	for <drbd-dev@lists.linbit.com>; Tue, 30 Mar 2021 06:21:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-disposition:content-transfer-encoding:in-reply-to;
-	bh=LkSzsuk6OkyHhMGQ1Io4HJGGD7LNCqzmJHjPWX4H0o8=;
-	b=F1neuwXtz2jRrEO3s517BZAonUG9yq+a+buAzWhClqrFM43jqzvc07jkCvWF5txvUi
-	sfjwuWoIzE8Eh3kFlUXyoC4iNUL1aycY1lpLUUKk/gmhbRnfpMzA1ckl86/YANQQPxE+
-	r+cBg8JayJKdSSSGOOL7O5GAgbJB07wqKLKA0AIV28CWFa/mDLsZghznGf27CxSLaapP
-	UgvecC8skd71MO6Q6iQaxkGe3pvMEFaxMQSibQiuX3k2XqvNG1eoqDqkbjI4Cfw6SOQp
-	FK4OvJmZlREKEbpUWJm/NFpskLZrRUPGLT+uQSlz2sOpYBDH8nhUVsAVTcAYrtqOuhJa
-	E9IA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:subject:message-id:references
-	:mime-version:content-disposition:content-transfer-encoding
-	:in-reply-to;
-	bh=LkSzsuk6OkyHhMGQ1Io4HJGGD7LNCqzmJHjPWX4H0o8=;
-	b=o6mbGmt/LmwqM6exLcIXKSj67kmpOa/nA+k5Cq+T1tIKeE/9yO/27qXfWmcYEF+Ylg
-	qKa9qB2EKztKzC/HA+OL0cSkNWlCg8/2u47LzE4x6DhYyyfg+HEereAOdiWiEsDRc4rb
-	5Xvl+6Z5oJcvbKPUfXbQD2JSBkyPWEunmG0sjc6AhqX5NxTjGPawHPLQzd5AWmSmCxGS
-	+Sj0ca7PSrXvcNO7D/dV3C0Pvms93W5KoYxSZT+uYXvPQCGQ6YEU027usdhCxGKn2m0R
-	0qjnvs5DNVFoJg/y4CV6hpLaIP4No7uUOorFhvoosTDJi3WUj0ItBlRwvD9Xt51S5SbZ
-	cR6Q==
-X-Gm-Message-State: AOAM533LJcQzNGXO6MUozMjBjJ2WeJRoQF9WkNZBBjGaYxHljGBXr2bK
-	Dv/uyj9CDaTiruJXBmXCWBoEbQ==
-X-Google-Smtp-Source: ABdhPJz9oD6yg4b32zNBbtgJAbD0h97AdahA/HWCNM/n6pjsO2hXvdH3WUU3ljzj3XmMUS4sQ/OGZA==
-X-Received: by 2002:a5d:6a11:: with SMTP id m17mr35100628wru.361.1617110492938;
-	Tue, 30 Mar 2021 06:21:32 -0700 (PDT)
-Received: from dell ([91.110.221.217]) by smtp.gmail.com with ESMTPSA id
-	m9sm34291744wro.52.2021.03.30.06.21.31
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 30 Mar 2021 06:21:32 -0700 (PDT)
-Date: Tue, 30 Mar 2021 14:21:30 +0100
-From: Lee Jones <lee.jones@linaro.org>
-To: linux-kernel@vger.kernel.org, Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-	drbd-dev@lists.linbit.com, Jens Axboe <axboe@kernel.dk>,
-	Joshua Morris <josh.h.morris@us.ibm.com>, Juergen Gross <jgross@suse.com>,
-	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>, linux-block@vger.kernel.org,
-	Philip Kelleher <pjk1939@linux.ibm.com>,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	Roger Pau =?iso-8859-1?Q?Monn=E9?= <roger.pau@citrix.com>,
-	Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org
-Message-ID: <20210330132130.GK2916463@dell>
-References: <20210312105530.2219008-1-lee.jones@linaro.org>
+Received: from ustc.edu.cn (smtp2.ustc.edu.cn [202.38.64.46])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id CFF4A420602
+	for <drbd-dev@lists.linbit.com>; Thu,  1 Apr 2021 13:58:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mail.ustc.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+	Message-Id:MIME-Version:Content-Transfer-Encoding; bh=CWklXCL+YD
+	Y2PYR5Ag06YNYFH//f8R5Tm4EPbzqTnEU=; b=o3ghQiqfYhiAzCfXAPKmxKmsRx
+	vIRaQkLAMkZkkiqMZBnyQrBPS69dtKc0FLZ4pSyXdlZKqExNxjFS3Cv3U0s62CC8
+	IBXXW5CXEtzHVRatWC34w+FAY0jlrprnxs/1ileqLUJLtHMdhPb4E4EVauIPWQcE
+	VgC/V0ExDRBnCy5fs=
+Received: from ubuntu.localdomain (unknown [202.38.69.14])
+	by newmailweb.ustc.edu.cn (Coremail) with SMTP id
+	LkAmygCHjaVFtWVgWIeBAA--.1831S4; 
+	Thu, 01 Apr 2021 19:57:57 +0800 (CST)
+From: Lv Yunlong <lyl2019@mail.ustc.edu.cn>
+To: philipp.reisner@linbit.com,
+	lars.ellenberg@linbit.com,
+	axboe@kernel.dk
+Date: Thu,  1 Apr 2021 04:57:53 -0700
+Message-Id: <20210401115753.3684-1-lyl2019@mail.ustc.edu.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210312105530.2219008-1-lee.jones@linaro.org>
-Subject: Re: [Drbd-dev] [PATCH 00/11] Rid W=1 warnings from Block
+X-CM-TRANSID: LkAmygCHjaVFtWVgWIeBAA--.1831S4
+X-Coremail-Antispam: 1UD129KBjvJXoW7tryDJrWDJFW8KFWkGF43Awb_yoW8Xr4fpa
+	yUW3sIkFs8Ka18uFy3Kw18ZF909a1kGr9xGrWjq343AFnxtrn3Za40yFWYyFWFkr9xGF4r
+	t3W2vw1DGayDK3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvl14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+	6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
+	0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr
+	1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IE
+	rcIFxwCY02Avz4vE14v_Gw4l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr
+	1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE
+	14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7
+	IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvE
+	x4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvj
+	DU0xZFpf9x0JUDb1bUUUUU=
+X-CM-SenderInfo: ho1ojiyrz6zt1loo32lwfovvfxof0/
+Cc: linux-block@vger.kernel.org, Lv Yunlong <lyl2019@mail.ustc.edu.cn>,
+	linux-kernel@vger.kernel.org, drbd-dev@lists.linbit.com
+Subject: [Drbd-dev] [PATCH] drbd: Fix a use after free in get_initial_state
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -76,51 +65,51 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-T24gRnJpLCAxMiBNYXIgMjAyMSwgTGVlIEpvbmVzIHdyb3RlOgoKPiBUaGlzIHNldCBpcyBwYXJ0
-IG9mIGEgbGFyZ2VyIGVmZm9ydCBhdHRlbXB0aW5nIHRvIGNsZWFuLXVwIFc9MQo+IGtlcm5lbCBi
-dWlsZHMsIHdoaWNoIGFyZSBjdXJyZW50bHkgb3ZlcndoZWxtaW5nbHkgcmlkZGxlZCB3aXRoCj4g
-bmlnZ2x5IGxpdHRsZSB3YXJuaW5ncy4KPiAKPiBMZWUgSm9uZXMgKDExKToKPiAgIGJsb2NrOiBy
-c3h4OiBjb3JlOiBSZW1vdmUgc3VwZXJmbHVvdXMgY29uc3QgcXVhbGlmaWVyCj4gICBibG9jazog
-ZHJiZDogZHJiZF9pbnRlcnZhbDogRGVtb3RlIHNvbWUga2VybmVsLWRvYyBhYnVzZXMgYW5kIGZp
-eAo+ICAgICBhbm90aGVyIGhlYWRlcgo+ICAgYmxvY2s6IG10aXAzMnh4OiBtdGlwMzJ4eDogTWFy
-ayBkZWJ1Z2dpbmcgdmFyaWFibGUgJ3N0YXJ0JyBhcwo+ICAgICBfX21heWJlX3VudXNlZAo+ICAg
-YmxvY2s6IGRyYmQ6IGRyYmRfc3RhdGU6IEZpeCBzb21lIGZ1bmN0aW9uIGRvY3VtZW50YXRpb24g
-aXNzdWVzCj4gICBibG9jazogZHJiZDogZHJiZF9yZWNlaXZlcjogRGVtb3RlIG5vbi1jb25mb3Jt
-YW50IGtlcm5lbC1kb2MgaGVhZGVycwo+ICAgYmxvY2s6IGRyYmQ6IGRyYmRfbWFpbjogUmVtb3Zl
-IGR1cGxpY2F0ZSBmaWVsZCBpbml0aWFsaXNhdGlvbgo+ICAgYmxvY2s6IGRyYmQ6IGRyYmRfbmw6
-IE1ha2UgY29udmVyc2lvbiB0byAnZW51bSBkcmJkX3JldF9jb2RlJyBleHBsaWNpdAo+ICAgYmxv
-Y2s6IGRyYmQ6IGRyYmRfbWFpbjogRml4IGEgYnVuY2ggb2YgZnVuY3Rpb24gZG9jdW1lbnRhdGlv
-bgo+ICAgICBkaXNjcmVwYW5jaWVzCj4gICBibG9jazogZHJiZDogZHJiZF9yZWNlaXZlcjogRGVt
-b3RlIGxlc3MgdGhhbiBoYWxmIGNvbXBsZXRlIGtlcm5lbC1kb2MKPiAgICAgaGVhZGVyCj4gICBi
-bG9jazogeGVuLWJsa2Zyb250OiBEZW1vdGUga2VybmVsLWRvYyBhYnVzZXMKPiAgIGJsb2NrOiBk
-cmJkOiBkcmJkX25sOiBEZW1vdGUgaGFsZi1jb21wbGV0ZSBrZXJuZWwtZG9jIGhlYWRlcnMKCldv
-dWxkIHlvdSBsaWtlIG1lIHRvIHJlc3VibWl0IHRoZXNlPwoKPiAgZHJpdmVycy9ibG9jay9kcmJk
-L2RyYmRfaW50ZXJ2YWwuYyB8ICA4ICsrKysrLS0tCj4gIGRyaXZlcnMvYmxvY2svZHJiZC9kcmJk
-X21haW4uYyAgICAgfCAzMCArKysrKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0KPiAgZHJpdmVy
-cy9ibG9jay9kcmJkL2RyYmRfbmwuYyAgICAgICB8IDE3ICsrKysrKysrKystLS0tLS0tCj4gIGRy
-aXZlcnMvYmxvY2svZHJiZC9kcmJkX3JlY2VpdmVyLmMgfCAyNiArKysrKysrKysrKystLS0tLS0t
-LS0tLS0tLQo+ICBkcml2ZXJzL2Jsb2NrL2RyYmQvZHJiZF9zdGF0ZS5jICAgIHwgIDcgKysrKy0t
-LQo+ICBkcml2ZXJzL2Jsb2NrL210aXAzMnh4L210aXAzMnh4LmMgIHwgIDIgKy0KPiAgZHJpdmVy
-cy9ibG9jay9yc3h4L2NvcmUuYyAgICAgICAgICB8ICAyICstCj4gIGRyaXZlcnMvYmxvY2sveGVu
-LWJsa2Zyb250LmMgICAgICAgfCAgNiArKystLS0KPiAgOCBmaWxlcyBjaGFuZ2VkLCA1MSBpbnNl
-cnRpb25zKCspLCA0NyBkZWxldGlvbnMoLSkKPiAKPiBDYzogQm9yaXMgT3N0cm92c2t5IDxib3Jp
-cy5vc3Ryb3Zza3lAb3JhY2xlLmNvbT4KPiBDYzogZHJiZC1kZXZAbGlzdHMubGluYml0LmNvbQo+
-IENjOiBKZW5zIEF4Ym9lIDxheGJvZUBrZXJuZWwuZGs+Cj4gQ2M6IEpvc2h1YSBNb3JyaXMgPGpv
-c2guaC5tb3JyaXNAdXMuaWJtLmNvbT4KPiBDYzogSnVlcmdlbiBHcm9zcyA8amdyb3NzQHN1c2Uu
-Y29tPgo+IENjOiBLb25yYWQgUnplc3p1dGVrIFdpbGsgPGtvbnJhZC53aWxrQG9yYWNsZS5jb20+
-Cj4gQ2M6IExhcnMgRWxsZW5iZXJnIDxsYXJzLmVsbGVuYmVyZ0BsaW5iaXQuY29tPgo+IENjOiBs
-aW51eC1ibG9ja0B2Z2VyLmtlcm5lbC5vcmcKPiBDYzogUGhpbGlwIEtlbGxlaGVyIDxwamsxOTM5
-QGxpbnV4LmlibS5jb20+Cj4gQ2M6IFBoaWxpcHAgUmVpc25lciA8cGhpbGlwcC5yZWlzbmVyQGxp
-bmJpdC5jb20+Cj4gQ2M6ICJSb2dlciBQYXUgTW9ubsOpIiA8cm9nZXIucGF1QGNpdHJpeC5jb20+
-Cj4gQ2M6IFN0ZWZhbm8gU3RhYmVsbGluaSA8c3N0YWJlbGxpbmlAa2VybmVsLm9yZz4KPiBDYzog
-eGVuLWRldmVsQGxpc3RzLnhlbnByb2plY3Qub3JnCgotLSAKTGVlIEpvbmVzIFvmnY7nkLzmlq9d
-ClNlbmlvciBUZWNobmljYWwgTGVhZCAtIERldmVsb3BlciBTZXJ2aWNlcwpMaW5hcm8ub3JnIOKU
-giBPcGVuIHNvdXJjZSBzb2Z0d2FyZSBmb3IgQXJtIFNvQ3MKRm9sbG93IExpbmFybzogRmFjZWJv
-b2sgfCBUd2l0dGVyIHwgQmxvZwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwpkcmJkLWRldiBtYWlsaW5nIGxpc3QKZHJiZC1kZXZAbGlzdHMubGluYml0LmNv
-bQpodHRwczovL2xpc3RzLmxpbmJpdC5jb20vbWFpbG1hbi9saXN0aW5mby9kcmJkLWRldgo=
+In get_initial_state, it calls notify_initial_state_done(skb,..) if
+cb->args[5]==1. I see that if genlmsg_put() failed in
+notify_initial_state_done(), the skb will be freed by nlmsg_free(skb).
+Then get_initial_state will goto out and the freed skb will be used by
+return value skb->len.
+
+My patch lets skb_len = skb->len and return the skb_len to avoid the uaf.
+
+Fixes: a29728463b254 ("drbd: Backport the "events2" command")
+Signed-off-by: Lv Yunlong <lyl2019@mail.ustc.edu.cn>
+---
+ drivers/block/drbd/drbd_nl.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/block/drbd/drbd_nl.c b/drivers/block/drbd/drbd_nl.c
+index bf7de4c7b96c..474f84675d0a 100644
+--- a/drivers/block/drbd/drbd_nl.c
++++ b/drivers/block/drbd/drbd_nl.c
+@@ -4905,6 +4905,7 @@ static int get_initial_state(struct sk_buff *skb, struct netlink_callback *cb)
+ 	struct drbd_state_change *state_change = (struct drbd_state_change *)cb->args[0];
+ 	unsigned int seq = cb->args[2];
+ 	unsigned int n;
++	unsigned int skb_len = skb->len;
+ 	enum drbd_notification_type flags = 0;
+ 
+ 	/* There is no need for taking notification_mutex here: it doesn't
+@@ -4915,7 +4916,7 @@ static int get_initial_state(struct sk_buff *skb, struct netlink_callback *cb)
+ 	cb->args[5]--;
+ 	if (cb->args[5] == 1) {
+ 		notify_initial_state_done(skb, seq);
+-		goto out;
++		return skb_len;
+ 	}
+ 	n = cb->args[4]++;
+ 	if (cb->args[4] < cb->args[3])
+-- 
+2.25.1
+
+
+_______________________________________________
+drbd-dev mailing list
+drbd-dev@lists.linbit.com
+https://lists.linbit.com/mailman/listinfo/drbd-dev
