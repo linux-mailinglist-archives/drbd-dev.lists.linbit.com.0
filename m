@@ -2,47 +2,51 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7B6535B9D9
-	for <lists+drbd-dev@lfdr.de>; Mon, 12 Apr 2021 07:32:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB77E360292
+	for <lists+drbd-dev@lfdr.de>; Thu, 15 Apr 2021 08:44:20 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9744942095C;
-	Mon, 12 Apr 2021 07:32:48 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D7FCC42039D;
+	Thu, 15 Apr 2021 08:44:19 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 932 seconds by postgrey-1.31 at mail19;
-	Mon, 12 Apr 2021 00:33:40 CEST
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id DFF0842094E
-	for <drbd-dev@lists.linbit.com>; Mon, 12 Apr 2021 00:33:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209;
-	h=Content-Transfer-Encoding:MIME-Version:
-	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=wgwNiGv+nQsG5bmq4+bVxfTrzlLtQ/zLZkQFVj1WrmY=;
-	b=HBluVx5VAGewTyuiNOHf5qG3Bj
-	QLGD3HHcJe89kJYJ89WcEhJfeo/EFaqBsz5YyIHy7IQkVxfWXoGOFmusFFjuJjml+DctDDnDLdwEh
-	aZC9i+XqxSEAKlGVM9WXjvtG9lP61V3zWAHbn4t0X2DRX1WGfppWzpQMetwDCCCLAz4arFxkoguz3
-	REROIWeE7i7gC9cXaMgfQXEI2mYnm7aGXNiw3yiOmm7XmlT9Zs0FeTwXthR3WQV+rpe6rdYYF8n4n
-	xy5FWjgVW0JHTdm3MiVhpmwLZGnnHF0QYykOs7tqUUC4O4mx+hFDYEez0gRfcDdn4EjgQsIU+ISXi
-	YSt/geuw==;
-Received: from [2601:1c0:6280:3f0::e0e1] (helo=smtpauth.infradead.org)
-	by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-	id 1lViP4-003VMx-F5; Sun, 11 Apr 2021 22:18:03 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Date: Sun, 11 Apr 2021 15:17:56 -0700
-Message-Id: <20210411221756.15461-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.26.2
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+	[209.85.167.52])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 508B24202B2
+	for <drbd-dev@lists.linbit.com>; Thu, 15 Apr 2021 08:35:41 +0200 (CEST)
+Received: by mail-lf1-f52.google.com with SMTP id x19so6974182lfa.2
+	for <drbd-dev@lists.linbit.com>; Wed, 14 Apr 2021 23:35:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=dEZ7hWNfAUpbbgZ/Iu/tWrezll59mZ6nHLCx2h8jntQ=;
+	b=Ml0G9D62k7wU424xsvHZAyLurOjqYEbXgkNb6vf73DZQo4pquTeMUGn6hr9dhP1yCw
+	ts3jMwOPqdlZt8Yj7EL/0cSqPUmO/SzN8WzuVseVK2fwZHtLz/3pWKr8zuk9dZni0epx
+	CP8BgG+mN7LqWxF0smhU3W0JY69/bCo6zb84v9jaPFytSJ6yydwDO1n+PRokns2Wfi50
+	zpho4N9H7ZC4LNQ3Q98YAkWMseBwCWYoKvyBbyrmPn3dkAC6kOwV4IwydcOtuFyrndCw
+	AkHtYYh7U7azQbb3qQJJfLTLQ9GZYJrcZhLuquELQxKLa5bBhOAVVkqqd9MLIxIrTegK
+	BODA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=dEZ7hWNfAUpbbgZ/Iu/tWrezll59mZ6nHLCx2h8jntQ=;
+	b=qrEAKSkx0SmL+8ecuIjaNHsIoLpWHC6j4GCfiKTgTXmoXf+pp0qTQjYEXU0Xmlv9Nf
+	FfZXyB1brFKLXXpPeONXLSEx38s3LdaC2S3+4btcUZZRa/eenDVwDeAvfjaobDTrQsjI
+	0FRsFD06djn+DY5psF1JC4wdw9FmI2tq0ACOSKV8kIRBCdd71hEA4tGwBfwWICBkRwby
+	HFfYIS1bE6tp3L0dawV2DGc01zBxs8zxRj8jNbXlHnaES+j76UmRi9wcfas/ORbgu9Vl
+	GGgF4bM07BPDdM7W9w3z7/8WPQKynQtyYMBPh2jp/vHjAI1EjVeS5iVmVxDw1sUdo2fg
+	VRJA==
+X-Gm-Message-State: AOAM53276Icxli9Q+ybZQPasFdUeywgqWmD5cuo77bVMUCJrpuaTvrNf
+	zUOjFKR6nuQwwPOtCl3Kq1b8RPSDoQTcqdqtSP3LsAu9zEXuHokZ
+X-Google-Smtp-Source: ABdhPJwjUk5bkKwoONlBKjvE0vp0BZETK5WpbUO1qk/39xK9PK0KQg1aKz1GrpbeYxis5JLB3f6S0aZwIEuf59nUxOI=
+X-Received: by 2002:a19:ec19:: with SMTP id b25mr1393329lfa.99.1618468540601; 
+	Wed, 14 Apr 2021 23:35:40 -0700 (PDT)
 MIME-Version: 1.0
-X-Mailman-Approved-At: Mon, 12 Apr 2021 07:32:47 +0200
-Cc: netdev@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	Matthew Wilcox <willy@infradead.org>, Jiri Pirko <jiri@nvidia.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>, drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH] lib: remove "expecting prototype" kernel-doc
-	warnings
+From: Li Ming <tolimit1019@gmail.com>
+Date: Thu, 15 Apr 2021 14:35:29 +0800
+Message-ID: <CAOW5tATdY0jxWVmemJXhfDzwzTvmzhyiELnwGmCtraDVD5eonQ@mail.gmail.com>
+To: drbd-dev@lists.linbit.com
+Content-Type: multipart/mixed; boundary="0000000000007162c905bffd124e"
+X-Mailman-Approved-At: Thu, 15 Apr 2021 08:44:18 +0200
+Subject: [Drbd-dev] 0001-check-head-in-page_chain_del-for-every-loop.patch
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -56,147 +60,57 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Fix various kernel-doc warnings in lib/ due to missing or
-erroneous function names.
-Add kernel-doc for some function parameters that was missing.
-Use kernel-doc "Return:" notation in earlycpio.c.
+--0000000000007162c905bffd124e
+Content-Type: multipart/alternative; boundary="0000000000007162c705bffd124c"
 
-Quietens the following warnings:
+--0000000000007162c705bffd124c
+Content-Type: text/plain; charset="UTF-8"
 
-../lib/earlycpio.c:61: warning: expecting prototype for cpio_data find_cpio_data(). Prototype was for find_cpio_data() instead
 
-../lib/lru_cache.c:640: warning: expecting prototype for lc_dump(). Prototype was for lc_seq_dump_details() instead
-lru_cache.c:90: warning: Function parameter or member 'cache' not described in 'lc_create'
 
-../lib/parman.c:368: warning: expecting prototype for parman_item_del(). Prototype was for parman_item_remove() instead
-parman.c:309: warning: Excess function parameter 'prority' description in 'parman_prio_init'
+--0000000000007162c705bffd124c
+Content-Type: text/html; charset="UTF-8"
 
-../lib/radix-tree.c:703: warning: expecting prototype for __radix_tree_insert(). Prototype was for radix_tree_insert() instead
-radix-tree.c:180: warning: Excess function parameter 'addr' description in 'radix_tree_find_next_bit'
-radix-tree.c:180: warning: Excess function parameter 'size' description in 'radix_tree_find_next_bit'
-radix-tree.c:931: warning: Function parameter or member 'iter' not described in 'radix_tree_iter_replace'
+<div dir="ltr"><br></div>
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Philipp Reisner <philipp.reisner@linbit.com>
-Cc: Lars Ellenberg <lars.ellenberg@linbit.com>
-Cc: drbd-dev@lists.linbit.com
-Cc: Jiri Pirko <jiri@nvidia.com>
-Cc: netdev@vger.kernel.org
-Cc: Matthew Wilcox <willy@infradead.org>
----
- lib/earlycpio.c  |    4 ++--
- lib/lru_cache.c  |    3 ++-
- lib/parman.c     |    4 ++--
- lib/radix-tree.c |   11 ++++++-----
- 4 files changed, 12 insertions(+), 10 deletions(-)
+--0000000000007162c705bffd124c--
+--0000000000007162c905bffd124e
+Content-Type: application/octet-stream; 
+	name="0001-check-head-in-page_chain_del-for-every-loop.patch"
+Content-Disposition: attachment; 
+	filename="0001-check-head-in-page_chain_del-for-every-loop.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_knii2nwr0>
+X-Attachment-Id: f_knii2nwr0
 
---- linux-next-20210409.orig/lib/earlycpio.c
-+++ linux-next-20210409/lib/earlycpio.c
-@@ -40,7 +40,7 @@ enum cpio_fields {
- };
- 
- /**
-- * cpio_data find_cpio_data - Search for files in an uncompressed cpio
-+ * find_cpio_data - Search for files in an uncompressed cpio
-  * @path:       The directory to search for, including a slash at the end
-  * @data:       Pointer to the cpio archive or a header inside
-  * @len:        Remaining length of the cpio based on data pointer
-@@ -49,7 +49,7 @@ enum cpio_fields {
-  *              matching file itself. It can be used to iterate through the cpio
-  *              to find all files inside of a directory path.
-  *
-- * @return:     struct cpio_data containing the address, length and
-+ * Return:      &struct cpio_data containing the address, length and
-  *              filename (with the directory path cut off) of the found file.
-  *              If you search for a filename and not for files in a directory,
-  *              pass the absolute path of the filename in the cpio and make sure
---- linux-next-20210409.orig/lib/lru_cache.c
-+++ linux-next-20210409/lib/lru_cache.c
-@@ -76,6 +76,7 @@ int lc_try_lock(struct lru_cache *lc)
- /**
-  * lc_create - prepares to track objects in an active set
-  * @name: descriptive name only used in lc_seq_printf_stats and lc_seq_dump_details
-+ * @cache: cache root pointer
-  * @max_pending_changes: maximum changes to accumulate until a transaction is required
-  * @e_count: number of elements allowed to be active simultaneously
-  * @e_size: size of the tracked objects
-@@ -627,7 +628,7 @@ void lc_set(struct lru_cache *lc, unsign
- }
- 
- /**
-- * lc_dump - Dump a complete LRU cache to seq in textual form.
-+ * lc_seq_dump_details - Dump a complete LRU cache to seq in textual form.
-  * @lc: the lru cache to operate on
-  * @seq: the &struct seq_file pointer to seq_printf into
-  * @utext: user supplied additional "heading" or other info
---- linux-next-20210409.orig/lib/parman.c
-+++ linux-next-20210409/lib/parman.c
-@@ -297,7 +297,7 @@ EXPORT_SYMBOL(parman_destroy);
-  * parman_prio_init - initializes a parman priority chunk
-  * @parman:	parman instance
-  * @prio:	parman prio structure to be initialized
-- * @prority:	desired priority of the chunk
-+ * @priority:	desired priority of the chunk
-  *
-  * Note: all locking must be provided by the caller.
-  *
-@@ -356,7 +356,7 @@ int parman_item_add(struct parman *parma
- EXPORT_SYMBOL(parman_item_add);
- 
- /**
-- * parman_item_del - deletes parman item
-+ * parman_item_remove - deletes parman item
-  * @parman:	parman instance
-  * @prio:	parman prio instance to delete the item from
-  * @item:	parman item instance
---- linux-next-20210409.orig/lib/radix-tree.c
-+++ linux-next-20210409/lib/radix-tree.c
-@@ -166,9 +166,9 @@ static inline void all_tag_set(struct ra
- /**
-  * radix_tree_find_next_bit - find the next set bit in a memory region
-  *
-- * @addr: The address to base the search on
-- * @size: The bitmap size in bits
-- * @offset: The bitnumber to start searching at
-+ * @node: where to begin the search
-+ * @tag: the tag index
-+ * @offset: the bitnumber to start searching at
-  *
-  * Unrollable variant of find_next_bit() for constant size arrays.
-  * Tail bits starting from size to roundup(size, BITS_PER_LONG) must be zero.
-@@ -461,7 +461,7 @@ out:
- 
- /**
-  *	radix_tree_shrink    -    shrink radix tree to minimum height
-- *	@root		radix tree root
-+ *	@root:		radix tree root
-  */
- static inline bool radix_tree_shrink(struct radix_tree_root *root)
- {
-@@ -691,7 +691,7 @@ static inline int insert_entries(struct
- }
- 
- /**
-- *	__radix_tree_insert    -    insert into a radix tree
-+ *	radix_tree_insert    -    insert into a radix tree
-  *	@root:		radix tree root
-  *	@index:		index key
-  *	@item:		item to insert
-@@ -919,6 +919,7 @@ EXPORT_SYMBOL(radix_tree_replace_slot);
- /**
-  * radix_tree_iter_replace - replace item in a slot
-  * @root:	radix tree root
-+ * @iter:	iterator state
-  * @slot:	pointer to slot
-  * @item:	new item to store in the slot.
-  *
+RnJvbSAzMzZiODcwODE4MzVmNWZjYzNmZGQ0ZTJjODgyM2I2MWM1MGExYjJlIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBNaW5nIExpIDx0b2xpbWl0MTAxOUBnbWFpbC5jb20+CkRhdGU6
+IFRodSwgMTUgQXByIDIwMjEgMTM6MDk6MTggKzA4MDAKU3ViamVjdDogW1BBVENIXSBjaGVjayBo
+ZWFkIGluIHBhZ2VfY2hhaW5fZGVsIGZvciBldmVyeSBsb29wCgp0aGVyZSB3aWxsIGJlIGNyYXNo
+IHdoZW4gd2UgZ2V0IGEgTlVMTCBoZWFkIGluIGxvb3AuCgpTaWduZWQtb2ZmLWJ5OiBNaW5nIExp
+IDx0b2xpbWl0MTAxOUBnbWFpbC5jb20+Ci0tLQogZHJiZC9kcmJkX3JlY2VpdmVyLmMgfCA0ICsr
+LS0KIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCgpkaWZm
+IC0tZ2l0IGEvZHJiZC9kcmJkX3JlY2VpdmVyLmMgYi9kcmJkL2RyYmRfcmVjZWl2ZXIuYwppbmRl
+eCBmMTI3YTIzNS4uMjhmYjJlMDYgMTAwNjQ0Ci0tLSBhL2RyYmQvZHJiZF9yZWNlaXZlci5jCisr
+KyBiL2RyYmQvZHJiZF9yZWNlaXZlci5jCkBAIC0yODAsMTIgKzI4MCwxMiBAQCBzdGF0aWMgc3Ry
+dWN0IHBhZ2UgKnBhZ2VfY2hhaW5fZGVsKHN0cnVjdCBwYWdlICoqaGVhZCwgaW50IGNvdW50KQog
+CUJVR19PTighaGVhZCk7CiAKIAlwYWdlID0gUkVBRF9PTkNFKCpoZWFkKTsKLQlpZiAoIXBhZ2Up
+Ci0JCXJldHVybiBOVUxMOwogCiAJZG8gewogCQluID0gY291bnQ7CiAJCXJ2X2hlYWQgPSBwYWdl
+OworCQlpZiAoIXBhZ2UpCisJCQlyZXR1cm4gTlVMTDsKIAkJd2hpbGUgKHRydWUpIHsKIAkJCXRt
+cCA9IHBhZ2VfY2hhaW5fbmV4dChwYWdlKTsKIAkJCWlmICgtLW4gPT0gMCkKLS0gCjIuMjQuMyAo
+QXBwbGUgR2l0LTEyOCkKCg==
+--0000000000007162c905bffd124e
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
 https://lists.linbit.com/mailman/listinfo/drbd-dev
+
+--0000000000007162c905bffd124e--
