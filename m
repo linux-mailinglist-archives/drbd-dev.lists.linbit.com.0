@@ -1,39 +1,56 @@
 Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
-Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8B89371131
-	for <lists+drbd-dev@lfdr.de>; Mon,  3 May 2021 07:21:37 +0200 (CEST)
+Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8C3938BF57
+	for <lists+drbd-dev@lfdr.de>; Fri, 21 May 2021 08:29:48 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 78E99420671;
-	Mon,  3 May 2021 07:21:37 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A8F4E42036A;
+	Fri, 21 May 2021 08:29:42 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 302 seconds by postgrey-1.31 at mail19;
-	Fri, 30 Apr 2021 11:26:10 CEST
-Received: from out30-57.freemail.mail.aliyun.com
-	(out30-57.freemail.mail.aliyun.com [115.124.30.57])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 584BF420379
-	for <drbd-dev@lists.linbit.com>; Fri, 30 Apr 2021 11:26:09 +0200 (CEST)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R191e4; CH=green; DM=||false|;
-	DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04394;
-	MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=7; SR=0;
-	TI=SMTPD_---0UXFYWaH_1619774458; 
-Received: from
-	j63c13417.sqa.eu95.tbsite.net(mailfrom:jiapeng.chong@linux.alibaba.com
-	fp:SMTPD_---0UXFYWaH_1619774458) by smtp.aliyun-inc.com(127.0.0.1);
-	Fri, 30 Apr 2021 17:21:04 +0800
-From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To: philipp.reisner@linbit.com
-Date: Fri, 30 Apr 2021 17:20:56 +0800
-Message-Id: <1619774456-116567-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
-X-Mailman-Approved-At: Mon, 03 May 2021 07:21:36 +0200
-Cc: axboe@kernel.dk, Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	lars.ellenberg@linbit.com, drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH] block: drbd: drbd_receiver: Remove redundant
-	assignment to err
+X-Greylist: delayed 396 seconds by postgrey-1.31 at mail19;
+	Fri, 21 May 2021 08:29:40 CEST
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E2677420169
+	for <drbd-dev@lists.linbit.com>; Fri, 21 May 2021 08:29:40 +0200 (CEST)
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id C508C6736F; Fri, 21 May 2021 08:23:01 +0200 (CEST)
+Date: Fri, 21 May 2021 08:23:01 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Coly Li <colyli@suse.de>
+Message-ID: <20210521062301.GA10244@lst.de>
+References: <20210521055116.1053587-1-hch@lst.de>
+	<20210521055116.1053587-13-hch@lst.de>
+	<d4f1c005-2ce0-51b5-c861-431f0ffb3dcf@suse.de>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <d4f1c005-2ce0-51b5-c861-431f0ffb3dcf@suse.de>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+Cc: nvdimm@lists.linux.dev, Ulf Hansson <ulf.hansson@linaro.org>,
+	Mike Snitzer <snitzer@redhat.com>, linux-nvme@lists.infradead.org,
+	Philipp Reisner <philipp.reisner@linbit.com>,
+	Max Filippov <jcmvbkbc@gmail.com>, dm-devel@redhat.com,
+	Joshua Morris <josh.h.morris@us.ibm.com>,
+	drbd-dev@lists.linbit.com, linux-s390@vger.kernel.org,
+	Dave Jiang <dave.jiang@intel.com>,
+	Maxim Levitsky <maximlevitsky@gmail.com>,
+	Vishal Verma <vishal.l.verma@intel.com>, Christoph Hellwig <hch@lst.de>,
+	Christian Borntraeger <borntraeger@de.ibm.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Matias Bjorling <mb@lightnvm.io>, Nitin Gupta <ngupta@vflare.org>,
+	Vasily Gorbik <gor@linux.ibm.com>, linux-xtensa@linux-xtensa.org,
+	Alex Dubov <oakad@yahoo.com>, Heiko Carstens <hca@linux.ibm.com>,
+	linux-raid@vger.kernel.org, linux-bcache@vger.kernel.org,
+	linux-block@vger.kernel.org, Philip Kelleher <pjk1939@linux.ibm.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jens Axboe <axboe@kernel.dk>, Chris Zankel <chris@zankel.net>,
+	Song Liu <song@kernel.org>, linux-mmc@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org, Jim Paris <jim@jtan.com>,
+	Minchan Kim <minchan@kernel.org>,
+	Lars Ellenberg <lars.ellenberg@linbit.com>, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [Drbd-dev] [PATCH 12/26] bcache: convert to
+ blk_alloc_disk/blk_cleanup_disk
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,42 +64,20 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Variable err is set to '-EIO' but this value is never read as
-it is overwritten or not used later on, hence it is a redundant
-assignment and can be removed.
+On Fri, May 21, 2021 at 02:15:32PM +0800, Coly Li wrote:
+> The  above 2 lines are added on purpose to prevent an refcount
+> underflow. It is from commit 86da9f736740 ("bcache: fix refcount
+> underflow in bcache_device_free()").
+> 
+> Maybe add a parameter to blk_cleanup_disk() or checking (disk->flags &
+> GENHD_FL_UP) inside blk_cleanup_disk() ?
 
-Clean up the following clang-analyzer warning:
-
-drivers/block/drbd/drbd_receiver.c:3955:5: warning: Value stored to
-'err' is never read [clang-analyzer-deadcode.DeadStores].
-
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
----
- drivers/block/drbd/drbd_receiver.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd_receiver.c
-index 69284eb..e3b1e87 100644
---- a/drivers/block/drbd/drbd_receiver.c
-+++ b/drivers/block/drbd/drbd_receiver.c
-@@ -3952,7 +3952,6 @@ static int receive_SyncParam(struct drbd_connection *connection, struct packet_i
- 				drbd_err(device, "verify-alg of wrong size, "
- 					"peer wants %u, accepting only up to %u byte\n",
- 					data_size, SHARED_SECRET_MAX);
--				err = -EIO;
- 				goto reconnect;
- 			}
- 
--- 
-1.8.3.1
-
+Please take a look at patch 4 in the series.
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
