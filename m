@@ -2,33 +2,31 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13E4E38C04A
-	for <lists+drbd-dev@lfdr.de>; Fri, 21 May 2021 09:03:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3CBC38C065
+	for <lists+drbd-dev@lfdr.de>; Fri, 21 May 2021 09:08:04 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E6089420210;
-	Fri, 21 May 2021 09:03:33 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B9DA7420639;
+	Fri, 21 May 2021 09:08:04 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 4303 seconds by postgrey-1.31 at mail19;
-	Fri, 21 May 2021 09:03:31 CEST
 Received: from bombadil.infradead.org (bombadil.infradead.org
 	[198.137.202.133])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 011EE420207
-	for <drbd-dev@lists.linbit.com>; Fri, 21 May 2021 09:03:31 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6A88C4205D7
+	for <drbd-dev@lists.linbit.com>; Fri, 21 May 2021 09:03:36 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=WCiTFeRRCmPm+nfHSliHFDSxKf26wi9nawmdHHNIgbI=;
-	b=EYWl9BhkusWNfViwIhy2fYdimJ
-	pElzAlc1Jc778x09wwgZbCkU7tFkVDMGsaOPUeiPHpF8SfHxvjy5+EnVt5sJmTUXXO7Bb4W2j9ZV3
-	djNOvZ2DsIiWx1AIw4tDAwxTWmYaUg09Ghj9J8yN7w5aB+RKjdRiAj3GunDCe9zE+2D1sPTmm4Epi
-	Co+Wt7CskuaicsMJX8EFTU30JzTKGiEJ/b+lbbsJxbjTlMk/rLg08d2nbqVbr/RjGz3Fszax/vXHB
-	h3n8bb3Z7LoieuPqAaCvkxBXuX14i6BY0o2UrqlupNWKNp7aVj0VF1Q1Xh6jDhoI2j3ZVCkDsltr+
-	huw48rEA==;
+	bh=7jnr8ceTle2Qd0VyqP041VOVIhcAyz6y4frSXdiy4SE=;
+	b=YGzFfkeTsZ+r+ks1ng7jZJgZw0
+	oWWVh5ueWdz+b0zyuc1LeeIbXMA48AjEXnN5dlkedQ52b5P/ywxjzJgt+Z42ZTwUpvJ3Z5a28Z2W5
+	Y9lsBUseerK/ijODu6e4Q2Im3W7p1pysfm2n0G0gAJd5fzfQ9zepdVKhe3SWkTFuKpuRuDQZQfXfy
+	V5IK5KXFL8ty/6FQb9QLK0L9w2FdPgi1pLSP1v2g63E6dtHqYb9ZQJ6Lx19qDYeLhwcQzH0YBk1iB
+	+YoM3imSux+VV1b14TZBgWP5YUGOtJ43ECNG0DH43pd3XsbInIy96P2XurkOg7gG5uZAVW+TAEf1k
+	C0xuLLwg==;
 Received: from [2001:4bb8:180:5add:4fd7:4137:d2f2:46e6] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-	id 1ljy4f-00Gq0n-A1; Fri, 21 May 2021 05:51:53 +0000
+	id 1ljy5K-00GqDg-T5; Fri, 21 May 2021 05:52:35 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>, Geert Uytterhoeven <geert@linux-m68k.org>,
 	Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
@@ -44,8 +42,8 @@ To: Jens Axboe <axboe@kernel.dk>, Geert Uytterhoeven <geert@linux-m68k.org>,
 	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
 	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
 	Christian Borntraeger <borntraeger@de.ibm.com>
-Date: Fri, 21 May 2021 07:51:01 +0200
-Message-Id: <20210521055116.1053587-12-hch@lst.de>
+Date: Fri, 21 May 2021 07:51:13 +0200
+Message-Id: <20210521055116.1053587-24-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210521055116.1053587-1-hch@lst.de>
 References: <20210521055116.1053587-1-hch@lst.de>
@@ -58,7 +56,7 @@ Cc: linux-bcache@vger.kernel.org, linux-xtensa@linux-xtensa.org,
 	linux-m68k@lists.linux-m68k.org, linux-nvme@lists.infradead.org,
 	linux-block@vger.kernel.org, dm-devel@redhat.com,
 	linuxppc-dev@lists.ozlabs.org, drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 11/26] lightnvm: convert to
+Subject: [Drbd-dev] [PATCH 23/26] dcssblk: convert to
 	blk_alloc_disk/blk_cleanup_disk
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
@@ -78,100 +76,93 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Convert the lightnvm driver to use the blk_alloc_disk and blk_cleanup_disk
+Convert the dcssblk driver to use the blk_alloc_disk and blk_cleanup_disk
 helpers to simplify gendisk and request_queue allocation.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/lightnvm/core.c | 23 +++++------------------
- 1 file changed, 5 insertions(+), 18 deletions(-)
+ drivers/s390/block/dcssblk.c | 26 ++++++++------------------
+ 1 file changed, 8 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/lightnvm/core.c b/drivers/lightnvm/core.c
-index e7dc539fc0ac..cf8a75494833 100644
---- a/drivers/lightnvm/core.c
-+++ b/drivers/lightnvm/core.c
-@@ -305,7 +305,6 @@ static int __nvm_config_extended(struct nvm_dev *dev,
- static int nvm_create_tgt(struct nvm_dev *dev, struct nvm_ioctl_create *create)
- {
- 	struct nvm_ioctl_create_extended e;
--	struct request_queue *tqueue;
- 	struct gendisk *tdisk;
- 	struct nvm_tgt_type *tt;
- 	struct nvm_target *t;
-@@ -370,23 +369,16 @@ static int nvm_create_tgt(struct nvm_dev *dev, struct nvm_ioctl_create *create)
- 		goto err_t;
+diff --git a/drivers/s390/block/dcssblk.c b/drivers/s390/block/dcssblk.c
+index da33cb4cba28..7faa56399999 100644
+--- a/drivers/s390/block/dcssblk.c
++++ b/drivers/s390/block/dcssblk.c
+@@ -90,7 +90,6 @@ struct dcssblk_dev_info {
+ 	int segment_type;
+ 	unsigned char save_pending;
+ 	unsigned char is_shared;
+-	struct request_queue *dcssblk_queue;
+ 	int num_of_segments;
+ 	struct list_head seg_list;
+ 	struct dax_device *dax_dev;
+@@ -429,9 +428,7 @@ dcssblk_shared_store(struct device *dev, struct device_attribute *attr, const ch
+ 	kill_dax(dev_info->dax_dev);
+ 	put_dax(dev_info->dax_dev);
+ 	del_gendisk(dev_info->gd);
+-	blk_cleanup_queue(dev_info->dcssblk_queue);
+-	dev_info->gd->queue = NULL;
+-	put_disk(dev_info->gd);
++	blk_cleanup_disk(dev_info->gd);
+ 	up_write(&dcssblk_devices_sem);
+ 
+ 	if (device_remove_file_self(dev, attr)) {
+@@ -644,18 +641,17 @@ dcssblk_add_store(struct device *dev, struct device_attribute *attr, const char
+ 	dev_info->dev.release = dcssblk_release_segment;
+ 	dev_info->dev.groups = dcssblk_dev_attr_groups;
+ 	INIT_LIST_HEAD(&dev_info->lh);
+-	dev_info->gd = alloc_disk(DCSSBLK_MINORS_PER_DISK);
++	dev_info->gd = blk_alloc_disk(NUMA_NO_NODE);
+ 	if (dev_info->gd == NULL) {
+ 		rc = -ENOMEM;
+ 		goto seg_list_del;
  	}
+ 	dev_info->gd->major = dcssblk_major;
++	dev_info->gd->minors = DCSSBLK_MINORS_PER_DISK;
+ 	dev_info->gd->fops = &dcssblk_devops;
+-	dev_info->dcssblk_queue = blk_alloc_queue(NUMA_NO_NODE);
+-	dev_info->gd->queue = dev_info->dcssblk_queue;
+ 	dev_info->gd->private_data = dev_info;
+-	blk_queue_logical_block_size(dev_info->dcssblk_queue, 4096);
+-	blk_queue_flag_set(QUEUE_FLAG_DAX, dev_info->dcssblk_queue);
++	blk_queue_logical_block_size(dev_info->gd->queue, 4096);
++	blk_queue_flag_set(QUEUE_FLAG_DAX, dev_info->gd->queue);
  
--	tdisk = alloc_disk(0);
-+	tdisk = blk_alloc_disk(dev->q->node);
- 	if (!tdisk) {
- 		ret = -ENOMEM;
- 		goto err_dev;
+ 	seg_byte_size = (dev_info->end - dev_info->start + 1);
+ 	set_capacity(dev_info->gd, seg_byte_size >> 9); // size in sectors
+@@ -719,9 +715,7 @@ dcssblk_add_store(struct device *dev, struct device_attribute *attr, const char
+ 
+ put_dev:
+ 	list_del(&dev_info->lh);
+-	blk_cleanup_queue(dev_info->dcssblk_queue);
+-	dev_info->gd->queue = NULL;
+-	put_disk(dev_info->gd);
++	blk_cleanup_disk(dev_info->gd);
+ 	list_for_each_entry(seg_info, &dev_info->seg_list, lh) {
+ 		segment_unload(seg_info->segment_name);
  	}
+@@ -731,9 +725,7 @@ dcssblk_add_store(struct device *dev, struct device_attribute *attr, const char
+ dev_list_del:
+ 	list_del(&dev_info->lh);
+ release_gd:
+-	blk_cleanup_queue(dev_info->dcssblk_queue);
+-	dev_info->gd->queue = NULL;
+-	put_disk(dev_info->gd);
++	blk_cleanup_disk(dev_info->gd);
+ 	up_write(&dcssblk_devices_sem);
+ seg_list_del:
+ 	if (dev_info == NULL)
+@@ -801,9 +793,7 @@ dcssblk_remove_store(struct device *dev, struct device_attribute *attr, const ch
+ 	kill_dax(dev_info->dax_dev);
+ 	put_dax(dev_info->dax_dev);
+ 	del_gendisk(dev_info->gd);
+-	blk_cleanup_queue(dev_info->dcssblk_queue);
+-	dev_info->gd->queue = NULL;
+-	put_disk(dev_info->gd);
++	blk_cleanup_disk(dev_info->gd);
  
--	tqueue = blk_alloc_queue(dev->q->node);
--	if (!tqueue) {
--		ret = -ENOMEM;
--		goto err_disk;
--	}
--
- 	strlcpy(tdisk->disk_name, create->tgtname, sizeof(tdisk->disk_name));
- 	tdisk->major = 0;
- 	tdisk->first_minor = 0;
- 	tdisk->fops = tt->bops;
--	tdisk->queue = tqueue;
- 
- 	targetdata = tt->init(tgt_dev, tdisk, create->flags);
- 	if (IS_ERR(targetdata)) {
-@@ -395,14 +387,14 @@ static int nvm_create_tgt(struct nvm_dev *dev, struct nvm_ioctl_create *create)
- 	}
- 
- 	tdisk->private_data = targetdata;
--	tqueue->queuedata = targetdata;
-+	tdisk->queue->queuedata = targetdata;
- 
- 	mdts = (dev->geo.csecs >> 9) * NVM_MAX_VLBA;
- 	if (dev->geo.mdts) {
- 		mdts = min_t(u32, dev->geo.mdts,
- 				(dev->geo.csecs >> 9) * NVM_MAX_VLBA);
- 	}
--	blk_queue_max_hw_sectors(tqueue, mdts);
-+	blk_queue_max_hw_sectors(tdisk->queue, mdts);
- 
- 	set_capacity(tdisk, tt->capacity(targetdata));
- 	add_disk(tdisk);
-@@ -427,10 +419,7 @@ static int nvm_create_tgt(struct nvm_dev *dev, struct nvm_ioctl_create *create)
- 	if (tt->exit)
- 		tt->exit(targetdata, true);
- err_init:
--	blk_cleanup_queue(tqueue);
--	tdisk->queue = NULL;
--err_disk:
--	put_disk(tdisk);
-+	blk_cleanup_disk(tdisk);
- err_dev:
- 	nvm_remove_tgt_dev(tgt_dev, 0);
- err_t:
-@@ -444,10 +433,8 @@ static void __nvm_remove_target(struct nvm_target *t, bool graceful)
- {
- 	struct nvm_tgt_type *tt = t->type;
- 	struct gendisk *tdisk = t->disk;
--	struct request_queue *q = tdisk->queue;
- 
- 	del_gendisk(tdisk);
--	blk_cleanup_queue(q);
- 
- 	if (tt->sysfs_exit)
- 		tt->sysfs_exit(tdisk);
-@@ -456,7 +443,7 @@ static void __nvm_remove_target(struct nvm_target *t, bool graceful)
- 		tt->exit(tdisk->private_data, graceful);
- 
- 	nvm_remove_tgt_dev(t->dev, 1);
--	put_disk(tdisk);
-+	blk_cleanup_disk(tdisk);
- 	module_put(t->type->owner);
- 
- 	list_del(&t->list);
+ 	/* unload all related segments */
+ 	list_for_each_entry(entry, &dev_info->seg_list, lh)
 -- 
 2.30.2
 
