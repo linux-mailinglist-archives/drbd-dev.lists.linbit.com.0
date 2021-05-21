@@ -2,31 +2,31 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4298938C056
-	for <lists+drbd-dev@lfdr.de>; Fri, 21 May 2021 09:07:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 064CD38C055
+	for <lists+drbd-dev@lfdr.de>; Fri, 21 May 2021 09:06:35 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 11F9D420626;
-	Fri, 21 May 2021 09:07:05 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id AA4F5420624;
+	Fri, 21 May 2021 09:06:34 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from bombadil.infradead.org (bombadil.infradead.org
 	[198.137.202.133])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A653E4205D4
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4B2544205CC
 	for <drbd-dev@lists.linbit.com>; Fri, 21 May 2021 09:03:35 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=ZDCcHPEM0INb2T5zcubYaFWSf1yp8CSnvcGaR6/cpic=;
-	b=2yjVQIeHAyfo2XhgICgTStbQOg
-	jcNnbxIE1u76xg05aeJAqvuiDDQjci0kPV/WRbNI+ftxKqgGJFpxl6fNUgPYM09ftrHkEOPj7Uc71
-	XsXsva6TLjpm5lo0bhCX4R9IyXPZhPyiPYDNiqX+3o6cFqKv2Thl3PVEcLreQRT/WEZGPr2ZzjQ2Q
-	0gRyUlSbbP/a6lDdvQqWoGeR74n0JjrIbdiUHUecmQoiLHzWJycHNdEY1+PvP7HGUah5FfCLz50xh
-	z6ys+9kRUELGbftltWOi0TwV+67rFSam3lTFqdSSqODUYX1M060t8X2DcuA59KunJ4+Mrf0J2xuPQ
-	72lW/5Yw==;
+	bh=g3lrORorOGdlA+chhXFoiRZ083wZZP/c6LDvo2P6/hA=;
+	b=Hx8+vU+9P2K36yQ0fT1qbYbTtq
+	yirGfRIknOCtiXRt/vnn4dIFJns8tfyH6dBItpgN6uR7pEYfx6LlbhKMLF0kdz7ZhBIylIKKM7yH9
+	hGyRo+/4ktzM1LfhQvqtepRp8CkrTFBnWY56Md0SbPS/JDONzNUP7liIckX3mfrRTfbbULVpSg4S+
+	VYdVdJ1t9Oz+ia/vjUXJTCMWZnBD0/hpkLzXXajvdMWrxEpyZIpUygPwv/KeKlY86FVoDS5wFCllh
+	M6oJj8Wk0MOkR6vK7ZODkzykR5XMrTLgJJM82nK9TloNiCbG+kw4aqQ6F8PGn723aFIqoGvcChblj
+	zEkBOQTw==;
 Received: from [2001:4bb8:180:5add:4fd7:4137:d2f2:46e6] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-	id 1ljy5S-00GqGW-Ms; Fri, 21 May 2021 05:52:43 +0000
+	id 1ljy5W-00GqHh-Vr; Fri, 21 May 2021 05:52:47 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>, Geert Uytterhoeven <geert@linux-m68k.org>,
 	Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
@@ -42,8 +42,8 @@ To: Jens Axboe <axboe@kernel.dk>, Geert Uytterhoeven <geert@linux-m68k.org>,
 	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
 	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
 	Christian Borntraeger <borntraeger@de.ibm.com>
-Date: Fri, 21 May 2021 07:51:15 +0200
-Message-Id: <20210521055116.1053587-26-hch@lst.de>
+Date: Fri, 21 May 2021 07:51:16 +0200
+Message-Id: <20210521055116.1053587-27-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210521055116.1053587-1-hch@lst.de>
 References: <20210521055116.1053587-1-hch@lst.de>
@@ -56,8 +56,7 @@ Cc: linux-bcache@vger.kernel.org, linux-xtensa@linux-xtensa.org,
 	linux-m68k@lists.linux-m68k.org, linux-nvme@lists.infradead.org,
 	linux-block@vger.kernel.org, dm-devel@redhat.com,
 	linuxppc-dev@lists.ozlabs.org, drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 25/26] null_blk: convert to
-	blk_alloc_disk/blk_cleanup_disk
+Subject: [Drbd-dev] [PATCH 26/26] block: unexport blk_alloc_queue
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -76,114 +75,51 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Convert the null_blk driver to use the blk_alloc_disk and blk_cleanup_disk
-helpers to simplify gendisk and request_queue allocation.  Note that the
-blk-mq mode is left with its own allocations scheme, to be handled later.
+blk_alloc_queue is just an internal helper now, unexport it and remove
+it from the public header.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/block/null_blk/main.c | 38 +++++++++++++++++------------------
- 1 file changed, 19 insertions(+), 19 deletions(-)
+ block/blk-core.c       | 1 -
+ block/blk.h            | 2 ++
+ include/linux/blkdev.h | 1 -
+ 3 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/block/null_blk/main.c b/drivers/block/null_blk/main.c
-index 5f006d9e1472..d8e098f1e5b5 100644
---- a/drivers/block/null_blk/main.c
-+++ b/drivers/block/null_blk/main.c
-@@ -1597,11 +1597,10 @@ static void null_del_dev(struct nullb *nullb)
- 		null_restart_queue_async(nullb);
- 	}
+diff --git a/block/blk-core.c b/block/blk-core.c
+index 689aac2625d2..3515a66022d7 100644
+--- a/block/blk-core.c
++++ b/block/blk-core.c
+@@ -599,7 +599,6 @@ struct request_queue *blk_alloc_queue(int node_id)
+ 	kmem_cache_free(blk_requestq_cachep, q);
+ 	return NULL;
+ }
+-EXPORT_SYMBOL(blk_alloc_queue);
  
--	blk_cleanup_queue(nullb->q);
-+	blk_cleanup_disk(nullb->disk);
- 	if (dev->queue_mode == NULL_Q_MQ &&
- 	    nullb->tag_set == &nullb->__tag_set)
- 		blk_mq_free_tag_set(nullb->tag_set);
--	put_disk(nullb->disk);
- 	cleanup_queues(nullb);
- 	if (null_cache_active(nullb))
- 		null_free_device_storage(nullb->dev, true);
-@@ -1700,22 +1699,19 @@ static int init_driver_queues(struct nullb *nullb)
- static int null_gendisk_register(struct nullb *nullb)
- {
- 	sector_t size = ((sector_t)nullb->dev->size * SZ_1M) >> SECTOR_SHIFT;
--	struct gendisk *disk;
-+	struct gendisk *disk = nullb->disk;
+ /**
+  * blk_get_queue - increment the request_queue refcount
+diff --git a/block/blk.h b/block/blk.h
+index cba3a94aabfa..3440142f029b 100644
+--- a/block/blk.h
++++ b/block/blk.h
+@@ -359,4 +359,6 @@ int bio_add_hw_page(struct request_queue *q, struct bio *bio,
+ 		struct page *page, unsigned int len, unsigned int offset,
+ 		unsigned int max_sectors, bool *same_page);
  
--	disk = nullb->disk = alloc_disk_node(1, nullb->dev->home_node);
--	if (!disk)
--		return -ENOMEM;
- 	set_capacity(disk, size);
- 
- 	disk->flags |= GENHD_FL_EXT_DEVT | GENHD_FL_SUPPRESS_PARTITION_INFO;
- 	disk->major		= null_major;
- 	disk->first_minor	= nullb->index;
-+	disk->minors		= 1;
- 	if (queue_is_mq(nullb->q))
- 		disk->fops		= &null_rq_ops;
- 	else
- 		disk->fops		= &null_bio_ops;
- 	disk->private_data	= nullb;
--	disk->queue		= nullb->q;
- 	strncpy(disk->disk_name, nullb->disk_name, DISK_NAME_LEN);
- 
- 	if (nullb->dev->zoned) {
-@@ -1851,23 +1847,27 @@ static int null_add_dev(struct nullb_device *dev)
- 			goto out_cleanup_queues;
- 
- 		if (!null_setup_fault())
--			goto out_cleanup_queues;
-+			goto out_cleanup_tags;
- 
-+		rv = -ENOMEM;
- 		nullb->tag_set->timeout = 5 * HZ;
- 		nullb->q = blk_mq_init_queue_data(nullb->tag_set, nullb);
--		if (IS_ERR(nullb->q)) {
--			rv = -ENOMEM;
-+		if (IS_ERR(nullb->q))
- 			goto out_cleanup_tags;
--		}
-+		nullb->disk = alloc_disk_node(1, nullb->dev->home_node);
-+		if (!nullb->disk)
-+			goto out_cleanup_disk;
-+		nullb->disk->queue = nullb->q;
- 	} else if (dev->queue_mode == NULL_Q_BIO) {
--		nullb->q = blk_alloc_queue(dev->home_node);
--		if (!nullb->q) {
--			rv = -ENOMEM;
-+		rv = -ENOMEM;
-+		nullb->disk = blk_alloc_disk(nullb->dev->home_node);
-+		if (!nullb->disk)
- 			goto out_cleanup_queues;
--		}
++struct request_queue *blk_alloc_queue(int node_id);
 +
-+		nullb->q = nullb->disk->queue;
- 		rv = init_driver_queues(nullb);
- 		if (rv)
--			goto out_cleanup_blk_queue;
-+			goto out_cleanup_disk;
- 	}
+ #endif /* BLK_INTERNAL_H */
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 2c28577b50f4..d66d0da72529 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -1213,7 +1213,6 @@ static inline int blk_rq_map_sg(struct request_queue *q, struct request *rq,
+ extern void blk_dump_rq_flags(struct request *, char *);
  
- 	if (dev->mbps) {
-@@ -1883,7 +1883,7 @@ static int null_add_dev(struct nullb_device *dev)
- 	if (dev->zoned) {
- 		rv = null_init_zoned_dev(dev, nullb->q);
- 		if (rv)
--			goto out_cleanup_blk_queue;
-+			goto out_cleanup_disk;
- 	}
+ bool __must_check blk_get_queue(struct request_queue *);
+-struct request_queue *blk_alloc_queue(int node_id);
+ extern void blk_put_queue(struct request_queue *);
+ extern void blk_set_queue_dying(struct request_queue *);
  
- 	nullb->q->queuedata = nullb;
-@@ -1921,8 +1921,8 @@ static int null_add_dev(struct nullb_device *dev)
- 	return 0;
- out_cleanup_zone:
- 	null_free_zoned_dev(dev);
--out_cleanup_blk_queue:
--	blk_cleanup_queue(nullb->q);
-+out_cleanup_disk:
-+	blk_cleanup_disk(nullb->disk);
- out_cleanup_tags:
- 	if (dev->queue_mode == NULL_Q_MQ && nullb->tag_set == &nullb->__tag_set)
- 		blk_mq_free_tag_set(nullb->tag_set);
 -- 
 2.30.2
 
