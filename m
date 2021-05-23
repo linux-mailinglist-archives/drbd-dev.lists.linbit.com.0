@@ -2,46 +2,45 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A68F38D99A
-	for <lists+drbd-dev@lfdr.de>; Sun, 23 May 2021 09:54:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 952BB38D9A6
+	for <lists+drbd-dev@lfdr.de>; Sun, 23 May 2021 09:55:18 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 011F342062F;
-	Sun, 23 May 2021 09:54:09 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5A628420633;
+	Sun, 23 May 2021 09:55:18 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 482 seconds by postgrey-1.31 at mail19;
-	Sun, 23 May 2021 09:54:06 CEST
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9D595420620
-	for <drbd-dev@lists.linbit.com>; Sun, 23 May 2021 09:54:06 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 965F2420620
+	for <drbd-dev@lists.linbit.com>; Sun, 23 May 2021 09:55:14 +0200 (CEST)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1621756446;
+	t=1621756514;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	mime-version:mime-version:content-type:content-type:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
-	bh=R/MSb7WB4yg0xY//iJ4g4o9OrazLUgapaBmCSPU09/w=;
-	b=FC/3WRGmbKLV9khHIpTe9yyXvRUN7xxss53zAKWt+qPq7bC39y/+TOpVowgKFbkdqtgN39
-	wIZQxHHjp89jEnloHEengHgD8PZOwsgYN9EAyuhMu7q7ZSb7lghFKiZG3iD2USft6npSCy
-	eNVry1lTEz7fFddLBqOGiCa8FzH8fGk=
+	bh=QbwAHhPm9GLJVETYtpBk/OiPxHo7G68rDTDzgn19Fsc=;
+	b=PSmQUQUSmMpj8AgljcgmgvL48ZfLtdYVEBYnr/42zGZ587TI08SIxLsO+5NgrgkRI6vOro
+	Rm9c5OX+h9MIqppjBKupzHAd2Hs8vdT54gqpBdwAJEMlDjOBjYSv4EUUYou8Q+e3SZufbZ
+	b+SB6HU5XHXIUV9ekpUjUtbJZggckAE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1621756446;
+	s=susede2_ed25519; t=1621756514;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	mime-version:mime-version:content-type:content-type:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
-	bh=R/MSb7WB4yg0xY//iJ4g4o9OrazLUgapaBmCSPU09/w=;
-	b=uBPd4XPXbURZPUEYY7Ti50Vf8xHvPCvMBcQoB+74ddrgR7/RrWEsplxLKlp80m4Ht7bEh7
-	40Kbf475wc2SC2DA==
+	bh=QbwAHhPm9GLJVETYtpBk/OiPxHo7G68rDTDzgn19Fsc=;
+	b=fZhiHl3U98WLdlRqZwGpFkK44Ry0eiyLSe/ReleypzZZcEqglw2fxQ310pZYIGfwu8Lozw
+	zLLo4mb7f9mH0FDg==
 Received: from relay2.suse.de (unknown [195.135.221.27])
-	by mx2.suse.de (Postfix) with ESMTP id 31E2BAB6D;
-	Sun, 23 May 2021 07:54:06 +0000 (UTC)
+	by mx2.suse.de (Postfix) with ESMTP id E7E30AC46;
+	Sun, 23 May 2021 07:55:13 +0000 (UTC)
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
 	Geert Uytterhoeven <geert@linux-m68k.org>,
 	Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
 	Philipp Reisner <philipp.reisner@linbit.com>,
 	Lars Ellenberg <lars.ellenberg@linbit.com>, Jim Paris <jim@jtan.com>,
+	Joshua Morris <josh.h.morris@us.ibm.com>,
 	Philip Kelleher <pjk1939@linux.ibm.com>, Minchan Kim <minchan@kernel.org>, 
 	Nitin Gupta <ngupta@vflare.org>, Matias Bjorling <mb@lightnvm.io>,
 	Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
@@ -53,14 +52,14 @@ To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
 	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
 	Christian Borntraeger <borntraeger@de.ibm.com>
 References: <20210521055116.1053587-1-hch@lst.de>
-	<20210521055116.1053587-5-hch@lst.de>
+	<20210521055116.1053587-6-hch@lst.de>
 From: Hannes Reinecke <hare@suse.de>
-Message-ID: <4526cf9d-1735-9517-c5c6-1d851d15d0ab@suse.de>
-Date: Sun, 23 May 2021 09:54:05 +0200
+Message-ID: <04082e94-5180-2363-4479-a09cdfdc466d@suse.de>
+Date: Sun, 23 May 2021 09:55:12 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
 	Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210521055116.1053587-5-hch@lst.de>
+In-Reply-To: <20210521055116.1053587-6-hch@lst.de>
 Content-Language: en-US
 Cc: linux-bcache@vger.kernel.org, linux-xtensa@linux-xtensa.org,
 	linux-raid@vger.kernel.org, nvdimm@lists.linux.dev,
@@ -68,8 +67,8 @@ Cc: linux-bcache@vger.kernel.org, linux-xtensa@linux-xtensa.org,
 	linux-m68k@lists.linux-m68k.org, linux-nvme@lists.infradead.org,
 	linux-block@vger.kernel.org, dm-devel@redhat.com,
 	linuxppc-dev@lists.ozlabs.org, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH 04/26] block: add a flag to make put_disk on
- partially initalized disks safer
+Subject: Re: [Drbd-dev] [PATCH 05/26] block: add blk_alloc_disk and
+	blk_cleanup_disk APIs
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -88,21 +87,19 @@ Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-T24gNS8yMS8yMSA3OjUwIEFNLCBDaHJpc3RvcGggSGVsbHdpZyB3cm90ZToKPiBBZGQgYSBmbGFn
-IHRvIGluZGljYXRlIHRoYXQgX19kZXZpY2VfYWRkX2Rpc2sgZGlkIGdyYWIgYSBxdWV1ZSByZWZl
-cmVuY2UKPiBzbyB0aGF0IGRpc2tfcmVsZWFzZSBvbmx5IGRyb3BzIGl0IGlmIHdlIGFjdHVhbGx5
-IGhhZCBpdC4gIFRoaXMgc29ydAo+IG91dCBvbmUgb2YgdGhlIG1ham9yIHBpdGZhbHMgd2l0aCBw
-YXJ0aWFsbHkgaW5pdGlhbGl6ZWQgZ2VuZGlzayB0aGF0CiAgICAgICAgICAgICAgICAgICAgICAg
-IHBpdGZhbGxzCgo+IGEgbG90IG9mIGRyaXZlcnMgZGlkIGdldCB3cm9uZyBvciBzdGlsbCBkby4K
-PiAKPiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3RvcGggSGVsbHdpZyA8aGNoQGxzdC5kZT4KPiAtLS0K
-PiAgIGJsb2NrL2dlbmhkLmMgICAgICAgICB8IDcgKysrKystLQo+ICAgaW5jbHVkZS9saW51eC9n
-ZW5oZC5oIHwgMSArCj4gICAyIGZpbGVzIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgMiBkZWxl
-dGlvbnMoLSkKPiAKUmV2aWV3ZWQtYnk6IEhhbm5lcyBSZWluZWNrZSA8aGFyZUBzdXNlLmRlPgoK
-Q2hlZXJzLAoKSGFubmVzCi0tIApEci4gSGFubmVzIFJlaW5lY2tlICAgICAgICAgICAgICAgIEtl
-cm5lbCBTdG9yYWdlIEFyY2hpdGVjdApoYXJlQHN1c2UuZGUgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICArNDkgOTExIDc0MDUzIDY4OApTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHbWJILCBN
-YXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcKSFJCIDM2ODA5IChBRyBOw7xybmJlcmcpLCBH
-ZXNjaMOkZnRzZsO8aHJlcjogRmVsaXggSW1lbmTDtnJmZmVyCl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyYmQtZGV2IG1haWxpbmcgbGlzdApkcmJkLWRl
-dkBsaXN0cy5saW5iaXQuY29tCmh0dHBzOi8vbGlzdHMubGluYml0LmNvbS9tYWlsbWFuL2xpc3Rp
-bmZvL2RyYmQtZGV2Cg==
+T24gNS8yMS8yMSA3OjUwIEFNLCBDaHJpc3RvcGggSGVsbHdpZyB3cm90ZToKPiBBZGQgdHdvIG5l
+dyBBUElzIHRvIGFsbG9jYXRlIGFuZCBmcmVlIGEgZ2VuZGlzayBpbmNsdWRpbmcgdGhlCj4gcmVx
+dWVzdF9xdWV1ZSBmb3IgdXNlIHdpdGggQklPIGJhc2VkIGRyaXZlcnMuICBUaGlzIGlzIHRvIGF2
+b2lkCj4gYm9pbGVycGxhdGUgY29kZSBpbiBkcml2ZXJzLgo+IAo+IFNpZ25lZC1vZmYtYnk6IENo
+cmlzdG9waCBIZWxsd2lnIDxoY2hAbHN0LmRlPgo+IC0tLQo+ICAgYmxvY2svZ2VuaGQuYyAgICAg
+ICAgIHwgMzUgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysKPiAgIGluY2x1ZGUv
+bGludXgvZ2VuaGQuaCB8IDIyICsrKysrKysrKysrKysrKysrKysrKysKPiAgIDIgZmlsZXMgY2hh
+bmdlZCwgNTcgaW5zZXJ0aW9ucygrKQo+IApSZXZpZXdlZC1ieTogSGFubmVzIFJlaW5lY2tlIDxo
+YXJlQHN1c2UuZGU+CgpDaGVlcnMsCgpIYW5uZXMKLS0gCkRyLiBIYW5uZXMgUmVpbmVja2UgICAg
+ICAgICAgICAgICAgS2VybmVsIFN0b3JhZ2UgQXJjaGl0ZWN0CmhhcmVAc3VzZS5kZSAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICs0OSA5MTEgNzQwNTMgNjg4ClNVU0UgU29mdHdhcmUgU29s
+dXRpb25zIEdtYkgsIE1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZwpIUkIgMzY4MDkgKEFH
+IE7DvHJuYmVyZyksIEdlc2Now6RmdHNmw7xocmVyOiBGZWxpeCBJbWVuZMO2cmZmZXIKX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJiZC1kZXYgbWFpbGlu
+ZyBsaXN0CmRyYmQtZGV2QGxpc3RzLmxpbmJpdC5jb20KaHR0cHM6Ly9saXN0cy5saW5iaXQuY29t
+L21haWxtYW4vbGlzdGluZm8vZHJiZC1kZXYK
