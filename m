@@ -2,63 +2,63 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9878D38DA75
-	for <lists+drbd-dev@lfdr.de>; Sun, 23 May 2021 10:26:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96AEA38DBDC
+	for <lists+drbd-dev@lfdr.de>; Sun, 23 May 2021 18:20:47 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 61A4942945A;
-	Sun, 23 May 2021 10:26:05 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5BD75420FA9;
+	Sun, 23 May 2021 18:20:46 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E340A420BB9
-	for <drbd-dev@lists.linbit.com>; Sun, 23 May 2021 10:26:02 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 786A1420BCB
+	for <drbd-dev@lists.linbit.com>; Sun, 23 May 2021 18:20:45 +0200 (CEST)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1621758362;
+	t=1621786845;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	mime-version:mime-version:content-type:content-type:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
-	bh=hlqRxOUJg8ro6FdR4GG4NQMpti6i5SUgHnJ8xUlCIzE=;
-	b=CRIbDLacjuVQ3M+pGak5UgZmyZY0D7jBCACHvWeQU7Wo+pYAYRWturOg7iyiCd96kdNK8A
-	QcUCSG9ymf0NB2PgaYdNJIMEcAP633K69S3vGvxTDWvhVqczhlQuRuM4nJbPnXBSKu254A
-	DIpDEyPmmnUe4Dot2UQ9St+zg+Pmjqk=
+	bh=iFkWHMko4nu73I8bffz46LtF778hJacVhJlqbZzQwF8=;
+	b=xIMCLEuwtEJ3ZYLVT1jAFLSlmekHbIbar2TdYds2f7pJgux+ASXt64k09tx/I3VzYVSQbd
+	jYbEua8uhBBK1QtJJhgUBirelGonk+/REbn1EZdyuTOztWNmc/243wGZRrn0BpiSJnEF/k
+	3o6nC8QrS3eMOcehdY1jqcN3GUtqNzU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1621758362;
+	s=susede2_ed25519; t=1621786845;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	mime-version:mime-version:content-type:content-type:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
-	bh=hlqRxOUJg8ro6FdR4GG4NQMpti6i5SUgHnJ8xUlCIzE=;
-	b=AqSURhgRXG5TBNCVHILRg5sIEfI7H5Fh4NpqkXXm1v7A9QLWam2T9+XuNJnTIdVC3KL368
-	jOoh2YYB4bdllsBw==
+	bh=iFkWHMko4nu73I8bffz46LtF778hJacVhJlqbZzQwF8=;
+	b=OjWXQORh1AHg1yI5pLimYhJCE0/GNAVfRs6jLZKfmf7Vpd71K+gfdYi9LvcDAJhupXh6Tf
+	ZrcrurNwYt+dptBg==
 Received: from relay2.suse.de (unknown [195.135.221.27])
-	by mx2.suse.de (Postfix) with ESMTP id 95EF6AB7C;
-	Sun, 23 May 2021 08:26:02 +0000 (UTC)
+	by mx2.suse.de (Postfix) with ESMTP id DA2BFAAFD;
+	Sun, 23 May 2021 16:20:44 +0000 (UTC)
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
 	Geert Uytterhoeven <geert@linux-m68k.org>,
 	Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
 	Philipp Reisner <philipp.reisner@linbit.com>,
 	Lars Ellenberg <lars.ellenberg@linbit.com>, Jim Paris <jim@jtan.com>,
+	Joshua Morris <josh.h.morris@us.ibm.com>,
 	Philip Kelleher <pjk1939@linux.ibm.com>, Minchan Kim <minchan@kernel.org>, 
 	Nitin Gupta <ngupta@vflare.org>, Matias Bjorling <mb@lightnvm.io>,
-	Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
-	Song Liu <song@kernel.org>, Maxim Levitsky <maximlevitsky@gmail.com>,
-	Alex Dubov <oakad@yahoo.com>, Ulf Hansson <ulf.hansson@linaro.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>, 
-	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
+	Mike Snitzer <snitzer@redhat.com>, Song Liu <song@kernel.org>,
+	Maxim Levitsky <maximlevitsky@gmail.com>, Alex Dubov <oakad@yahoo.com>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Dan Williams
+	<dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>,
 	Christian Borntraeger <borntraeger@de.ibm.com>
 References: <20210521055116.1053587-1-hch@lst.de>
-	<20210521055116.1053587-27-hch@lst.de>
-From: Hannes Reinecke <hare@suse.de>
-Message-ID: <18812066-bdbe-6787-b71c-57ca9957f0f1@suse.de>
-Date: Sun, 23 May 2021 10:26:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
-	Thunderbird/78.10.0
+	<20210521055116.1053587-13-hch@lst.de>
+From: Coly Li <colyli@suse.de>
+Message-ID: <19e05358-abc2-a577-d3bd-d4ae89f6316e@suse.de>
+Date: Mon, 24 May 2021 00:20:34 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+	Gecko/20100101 Thunderbird/78.10.2
 MIME-Version: 1.0
-In-Reply-To: <20210521055116.1053587-27-hch@lst.de>
+In-Reply-To: <20210521055116.1053587-13-hch@lst.de>
 Content-Language: en-US
 Cc: linux-bcache@vger.kernel.org, linux-xtensa@linux-xtensa.org,
 	linux-raid@vger.kernel.org, nvdimm@lists.linux.dev,
@@ -66,7 +66,8 @@ Cc: linux-bcache@vger.kernel.org, linux-xtensa@linux-xtensa.org,
 	linux-m68k@lists.linux-m68k.org, linux-nvme@lists.infradead.org,
 	linux-block@vger.kernel.org, dm-devel@redhat.com,
 	linuxppc-dev@lists.ozlabs.org, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH 26/26] block: unexport blk_alloc_queue
+Subject: Re: [Drbd-dev] [PATCH 12/26] bcache: convert to
+	blk_alloc_disk/blk_cleanup_disk
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -80,23 +81,76 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-T24gNS8yMS8yMSA3OjUxIEFNLCBDaHJpc3RvcGggSGVsbHdpZyB3cm90ZToKPiBibGtfYWxsb2Nf
-cXVldWUgaXMganVzdCBhbiBpbnRlcm5hbCBoZWxwZXIgbm93LCB1bmV4cG9ydCBpdCBhbmQgcmVt
-b3ZlCj4gaXQgZnJvbSB0aGUgcHVibGljIGhlYWRlci4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBDaHJp
-c3RvcGggSGVsbHdpZyA8aGNoQGxzdC5kZT4KPiAtLS0KPiAgIGJsb2NrL2Jsay1jb3JlLmMgICAg
-ICAgfCAxIC0KPiAgIGJsb2NrL2Jsay5oICAgICAgICAgICAgfCAyICsrCj4gICBpbmNsdWRlL2xp
-bnV4L2Jsa2Rldi5oIHwgMSAtCj4gICAzIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwg
-MiBkZWxldGlvbnMoLSkKPiBSZXZpZXdlZC1ieTogSGFubmVzIFJlaW5lY2tlIDxoYXJlQHN1c2Uu
-ZGU+CgpDaGVlcnMsCgpIYW5uZXMKLS0gCkRyLiBIYW5uZXMgUmVpbmVja2UgICAgICAgICAgICAg
-ICAgS2VybmVsIFN0b3JhZ2UgQXJjaGl0ZWN0CmhhcmVAc3VzZS5kZSAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICs0OSA5MTEgNzQwNTMgNjg4ClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdt
-YkgsIE1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZwpIUkIgMzY4MDkgKEFHIE7DvHJuYmVy
-ZyksIEdlc2Now6RmdHNmw7xocmVyOiBGZWxpeCBJbWVuZMO2cmZmZXIKX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJiZC1kZXYgbWFpbGluZyBsaXN0CmRy
-YmQtZGV2QGxpc3RzLmxpbmJpdC5jb20KaHR0cHM6Ly9saXN0cy5saW5iaXQuY29tL21haWxtYW4v
-bGlzdGluZm8vZHJiZC1kZXYK
+On 5/21/21 1:51 PM, Christoph Hellwig wrote:
+> Convert the bcache driver to use the blk_alloc_disk and blk_cleanup_disk
+> helpers to simplify gendisk and request_queue allocation.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+
+Acked-by: Coly Li <colyli@suse.de>
+
+Thanks.
+
+
+Coly Li
+
+> ---
+>  drivers/md/bcache/super.c | 15 ++++-----------
+>  1 file changed, 4 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/md/bcache/super.c b/drivers/md/bcache/super.c
+> index bea8c4429ae8..185246a0d855 100644
+> --- a/drivers/md/bcache/super.c
+> +++ b/drivers/md/bcache/super.c
+> @@ -890,13 +890,9 @@ static void bcache_device_free(struct bcache_device *d)
+>  		if (disk_added)
+>  			del_gendisk(disk);
+>  
+> -		if (disk->queue)
+> -			blk_cleanup_queue(disk->queue);
+> -
+> +		blk_cleanup_disk(disk);
+>  		ida_simple_remove(&bcache_device_idx,
+>  				  first_minor_to_idx(disk->first_minor));
+> -		if (disk_added)
+> -			put_disk(disk);
+>  	}
+>  
+>  	bioset_exit(&d->bio_split);
+> @@ -946,7 +942,7 @@ static int bcache_device_init(struct bcache_device *d, unsigned int block_size,
+>  			BIOSET_NEED_BVECS|BIOSET_NEED_RESCUER))
+>  		goto err;
+>  
+> -	d->disk = alloc_disk(BCACHE_MINORS);
+> +	d->disk = blk_alloc_disk(NUMA_NO_NODE);
+>  	if (!d->disk)
+>  		goto err;
+>  
+> @@ -955,14 +951,11 @@ static int bcache_device_init(struct bcache_device *d, unsigned int block_size,
+>  
+>  	d->disk->major		= bcache_major;
+>  	d->disk->first_minor	= idx_to_first_minor(idx);
+> +	d->disk->minors		= BCACHE_MINORS;
+>  	d->disk->fops		= ops;
+>  	d->disk->private_data	= d;
+>  
+> -	q = blk_alloc_queue(NUMA_NO_NODE);
+> -	if (!q)
+> -		return -ENOMEM;
+> -
+> -	d->disk->queue			= q;
+> +	q = d->disk->queue;
+>  	q->limits.max_hw_sectors	= UINT_MAX;
+>  	q->limits.max_sectors		= UINT_MAX;
+>  	q->limits.max_segment_size	= UINT_MAX;
+> 
+
+_______________________________________________
+drbd-dev mailing list
+drbd-dev@lists.linbit.com
+https://lists.linbit.com/mailman/listinfo/drbd-dev
