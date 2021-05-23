@@ -2,39 +2,39 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6143138DA72
-	for <lists+drbd-dev@lfdr.de>; Sun, 23 May 2021 10:25:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9878D38DA75
+	for <lists+drbd-dev@lfdr.de>; Sun, 23 May 2021 10:26:05 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id EE7CB429453;
-	Sun, 23 May 2021 10:25:34 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 61A4942945A;
+	Sun, 23 May 2021 10:26:05 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 64F5A420BB0
-	for <drbd-dev@lists.linbit.com>; Sun, 23 May 2021 10:25:25 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E340A420BB9
+	for <drbd-dev@lists.linbit.com>; Sun, 23 May 2021 10:26:02 +0200 (CEST)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1621758325;
+	t=1621758362;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	mime-version:mime-version:content-type:content-type:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
-	bh=iVOkU6mPxfn5BVd8GlNU1HfGC6hDoW8TTxQlBhTR3w4=;
-	b=i84+upGPrpeJEmerMBQJF8+vWdmEewYx5EjW7zLq6a/Sd5XWtPkssabYioaGiBH/ol/7RV
-	FKOJhUGVlyY0Pn7Yudmj2SLwKy3IxGFWAVQM/OubG3+Ll6DH37tGIs6JOI9Pz78rRYWVcV
-	r45V4o9tzsbKOWL/LET+rvYyDrmOroI=
+	bh=hlqRxOUJg8ro6FdR4GG4NQMpti6i5SUgHnJ8xUlCIzE=;
+	b=CRIbDLacjuVQ3M+pGak5UgZmyZY0D7jBCACHvWeQU7Wo+pYAYRWturOg7iyiCd96kdNK8A
+	QcUCSG9ymf0NB2PgaYdNJIMEcAP633K69S3vGvxTDWvhVqczhlQuRuM4nJbPnXBSKu254A
+	DIpDEyPmmnUe4Dot2UQ9St+zg+Pmjqk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1621758325;
+	s=susede2_ed25519; t=1621758362;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	mime-version:mime-version:content-type:content-type:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
-	bh=iVOkU6mPxfn5BVd8GlNU1HfGC6hDoW8TTxQlBhTR3w4=;
-	b=BxnwIpSQOILsGXJCLzFOCfyUewZzX7miKhHWSWPYYMp0u4/JoaXtnu/6UQ7IUzRln4yuju
-	eRhUjWD+2qtDE3Bw==
+	bh=hlqRxOUJg8ro6FdR4GG4NQMpti6i5SUgHnJ8xUlCIzE=;
+	b=AqSURhgRXG5TBNCVHILRg5sIEfI7H5Fh4NpqkXXm1v7A9QLWam2T9+XuNJnTIdVC3KL368
+	jOoh2YYB4bdllsBw==
 Received: from relay2.suse.de (unknown [195.135.221.27])
-	by mx2.suse.de (Postfix) with ESMTP id 19B96AC3A;
-	Sun, 23 May 2021 08:25:25 +0000 (UTC)
+	by mx2.suse.de (Postfix) with ESMTP id 95EF6AB7C;
+	Sun, 23 May 2021 08:26:02 +0000 (UTC)
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
 	Geert Uytterhoeven <geert@linux-m68k.org>,
 	Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
@@ -51,14 +51,14 @@ To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
 	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
 	Christian Borntraeger <borntraeger@de.ibm.com>
 References: <20210521055116.1053587-1-hch@lst.de>
-	<20210521055116.1053587-26-hch@lst.de>
+	<20210521055116.1053587-27-hch@lst.de>
 From: Hannes Reinecke <hare@suse.de>
-Message-ID: <a900d30c-811c-c90f-c24c-22134e750b3d@suse.de>
-Date: Sun, 23 May 2021 10:25:24 +0200
+Message-ID: <18812066-bdbe-6787-b71c-57ca9957f0f1@suse.de>
+Date: Sun, 23 May 2021 10:26:01 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
 	Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210521055116.1053587-26-hch@lst.de>
+In-Reply-To: <20210521055116.1053587-27-hch@lst.de>
 Content-Language: en-US
 Cc: linux-bcache@vger.kernel.org, linux-xtensa@linux-xtensa.org,
 	linux-raid@vger.kernel.org, nvdimm@lists.linux.dev,
@@ -66,8 +66,7 @@ Cc: linux-bcache@vger.kernel.org, linux-xtensa@linux-xtensa.org,
 	linux-m68k@lists.linux-m68k.org, linux-nvme@lists.infradead.org,
 	linux-block@vger.kernel.org, dm-devel@redhat.com,
 	linuxppc-dev@lists.ozlabs.org, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH 25/26] null_blk: convert to
- blk_alloc_disk/blk_cleanup_disk
+Subject: Re: [Drbd-dev] [PATCH 26/26] block: unexport blk_alloc_queue
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -86,20 +85,18 @@ Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-T24gNS8yMS8yMSA3OjUxIEFNLCBDaHJpc3RvcGggSGVsbHdpZyB3cm90ZToKPiBDb252ZXJ0IHRo
-ZSBudWxsX2JsayBkcml2ZXIgdG8gdXNlIHRoZSBibGtfYWxsb2NfZGlzayBhbmQgYmxrX2NsZWFu
-dXBfZGlzawo+IGhlbHBlcnMgdG8gc2ltcGxpZnkgZ2VuZGlzayBhbmQgcmVxdWVzdF9xdWV1ZSBh
-bGxvY2F0aW9uLiAgTm90ZSB0aGF0IHRoZQo+IGJsay1tcSBtb2RlIGlzIGxlZnQgd2l0aCBpdHMg
-b3duIGFsbG9jYXRpb25zIHNjaGVtZSwgdG8gYmUgaGFuZGxlZCBsYXRlci4KPiAKPiBTaWduZWQt
-b2ZmLWJ5OiBDaHJpc3RvcGggSGVsbHdpZyA8aGNoQGxzdC5kZT4KPiAtLS0KPiAgIGRyaXZlcnMv
-YmxvY2svbnVsbF9ibGsvbWFpbi5jIHwgMzggKysrKysrKysrKysrKysrKystLS0tLS0tLS0tLS0t
-LS0tLS0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAxOSBpbnNlcnRpb25zKCspLCAxOSBkZWxldGlvbnMo
-LSkKPiBSZXZpZXdlZC1ieTogSGFubmVzIFJlaW5lY2tlIDxoYXJlQHN1c2UuZGU+CgpDaGVlcnMs
-CgpIYW5uZXMKLS0gCkRyLiBIYW5uZXMgUmVpbmVja2UgICAgICAgICAgICAgICAgS2VybmVsIFN0
-b3JhZ2UgQXJjaGl0ZWN0CmhhcmVAc3VzZS5kZSAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICs0OSA5MTEgNzQwNTMgNjg4ClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdtYkgsIE1heGZlbGRz
-dHIuIDUsIDkwNDA5IE7DvHJuYmVyZwpIUkIgMzY4MDkgKEFHIE7DvHJuYmVyZyksIEdlc2Now6Rm
-dHNmw7xocmVyOiBGZWxpeCBJbWVuZMO2cmZmZXIKX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KZHJiZC1kZXYgbWFpbGluZyBsaXN0CmRyYmQtZGV2QGxpc3Rz
-LmxpbmJpdC5jb20KaHR0cHM6Ly9saXN0cy5saW5iaXQuY29tL21haWxtYW4vbGlzdGluZm8vZHJi
-ZC1kZXYK
+T24gNS8yMS8yMSA3OjUxIEFNLCBDaHJpc3RvcGggSGVsbHdpZyB3cm90ZToKPiBibGtfYWxsb2Nf
+cXVldWUgaXMganVzdCBhbiBpbnRlcm5hbCBoZWxwZXIgbm93LCB1bmV4cG9ydCBpdCBhbmQgcmVt
+b3ZlCj4gaXQgZnJvbSB0aGUgcHVibGljIGhlYWRlci4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBDaHJp
+c3RvcGggSGVsbHdpZyA8aGNoQGxzdC5kZT4KPiAtLS0KPiAgIGJsb2NrL2Jsay1jb3JlLmMgICAg
+ICAgfCAxIC0KPiAgIGJsb2NrL2Jsay5oICAgICAgICAgICAgfCAyICsrCj4gICBpbmNsdWRlL2xp
+bnV4L2Jsa2Rldi5oIHwgMSAtCj4gICAzIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwg
+MiBkZWxldGlvbnMoLSkKPiBSZXZpZXdlZC1ieTogSGFubmVzIFJlaW5lY2tlIDxoYXJlQHN1c2Uu
+ZGU+CgpDaGVlcnMsCgpIYW5uZXMKLS0gCkRyLiBIYW5uZXMgUmVpbmVja2UgICAgICAgICAgICAg
+ICAgS2VybmVsIFN0b3JhZ2UgQXJjaGl0ZWN0CmhhcmVAc3VzZS5kZSAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICs0OSA5MTEgNzQwNTMgNjg4ClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdt
+YkgsIE1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZwpIUkIgMzY4MDkgKEFHIE7DvHJuYmVy
+ZyksIEdlc2Now6RmdHNmw7xocmVyOiBGZWxpeCBJbWVuZMO2cmZmZXIKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJiZC1kZXYgbWFpbGluZyBsaXN0CmRy
+YmQtZGV2QGxpc3RzLmxpbmJpdC5jb20KaHR0cHM6Ly9saXN0cy5saW5iaXQuY29tL21haWxtYW4v
+bGlzdGluZm8vZHJiZC1kZXYK
