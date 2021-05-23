@@ -2,39 +2,39 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6E9D38DA4F
-	for <lists+drbd-dev@lfdr.de>; Sun, 23 May 2021 10:23:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6647838DA57
+	for <lists+drbd-dev@lfdr.de>; Sun, 23 May 2021 10:23:35 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7B78C429250;
-	Sun, 23 May 2021 10:23:04 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C92904292CE;
+	Sun, 23 May 2021 10:23:34 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6AD29420BCB
-	for <drbd-dev@lists.linbit.com>; Sun, 23 May 2021 10:22:39 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 77276420BB0
+	for <drbd-dev@lists.linbit.com>; Sun, 23 May 2021 10:23:18 +0200 (CEST)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1621758159;
+	t=1621758198;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	mime-version:mime-version:content-type:content-type:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
-	bh=S1y74Yz8aRDmaEpP4USMBwGPpMEghkmdz7uUjWMk06s=;
-	b=gVo/Rp9xVv3RM0rK56RgaIrVdgQ5+xPUCaCJ9huA7R098TWdnoGhVqlpNeh3f2fc//8Bqt
-	MhOjYgIPBG43WD6PMu/5H//gtao1z/x53ygH/nndaqazp3rBIVxgJQteyG8eL+vGEMn0D6
-	M8na4uHWh+OLKyfMTLmux77AU5bhKrs=
+	bh=9jwS/vkbCN5vOWP4EANDCdKphD4tk6xHJdwjoTDA0xc=;
+	b=0kZjDo15MPwMXAHcV37JmEeMrdfIuPc5Oxc+FXlRkFBsX1P/xjjC+hx0CSLm0PfvQY9ym/
+	4RHZB51nSaUpLJGulDzp9MOAd9AGBPc3tvBFxosIjJalmb7F+5Y2xWJ0U2YaI8UeYckZfe
+	qL9Fq3UunZWBOpBeUoKffGNKTTzqTRA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1621758159;
+	s=susede2_ed25519; t=1621758198;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	mime-version:mime-version:content-type:content-type:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
-	bh=S1y74Yz8aRDmaEpP4USMBwGPpMEghkmdz7uUjWMk06s=;
-	b=XR8EkU8yWIajZjsc2/yz6GRtH/oBvAI4XOjK022mKTC6szMsfZgk34MSoeHVzdzJATjoIt
-	H7rfc2a0rjG3FvDg==
+	bh=9jwS/vkbCN5vOWP4EANDCdKphD4tk6xHJdwjoTDA0xc=;
+	b=Qs0htuXDjPXHTRVOMwIH+9nVO37H0E0QGTk/giUWB+YggXtCQvDsiGAsJYlZ6CdgkKOlPv
+	3E4LCPtjszo7eTDQ==
 Received: from relay2.suse.de (unknown [195.135.221.27])
-	by mx2.suse.de (Postfix) with ESMTP id 21638AB7C;
-	Sun, 23 May 2021 08:22:39 +0000 (UTC)
+	by mx2.suse.de (Postfix) with ESMTP id 2D478ABB1;
+	Sun, 23 May 2021 08:23:18 +0000 (UTC)
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
 	Geert Uytterhoeven <geert@linux-m68k.org>,
 	Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
@@ -51,14 +51,14 @@ To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
 	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
 	Christian Borntraeger <borntraeger@de.ibm.com>
 References: <20210521055116.1053587-1-hch@lst.de>
-	<20210521055116.1053587-22-hch@lst.de>
+	<20210521055116.1053587-23-hch@lst.de>
 From: Hannes Reinecke <hare@suse.de>
-Message-ID: <d1935d23-a45c-af53-e60c-cdc3b2ca0dc9@suse.de>
-Date: Sun, 23 May 2021 10:22:37 +0200
+Message-ID: <1217e1d9-ac91-f01c-1912-5b3607dcef17@suse.de>
+Date: Sun, 23 May 2021 10:23:17 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
 	Thunderbird/78.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210521055116.1053587-22-hch@lst.de>
+In-Reply-To: <20210521055116.1053587-23-hch@lst.de>
 Content-Language: en-US
 Cc: linux-bcache@vger.kernel.org, linux-xtensa@linux-xtensa.org,
 	linux-raid@vger.kernel.org, nvdimm@lists.linux.dev,
@@ -66,7 +66,8 @@ Cc: linux-bcache@vger.kernel.org, linux-xtensa@linux-xtensa.org,
 	linux-m68k@lists.linux-m68k.org, linux-nvme@lists.infradead.org,
 	linux-block@vger.kernel.org, dm-devel@redhat.com,
 	linuxppc-dev@lists.ozlabs.org, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH 21/26] n64cart: convert to blk_alloc_disk
+Subject: Re: [Drbd-dev] [PATCH 22/26] ps3vram: convert to
+	blk_alloc_disk/blk_cleanup_disk
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -86,16 +87,17 @@ Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
 T24gNS8yMS8yMSA3OjUxIEFNLCBDaHJpc3RvcGggSGVsbHdpZyB3cm90ZToKPiBDb252ZXJ0IHRo
-ZSBuNjRjYXJ0IGRyaXZlciB0byB1c2UgdGhlIGJsa19hbGxvY19kaXNrIGhlbHBlciB0byBzaW1w
-bGlmeQo+IGdlbmRpc2sgYW5kIHJlcXVlc3RfcXVldWUgYWxsb2NhdGlvbi4KPiAKPiBTaWduZWQt
-b2ZmLWJ5OiBDaHJpc3RvcGggSGVsbHdpZyA8aGNoQGxzdC5kZT4KPiAtLS0KPiAgIGRyaXZlcnMv
-YmxvY2svbjY0Y2FydC5jIHwgNiArLS0tLS0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlv
-bigrKSwgNSBkZWxldGlvbnMoLSkKPiAKUmV2aWV3ZWQtYnk6IEhhbm5lcyBSZWluZWNrZSA8aGFy
-ZUBzdXNlLmRlPgoKQ2hlZXJzLAoKSGFubmVzCi0tIApEci4gSGFubmVzIFJlaW5lY2tlICAgICAg
-ICAgICAgICAgIEtlcm5lbCBTdG9yYWdlIEFyY2hpdGVjdApoYXJlQHN1c2UuZGUgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICArNDkgOTExIDc0MDUzIDY4OApTVVNFIFNvZnR3YXJlIFNvbHV0
-aW9ucyBHbWJILCBNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcKSFJCIDM2ODA5IChBRyBO
-w7xybmJlcmcpLCBHZXNjaMOkZnRzZsO8aHJlcjogRmVsaXggSW1lbmTDtnJmZmVyCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyYmQtZGV2IG1haWxpbmcg
-bGlzdApkcmJkLWRldkBsaXN0cy5saW5iaXQuY29tCmh0dHBzOi8vbGlzdHMubGluYml0LmNvbS9t
-YWlsbWFuL2xpc3RpbmZvL2RyYmQtZGV2Cg==
+ZSBwczN2cmFtIGRyaXZlciB0byB1c2UgdGhlIGJsa19hbGxvY19kaXNrIGFuZCBibGtfY2xlYW51
+cF9kaXNrCj4gaGVscGVycyB0byBzaW1wbGlmeSBnZW5kaXNrIGFuZCByZXF1ZXN0X3F1ZXVlIGFs
+bG9jYXRpb24uCj4gCj4gU2lnbmVkLW9mZi1ieTogQ2hyaXN0b3BoIEhlbGx3aWcgPGhjaEBsc3Qu
+ZGU+Cj4gLS0tCj4gICBkcml2ZXJzL2Jsb2NrL3BzM3ZyYW0uYyB8IDMxICsrKysrKysrLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0KPiAgIDEgZmlsZSBjaGFuZ2VkLCA4IGluc2VydGlvbnMoKyksIDIz
+IGRlbGV0aW9ucygtKQo+IFJldmlld2VkLWJ5OiBIYW5uZXMgUmVpbmVja2UgPGhhcmVAc3VzZS5k
+ZT4KCkNoZWVycywKCkhhbm5lcwotLSAKRHIuIEhhbm5lcyBSZWluZWNrZSAgICAgICAgICAgICAg
+ICBLZXJuZWwgU3RvcmFnZSBBcmNoaXRlY3QKaGFyZUBzdXNlLmRlICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgKzQ5IDkxMSA3NDA1MyA2ODgKU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR21i
+SCwgTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnCkhSQiAzNjgwOSAoQUcgTsO8cm5iZXJn
+KSwgR2VzY2jDpGZ0c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcgpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmJkLWRldiBtYWlsaW5nIGxpc3QKZHJi
+ZC1kZXZAbGlzdHMubGluYml0LmNvbQpodHRwczovL2xpc3RzLmxpbmJpdC5jb20vbWFpbG1hbi9s
+aXN0aW5mby9kcmJkLWRldgo=
