@@ -2,38 +2,37 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CF7F38E187
-	for <lists+drbd-dev@lfdr.de>; Mon, 24 May 2021 09:25:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DBED38E190
+	for <lists+drbd-dev@lfdr.de>; Mon, 24 May 2021 09:26:03 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 85B2D420BAB;
-	Mon, 24 May 2021 09:24:59 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id EB33F420BB9;
+	Mon, 24 May 2021 09:26:02 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E65AE42066F
-	for <drbd-dev@lists.linbit.com>; Mon, 24 May 2021 09:24:57 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id AC73D42066F
+	for <drbd-dev@lists.linbit.com>; Mon, 24 May 2021 09:25:58 +0200 (CEST)
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id 08B3867373; Mon, 24 May 2021 09:24:57 +0200 (CEST)
-Date: Mon, 24 May 2021 09:24:56 +0200
+	id C1B4B67373; Mon, 24 May 2021 09:25:57 +0200 (CEST)
+Date: Mon, 24 May 2021 09:25:57 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Hannes Reinecke <hare@suse.de>
-Message-ID: <20210524072456.GD23890@lst.de>
+Message-ID: <20210524072557.GE23890@lst.de>
 References: <20210521055116.1053587-1-hch@lst.de>
-	<20210521055116.1053587-7-hch@lst.de>
-	<83fc5cdc-53ed-0bd3-fbe8-93d0afd20771@suse.de>
+	<20210521055116.1053587-14-hch@lst.de>
+	<de3b0976-1299-17d8-240a-2ecd8b9fbc2d@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <83fc5cdc-53ed-0bd3-fbe8-93d0afd20771@suse.de>
+In-Reply-To: <de3b0976-1299-17d8-240a-2ecd8b9fbc2d@suse.de>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 Cc: nvdimm@lists.linux.dev, Ulf Hansson <ulf.hansson@linaro.org>,
 	Mike Snitzer <snitzer@redhat.com>,
 	linux-nvme@lists.infradead.org, Song Liu <song@kernel.org>,
 	dm-devel@redhat.com, linux-bcache@vger.kernel.org,
-	Joshua Morris <josh.h.morris@us.ibm.com>,
-	drbd-dev@lists.linbit.com, linux-s390@vger.kernel.org,
-	Dave Jiang <dave.jiang@intel.com>,
+	Christoph Hellwig <hch@lst.de>, drbd-dev@lists.linbit.com,
+	linux-s390@vger.kernel.org, Dave Jiang <dave.jiang@intel.com>,
 	Maxim Levitsky <maximlevitsky@gmail.com>,
-	Vishal Verma <vishal.l.verma@intel.com>, Christoph Hellwig <hch@lst.de>,
+	Vishal Verma <vishal.l.verma@intel.com>,
 	Christian Borntraeger <borntraeger@de.ibm.com>,
 	Geert Uytterhoeven <geert@linux-m68k.org>,
 	Matias Bjorling <mb@lightnvm.io>, Nitin Gupta <ngupta@vflare.org>,
@@ -47,7 +46,7 @@ Cc: nvdimm@lists.linux.dev, Ulf Hansson <ulf.hansson@linaro.org>,
 	linux-mmc@vger.kernel.org, Philipp Reisner <philipp.reisner@linbit.com>,
 	Jim Paris <jim@jtan.com>, Minchan Kim <minchan@kernel.org>,
 	Lars Ellenberg <lars.ellenberg@linbit.com>, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [Drbd-dev] [PATCH 06/26] brd: convert to
+Subject: Re: [Drbd-dev] [PATCH 13/26] dm: convert to
 	blk_alloc_disk/blk_cleanup_disk
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
@@ -67,21 +66,23 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Sun, May 23, 2021 at 09:58:48AM +0200, Hannes Reinecke wrote:
->> +	/*
->> +	 * This is so fdisk will align partitions on 4k, because of
->> +	 * direct_access API needing 4k alignment, returning a PFN
->> +	 * (This is only a problem on very small devices <= 4M,
->> +	 *  otherwise fdisk will align on 1M. Regardless this call
->> +	 *  is harmless)
->> +	 */
->> +	blk_queue_physical_block_size(disk->queue, PAGE_SIZE);
->>   
+On Sun, May 23, 2021 at 10:10:34AM +0200, Hannes Reinecke wrote:
+> Can't these conditionals be merged into a single 'if (md->disk)'?
+> Eg like:
 >
-> Maybe converting the comment to refer to 'PAGE_SIZE' instead of 4k while 
-> you're at it ...
+> 	if (md->disk) {
+> 		spin_lock(&_minor_lock);
+> 		md->disk->private_data = NULL;
+> 		spin_unlock(&_minor_lock);
+> 		del_gendisk(md->disk);
+> 		dm_queue_destroy_keyslot_manager(md->queue);
+> 		blk_cleanup_disk(md->queue);
+> 	}
+>
+> We're now always allocating 'md->disk' and 'md->queue' together,
+> so how can we end up in a situation where one is set without the other?
 
-I really do not want to touch these kinds of unrelated things here.
+I guess we could do that, not sure it is worth the churn, though.
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
