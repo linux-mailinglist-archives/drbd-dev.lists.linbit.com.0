@@ -2,72 +2,53 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96AEA38DBDC
-	for <lists+drbd-dev@lfdr.de>; Sun, 23 May 2021 18:20:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50B5338E175
+	for <lists+drbd-dev@lfdr.de>; Mon, 24 May 2021 09:22:29 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5BD75420FA9;
-	Sun, 23 May 2021 18:20:46 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 15863420BA7;
+	Mon, 24 May 2021 09:22:28 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 786A1420BCB
-	for <drbd-dev@lists.linbit.com>; Sun, 23 May 2021 18:20:45 +0200 (CEST)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1621786845;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	mime-version:mime-version:content-type:content-type:
-	content-transfer-encoding:content-transfer-encoding:
-	in-reply-to:in-reply-to:references:references;
-	bh=iFkWHMko4nu73I8bffz46LtF778hJacVhJlqbZzQwF8=;
-	b=xIMCLEuwtEJ3ZYLVT1jAFLSlmekHbIbar2TdYds2f7pJgux+ASXt64k09tx/I3VzYVSQbd
-	jYbEua8uhBBK1QtJJhgUBirelGonk+/REbn1EZdyuTOztWNmc/243wGZRrn0BpiSJnEF/k
-	3o6nC8QrS3eMOcehdY1jqcN3GUtqNzU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1621786845;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	mime-version:mime-version:content-type:content-type:
-	content-transfer-encoding:content-transfer-encoding:
-	in-reply-to:in-reply-to:references:references;
-	bh=iFkWHMko4nu73I8bffz46LtF778hJacVhJlqbZzQwF8=;
-	b=OjWXQORh1AHg1yI5pLimYhJCE0/GNAVfRs6jLZKfmf7Vpd71K+gfdYi9LvcDAJhupXh6Tf
-	ZrcrurNwYt+dptBg==
-Received: from relay2.suse.de (unknown [195.135.221.27])
-	by mx2.suse.de (Postfix) with ESMTP id DA2BFAAFD;
-	Sun, 23 May 2021 16:20:44 +0000 (UTC)
-To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>, Jim Paris <jim@jtan.com>,
-	Joshua Morris <josh.h.morris@us.ibm.com>,
-	Philip Kelleher <pjk1939@linux.ibm.com>, Minchan Kim <minchan@kernel.org>, 
-	Nitin Gupta <ngupta@vflare.org>, Matias Bjorling <mb@lightnvm.io>,
-	Mike Snitzer <snitzer@redhat.com>, Song Liu <song@kernel.org>,
-	Maxim Levitsky <maximlevitsky@gmail.com>, Alex Dubov <oakad@yahoo.com>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Dan Williams
-	<dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@de.ibm.com>
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 06FB642066F
+	for <drbd-dev@lists.linbit.com>; Mon, 24 May 2021 09:22:26 +0200 (CEST)
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 383C967373; Mon, 24 May 2021 09:22:24 +0200 (CEST)
+Date: Mon, 24 May 2021 09:22:23 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Hannes Reinecke <hare@suse.de>
+Message-ID: <20210524072223.GB23890@lst.de>
 References: <20210521055116.1053587-1-hch@lst.de>
-	<20210521055116.1053587-13-hch@lst.de>
-From: Coly Li <colyli@suse.de>
-Message-ID: <19e05358-abc2-a577-d3bd-d4ae89f6316e@suse.de>
-Date: Mon, 24 May 2021 00:20:34 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
-	Gecko/20100101 Thunderbird/78.10.2
+	<20210521055116.1053587-2-hch@lst.de>
+	<d55cba32-b114-513b-09d9-40c289fa95c3@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <20210521055116.1053587-13-hch@lst.de>
-Content-Language: en-US
-Cc: linux-bcache@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-	linux-raid@vger.kernel.org, nvdimm@lists.linux.dev,
-	linux-s390@vger.kernel.org, linux-mmc@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, dm-devel@redhat.com,
-	linuxppc-dev@lists.ozlabs.org, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH 12/26] bcache: convert to
-	blk_alloc_disk/blk_cleanup_disk
+Content-Disposition: inline
+In-Reply-To: <d55cba32-b114-513b-09d9-40c289fa95c3@suse.de>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+Cc: nvdimm@lists.linux.dev, Ulf Hansson <ulf.hansson@linaro.org>,
+	Mike Snitzer <snitzer@redhat.com>,
+	linux-nvme@lists.infradead.org, Song Liu <song@kernel.org>,
+	dm-devel@redhat.com, linux-bcache@vger.kernel.org,
+	Joshua Morris <josh.h.morris@us.ibm.com>,
+	drbd-dev@lists.linbit.com, linux-s390@vger.kernel.org,
+	Dave Jiang <dave.jiang@intel.com>,
+	Maxim Levitsky <maximlevitsky@gmail.com>,
+	Vishal Verma <vishal.l.verma@intel.com>, Christoph Hellwig <hch@lst.de>,
+	Christian Borntraeger <borntraeger@de.ibm.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Matias Bjorling <mb@lightnvm.io>, Nitin Gupta <ngupta@vflare.org>,
+	Vasily Gorbik <gor@linux.ibm.com>, linux-xtensa@linux-xtensa.org,
+	Alex Dubov <oakad@yahoo.com>, Heiko Carstens <hca@linux.ibm.com>,
+	Coly Li <colyli@suse.de>, linux-block@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org, Philip Kelleher <pjk1939@linux.ibm.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jens Axboe <axboe@kernel.dk>, Chris Zankel <chris@zankel.net>,
+	linux-raid@vger.kernel.org, Max Filippov <jcmvbkbc@gmail.com>,
+	linux-mmc@vger.kernel.org, Philipp Reisner <philipp.reisner@linbit.com>,
+	Jim Paris <jim@jtan.com>, Minchan Kim <minchan@kernel.org>,
+	Lars Ellenberg <lars.ellenberg@linbit.com>, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [Drbd-dev] [PATCH 01/26] block: refactor device number setup in
+ __device_add_disk
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -86,70 +67,12 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On 5/21/21 1:51 PM, Christoph Hellwig wrote:
-> Convert the bcache driver to use the blk_alloc_disk and blk_cleanup_disk
-> helpers to simplify gendisk and request_queue allocation.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+On Sun, May 23, 2021 at 09:46:01AM +0200, Hannes Reinecke wrote:
+> ... and also fixes an issue with GENHD_FL_UP remained set in an error path 
+> in __device_add_disk().
 
-Acked-by: Coly Li <colyli@suse.de>
-
-Thanks.
-
-
-Coly Li
-
-> ---
->  drivers/md/bcache/super.c | 15 ++++-----------
->  1 file changed, 4 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/md/bcache/super.c b/drivers/md/bcache/super.c
-> index bea8c4429ae8..185246a0d855 100644
-> --- a/drivers/md/bcache/super.c
-> +++ b/drivers/md/bcache/super.c
-> @@ -890,13 +890,9 @@ static void bcache_device_free(struct bcache_device *d)
->  		if (disk_added)
->  			del_gendisk(disk);
->  
-> -		if (disk->queue)
-> -			blk_cleanup_queue(disk->queue);
-> -
-> +		blk_cleanup_disk(disk);
->  		ida_simple_remove(&bcache_device_idx,
->  				  first_minor_to_idx(disk->first_minor));
-> -		if (disk_added)
-> -			put_disk(disk);
->  	}
->  
->  	bioset_exit(&d->bio_split);
-> @@ -946,7 +942,7 @@ static int bcache_device_init(struct bcache_device *d, unsigned int block_size,
->  			BIOSET_NEED_BVECS|BIOSET_NEED_RESCUER))
->  		goto err;
->  
-> -	d->disk = alloc_disk(BCACHE_MINORS);
-> +	d->disk = blk_alloc_disk(NUMA_NO_NODE);
->  	if (!d->disk)
->  		goto err;
->  
-> @@ -955,14 +951,11 @@ static int bcache_device_init(struct bcache_device *d, unsigned int block_size,
->  
->  	d->disk->major		= bcache_major;
->  	d->disk->first_minor	= idx_to_first_minor(idx);
-> +	d->disk->minors		= BCACHE_MINORS;
->  	d->disk->fops		= ops;
->  	d->disk->private_data	= d;
->  
-> -	q = blk_alloc_queue(NUMA_NO_NODE);
-> -	if (!q)
-> -		return -ENOMEM;
-> -
-> -	d->disk->queue			= q;
-> +	q = d->disk->queue;
->  	q->limits.max_hw_sectors	= UINT_MAX;
->  	q->limits.max_sectors		= UINT_MAX;
->  	q->limits.max_segment_size	= UINT_MAX;
-> 
-
+Well, the error path in __device_add_disk is a complete disaster right
+now, but Luis is looking into it fortunately.
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
