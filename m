@@ -2,38 +2,85 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [78.108.216.32])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23D47393DD7
-	for <lists+drbd-dev@lfdr.de>; Fri, 28 May 2021 09:27:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59980397491
+	for <lists+drbd-dev@lfdr.de>; Tue,  1 Jun 2021 15:48:14 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id DB14F4205FA;
-	Fri, 28 May 2021 09:27:21 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id CA5974205DD;
+	Tue,  1 Jun 2021 15:48:12 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 583 seconds by postgrey-1.31 at mail19;
-	Fri, 28 May 2021 03:32:38 CEST
-Received: from mail-m2835.qiye.163.com (mail-m2835.qiye.163.com [103.74.28.35])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 779AE4205C4
-	for <drbd-dev@lists.linbit.com>; Fri, 28 May 2021 03:32:37 +0200 (CEST)
-Received: from localhost.localdomain (unknown [218.94.118.90])
-	by mail-m2835.qiye.163.com (Hmail) with ESMTPA id 127E17800A8;
-	Fri, 28 May 2021 09:22:52 +0800 (CST)
-From: Chen Fan <fan.chen@easystack.cn>
-To: drbd-dev@lists.linbit.com
-Date: Fri, 28 May 2021 09:22:44 +0800
-Message-Id: <20210528012244.46041-1-fan.chen@easystack.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com
+	[209.85.167.178])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 15C634205C9
+	for <drbd-dev@lists.linbit.com>; Tue,  1 Jun 2021 15:48:10 +0200 (CEST)
+Received: by mail-oi1-f178.google.com with SMTP id c3so15523482oic.8
+	for <drbd-dev@lists.linbit.com>; Tue, 01 Jun 2021 06:48:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=QlGkt7fWsHM9mcKdq1bDx/YwBl/iUUk0WEjc5rg04fY=;
+	b=SJMAgBW5mswAe1ZmlZlRdAFuvYPDEVLqi723Nnx1S4FLz3Yy3Tj3lQWVdZ0F6Qr4eS
+	SMIy05Vpx5EU+XswU9cem+w+MzG0a62ahvk23Tf2SUyNvaWPkh1rlmu3OkVCdEssPf8k
+	xwwmCV/LazyU6UjgCMJxdw//dP9UOpzUM54yyNCR3QG30hScN/IqdhxGg71hNvOalyX+
+	pO6I2f3s4rBYqGHOnzUAspl9mEOwDLA0qywJ9pSLvD5fVKPzw+UNtHhfYY4OA0aw1ASO
+	zcdxwDDiGjJD5VEZLuOr0Rlq6ubnYTbGW3SYaGllJ+Xvfy3vmm5YD3DkNvXi1rVEGPqw
+	8g9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=QlGkt7fWsHM9mcKdq1bDx/YwBl/iUUk0WEjc5rg04fY=;
+	b=F8z8qT5wxrSf88kNbkshdq8lwxH9nXmMffcnUb24fWL0FaOv5m8VerTBmPflJq8Ilh
+	D94PAxX2a29h9MXsUIrTUXvAZq48poYscdR+aH7hBfltwqNHaJNY4VnF2Uke9hqkrDXn
+	wqZCSyqd2Hp80ozDkyw5ATbkFfVOtqR44GE67/Id5hmJD1xxgnyBM9FE6zGwMSUUMWGV
+	KAoi8YBZML+rlXGbLEdWHxU1RFdUfFkuYw2N25Wrb7ENb3YrgBdgqLg8a5r0gjGXAuxJ
+	JKss5H36JriT1gH9ya7bNa2TB2cIb2slQPx+4zagdfPPXhIBcbDb6pjyhmLCAaubVK3j
+	Gh+A==
+X-Gm-Message-State: AOAM533n5I5P7V2rDs7Yr9xwUix6+L8McREGeRIfxEXYA67OApiTaivU
+	3WGjxmzL8zcoEeuwsWEwNgo9cg==
+X-Google-Smtp-Source: ABdhPJyRtEOQYxSXItYfv2Xv0el0nwhIYWVK6zfd5YIEz7fo5+/L3t2bxzT7qaz6PyG5RR7CPJmZJA==
+X-Received: by 2002:a05:6808:245:: with SMTP id
+	m5mr18302900oie.6.1622555290008; 
+	Tue, 01 Jun 2021 06:48:10 -0700 (PDT)
+Received: from [192.168.1.134] ([198.8.77.61])
+	by smtp.gmail.com with ESMTPSA id i4sm3456045oih.13.2021.06.01.06.48.07
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Tue, 01 Jun 2021 06:48:09 -0700 (PDT)
+To: Christoph Hellwig <hch@lst.de>, Geert Uytterhoeven
+	<geert@linux-m68k.org>, Chris Zankel <chris@zankel.net>,
+	Max Filippov <jcmvbkbc@gmail.com>,
+	Philipp Reisner <philipp.reisner@linbit.com>,
+	Lars Ellenberg <lars.ellenberg@linbit.com>, Jim Paris <jim@jtan.com>,
+	Joshua Morris <josh.h.morris@us.ibm.com>,
+	Philip Kelleher <pjk1939@linux.ibm.com>, Minchan Kim <minchan@kernel.org>, 
+	Nitin Gupta <ngupta@vflare.org>, Matias Bjorling <mb@lightnvm.io>,
+	Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
+	Song Liu <song@kernel.org>, Maxim Levitsky <maximlevitsky@gmail.com>,
+	Alex Dubov <oakad@yahoo.com>, Ulf Hansson <ulf.hansson@linaro.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>, 
+	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
+	Christian Borntraeger <borntraeger@de.ibm.com>
+References: <20210521055116.1053587-1-hch@lst.de>
+From: Jens Axboe <axboe@kernel.dk>
+Message-ID: <a5d7127f-b422-5556-6810-cf4c98c038ac@kernel.dk>
+Date: Tue, 1 Jun 2021 07:48:09 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.10.0
 MIME-Version: 1.0
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSUI3V1ktWUFJV1kPCR
-	oVCBIfWUFZGhoYTVYfQ0hJSxkYGEJLH09VGRETFhoSFyQUDg9ZV1kWGg8SFR0UWUFZT0tIVUpKS0
-	hKQ1VLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6OBQ6Sgw4TD02GT0WHggsCRIO
-	IUgwCy9VSlVKTUlJSk1PQkxJT0xKVTMWGhIXVR0aFVUYEx4VOx4aCAIIDxoYEFUYFUVZV1kSC1lB
-	WUlKQ1VCT1VKSkNVQktZV1kIAVlBSEpPTDcG
-X-HM-Tid: 0a79b0912296841dkuqw127e17800a8
-X-Mailman-Approved-At: Fri, 28 May 2021 09:27:21 +0200
-Cc: "lingang . zeng" <linggang.zeng@easystack.cn>
-Subject: [Drbd-dev] [PATCH 1/1] Fix the wrong maxinum of ping timeout in
-	documentation
+In-Reply-To: <20210521055116.1053587-1-hch@lst.de>
+Content-Language: en-US
+Cc: linux-bcache@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+	linux-raid@vger.kernel.org, nvdimm@lists.linux.dev,
+	linux-s390@vger.kernel.org, linux-mmc@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org, linux-nvme@lists.infradead.org,
+	linux-block@vger.kernel.org, dm-devel@redhat.com,
+	linuxppc-dev@lists.ozlabs.org, drbd-dev@lists.linbit.com
+Subject: Re: [Drbd-dev] simplify gendisk and request_queue allocation for
+ bio based drivers
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,52 +94,28 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-U2lnbmVkLW9mZi1ieTogQ2hlbiBGYW4gPGZhbi5jaGVuQGVhc3lzdGFjay5jbj4KUmVwb3J0ZWQt
-Ynk6IGxpbmdhbmcuemVuZyA8bGluZ2dhbmcuemVuZ0BlYXN5c3RhY2suY24+Ci0tLQogZG9jdW1l
-bnRhdGlvbi9qYS92OS9kcmJkc2V0dXAtb3B0aW9ucy54bWwucG8gfCA0ICsrLS0KIGRvY3VtZW50
-YXRpb24vdjkvZHJiZHNldHVwLW9wdGlvbnMueG1sICAgICAgIHwgMiArLQogMiBmaWxlcyBjaGFu
-Z2VkLCAzIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZG9jdW1l
-bnRhdGlvbi9qYS92OS9kcmJkc2V0dXAtb3B0aW9ucy54bWwucG8gYi9kb2N1bWVudGF0aW9uL2ph
-L3Y5L2RyYmRzZXR1cC1vcHRpb25zLnhtbC5wbwppbmRleCA2MDEwOTEzZS4uYzRhYWNmZmYgMTAw
-NjQ0Ci0tLSBhL2RvY3VtZW50YXRpb24vamEvdjkvZHJiZHNldHVwLW9wdGlvbnMueG1sLnBvCisr
-KyBiL2RvY3VtZW50YXRpb24vamEvdjkvZHJiZHNldHVwLW9wdGlvbnMueG1sLnBvCkBAIC0xNjMy
-LDEzICsxNjMyLDEzIEBAIG1zZ2lkICIiCiAiPHBsYWNlaG9sZGVyIHR5cGU9XCJpbmRleHRlcm1c
-IiBpZD1cIjBcIi8+IERlZmluZSB0aGUgdGltZW91dCBmb3IgcmVwbGllcyB0byAiCiAia2VlcC1h
-bGl2ZSBwYWNrZXRzLiAgSWYgdGhlIHBlZXIgZG9lcyBub3QgcmVwbHkgd2l0aGluIDxvcHRpb24+
-cGluZy10aW1lb3V0PC8iCiAib3B0aW9uPiwgRFJCRCB3aWxsIGNsb3NlIGFuZCB0cnkgdG8gcmVl
-c3RhYmxpc2ggdGhlIGNvbm5lY3Rpb24uICBUaGUgZGVmYXVsdCAiCi0idmFsdWUgaXMgMC41IHNl
-Y29uZHMsIHdpdGggYSBtaW5pbXVtIG9mIDAuMSBzZWNvbmRzIGFuZCBhIG1heGltdW0gb2YgMyAi
-CisidmFsdWUgaXMgMC41IHNlY29uZHMsIHdpdGggYSBtaW5pbXVtIG9mIDAuMSBzZWNvbmRzIGFu
-ZCBhIG1heGltdW0gb2YgMzAgIgogInNlY29uZHMuICBUaGUgdW5pdCBpcyB0ZW50aHMgb2YgYSBz
-ZWNvbmQuIgogbXNnc3RyICIiCiAiPHBsYWNlaG9sZGVyIHR5cGU9XCJpbmRleHRlcm1cIiBpZD1c
-IjBcIi8+44Kt44O844OX44Ki44Op44Kk44OW44OR44Kx44OD44OI44G444Gu5b+c562U44Gu44K/
-IgogIuOCpOODoOOCouOCpuODiOOCkuWumue+qeOBmeOCi+OAguWvvuWQkeODjuODvOODieOBjCA8
-b3B0aW9uPnBpbmctdGltZW91dDwvb3B0aW9uPiDplpPjgaflv5znrZTjgZfjgaoiCiAi44GE5aC0
-5ZCI44CBIERSQkQg44Gv5o6l57aa44KS57WC5LqG44GX44CB5YaN5o6l57aa44GX44KI44GG44Go
-44GZ44KL44CC44OH44OV44Kp44Or44OI5YCk44GvIDAuNSDnp5LjgafjgIHmnIAiCi0i5bCP5YCk
-44GvIDAuMSDnp5LjgIHmnIDlpKflgKTjga8gMyDnp5LjgafjgYLjgovjgILljZjkvY3jga8gMTAg
-5YiG44GuIDEg56eS44Gn44GC44KL44CCIgorIuWwj+WApOOBryAwLjEg56eS44CB5pyA5aSn5YCk
-44GvIDMwIOenkuOBp+OBguOCi+OAguWNmOS9jeOBryAxMCDliIbjga4gMSDnp5LjgafjgYLjgovj
-gIIiCiAKICMuIHR5cGU6IENvbnRlbnQgb2Y6IDxkcmJkc2V0dXBfb3B0aW9ucz48ZHJiZHNldHVw
-X29wdGlvbj48dGVybT4KIG1zZ2lkICIiCmRpZmYgLS1naXQgYS9kb2N1bWVudGF0aW9uL3Y5L2Ry
-YmRzZXR1cC1vcHRpb25zLnhtbCBiL2RvY3VtZW50YXRpb24vdjkvZHJiZHNldHVwLW9wdGlvbnMu
-eG1sCmluZGV4IDViNWU1OGQ3Li5hODk5MDcwNyAxMDA2NDQKLS0tIGEvZG9jdW1lbnRhdGlvbi92
-OS9kcmJkc2V0dXAtb3B0aW9ucy54bWwKKysrIGIvZG9jdW1lbnRhdGlvbi92OS9kcmJkc2V0dXAt
-b3B0aW9ucy54bWwKQEAgLTExNjEsNyArMTE2MSw3IEBAIFNZTUxJTktfQllfRElTSz1kcmJkL2J5
-LWRpc2svPGJhY2tpbmctZGlzay1uYW1lPgogCTwvaW5kZXh0ZXJtPiBEZWZpbmUgdGhlIHRpbWVv
-dXQgZm9yIHJlcGxpZXMgdG8ga2VlcC1hbGl2ZSBwYWNrZXRzLiAgSWYKIAl0aGUgcGVlciBkb2Vz
-IG5vdCByZXBseSB3aXRoaW4gPG9wdGlvbj5waW5nLXRpbWVvdXQ8L29wdGlvbj4sIERSQkQgd2ls
-bAogCWNsb3NlIGFuZCB0cnkgdG8gcmVlc3RhYmxpc2ggdGhlIGNvbm5lY3Rpb24uICBUaGUgZGVm
-YXVsdCB2YWx1ZSBpcyAwLjUKLQlzZWNvbmRzLCB3aXRoIGEgbWluaW11bSBvZiAwLjEgc2Vjb25k
-cyBhbmQgYSBtYXhpbXVtIG9mIDMgc2Vjb25kcy4gIFRoZQorCXNlY29uZHMsIHdpdGggYSBtaW5p
-bXVtIG9mIDAuMSBzZWNvbmRzIGFuZCBhIG1heGltdW0gb2YgMzAgc2Vjb25kcy4gIFRoZQogCXVu
-aXQgaXMgdGVudGhzIG9mIGEgc2Vjb25kLjwvcGFyYT4KICAgICA8L2RlZmluaXRpb24+CiAgIDwv
-ZHJiZHNldHVwX29wdGlvbj4KLS0gCjIuMjUuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KZHJiZC1kZXYgbWFpbGluZyBsaXN0CmRyYmQtZGV2QGxpc3Rz
-LmxpbmJpdC5jb20KaHR0cHM6Ly9saXN0cy5saW5iaXQuY29tL21haWxtYW4vbGlzdGluZm8vZHJi
-ZC1kZXYK
+On 5/20/21 11:50 PM, Christoph Hellwig wrote:
+> Hi all,
+> 
+> this series is the first part of cleaning up lifetimes and allocation of
+> the gendisk and request_queue structure.  It adds a new interface to
+> allocate the disk and queue together for bio based drivers, and a helper
+> for cleanup/free them when a driver is unloaded or a device is removed.
+> 
+> Together this removes the need to treat the gendisk and request_queue
+> as separate entities for bio based drivers.
+
+Applied, thanks.
+
+-- 
+Jens Axboe
+
+_______________________________________________
+drbd-dev mailing list
+drbd-dev@lists.linbit.com
+https://lists.linbit.com/mailman/listinfo/drbd-dev
