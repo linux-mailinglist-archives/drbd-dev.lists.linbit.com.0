@@ -2,44 +2,82 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F2713DD200
-	for <lists+drbd-dev@lfdr.de>; Mon,  2 Aug 2021 10:31:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06A923EFB9D
+	for <lists+drbd-dev@lfdr.de>; Wed, 18 Aug 2021 08:14:27 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 73BB54205FE;
-	Mon,  2 Aug 2021 10:31:28 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B2E9942060C;
+	Wed, 18 Aug 2021 08:14:25 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from baidu.com (mx20.baidu.com [111.202.115.85])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 569A64203D2
-	for <drbd-dev@lists.linbit.com>; Mon,  2 Aug 2021 10:16:12 +0200 (CEST)
-Received: from BC-Mail-Ex29.internal.baidu.com (unknown [172.31.51.23])
-	by Forcepoint Email with ESMTPS id B73066283537FD28EB0C;
-	Mon,  2 Aug 2021 16:00:30 +0800 (CST)
-Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
-	BC-Mail-Ex29.internal.baidu.com (172.31.51.23) with Microsoft SMTP
-	Server
-	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
-	15.1.2242.12; Mon, 2 Aug 2021 16:00:30 +0800
-Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
-	BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP
-	Server
-	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
-	15.1.2308.14; Mon, 2 Aug 2021 16:00:30 +0800
-From: Cai Huoqing <caihuoqing@baidu.com>
-To: <philipp.reisner@linbit.com>, <lars.ellenberg@linbit.com>,
-	<axboe@kernel.dk>
-Date: Mon, 2 Aug 2021 16:00:23 +0800
-Message-ID: <20210802080023.1259-3-caihuoqing@baidu.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210802080023.1259-1-caihuoqing@baidu.com>
-References: <20210802080023.1259-1-caihuoqing@baidu.com>
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
+	[209.85.214.181])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 291DB420050
+	for <drbd-dev@lists.linbit.com>; Wed, 18 Aug 2021 08:14:23 +0200 (CEST)
+Received: by mail-pl1-f181.google.com with SMTP id a5so1150574plh.5
+	for <drbd-dev@lists.linbit.com>; Tue, 17 Aug 2021 23:14:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=OUj8oRrB7MxugyxrrPjBU6cYuiAw0IG2BHh9L0frR4M=;
+	b=K5/QOCQ1GvHen4il+zts6aBVpR/MUixrVtFBh2u/OTX9/NfLMzS8Z3/B82bDko5rUs
+	+eln7mM7MgpGb5g2fE+0/q4b2GAEHUqQx+fWFvhMosxIkDyZCevOdwe60Fbd9V0q1eOl
+	0CFRhL0TI0b8ZFszkcA5toy3dO5yGBBGUx4X4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=OUj8oRrB7MxugyxrrPjBU6cYuiAw0IG2BHh9L0frR4M=;
+	b=ABmPONlnlG0ug+q0JxT8PMFGWparnOGNmHBcfxa9Bad+kwsM39ZSGxV0/w8hoMExGh
+	fjOrEXWjUx7tFKHDWxZNRs8gJBuXOm2/tBsaPSpACI33qCo0+cCTUE9CCZrD26HeIdXM
+	0/zL4dP96uZHtPy7qyLXhzdc13iQS9W3r+YizKvbjJnzpmYz8w2eX0TL5Qigv5HPvlPq
+	f95gIUG3YYDK/xWHtLvbnHFighWz5ueLxaZrcKkYtBPTk6b2fmgCNZlK/TZwpvFmbTam
+	z74EqJKZOajxLEWVbA4bTJVBK9+MYl9R82bxWiqFViUbOOh0CESqAMj60l+E2NdYMpnU
+	uqMw==
+X-Gm-Message-State: AOAM531TtbaJmvhxjWcRdJRy6YX5ydJs8BY+GydFWx/24qjxx+xsmEnI
+	zh8DMhkWRa5JKDY+ImZUKwafpw==
+X-Google-Smtp-Source: ABdhPJxbVOgs77pmnTYxvMPZHd1kccPxvYaRj3SbBhPFubv/TnK5SJeyMbp4QCzFpEAy80w5v2ECHw==
+X-Received: by 2002:a17:90a:ad07:: with SMTP id
+	r7mr7764155pjq.110.1629267263131; 
+	Tue, 17 Aug 2021 23:14:23 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+	by smtp.gmail.com with ESMTPSA id w3sm4782286pfn.96.2021.08.17.23.14.19
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 17 Aug 2021 23:14:21 -0700 (PDT)
+From: Kees Cook <keescook@chromium.org>
+To: linux-kernel@vger.kernel.org
+Date: Tue, 17 Aug 2021 23:05:21 -0700
+Message-Id: <20210818060533.3569517-52-keescook@chromium.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210818060533.3569517-1-keescook@chromium.org>
+References: <20210818060533.3569517-1-keescook@chromium.org>
 MIME-Version: 1.0
-X-Originating-IP: [172.31.63.8]
-X-ClientProxiedBy: BJHW-MAIL-EX04.internal.baidu.com (10.127.64.14) To
-	BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
-X-Mailman-Approved-At: Mon, 02 Aug 2021 10:31:27 +0200
-Cc: Cai Huoqing <caihuoqing@baidu.com>, drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 2/2] drbd: Replace "unsigned" with "unsigned int"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2518; h=from:subject;
+	bh=Q2Uw9RXFjMIXKo2IteRobBuJ9t0Fke5gpQvhXOFkzbw=;
+	b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMpAyrkrjCd9Sudd2DfvVM313Dv4J16Pprur7BE
+	R2yLw5iJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjKQAKCRCJcvTf3G3AJllsD/
+	wMjgK1D0usgaVPmcG7ap73L0KQ/QF2TmwlTkN7ZYJNbPcOUTgH5qCBiL4kXD4qvPRMMk0z6M1MOXdD
+	ad40Qjj391s1LOtbrXKzB6J0ACE6yMl0izT0iLKpKz+DHNtX6SXR4SCElIRw7Oe+D3OKvp8ncq6h/L
+	m13yHC4gKfbb79IqU0KWkeB5qij4Ou7trqxTVeSvJLXgH5H6vMpMIrwWdj1jMXJgy2G8nUmOkFIh0c
+	0ivZjFBnwVNyQGo2OJAUvyz7W+qHXTnM5y/SfhabHHCHfGMD1LGZjB64ItBJUK+pcOykcIH49b9FnO
+	h5fpUcqYNY7PRCXpb3rxN6MHOUY3PGy+gXlfy1Vx3CvXI1nI+OvBPvO8wi/whnPXp+BTOePiw4Blh+
+	8bAGX27nZlzfW1jE3Y0VKrvKEieIn/i0YS3XfaCmMPn2OjPgaFjZMQTtKm9F61UAlxVlnSXOyRWiAa
+	m+Binjs5N0XDni6qQxE+PwYb4X6+L5pWbOSWdiBOGY85wCWrqAF6DrTw4mXIB61ww03FHpMrwNH9ra
+	8yuAKhS3W2V+UbAd/ToTq0/JvDMwmWZGu/z6EIbBy/wAWPT3+RGq1gfMcM6HmInqPQk3SfLeIsEZHe
+	jsEogyBmIWFi3hcxJwpocYVxG6KAlMgJp3sy7ctAUBzS5sy3VSG31B8l/x7Q==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp;
+	fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Cc: Jens Axboe <axboe@kernel.dk>, Kees Cook <keescook@chromium.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-kbuild@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-wireless@vger.kernel.org,
+	Philipp Reisner <philipp.reisner@linbit.com>,
+	dri-devel@lists.freedesktop.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-block@vger.kernel.org, clang-built-linux@googlegroups.com,
+	linux-hardening@vger.kernel.org, netdev@vger.kernel.org,
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
+	Andrew Morton <akpm@linux-foundation.org>, drbd-dev@lists.linbit.com
+Subject: [Drbd-dev] [PATCH v2 51/63] drbd: Use struct_group() to zero algs
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -58,43 +96,72 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-when run checkpath.pl for the first patch, found that
-WARNING: Prefer 'unsigned int' to bare use of 'unsigned'.
-so fix it. BTW
+In preparation for FORTIFY_SOURCE performing compile-time and run-time
+field bounds checking for memset(), avoid intentionally writing across
+neighboring fields.
 
-Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+Add a struct_group() for the algs so that memset() can correctly reason
+about the size.
+
+Cc: Philipp Reisner <philipp.reisner@linbit.com>
+Cc: Lars Ellenberg <lars.ellenberg@linbit.com>
+Cc: Jens Axboe <axboe@kernel.dk>
+Cc: drbd-dev@lists.linbit.com
+Cc: linux-block@vger.kernel.org
+Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/block/drbd/drbd_receiver.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/block/drbd/drbd_main.c     | 3 ++-
+ drivers/block/drbd/drbd_protocol.h | 6 ++++--
+ drivers/block/drbd/drbd_receiver.c | 3 ++-
+ 3 files changed, 8 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
+index 55234a558e98..b824679cfcb2 100644
+--- a/drivers/block/drbd/drbd_main.c
++++ b/drivers/block/drbd/drbd_main.c
+@@ -729,7 +729,8 @@ int drbd_send_sync_param(struct drbd_peer_device *peer_device)
+ 	cmd = apv >= 89 ? P_SYNC_PARAM89 : P_SYNC_PARAM;
+ 
+ 	/* initialize verify_alg and csums_alg */
+-	memset(p->verify_alg, 0, 2 * SHARED_SECRET_MAX);
++	BUILD_BUG_ON(sizeof(p->algs) != 2 * SHARED_SECRET_MAX);
++	memset(&p->algs, 0, sizeof(p->algs));
+ 
+ 	if (get_ldev(peer_device->device)) {
+ 		dc = rcu_dereference(peer_device->device->ldev->disk_conf);
+diff --git a/drivers/block/drbd/drbd_protocol.h b/drivers/block/drbd/drbd_protocol.h
+index dea59c92ecc1..a882b65ab5d2 100644
+--- a/drivers/block/drbd/drbd_protocol.h
++++ b/drivers/block/drbd/drbd_protocol.h
+@@ -283,8 +283,10 @@ struct p_rs_param_89 {
+ 
+ struct p_rs_param_95 {
+ 	u32 resync_rate;
+-	char verify_alg[SHARED_SECRET_MAX];
+-	char csums_alg[SHARED_SECRET_MAX];
++	struct_group(algs,
++		char verify_alg[SHARED_SECRET_MAX];
++		char csums_alg[SHARED_SECRET_MAX];
++	);
+ 	u32 c_plan_ahead;
+ 	u32 c_delay_target;
+ 	u32 c_fill_target;
 diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd_receiver.c
-index 8a73d7d3d16f..cf8c71a3ea91 100644
+index 1f740e42e457..6df2539e215b 100644
 --- a/drivers/block/drbd/drbd_receiver.c
 +++ b/drivers/block/drbd/drbd_receiver.c
-@@ -364,7 +364,7 @@ drbd_alloc_peer_req(struct drbd_peer_device *peer_device, u64 id, sector_t secto
- 	struct drbd_device *device = peer_device->device;
- 	struct drbd_peer_request *peer_req;
- 	struct page *page = NULL;
--	unsigned nr_pages = PFN_UP(payload_size);
-+	unsigned int nr_pages = PFN_UP(payload_size);
+@@ -3921,7 +3921,8 @@ static int receive_SyncParam(struct drbd_connection *connection, struct packet_i
  
- 	if (drbd_insert_fault(device, DRBD_FAULT_AL_EE))
- 		return NULL;
-@@ -1643,9 +1643,9 @@ int drbd_submit_peer_request(struct drbd_device *device,
- 	struct bio *bio;
- 	struct page *page = peer_req->pages;
- 	sector_t sector = peer_req->i.sector;
--	unsigned data_size = peer_req->i.size;
--	unsigned n_bios = 0;
--	unsigned nr_pages = PFN_UP(data_size);
-+	unsigned int data_size = peer_req->i.size;
-+	unsigned int n_bios = 0;
-+	unsigned int nr_pages = PFN_UP(data_size);
- 	int err = -ENOMEM;
+ 	/* initialize verify_alg and csums_alg */
+ 	p = pi->data;
+-	memset(p->verify_alg, 0, 2 * SHARED_SECRET_MAX);
++	BUILD_BUG_ON(sizeof(p->algs) != 2 * SHARED_SECRET_MAX);
++	memset(&p->algs, 0, sizeof(p->algs));
  
- 	/* TRIM/DISCARD: for now, always use the helper function
+ 	err = drbd_recv_all(peer_device->connection, p, header_size);
+ 	if (err)
 -- 
-2.25.1
+2.30.2
 
 _______________________________________________
 drbd-dev mailing list
