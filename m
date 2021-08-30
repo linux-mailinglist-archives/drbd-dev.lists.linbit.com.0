@@ -2,37 +2,51 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 387013F44A3
-	for <lists+drbd-dev@lfdr.de>; Mon, 23 Aug 2021 07:32:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5ED53FC297
+	for <lists+drbd-dev@lfdr.de>; Tue, 31 Aug 2021 08:16:46 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id ED11B420606;
-	Mon, 23 Aug 2021 07:32:26 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D45F642060C;
+	Tue, 31 Aug 2021 08:16:45 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 591 seconds by postgrey-1.31 at mail19;
-	Mon, 23 Aug 2021 04:44:04 CEST
-Received: from mail-m2835.qiye.163.com (mail-m2835.qiye.163.com [103.74.28.35])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 52CF1420327
-	for <drbd-dev@lists.linbit.com>; Mon, 23 Aug 2021 04:44:04 +0200 (CEST)
-Received: from localhost.localdomain (unknown [218.94.118.90])
-	by mail-m2835.qiye.163.com (Hmail) with ESMTPA id 778D88A00AF;
-	Mon, 23 Aug 2021 10:34:05 +0800 (CST)
-From: Rui Xu <rui.xu@easystack.cn>
-To: philipp.reisner@linbit.com,
-	drbd-dev@lists.linbit.com
-Date: Mon, 23 Aug 2021 10:33:59 +0800
-Message-Id: <20210823023359.567225-1-rui.xu@easystack.cn>
-X-Mailer: git-send-email 2.25.1
+X-Greylist: delayed 2948 seconds by postgrey-1.31 at mail19;
+	Tue, 31 Aug 2021 00:59:35 CEST
+Received: from bombadil.infradead.org (bombadil.infradead.org
+	[198.137.202.133])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 190A54203D8
+	for <drbd-dev@lists.linbit.com>; Tue, 31 Aug 2021 00:59:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309;
+	h=Sender:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=R3HkEdIHiJGxr3qjSmlIsWUqgZslXmlZn4O75MC8KaA=;
+	b=17ZB/P3XkJ6X2AFl2We58UPTKh
+	3ORcVk2toSPLNMYedttXPKFCsdbviJeOSTIa3+3/xiqaO/eQZfrbVosHFo1Ho6DRP+2SNUq+6Fg4a
+	2fHKO/Hd11fm6w3qXCNc+7db1sFC9bibAV61DnYCCUJX33+82zIndMPT3jgrguhZCmJRZS3sfFOP8
+	A3Km4ANvZNLcdD7hNfgkXlYUWesUcmwS/LHMV3khtolzAoF5Vy5AaA8iReY2fd3LV/kq4ZiqrCr1O
+	/VMtgdxbym/znpSZ1oO8FpUU7cSB7lBRYssPfRQ+sRn0j41Y2iohJu45o44Z3aSZHKTitB/E2NrlK
+	5gDpnXAQ==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
+	(Red Hat Linux)) id 1mKpTj-000khC-Ha; Mon, 30 Aug 2021 22:10:07 +0000
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: axboe@kernel.dk, justin@coraid.com, geert@linux-m68k.org,
+	ulf.hansson@linaro.org, hare@suse.de, tj@kernel.org,
+	philipp.reisner@linbit.com, lars.ellenberg@linbit.com, jdike@addtoit.com,
+	richard@nod.at, anton.ivanov@cambridgegreys.com, johannes.berg@intel.com,
+	chris.obbard@collabora.com, krisman@collabora.com, zhuyifei1999@gmail.com,
+	thehajime@gmail.com, chris@zankel.net, jcmvbkbc@gmail.com, tim@cyberelk.net
+Date: Mon, 30 Aug 2021 15:09:45 -0700
+Message-Id: <20210830221000.179369-1-mcgrof@kernel.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZCBgUCR5ZQVlLVUtZV1
-	kWDxoPAgseWUFZKDYvK1lXWShZQUlCN1dZLVlBSVdZDwkaFQgSH1lBWUNPTkNWSEhMTk0eHktCQk
-	9OVRkRExYaEhckFA4PWVdZFhoPEhUdFFlBWU9LSFVKSktITkJVS1kG
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Nxw6FRw*KjNNCStOIksuAzU9
-	Tk8wCRBVSlVKTUlCTUNNS09OQkpOVTMWGhIXVQkOElUDDjseGggCCA8aGBBVGBVFWVdZEgtZQVlJ
-	SkNVQk9VSkpDVUJLWVdZCAFZQUNPSE03Bg++
-X-HM-Tid: 0a7b70db9b89841dkuqw778d88a00af
-X-Mailman-Approved-At: Mon, 23 Aug 2021 07:32:26 +0200
-Subject: [Drbd-dev] [PATCH] drbd: change the variable ov_left to atomic
+X-Mailman-Approved-At: Tue, 31 Aug 2021 08:16:44 +0200
+Cc: linux-xtensa@linux-xtensa.org, linux-um@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org,
+	Luis Chamberlain <mcgrof@kernel.org>, drbd-dev@lists.linbit.com
+Subject: [Drbd-dev] [PATCH 00/15] block: third batch of add_disk() error
+	handling conversions
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,183 +65,51 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-The problem was, that when a node(node-1) is a verify source of another
-node(node-2), it will send P_OV_REQUEST and node-2 will process it. In normal
-scenarios, node-2 will reply P_OV_REPLY to node-1, but if an application IO is
-onging on corresponding sector on node-2, it will reply P_RS_CANCEL to node-1.
+This is the third set of block drivers add_disk() error handling
+patches. It's a bit bigger set than the first two sets given the
+pcd/pf/pd drivers could use some love before the conversions.
 
-So w_e_end_ov_reply and got_NegRSDReply can be happened concurrently, it may
-lead to the self subtraction of the variable ov_left happened at the same time,
-finally, the variable ov_left may not be reduced to zero, which causes verify
-unable to end.
----
- drbd/drbd_debugfs.c  |  4 ++--
- drbd/drbd_int.h      |  2 +-
- drbd/drbd_nl.c       |  4 ++--
- drbd/drbd_receiver.c |  9 +++++----
- drbd/drbd_sender.c   | 12 ++++++------
- drbd/drbd_state.c    |  8 ++++----
- 6 files changed, 20 insertions(+), 19 deletions(-)
+Please let me know if you spot any issues.
 
-diff --git a/drbd/drbd_debugfs.c b/drbd/drbd_debugfs.c
-index 4c4554b7..65e75d87 100644
---- a/drbd/drbd_debugfs.c
-+++ b/drbd/drbd_debugfs.c
-@@ -1481,7 +1481,7 @@ static void drbd_get_syncer_progress(struct drbd_peer_device *pd,
- 	 * for the percentage, we don't care. */
- 
- 	if (repl_state == L_VERIFY_S || repl_state == L_VERIFY_T)
--		*bits_left = pd->ov_left;
-+		*bits_left = atomic64_read(&pd->ov_left);
- 	else
- 		*bits_left = drbd_bm_total_weight(pd) - pd->rs_failed;
- 	/* >> 10 to prevent overflow,
-@@ -1617,7 +1617,7 @@ static void drbd_syncer_progress(struct drbd_peer_device *pd, struct seq_file *s
- 		unsigned long long stop_sector = 0;
- 		if (repl_state == L_VERIFY_S ||
- 		    repl_state == L_VERIFY_T) {
--			bit_pos = bm_bits - pd->ov_left;
-+			bit_pos = bm_bits - (unsigned long)atomic64_read(&pd->ov_left);
- 			if (verify_can_do_stop_sector(pd))
- 				stop_sector = pd->ov_stop_sector;
- 		} else
-diff --git a/drbd/drbd_int.h b/drbd/drbd_int.h
-index 8db0007e..6dbd8338 100644
---- a/drbd/drbd_int.h
-+++ b/drbd/drbd_int.h
-@@ -1176,7 +1176,7 @@ struct drbd_peer_device {
- 			      * on the lower level device when we last looked. */
- 	int rs_in_flight; /* resync sectors in flight (to proxy, in proxy and from proxy) */
- 	ktime_t rs_last_mk_req_kt;
--	unsigned long ov_left; /* in bits */
-+	atomic64_t ov_left; /* in bits */
- 	unsigned long ov_skipped; /* in bits */
- 	u64 rs_start_uuid;
- 
-diff --git a/drbd/drbd_nl.c b/drbd/drbd_nl.c
-index f861ccea..2e2a7cb2 100644
---- a/drbd/drbd_nl.c
-+++ b/drbd/drbd_nl.c
-@@ -5355,11 +5355,11 @@ static void peer_device_to_statistics(struct peer_device_statistics *s,
- 	s->peer_dev_out_of_sync = BM_BIT_TO_SECT(drbd_bm_total_weight(pd));
- 
- 	if (is_verify_state(pd, NOW)) {
--		rs_left = BM_BIT_TO_SECT(pd->ov_left);
-+		rs_left = BM_BIT_TO_SECT(atomic64_read(&pd->ov_left));
- 		s->peer_dev_ov_start_sector = pd->ov_start_sector;
- 		s->peer_dev_ov_stop_sector = pd->ov_stop_sector;
- 		s->peer_dev_ov_position = pd->ov_position;
--		s->peer_dev_ov_left = BM_BIT_TO_SECT(pd->ov_left);
-+		s->peer_dev_ov_left = BM_BIT_TO_SECT(atomic64_read(&pd->ov_left));
- 		s->peer_dev_ov_skipped = BM_BIT_TO_SECT(pd->ov_skipped);
- 	} else if (is_sync_state(pd, NOW)) {
- 		rs_left = s->peer_dev_out_of_sync - BM_BIT_TO_SECT(pd->rs_failed);
-diff --git a/drbd/drbd_receiver.c b/drbd/drbd_receiver.c
-index 96551be0..587aed5c 100644
---- a/drbd/drbd_receiver.c
-+++ b/drbd/drbd_receiver.c
-@@ -3141,7 +3141,7 @@ bool drbd_rs_c_min_rate_throttle(struct drbd_peer_device *peer_device)
- 		i = (peer_device->rs_last_mark + DRBD_SYNC_MARKS-1) % DRBD_SYNC_MARKS;
- 
- 		if (peer_device->repl_state[NOW] == L_VERIFY_S || peer_device->repl_state[NOW] == L_VERIFY_T)
--			rs_left = peer_device->ov_left;
-+			rs_left = atomic64_read(&peer_device->ov_left);
- 		else
- 			rs_left = drbd_bm_total_weight(peer_device) - peer_device->rs_failed;
- 
-@@ -3352,13 +3352,14 @@ static int receive_DataRequest(struct drbd_connection *connection, struct packet
- 		    connection->agreed_pro_version >= 90) {
- 			unsigned long now = jiffies;
- 			int i;
-+			unsigned long ov_left = drbd_bm_bits(device) - BM_SECT_TO_BIT(sector);
-+			atomic64_set(&peer_device->ov_left, ov_left);
- 			peer_device->ov_start_sector = sector;
--			peer_device->ov_left = drbd_bm_bits(device) - BM_SECT_TO_BIT(sector);
- 			peer_device->ov_skipped = 0;
--			peer_device->rs_total = peer_device->ov_left;
-+			peer_device->rs_total = atomic64_read(&peer_device->ov_left);
- 			peer_device->rs_last_writeout = now;
- 			for (i = 0; i < DRBD_SYNC_MARKS; i++) {
--				peer_device->rs_mark_left[i] = peer_device->ov_left;
-+				peer_device->rs_mark_left[i] = atomic64_read(&peer_device->ov_left);
- 				peer_device->rs_mark_time[i] = now;
- 			}
- 			drbd_info(device, "Online Verify start sector: %llu\n",
-diff --git a/drbd/drbd_sender.c b/drbd/drbd_sender.c
-index f3c39b0f..9b75b1b5 100644
---- a/drbd/drbd_sender.c
-+++ b/drbd/drbd_sender.c
-@@ -1108,7 +1108,7 @@ int drbd_resync_finished(struct drbd_peer_device *peer_device,
- 	db = peer_device->rs_total;
- 	/* adjust for verify start and stop sectors, respective reached position */
- 	if (repl_state[NOW] == L_VERIFY_S || repl_state[NOW] == L_VERIFY_T)
--		db -= peer_device->ov_left;
-+		db -= atomic64_read(&peer_device->ov_left);
- 
- 	dbdt = Bit2KB(db/dt);
- 	peer_device->rs_paused /= HZ;
-@@ -1250,7 +1250,7 @@ out_unlock:
- 
- out:
- 	/* reset start sector, if we reached end of device */
--	if (verify_done && peer_device->ov_left == 0)
-+	if (verify_done && atomic64_read(&peer_device->ov_left) == 0)
- 		peer_device->ov_start_sector = 0;
- 
- 	drbd_md_sync_if_dirty(device);
-@@ -1556,13 +1556,13 @@ void verify_progress(struct drbd_peer_device *peer_device,
- 		verify_can_do_stop_sector(peer_device) &&
- 		(sector + (size>>9)) >= peer_device->ov_stop_sector;
- 
--	--peer_device->ov_left;
-+	atomic64_dec(&peer_device->ov_left);
- 
- 	/* let's advance progress step marks only for every other megabyte */
--	if ((peer_device->ov_left & 0x1ff) == 0)
--		drbd_advance_rs_marks(peer_device, peer_device->ov_left);
-+	if ((atomic64_read(&peer_device->ov_left) & 0x1ff) == 0)
-+		drbd_advance_rs_marks(peer_device, (unsigned long)atomic64_read(&peer_device->ov_left));
- 
--	if (peer_device->ov_left == 0 || stop_sector_reached)
-+	if (atomic64_read(&peer_device->ov_left) == 0 || stop_sector_reached)
- 		drbd_peer_device_post_work(peer_device, RS_DONE);
- }
- 
-diff --git a/drbd/drbd_state.c b/drbd/drbd_state.c
-index 7117a08e..149df8ac 100644
---- a/drbd/drbd_state.c
-+++ b/drbd/drbd_state.c
-@@ -2161,7 +2161,7 @@ static void set_ov_position(struct drbd_peer_device *peer_device,
- 			peer_device->rs_total -= bit;
- 		peer_device->ov_position = peer_device->ov_start_sector;
- 	}
--	peer_device->ov_left = peer_device->rs_total;
-+	atomic64_set(&peer_device->ov_left, peer_device->rs_total);
- 	peer_device->ov_skipped = 0;
- }
- 
-@@ -2347,8 +2347,8 @@ static void finish_state_change(struct drbd_resource *resource, struct completio
- 			if ((repl_state[OLD] == L_VERIFY_S || repl_state[OLD] == L_VERIFY_T) &&
- 			    repl_state[NEW] <= L_ESTABLISHED) {
- 				peer_device->ov_start_sector =
--					BM_BIT_TO_SECT(drbd_bm_bits(device) - peer_device->ov_left);
--				if (peer_device->ov_left)
-+					BM_BIT_TO_SECT(drbd_bm_bits(device) - atomic64_read(&peer_device->ov_left));
-+				if (atomic64_read(&peer_device->ov_left))
- 					drbd_info(peer_device, "Online Verify reached sector %llu\n",
- 						  (unsigned long long)peer_device->ov_start_sector);
- 			}
-@@ -2391,7 +2391,7 @@ static void finish_state_change(struct drbd_resource *resource, struct completio
- 				peer_device->ov_last_skipped_start = 0;
- 				peer_device->rs_last_writeout = now;
- 				for (i = 0; i < DRBD_SYNC_MARKS; i++) {
--					peer_device->rs_mark_left[i] = peer_device->ov_left;
-+					peer_device->rs_mark_left[i] = atomic64_read(&peer_device->ov_left);
- 					peer_device->rs_mark_time[i] = now;
- 				}
- 
+The full set of changes can be found on my branch titled
+20210830-for-axboe-add-disk-error-handling-v2 [0].
+
+[0] https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux-next.git/log/?h=20210830-for-axboe-add-disk-error-handling-v2
+
+Christoph Hellwig (4):
+  pcd: move the identify buffer into pcd_identify
+  pcd: cleanup initialization
+  pf: cleanup initialization
+  pd: cleanup initialization
+
+Luis Chamberlain (11):
+  z2ram: add error handling support for add_disk()
+  aoe: add error handling support for add_disk()
+  m68k/emu/nfblock: add error handling support for add_disk()
+  drbd: add error handling support for add_disk()
+  um/drivers/ubd_kern: add error handling support for add_disk()
+  xtensa/platforms/iss/simdisk: add error handling support for
+    add_disk()
+  n64cart: add error handling support for add_disk()
+  pcd: add error handling support for add_disk()
+  pcd: fix ordering of unregister_cdrom()
+  pcd: capture errors on cdrom_register()
+  pd: add error handling support for add_disk()
+
+ arch/m68k/emu/nfblock.c             |   9 +-
+ arch/um/drivers/ubd_kern.c          |  13 +-
+ arch/xtensa/platforms/iss/simdisk.c |  13 +-
+ drivers/block/aoe/aoeblk.c          |   6 +-
+ drivers/block/drbd/drbd_main.c      |   6 +-
+ drivers/block/n64cart.c             |  12 +-
+ drivers/block/paride/pcd.c          | 304 +++++++++++++---------------
+ drivers/block/paride/pd.c           | 146 ++++++-------
+ drivers/block/paride/pf.c           | 223 +++++++++-----------
+ drivers/block/z2ram.c               |   7 +-
+ 10 files changed, 365 insertions(+), 374 deletions(-)
+
 -- 
-2.25.1
+2.30.2
 
 _______________________________________________
 drbd-dev mailing list
