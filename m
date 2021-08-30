@@ -2,31 +2,31 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id B87A63FC2A0
-	for <lists+drbd-dev@lfdr.de>; Tue, 31 Aug 2021 08:16:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F12513FC2A4
+	for <lists+drbd-dev@lfdr.de>; Tue, 31 Aug 2021 08:16:58 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 48D114207AC;
-	Tue, 31 Aug 2021 08:16:46 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 8431D420BA4;
+	Tue, 31 Aug 2021 08:16:47 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from bombadil.infradead.org (bombadil.infradead.org
 	[198.137.202.133])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 711A642061D
-	for <drbd-dev@lists.linbit.com>; Tue, 31 Aug 2021 00:59:38 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id CBEDB420621
+	for <drbd-dev@lists.linbit.com>; Tue, 31 Aug 2021 01:05:38 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309;
 	h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=T9eCqOQRvpBijkMagg7pwr5fiJ/Yqy7eE80sQLHpZoI=;
-	b=Hz594MCnKyKnWeoZCnaBSD8D6N
-	zLqy0gysF6Y1Sn7lKrMCH9RKiooERGeeJHe2dnJEEllkfXBUSzcXys0rT3+TZqwwByDgdxpEm9lFg
-	FK1/BtKBIQcZY8ohIgCJ0KMhEN082glKMiKCHC+7kyuE7k8oVLK2h4zHZqvfED9+ucH8ky2L0XjKY
-	JWDpOj3q/sxA7yG9bE+hy5sIbH4Vnm0PJ1UyJr7EhtnWFiklwpUgQNCduI/vT6bVHOiXZ9YUHgbNo
-	JrNEiZYPy5BnI/bmF2YUfv7fCmAwt+0QmUX0FFgcHMN0saYe0/gDdCOEXDSVrCCthEmaaIG1y9Neg
-	eZM8MNcw==;
+	bh=36SL0wDTuPKE88DN3bn6CHYvWFCssDMr/vLYk5vdXW4=;
+	b=D2xTVTYV2/R0+e0G3GBfPfTMt2
+	pw0sjSo97A8CT8qrUzQncZ508kfl1FcrxxX7NqSCPiVpNc1urI85Aym19fKi4B+xU+rV/2W3mQRvn
+	OMmfbKN3nrAbpu0u3DDkuz4eSf6ClexUSd1HCAdJvzn/d8EaYTFbzfxji/DrDgvlZCT6QVu5lFCmM
+	J+BXc/Trv1LW6U/mp716JwXzWAr4jqAbZrp1uM2lFHhhgfyqI5gNmHn5Dv8XgVew/ug388mgNVyyX
+	gJYDBofc36tTUcxbJv839KQ/+v6JOI+1ovoWL6muc3pmz5SZKnzX1JRjL70si8oz258csqk/fLfJO
+	gK7mFADg==;
 Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
-	(Red Hat Linux)) id 1mKpTj-000khQ-W7; Mon, 30 Aug 2021 22:10:07 +0000
+	(Red Hat Linux)) id 1mKpTk-000khS-17; Mon, 30 Aug 2021 22:10:08 +0000
 From: Luis Chamberlain <mcgrof@kernel.org>
 To: axboe@kernel.dk, justin@coraid.com, geert@linux-m68k.org,
 	ulf.hansson@linaro.org, hare@suse.de, tj@kernel.org,
@@ -34,8 +34,8 @@ To: axboe@kernel.dk, justin@coraid.com, geert@linux-m68k.org,
 	richard@nod.at, anton.ivanov@cambridgegreys.com, johannes.berg@intel.com,
 	chris.obbard@collabora.com, krisman@collabora.com, zhuyifei1999@gmail.com,
 	thehajime@gmail.com, chris@zankel.net, jcmvbkbc@gmail.com, tim@cyberelk.net
-Date: Mon, 30 Aug 2021 15:09:51 -0700
-Message-Id: <20210830221000.179369-7-mcgrof@kernel.org>
+Date: Mon, 30 Aug 2021 15:09:52 -0700
+Message-Id: <20210830221000.179369-8-mcgrof@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210830221000.179369-1-mcgrof@kernel.org>
 References: <20210830221000.179369-1-mcgrof@kernel.org>
@@ -45,8 +45,8 @@ Cc: linux-xtensa@linux-xtensa.org, linux-um@lists.infradead.org,
 	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
 	linux-m68k@lists.linux-m68k.org,
 	Luis Chamberlain <mcgrof@kernel.org>, drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 06/15] xtensa/platforms/iss/simdisk: add error
-	handling support for add_disk()
+Subject: [Drbd-dev] [PATCH 07/15] n64cart: add error handling support for
+	add_disk()
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -71,50 +71,50 @@ error handling.
 
 Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
 ---
- arch/xtensa/platforms/iss/simdisk.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ drivers/block/n64cart.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/arch/xtensa/platforms/iss/simdisk.c b/arch/xtensa/platforms/iss/simdisk.c
-index 3cdfa00738e0..ad85c554cd45 100644
---- a/arch/xtensa/platforms/iss/simdisk.c
-+++ b/arch/xtensa/platforms/iss/simdisk.c
-@@ -259,6 +259,7 @@ static int __init simdisk_setup(struct simdisk *dev, int which,
- 		struct proc_dir_entry *procdir)
+diff --git a/drivers/block/n64cart.c b/drivers/block/n64cart.c
+index c84be0028f63..1ba9137bdf30 100644
+--- a/drivers/block/n64cart.c
++++ b/drivers/block/n64cart.c
+@@ -117,6 +117,7 @@ static const struct block_device_operations n64cart_fops = {
+ static int __init n64cart_probe(struct platform_device *pdev)
  {
- 	char tmp[2] = { '0' + which, 0 };
+ 	struct gendisk *disk;
 +	int err = -ENOMEM;
  
- 	dev->fd = -1;
- 	dev->filename = NULL;
-@@ -267,7 +268,7 @@ static int __init simdisk_setup(struct simdisk *dev, int which,
+ 	if (!start || !size) {
+ 		pr_err("start or size not specified\n");
+@@ -134,7 +135,7 @@ static int __init n64cart_probe(struct platform_device *pdev)
  
- 	dev->gd = blk_alloc_disk(NUMA_NO_NODE);
- 	if (!dev->gd)
+ 	disk = blk_alloc_disk(NUMA_NO_NODE);
+ 	if (!disk)
 -		return -ENOMEM;
 +		goto out;
- 	dev->gd->major = simdisk_major;
- 	dev->gd->first_minor = which;
- 	dev->gd->minors = SIMDISK_MINORS;
-@@ -275,10 +276,18 @@ static int __init simdisk_setup(struct simdisk *dev, int which,
- 	dev->gd->private_data = dev;
- 	snprintf(dev->gd->disk_name, 32, "simdisk%d", which);
- 	set_capacity(dev->gd, 0);
--	add_disk(dev->gd);
-+	err = add_disk(dev->gd);
+ 
+ 	disk->first_minor = 0;
+ 	disk->flags = GENHD_FL_NO_PART_SCAN;
+@@ -149,11 +150,18 @@ static int __init n64cart_probe(struct platform_device *pdev)
+ 	blk_queue_physical_block_size(disk->queue, 4096);
+ 	blk_queue_logical_block_size(disk->queue, 4096);
+ 
+-	add_disk(disk);
++	err = add_disk(disk);
 +	if (err)
 +		goto out_cleanup_disk;
  
- 	dev->procfile = proc_create_data(tmp, 0644, procdir, &simdisk_proc_ops, dev);
-+
+ 	pr_info("n64cart: %u kb disk\n", size / 1024);
+ 
  	return 0;
 +
 +out_cleanup_disk:
-+	blk_cleanup_disk(dev->gd);
++	blk_cleanup_disk(disk);
 +out:
 +	return err;
  }
  
- static int __init simdisk_init(void)
+ static struct platform_driver n64cart_driver = {
 -- 
 2.30.2
 
