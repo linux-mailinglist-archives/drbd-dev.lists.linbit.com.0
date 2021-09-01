@@ -2,62 +2,50 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 997D83FDD3D
-	for <lists+drbd-dev@lfdr.de>; Wed,  1 Sep 2021 15:44:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AB383FE32B
+	for <lists+drbd-dev@lfdr.de>; Wed,  1 Sep 2021 21:38:52 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7E9CE42061C;
-	Wed,  1 Sep 2021 15:44:00 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 199D642061C;
+	Wed,  1 Sep 2021 21:38:51 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com
-	[209.85.222.50])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0CDC1420043
-	for <drbd-dev@lists.linbit.com>; Wed,  1 Sep 2021 15:43:58 +0200 (CEST)
-Received: by mail-ua1-f50.google.com with SMTP id m39so1349462uad.9
-	for <drbd-dev@lists.linbit.com>; Wed, 01 Sep 2021 06:43:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=gWwkSDKtYGpqljVYI1y+WfrFXR09Q3LdZi5r8xigkjk=;
-	b=YLheoMqIAr0yoljjNb2cZY3mfbJjEBV1ghX/7mluGOPdZNf5KsaKyBul/7mBbedP6P
-	+FsDmoAvosN+BwsEZqgs/gKQsn4vSO8OuKeXoCfwMs8GLJatbK33k0ra0es3zRk+oFIA
-	k08iJ+ZuId/RpRMm1tn8EnhdGOyXBpkeeXEKV/3dUpncwy0SUZ02pflVTrNldH4quDrA
-	MlFwlnUJ+o3rE0BhGAkvTna4CxoF3hMwMGOi81nmZ3GZ7VX3wFr1SSzkMbWgmclzHCgy
-	qXN2rSSLwlilwkLZzwFwpZOW29uBbcLHKkoQlCapKt/l1KlMTvZUtzGTxkm1SGAM0ON6
-	PvKA==
-X-Gm-Message-State: AOAM533iiFe+RpezJhCyUju4WkevwrUJb74mbA1UAmxukWk7uXKOtQRR
-	ph3cEVlULLUOumSLkYWzrRJjMk+R8ascXnfg9HE=
-X-Google-Smtp-Source: ABdhPJwQuBYdXPN25peyItUun+pLAld/i8v6Ep8jdmiUeF2ltHZxB5QeDFZxYSpkK7+IOC5bnXvgZm+ETQziLUn4arE=
-X-Received: by 2002:ab0:2989:: with SMTP id u9mr22973907uap.122.1630503838209; 
-	Wed, 01 Sep 2021 06:43:58 -0700 (PDT)
-MIME-Version: 1.0
+Received: from bombadil.infradead.org (bombadil.infradead.org
+	[198.137.202.133])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id BBC89420603
+	for <drbd-dev@lists.linbit.com>; Wed,  1 Sep 2021 21:38:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=wGnx/rmz0OqMpEcvhGWrN84A7v4283xqEJSD+WpfhBU=;
+	b=WrYWDlmxdtUHZZUeFY6LJYlLFt
+	y57bI6R7XBLggF1C9/BdG718ZnykUK1PEksOdZI3/zipDNGy9cOpLHeCby3lYwt0Pkmd3f1nXyud+
+	jooZeSTzWBk+Czt58gK83qjjWGzP8NKQD1W1eFcM8zzN9djcFH5JuSIOjFmdJZvHGXUbMqa5L+Meu
+	IeXG2IuLmb2+likZOUZX6+zrC/qx7UHXBNe/2/tEk0NygberUWqrlKTW79Zynag2KyIN4TC7urN5h
+	66AOUiA2DBy+e4ST7s3rJPmDRy/VSLVGbvbC9lGGeCF2iuJzF7iWO5bS5vP7SVe/NGjTp7nexSxxN
+	+0h+dHCQ==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
+	(Red Hat Linux)) id 1mLW43-0077KJ-TT; Wed, 01 Sep 2021 19:38:27 +0000
+Date: Wed, 1 Sep 2021 12:38:27 -0700
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: axboe@kernel.dk, justin@coraid.com, geert@linux-m68k.org,
+	ulf.hansson@linaro.org, hare@suse.de, tj@kernel.org,
+	philipp.reisner@linbit.com, lars.ellenberg@linbit.com,
+	jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com,
+	johannes.berg@intel.com, chris.obbard@collabora.com,
+	krisman@collabora.com, zhuyifei1999@gmail.com, thehajime@gmail.com,
+	chris@zankel.net, jcmvbkbc@gmail.com, tim@cyberelk.net
+Message-ID: <YS/Ws2iD1suaut39@bombadil.infradead.org>
 References: <20210830221000.179369-1-mcgrof@kernel.org>
-	<20210830221000.179369-4-mcgrof@kernel.org>
-In-Reply-To: <20210830221000.179369-4-mcgrof@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 1 Sep 2021 15:43:46 +0200
-Message-ID: <CAMuHMdXCUhrnXSmjFP7nJKHZp2joVRz-Ka2BUNMcZFA06CJ1wQ@mail.gmail.com>
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, justin@coraid.com,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	Gabriel Krisman Bertazi <krisman@collabora.com>,
-	Tim Waugh <tim@cyberelk.net>, Lars Ellenberg <drbd-dev@lists.linbit.com>,
-	Richard Weinberger <richard@nod.at>,
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-	"open list:TENSILICA XTENSA PORT \(xtensa\)"
-	<linux-xtensa@linux-xtensa.org>, Johannes Berg <johannes.berg@intel.com>,
-	Jeff Dike <jdike@addtoit.com>, linux-um <linux-um@lists.infradead.org>,
-	linux-block@vger.kernel.org, linux-m68k <linux-m68k@lists.linux-m68k.org>,
-	Hannes Reinecke <hare@suse.de>, Jens Axboe <axboe@kernel.dk>,
-	Chris Zankel <chris@zankel.net>,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	chris.obbard@collabora.com, Tejun Heo <tj@kernel.org>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>, thehajime@gmail.com,
-	YiFei Zhu <zhuyifei1999@gmail.com>
-Subject: Re: [Drbd-dev] [PATCH 03/15] m68k/emu/nfblock: add error handling
-	support for add_disk()
+	<20210830221000.179369-16-mcgrof@kernel.org>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210830221000.179369-16-mcgrof@kernel.org>
+Cc: linux-xtensa@linux-xtensa.org, linux-um@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org, drbd-dev@lists.linbit.com
+Subject: Re: [Drbd-dev] [PATCH 15/15] pd: add error handling support for
+	add_disk()
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -76,26 +64,35 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Tue, Aug 31, 2021 at 12:10 AM Luis Chamberlain <mcgrof@kernel.org> wrote:
+On Mon, Aug 30, 2021 at 03:10:00PM -0700, Luis Chamberlain wrote:
 > We never checked for errors on add_disk() as this function
 > returned void. Now that this is fixed, use the shiny new
 > error handling.
->
+> 
 > Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
+> ---
+>  drivers/block/paride/pd.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/block/paride/pd.c b/drivers/block/paride/pd.c
+> index 500b89a4bdaf..226ed5c93b68 100644
+> --- a/drivers/block/paride/pd.c
+> +++ b/drivers/block/paride/pd.c
+> @@ -938,8 +938,12 @@ static int pd_probe_drive(struct pd_unit *disk, int autoprobe, int port,
+>  	if (ret)
+>  		goto put_disk;
+>  	set_capacity(disk->gd, disk->capacity);
+> -	add_disk(disk->gd);
+> +	ret = add_disk(disk->gd);
+> +	if (ret)
+> +		goto cleanup_disk;
+>  	return 0;
+> +cleanup_disk:
+> +	blk_cleanup_disk(&disk);
 
-Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
+This should be blk_cleanup_disk(disk->gd); Will fix up in my v2.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+  Luis
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
