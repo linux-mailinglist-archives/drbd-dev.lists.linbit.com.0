@@ -2,51 +2,35 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 008413FC2A5
-	for <lists+drbd-dev@lfdr.de>; Tue, 31 Aug 2021 08:17:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 161733FD16C
+	for <lists+drbd-dev@lfdr.de>; Wed,  1 Sep 2021 04:38:42 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id AC2B4420BA8;
-	Tue, 31 Aug 2021 08:16:47 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id CF70F420206;
+	Wed,  1 Sep 2021 04:38:35 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from bombadil.infradead.org (bombadil.infradead.org
-	[198.137.202.133])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5C65F42061C
-	for <drbd-dev@lists.linbit.com>; Tue, 31 Aug 2021 01:05:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309;
-	h=Sender:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=hX7HRTcv4QfX8vcdgUwPONffQyFjE2f8SSCFViSYJH8=;
-	b=0e8f1gVleL+xeNyRndnSQ8MsoM
-	R7hquXfqn2bRJ9h/SwbMOe57+vv9uBmTnONlUMrGcoWlLzaS/TZiRJPGLY56cGFwKyT8grpYK8AJg
-	EkU2q1IqxEEYrfKdG6umd2+I+3djwPkGRnPJRHRvu4xnZ54P+elZThpyn2dUD8QKDeukkhDmMrW75
-	Ii26qjx31okgyenvglZfgJ1y8nxSRxY8VI4nlqGuewquUECgwZwlvhbuJtl/gPYn46yryIDd6UF1X
-	ffLroqGM9MtGzBhDqcDaFPf3/8p3VxMZ6Z/dzRSuFkNfFjA1FH3J3t1uSat5boFMD5DdNGhrd4hon
-	YviAMKxw==;
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
-	(Red Hat Linux)) id 1mKpTk-000khk-DF; Mon, 30 Aug 2021 22:10:08 +0000
-From: Luis Chamberlain <mcgrof@kernel.org>
-To: axboe@kernel.dk, justin@coraid.com, geert@linux-m68k.org,
-	ulf.hansson@linaro.org, hare@suse.de, tj@kernel.org,
-	philipp.reisner@linbit.com, lars.ellenberg@linbit.com, jdike@addtoit.com,
-	richard@nod.at, anton.ivanov@cambridgegreys.com, johannes.berg@intel.com,
-	chris.obbard@collabora.com, krisman@collabora.com, zhuyifei1999@gmail.com,
-	thehajime@gmail.com, chris@zankel.net, jcmvbkbc@gmail.com, tim@cyberelk.net
-Date: Mon, 30 Aug 2021 15:10:00 -0700
-Message-Id: <20210830221000.179369-16-mcgrof@kernel.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210830221000.179369-1-mcgrof@kernel.org>
-References: <20210830221000.179369-1-mcgrof@kernel.org>
+Received: from mail-m2835.qiye.163.com (mail-m2835.qiye.163.com [103.74.28.35])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D3CE3420206
+	for <drbd-dev@lists.linbit.com>; Wed,  1 Sep 2021 04:38:33 +0200 (CEST)
+Received: from localhost.localdomain (unknown [218.94.118.90])
+	by mail-m2835.qiye.163.com (Hmail) with ESMTPA id 3EB8C8A0107;
+	Wed,  1 Sep 2021 10:38:27 +0800 (CST)
+From: Rui Xu <rui.xu@easystack.cn>
+To: philipp.reisner@linbit.com,
+	drbd-dev@lists.linbit.com
+Date: Wed,  1 Sep 2021 10:38:26 +0800
+Message-Id: <20210901023826.838222-1-rui.xu@easystack.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Mailman-Approved-At: Tue, 31 Aug 2021 08:16:44 +0200
-Cc: linux-xtensa@linux-xtensa.org, linux-um@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org,
-	Luis Chamberlain <mcgrof@kernel.org>, drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 15/15] pd: add error handling support for
-	add_disk()
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZCBgUCR5ZQVlLVUtZV1
+	kWDxoPAgseWUFZKDYvK1lXWShZQUlCN1dZLVlBSVdZDwkaFQgSH1lBWUMYTxlWGEJMQ0lDGBoaTU
+	tCVRkRExYaEhckFA4PWVdZFhoPEhUdFFlBWU9LSFVKSktISkxVS1kG
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NBw6NSo*KDNMQh4pKR5JDiMM
+	GgxPC1FVSlVKTUhLT01IQktMTU5CVTMWGhIXVQkOElUDDjseGggCCA8aGBBVGBVFWVdZEgtZQVlJ
+	SkNVQk9VSkpDVUJLWVdZCAFZQUhCSUs3Bg++
+X-HM-Tid: 0a7b9f38d5fb841dkuqw3eb8c8a0107
+Subject: [Drbd-dev] [PATCH] drbd: do not finish the stable resync when repl
+	state is L_PAUSED_SYNC_T
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -65,35 +49,84 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-We never checked for errors on add_disk() as this function
-returned void. Now that this is fixed, use the shiny new
-error handling.
+The assumption was, when a unstable resync start first, then a stable resync starts
+and be paused. If the stable resync finish ahead of the unstable one from paused directly,
+it will leaving the resync end into INCONSISTENT finally.
 
-Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
+So don't finish the stable resync when repl state is L_PAUSED_SYNC_T, finish it when the
+repl state turns into L_SYNC_TARGET.
+
+Signed-off-by: Xu Rui <rui.xu@easystack.cn>
 ---
- drivers/block/paride/pd.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drbd/drbd_actlog.c | 15 +++++++++++++++
+ drbd/drbd_int.h    |  1 +
+ drbd/drbd_sender.c |  5 +++++
+ 3 files changed, 21 insertions(+)
 
-diff --git a/drivers/block/paride/pd.c b/drivers/block/paride/pd.c
-index 500b89a4bdaf..226ed5c93b68 100644
---- a/drivers/block/paride/pd.c
-+++ b/drivers/block/paride/pd.c
-@@ -938,8 +938,12 @@ static int pd_probe_drive(struct pd_unit *disk, int autoprobe, int port,
- 	if (ret)
- 		goto put_disk;
- 	set_capacity(disk->gd, disk->capacity);
--	add_disk(disk->gd);
-+	ret = add_disk(disk->gd);
-+	if (ret)
-+		goto cleanup_disk;
- 	return 0;
-+cleanup_disk:
-+	blk_cleanup_disk(&disk);
- put_disk:
- 	put_disk(p);
- 	disk->gd = NULL;
+diff --git a/drbd/drbd_actlog.c b/drbd/drbd_actlog.c
+index 1676c355..3900b426 100644
+--- a/drbd/drbd_actlog.c
++++ b/drbd/drbd_actlog.c
+@@ -1117,7 +1117,22 @@ static int update_sync_bits(struct drbd_peer_device *peer_device,
+ 		if (mode == SET_IN_SYNC) {
+ 			unsigned long still_to_go = drbd_bm_total_weight(peer_device);
+ 			bool rs_is_done = (still_to_go <= peer_device->rs_failed);
++			enum drbd_repl_state repl_state = peer_device->repl_state[NOW];
+ 			drbd_advance_rs_marks(peer_device, still_to_go);
++                        if (rs_is_done && repl_state == L_PAUSED_SYNC_T && !test_bit(UNSTABLE_RESYNC, &peer_device->flags)) {
++                                struct drbd_device *device = peer_device->device;
++                                struct drbd_peer_device *p;
++                                for_each_peer_device(p, device) {
++                                    if (p == peer_device)
++                                        continue;
++
++                                    if (test_bit(UNSTABLE_RESYNC, &p->flags) && p->repl_state[NOW] == L_SYNC_TARGET) {
++                                        rs_is_done = false;
++                                        peer_device->finish_resync_delay = true;
++                                        break;
++                                    }
++                                }
++                        }
+ 			if (cleared || rs_is_done)
+ 				maybe_schedule_on_disk_bitmap_update(peer_device, rs_is_done);
+ 		} else if (mode == RECORD_RS_FAILED) {
+diff --git a/drbd/drbd_int.h b/drbd/drbd_int.h
+index 8db0007e..a3a7d241 100644
+--- a/drbd/drbd_int.h
++++ b/drbd/drbd_int.h
+@@ -1095,6 +1095,7 @@ struct drbd_peer_device {
+ 	bool resync_susp_peer[2];
+ 	bool resync_susp_dependency[2];
+ 	bool resync_susp_other_c[2];
++	bool finish_resync_delay;
+ 	enum drbd_repl_state negotiation_result; /* To find disk state after attach */
+ 	unsigned int send_cnt;
+ 	unsigned int recv_cnt;
+diff --git a/drbd/drbd_sender.c b/drbd/drbd_sender.c
+index f3c39b0f..01ce46b3 100644
+--- a/drbd/drbd_sender.c
++++ b/drbd/drbd_sender.c
+@@ -735,6 +735,7 @@ next_sector:
+ 			goto request_done;
+ 		}
+ 
++		peer_device->finish_resync_delay = false;
+ 		sector = BM_BIT_TO_SECT(bit);
+ 
+ 		if (drbd_try_rs_begin_io(peer_device, sector, true)) {
+@@ -833,6 +834,10 @@ request_done:
+ 		 * resync data block, and the last bit is cleared.
+ 		 * until then resync "work" is "inactive" ...
+ 		 */
++                if (peer_device->finish_resync_delay) {
++                	drbd_resync_finished(peer_device, D_MASK);
++                	peer_device->finish_resync_delay = false;
++                }
+ 		put_ldev(device);
+ 		return 0;
+ 	}
 -- 
-2.30.2
+2.25.1
 
 _______________________________________________
 drbd-dev mailing list
