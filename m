@@ -2,45 +2,36 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B94F3FE906
-	for <lists+drbd-dev@lfdr.de>; Thu,  2 Sep 2021 08:01:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35C004066E5
+	for <lists+drbd-dev@lfdr.de>; Fri, 10 Sep 2021 07:40:20 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3340442060C;
-	Thu,  2 Sep 2021 08:01:12 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1EC6942061D;
+	Fri, 10 Sep 2021 07:40:19 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 417 seconds by postgrey-1.31 at mail19;
-	Wed, 01 Sep 2021 17:31:56 CEST
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A2951420043
-	for <drbd-dev@lists.linbit.com>;
-	Wed,  1 Sep 2021 17:31:56 +0200 (CEST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: krisman) with ESMTPSA id 8ECC91F43EF3
-From: Gabriel Krisman Bertazi <krisman@collabora.com>
-To: Luis Chamberlain <mcgrof@kernel.org>
-Organization: Collabora
-References: <20210830221000.179369-1-mcgrof@kernel.org>
-	<20210830221000.179369-6-mcgrof@kernel.org>
-Date: Wed, 01 Sep 2021 11:24:55 -0400
-In-Reply-To: <20210830221000.179369-6-mcgrof@kernel.org> (Luis Chamberlain's
-	message of "Mon, 30 Aug 2021 15:09:50 -0700")
-Message-ID: <8735qotj20.fsf@collabora.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+Received: from mail-m2835.qiye.163.com (mail-m2835.qiye.163.com [103.74.28.35])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 76C6E4201F1
+	for <drbd-dev@lists.linbit.com>; Fri, 10 Sep 2021 07:40:16 +0200 (CEST)
+Received: from localhost.localdomain (unknown [218.94.118.90])
+	by mail-m2835.qiye.163.com (Hmail) with ESMTPA id BED9E8A026B;
+	Fri, 10 Sep 2021 13:40:12 +0800 (CST)
+From: Rui Xu <rui.xu@easystack.cn>
+To: philipp.reisner@linbit.com,
+	drbd-dev@lists.linbit.com
+Date: Fri, 10 Sep 2021 13:40:11 +0800
+Message-Id: <20210910054011.1115655-1-rui.xu@easystack.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Mailman-Approved-At: Thu, 02 Sep 2021 08:01:11 +0200
-Cc: ulf.hansson@linaro.org, justin@coraid.com, linux-kernel@vger.kernel.org,
-	jcmvbkbc@gmail.com, tim@cyberelk.net, drbd-dev@lists.linbit.com,
-	richard@nod.at, geert@linux-m68k.org,
-	anton.ivanov@cambridgegreys.com, linux-xtensa@linux-xtensa.org,
-	johannes.berg@intel.com, jdike@addtoit.com,
-	linux-um@lists.infradead.org, linux-block@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org, hare@suse.de, axboe@kernel.dk,
-	chris@zankel.net, philipp.reisner@linbit.com,
-	chris.obbard@collabora.com, tj@kernel.org,
-	lars.ellenberg@linbit.com, thehajime@gmail.com, zhuyifei1999@gmail.com
-Subject: Re: [Drbd-dev] [PATCH 05/15] um/drivers/ubd_kern: add error
- handling support for add_disk()
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZCBgUCR5ZQVlLVUtZV1
+	kWDxoPAgseWUFZKDYvK1lXWShZQUlCN1dZLVlBSVdZDwkaFQgSH1lBWRlDTUhWTh9NTB1OTEwaT0
+	pJVRkRExYaEhckFA4PWVdZFhoPEhUdFFlBWU9LSFVKSktISkNVS1kG
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Nzo6PCo4EjNRDQotPw0rQ0tL
+	Vi8aCQhVSlVKTUhKSU5JT0pISk9JVTMWGhIXVQkOElUDDjseGggCCA8aGBBVGBVFWVdZEgtZQVlJ
+	SkNVQk9VSkpDVUJLWVdZCAFZQUhIT003Bg++
+X-HM-Tid: 0a7bce3879c9841dkuqwbed9e8a026b
+Cc: dongsheng.yang@easystack.cn
+Subject: [Drbd-dev] [PATCH] drbd: fix a race condition in update_sync_bits()
+	and receive_bitmap()
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -59,67 +50,73 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Luis Chamberlain <mcgrof@kernel.org> writes:
+There is a race condition in update_sync_bits() and receive_bitmap(),
+please consider this scenario:
 
-> We never checked for errors on add_disk() as this function
-> returned void. Now that this is fixed, use the shiny new
-> error handling.
->
-> ubd_disk_register() never returned an error, so just fix
-> that now and let the caller handle the error condition.
->
-> Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
+Primary: node-3, Secondary node-1, node-2
 
-Reviewed-by: Gabriel Krisman Bertazi <krisman@collabora.com>
+(1) network failure happend on node-1.
+(2) node-1 network recovery.
+(3) node-1 connect to node-2, and start resync (node-1 is SyncTarget,
+node-2 is SyncSource)
+(4) before resync in (3) finished, node-1 connect to node-3 and start
+resync.(node-1 is PauseSyncTarget, node-3 is PauseSyncSource)
 
-> ---
->  arch/um/drivers/ubd_kern.c | 13 +++++++++----
->  1 file changed, 9 insertions(+), 4 deletions(-)
->
-> diff --git a/arch/um/drivers/ubd_kern.c b/arch/um/drivers/ubd_kern.c
-> index cd9dc0556e91..81045c199c30 100644
-> --- a/arch/um/drivers/ubd_kern.c
-> +++ b/arch/um/drivers/ubd_kern.c
-> @@ -854,8 +854,8 @@ static const struct attribute_group *ubd_attr_groups[] = {
->  	NULL,
->  };
->  
-> -static void ubd_disk_register(int major, u64 size, int unit,
-> -			      struct gendisk *disk)
-> +static int ubd_disk_register(int major, u64 size, int unit,
-> +			     struct gendisk *disk)
->  {
->  	disk->major = major;
->  	disk->first_minor = unit << UBD_SHIFT;
-> @@ -872,7 +872,7 @@ static void ubd_disk_register(int major, u64 size, int unit,
->  
->  	disk->private_data = &ubd_devs[unit];
->  	disk->queue = ubd_devs[unit].queue;
-> -	device_add_disk(&ubd_devs[unit].pdev.dev, disk, ubd_attr_groups);
-> +	return device_add_disk(&ubd_devs[unit].pdev.dev, disk, ubd_attr_groups);
->  }
->  
->  #define ROUND_BLOCK(n) ((n + (SECTOR_SIZE - 1)) & (-SECTOR_SIZE))
-> @@ -919,10 +919,15 @@ static int ubd_add(int n, char **error_out)
->  	blk_queue_write_cache(ubd_dev->queue, true, false);
->  	blk_queue_max_segments(ubd_dev->queue, MAX_SG);
->  	blk_queue_segment_boundary(ubd_dev->queue, PAGE_SIZE - 1);
-> -	ubd_disk_register(UBD_MAJOR, ubd_dev->size, n, disk);
-> +	err = ubd_disk_register(UBD_MAJOR, ubd_dev->size, n, disk);
-> +	if (err)
-> +		goto out_cleanup_disk;
-> +
->  	ubd_gendisk[n] = disk;
->  	return 0;
->  
-> +out_cleanup_disk:
-> +	blk_cleanup_disk(disk);
->  out_cleanup_tags:
->  	blk_mq_free_tag_set(&ubd_dev->tag_set);
->  out:
+When node-1(SyncTarget) is resync with node-2(SyncSource), node-1 may
+set bitmap for node-3 in receive_resync_read()->drbd_set_all_out_of_sync(),
+and clear the bimap for node-3 when got P_PEERS_IN_SYNC from node-2.
 
+Then there is a possibility scenario as below:
+
+thread:ack_receiver (node-1)           thread:receiver (node-1)
+update_sync_bits()                     receive_bitmap()
+
+set the rs_is_done to 1                set the bitmap for node-3
+				       set the repl_state to PauseSyncTarget
+set RS_DONE flag
+
+it will lead the reysnc of node-1 and node-3 to finish in an unexpected way, so
+we need to determine the is_sync_target_state before getting the bitmap total
+weight in update_sync_bits.
+---
+ drbd/drbd_actlog.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/drbd/drbd_actlog.c b/drbd/drbd_actlog.c
+index 841e5149..3d2fd399 100644
+--- a/drbd/drbd_actlog.c
++++ b/drbd/drbd_actlog.c
+@@ -1044,11 +1044,11 @@ static bool lazy_bitmap_update_due(struct drbd_peer_device *peer_device)
+ }
+ 
+ static void maybe_schedule_on_disk_bitmap_update(struct drbd_peer_device *peer_device,
+-						 bool rs_done)
++						 bool rs_done, bool is_sync_target)
+ {
+ 	if (rs_done) {
+ 		if (peer_device->connection->agreed_pro_version <= 95 ||
+-		    is_sync_target_state(peer_device, NOW))
++		    is_sync_target)
+ 			set_bit(RS_DONE, &peer_device->flags);
+ 
+ 		/* If sync source: rather wait for explicit notification via
+@@ -1105,11 +1105,12 @@ static int update_sync_bits(struct drbd_peer_device *peer_device,
+ 	}
+ 	if (count) {
+ 		if (mode == SET_IN_SYNC) {
++			bool is_sync_target = is_sync_target_state(peer_device, NOW);
+ 			unsigned long still_to_go = drbd_bm_total_weight(peer_device);
+ 			bool rs_is_done = (still_to_go <= peer_device->rs_failed);
+ 			drbd_advance_rs_marks(peer_device, still_to_go);
+ 			if (cleared || rs_is_done)
+-				maybe_schedule_on_disk_bitmap_update(peer_device, rs_is_done);
++				maybe_schedule_on_disk_bitmap_update(peer_device, rs_is_done, is_sync_target);
+ 		} else if (mode == RECORD_RS_FAILED) {
+ 			peer_device->rs_failed += count;
+ 		} else /* if (mode == SET_OUT_OF_SYNC) */ {
 -- 
-Gabriel Krisman Bertazi
+2.25.1
+
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
