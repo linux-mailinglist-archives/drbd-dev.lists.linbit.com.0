@@ -2,59 +2,48 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E3E0415CAF
-	for <lists+drbd-dev@lfdr.de>; Thu, 23 Sep 2021 13:18:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB88041A1F4
+	for <lists+drbd-dev@lfdr.de>; Tue, 28 Sep 2021 00:01:37 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 454764207DD;
-	Thu, 23 Sep 2021 13:18:40 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B7075420854;
+	Tue, 28 Sep 2021 00:01:36 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
-	[209.85.208.50])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D6F88420629
-	for <drbd-dev@lists.linbit.com>; Thu, 23 Sep 2021 13:18:37 +0200 (CEST)
-Received: by mail-ed1-f50.google.com with SMTP id c21so21985693edj.0
-	for <drbd-dev@lists.linbit.com>; Thu, 23 Sep 2021 04:18:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linbit-com.20210112.gappssmtp.com; s=20210112;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=e2wzaUTlLdbKBw2Vc1qx5Y4zBkEg4sDivTkNDucis0U=;
-	b=QlJmvGcMGT5YLxdI2oGB6HnfA0hLw8Fql56Tx2Jr+TADkVnigz//RzFj2k9Z5Dz0jg
-	rIMuzn8fcFWNF4jLkRWm551n2Af1fqMdov6+hl4M2RgzU9OERn1S7KOx00lFcfK88LEF
-	xU9Ta81qHcR14KjT3N0cY1etP8YFxIUHN4t0xtSeqNbDtnN1ShwOZhMIyeevuhz2bWzy
-	4eisUvpi4AXxxaqB6b/kxDkYRNuoIO841sBYl8jcU7GPF8mvk/X7UYhUJdgae5PW8K85
-	3aoNx4OAgYcdojtKuFNXpsdKkQz8EEHPvsEWxCT+B0l/GVLlq5HuYEV7Xu5igDgpRXV6
-	9F5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20210112;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=e2wzaUTlLdbKBw2Vc1qx5Y4zBkEg4sDivTkNDucis0U=;
-	b=WIplHfd5JB/a45WYRKSk9vwrEnmhkOB32jO030vQVrTraiyMi5fY6hCy4+MmO5wiNN
-	1o6/ZUtuScNm4YJajOFVaC/kgVfkW9kctoFiBRpsosbAfxgvoAfmF/srhMmf8qY/o3tj
-	X4jgLR5TZ4GGcsarJjOLxQhy9lQ0uf1LMjQIR1ellX6RNyESWVi1hPj/nzmxoVwILV5k
-	midTpeOBsGxq8yZQyMo6azDd4IxtNysrJZv/vV4teh4FOFMFD52KcJ0MOMD20hrIWHxq
-	b653KsBMcxOa2RF3HR679jx27csFzy54Iz4sxcZCozq4xYuZa4FhT5UC3P6E/Ipnv4E/
-	Kmww==
-X-Gm-Message-State: AOAM5308t2ee+K/3BpG+leQObeyoaOxaSiQZhAbMN/HfI6yXdNxonQcX
-	HWUTW2wYuKi/tCPGctWHpOU+pFPP94rtJu7GxPgDeb7Li/76vWFD
-X-Google-Smtp-Source: ABdhPJwGlR3JYpWvXt8fhCdahlIbOjEMI0fedr39Psp3aXHYCgXOFDntx4KHfFe6w8/XKQJ4PXO/udss3ogEW8pNDro=
-X-Received: by 2002:a05:6402:42d5:: with SMTP id
-	i21mr4774015edc.14.1632395917176; 
-	Thu, 23 Sep 2021 04:18:37 -0700 (PDT)
+Received: from bombadil.infradead.org (bombadil.infradead.org
+	[198.137.202.133])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 8A3D442038D
+	for <drbd-dev@lists.linbit.com>; Tue, 28 Sep 2021 00:01:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309;
+	h=Sender:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=PIC+qXoGsoFJ1eZ9LA9t8T951f2hrkUOPPt1FYAGsmg=;
+	b=FuCcNq9IOVETu5gZfPU8ZyHeZ0
+	4yRRj59j+TWMJveqzARzPIPnGBkIS/5Y078bG/DLPJo1lgh8OCNwb8EpIOOsJ0GtuUVKQxuHZ/3ld
+	HL0sUlBkiWjZ77631MgWdDggaYxof/KSEim0JSi0S3NKEmak/7p/dqHVg/kW0ASIsF7WDhhpaebSp
+	4fefTGDxj/g/uR9rTjLmBSfyf/Tv1cvID9Bf630aiPWO86W8Ajx45BwFipe5bb4YETBXNjbbBvE6r
+	f3FqRfIhJNfTLkqYXp8ynHhmGzqzYn2l/ZVmr6WYZBoDyCtvcn9oBnf7tLAJrjDo1H5H71B32c3Fr
+	4KiKUnwg==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
+	(Red Hat Linux)) id 1mUygR-004TPC-K8; Mon, 27 Sep 2021 22:01:11 +0000
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: axboe@kernel.dk, justin@coraid.com, geert@linux-m68k.org,
+	ulf.hansson@linaro.org, hare@suse.de, tj@kernel.org,
+	philipp.reisner@linbit.com, lars.ellenberg@linbit.com, jdike@addtoit.com,
+	richard@nod.at, anton.ivanov@cambridgegreys.com, johannes.berg@intel.com,
+	chris.obbard@collabora.com, krisman@collabora.com, zhuyifei1999@gmail.com,
+	thehajime@gmail.com, chris@zankel.net, jcmvbkbc@gmail.com, tim@cyberelk.net
+Date: Mon, 27 Sep 2021 15:00:55 -0700
+Message-Id: <20210927220110.1066271-1-mcgrof@kernel.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <CAGNP_+VFUJfijkem8TWr1ptkJXbdZryuvbnpLY1GCBgPvKzdzw@mail.gmail.com>
-	<20210915110743.1271706-1-rui.xu@easystack.cn>
-	<CAGNP_+XVmkZ5jAuh_jpDkdddzNfDNW00cTiUDRgGh9R=7Bv7ng@mail.gmail.com>
-In-Reply-To: <CAGNP_+XVmkZ5jAuh_jpDkdddzNfDNW00cTiUDRgGh9R=7Bv7ng@mail.gmail.com>
-From: Joel Colledge <joel.colledge@linbit.com>
-Date: Thu, 23 Sep 2021 13:18:26 +0200
-Message-ID: <CAGNP_+V_6m5b=FHDnUEw6RHdKuC8Gu_WzcvpEsZv=ESHLXFv_g@mail.gmail.com>
-To: Rui Xu <rui.xu@easystack.cn>
-Cc: Philipp Reisner <philipp.reisner@linbit.com>, dongsheng.yang@easystack.cn,
-	drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH v3] drbd: fix a race condition in
-	update_sync_bits() and receive_bitmap()
+Cc: linux-xtensa@linux-xtensa.org, linux-um@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org,
+	Luis Chamberlain <mcgrof@kernel.org>, drbd-dev@lists.linbit.com
+Subject: [Drbd-dev] [PATCH v2 00/15] block: third batch of add_disk() error
+	handling conversions
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -73,11 +62,56 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-This was included in drbd-9.0 with:
-https://github.com/LINBIT/drbd/commit/a9a54e48f5d6eb0b06d5832246ff7da2305fe5e1
+This is the 2nd version of the third batch of driver conversions for the
+add_disk() error handling. This and the entire 7th series of driver
+conversions can be found on my 20210927-for-axboe-add-disk-error-handling
+branch [0].
 
-And merged forward into master with:
-https://github.com/LINBIT/drbd/commit/6cb88bf2af4a5628d09276e92f905405d01e0270
+On this v2 series the following changes have been made since the v1
+series of this patch set:
+
+  - rebased onto linux-next tag 20210927
+  - z2ram: fixed compile warning reported by 0day and Geert Uytterhoe
+  - um/drivers/ubd_kern: added the reviewed-by tag by Gabriel Krisman
+    Bertazi
+
+[0] https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux-next.git/log/?h=20210927-for-axboe-add-disk-error-handling
+
+Christoph Hellwig (4):
+  pcd: move the identify buffer into pcd_identify
+  pcd: cleanup initialization
+  pf: cleanup initialization
+  pd: cleanup initialization
+
+Luis Chamberlain (11):
+  z2ram: add error handling support for add_disk()
+  aoe: add error handling support for add_disk()
+  m68k/emu/nfblock: add error handling support for add_disk()
+  drbd: add error handling support for add_disk()
+  um/drivers/ubd_kern: add error handling support for add_disk()
+  xtensa/platforms/iss/simdisk: add error handling support for
+    add_disk()
+  n64cart: add error handling support for add_disk()
+  pcd: add error handling support for add_disk()
+  pcd: fix ordering of unregister_cdrom()
+  pcd: capture errors on cdrom_register()
+  pd: add error handling support for add_disk()
+
+ arch/m68k/emu/nfblock.c             |   9 +-
+ arch/um/drivers/ubd_kern.c          |  13 +-
+ arch/xtensa/platforms/iss/simdisk.c |  13 +-
+ drivers/block/aoe/aoeblk.c          |   6 +-
+ drivers/block/drbd/drbd_main.c      |   6 +-
+ drivers/block/n64cart.c             |  12 +-
+ drivers/block/paride/pcd.c          | 304 +++++++++++++---------------
+ drivers/block/paride/pd.c           | 144 ++++++-------
+ drivers/block/paride/pf.c           | 223 +++++++++-----------
+ drivers/block/z2ram.c               |   7 +-
+ 10 files changed, 364 insertions(+), 373 deletions(-)
+
+-- 
+2.30.2
+
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
