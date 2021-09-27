@@ -2,50 +2,73 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 777FD41A2DD
-	for <lists+drbd-dev@lfdr.de>; Tue, 28 Sep 2021 00:24:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 559E041A2F3
+	for <lists+drbd-dev@lfdr.de>; Tue, 28 Sep 2021 00:29:39 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4F6A9420955;
-	Tue, 28 Sep 2021 00:24:16 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 40E03420950;
+	Tue, 28 Sep 2021 00:29:38 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from bombadil.infradead.org (bombadil.infradead.org
-	[198.137.202.133])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D85AB4208A3
-	for <drbd-dev@lists.linbit.com>; Tue, 28 Sep 2021 00:22:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309;
-	h=Sender:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=GTqlLrZsj3Suk0ZD1zxrlS/P00ynG/BQTDmWUdhTXPM=;
-	b=pZ75FiviARqXSmE5LIDqLZZHBc
-	Df6eRurl8Nmk0UFJNmGWSDr7RWS8BGLcsRgHgu7zMKMlFEY40TMSBy4za1WmqcOQudbdRWnYv3JNR
-	uxiE7y88AYxvBbosyU3OMbABdNr7z5XOGskwQ6Ic89l8o+vBoqRtpGxRaf/wpT8iVW+gzJ9F0iG+2
-	DVQK4kQkcuDPQFldVywiQfEPJQrXA/2JNACdvPqfalrHhaqWVNolh2QcVriVKhjnrGEbV7O9thybr
-	koXWQuGwkW2Fax82PYSPuXh1BHd+AABFPtQe+CFX0daPHhHbHYw+9hXAeY/9aIDZ9XdQ9Ot1jsngq
-	pxMsNZnw==;
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
-	(Red Hat Linux)) id 1mUygS-004TPm-Av; Mon, 27 Sep 2021 22:01:12 +0000
-From: Luis Chamberlain <mcgrof@kernel.org>
-To: axboe@kernel.dk, justin@coraid.com, geert@linux-m68k.org,
-	ulf.hansson@linaro.org, hare@suse.de, tj@kernel.org,
+Received: from mail-io1-f46.google.com (mail-io1-f46.google.com
+	[209.85.166.46])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 52CA4420626
+	for <drbd-dev@lists.linbit.com>; Tue, 28 Sep 2021 00:29:35 +0200 (CEST)
+Received: by mail-io1-f46.google.com with SMTP id 134so24786439iou.12
+	for <drbd-dev@lists.linbit.com>; Mon, 27 Sep 2021 15:29:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=mqOH7D1ukF9Zx8b0uf7vcP62TIlQ9RE291MOEYFvaPI=;
+	b=5v8EI4K57W2nZC6Fz5gZTCvYGpzpLmIVxBdnAzUCwcOELQ+Z50Fvi0F2ewrLtFDHRt
+	vtQkQZUUT9draUGadJ6ZaetWUBTobhsNeKmmxnly90D3cPXzYH+dCrqn7mpikqrckWDt
+	WHi7wR55Ek303Gg+2dugwLfcDXsRNH1MLrzdZ6XsBnqq5oBHq+hSOTcA57myq7M9AOAa
+	aCJaO2UWkm+hsZKGxK0d0D/TNWYEqb0UDgv+4L/taDU3hH3nbprrs7bGRma0s183dv+l
+	EPbxyWPCeAI7d/kBAGPUllWTqDWK0UR5PhnZh81ZPhBozZwXA1lGrbmMOWvdwHaSVxRe
+	8BZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20210112;
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=mqOH7D1ukF9Zx8b0uf7vcP62TIlQ9RE291MOEYFvaPI=;
+	b=Zj+g/lY78jbA2YQz8Iq3XRyEnhX9ZSdhzV0xWKBoRBYD8YS1P2yhS9VHG8xmg1gKJM
+	CEX9qPblwGQxpKK6FrxdZqBGvWx1Sk+1mSKQPOKc661hpcktAYj3uxotZVSEnNlITsjm
+	XBT2vvt9G8QjEB3CW775J/EAozGGaSzQxESSuUI++tMZ2WriOr108ZjtU1GCNYB+tTih
+	m64HKAmX5371TKy3wMeB+JQLbfah1DoJnhiL5vfYZZA4fiLV+ozVZtiVFiY+BLYS+lGo
+	IXmFog1TAKFVCULZcP/5zCECjy9BOP+9gO+kxLznoVs6k/3Jr0ecqfH7swTQzg8svziM
+	gHvg==
+X-Gm-Message-State: AOAM533Hu+oW6I6+4YwVAQMFG12G6LglqGgN0Vx2FDoGRi7LfGX9kzaE
+	DZ022gYzn6dsQEUcg/gZVGWqmw==
+X-Google-Smtp-Source: ABdhPJx4BepmT9sgpk1hyVciVWTm6ec+ZxPGy9AhD/MitW3pGK1ERf8eVfBwoyEV70Tjv8vb1T8inA==
+X-Received: by 2002:a05:6638:164c:: with SMTP id
+	a12mr1841987jat.62.1632781775194; 
+	Mon, 27 Sep 2021 15:29:35 -0700 (PDT)
+Received: from [192.168.1.116] ([66.219.217.159])
+	by smtp.gmail.com with ESMTPSA id
+	b12sm9902455ilv.46.2021.09.27.15.29.33
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Mon, 27 Sep 2021 15:29:34 -0700 (PDT)
+To: Luis Chamberlain <mcgrof@kernel.org>, justin@coraid.com,
+	geert@linux-m68k.org, ulf.hansson@linaro.org, hare@suse.de, tj@kernel.org, 
 	philipp.reisner@linbit.com, lars.ellenberg@linbit.com, jdike@addtoit.com,
 	richard@nod.at, anton.ivanov@cambridgegreys.com, johannes.berg@intel.com,
-	chris.obbard@collabora.com, krisman@collabora.com, zhuyifei1999@gmail.com,
+	chris.obbard@collabora.com, krisman@collabora.com, zhuyifei1999@gmail.com, 
 	thehajime@gmail.com, chris@zankel.net, jcmvbkbc@gmail.com, tim@cyberelk.net
-Date: Mon, 27 Sep 2021 15:01:10 -0700
-Message-Id: <20210927220110.1066271-16-mcgrof@kernel.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210927220110.1066271-1-mcgrof@kernel.org>
 References: <20210927220110.1066271-1-mcgrof@kernel.org>
+From: Jens Axboe <axboe@kernel.dk>
+Message-ID: <ee2c245d-7190-b708-4c48-cbee28f56f9a@kernel.dk>
+Date: Mon, 27 Sep 2021 16:29:33 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20210927220110.1066271-1-mcgrof@kernel.org>
+Content-Language: en-US
 Cc: linux-xtensa@linux-xtensa.org, linux-um@lists.infradead.org,
 	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org,
-	Luis Chamberlain <mcgrof@kernel.org>, drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH v2 15/15] pd: add error handling support for
-	add_disk()
+	linux-m68k@lists.linux-m68k.org, drbd-dev@lists.linbit.com
+Subject: Re: [Drbd-dev] [PATCH v2 00/15] block: third batch of add_disk()
+ error handling conversions
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -64,35 +87,16 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-We never checked for errors on add_disk() as this function
-returned void. Now that this is fixed, use the shiny new
-error handling.
+On 9/27/21 4:00 PM, Luis Chamberlain wrote:
+> This is the 2nd version of the third batch of driver conversions for the
+> add_disk() error handling. This and the entire 7th series of driver
+> conversions can be found on my 20210927-for-axboe-add-disk-error-handling
+> branch [0].
 
-Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
----
- drivers/block/paride/pd.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Applied 2, 4, 7, 8-15.
 
-diff --git a/drivers/block/paride/pd.c b/drivers/block/paride/pd.c
-index 500b89a4bdaf..e59759bcf416 100644
---- a/drivers/block/paride/pd.c
-+++ b/drivers/block/paride/pd.c
-@@ -938,8 +938,12 @@ static int pd_probe_drive(struct pd_unit *disk, int autoprobe, int port,
- 	if (ret)
- 		goto put_disk;
- 	set_capacity(disk->gd, disk->capacity);
--	add_disk(disk->gd);
-+	ret = add_disk(disk->gd);
-+	if (ret)
-+		goto cleanup_disk;
- 	return 0;
-+cleanup_disk:
-+	blk_cleanup_disk(disk->gd);
- put_disk:
- 	put_disk(p);
- 	disk->gd = NULL;
 -- 
-2.30.2
+Jens Axboe
 
 _______________________________________________
 drbd-dev mailing list
