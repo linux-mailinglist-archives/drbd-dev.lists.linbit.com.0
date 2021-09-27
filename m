@@ -2,31 +2,31 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id D695D41A295
-	for <lists+drbd-dev@lfdr.de>; Tue, 28 Sep 2021 00:06:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 451A841A236
+	for <lists+drbd-dev@lfdr.de>; Tue, 28 Sep 2021 00:04:36 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E247B420962;
-	Tue, 28 Sep 2021 00:06:05 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 19907420958;
+	Tue, 28 Sep 2021 00:04:36 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from bombadil.infradead.org (bombadil.infradead.org
 	[198.137.202.133])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id EF81242062B
-	for <drbd-dev@lists.linbit.com>; Tue, 28 Sep 2021 00:01:35 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id DEE0E420606
+	for <drbd-dev@lists.linbit.com>; Tue, 28 Sep 2021 00:01:34 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309;
 	h=Sender:Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=tG8cam/XDT2SqSq+KO9LsRJ8EhJRU6E2udZdmJan7KU=;
-	b=g0Vd2Ijjj9zsDyU8t7j0CK91EA
-	v7BCEM2ruytnp2jd68hUDBrkHzYUY3FLJiWdR8xhFZZkaeqY1HOdu7egCLMLB7p7kYyXv6p85Acog
-	7TNHe3KAQFiZiZ/0K/FVkZjLTY+2ZBsi+T6lrceiHDC3iHRvt80jQCCW3AW7YsnLJn03oTON1aVWG
-	kzhuOxkyQpLIbiBm5+sWhYj48Ft+5UhMv/bo7DCYeo1d2euLclfrI/WZ5lavETGaWqL0ECP5vtyM6
-	4iRrJu/tEJJWS6rz6GSqxbhdRiVCjk+ZlqN4Yw62pdnYMfZOJ74JZjbO9M8Nm9fxKR7EOrTf6brzq
-	OQ9rjZGg==;
+	bh=CdTBRsaYmbzthSsnr1IHgRONpjN45dt2OX2o5Pnpc8g=;
+	b=sBTpIcoigg8KiULFYY51hM6ysP
+	3SdznJnw9pLFpX/mKt0YQ/XFPDBhtgJ8uLM2I1opJ1CwVkScssxk0X9VmwwwdVvknPW8eP4XOZFts
+	ilSUGFNS64pOvbHpj6x04hkvuNu2twCB8+ROLGodxKPwpYoORATQn6v4kYODtjhCvIkuN90HbMlyW
+	vfegg/KWliKQTYYza8ri0VnI9GaIOn0RA1rmmrziuH/2a/GOXb1X2HUICXFiVWoUiuGlz4fgjarza
+	aPM8N/P34he+9ibC8zwyJi3D8T4yZZb7WTBMvH7k1Has/QK3wHr/1EblG5qzDXxcobOD48NZDaNYi
+	b+i28N4g==;
 Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2
-	(Red Hat Linux)) id 1mUygR-004TPS-UF; Mon, 27 Sep 2021 22:01:11 +0000
+	(Red Hat Linux)) id 1mUygR-004TPU-VZ; Mon, 27 Sep 2021 22:01:11 +0000
 From: Luis Chamberlain <mcgrof@kernel.org>
 To: axboe@kernel.dk, justin@coraid.com, geert@linux-m68k.org,
 	ulf.hansson@linaro.org, hare@suse.de, tj@kernel.org,
@@ -34,18 +34,18 @@ To: axboe@kernel.dk, justin@coraid.com, geert@linux-m68k.org,
 	richard@nod.at, anton.ivanov@cambridgegreys.com, johannes.berg@intel.com,
 	chris.obbard@collabora.com, krisman@collabora.com, zhuyifei1999@gmail.com,
 	thehajime@gmail.com, chris@zankel.net, jcmvbkbc@gmail.com, tim@cyberelk.net
-Date: Mon, 27 Sep 2021 15:01:02 -0700
-Message-Id: <20210927220110.1066271-8-mcgrof@kernel.org>
+Date: Mon, 27 Sep 2021 15:01:03 -0700
+Message-Id: <20210927220110.1066271-9-mcgrof@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210927220110.1066271-1-mcgrof@kernel.org>
 References: <20210927220110.1066271-1-mcgrof@kernel.org>
 MIME-Version: 1.0
 Cc: linux-xtensa@linux-xtensa.org, linux-um@lists.infradead.org,
 	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org,
-	Luis Chamberlain <mcgrof@kernel.org>, drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH v2 07/15] n64cart: add error handling support for
-	add_disk()
+	linux-m68k@lists.linux-m68k.org, Christoph Hellwig <hch@lst.de>,
+	drbd-dev@lists.linbit.com
+Subject: [Drbd-dev] [PATCH v2 08/15] pcd: move the identify buffer into
+	pcd_identify
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -64,56 +64,78 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-We never checked for errors on add_disk() as this function
-returned void. Now that this is fixed, use the shiny new
-error handling.
+From: Christoph Hellwig <hch@lst.de>
 
-Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
+No need to pass it through a bunch of functions.
+
+Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/block/n64cart.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ drivers/block/paride/pcd.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/block/n64cart.c b/drivers/block/n64cart.c
-index 26798da661bd..35aa5d38f57d 100644
---- a/drivers/block/n64cart.c
-+++ b/drivers/block/n64cart.c
-@@ -117,6 +117,7 @@ static const struct block_device_operations n64cart_fops = {
- static int __init n64cart_probe(struct platform_device *pdev)
- {
- 	struct gendisk *disk;
-+	int err = -ENOMEM;
- 
- 	if (!start || !size) {
- 		pr_err("start or size not specified\n");
-@@ -134,7 +135,7 @@ static int __init n64cart_probe(struct platform_device *pdev)
- 
- 	disk = blk_alloc_disk(NUMA_NO_NODE);
- 	if (!disk)
--		return -ENOMEM;
-+		goto out;
- 
- 	disk->first_minor = 0;
- 	disk->flags = GENHD_FL_NO_PART_SCAN;
-@@ -149,11 +150,18 @@ static int __init n64cart_probe(struct platform_device *pdev)
- 	blk_queue_physical_block_size(disk->queue, 4096);
- 	blk_queue_logical_block_size(disk->queue, 4096);
- 
--	add_disk(disk);
-+	err = add_disk(disk);
-+	if (err)
-+		goto out_cleanup_disk;
- 
- 	pr_info("n64cart: %u kb disk\n", size / 1024);
- 
- 	return 0;
-+
-+out_cleanup_disk:
-+	blk_cleanup_disk(disk);
-+out:
-+	return err;
+diff --git a/drivers/block/paride/pcd.c b/drivers/block/paride/pcd.c
+index f9cdd11f02f5..8903fdaa2046 100644
+--- a/drivers/block/paride/pcd.c
++++ b/drivers/block/paride/pcd.c
+@@ -630,10 +630,11 @@ static int pcd_drive_status(struct cdrom_device_info *cdi, int slot_nr)
+ 	return CDS_DISC_OK;
  }
  
- static struct platform_driver n64cart_driver = {
+-static int pcd_identify(struct pcd_unit *cd, char *id)
++static int pcd_identify(struct pcd_unit *cd)
+ {
+-	int k, s;
+ 	char id_cmd[12] = { 0x12, 0, 0, 0, 36, 0, 0, 0, 0, 0, 0, 0 };
++	char id[18];
++	int k, s;
+ 
+ 	pcd_bufblk = -1;
+ 
+@@ -664,15 +665,15 @@ static int pcd_identify(struct pcd_unit *cd, char *id)
+  * returns  0, with id set if drive is detected
+  *	    -1, if drive detection failed
+  */
+-static int pcd_probe(struct pcd_unit *cd, int ms, char *id)
++static int pcd_probe(struct pcd_unit *cd, int ms)
+ {
+ 	if (ms == -1) {
+ 		for (cd->drive = 0; cd->drive <= 1; cd->drive++)
+-			if (!pcd_reset(cd) && !pcd_identify(cd, id))
++			if (!pcd_reset(cd) && !pcd_identify(cd))
+ 				return 0;
+ 	} else {
+ 		cd->drive = ms;
+-		if (!pcd_reset(cd) && !pcd_identify(cd, id))
++		if (!pcd_reset(cd) && !pcd_identify(cd))
+ 			return 0;
+ 	}
+ 	return -1;
+@@ -709,7 +710,6 @@ static void pcd_probe_capabilities(void)
+ 
+ static int pcd_detect(void)
+ {
+-	char id[18];
+ 	int k, unit;
+ 	struct pcd_unit *cd;
+ 
+@@ -727,7 +727,7 @@ static int pcd_detect(void)
+ 		cd = pcd;
+ 		if (cd->disk && pi_init(cd->pi, 1, -1, -1, -1, -1, -1,
+ 			    pcd_buffer, PI_PCD, verbose, cd->name)) {
+-			if (!pcd_probe(cd, -1, id)) {
++			if (!pcd_probe(cd, -1)) {
+ 				cd->present = 1;
+ 				k++;
+ 			} else
+@@ -744,7 +744,7 @@ static int pcd_detect(void)
+ 				     conf[D_UNI], conf[D_PRO], conf[D_DLY],
+ 				     pcd_buffer, PI_PCD, verbose, cd->name)) 
+ 				continue;
+-			if (!pcd_probe(cd, conf[D_SLV], id)) {
++			if (!pcd_probe(cd, conf[D_SLV])) {
+ 				cd->present = 1;
+ 				k++;
+ 			} else
 -- 
 2.30.2
 
