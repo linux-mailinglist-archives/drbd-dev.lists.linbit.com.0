@@ -2,57 +2,56 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A29B42B687
-	for <lists+drbd-dev@lfdr.de>; Wed, 13 Oct 2021 08:12:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9670442B691
+	for <lists+drbd-dev@lfdr.de>; Wed, 13 Oct 2021 08:14:17 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 39656420FD9;
-	Wed, 13 Oct 2021 08:12:56 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7A0C7420FDF;
+	Wed, 13 Oct 2021 08:14:17 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
-	[209.85.210.178])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id AE225420FD9
-	for <drbd-dev@lists.linbit.com>; Wed, 13 Oct 2021 08:12:54 +0200 (CEST)
-Received: by mail-pf1-f178.google.com with SMTP id w6so1496229pfd.11
-	for <drbd-dev@lists.linbit.com>; Tue, 12 Oct 2021 23:12:54 -0700 (PDT)
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
+	[209.85.215.177])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3B945420FDF
+	for <drbd-dev@lists.linbit.com>; Wed, 13 Oct 2021 08:14:16 +0200 (CEST)
+Received: by mail-pg1-f177.google.com with SMTP id r2so1292066pgl.10
+	for <drbd-dev@lists.linbit.com>; Tue, 12 Oct 2021 23:14:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-disposition:in-reply-to;
-	bh=1H1JJFKjz05y5oj0p755Wd9Nps08CHOHEplJ5Y1g+2w=;
-	b=FnlM9CdvccmU4HmqmwsZQ6mwcBwOhpuSMmvAcPJz12hGrzMLx0wE72HESKXT/FSdf4
-	7+542Lua7V4TbazDGNap5DO9Pfw7c/uG+qyBy3qJkapOn+6ER85tMNMzt8DzCatnHQL8
-	8qEBnbzhJGY53T8EWVA6JlX/GqGluU0pFlO7o=
+	bh=ohUOQyC8vv5S9fFmDSqrC2HGxb4XvUeywx+2/I7KWZo=;
+	b=frRmuaPa3nXR7lxMr1CNNPYB3c6MDWaV+IHcoR+XuNXpKLmcDJudjmJiNd/vJuYFPn
+	yeOjEGluCsqDt4qWvY1oHVWaypcD/6hEY+cvzA7LDBwWjS32G63Wnxe8e0GGmx9dGa0p
+	xQzhoygleJQrWshzo5X8hdFcW2UVxu2kZRAXo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20210112;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to;
-	bh=1H1JJFKjz05y5oj0p755Wd9Nps08CHOHEplJ5Y1g+2w=;
-	b=KUREGLLvf0mU0RMJ+PMneFW658/KYvtWRdYv7cPj8wOdKBieSGLtPH0vl9uAAb5D/k
-	0+aK1oH4LNo5HdTX/e2GvtfoY1DH9HpHz2dXmmMs9gvqd7dW9FCbhP72pBOin8w0O0g0
-	ErMGM5nEJAE1PO8JwuBF/vkv7Orf40w4lKgzK2zzm/27Aauot6qcFVQgVVdlj4HLmoA+
-	y2+HkbkntbkPl44uepa7wUYusmNN+UpgKV7ZJYgqBco6cFc8ObkwtCo7Qp4aAsAHp0DB
-	q/9r++LHib3Lq08P5KCWf66N76aAtA/84aXbTgsWX8nX8TPupZ2LcdHBf4wbEei6MtL3
-	kp8w==
-X-Gm-Message-State: AOAM532vS9FDUspIZmgklMGpaVdQRKGF2mF1f5+k0WcEy5gMhAaL7+ER
-	ISuoNZiPtNamFgGbFfLBRNBDbg==
-X-Google-Smtp-Source: ABdhPJyo2VCUKF6kjMdrI9PCDmpBjFpUCoF94Pv9htxPPsmjtX3akcms7YpvLn8ozHxuI/GsrlutsQ==
-X-Received: by 2002:aa7:91c2:0:b0:44c:a5a4:43d4 with SMTP id
-	z2-20020aa791c2000000b0044ca5a443d4mr35433093pfa.20.1634105573663;
-	Tue, 12 Oct 2021 23:12:53 -0700 (PDT)
+	bh=ohUOQyC8vv5S9fFmDSqrC2HGxb4XvUeywx+2/I7KWZo=;
+	b=NOVRnH3us8Y+OxW2XqWmKoZcHcRhR+j33EacItdTtVtvGcvdPCrKClt4cIIRBBhHkC
+	u8oGstdOw/e1go7wltjptDlWJivF3efKkUkP/ytE/JXeF/B7RgcLEEnAX0lKEIPiBHrv
+	ON+unG8z1x8oKn3hQTjXebIdA/VljVQJb+07486VrzKFRLMcRuG2TSfJTUBQbvHU/xle
+	IkWjmQc/4aNmsfb54vSMWHSxs7Lx+tY3cXNhoQZ2yqH578eqm0aZmofUg11LAYga+y3H
+	c1s6CS/pQvufnShyqfC9+1XK/FGo3O7LSdVhg3x5r5F+WQcv+j99FdWIQGyQGXm17Bjb
+	ljTA==
+X-Gm-Message-State: AOAM530QoGJ+yS8u4f/uo0jcguMNZJETqri/B6bttmSKnLTaVKmy+qNB
+	vut2QlW0J80HbCBGtU+xDvRKuw==
+X-Google-Smtp-Source: ABdhPJwNMNbppcyyaPyGGktYQSHeAypT2bIkLVBhhieDA7TSPn60W6m8F7nQfgJZ/E5a6hMyK4Ynow==
+X-Received: by 2002:a63:e00b:: with SMTP id e11mr26380948pgh.190.1634105655240;
+	Tue, 12 Oct 2021 23:14:15 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
 	by smtp.gmail.com with ESMTPSA id
-	z124sm12774767pfb.108.2021.10.12.23.12.53
+	t8sm10813622pgk.66.2021.10.12.23.14.14
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 12 Oct 2021 23:12:53 -0700 (PDT)
-Date: Tue, 12 Oct 2021 23:12:52 -0700
+	Tue, 12 Oct 2021 23:14:15 -0700 (PDT)
+Date: Tue, 12 Oct 2021 23:14:14 -0700
 From: Kees Cook <keescook@chromium.org>
 To: Christoph Hellwig <hch@lst.de>
-Message-ID: <202110122311.B43459E21@keescook>
+Message-ID: <202110122314.664187AA@keescook>
 References: <20211013051042.1065752-1-hch@lst.de>
-	<20211013051042.1065752-5-hch@lst.de>
+	<20211013051042.1065752-10-hch@lst.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20211013051042.1065752-5-hch@lst.de>
+In-Reply-To: <20211013051042.1065752-10-hch@lst.de>
 Cc: Dave Kleikamp <shaggy@kernel.org>, jfs-discussion@lists.sourceforge.net,
 	Mike Snitzer <snitzer@redhat.com>, linux-nvme@lists.infradead.org,
 	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
@@ -72,8 +71,7 @@ Cc: Dave Kleikamp <shaggy@kernel.org>, jfs-discussion@lists.sourceforge.net,
 	linux-fsdevel@vger.kernel.org,
 	Phillip Lougher <phillip@squashfs.org.uk>, ntfs3@lists.linux.dev,
 	linux-btrfs@vger.kernel.org
-Subject: Re: [Drbd-dev] [PATCH 04/29] md: use bdev_nr_sectors instead of
-	open coding it
+Subject: Re: [Drbd-dev] [PATCH 09/29] fs: simplify init_page_buffers
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -92,15 +90,10 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Wed, Oct 13, 2021 at 07:10:17AM +0200, Christoph Hellwig wrote:
-> Use the proper helper to read the block device size.
+On Wed, Oct 13, 2021 at 07:10:22AM +0200, Christoph Hellwig wrote:
+> No need to convert from bdev to inode and back.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
-
-I think it might make sense, as you suggest earlier, to add a "bytes"
-helper. This is the first user in the series needing:
-
-	bdev_nr_sectors(...bdev) << SECTOR_SHIFT
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
 
