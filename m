@@ -2,70 +2,61 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CB7241ABF2
-	for <lists+drbd-dev@lfdr.de>; Tue, 28 Sep 2021 11:32:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E011542B52D
+	for <lists+drbd-dev@lfdr.de>; Wed, 13 Oct 2021 07:29:20 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 19CE44207D4;
-	Tue, 28 Sep 2021 11:32:37 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C2C8F420FCD;
+	Wed, 13 Oct 2021 07:29:20 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
-	[209.85.208.52])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 87DBD42095C
-	for <drbd-dev@lists.linbit.com>; Tue, 28 Sep 2021 00:50:48 +0200 (CEST)
-Received: by mail-ed1-f52.google.com with SMTP id v10so71018197edj.10
-	for <drbd-dev@lists.linbit.com>; Mon, 27 Sep 2021 15:50:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=lbtHxjRemmXiBIhG0GW8nlURXNpwyPs370Xxo7AeQQk=;
-	b=YZ2VTmSCUUUwt9GaX+TF009NFPIKAVOBMPTgS3jayY1GsTxjk0eyD6zyo3KSDp2ffd
-	15/G6kf8ngNImvfP+WO3GwmQFWGvbVqsojWS5PsZGnhvbMFfwNf8hSswllXfjJWH5bOE
-	iuZL52rFsekbaWI4lIXdwtbN7zFzDlTDgpjQpSXSpN15NE9HDPayoVqneLYjbtMi9s4X
-	ps/Z9ps2NUVxdYW6SyynTklGHbpuzsS5CawTlfWbAl6o8ozZlHhvGY0lDmYlvpfHfCUs
-	GD4OE0hwIQQOcnCDaiwMPQ95SiG9tHFH0M56s31hXESkpNn5z5fJT/O3fmOeyg3xh3Pb
-	IunQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20210112;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=lbtHxjRemmXiBIhG0GW8nlURXNpwyPs370Xxo7AeQQk=;
-	b=IOWE0z65eL9kLf5EW6rpIUzPxPxizAvKeYvt6hAapikM9zwcTk1C8r0X6Qh+isScL3
-	SAuJFZXByA5IfHEkhI0nMaOP3tQextzdGXz3oeSYWIXpKQHBIhf3BI/vDc5kEANjtcnA
-	lNAJKy1cUkYNFSPXnwotm1NrrJ2vZ1teBBiRdAg1iwpYeJvaEhJrPYUGUOumPkwjRUnp
-	Cz7zbmFMWH/MYM9v8gfdoP4+Tzv3cogta85YluSXqflSVnRa2YAa5XBk8IXVkFa7y5Xb
-	klMIXzb1vpwXX5tbw1FJKrwXHrYjxXvVD+jEiDE5X0KDWXvc+em6FeQBpcdQeJ+DJTW/
-	3QCw==
-X-Gm-Message-State: AOAM531ZcR/hpWvYI8JpsLQUNM3rLE0+qKwLhuZkzWBIukc9/QT2Uyfl
-	r9N9+BbXcd9CPaaO48gG8YT1ybRSyyB1ed0PVrk=
-X-Google-Smtp-Source: ABdhPJxqWtQBQk+q3MXvQ7lymGiQEolFkglJxXrWFsK3GxDKn2WvP9KOWmJHtaEmST6By7Czy4V78fbFN5iEYd3RzYA=
-X-Received: by 2002:aa7:d592:: with SMTP id r18mr3465274edq.172.1632783048036; 
-	Mon, 27 Sep 2021 15:50:48 -0700 (PDT)
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id CAA67420FCD
+	for <drbd-dev@lists.linbit.com>; Wed, 13 Oct 2021 07:28:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209;
+	h=Content-Transfer-Encoding:MIME-Version:
+	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=ocvXC+DvSauKdmmvS3p+BxJi5u95doUk5KlK23wKtqo=;
+	b=lKRpM4ZXjdzEAs+vZHMan9ZhwK
+	q3qA9dd5QajFA+KsuGdVyTH2p+oZZPEv/z2NSgSxTwIMMwqmktOR+s0Mrd19t1c1Y/TakGT40A9Wj
+	fXHJiNb6NQJwkxlZ/5iLycWCBNdMTLXRP1g8wuFiwK5UhTbY4DE7tpL0AHanppMBRE/m1Ine/XAEK
+	um2dw0LVt4/UjLCyOHoVNjJK0jpXEaLw+w3Q6MwnUfqPKIR8hZ7XIOjLGS/AwhJhnrAzptzhgIYv3
+	k508G2hmAkGrCbErzCtBLkTxM5WVEpuUuduXQQzcasviJArvc73oNwcMB0CSLN98PutjOV+1MzU1W
+	3RwzUyhQ==;
+Received: from 089144212063.atnat0021.highway.a1.net ([89.144.212.63]
+	helo=localhost)
+	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1maWXM-0075tt-3G; Wed, 13 Oct 2021 05:10:57 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Jens Axboe <axboe@kernel.dk>
+Date: Wed, 13 Oct 2021 07:10:13 +0200
+Message-Id: <20211013051042.1065752-1-hch@lst.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210927220110.1066271-1-mcgrof@kernel.org>
-	<20210927220110.1066271-7-mcgrof@kernel.org>
-In-Reply-To: <20210927220110.1066271-7-mcgrof@kernel.org>
-From: Max Filippov <jcmvbkbc@gmail.com>
-Date: Mon, 27 Sep 2021 15:50:36 -0700
-Message-ID: <CAMo8BfLX84HBuVe=FyqWkVU5Ek-aKFk++omnqsmf9wO6fdVpMQ@mail.gmail.com>
-To: Luis Chamberlain <mcgrof@kernel.org>
-X-Mailman-Approved-At: Tue, 28 Sep 2021 11:32:35 +0200
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, justin@coraid.com,
-	LKML <linux-kernel@vger.kernel.org>, krisman@collabora.com,
-	tim@cyberelk.net, drbd-dev@lists.linbit.com,
-	Richard Weinberger <richard@nod.at>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-	"open list:TENSILICA XTENSA PORT \(xtensa\)"
-	<linux-xtensa@linux-xtensa.org>, johannes.berg@intel.com,
-	Jeff Dike <jdike@addtoit.com>, linux-um@lists.infradead.org,
-	linux-block@vger.kernel.org,
-	"open list:M68K ARCHITECTURE" <linux-m68k@lists.linux-m68k.org>,
-	hare@suse.de, Jens Axboe <axboe@kernel.dk>,
-	Chris Zankel <chris@zankel.net>, philipp.reisner@linbit.com,
-	chris.obbard@collabora.com, Tejun Heo <tj@kernel.org>,
-	lars.ellenberg@linbit.com, thehajime@gmail.com, zhuyifei1999@gmail.com
-Subject: Re: [Drbd-dev] [PATCH v2 06/15] xtensa/platforms/iss/simdisk: add
- error handling support for add_disk()
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+	casper.infradead.org. See http://www.infradead.org/rpr.html
+Cc: Dave Kleikamp <shaggy@kernel.org>, jfs-discussion@lists.sourceforge.net,
+	Mike Snitzer <snitzer@redhat.com>, linux-nvme@lists.infradead.org,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Song Liu <song@kernel.org>, dm-devel@redhat.com,
+	target-devel@vger.kernel.org, linux-mtd@lists.infradead.org,
+	reiserfs-devel@vger.kernel.org, drbd-dev@lists.linbit.com,
+	linux-nilfs@vger.kernel.org, linux-scsi@vger.kernel.org,
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+	linux-ext4@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+	Josef Bacik <josef@toxicpanda.com>, Coly Li <colyli@suse.de>,
+	linux-raid@vger.kernel.org, linux-bcache@vger.kernel.org,
+	David Sterba <dsterba@suse.com>,
+	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+	Anton Altaparmakov <anton@tuxera.com>,
+	linux-block@vger.kernel.org, linux-nfs@vger.kernel.org,
+	Theodore Ts'o <tytso@mit.edu>,
+	linux-ntfs-dev@lists.sourceforge.net, Jan Kara <jack@suse.com>,
+	linux-fsdevel@vger.kernel.org,
+	Phillip Lougher <phillip@squashfs.org.uk>, ntfs3@lists.linux.dev,
+	linux-btrfs@vger.kernel.org
+Subject: [Drbd-dev] don't use ->bd_inode to access the block device size
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -84,22 +75,77 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Mon, Sep 27, 2021 at 3:01 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
->
-> We never checked for errors on add_disk() as this function
-> returned void. Now that this is fixed, use the shiny new
-> error handling.
->
-> Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
-> ---
->  arch/xtensa/platforms/iss/simdisk.c | 13 +++++++++++--
->  1 file changed, 11 insertions(+), 2 deletions(-)
+Hi Jens,
 
-Acked-by: Max Filippov <jcmvbkbc@gmail.com>
+various drivers currently poke directy at the block device inode, which
+is a bit of a mess.  This series cleans up the places that read the
+block device size to use the proper helpers.  I have separate patches
+for many of the other bd_inode uses, but this series is already big
+enough as-is,
 
--- 
-Thanks.
--- Max
+I wondered about adding a helper for looking at the size in byte units
+to avoid the SECTOR_SHIFT shifts in various places.  But given that
+I could not come up with a good name and block devices fundamentally
+work in sector size granularity I decided against that.
+
+Diffstat:
+ block/fops.c                        |    2 +-
+ drivers/block/drbd/drbd_int.h       |    3 +--
+ drivers/md/bcache/super.c           |    2 +-
+ drivers/md/bcache/util.h            |    4 ----
+ drivers/md/bcache/writeback.c       |    2 +-
+ drivers/md/dm-bufio.c               |    2 +-
+ drivers/md/dm-cache-metadata.c      |    2 +-
+ drivers/md/dm-cache-target.c        |    2 +-
+ drivers/md/dm-clone-target.c        |    2 +-
+ drivers/md/dm-dust.c                |    5 ++---
+ drivers/md/dm-ebs-target.c          |    2 +-
+ drivers/md/dm-era-target.c          |    2 +-
+ drivers/md/dm-exception-store.h     |    2 +-
+ drivers/md/dm-flakey.c              |    3 +--
+ drivers/md/dm-integrity.c           |    6 +++---
+ drivers/md/dm-linear.c              |    3 +--
+ drivers/md/dm-log-writes.c          |    4 ++--
+ drivers/md/dm-log.c                 |    2 +-
+ drivers/md/dm-mpath.c               |    2 +-
+ drivers/md/dm-raid.c                |    6 +++---
+ drivers/md/dm-switch.c              |    2 +-
+ drivers/md/dm-table.c               |    3 +--
+ drivers/md/dm-thin-metadata.c       |    2 +-
+ drivers/md/dm-thin.c                |    2 +-
+ drivers/md/dm-verity-target.c       |    3 +--
+ drivers/md/dm-writecache.c          |    2 +-
+ drivers/md/dm-zoned-target.c        |    2 +-
+ drivers/md/md.c                     |   26 +++++++++++---------------
+ drivers/mtd/devices/block2mtd.c     |    5 +++--
+ drivers/nvme/target/io-cmd-bdev.c   |    4 ++--
+ drivers/target/target_core_iblock.c |    5 +++--
+ fs/affs/super.c                     |    2 +-
+ fs/btrfs/dev-replace.c              |    2 +-
+ fs/btrfs/disk-io.c                  |    3 ++-
+ fs/btrfs/ioctl.c                    |    4 ++--
+ fs/btrfs/volumes.c                  |    7 ++++---
+ fs/buffer.c                         |    4 ++--
+ fs/cramfs/inode.c                   |    2 +-
+ fs/ext4/super.c                     |    2 +-
+ fs/fat/inode.c                      |    5 +----
+ fs/hfs/mdb.c                        |    2 +-
+ fs/hfsplus/wrapper.c                |    2 +-
+ fs/jfs/resize.c                     |    5 ++---
+ fs/jfs/super.c                      |    5 ++---
+ fs/nfs/blocklayout/dev.c            |    4 ++--
+ fs/nilfs2/ioctl.c                   |    2 +-
+ fs/nilfs2/super.c                   |    2 +-
+ fs/nilfs2/the_nilfs.c               |    3 ++-
+ fs/ntfs/super.c                     |    8 +++-----
+ fs/ntfs3/super.c                    |    3 +--
+ fs/pstore/blk.c                     |    4 ++--
+ fs/reiserfs/super.c                 |    7 ++-----
+ fs/squashfs/super.c                 |    5 +++--
+ fs/udf/lowlevel.c                   |    5 ++---
+ fs/udf/super.c                      |    9 +++------
+ include/linux/genhd.h               |    6 ++++++
+ 56 files changed, 100 insertions(+), 117 deletions(-)
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
