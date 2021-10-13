@@ -2,58 +2,57 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7A5842B675
-	for <lists+drbd-dev@lfdr.de>; Wed, 13 Oct 2021 08:09:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBEE742B67E
+	for <lists+drbd-dev@lfdr.de>; Wed, 13 Oct 2021 08:10:21 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9B9B0420FE8;
-	Wed, 13 Oct 2021 08:09:51 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D0010420FEA;
+	Wed, 13 Oct 2021 08:10:21 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
-	[209.85.216.54])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4EDA4420FD6
-	for <drbd-dev@lists.linbit.com>; Wed, 13 Oct 2021 08:09:39 +0200 (CEST)
-Received: by mail-pj1-f54.google.com with SMTP id
-	pf6-20020a17090b1d8600b0019fa884ab85so3590131pjb.5
-	for <drbd-dev@lists.linbit.com>; Tue, 12 Oct 2021 23:09:39 -0700 (PDT)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
+	[209.85.214.181])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A9096420FDF
+	for <drbd-dev@lists.linbit.com>; Wed, 13 Oct 2021 08:10:12 +0200 (CEST)
+Received: by mail-pl1-f181.google.com with SMTP id w14so1092899pll.2
+	for <drbd-dev@lists.linbit.com>; Tue, 12 Oct 2021 23:10:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-disposition:in-reply-to;
-	bh=z0+/l2JzZcIMvRxuVnPDxpTt0N87/VTetFSC9UipIbo=;
-	b=dDm5KKH54Cm+jQj+Mhb1k8rvRxfJNbsL/HRxrPpWdrzH1k+JCSsBgY9A1wItnAnyuP
-	9ultcLUzRn7czy1OW9j2NX2hgXb5hjl16HGUd04L8fCWxy7FcQb0Xj95F86MpdxVurhd
-	+Yoq3Vcva7UyTZ4UkXIHSgLR2MTnO/N9XCsr0=
+	bh=HKDYpp4YSVsNULamooLUjhsr3ltG6/c66elTMRrkKgQ=;
+	b=NoF0hG29o29DKsntYKpCXV92mD6h6EMom48z8tQzSN8FHu905ky+Xz3bE0nNtk4PY1
+	0HNqwx/qtRzx7vXjuatnB9t9z2CQvezADG+ChrPjw5Rsdx9XyUR9gAFLAQnuxS6pqLaj
+	euLxlv/sHfBVUNSEFnk9jxaM9RIcQ1jZpnz4Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20210112;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to;
-	bh=z0+/l2JzZcIMvRxuVnPDxpTt0N87/VTetFSC9UipIbo=;
-	b=KOZKQLXIP1pBYuk45Mper5LQFEY/7NX00TUgSLvcFxY3CYKivsaAGgN3q9DC5tZo/G
-	dnkEIvSCXjrB9waSoB0BCuVQAz4CZpQ/7Em/mx0dl5EOEa++SOftjdiGAkZTCMVO5mc2
-	OzE3CJz+pwOpvhhnbGDYydc4NdfWMPb9jQP8iYAOQxAkQn67qCfP+w/RwF1PlO5iTFEz
-	/VMVdV6tRttP38JJNDu2PCFxkqz2nXpff5IZGyUv4tNbtvwievH73VTuQxRftqi9Q+0Q
-	Yw74YRI0m9aNTkTr788zwo83oYgKnmLTyRK3c0kXcYL2BcGh60beQUQzS6igq2jRxXud
-	WYqg==
-X-Gm-Message-State: AOAM530HBr9QCVs6jmM6PJ7455pccDPy/+USngnnzIELti/1jOVHuEHn
-	SD/qGAUg9xt9v08YpUdENlzCmg==
-X-Google-Smtp-Source: ABdhPJx1Mq3qptD5w3g2Y6okZL9tWnjLnFrTXEu5gKzk6Wq6AX2hVHSkDjnl1IkjZGDzNZT+Poo5bw==
-X-Received: by 2002:a17:902:b593:b0:12d:7aa5:de2d with SMTP id
-	a19-20020a170902b59300b0012d7aa5de2dmr34892215pls.31.1634105379132;
-	Tue, 12 Oct 2021 23:09:39 -0700 (PDT)
+	bh=HKDYpp4YSVsNULamooLUjhsr3ltG6/c66elTMRrkKgQ=;
+	b=ImCUKZfij4RZ7mubKO4h8i6evyN0gFln/BE+1VHpQ489/Ogicxd9JsxJkJxOMyMuNx
+	wlFl8GwYz3dh1pAX93+saOJrcXHmB+00KbdaqDXZJdeFqzxOPf4pxurA5PJUYmYVwqAl
+	0QqKv5UtStHxezyJHCFZ7Qo1b5njn693XLvH5KBJ9wMD7Hr5pTXRJaNf8wwm0novmicy
+	LMxPCHPuPKfZBbO1wZrx2esJ3zcfe4bdPwfSW5F8vDS4nN6NxP7ncuGEEzD2TmR7b26G
+	B+9AebRp367RFkUmDbwp4mUqEfHmYd0QhQihQNNT4CqaeJmlSl74ZTrntY8f2ster9rA
+	9SGQ==
+X-Gm-Message-State: AOAM530qo5lgWBPUcmL7UVl0lDuh3sD3MaHayWhvMZ5nRL+GSb0vnwXy
+	loW+DEp/LakqGAbc58y8Iec+qw==
+X-Google-Smtp-Source: ABdhPJyI6aPzBzGRPPEaJuKfUq0XfZkLrckDtvce+rfY8Gu3TkNHDTrcv1RgahLv6GETviOJpuuK3w==
+X-Received: by 2002:a17:902:f691:b0:13f:2034:7613 with SMTP id
+	l17-20020a170902f69100b0013f20347613mr24197069plg.81.1634105411698;
+	Tue, 12 Oct 2021 23:10:11 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
 	by smtp.gmail.com with ESMTPSA id
-	nn14sm5323477pjb.27.2021.10.12.23.09.38
+	z24sm5259621pfr.141.2021.10.12.23.10.11
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 12 Oct 2021 23:09:38 -0700 (PDT)
-Date: Tue, 12 Oct 2021 23:09:38 -0700
+	Tue, 12 Oct 2021 23:10:11 -0700 (PDT)
+Date: Tue, 12 Oct 2021 23:10:10 -0700
 From: Kees Cook <keescook@chromium.org>
 To: Christoph Hellwig <hch@lst.de>
-Message-ID: <202110122309.FB5CB2DE3@keescook>
+Message-ID: <202110122310.36F4C08@keescook>
 References: <20211013051042.1065752-1-hch@lst.de>
-	<20211013051042.1065752-3-hch@lst.de>
+	<20211013051042.1065752-4-hch@lst.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20211013051042.1065752-3-hch@lst.de>
+In-Reply-To: <20211013051042.1065752-4-hch@lst.de>
 Cc: Dave Kleikamp <shaggy@kernel.org>, jfs-discussion@lists.sourceforge.net,
 	Mike Snitzer <snitzer@redhat.com>, linux-nvme@lists.infradead.org,
 	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
@@ -73,7 +72,7 @@ Cc: Dave Kleikamp <shaggy@kernel.org>, jfs-discussion@lists.sourceforge.net,
 	linux-fsdevel@vger.kernel.org,
 	Phillip Lougher <phillip@squashfs.org.uk>, ntfs3@lists.linux.dev,
 	linux-btrfs@vger.kernel.org
-Subject: Re: [Drbd-dev] [PATCH 02/29] drbd: use bdev_nr_sectors instead of
+Subject: Re: [Drbd-dev] [PATCH 03/29] dm: use bdev_nr_sectors instead of
 	open coding it
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
@@ -93,7 +92,7 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Wed, Oct 13, 2021 at 07:10:15AM +0200, Christoph Hellwig wrote:
+On Wed, Oct 13, 2021 at 07:10:16AM +0200, Christoph Hellwig wrote:
 > Use the proper helper to read the block device size.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
