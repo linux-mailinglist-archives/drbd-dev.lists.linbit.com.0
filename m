@@ -2,57 +2,57 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA34642B716
-	for <lists+drbd-dev@lfdr.de>; Wed, 13 Oct 2021 08:27:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38A4B42B726
+	for <lists+drbd-dev@lfdr.de>; Wed, 13 Oct 2021 08:29:43 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D10F0420FDD;
-	Wed, 13 Oct 2021 08:27:46 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3C016420FE5;
+	Wed, 13 Oct 2021 08:29:42 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
-	[209.85.216.45])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 03700420004
-	for <drbd-dev@lists.linbit.com>; Wed, 13 Oct 2021 08:27:44 +0200 (CEST)
-Received: by mail-pj1-f45.google.com with SMTP id ls18so1389639pjb.3
-	for <drbd-dev@lists.linbit.com>; Tue, 12 Oct 2021 23:27:44 -0700 (PDT)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+	[209.85.214.171])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 97A83420004
+	for <drbd-dev@lists.linbit.com>; Wed, 13 Oct 2021 08:29:41 +0200 (CEST)
+Received: by mail-pl1-f171.google.com with SMTP id v20so1107345plo.7
+	for <drbd-dev@lists.linbit.com>; Tue, 12 Oct 2021 23:29:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-disposition:in-reply-to;
-	bh=C7+rA9/qIKI+jEKdGT8jq286cyAFBOUDDboMnfms+Z8=;
-	b=AlEYQ5u0lf8LlpP+7qsCcuJhK1pgOk4qAHuS3VO4jhvcYvvdHIhevJhnSmtjCxYajF
-	GvRWvFMVajscl3jlCv3bKH7RKiMCJHNfpDbORo8xCSB0MCLratUhvvPInP4hPM2sN7/u
-	axF+0KLgxbxN6eO5bdOoxf3QMqBfSL0vk4cKc=
+	bh=W+Po2ncML0dagir1ZXD2ovXOKvk/W+c/3o5vm+NA9cQ=;
+	b=QomLyJ/uwXmEgOIdGiIKpgwe7fIN3sqRRqysUR703Xs3YgTlXaMfe2P+HII9dJHv27
+	pe85K+wWKdH0PewpBtncrX+pK9/vv2ewnDdpNrXhC91Xk/Ncvs9CyiBnb8qEmm15S3FV
+	6BEJ5rXVDozZ1lv8jDs3uSJtiPb9Dk/ZAAcM0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20210112;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to;
-	bh=C7+rA9/qIKI+jEKdGT8jq286cyAFBOUDDboMnfms+Z8=;
-	b=emsLTt7hHleZay7vXbw3hrtCX6367lTtZRCBUK1ZSBYxuARwyAX9KhSLQPgCOvjO59
-	I2ypWx0lyLs5tUyZcPKzX8BynuXjqALPigSxDnMxp1ij+NtvLAbyfTq0d4d1lghecnLy
-	l4NWXtYCvvY5TgjBhKV2zOTTOCVsJqygxjYU/jYn5lJSAHvRasui6S6k/NI1OkiQgk9T
-	hahDkam+HQdjwyoQeYdR0tHX5sF3NGcNjB+cAs3Q1u0+KUwcdEOgHunAC/1PUcX65ZCe
-	coPLSvWiNt5BtOh5xzpEjq7XLzqpCFl4VHwd1LAyKg1iyMjkoA1k0DO8uSaBBWTZzFe4
-	+ECA==
-X-Gm-Message-State: AOAM53332HpJ3qXoJkttuxvmpWfzBSIOav9wYnHYmr43zBz4dGr6Dio2
-	jGoQUViDPuv15X89vRmHhRP1xA==
-X-Google-Smtp-Source: ABdhPJz8mp+/J7KQDpbHq7K2lAJxf17Ai5GLPqj67ERcH9Uej4DEhzNclBgAGGyGj3QY5e4RheoMRg==
-X-Received: by 2002:a17:90b:88d:: with SMTP id
-	bj13mr4255866pjb.211.1634106463887; 
-	Tue, 12 Oct 2021 23:27:43 -0700 (PDT)
+	bh=W+Po2ncML0dagir1ZXD2ovXOKvk/W+c/3o5vm+NA9cQ=;
+	b=uIVgW88UaGF7C6/ncjw6gPCRqqyoMPZM5y3wN0NMiFnD1iK1a8byf6vPdEmdHPBGqZ
+	5JCPWhA91oY8FMy6my0i+7J+1lrT8UiHwLj6WNZxLEQ4GZsfX0+zWdpo1oNrsN2vK+vC
+	B5uyDJxNwdRxoXAfRxWjtS479KiEZuf/Z1AcDQCFXdl3tIMaQFSQZFcMweEnzzDbuNo3
+	S5wx/Gz/ZLwB2HQI1nI82yZv8NR66/0y3GQcZTNI1/ln5Hyim4strNoMYtTdnP6w9ByK
+	O39KZyPVkCFVxMoDqBwBP+5qVHUThRytYAkfVS3pmiBa6SXEtwvfkwN6fp1p4c8l0Xi4
+	Oc0w==
+X-Gm-Message-State: AOAM533ju+jQ3b+E9mJnDLpXnCgyvf0PF3TsjvQg2kSEhmVYN4cN+9tk
+	cMDX17PbVb7JNuVCnyyv2Daipg==
+X-Google-Smtp-Source: ABdhPJwwvDzOMlBdl8uBpL682Y/M/U5HFlms6OXsU9pvWhVrOJHosSbnvoIECvMOshQ6rTYdsLz56g==
+X-Received: by 2002:a17:90b:4b4c:: with SMTP id
+	mi12mr11492173pjb.57.1634106580411; 
+	Tue, 12 Oct 2021 23:29:40 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
 	by smtp.gmail.com with ESMTPSA id
-	x15sm7730841pgo.48.2021.10.12.23.27.43
+	x7sm12999948pfj.28.2021.10.12.23.29.39
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 12 Oct 2021 23:27:43 -0700 (PDT)
-Date: Tue, 12 Oct 2021 23:27:42 -0700
+	Tue, 12 Oct 2021 23:29:39 -0700 (PDT)
+Date: Tue, 12 Oct 2021 23:29:39 -0700
 From: Kees Cook <keescook@chromium.org>
 To: Christoph Hellwig <hch@lst.de>
-Message-ID: <202110122319.3029AE5AA@keescook>
+Message-ID: <202110122328.92B4FC41F4@keescook>
 References: <20211013051042.1065752-1-hch@lst.de>
-	<20211013051042.1065752-25-hch@lst.de>
+	<20211013051042.1065752-26-hch@lst.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20211013051042.1065752-25-hch@lst.de>
+In-Reply-To: <20211013051042.1065752-26-hch@lst.de>
 Cc: Dave Kleikamp <shaggy@kernel.org>, jfs-discussion@lists.sourceforge.net,
 	Mike Snitzer <snitzer@redhat.com>, linux-nvme@lists.infradead.org,
 	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
@@ -72,7 +72,7 @@ Cc: Dave Kleikamp <shaggy@kernel.org>, jfs-discussion@lists.sourceforge.net,
 	linux-fsdevel@vger.kernel.org,
 	Phillip Lougher <phillip@squashfs.org.uk>, ntfs3@lists.linux.dev,
 	linux-btrfs@vger.kernel.org
-Subject: Re: [Drbd-dev] [PATCH 24/29] block: add a sb_bdev_nr_blocks helper
+Subject: Re: [Drbd-dev] [PATCH 25/29] ext4: use sb_bdev_nr_blocks
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -91,48 +91,32 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Wed, Oct 13, 2021 at 07:10:37AM +0200, Christoph Hellwig wrote:
-> Add a helper to return the size of sb->s_bdev in sb->s_blocksize_bits
-> based unites.  Note that SECTOR_SHIFT has to be open coded due to
-> include dependency issues for now, but I have a plan to sort that out
-> eventually.
-
-Wouldn't that just need a quick lift into a new header file to be
-included by genhd.h, blkev.h, and:
-
-drivers/mtd/ssfdc.c:#define SECTOR_SHIFT                9
-fs/hfsplus/hfsplus_raw.h:#define HFSPLUS_SECTOR_SHIFT         9
-
-I think that's worth doing at some point in this series since genhd.h
-already has existing open-coded "9"s. And, really, a *lot* of other
-places too:
-
-$ git grep -E '(<<|>>) 9' | grep -E '\b(block|blk|sector|bdev)\b' | wc -l
-240
-
+On Wed, Oct 13, 2021 at 07:10:38AM +0200, Christoph Hellwig wrote:
+> Use the sb_bdev_nr_blocks helper instead of open coding it.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->  include/linux/genhd.h | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  fs/ext4/super.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/include/linux/genhd.h b/include/linux/genhd.h
-> index 082a3e5fd8fa1..6eaef8fa78bcd 100644
-> --- a/include/linux/genhd.h
-> +++ b/include/linux/genhd.h
-> @@ -245,6 +245,12 @@ static inline sector_t get_capacity(struct gendisk *disk)
->  	return bdev_nr_sectors(disk->part0);
->  }
+> diff --git a/fs/ext4/super.c b/fs/ext4/super.c
+> index 0775950ee84e3..3dde8be5df490 100644
+> --- a/fs/ext4/super.c
+> +++ b/fs/ext4/super.c
+> @@ -4468,7 +4468,7 @@ static int ext4_fill_super(struct super_block *sb, void *data, int silent)
+>  		goto cantfind_ext4;
 >  
-> +static inline u64 sb_bdev_nr_blocks(struct super_block *sb)
-> +{
-> +	return bdev_nr_sectors(sb->s_bdev) >>
-> +		(sb->s_blocksize_bits - 9 /* SECTOR_SHIFT */);
-> +}
-> +
->  int bdev_disk_changed(struct gendisk *disk, bool invalidate);
->  void blk_drop_partitions(struct gendisk *disk);
->  
+>  	/* check blocks count against device size */
+> -	blocks_count = sb->s_bdev->bd_inode->i_size >> sb->s_blocksize_bits;
+> +	blocks_count = sb_bdev_nr_blocks(sb);
+
+Is s_blocksize_bits always 9 here? If not, this isn't equivalent.
+
+-Kees
+
+>  	if (blocks_count && ext4_blocks_count(es) > blocks_count) {
+>  		ext4_msg(sb, KERN_WARNING, "bad geometry: block count %llu "
+>  		       "exceeds size of device (%llu blocks)",
 > -- 
 > 2.30.2
 > 
