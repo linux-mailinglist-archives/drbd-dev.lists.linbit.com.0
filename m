@@ -2,35 +2,37 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCF5742F4A7
-	for <lists+drbd-dev@lfdr.de>; Fri, 15 Oct 2021 16:01:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5E8242F437
+	for <lists+drbd-dev@lfdr.de>; Fri, 15 Oct 2021 15:51:02 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 90CEF420FCD;
-	Fri, 15 Oct 2021 16:01:31 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A18C2420FAE;
+	Fri, 15 Oct 2021 15:51:01 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
+X-Greylist: delayed 1428 seconds by postgrey-1.31 at mail19;
+	Fri, 15 Oct 2021 15:51:00 CEST
 Received: from bombadil.infradead.org (bombadil.infradead.org
 	[198.137.202.133])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B3529420620
-	for <drbd-dev@lists.linbit.com>; Fri, 15 Oct 2021 15:56:53 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id AD9D8420FAA
+	for <drbd-dev@lists.linbit.com>; Fri, 15 Oct 2021 15:51:00 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=3V9fbTJuZDj71a+9mtkBQXQRRqP9hAgnu+ZIhkaADhI=;
-	b=zDXL/abHH8Hy7DpCzkgiW3Aiv1
-	vdacyZ7SPKBEIXUCbyEsKC0gp64D671n5SCRSmVJigriIQMAA10dYY9IOAlC7vM1GfXcnLtwdsD3O
-	ypu7eCKX1Owu87zR+xuv8SalJND4PppRsawt0gD2aew4jQMKNPsnqvr4GENtTgKm0dkfWS0Ry8Bt9
-	GNrrcHN5Mql2SnbjOZ9yBDofBiARYHY8gUio35POxOUeg1jnPPUYIsTgg/6hrrCyoMGTWjkIExSb3
-	Icg7BYK/HVmnjML6lPWBo2ViaJXsJ4mE7gIS4UnwvqqbKAdg/c4HqbuEOV4byXXt0MBzfo2aXWJOP
-	+y/4a+bA==;
+	bh=Yh+z+whkMCjXlGfSieTjzpMbNq/jpmSmFhhD2XKG2/0=;
+	b=ufR+oXnZuQvJgeVKMr8H0co3Mg
+	i7geZsH7y+5rg0Wg3e1JCutjGsBL0goE4q7Eh9Nb3L7sQR0wIPeMI1YPQCqESX75rm9E2X8hg+P4G
+	WqxJbnRltcP6itHciQBjz9EUzeGVUcUZ4BmC2sD6+Cow7+Abn7zZE2gMMlIPhVT4c9UvdKu5F5fkR
+	wQj71rmTJYvPF8wQsvQa3m6oGZzUUFK+4QI/zCV+STDd+BXLuNzxWvQpSNB11EVgDxRGZ41YzSL+O
+	D+OHRqGjODpbEDYkXt02HqmhVZjAA1F2vXyiVfc/loXWKT+FL+8DXlR6d84sU5HWhzqKeRjPwKCyj
+	pN1P6Yfw==;
 Received: from [2001:4bb8:199:73c5:ddfe:9587:819b:83b0] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mbNEZ-007Ce6-3w; Fri, 15 Oct 2021 13:26:51 +0000
+	id 1mbNEu-007Cvb-2G; Fri, 15 Oct 2021 13:27:12 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Date: Fri, 15 Oct 2021 15:26:15 +0200
-Message-Id: <20211015132643.1621913-3-hch@lst.de>
+Date: Fri, 15 Oct 2021 15:26:23 +0200
+Message-Id: <20211015132643.1621913-11-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211015132643.1621913-1-hch@lst.de>
 References: <20211015132643.1621913-1-hch@lst.de>
@@ -38,7 +40,8 @@ MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
 	bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Cc: Dave Kleikamp <shaggy@kernel.org>, jfs-discussion@lists.sourceforge.net,
-	Mike Snitzer <snitzer@redhat.com>, linux-nvme@lists.infradead.org,
+	Jan Kara <jack@suse.cz>, Mike Snitzer <snitzer@redhat.com>,
+	linux-nvme@lists.infradead.org,
 	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	Song Liu <song@kernel.org>, dm-devel@redhat.com,
 	target-devel@vger.kernel.org, reiserfs-devel@vger.kernel.org,
@@ -56,7 +59,7 @@ Cc: Dave Kleikamp <shaggy@kernel.org>, jfs-discussion@lists.sourceforge.net,
 	linux-fsdevel@vger.kernel.org,
 	Phillip Lougher <phillip@squashfs.org.uk>, ntfs3@lists.linux.dev,
 	linux-btrfs@vger.kernel.org
-Subject: [Drbd-dev] [PATCH 02/30] block: add a bdev_nr_bytes helper
+Subject: [Drbd-dev] [PATCH 10/30] fs: simplify init_page_buffers
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -75,34 +78,28 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Add a helpe to query the size of a block device in bytes.  This
-will be used to remove open coded access to ->bd_inode.
+No need to convert from bdev to inode and back.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Kees Cook <keescook@chromium.org>
+Reviewed-by: Jan Kara <jack@suse.cz>
 ---
- include/linux/genhd.h | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ fs/buffer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/genhd.h b/include/linux/genhd.h
-index 082a3e5fd8fa1..f67db3c5a04b3 100644
---- a/include/linux/genhd.h
-+++ b/include/linux/genhd.h
-@@ -235,9 +235,14 @@ static inline sector_t get_start_sect(struct block_device *bdev)
- 	return bdev->bd_start_sect;
- }
+diff --git a/fs/buffer.c b/fs/buffer.c
+index 156358977249f..46bc589b7a03c 100644
+--- a/fs/buffer.c
++++ b/fs/buffer.c
+@@ -897,7 +897,7 @@ init_page_buffers(struct page *page, struct block_device *bdev,
+ 	struct buffer_head *head = page_buffers(page);
+ 	struct buffer_head *bh = head;
+ 	int uptodate = PageUptodate(page);
+-	sector_t end_block = blkdev_max_block(I_BDEV(bdev->bd_inode), size);
++	sector_t end_block = blkdev_max_block(bdev, size);
  
-+static inline sector_t bdev_nr_bytes(struct block_device *bdev)
-+{
-+	return i_size_read(bdev->bd_inode);
-+}
-+
- static inline sector_t bdev_nr_sectors(struct block_device *bdev)
- {
--	return i_size_read(bdev->bd_inode) >> 9;
-+	return bdev_nr_bytes(bdev) >> SECTOR_SHIFT;
- }
- 
- static inline sector_t get_capacity(struct gendisk *disk)
+ 	do {
+ 		if (!buffer_mapped(bh)) {
 -- 
 2.30.2
 
