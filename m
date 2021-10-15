@@ -2,73 +2,85 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52FE943107C
-	for <lists+drbd-dev@lfdr.de>; Mon, 18 Oct 2021 08:25:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1136543107E
+	for <lists+drbd-dev@lfdr.de>; Mon, 18 Oct 2021 08:25:48 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 865A0420FAE;
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id DDE48420FC1;
 	Mon, 18 Oct 2021 08:25:43 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
-	[209.85.167.46])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4FF62420FE5
-	for <drbd-dev@lists.linbit.com>; Fri, 15 Oct 2021 15:54:45 +0200 (CEST)
-Received: by mail-lf1-f46.google.com with SMTP id n8so41896082lfk.6
-	for <drbd-dev@lists.linbit.com>; Fri, 15 Oct 2021 06:54:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ffV9EXIvpsxi/zzat9M/mXqT6D2BowDOkY1JbwoxMOs=;
-	b=dywwSbIGuXR+dXQSROUIhljg5+mHDSiHww9Tc5QE/0KVc6D96c2ocK9S4czPbKsPtz
-	ySNRWdT9ve7V2FStFVRj6GJtI3GsO5QLdZltms855+mPxWEcF0y64BVbP3jeqDvlTRSC
-	Q0SLO0cmgDLKr6f+MZ/VrWRqoygoePpVOM+o8yB+jCv00rDqDRMVdNenYkm3jQj9uL4k
-	E4/MHhOextdkY9W69AUB008H67vZy/HWT7fbCa67+7KfpngwPIaSC4I9QxVoGvAnEL8B
-	uHW/dfm/FieH/pIjg0HJFLHL4EoFbkdCY9X4ZyWcCPHq1gpKkT+6jn/WXPUZSeEosezu
-	YVGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20210112;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=ffV9EXIvpsxi/zzat9M/mXqT6D2BowDOkY1JbwoxMOs=;
-	b=XjHMBEg6vfOoKArTrcHNJ3ZD4VVvdOSckWdhzJob6ysPmwjhbXFjEw2d7gCup13fmk
-	b7AMvaAR3jrkYxfsNaeG1onQF6/s7JbkDz6QCUleL6O0FnqVZpGYbiwPkjD4Ed/ZpHMG
-	QPn3dU7TLxnMHpqcpfhr7IBkg3KhTphfKCjJ96EdjLHltBKLBikmVa7TanoVmw8AeOm2
-	TyMnfy/9EQRu1w4Av6Wra65VPcVVhO8kBvTSYcDr44pTFsZP1fmd5RFZinxIscw9OrOV
-	OltCaUFqYsiZRD3lQ1AkNxDBYvfEkmsHlRLL5w6ad9XvEMOByn2DQSjGN6vvtlH3AosA
-	bn3g==
-X-Gm-Message-State: AOAM532lyKlfhc8x30KGitxRG4gwyoAPEH8BchP+NMxG+e74TkRd+tt0
-	WKZSJpniQmq7BvoWqTeoK1eJDU2z2ySQ47ZD+rE=
-X-Google-Smtp-Source: ABdhPJzz49VguPSiC+Fo0EQ3C2KxuaRWGiHMMcfCON0rRU6wG0keaxKFCd23chpDIT1aQ64ecAbOb/mh29DzHZBz3N0=
-X-Received: by 2002:a2e:a170:: with SMTP id u16mr12947954ljl.108.1634306084449;
-	Fri, 15 Oct 2021 06:54:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <20211015132643.1621913-1-hch@lst.de>
-	<20211015132643.1621913-20-hch@lst.de>
-In-Reply-To: <20211015132643.1621913-20-hch@lst.de>
-From: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date: Fri, 15 Oct 2021 22:54:32 +0900
-Message-ID: <CAKFNMokH0ZU-zxMe3Wm87hZwVgXPv3nRYBx2gXU98GekaeDFRw@mail.gmail.com>
+Received: from mgw-01.mpynet.fi (mgw-01.mpynet.fi [82.197.21.90])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2849B420FFE
+	for <drbd-dev@lists.linbit.com>; Fri, 15 Oct 2021 16:35:59 +0200 (CEST)
+Received: from pps.filterd (mgw-01.mpynet.fi [127.0.0.1])
+	by mgw-01.mpynet.fi (8.16.0.43/8.16.0.43) with SMTP id 19FEWINE065735; 
+	Fri, 15 Oct 2021 17:35:41 +0300
+Received: from ex13.tuxera.com (ex13.tuxera.com [178.16.184.72])
+	by mgw-01.mpynet.fi with ESMTP id 3bqa6fr1mk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+	Fri, 15 Oct 2021 17:35:41 +0300
+Received: from tuxera-exch.ad.tuxera.com (10.20.48.11) by
+	tuxera-exch.ad.tuxera.com (10.20.48.11) with Microsoft SMTP Server
+	(TLS) id 15.0.1497.23; Fri, 15 Oct 2021 17:35:40 +0300
+Received: from tuxera-exch.ad.tuxera.com ([fe80::552a:f9f0:68c3:d789]) by
+	tuxera-exch.ad.tuxera.com ([fe80::552a:f9f0:68c3:d789%12]) with mapi id
+	15.00.1497.023; Fri, 15 Oct 2021 17:35:40 +0300
+From: Anton Altaparmakov <anton@tuxera.com>
 To: Christoph Hellwig <hch@lst.de>
+Thread-Topic: [PATCH 28/30] ntfs: use sb_bdev_nr_blocks
+Thread-Index: AQHXwch+sOYTA5n1EU2k5d07nGAE/6vT7f2A
+Date: Fri, 15 Oct 2021 14:35:40 +0000
+Message-ID: <7644804B-2081-4A1E-A40D-9A5C7BF72E2E@tuxera.com>
+References: <20211015132643.1621913-1-hch@lst.de>
+	<20211015132643.1621913-29-hch@lst.de>
+In-Reply-To: <20211015132643.1621913-29-hch@lst.de>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [109.154.241.177]
+Content-ID: <3668CC17B52D274985AE4DAF6C11620E@ex13.tuxera.com>
+MIME-Version: 1.0
+X-Proofpoint-ORIG-GUID: 4ZKrI-UQqOuYdNTfa7YqNKQX-GuzVYXg
+X-Proofpoint-GUID: 4ZKrI-UQqOuYdNTfa7YqNKQX-GuzVYXg
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425, 18.0.790
+	definitions=2021-10-15_04:2021-10-14,
+	2021-10-15 signatures=0
+X-Proofpoint-Spam-Details: rule=mpy_notspam policy=mpy score=0 phishscore=0
+	mlxlogscore=999
+	bulkscore=0 malwarescore=0 mlxscore=0 spamscore=0 adultscore=0
+	suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+	engine=8.12.0-2109230001 definitions=main-2110150089
 X-Mailman-Approved-At: Mon, 18 Oct 2021 08:25:41 +0200
-Cc: Dave Kleikamp <shaggy@kernel.org>, jfs-discussion@lists.sourceforge.net,
-	Mike Snitzer <snitzer@redhat.com>, linux-nvme@lists.infradead.org,
+Cc: Dave Kleikamp <shaggy@kernel.org>, "jfs-discussion@lists.sourceforge.net"
+	<jfs-discussion@lists.sourceforge.net>, Mike Snitzer <snitzer@redhat.com>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
 	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Song Liu <song@kernel.org>,
-	device-mapper development <dm-devel@redhat.com>,
-	target-devel@vger.kernel.org, reiserfs-devel@vger.kernel.org,
-	drbd-dev@lists.linbit.com, linux-nilfs <linux-nilfs@vger.kernel.org>,
-	linux-scsi@vger.kernel.org, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-	linux-ext4@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+	Song Liu <song@kernel.org>, "dm-devel@redhat.com" <dm-devel@redhat.com>,
+	"target-devel@vger.kernel.org" <target-devel@vger.kernel.org>,
+	"reiserfs-devel@vger.kernel.org" <reiserfs-devel@vger.kernel.org>,
+	"drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
+	"linux-nilfs@vger.kernel.org" <linux-nilfs@vger.kernel.org>,
+	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+	"linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
+	Kees Cook <keescook@chromium.org>,
 	Josef Bacik <josef@toxicpanda.com>, Coly Li <colyli@suse.de>,
-	linux-raid@vger.kernel.org, linux-bcache@vger.kernel.org,
-	David Sterba <dsterba@suse.com>, Anton Altaparmakov <anton@tuxera.com>,
-	Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
-	linux-nfs@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
-	linux-ntfs-dev@lists.sourceforge.net, Jan Kara <jack@suse.com>,
-	linux-fsdevel@vger.kernel.org,
-	Phillip Lougher <phillip@squashfs.org.uk>, ntfs3@lists.linux.dev,
-	linux-btrfs@vger.kernel.org
-Subject: Re: [Drbd-dev] [PATCH 19/30] nilfs2: use bdev_nr_bytes instead of
-	open coding it
+	"linux-raid@vger.kernel.org" <linux-raid@vger.kernel.org>,
+	"linux-bcache@vger.kernel.org" <linux-bcache@vger.kernel.org>,
+	David Sterba <dsterba@suse.com>,
+	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Jens Axboe <axboe@kernel.dk>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
+	Theodore Ts'o <tytso@mit.edu>, "linux-ntfs-dev@lists.sourceforge.net"
+	<linux-ntfs-dev@lists.sourceforge.net>, Jan Kara <jack@suse.com>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	Phillip Lougher <phillip@squashfs.org.uk>,
+	"ntfs3@lists.linux.dev" <ntfs3@lists.linux.dev>,
+	"linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>
+Subject: Re: [Drbd-dev] [PATCH 28/30] ntfs: use sb_bdev_nr_blocks
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -87,16 +99,70 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Fri, Oct 15, 2021 at 10:27 PM Christoph Hellwig <hch@lst.de> wrote:
->
-> Use the proper helper to read the block device size.
->
+Hi Christoph,
+
+Looks good, thank you.
+
+Best regards,
+
+	Anton
+
+> On 15 Oct 2021, at 14:26, Christoph Hellwig <hch@lst.de> wrote:
+> 
+> Use the sb_bdev_nr_blocks helper instead of open coding it and clean up
+> ntfs_fill_super a bit by moving an assignment a little earlier that has
+> no negative side effects.
+> 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
 
-Acked-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Acked-by: Anton Altaparmakov <anton@tuxera.com>
 
-Thanks,
-Ryusuke Konishi
+> ---
+> fs/ntfs/super.c | 8 +++-----
+> 1 file changed, 3 insertions(+), 5 deletions(-)
+> 
+> diff --git a/fs/ntfs/super.c b/fs/ntfs/super.c
+> index 0d7e948cb29c9..5ae8de09b271b 100644
+> --- a/fs/ntfs/super.c
+> +++ b/fs/ntfs/super.c
+> @@ -2772,13 +2772,12 @@ static int ntfs_fill_super(struct super_block *sb, void *opt, const int silent)
+> 	ntfs_debug("Set device block size to %i bytes (block size bits %i).",
+> 			blocksize, sb->s_blocksize_bits);
+> 	/* Determine the size of the device in units of block_size bytes. */
+> -	if (!i_size_read(sb->s_bdev->bd_inode)) {
+> +	vol->nr_blocks = sb_bdev_nr_blocks(sb);
+> +	if (!vol->nr_blocks) {
+> 		if (!silent)
+> 			ntfs_error(sb, "Unable to determine device size.");
+> 		goto err_out_now;
+> 	}
+> -	vol->nr_blocks = i_size_read(sb->s_bdev->bd_inode) >>
+> -			sb->s_blocksize_bits;
+> 	/* Read the boot sector and return unlocked buffer head to it. */
+> 	if (!(bh = read_ntfs_boot_sector(sb, silent))) {
+> 		if (!silent)
+> @@ -2816,8 +2815,7 @@ static int ntfs_fill_super(struct super_block *sb, void *opt, const int silent)
+> 			goto err_out_now;
+> 		}
+> 		BUG_ON(blocksize != sb->s_blocksize);
+> -		vol->nr_blocks = i_size_read(sb->s_bdev->bd_inode) >>
+> -				sb->s_blocksize_bits;
+> +		vol->nr_blocks = sb_bdev_nr_blocks(sb);
+> 		ntfs_debug("Changed device block size to %i bytes (block size "
+> 				"bits %i) to match volume sector size.",
+> 				blocksize, sb->s_blocksize_bits);
+> -- 
+> 2.30.2
+> 
+
+
+
+-- 
+Anton Altaparmakov <anton at tuxera.com> (replace at with @)
+Lead in File System Development, Tuxera Inc., http://www.tuxera.com/
+Linux NTFS maintainer
+
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
