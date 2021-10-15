@@ -2,60 +2,59 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id C01DD42F92D
-	for <lists+drbd-dev@lfdr.de>; Fri, 15 Oct 2021 18:56:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 205FC42F949
+	for <lists+drbd-dev@lfdr.de>; Fri, 15 Oct 2021 18:57:21 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A4517421079;
-	Fri, 15 Oct 2021 18:56:50 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id EB0B642107E;
+	Fri, 15 Oct 2021 18:57:20 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
-	[209.85.214.179])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9FD4942106F
-	for <drbd-dev@lists.linbit.com>; Fri, 15 Oct 2021 18:56:49 +0200 (CEST)
-Received: by mail-pl1-f179.google.com with SMTP id i5so523406pla.5
-	for <drbd-dev@lists.linbit.com>; Fri, 15 Oct 2021 09:56:49 -0700 (PDT)
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
+	[209.85.210.180])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6D79642106D
+	for <drbd-dev@lists.linbit.com>; Fri, 15 Oct 2021 18:57:05 +0200 (CEST)
+Received: by mail-pf1-f180.google.com with SMTP id q19so8873488pfl.4
+	for <drbd-dev@lists.linbit.com>; Fri, 15 Oct 2021 09:57:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-disposition:in-reply-to;
-	bh=vfh8ldDPWodO2+NAKgs+77i4cirGVTrsvlhR7sq6n14=;
-	b=MF0yf140gbDAdW4BxnOXdsQIbZ1Zs20bgZWJgGQJccJRdMKWf0Z7qJMeg/xUZ/rSs6
-	VG3QCkdC2Gak2gGrkvLjpOyqG7g5cIFwioohIVF4DnPVlIrbB81BnizHen6OonQjrvMj
-	EAa7kecUI8Ha/nnI/LS4mNOBQr2yiVBjBbg4U=
+	bh=K+6isvwekOgtvopkqE4I0h7AgNguipVYqeEY21w12Mo=;
+	b=XiV2alQ2bCUhPKCRDy35L10uw/QVL0RMTX2wcoCawcZP+N544npMKl6qJHVNuREVMJ
+	/3k+gOTpyuD9GvBFRwBhJkrM/MdxCBPLCnVY/0SS1G/dQv3yvOXHSbjERi1b1HJ8bt6c
+	zWuPktMOT2lWvGeRm1bA9Ib7yGAG3xwtDOTDs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20210112;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to;
-	bh=vfh8ldDPWodO2+NAKgs+77i4cirGVTrsvlhR7sq6n14=;
-	b=wmS6CU6NvapL0Pgz8fW9QViBp4IwGuEy3emv8SJ6Imow5eZAo2ZPWT4jt3RWhp903q
-	xjtbByWDdhQe157Z9ruIEvTN62QyS5Lr7f3ODZeGgzHHkYwmRSJLbkIq314xn+cp5/0t
-	b8Xgome4LLUfsXxH6cfCyPogfTDN+aw6dnkrL7houUBym/rQOG7EPKmreAGDMsX8aRkg
-	XJ8A7x79m6f5l68ZknQkzn5kEtmMhtO/tt+P+VJn8l5M3flyOpPALH7K6WWoH9PlSlbV
-	V3wwxduqEnGAN73XndkAk2f2v/iPqwp7Amp7DHRR5Rx8dtbKpPI5h0y/sh5mJZFhjPfM
-	bcUw==
-X-Gm-Message-State: AOAM5301pE7pinJ0ZWP/F8kdxJdu0HruWdFJ/ZqMBPFGe9nV8MyCYVsX
-	jbFyLmr10WcFnDSfoD/NaD0S8g==
-X-Google-Smtp-Source: ABdhPJwnnQ3ulrXVGFg4s+UA3ddGM8HwmAEnk5XYfNq6HtGw+i5b3OvChqf29ta/Idk60aluKwm2lg==
-X-Received: by 2002:a17:903:18d:b0:13e:f1ef:d80c with SMTP id
-	z13-20020a170903018d00b0013ef1efd80cmr11974419plg.63.1634317008672;
-	Fri, 15 Oct 2021 09:56:48 -0700 (PDT)
+	bh=K+6isvwekOgtvopkqE4I0h7AgNguipVYqeEY21w12Mo=;
+	b=OrkR5cfUaz6eL9SNQwe2qx31biO9en5dFCgG0nMUwtcdFi20yrbo+e7uV0LD6DHfuF
+	Fsn1+fvuVj9/Hl2UR0YJlkSHonMFfr9F+Xry2HYUPExnpXAoGLhalekgAzHXp+yvvnL/
+	0oKaz1xYSBaGNGDeX7o2jHYl2hQ4+ZuT4IDBPIPTb1qvCqn9+1aczbONgLEzLiUTWsw6
+	y/6EfoHspKfmgTpWIHem6w18pmKbESkU0JLWToCyCUfaGncyWhSBk4XrGGW5v7SAk0rr
+	C5g82GhmtBScG8owZHSFyZzoW/T2tSJiWfHCtk/sJrduXLW4X0daSra1pteXrvpKhqfN
+	4YmA==
+X-Gm-Message-State: AOAM530KEkruRSUwZ7g2/qUCwx41xW32YCmxpNp3B/6p7SKvT+y3BzrR
+	dJZ9VjsgDTl6BGjnN9MCHMBq8A==
+X-Google-Smtp-Source: ABdhPJy+YUT6npY/fZ/G9URvGOZpt9eamOIJH1D5JMCGxtLxyzdwQfs5MmBQFVKQI/Zn2W8hW6yLYA==
+X-Received: by 2002:a05:6a00:1309:b0:44d:4d1e:c930 with SMTP id
+	j9-20020a056a00130900b0044d4d1ec930mr12851663pfu.65.1634317024412;
+	Fri, 15 Oct 2021 09:57:04 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
 	by smtp.gmail.com with ESMTPSA id
-	t125sm5518370pfc.119.2021.10.15.09.56.48
+	b16sm5793589pfm.58.2021.10.15.09.57.04
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 15 Oct 2021 09:56:48 -0700 (PDT)
-Date: Fri, 15 Oct 2021 09:56:47 -0700
+	Fri, 15 Oct 2021 09:57:04 -0700 (PDT)
+Date: Fri, 15 Oct 2021 09:57:03 -0700
 From: Kees Cook <keescook@chromium.org>
 To: Christoph Hellwig <hch@lst.de>
-Message-ID: <202110150956.A0360E2D01@keescook>
+Message-ID: <202110150957.38CBB0C08@keescook>
 References: <20211015132643.1621913-1-hch@lst.de>
-	<20211015132643.1621913-23-hch@lst.de>
+	<20211015132643.1621913-24-hch@lst.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20211015132643.1621913-23-hch@lst.de>
+In-Reply-To: <20211015132643.1621913-24-hch@lst.de>
 Cc: Dave Kleikamp <shaggy@kernel.org>, jfs-discussion@lists.sourceforge.net,
-	Jan Kara <jack@suse.cz>, Mike Snitzer <snitzer@redhat.com>,
-	linux-nvme@lists.infradead.org,
+	Mike Snitzer <snitzer@redhat.com>, linux-nvme@lists.infradead.org,
 	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
 	Song Liu <song@kernel.org>, dm-devel@redhat.com,
 	target-devel@vger.kernel.org, reiserfs-devel@vger.kernel.org,
@@ -72,7 +71,7 @@ Cc: Dave Kleikamp <shaggy@kernel.org>, jfs-discussion@lists.sourceforge.net,
 	linux-fsdevel@vger.kernel.org,
 	Phillip Lougher <phillip@squashfs.org.uk>, ntfs3@lists.linux.dev,
 	linux-btrfs@vger.kernel.org
-Subject: Re: [Drbd-dev] [PATCH 22/30] reiserfs: use bdev_nr_bytes instead of
+Subject: Re: [Drbd-dev] [PATCH 23/30] squashfs: use bdev_nr_bytes instead of
  open coding it
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
@@ -92,9 +91,8 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Fri, Oct 15, 2021 at 03:26:35PM +0200, Christoph Hellwig wrote:
-> Use the proper helper to read the block device size and remove two
-> cargo culted checks that can't be false.
+On Fri, Oct 15, 2021 at 03:26:36PM +0200, Christoph Hellwig wrote:
+> Use the proper helper to read the block device size.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 
