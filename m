@@ -2,89 +2,66 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F96E432B58
-	for <lists+drbd-dev@lfdr.de>; Tue, 19 Oct 2021 03:05:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFCBC455559
+	for <lists+drbd-dev@lfdr.de>; Thu, 18 Nov 2021 08:15:53 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6A40B420FED;
-	Tue, 19 Oct 2021 03:05:01 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 8AC5C42095A;
+	Thu, 18 Nov 2021 08:15:52 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com
-	[209.85.166.50])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 755D44202C4
-	for <drbd-dev@lists.linbit.com>; Tue, 19 Oct 2021 03:05:00 +0200 (CEST)
-Received: by mail-io1-f50.google.com with SMTP id e144so18491792iof.3
-	for <drbd-dev@lists.linbit.com>; Mon, 18 Oct 2021 18:04:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=W5z0exFABNpBPX1hRqcH8nqG0V53/7e/1qraB3crDBc=;
-	b=vB+wFpSQtfAUhwdXcfynbmYwp0hdBEQZvbX6X9F6PNzCrR7jlF3UU0FKlXz+m74FXo
-	fYCfnp+UOHId9lQV8O9fyEh4YEI0b538At136V3n0vh4OZ/YzMev/Q7gmlb/eOGGE5cU
-	0c1i9lZ2acvXLmYa878iz+lCi3R78xqn0ZDpYtIVtZNxoFJsKdSEsj9/YVhugl90Ar3H
-	SoUxghi0wJ6VSD6JvL3P+s/JM6f3Wm0mmMYFgaEag1ojhi+wlEeYXumrYWwARkL2eroz
-	Ue9QqS/6wvsrqGxlajrxCGxhjXwobZTI+icumh8oCIQgK1Jfr75Nwh+NZuFxcTfoqOvP
-	WcvQ==
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
+	[209.85.216.50])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5DD32420204
+	for <drbd-dev@lists.linbit.com>; Wed, 17 Nov 2021 10:38:19 +0100 (CET)
+Received: by mail-pj1-f50.google.com with SMTP id
+	j5-20020a17090a318500b001a6c749e697so4039470pjb.1
+	for <drbd-dev@lists.linbit.com>; Wed, 17 Nov 2021 01:38:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+	h=to:cc:from:subject:message-id:date:user-agent:mime-version
+	:content-language:content-transfer-encoding;
+	bh=Aki1NLeVtsw26dC02yR/rmj2WdHrHGV0mkw6Kw4rHCw=;
+	b=jZ5dkPMf9wul3etBBgJWkwsyn7EE3gI+sqkW28tqz68xjxuD27gIO1xXt/szcXsrDZ
+	5jN1zYJ9RnRLgDEzwyRoatlR/N+OwJuRjYPaHqLJpw/zbXqB+txldPOfJA8b/YjBUZCt
+	4nEYacysDDtBJhp4GrD86U2byGGheF9PkTZtgsL+nTM2yEsPsJvGxOE9fIlm8RhhFXU8
+	kP+iwB6Mp/RmjTDPKXXC2upfjPKR72Rc/O/g8JKeOvDBOsq1cN0moJxaKSm8WSAjjBIX
+	PventnqvI1R5PBVuFQtNtUDyF3FDAP9Nvx3K1YxepWnxTqr9KPDhAnSMwHilr/gwI23N
+	rXWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20210112;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=W5z0exFABNpBPX1hRqcH8nqG0V53/7e/1qraB3crDBc=;
-	b=4e8YZzbEbxMFb9s51xxehcuUd1+XDrIuFll7/V3aOUpzdb54IiTm9NLeg6tfanNXkv
-	3gq69ZYnmLsROiOen80L+dk96jSZZyFpnZWpCx8J2u0CGKnv1mVHy650nE+3kZxwxhhv
-	USeLBC+PNtUCgrzVsTygeEpbkFsXW9cby6gnczr21xzdT1byHEIFVbDRdTFqDSfzQaqC
-	OMyvTTxZv2BeBamTR8IfUp+RA/aP4CDdR6knZhkEbalC1jOXw/Ceyd5V/ApW6w0DNIVL
-	RJO1Yr66qnKAukafzz11RwG9p2eiPatfD/mWBHmVLtqp87lsT0MacnKzCalLzBiRMLmX
-	8D7Q==
-X-Gm-Message-State: AOAM5309XyeJV0Mmn5OIb9TBwYWJ9tVw8pD6FUMVYdbclBB3vMMt/xSR
-	5kwSc0LrR8DJNrSjOo6Ab8ALrg==
-X-Google-Smtp-Source: ABdhPJxThXMAcCMjPpDBYOBzNUVp6z4TAqcvNSoJJDW60phmikuRtzHD4NR4koFPUymcotmxVpLHsA==
-X-Received: by 2002:a6b:102:: with SMTP id 2mr16592131iob.185.1634605499259;
-	Mon, 18 Oct 2021 18:04:59 -0700 (PDT)
-Received: from [192.168.1.116] ([66.219.217.159])
-	by smtp.gmail.com with ESMTPSA id g13sm116963ilf.60.2021.10.18.18.04.57
+	h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
+	:mime-version:content-language:content-transfer-encoding;
+	bh=Aki1NLeVtsw26dC02yR/rmj2WdHrHGV0mkw6Kw4rHCw=;
+	b=2UZIrRQ1HXUiBqzF4lpEl9fnWs4Fh+JKrkTaDYLwG8iUkMrc5MF6miwqSFO3cSYkIr
+	EfSQtx+gHa0CiSZDaaULcyL/pdgjlXGSRnl2NL+ml/k6/FZmMxjvPnqypHerFMhV/qAV
+	LVAeIu+aFKxkHiy3v8T+8RMuWAmhmIoYCZr7rdVcmWWuDzKSM3RmkDggfOsAqlbA0voB
+	FF8yXbfnJv9x0m63Rxs7zF7BVTg+XiuPJ4/5jt2tWCoq6fZQKPPXSRY7ivZv65a9Lp8d
+	ZyLpJjfGLlzxqTi11R0U5DxnZ+inlTEPfXO33McYaQ7snkrXqslwnbZXfdg6lr0+AgW0
+	13GA==
+X-Gm-Message-State: AOAM530IfvKB8SALOyQ6l0MDr6bT5QjH+cKQp5TjrZlMfiLWcz2YSIo5
+	OrOpe6dCb4OczVps7s4rDv4=
+X-Google-Smtp-Source: ABdhPJy1tYpf+Ff1f/HN12UhwDRBest1lP6OWxOPXMQlYVK1+8lb3BdUwEVMqc1YzlmYhEiilmUrOg==
+X-Received: by 2002:a17:90b:4c0b:: with SMTP id
+	na11mr8226675pjb.53.1637141898264; 
+	Wed, 17 Nov 2021 01:38:18 -0800 (PST)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp.
+	[106.167.171.201])
+	by smtp.gmail.com with ESMTPSA id rj8sm5338117pjb.0.2021.11.17.01.38.16
 	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Mon, 18 Oct 2021 18:04:58 -0700 (PDT)
-To: Kari Argillander <kari.argillander@gmail.com>
-References: <20211018101130.1838532-1-hch@lst.de>
-	<4a8c3a39-9cd3-5b2f-6d0f-a16e689755e6@kernel.dk>
-	<20211018171843.GA3338@lst.de>
-	<2f5dcf79-8419-45ff-c27c-68d43242ccfe@kernel.dk>
-	<20211018174901.GA3990@lst.de>
-	<e0784f3e-46c8-c90c-870b-60cc2ed7a2da@kernel.dk>
-	<20211019010416.vgecxu6wnvwi7fii@kari-VirtualBox>
-From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <81f9ad59-4c15-b265-1274-62c987ad879b@kernel.dk>
-Date: Mon, 18 Oct 2021 19:04:57 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.10.0
+	Wed, 17 Nov 2021 01:38:17 -0800 (PST)
+To: Jonathan Corbet <corbet@lwn.net>
+From: Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <3cbff170-582b-b6cf-0988-e0d0c9b47505@gmail.com>
+Date: Wed, 17 Nov 2021 18:38:14 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+	Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211019010416.vgecxu6wnvwi7fii@kari-VirtualBox>
 Content-Language: en-US
-Cc: Dave Kleikamp <shaggy@kernel.org>, jfs-discussion@lists.sourceforge.net,
-	Mike Snitzer <snitzer@redhat.com>, linux-nvme@lists.infradead.org,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Song Liu <song@kernel.org>, dm-devel@redhat.com,
-	target-devel@vger.kernel.org, reiserfs-devel@vger.kernel.org,
-	Christoph Hellwig <hch@lst.de>, drbd-dev@lists.linbit.com,
-	linux-nilfs@vger.kernel.org, linux-scsi@vger.kernel.org,
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-	linux-ext4@vger.kernel.org, Kees Cook <keescook@chromium.org>,
-	Josef Bacik <josef@toxicpanda.com>, Coly Li <colyli@suse.de>,
-	linux-raid@vger.kernel.org, linux-bcache@vger.kernel.org,
-	David Sterba <dsterba@suse.com>,
-	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-	Anton Altaparmakov <anton@tuxera.com>,
-	linux-block@vger.kernel.org, linux-nfs@vger.kernel.org,
-	Theodore Ts'o <tytso@mit.edu>,
-	linux-ntfs-dev@lists.sourceforge.net, Jan Kara <jack@suse.com>,
-	linux-fsdevel@vger.kernel.org,
-	Phillip Lougher <phillip@squashfs.org.uk>, ntfs3@lists.linux.dev,
-	linux-btrfs@vger.kernel.org
-Subject: Re: [Drbd-dev] don't use ->bd_inode to access the block device size
-	v3
+X-Mailman-Approved-At: Thu, 18 Nov 2021 08:15:51 +0100
+Cc: Lars Ellenberg <lars.ellenberg@linbit.com>, drbd-dev@lists.linbit.com,
+	linux-kernel@vger.kernel.org, Philipp Reisner <philipp.reisner@linbit.com>,
+	linux-doc@vger.kernel.org
+Subject: [Drbd-dev] [PATCH] docs: admin-guide/blockdev: Use subgraphs in
+ node-states-8.dot
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -103,38 +80,67 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On 10/18/21 7:04 PM, Kari Argillander wrote:
-> On Mon, Oct 18, 2021 at 11:53:08AM -0600, Jens Axboe wrote:
-> 
-> snip..
-> 
->> diff --git a/include/linux/genhd.h b/include/linux/genhd.h
->> index 7b0326661a1e..a967b3fb3c71 100644
->> --- a/include/linux/genhd.h
->> +++ b/include/linux/genhd.h
->> @@ -236,14 +236,14 @@ static inline sector_t get_start_sect(struct block_device *bdev)
->>  	return bdev->bd_start_sect;
->>  }
->>  
->> -static inline loff_t bdev_nr_bytes(struct block_device *bdev)
->> +static inline sector_t bdev_nr_sectors(struct block_device *bdev)
->>  {
->> -	return i_size_read(bdev->bd_inode);
->> +	return bdev->bd_nr_sectors;
->>  }
->>  
->> -static inline sector_t bdev_nr_sectors(struct block_device *bdev)
->> +static inline loff_t bdev_nr_bytes(struct block_device *bdev)
->>  {
->> -	return bdev_nr_bytes(bdev) >> SECTOR_SHIFT;
->> +	return bdev_nr_setors(bdev) << SECTOR_SHIFT;
-> 
-> setors -> sectors
+While node-states-8.dot has two digraphs, dot(1) command can not
+properly handle multiple graphs in a DOT file.
 
-Yep, did catch that prior.
+Use subgraphs and merge them into a single graph.
 
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Cc: Philipp Reisner <philipp.reisner@linbit.com>
+Cc: Lars Ellenberg <lars.ellenberg@linbit.com>
+---
+Hi Jon,
+
+I happened to spot a broken DOT script at the bottom of
+
+    https://www.kernel.org/doc/html/latest/admin-guide/blockdev/drbd/figures.html
+
+and managed to fix it.
+
+DRBD DRIVER maintainers,
+If I'm missing something here, please let me know.
+
+        Thanks, Akira
+--
+ .../blockdev/drbd/node-states-8.dot           | 25 +++++++++++--------
+ 1 file changed, 14 insertions(+), 11 deletions(-)
+
+diff --git a/Documentation/admin-guide/blockdev/drbd/node-states-8.dot b/Documentation/admin-guide/blockdev/drbd/node-states-8.dot
+index bfa54e1f8016..993f0c152ead 100644
+--- a/Documentation/admin-guide/blockdev/drbd/node-states-8.dot
++++ b/Documentation/admin-guide/blockdev/drbd/node-states-8.dot
+@@ -1,13 +1,16 @@
+-digraph node_states {
+-	Secondary -> Primary           [ label = "ioctl_set_state()" ]
+-	Primary   -> Secondary 	       [ label = "ioctl_set_state()" ]
+-}
++digraph G {
++	compound=true;
++	subgraph node_states {
++		Secondary -> Primary           [ label = "ioctl_set_state()" ]
++		Primary   -> Secondary 	       [ label = "ioctl_set_state()" ]
++	}
+ 
+-digraph peer_states {
+-	Secondary -> Primary           [ label = "recv state packet" ]
+-	Primary   -> Secondary 	       [ label = "recv state packet" ]
+-	Primary   -> Unknown 	       [ label = "connection lost" ]
+-	Secondary  -> Unknown  	       [ label = "connection lost" ]
+-	Unknown   -> Primary           [ label = "connected" ]
+-	Unknown   -> Secondary         [ label = "connected" ]
++	subgraph peer_states {
++		Secondary -> Primary           [ label = "recv state packet" ]
++		Primary   -> Secondary 	       [ label = "recv state packet" ]
++		Primary   -> Unknown 	       [ label = "connection lost" ]
++		Secondary  -> Unknown  	       [ label = "connection lost" ]
++		Unknown   -> Primary           [ label = "connected" ]
++		Unknown   -> Secondary         [ label = "connected" ]
++	}
+ }
+
+base-commit: 53b606fa29e321352a105978726b975b42b292a4
 -- 
-Jens Axboe
+2.17.1
 
 _______________________________________________
 drbd-dev mailing list
