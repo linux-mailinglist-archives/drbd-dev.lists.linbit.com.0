@@ -2,59 +2,65 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0F2445DFEB
-	for <lists+drbd-dev@lfdr.de>; Thu, 25 Nov 2021 18:41:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 439B045E6BF
+	for <lists+drbd-dev@lfdr.de>; Fri, 26 Nov 2021 05:11:25 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 8E2D14203BF;
-	Thu, 25 Nov 2021 18:41:34 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 154E84203C3;
+	Fri, 26 Nov 2021 05:11:24 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
-	[209.85.208.52])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id BA5F94201D7
-	for <drbd-dev@lists.linbit.com>; Thu, 25 Nov 2021 18:41:32 +0100 (CET)
-Received: by mail-ed1-f52.google.com with SMTP id x15so28544720edv.1
-	for <drbd-dev@lists.linbit.com>; Thu, 25 Nov 2021 09:41:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linbit-com.20210112.gappssmtp.com; s=20210112;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Z2IJ7fkWzT4QzGDzEtLmaHZp2fcDNE6n441j4Jq1TTg=;
-	b=h4+g36WEj4z1gI3DDnKk+9MxmbcZ+WG7tK4K27UXXlGc6P83Nt5LvJl0rdPJ41d5+2
-	mElVmTmbsyxu+/YXa0m5BLD8hecORHVM0OGuVywAjPtizdkgo/VEYaGsYeQflUwG9z/6
-	2a7bFwQq+uAag+i9LUNfT9V0UwMYpb6H6bHjbcY1edN0onoRGksxlvqxikrqLXyDRTip
-	5vQ/uTtyej02LeLqTyS/hikgRiDMhAC5sr9KVPS6l13eUbzM/X42nleQAXbraY58C/FR
-	9NDnPrkkDp1yVvzXh1497MTnDhkTO9epFf9RMJo6QEWYc+t65IGJisVwk3wplf8L2pKn
-	LKpA==
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
+	[209.85.216.53])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B088B420206
+	for <drbd-dev@lists.linbit.com>; Fri, 26 Nov 2021 05:11:22 +0100 (CET)
+Received: by mail-pj1-f53.google.com with SMTP id
+	np6-20020a17090b4c4600b001a90b011e06so7084342pjb.5
+	for <drbd-dev@lists.linbit.com>; Thu, 25 Nov 2021 20:11:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+	h=to:cc:from:subject:message-id:date:user-agent:mime-version
+	:content-language:content-transfer-encoding;
+	bh=dH9vX4Nxo9Cf82Buyn6+6qDtIVOrljk6cIN+0S0PjHs=;
+	b=HbHq0wwCD1GH7D8cUEtRKWcCkTQqozKYYsynYy25fWygDqSRTz3FPmEP+NxIizXPOe
+	tr969p9H75hsqO//dwSSsLaZ07J4xUZ5aFbFpgLypd6O6j+Qs6/vgsGytEoupQEM5mTR
+	YThY7x0YXRMHiLHXuOMRNp1FsoF1KRMvzqTxSR87llD+wNQqkztdierHuKtcJvdzvIDV
+	K3eW+0BNfnvv7xTJJBOm3Z5JfC5z29EMfkr90WdGfWNA3wliv5pR04vFepydkTlnZon/
+	82hgOvYldMJ/kN+o2Kigw+fXJOzLWRHLOpLfSl5uksjnXUpeA0XX98ZAvQqPjwtYS5Z/
+	bEvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20210112;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=Z2IJ7fkWzT4QzGDzEtLmaHZp2fcDNE6n441j4Jq1TTg=;
-	b=8RrnZQR2XKq3lGnbkMJWW2syCGHQt+m8n6CAC9G6Ca5vsR8tyiDU2eJ1OBHmbgFzwD
-	5fvY1qc++Z77Kl5mgSDelkavFYBSFkoDvAptk4kjZxPfroD4rguwjHoU//ee97vrGfrq
-	EpIuenKirGXZWtoiNrEwJYSTFO0fRExHdSmxoQPLBI9YGipw/v4T66aiTiTc4/f0cj3z
-	aam4g9dk9PAuLoodM0VK9F94yHqUDxPNqv4wJvNYhqvcaVpOAw9Vmr/UyVRcPZzeVXej
-	7q5te/9E8JiBqIiumcaNhIXtOpJxYJ68x+gx6MsYdBFNOEQ7vGR4dpcRlBQtibbSheFd
-	Qxyg==
-X-Gm-Message-State: AOAM532vq6RJALwauh3TA16QUeUdi0CZIg2tTGqU23L//wb+AzUmAxTL
-	3GBj8FPK3tbanQHsjaX5o0jLY+3B6O67N6AXPXWMi27j
-X-Google-Smtp-Source: ABdhPJx2Xczq06usTJYBRLZW2NTpORn5lYS6y+znDW01RIXU6XSiwOXfkyj3NsclbujgsmMU3faOjVf3+64G3yBL76Y=
-X-Received: by 2002:a05:6402:147:: with SMTP id
-	s7mr41127174edu.8.1637862092248; 
-	Thu, 25 Nov 2021 09:41:32 -0800 (PST)
+	h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
+	:mime-version:content-language:content-transfer-encoding;
+	bh=dH9vX4Nxo9Cf82Buyn6+6qDtIVOrljk6cIN+0S0PjHs=;
+	b=NW7zU2YeAiN2HN/Hwftq+r9iJS/dcq3lXpnxiAvi320dwM635jSZ59OpzDpAUMBhIz
+	S09Eb7PMw0sRR9X7Ev+4486BUJb+Zc6tCyw0vU13g2S63XpURApNjLCD0JG6u+OMbfeG
+	ObffBlmBFpcWtEUcRDokwFPok7Lepok+XkOWcHw9lqFQyBZ54IdytSxXdfpzHJVA2G0P
+	lcuYGZUAwWZLRAXvdFCuCN8Yr6HCzv6aQKkvebVUYEYWa2f6BDHgQ/lrwF8Jq6GuGeDN
+	xJ3YH7UsP9QBfp+KtDo1vlPDjr6kQ7BmzobUesNq0OGEbfGnROYgEvB3LLLjifDRYkpo
+	tnZg==
+X-Gm-Message-State: AOAM5335vP+W6ZpyaZMjuSXC5zf0CNnbI/HcYqOatjIzij6N73OSYSGk
+	DAfbx3zpSYPRTC9mafEoSWt9hrW6QLo=
+X-Google-Smtp-Source: ABdhPJxX6TxNi81h9TI69Ag/+v1fY9/EoFdHMQp+hJyloAWvDJ/Ty2yTyQo4nTEba2VqXTUtNW++RQ==
+X-Received: by 2002:a17:90b:1c81:: with SMTP id
+	oo1mr12767578pjb.5.1637899881675; 
+	Thu, 25 Nov 2021 20:11:21 -0800 (PST)
+Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp.
+	[106.167.171.201]) by smtp.gmail.com with ESMTPSA id
+	m12sm5421704pfk.27.2021.11.25.20.11.19
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Thu, 25 Nov 2021 20:11:21 -0800 (PST)
+To: Jonathan Corbet <corbet@lwn.net>, Joel Colledge <joel.colledge@linbit.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <7df04f45-8746-e666-1a9d-a998f1ab1f91@gmail.com>
+Date: Fri, 26 Nov 2021 13:11:17 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+	Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <3cbff170-582b-b6cf-0988-e0d0c9b47505@gmail.com>
-	<3c0ffc75-0e0f-1701-267b-1bedb6481b79@gmail.com>
-In-Reply-To: <3c0ffc75-0e0f-1701-267b-1bedb6481b79@gmail.com>
-From: Joel Colledge <joel.colledge@linbit.com>
-Date: Thu, 25 Nov 2021 18:41:21 +0100
-Message-ID: <CAGNP_+VoB=_c5f6LO_NQBfWLrLa=APR2Ajk+kt0XGWqCMp9EXw@mail.gmail.com>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	linux-kernel@vger.kernel.org, Philipp Reisner <philipp.reisner@linbit.com>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH] docs: admin-guide/blockdev: Use subgraphs in
-	node-states-8.dot
+Content-Language: en-US
+Cc: linux-kernel@vger.kernel.org, Lars Ellenberg <lars.ellenberg@linbit.com>,
+	linux-doc@vger.kernel.org, Philipp Reisner <philipp.reisner@linbit.com>,
+	drbd-dev@lists.linbit.com
+Subject: [Drbd-dev] [PATCH v2] docs: admin-guide/blockdev: Remove digraph of
+	node-states
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -73,19 +79,83 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Thanks for catching this, Akira.
+While node-states-8.dot has two digraphs, the dot(1) command can
+not properly handle multiple graphs in a DOT file and the
+kernel-doc page at
 
-Unfortunately, this fix causes the "node_states" and "peer_states"
-graphs to be mixed up. I guess this happens because the same IDs are
-used in each subgraph. The graphs should be separate.
+    https://www.kernel.org/doc/html/latest/admin-guide/blockdev/drbd/figures.html
 
-On reflection, the digraph node_states can be removed entirely. It is
-too basic to contain any useful information. In addition it references
-"ioctl_set_state". The ioctl configuration interface for DRBD has long
-been removed. In fact, it was never in the upstream version of DRBD.
+fails to render the graphs.
 
-Best regards,
-Joel
+It turned out that the digraph of node_states can be removed.
+
+Quote from Joel's reflection:
+
+    On reflection, the digraph node_states can be removed entirely.
+    It is too basic to contain any useful information. In addition
+    it references "ioctl_set_state". The ioctl configuration
+    interface for DRBD has long been removed. In fact, it was never
+    in the upstream version of DRBD.
+
+Remove node_states and rename the DOT file peer_states-8.dot.
+
+Suggested-by: Joel Colledge <joel.colledge@linbit.com>
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Cc: Philipp Reisner <philipp.reisner@linbit.com>
+Cc: Lars Ellenberg <lars.ellenberg@linbit.com>
+---
+Changes in v1 [1] -> v2
+
+ - As suggested by Joel, remove the digraph of node_states.
+ - Rename the DOT file peers-states-8.dot.
+ - Update the change log and the patch title.
+ - Add Joel's Suggested-by.
+
+[1]: https://lkml.kernel.org/r/3cbff170-582b-b6cf-0988-e0d0c9b47505@gmail.com
+
+Joel, are you OK with this change going through the -doc tree?
+
+        Thanks, Akira
+--
+ Documentation/admin-guide/blockdev/drbd/figures.rst          | 4 ++--
+ .../blockdev/drbd/{node-states-8.dot => peer-states-8.dot}   | 5 -----
+ 2 files changed, 2 insertions(+), 7 deletions(-)
+ rename Documentation/admin-guide/blockdev/drbd/{node-states-8.dot => peer-states-8.dot} (71%)
+
+diff --git a/Documentation/admin-guide/blockdev/drbd/figures.rst b/Documentation/admin-guide/blockdev/drbd/figures.rst
+index bd9a4901fe46..9f73253ea353 100644
+--- a/Documentation/admin-guide/blockdev/drbd/figures.rst
++++ b/Documentation/admin-guide/blockdev/drbd/figures.rst
+@@ -25,6 +25,6 @@ Sub graphs of DRBD's state transitions
+     :alt:   disk-states-8.dot
+     :align: center
+ 
+-.. kernel-figure:: node-states-8.dot
+-    :alt:   node-states-8.dot
++.. kernel-figure:: peer-states-8.dot
++    :alt:   peer-states-8.dot
+     :align: center
+diff --git a/Documentation/admin-guide/blockdev/drbd/node-states-8.dot b/Documentation/admin-guide/blockdev/drbd/peer-states-8.dot
+similarity index 71%
+rename from Documentation/admin-guide/blockdev/drbd/node-states-8.dot
+rename to Documentation/admin-guide/blockdev/drbd/peer-states-8.dot
+index bfa54e1f8016..6dc3954954d6 100644
+--- a/Documentation/admin-guide/blockdev/drbd/node-states-8.dot
++++ b/Documentation/admin-guide/blockdev/drbd/peer-states-8.dot
+@@ -1,8 +1,3 @@
+-digraph node_states {
+-	Secondary -> Primary           [ label = "ioctl_set_state()" ]
+-	Primary   -> Secondary 	       [ label = "ioctl_set_state()" ]
+-}
+-
+ digraph peer_states {
+ 	Secondary -> Primary           [ label = "recv state packet" ]
+ 	Primary   -> Secondary 	       [ label = "recv state packet" ]
+
+base-commit: b96ff02ab2be1791248237b1bf318aaf62e8b701
+-- 
+2.17.1
+
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
