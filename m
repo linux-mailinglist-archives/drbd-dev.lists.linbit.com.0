@@ -2,55 +2,143 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3CAC4920A0
-	for <lists+drbd-dev@lfdr.de>; Tue, 18 Jan 2022 08:55:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9E5B4930A7
+	for <lists+drbd-dev@lfdr.de>; Tue, 18 Jan 2022 23:25:10 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D840D4205E3;
-	Tue, 18 Jan 2022 08:55:53 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9DDE6420A73;
+	Tue, 18 Jan 2022 23:25:09 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from bombadil.infradead.org (bombadil.infradead.org
-	[198.137.202.133])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 03ACA4202F4
-	for <drbd-dev@lists.linbit.com>; Tue, 18 Jan 2022 08:55:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=uW2mc9iWaFckCAcp0+ZfendEWrcDkE662kty754dA0k=;
-	b=tZb6X2SFk3AoLZl4MFFNrJNAVh
-	18JZLt1KWqP3DAtfpomGX0IflVAXcruOAEh1YiU+9I8odpyf6+No3+TjObDON1RWjxVy/IGtNnG8E
-	LvCQEm/YAFQpwN8mA83LMBjnUK9UJkaTlVQqgASznI94zbmjmbVNclg+N9/qXCNccrg6ElamC+FFk
-	/kIiDwhlzSLMtTWTB+8fCoB3lLJ0HOe6/hR7/3f4flFFFNA1IDQvQeoCvdgSp019KSjaRpMBSbvvJ
-	Mu02rz/w0rXlf++ocMqZKX0syk1fzhMYadUObkhG8P65d51v9r9RXk76lBvqvNVrKN+/uZhqSSrfQ
-	l9mMFOCg==;
-Received: from [2001:4bb8:184:72a4:a4a9:19c0:5242:7768] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1n9inQ-000Zlb-97; Tue, 18 Jan 2022 07:20:48 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Jens Axboe <axboe@kernel.dk>
-Date: Tue, 18 Jan 2022 08:19:52 +0100
-Message-Id: <20220118071952.1243143-20-hch@lst.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220118071952.1243143-1-hch@lst.de>
+X-Greylist: delayed 757 seconds by postgrey-1.31 at mail19;
+	Tue, 18 Jan 2022 23:25:04 CET
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+	(mail-mw2nam10on2058.outbound.protection.outlook.com [40.107.94.58])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5912542094E
+	for <drbd-dev@lists.linbit.com>; Tue, 18 Jan 2022 23:25:04 +0100 (CET)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+	b=fTxRABRUhmS/yBeBy4NYJORHrHnnNss0PH+mgSJ0hAlIVWp7Htbu20cXjIy2RjretjHTMhHwXofgSKJ1EUUr7xk+Nn/2ZUYcYZtfIGjCUrAKczG/K6R0z5n8TIRkc/K8ifs1XJdejW9sEgx9bZ2SsXynBOAIZw/8JHo8AghaT38rDztmqKOa1VbSZe0uaRM3I4SHJqTSeeXqV72M7mxa5sAm9IyWSkvba38sj+2aRS5i98a/MYVTAz/Xtssw3a79JMwW98ZYnyFXtTf/VywwbnLAQ56XHoN55blee/Jd2NyoBUUzxcXIMzQ7VjF3P+0v0LOVYMblLItRsm+aSHSgeg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+	s=arcselector9901;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+	bh=10TAAnZvOSR4S0y2NuqUH4W60yc9IevVM3hnAGv74bc=;
+	b=oAc1oucyUMt7e/0jx2XtEhXIV3/yPfGQ4pSOT1YfIyDV+6nFi+tvCJ7eSK78fcTx1eK98GRubjoPsbg11Ia433gLG1PNUrsLWnoyu+nJjvZjrZpmRpxWd6E3qeoYVhrECRuMQg4WZdGS7FRE5YWMDkI8fIYU+QRKkGJNBBuY8PQ5BGTYRDnKtkNUCu0Svo2vK79rlphbG+38sa7JDUNARihIiLazNvGhoF+ap+UouYGecBJQb7V8oVWsCDuiSWsgGSHwV1VRFmoerthZplu3MZTSsgY2j/L8ENfi+1kYG97lYJr2noug3P+Wqo11X61BGoq+ztJTin7KsGEecivvtQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+	smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+	dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+	s=selector2;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=10TAAnZvOSR4S0y2NuqUH4W60yc9IevVM3hnAGv74bc=;
+	b=FhXV9Xl012EiGpClBUVVB8qPdyvxDkKnr5exmZ2iEUFQt7zImZmW9VVJDXZcagdYqGYNJxzP0jHifQ5OSrksjNkg/czJQX91qU/TKVvDdpAYnYo+MuRHqVUGKixBRXKG8Y+c/j5H4VUkVjhvkRnjkTGV1/qDOPvYx2EmfMXppiGSNA7A/DXelI29lqc3sUzj4Cey6XJoHRVAvahqcV+GxQ6sQ8fdkJfakpeeti/rmQuUw+cMgCiaR+FtrhVQi8ebUUeYCgklDblHrRLRKhunNSV9HsJtOM2D/4ovfTSaNQ+DmnuRWYSHqIobASY3dXsnA+0JvbgIc2Q4q1ETfu58+w==
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
+	by MW2PR12MB2379.namprd12.prod.outlook.com (2603:10b6:907:9::24) with
+	Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4909.7;
+	Tue, 18 Jan 2022 22:10:17 +0000
+Received: from MW2PR12MB4667.namprd12.prod.outlook.com
+	([fe80::75e8:6970:bbc9:df6f]) by
+	MW2PR12MB4667.namprd12.prod.outlook.com
+	([fe80::75e8:6970:bbc9:df6f%6]) with mapi id 15.20.4909.007;
+	Tue, 18 Jan 2022 22:10:17 +0000
+From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
+To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
+Thread-Topic: [PATCH 13/19] block: move blk_next_bio to bio.c
+Thread-Index: AQHYDDwIi23zfbZWP02cbOp5v0GjmqxpV+AA
+Date: Tue, 18 Jan 2022 22:10:17 +0000
+Message-ID: <898045a2-19a4-15ba-a352-ce1767f17cac@nvidia.com>
 References: <20220118071952.1243143-1-hch@lst.de>
+	<20220118071952.1243143-14-hch@lst.de>
+In-Reply-To: <20220118071952.1243143-14-hch@lst.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+	Thunderbird/78.11.0
+authentication-results: dkim=none (message not signed)
+	header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 3621004d-42ef-40d2-624d-08d9dacf4f4e
+x-ms-traffictypediagnostic: MW2PR12MB2379:EE_
+x-microsoft-antispam-prvs: <MW2PR12MB237997490FA666B9FF821D5FA3589@MW2PR12MB2379.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:949;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: s02X2IWbX4rKx8KySN+biMpWmkIFrCBJBvbfdvBsF2wiHI8e/5CB5IcNgwc6amdCF73sviR5k5KMr5Z4ll36fqJXTZU0hQfniPWiPeJfPbUgJdSJjJljUVThr74/33qayKtzM9+PGtJILtW+BdTvO4LamCTArcZVsBX0We3rJHMdN9QAyYxr0NUquqlgQq3a2M8e/kWZ9DFGMrtlHZ/Mgiroqb2XS4Z3E62A0OyL73LPNMqfX8HX5UaT7t+nBjBqJ0RLeAoueglXtTwNx9NDUR9tDSMo2j+aNwZjGWblJmD4GhCvWSDcoST19IcyvTRqppgaPX+LIu0X4NVJTk/4FkFhfd6s4eXt6lpfioAyjapjwAyuCZ3YulUfmFVsDxBkUq4GACtJUZyz2soaPKPSdB7yx6gLRFel/IUa16h3tztRHZlRf2uCsVRqIjr9qYipvuNKA4vd88L4013HJIBT66SIhQ/3uFuntGqtSIraDJkOownNEfXzd/G4WQ01byRy5KThFSqsW3ePI2hQ2MONg2RE82RfI0IodeyQeBt3SDxb6+43DVAHZ4IMH62eSWkwyF/RgBii/4drf+CQOhohzGsv6uYT+alaTO4prvKQewa0+DX9qFazy4NpWgajuuYuKxrI/4JVDMS/xyZhgBIYO0azX8tp9dq3JlDMy23Z/wzQhLVPR7zTyg1NCwBL4cHWyOXpH1jqGXYDPehWmsKMva7i65WuVcYCey8vtnqToQzTulI1kEIgocmmp2s+Faa/sM9z+8rolOUFWd0mwWOnLg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:; IPV:NLI; SFV:NSPM;
+	H:MW2PR12MB4667.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+	SFS:(4636009)(366004)(122000001)(38100700002)(558084003)(36756003)(54906003)(8936002)(91956017)(71200400001)(8676002)(66446008)(64756008)(66556008)(66476007)(76116006)(66946007)(31686004)(316002)(186003)(86362001)(53546011)(6506007)(4326008)(6486002)(110136005)(2906002)(5660300002)(2616005)(38070700005)(7416002)(31696002)(6512007)(508600001)(43740500002)(45980500001);
+	DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VUZ6YmhENUNEd0hLU3BzWlhWYmJlVm5YamdCNDBrNDNJcUlyZ3hDMnlRcUJN?=
+	=?utf-8?B?bEZtMEZqMlduNy9VUVJHKzBLa3Y3dlN0QXFJTFl0VUtrZURQZWJ5OHNHMlg4?=
+	=?utf-8?B?b1lsVnBVQVczTG8wT2pYUVhzOXdxeUphNnZEZGpZVFcxY2lZN08zR05UMmlV?=
+	=?utf-8?B?ZTFjV2x1eEc3QnJVcDlsSWhQYnhkTis0T1EzWTgxc2hkWFBxSUtFV2F2MzZr?=
+	=?utf-8?B?aTFWbm52NmNmZ05SRUh2RXQ4clZiemFObnVQTW9Td290ZElsVDNraThOSE1r?=
+	=?utf-8?B?TW5PM1FtYklna29GTENDcjJYdDFuNWlNNXJuU241TFdFNWpMMCsxRE5FZklm?=
+	=?utf-8?B?ZncxaDRkankwWFhnT2N3ZC85VlNqN29HM3pwZElvQyszV3UxTFVTKytncVA3?=
+	=?utf-8?B?Q24vaFVQa3RkOUx2TmxBUXJVa3Z0bVVLKzNUSzJOUmpPUS9WTlQzUHRDYUdL?=
+	=?utf-8?B?OFZmTnJGM1pIRjQxZS9yY2g4djNiYlBuRWZ2elVZeWxLdElGU1o4ZER3c0ZP?=
+	=?utf-8?B?b1ViM0ltWkFRaHRtR3FEWkNTdGFpQ3JBRW9FdDkwcXN6R1ZGK01XdWs2S0Ra?=
+	=?utf-8?B?OWFXNWw2bDBkNG93ZlpwWVJlNjY2WWxlUXFnWFhXUDRaRDNNUzVpbmdMd2Zy?=
+	=?utf-8?B?RGlZc2ZHSjJGRDltVldJY2Z5WVc5VmJTd0FSbTVEM3Nnd3BaWVR0TDN4YXFy?=
+	=?utf-8?B?OEgzY0Q2aGthUk5LMDBlelM4UlBHNytpOE9ya21NZFhicmFiZjdqRUxqSi9o?=
+	=?utf-8?B?S0k5clg4QUhSZTg2STY5VmZUUVhFTXFNTHIyYytJMU1mZ05yc1M2VlBldXY5?=
+	=?utf-8?B?ald3cHpqYy9id29UWkQvOGpmbDJMWXlSU2dyYWwvK0F0NENaQTlScnZtNnRq?=
+	=?utf-8?B?REMybHNSUTQrYnZzRDVocjdjWGVUY0NVTlNKYXFJYTVXMHFlRGVjai9XV1B1?=
+	=?utf-8?B?K3ppWTNpS2J4WlRNZWxDd2VRQTZKNDRBQmRlOWUwR25WNUorQ1BRSDZiNE5a?=
+	=?utf-8?B?cVFaM2gyRE5iODE0djU5bVlVUEo1c3k1eHVES1VsdzJ1b0h0d3dlSlBUWmVB?=
+	=?utf-8?B?M2lnbjh4UEJsRFhXQXJqdW5mbjA5YWsxQkhsNGlLNlQ4RTk2dXp6VjNQTC9K?=
+	=?utf-8?B?Umo5OEo1cHpRWENKc2YrU0hOYzdibFZyQ0g3N1d2bFNPTkNVamZDUFl5K1VJ?=
+	=?utf-8?B?MzluSGlxR0h1SkhBUEVCaDd3OWovajQxUWJFYXJidWtONTl2V1lLaTZUaFdn?=
+	=?utf-8?B?QVpXU3lQSDZHc1BycEh3MmFUSGhXTllGeXJteTRtUEpocWhCYlVEK0grQmxs?=
+	=?utf-8?B?ZmtMS3EyL3BtZEE2UG9FOTg2NzhqbTdtNHpyTW5zYmM4QjM5Ym1Gdjg4MUFE?=
+	=?utf-8?B?cHBiY0grRkZaWXlDa0l1cFFGMmtzS0FRT3hQendVV3p4Y1Q2Z09XVExvcklG?=
+	=?utf-8?B?VEZiajJjdkpEcUh2S3V4cW8wRFZMaU0zNkt3RGNna0tSQnNWNVpmZDZ4UjQ5?=
+	=?utf-8?B?UHpiZk5Id2Q4cGV3WXo1NHVURWNidzIydUQ3Rm1kaUR0YkdPRnlKTUszK3Bs?=
+	=?utf-8?B?YmlsQTI0YVB3Sy9kYjNKc3Erb2wzVEZ3RkFYTXRpQ2Z4ZjdNVXFORjU2R2NT?=
+	=?utf-8?B?Mnhtc3duYjBxTHlpZ1ArYVQ0NWpBMnEydmYzSUZaSVNoUVBkQVZVbWMxOUhE?=
+	=?utf-8?B?WDh1bTRyYThHSnozUGxLT0c1ZVFJTU9ZcHZ1QU5WWEx1SWJ2VzZIUDNPb1g2?=
+	=?utf-8?B?cFRjK2V3Zk5jMFQrRXc4N3gzc3dFWkFXeThKMUJFZ1laenFWTWpiczRtNi9B?=
+	=?utf-8?B?U3N4YlBmb09CTkcvRjUxTVRGSnJ3Yk5NaEhSRG9zZk5NMFh4VjVnY01qbGdu?=
+	=?utf-8?B?MldrZUxrTWxGQjNTTmw3bnpJNFBDOEp5Y1NUQTJpOWFmd0dLZGJEWnBFWFl1?=
+	=?utf-8?B?SG1WRWRoVDJQUXV6QmhUazFybCs2bERQa0NsTzZnK1BtOFdDUzRpc2cyMWVu?=
+	=?utf-8?B?bGlPejg3SmxpMlJWQXluN3NBQmZSUCtWY1hHdlRGRllFT3ZBWklNOU12M2Jn?=
+	=?utf-8?B?TnhlMDRlbG9Vb0FlZDlPSEpTYXltUzlnVmM1TGZ3K3U1WXNMOHlBMjlHcGx4?=
+	=?utf-8?B?QzRETlRVWnpBQnprTnZ6V21GT1NXWnVuZFpieFk5ZVVDOFZiWVFaNFdJTlZv?=
+	=?utf-8?Q?iCDaB4IKaPjMnFjoRwrMGDEO3HjW+GEP0SrMW/NArikj?=
+Content-ID: <B517DE78369F2A41BFFA7CE0A7153DC7@namprd12.prod.outlook.com>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
-	bombadil.infradead.org. See http://www.infradead.org/rpr.html
-Cc: linux-block@vger.kernel.org, linux-nfs@vger.kernel.org,
-	linux-nilfs@vger.kernel.org, Mike Snitzer <snitzer@redhat.com>,
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3621004d-42ef-40d2-624d-08d9dacf4f4e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jan 2022 22:10:17.2320 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Zj5k0blmXFkwJkXgnsmSuImlrYYFcoQQK20MteejdX9QG8EDrKYlnMCCxPbP8Ay7cdDtxYWYd2jyIv9ntTJBfA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR12MB2379
+Cc: Lars@linbit.com,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
+	"linux-nilfs@vger.kernel.org" <linux-nilfs@vger.kernel.org>,
+	Mike Snitzer <snitzer@redhat.com>,
+	"ntfs3@lists.linux.dev" <ntfs3@lists.linux.dev>,
 	Philipp Reisner <philipp.reisner@linbit.com>,
+	Ellenberg <lars.ellenberg@linbit.com>,
 	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	=?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.co>,
-	dm-devel@redhat.com, "Md . Haris Iqbal " <haris.iqbal@ionos.com>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	linux-fsdevel@vger.kernel.org, xen-devel@lists.xenproject.org,
-	Andrew Morton <akpm@linux-foundation.org>, ntfs3@lists.linux.dev,
-	Jack Wang <jinpu.wang@ionos.com>, Pavel Begunkov <asml.silence@gmail.com>,
-	drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 19/19] block: pass a block_device and opf to
-	bio_reset
+	Komarov <almaz.alexandrovich@paragon-software.com>,
+	=?utf-8?B?Um9nZXIgUGF1IE1vbm7DqQ==?= <roger.pau@citrix.co>,
+	"dm-devel@redhat.com" <dm-devel@redhat.com>,
+	"Md . Haris Iqbal" <haris.iqbal@ionos.com>, Jack@linbit.com,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+	Andrew Morton <akpm@linux-foundation.org>, Konstantin@linbit.com,
+	Wang <jinpu.wang@ionos.com>, Pavel Begunkov <asml.silence@gmail.com>,
+	"drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>
+Subject: Re: [Drbd-dev] [PATCH 13/19] block: move blk_next_bio to bio.c
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -69,363 +157,16 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Pass the block_device that we plan to use this bio for and the
-operation to bio_reset to optimize the assigment.  A NULL block_device
-can be passed, both for the passthrough case on a raw request_queue and
-to temporarily avoid refactoring some nasty code.
+On 1/17/22 11:19 PM, Christoph Hellwig wrote:
+> Keep blk_next_bio next to the core bio infrastructure.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- block/bio.c                 |  6 +++++-
- drivers/block/pktcdvd.c     |  8 ++------
- drivers/md/bcache/journal.c | 12 ++++--------
- drivers/md/bcache/request.c |  4 ++--
- drivers/md/raid1.c          |  5 ++---
- drivers/md/raid10.c         |  8 +++-----
- drivers/md/raid5-cache.c    |  9 +++------
- drivers/md/raid5.c          |  8 ++++----
- fs/btrfs/disk-io.c          |  4 +---
- fs/crypto/bio.c             |  8 ++------
- include/linux/bio.h         |  9 +--------
- 11 files changed, 29 insertions(+), 52 deletions(-)
 
-diff --git a/block/bio.c b/block/bio.c
-index 2480f80296eac..9050b0cc1e43e 100644
---- a/block/bio.c
-+++ b/block/bio.c
-@@ -295,6 +295,8 @@ EXPORT_SYMBOL(bio_init);
- /**
-  * bio_reset - reinitialize a bio
-  * @bio:	bio to reset
-+ * @bdev:	block device to use the bio for
-+ * @opf:	operation and flags for bio
-  *
-  * Description:
-  *   After calling bio_reset(), @bio will be in the same state as a freshly
-@@ -302,11 +304,13 @@ EXPORT_SYMBOL(bio_init);
-  *   preserved are the ones that are initialized by bio_alloc_bioset(). See
-  *   comment in struct bio.
-  */
--void bio_reset(struct bio *bio)
-+void bio_reset(struct bio *bio, struct block_device *bdev, unsigned int opf)
- {
- 	bio_uninit(bio);
- 	memset(bio, 0, BIO_RESET_BYTES);
- 	atomic_set(&bio->__bi_remaining, 1);
-+	bio->bi_bdev = bdev;
-+	bio->bi_opf = opf;
- }
- EXPORT_SYMBOL(bio_reset);
- 
-diff --git a/drivers/block/pktcdvd.c b/drivers/block/pktcdvd.c
-index 2b6b70a39e760..3aa5954429462 100644
---- a/drivers/block/pktcdvd.c
-+++ b/drivers/block/pktcdvd.c
-@@ -1020,9 +1020,8 @@ static void pkt_gather_data(struct pktcdvd_device *pd, struct packet_data *pkt)
- 			continue;
- 
- 		bio = pkt->r_bios[f];
--		bio_reset(bio);
-+		bio_reset(bio, pd->bdev, REQ_OP_READ);
- 		bio->bi_iter.bi_sector = pkt->sector + f * (CD_FRAMESIZE >> 9);
--		bio_set_dev(bio, pd->bdev);
- 		bio->bi_end_io = pkt_end_io_read;
- 		bio->bi_private = pkt;
- 
-@@ -1034,7 +1033,6 @@ static void pkt_gather_data(struct pktcdvd_device *pd, struct packet_data *pkt)
- 			BUG();
- 
- 		atomic_inc(&pkt->io_wait);
--		bio_set_op_attrs(bio, REQ_OP_READ, 0);
- 		pkt_queue_bio(pd, bio);
- 		frames_read++;
- 	}
-@@ -1235,9 +1233,8 @@ static void pkt_start_write(struct pktcdvd_device *pd, struct packet_data *pkt)
- {
- 	int f;
- 
--	bio_reset(pkt->w_bio);
-+	bio_reset(pkt->w_bio, pd->bdev, REQ_OP_WRITE);
- 	pkt->w_bio->bi_iter.bi_sector = pkt->sector;
--	bio_set_dev(pkt->w_bio, pd->bdev);
- 	pkt->w_bio->bi_end_io = pkt_end_io_packet_write;
- 	pkt->w_bio->bi_private = pkt;
- 
-@@ -1270,7 +1267,6 @@ static void pkt_start_write(struct pktcdvd_device *pd, struct packet_data *pkt)
- 
- 	/* Start the write request */
- 	atomic_set(&pkt->io_wait, 1);
--	bio_set_op_attrs(pkt->w_bio, REQ_OP_WRITE, 0);
- 	pkt_queue_bio(pd, pkt->w_bio);
- }
- 
-diff --git a/drivers/md/bcache/journal.c b/drivers/md/bcache/journal.c
-index 6d26c5b06e2b6..7c2ca52ca3e43 100644
---- a/drivers/md/bcache/journal.c
-+++ b/drivers/md/bcache/journal.c
-@@ -53,14 +53,12 @@ static int journal_read_bucket(struct cache *ca, struct list_head *list,
- reread:		left = ca->sb.bucket_size - offset;
- 		len = min_t(unsigned int, left, PAGE_SECTORS << JSET_BITS);
- 
--		bio_reset(bio);
-+		bio_reset(bio, ca->bdev, REQ_OP_READ);
- 		bio->bi_iter.bi_sector	= bucket + offset;
--		bio_set_dev(bio, ca->bdev);
- 		bio->bi_iter.bi_size	= len << 9;
- 
- 		bio->bi_end_io	= journal_read_endio;
- 		bio->bi_private = &cl;
--		bio_set_op_attrs(bio, REQ_OP_READ, 0);
- 		bch_bio_map(bio, data);
- 
- 		closure_bio_submit(ca->set, bio, &cl);
-@@ -771,16 +769,14 @@ static void journal_write_unlocked(struct closure *cl)
- 
- 		atomic_long_add(sectors, &ca->meta_sectors_written);
- 
--		bio_reset(bio);
-+		bio_reset(bio, ca->bdev, REQ_OP_WRITE | 
-+			  REQ_SYNC | REQ_META | REQ_PREFLUSH | REQ_FUA);
-+		bch_bio_map(bio, w->data);
- 		bio->bi_iter.bi_sector	= PTR_OFFSET(k, i);
--		bio_set_dev(bio, ca->bdev);
- 		bio->bi_iter.bi_size = sectors << 9;
- 
- 		bio->bi_end_io	= journal_write_endio;
- 		bio->bi_private = w;
--		bio_set_op_attrs(bio, REQ_OP_WRITE,
--				 REQ_SYNC|REQ_META|REQ_PREFLUSH|REQ_FUA);
--		bch_bio_map(bio, w->data);
- 
- 		trace_bcache_journal_write(bio, w->data->keys);
- 		bio_list_add(&list, bio);
-diff --git a/drivers/md/bcache/request.c b/drivers/md/bcache/request.c
-index d4b98ebffd948..7ba59d08ed870 100644
---- a/drivers/md/bcache/request.c
-+++ b/drivers/md/bcache/request.c
-@@ -831,11 +831,11 @@ static void cached_dev_read_done(struct closure *cl)
- 	 */
- 
- 	if (s->iop.bio) {
--		bio_reset(s->iop.bio);
-+		bio_reset(s->iop.bio, s->cache_miss->bi_bdev, REQ_OP_READ);
- 		s->iop.bio->bi_iter.bi_sector =
- 			s->cache_miss->bi_iter.bi_sector;
--		bio_copy_dev(s->iop.bio, s->cache_miss);
- 		s->iop.bio->bi_iter.bi_size = s->insert_bio_sectors << 9;
-+		bio_clone_blkg_association(s->iop.bio, s->cache_miss);
- 		bch_bio_map(s->iop.bio, NULL);
- 
- 		bio_copy_data(s->cache_miss, s->iop.bio);
-diff --git a/drivers/md/raid1.c b/drivers/md/raid1.c
-index 43276f8fdc815..e7710fb5befb4 100644
---- a/drivers/md/raid1.c
-+++ b/drivers/md/raid1.c
-@@ -2166,11 +2166,10 @@ static void process_checks(struct r1bio *r1_bio)
- 			continue;
- 		/* fixup the bio for reuse, but preserve errno */
- 		status = b->bi_status;
--		bio_reset(b);
-+		bio_reset(b, conf->mirrors[i].rdev->bdev, REQ_OP_READ);
- 		b->bi_status = status;
- 		b->bi_iter.bi_sector = r1_bio->sector +
- 			conf->mirrors[i].rdev->data_offset;
--		bio_set_dev(b, conf->mirrors[i].rdev->bdev);
- 		b->bi_end_io = end_sync_read;
- 		rp->raid_bio = r1_bio;
- 		b->bi_private = rp;
-@@ -2651,7 +2650,7 @@ static struct r1bio *raid1_alloc_init_r1buf(struct r1conf *conf)
- 	for (i = conf->poolinfo->raid_disks; i--; ) {
- 		bio = r1bio->bios[i];
- 		rps = bio->bi_private;
--		bio_reset(bio);
-+		bio_reset(bio, NULL, 0);
- 		bio->bi_private = rps;
- 	}
- 	r1bio->master_bio = NULL;
-diff --git a/drivers/md/raid10.c b/drivers/md/raid10.c
-index cb7c58050708e..da07bcbc06d08 100644
---- a/drivers/md/raid10.c
-+++ b/drivers/md/raid10.c
-@@ -2422,7 +2422,7 @@ static void sync_request_write(struct mddev *mddev, struct r10bio *r10_bio)
- 		 * bi_vecs, as the read request might have corrupted these
- 		 */
- 		rp = get_resync_pages(tbio);
--		bio_reset(tbio);
-+		bio_reset(tbio, conf->mirrors[d].rdev->bdev, REQ_OP_WRITE);
- 
- 		md_bio_reset_resync_pages(tbio, rp, fbio->bi_iter.bi_size);
- 
-@@ -2430,7 +2430,6 @@ static void sync_request_write(struct mddev *mddev, struct r10bio *r10_bio)
- 		tbio->bi_private = rp;
- 		tbio->bi_iter.bi_sector = r10_bio->devs[i].addr;
- 		tbio->bi_end_io = end_sync_write;
--		bio_set_op_attrs(tbio, REQ_OP_WRITE, 0);
- 
- 		bio_copy_data(tbio, fbio);
- 
-@@ -2441,7 +2440,6 @@ static void sync_request_write(struct mddev *mddev, struct r10bio *r10_bio)
- 		if (test_bit(FailFast, &conf->mirrors[d].rdev->flags))
- 			tbio->bi_opf |= MD_FAILFAST;
- 		tbio->bi_iter.bi_sector += conf->mirrors[d].rdev->data_offset;
--		bio_set_dev(tbio, conf->mirrors[d].rdev->bdev);
- 		submit_bio_noacct(tbio);
- 	}
- 
-@@ -3160,12 +3158,12 @@ static struct r10bio *raid10_alloc_init_r10buf(struct r10conf *conf)
- 	for (i = 0; i < nalloc; i++) {
- 		bio = r10bio->devs[i].bio;
- 		rp = bio->bi_private;
--		bio_reset(bio);
-+		bio_reset(bio, NULL, 0);
- 		bio->bi_private = rp;
- 		bio = r10bio->devs[i].repl_bio;
- 		if (bio) {
- 			rp = bio->bi_private;
--			bio_reset(bio);
-+			bio_reset(bio, NULL, 0);
- 			bio->bi_private = rp;
- 		}
- 	}
-diff --git a/drivers/md/raid5-cache.c b/drivers/md/raid5-cache.c
-index 98b9ca11c28d8..86e2bb89d9c7b 100644
---- a/drivers/md/raid5-cache.c
-+++ b/drivers/md/raid5-cache.c
-@@ -1301,10 +1301,9 @@ void r5l_flush_stripe_to_raid(struct r5l_log *log)
- 
- 	if (!do_flush)
- 		return;
--	bio_reset(&log->flush_bio);
--	bio_set_dev(&log->flush_bio, log->rdev->bdev);
-+	bio_reset(&log->flush_bio, log->rdev->bdev,
-+		  REQ_OP_WRITE | REQ_PREFLUSH);
- 	log->flush_bio.bi_end_io = r5l_log_flush_endio;
--	log->flush_bio.bi_opf = REQ_OP_WRITE | REQ_PREFLUSH;
- 	submit_bio(&log->flush_bio);
- }
- 
-@@ -1678,9 +1677,7 @@ static int r5l_recovery_fetch_ra_pool(struct r5l_log *log,
- 				      struct r5l_recovery_ctx *ctx,
- 				      sector_t offset)
- {
--	bio_reset(ctx->ra_bio);
--	bio_set_dev(ctx->ra_bio, log->rdev->bdev);
--	bio_set_op_attrs(ctx->ra_bio, REQ_OP_READ, 0);
-+	bio_reset(ctx->ra_bio, log->rdev->bdev, REQ_OP_READ);
- 	ctx->ra_bio->bi_iter.bi_sector = log->rdev->data_offset + offset;
- 
- 	ctx->valid_pages = 0;
-diff --git a/drivers/md/raid5.c b/drivers/md/raid5.c
-index a9dcc5bc9c329..7c119208a2143 100644
---- a/drivers/md/raid5.c
-+++ b/drivers/md/raid5.c
-@@ -2677,7 +2677,7 @@ static void raid5_end_read_request(struct bio * bi)
- 		(unsigned long long)sh->sector, i, atomic_read(&sh->count),
- 		bi->bi_status);
- 	if (i == disks) {
--		bio_reset(bi);
-+		bio_reset(bi, NULL, 0);
- 		BUG();
- 		return;
- 	}
-@@ -2785,7 +2785,7 @@ static void raid5_end_read_request(struct bio * bi)
- 		}
- 	}
- 	rdev_dec_pending(rdev, conf->mddev);
--	bio_reset(bi);
-+	bio_reset(bi, NULL, 0);
- 	clear_bit(R5_LOCKED, &sh->dev[i].flags);
- 	set_bit(STRIPE_HANDLE, &sh->state);
- 	raid5_release_stripe(sh);
-@@ -2823,7 +2823,7 @@ static void raid5_end_write_request(struct bio *bi)
- 		(unsigned long long)sh->sector, i, atomic_read(&sh->count),
- 		bi->bi_status);
- 	if (i == disks) {
--		bio_reset(bi);
-+		bio_reset(bi, NULL, 0);
- 		BUG();
- 		return;
- 	}
-@@ -2860,7 +2860,7 @@ static void raid5_end_write_request(struct bio *bi)
- 	if (sh->batch_head && bi->bi_status && !replacement)
- 		set_bit(STRIPE_BATCH_ERR, &sh->batch_head->state);
- 
--	bio_reset(bi);
-+	bio_reset(bi, NULL, 0);
- 	if (!test_and_clear_bit(R5_DOUBLE_LOCKED, &sh->dev[i].flags))
- 		clear_bit(R5_LOCKED, &sh->dev[i].flags);
- 	set_bit(STRIPE_HANDLE, &sh->state);
-diff --git a/fs/btrfs/disk-io.c b/fs/btrfs/disk-io.c
-index f45aa506f9a6f..505ba21230b1f 100644
---- a/fs/btrfs/disk-io.c
-+++ b/fs/btrfs/disk-io.c
-@@ -4154,10 +4154,8 @@ static void write_dev_flush(struct btrfs_device *device)
- 		return;
- #endif
- 
--	bio_reset(bio);
-+	bio_reset(bio, device->bdev, REQ_OP_WRITE | REQ_SYNC | REQ_PREFLUSH);
- 	bio->bi_end_io = btrfs_end_empty_barrier;
--	bio_set_dev(bio, device->bdev);
--	bio->bi_opf = REQ_OP_WRITE | REQ_SYNC | REQ_PREFLUSH;
- 	init_completion(&device->flush_wait);
- 	bio->bi_private = &device->flush_wait;
- 
-diff --git a/fs/crypto/bio.c b/fs/crypto/bio.c
-index 755e985a42e0b..2217fe5ece6f9 100644
---- a/fs/crypto/bio.c
-+++ b/fs/crypto/bio.c
-@@ -80,9 +80,7 @@ static int fscrypt_zeroout_range_inline_crypt(const struct inode *inode,
- 			err = submit_bio_wait(bio);
- 			if (err)
- 				goto out;
--			bio_reset(bio);
--			bio_set_dev(bio, inode->i_sb->s_bdev);
--			bio->bi_opf = REQ_OP_WRITE;
-+			bio_reset(bio, inode->i_sb->s_bdev, REQ_OP_WRITE);
- 			num_pages = 0;
- 		}
- 	}
-@@ -181,9 +179,7 @@ int fscrypt_zeroout_range(const struct inode *inode, pgoff_t lblk,
- 		err = submit_bio_wait(bio);
- 		if (err)
- 			goto out;
--		bio_reset(bio);
--		bio_set_dev(bio, inode->i_sb->s_bdev);
--		bio->bi_opf = REQ_OP_WRITE;
-+		bio_reset(bio, inode->i_sb->s_bdev, REQ_OP_WRITE);
- 	} while (len != 0);
- 	err = 0;
- out:
-diff --git a/include/linux/bio.h b/include/linux/bio.h
-index 41bedf727f59c..18cfe5bb41ea8 100644
---- a/include/linux/bio.h
-+++ b/include/linux/bio.h
-@@ -459,7 +459,7 @@ extern int submit_bio_wait(struct bio *bio);
- void bio_init(struct bio *bio, struct block_device *bdev, struct bio_vec *table,
- 	      unsigned short max_vecs, unsigned int opf);
- extern void bio_uninit(struct bio *);
--extern void bio_reset(struct bio *);
-+void bio_reset(struct bio *bio, struct block_device *bdev, unsigned int opf);
- void bio_chain(struct bio *, struct bio *);
- 
- int bio_add_page(struct bio *, struct page *, unsigned len, unsigned off);
-@@ -517,13 +517,6 @@ static inline void bio_set_dev(struct bio *bio, struct block_device *bdev)
- 	bio_associate_blkg(bio);
- }
- 
--static inline void bio_copy_dev(struct bio *dst, struct bio *src)
--{
--	bio_clear_flag(dst, BIO_REMAPPED);
--	dst->bi_bdev = src->bi_bdev;
--	bio_clone_blkg_association(dst, src);
--}
--
- /*
-  * BIO list management for use by remapping drivers (e.g. DM or MD) and loop.
-  *
--- 
-2.30.2
+Looks good.
+
+Reviewed-by: Chaitanya Kulkarni <kch@nvidia.com>
+
 
 _______________________________________________
 drbd-dev mailing list
