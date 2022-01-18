@@ -2,35 +2,35 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 161304920C6
-	for <lists+drbd-dev@lfdr.de>; Tue, 18 Jan 2022 08:59:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC8864920C2
+	for <lists+drbd-dev@lfdr.de>; Tue, 18 Jan 2022 08:58:56 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E5518420BA1;
-	Tue, 18 Jan 2022 08:59:26 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A9AC2420A73;
+	Tue, 18 Jan 2022 08:58:56 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from bombadil.infradead.org (bombadil.infradead.org
 	[198.137.202.133])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0B8314205D8
-	for <drbd-dev@lists.linbit.com>; Tue, 18 Jan 2022 08:55:27 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A11304205D7
+	for <drbd-dev@lists.linbit.com>; Tue, 18 Jan 2022 08:55:26 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=Hmdul2b824Aw+W7hsxfLRPm+W2xGls7ShW1BUgArE2A=;
-	b=FlSg7Ip4B3XJbqRLUazSGBl6sY
-	aCwhXTmbowZx9b2j7qi2Hd8DnfbGH4eiPxuAaA2nRPne046/wmkaYlrnWHmDzVrmLfbwtcNrB2Y5G
-	L2k1rbD83lcM9y55YgCjdm3x34WIVHPPGGKbMAMBTkOlHX1/RYAWfOSXMvKfFfvu+z6XGHMVcEUOc
-	GTFWU4kS/QuprLIJtVIfCwCheJZFCG7BPLBRkxMUGQVd05jFWnJg0a/6rUFRuwjohPcbkpzQsrxtv
-	nMW27Vau8u3rAodC7STr3O6ThI27hF4j362D5p61hPICn2G3bNrEpQc2H7FsOMM9QEe/wLR7EuIoO
-	m2N3R2JA==;
+	bh=RX0A67Z5lXd5GUygO0wrcZQvzaCMySR9CjBx906FeWo=;
+	b=IsOgWQqM0RaGunI1SaCITwAnqb
+	RpbPQlarkaevYy0aX2Swx1quQ9t8AB62WCRMZjYW6SuVsikXkDcnaDhEznC8sI388BOxrjs8GsLT/
+	GW9QloSqKj0ccXbh/KCZlmgwRTGnnRlCqSWn/+IlPXwlbgxMN6IE2hAJYG4tJa2OchZm/pxRxKeTo
+	3jkIwzknvQl02ek9uCzvqJSMxXp00ch06L74ynIJH1rh1keoTo/OJzKhPWXhQZCCZq1ebVWSu4bV5
+	aH8Q/y0znAaQGAjAWmFBZBhOXDRxGBcw+wkD+OFf/TEeM34PxhIsl8SIssCM2WQaa8ZjDST8ZWZwe
+	Y2IzxOhQ==;
 Received: from [2001:4bb8:184:72a4:a4a9:19c0:5242:7768] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1n9in6-000Zaz-6Z; Tue, 18 Jan 2022 07:20:28 +0000
+	id 1n9in9-000Zd8-0E; Tue, 18 Jan 2022 07:20:31 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Date: Tue, 18 Jan 2022 08:19:45 +0100
-Message-Id: <20220118071952.1243143-13-hch@lst.de>
+Date: Tue, 18 Jan 2022 08:19:46 +0100
+Message-Id: <20220118071952.1243143-14-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220118071952.1243143-1-hch@lst.de>
 References: <20220118071952.1243143-1-hch@lst.de>
@@ -49,8 +49,7 @@ Cc: linux-block@vger.kernel.org, linux-nfs@vger.kernel.org,
 	Andrew Morton <akpm@linux-foundation.org>, ntfs3@lists.linux.dev,
 	Jack Wang <jinpu.wang@ionos.com>, Pavel Begunkov <asml.silence@gmail.com>,
 	drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 12/19] xen-blkback: bio_alloc can't fail if it is
-	allow to sleep
+Subject: [Drbd-dev] [PATCH 13/19] block: move blk_next_bio to bio.c
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -69,53 +68,62 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Remove handling of NULL returns from sleeping bio_alloc calls given that
-those can't fail.
+Keep blk_next_bio next to the core bio infrastructure.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/block/xen-blkback/blkback.c | 14 --------------
- 1 file changed, 14 deletions(-)
+ block/bio.c     | 13 +++++++++++++
+ block/blk-lib.c | 13 -------------
+ 2 files changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/block/xen-blkback/blkback.c b/drivers/block/xen-blkback/blkback.c
-index 14e452896d04c..6bb2ad7692065 100644
---- a/drivers/block/xen-blkback/blkback.c
-+++ b/drivers/block/xen-blkback/blkback.c
-@@ -1327,9 +1327,6 @@ static int dispatch_rw_block_io(struct xen_blkif_ring *ring,
- 				     seg[i].nsec << 9,
- 				     seg[i].offset) == 0)) {
- 			bio = bio_alloc(GFP_KERNEL, bio_max_segs(nseg - i));
--			if (unlikely(bio == NULL))
--				goto fail_put_bio;
--
- 			biolist[nbio++] = bio;
- 			bio_set_dev(bio, preq.bdev);
- 			bio->bi_private = pending_req;
-@@ -1346,9 +1343,6 @@ static int dispatch_rw_block_io(struct xen_blkif_ring *ring,
- 		BUG_ON(operation_flags != REQ_PREFLUSH);
- 
- 		bio = bio_alloc(GFP_KERNEL, 0);
--		if (unlikely(bio == NULL))
--			goto fail_put_bio;
--
- 		biolist[nbio++] = bio;
- 		bio_set_dev(bio, preq.bdev);
- 		bio->bi_private = pending_req;
-@@ -1381,14 +1375,6 @@ static int dispatch_rw_block_io(struct xen_blkif_ring *ring,
- 	free_req(ring, pending_req);
- 	msleep(1); /* back off a bit */
- 	return -EIO;
--
-- fail_put_bio:
--	for (i = 0; i < nbio; i++)
--		bio_put(biolist[i]);
--	atomic_set(&pending_req->pendcnt, 1);
--	__end_block_io_op(pending_req, BLK_STS_RESOURCE);
--	msleep(1); /* back off a bit */
--	return -EIO;
+diff --git a/block/bio.c b/block/bio.c
+index 0d400ba2dbd18..43fb28ac6b44e 100644
+--- a/block/bio.c
++++ b/block/bio.c
+@@ -344,6 +344,19 @@ void bio_chain(struct bio *bio, struct bio *parent)
  }
+ EXPORT_SYMBOL(bio_chain);
  
++struct bio *blk_next_bio(struct bio *bio, unsigned int nr_pages, gfp_t gfp)
++{
++	struct bio *new = bio_alloc(gfp, nr_pages);
++
++	if (bio) {
++		bio_chain(bio, new);
++		submit_bio(bio);
++	}
++
++	return new;
++}
++EXPORT_SYMBOL_GPL(blk_next_bio);
++
+ static void bio_alloc_rescue(struct work_struct *work)
+ {
+ 	struct bio_set *bs = container_of(work, struct bio_set, rescue_work);
+diff --git a/block/blk-lib.c b/block/blk-lib.c
+index 9f09beadcbe30..9245b300ef73e 100644
+--- a/block/blk-lib.c
++++ b/block/blk-lib.c
+@@ -10,19 +10,6 @@
  
+ #include "blk.h"
+ 
+-struct bio *blk_next_bio(struct bio *bio, unsigned int nr_pages, gfp_t gfp)
+-{
+-	struct bio *new = bio_alloc(gfp, nr_pages);
+-
+-	if (bio) {
+-		bio_chain(bio, new);
+-		submit_bio(bio);
+-	}
+-
+-	return new;
+-}
+-EXPORT_SYMBOL_GPL(blk_next_bio);
+-
+ int __blkdev_issue_discard(struct block_device *bdev, sector_t sector,
+ 		sector_t nr_sects, gfp_t gfp_mask, int flags,
+ 		struct bio **biop)
 -- 
 2.30.2
 
