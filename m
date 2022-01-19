@@ -2,69 +2,75 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2623F493551
-	for <lists+drbd-dev@lfdr.de>; Wed, 19 Jan 2022 08:18:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E082A493B14
+	for <lists+drbd-dev@lfdr.de>; Wed, 19 Jan 2022 14:27:09 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 347584209BB;
-	Wed, 19 Jan 2022 08:18:30 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C506F4202C4;
+	Wed, 19 Jan 2022 14:27:08 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
-	[209.85.208.46])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C5CFE420BA9
-	for <drbd-dev@lists.linbit.com>; Wed, 19 Jan 2022 01:48:23 +0100 (CET)
-Received: by mail-ed1-f46.google.com with SMTP id p12so3132368edq.9
-	for <drbd-dev@lists.linbit.com>; Tue, 18 Jan 2022 16:48:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ionos.com; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=PAK4mW8hYoqrJ21zjz/l0DR61Bn1u+hWmA/ygwKpR6A=;
-	b=SQ3H6Qc9RZNxAmcSFllQOOFG3yg91OTSmj2gmpE3fpQkDrrsoBOB6ydcmoJOu9UA57
-	+j/ZzPkXrgRAlZ6C2fF+2yfdVbMPE3/xMK6g3CVDAQjj9HbIl7kDv0ep3bml8wS6pYpc
-	ja8hXr1DNG/LV35KH+Bn9KFuQyCPtK51Klo04YrgE44CMJHpm5Awv1SO0dH+tqBFOoZF
-	PAEqQjfzUXpqTAd9zrTAudxarFP+UTahdMIlCt2SxSqvwYGPoZOr4o/frkIPgqjbxFsd
-	WyjmmrY9xl/B1aq+lfouAaj1zJovUnyR0fBjUAyQOGkMBYIMDba7MB/bWami13YQl70t
-	QfCw==
+Received: from mail-il1-f178.google.com (mail-il1-f178.google.com
+	[209.85.166.178])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4E4CA420004
+	for <drbd-dev@lists.linbit.com>; Wed, 19 Jan 2022 14:27:06 +0100 (CET)
+Received: by mail-il1-f178.google.com with SMTP id b1so2173954ilj.2
+	for <drbd-dev@lists.linbit.com>; Wed, 19 Jan 2022 05:27:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=bOtjTSupMPdLeWMiVKrD7jaORGYKT+sk6BwRJT6YH5k=;
+	b=7BEfqJqRzXAE088B+2bHOpvIL0UUVYOZUvHjaUycgtIQCZS6qJSTGhtIwa1Xa6EPfk
+	oV2YXPGcxgiVF5LaQHluLKvgATLLAeZKgM3nn6DNYQRh6ifI6cdJPU7ZNOAzZ5g1fFkO
+	MWYcErn30fkxjWY45t9Yboy2jcExTsCrzys7xQCWMUAHOZ2PvIOKEUon3RlzTMdRHOFW
+	W8Ams8MdRsSgkRcx2W8R30267oa8zRJAWTCRB6MNRYIPNawBrTjM+yr6IoXc6oDoeZjs
+	ao5paPXCdk//Rx9HxN4miEoGhchTg9VDu7RK7HyILmak+tgC3BqPCX5DU7MxKWRj66d8
+	cjpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20210112;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=PAK4mW8hYoqrJ21zjz/l0DR61Bn1u+hWmA/ygwKpR6A=;
-	b=XhSZ6cbTSsIS8RrjLUaTNurMFstbTXHV8GtQaNzrpkLXxzr6Iy2emg8IWTojB4tnCe
-	6H0WwN97yD1TPnlillQuSUvcT5HNvriIwwN+cleju9AQas+GripFGmDrfqTzQ+z/vdyP
-	gBCVr7+hG5+5S74WmPULrkLAabjMS/wJNz/mlfyYS7BRiMQgiruX5Tl3x8Z72gqsOt8s
-	lvPPerR5e92dOgBrS8+x6JTyMGqR6msZFMdr3qt2Ecetsb9tV2FnNqGyP6VbTlGJqnac
-	+V1x7dG9mDveYYD9H1JnfwzNKTqbldhxsuSJ+dg1NvZl74gScg0g57WfPoi7uZUCds40
-	10Gw==
-X-Gm-Message-State: AOAM530QMN85zNttyn3VBeIBQiDkmGdc1w13B5RtUC9mjM28lAOI26/a
-	6wVM1JWT926JOemYqrJVf7gJ3mpKX3SWSm+v2oXi9Q==
-X-Google-Smtp-Source: ABdhPJwQjghAznMK411R8b9/ZDbYdnQBr2j4+YDtGVUTaFkxr/2dQA+aeV/q08/V3OevBldMGzoi+KYmS0TVluHMgAk=
-X-Received: by 2002:a17:906:1f15:: with SMTP id
-	w21mr18364838ejj.205.1642553303188; 
-	Tue, 18 Jan 2022 16:48:23 -0800 (PST)
-MIME-Version: 1.0
-References: <20220118071952.1243143-1-hch@lst.de>
-	<20220118071952.1243143-11-hch@lst.de>
-	<CAMGffEmFZB1PPE09bfxQjKw-tJhdprEkF-OWrVF4Kjsf1OwQ_g@mail.gmail.com>
-In-Reply-To: <CAMGffEmFZB1PPE09bfxQjKw-tJhdprEkF-OWrVF4Kjsf1OwQ_g@mail.gmail.com>
-From: Jinpu Wang <jinpu.wang@ionos.com>
-Date: Wed, 19 Jan 2022 01:48:12 +0100
-Message-ID: <CAMGffEnZT_uU-CdACiW7cPQ_fRtUasMOHzr0VUrG4QmkJHF76g@mail.gmail.com>
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=bOtjTSupMPdLeWMiVKrD7jaORGYKT+sk6BwRJT6YH5k=;
+	b=RlxYTzVFfb1USrpaNVc/ViFc2NcQqwNxDy7UUFMLv8iH2b9EX8I3bkg1EKzMVIqipv
+	aMc1WpttudYjgzXcaRDI6IZMSRwr9uSRIhkY5LykQt6YpVzZtohKK4RBXLfT+d1v4chP
+	Nj4YERUnjsPkRt8B8+jv+Y63wj3HnViYj/JU4f58BGsf749bcNx7IMubiRPLIgIp0hDj
+	sfw6dpW8ZyDft9ymhm92kJjm3+lxLG4rNg1YnAtms/O8ri4Mi9YEY/j/b9hFEVoOujMC
+	jQP4mUb6F2gmL3yd4thZWpDdD0h65sdQBfyHzUyHTafN9stJ7rHWA/j/Z9HrgyyXEgwd
+	hCcg==
+X-Gm-Message-State: AOAM530FLRjFuGRcwEMx9ay/3PnKjL3TR7ItHoH2fKn2DTFZa17Cl+hZ
+	+4/6ZCydzu3meGd6+FMnRYAhablaBlmY7g==
+X-Google-Smtp-Source: ABdhPJy/gK+ACUkzeActiCIlSLAxm2cSY3hrzhU1AqADv9+8T7xomkwrCDZtFgg9hB/5uCyhH7Qi5A==
+X-Received: by 2002:a05:6e02:144a:: with SMTP id
+	p10mr9326688ilo.152.1642598825847; 
+	Wed, 19 Jan 2022 05:27:05 -0800 (PST)
+Received: from [192.168.1.116] ([66.219.217.159])
+	by smtp.gmail.com with ESMTPSA id c7sm4569815ioi.18.2022.01.19.05.27.04
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Wed, 19 Jan 2022 05:27:05 -0800 (PST)
 To: Christoph Hellwig <hch@lst.de>
-X-Mailman-Approved-At: Wed, 19 Jan 2022 08:18:28 +0100
-Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
-	linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
-	Mike Snitzer <snitzer@redhat.com>,
+References: <20220118071952.1243143-1-hch@lst.de>
+From: Jens Axboe <axboe@kernel.dk>
+Message-ID: <2b9aedb6-4531-91fe-3493-133470ebee80@kernel.dk>
+Date: Wed, 19 Jan 2022 06:27:04 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20220118071952.1243143-1-hch@lst.de>
+Content-Language: en-US
+Cc: linux-block@vger.kernel.org, linux-nfs@vger.kernel.org,
+	linux-nilfs@vger.kernel.org, Mike Snitzer <snitzer@redhat.com>,
 	Philipp Reisner <philipp.reisner@linbit.com>,
 	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
 	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	=?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.co>,
+	=?UTF-8?Q?Roger_Pau_Monn=c3=a9?= <roger.pau@citrix.co>,
 	dm-devel@redhat.com, "Md . Haris Iqbal" <haris.iqbal@ionos.com>,
 	Lars Ellenberg <lars.ellenberg@linbit.com>,
 	linux-fsdevel@vger.kernel.org, xen-devel@lists.xenproject.org,
 	Andrew Morton <akpm@linux-foundation.org>, ntfs3@lists.linux.dev,
-	Pavel Begunkov <asml.silence@gmail.com>, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH 10/19] rnbd-srv: simplify bio mapping in
-	process_rdma
+	Jack Wang <jinpu.wang@ionos.com>, Pavel Begunkov <asml.silence@gmail.com>,
+	drbd-dev@lists.linbit.com
+Subject: Re: [Drbd-dev] improve the bio allocation interface
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -83,161 +89,25 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Wed, Jan 19, 2022 at 1:20 AM Jinpu Wang <jinpu.wang@ionos.com> wrote:
->
-> Hi Christoph,
->
-> Thanks for the patch.
->
-> On Tue, Jan 18, 2022 at 8:20 AM Christoph Hellwig <hch@lst.de> wrote:
-> >
-> > The memory mapped in process_rdma is contiguous, so there is no need
-> > to loop over bio_add_page.  Remove rnbd_bio_map_kern and just open code
-> > the bio allocation and mapping in the caller.
-> >
-> > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> > ---
-> >  drivers/block/rnbd/rnbd-srv-dev.c | 57 -------------------------------
-> >  drivers/block/rnbd/rnbd-srv-dev.h |  5 ---
-> >  drivers/block/rnbd/rnbd-srv.c     | 20 ++++++++---
-> >  3 files changed, 15 insertions(+), 67 deletions(-)
-> >
-> > diff --git a/drivers/block/rnbd/rnbd-srv-dev.c b/drivers/block/rnbd/rnbd-srv-dev.c
-> > index b241a099aeae2..98d3e591a0885 100644
-> > --- a/drivers/block/rnbd/rnbd-srv-dev.c
-> > +++ b/drivers/block/rnbd/rnbd-srv-dev.c
-> > @@ -44,60 +44,3 @@ void rnbd_dev_close(struct rnbd_dev *dev)
-> >         blkdev_put(dev->bdev, dev->blk_open_flags);
-> >         kfree(dev);
-> >  }
-> > -
-> > -void rnbd_dev_bi_end_io(struct bio *bio)
-> > -{
-> > -       struct rnbd_dev_blk_io *io = bio->bi_private;
-> > -
-> > -       rnbd_endio(io->priv, blk_status_to_errno(bio->bi_status));
-> > -       bio_put(bio);
-> > -}
-> > -
-> > -/**
-> > - *     rnbd_bio_map_kern       -       map kernel address into bio
-> > - *     @data: pointer to buffer to map
-> > - *     @bs: bio_set to use.
-> > - *     @len: length in bytes
-> > - *     @gfp_mask: allocation flags for bio allocation
-> > - *
-> > - *     Map the kernel address into a bio suitable for io to a block
-> > - *     device. Returns an error pointer in case of error.
-> > - */
-> > -struct bio *rnbd_bio_map_kern(void *data, struct bio_set *bs,
-> > -                             unsigned int len, gfp_t gfp_mask)
-> > -{
-> > -       unsigned long kaddr = (unsigned long)data;
-> > -       unsigned long end = (kaddr + len + PAGE_SIZE - 1) >> PAGE_SHIFT;
-> > -       unsigned long start = kaddr >> PAGE_SHIFT;
-> > -       const int nr_pages = end - start;
-> > -       int offset, i;
-> > -       struct bio *bio;
-> > -
-> > -       bio = bio_alloc_bioset(gfp_mask, nr_pages, bs);
-> > -       if (!bio)
-> > -               return ERR_PTR(-ENOMEM);
-> > -
-> > -       offset = offset_in_page(kaddr);
-> > -       for (i = 0; i < nr_pages; i++) {
-> > -               unsigned int bytes = PAGE_SIZE - offset;
-> > -
-> > -               if (len <= 0)
-> > -                       break;
-> > -
-> > -               if (bytes > len)
-> > -                       bytes = len;
-> > -
-> > -               if (bio_add_page(bio, virt_to_page(data), bytes,
-> > -                                   offset) < bytes) {
-> > -                       /* we don't support partial mappings */
-> > -                       bio_put(bio);
-> > -                       return ERR_PTR(-EINVAL);
-> > -               }
-> > -
-> > -               data += bytes;
-> > -               len -= bytes;
-> > -               offset = 0;
-> > -       }
-> > -
-> > -       return bio;
-> > -}
-> > diff --git a/drivers/block/rnbd/rnbd-srv-dev.h b/drivers/block/rnbd/rnbd-srv-dev.h
-> > index 0eb23850afb95..1a14ece0be726 100644
-> > --- a/drivers/block/rnbd/rnbd-srv-dev.h
-> > +++ b/drivers/block/rnbd/rnbd-srv-dev.h
-> > @@ -41,11 +41,6 @@ void rnbd_dev_close(struct rnbd_dev *dev);
-> >
-> >  void rnbd_endio(void *priv, int error);
-> >
-> > -void rnbd_dev_bi_end_io(struct bio *bio);
-> > -
-> > -struct bio *rnbd_bio_map_kern(void *data, struct bio_set *bs,
-> > -                             unsigned int len, gfp_t gfp_mask);
-> > -
-> >  static inline int rnbd_dev_get_max_segs(const struct rnbd_dev *dev)
-> >  {
-> >         return queue_max_segments(bdev_get_queue(dev->bdev));
-> > diff --git a/drivers/block/rnbd/rnbd-srv.c b/drivers/block/rnbd/rnbd-srv.c
-> > index 1ee808fc600cf..65c670e96075b 100644
-> > --- a/drivers/block/rnbd/rnbd-srv.c
-> > +++ b/drivers/block/rnbd/rnbd-srv.c
-> > @@ -114,6 +114,14 @@ rnbd_get_sess_dev(int dev_id, struct rnbd_srv_session *srv_sess)
-> >         return sess_dev;
-> >  }
-> >
-> > +static void rnbd_dev_bi_end_io(struct bio *bio)
-> > +{
-> > +       struct rnbd_dev_blk_io *io = bio->bi_private;
-> > +
-> > +       rnbd_endio(io->priv, blk_status_to_errno(bio->bi_status));
-> > +       bio_put(bio);
-> > +}
-> > +
-> >  static int process_rdma(struct rnbd_srv_session *srv_sess,
-> >                         struct rtrs_srv_op *id, void *data, u32 datalen,
-> >                         const void *usr, size_t usrlen)
-> > @@ -144,11 +152,11 @@ static int process_rdma(struct rnbd_srv_session *srv_sess,
-> >         priv->sess_dev = sess_dev;
-> >         priv->id = id;
-> >
-> > -       /* Generate bio with pages pointing to the rdma buffer */
-> > -       bio = rnbd_bio_map_kern(data, sess_dev->rnbd_dev->ibd_bio_set, datalen, GFP_KERNEL);
-> > -       if (IS_ERR(bio)) {
-> > -               err = PTR_ERR(bio);
-> > -               rnbd_srv_err(sess_dev, "Failed to generate bio, err: %d\n", err);
-> > +       bio = bio_alloc_bioset(GFP_KERNEL, 1, sess_dev->rnbd_dev->ibd_bio_set);
-> > +       if (bio_add_page(bio, virt_to_page(data), datalen,
-> > +                       offset_in_page(data))) {
-> this changes lead to IO error all the time, because bio_add_page return len.
-> We need  if (bio_add_page(bio, virt_to_page(data), datalen,
->                      offset_in_page(data)) < datalen)
->
-> Thanks!
-> > +               rnbd_srv_err(sess_dev, "Failed to map data to bio\n");
-> > +               err = -EINVAL;
-> >                 goto sess_dev_put;
-> >         }
-> >
-> > @@ -170,6 +178,8 @@ static int process_rdma(struct rnbd_srv_session *srv_sess,
-> >
-> >         return 0;
-> >
-> > +bio_put:
-> > +       bio_put(bio);
-and bio_put is not used, should move bio_put(bio); below, no need for
-bio_put: label.
-> >  sess_dev_put:
-> >         rnbd_put_sess_dev(sess_dev);
-> >  err:
-> > --
-> > 2.30.2
-> >
+On 1/18/22 12:19 AM, Christoph Hellwig wrote:
+> Hi Jens,
+> 
+> this series is posted early because it has wide-ranging changes and
+> could use some early ACKs before -rc1.
+> 
+> It changes the interface to the bio allocators to always pass a
+> block_device and the operation, which is information needed for every
+> bio submitted through bio_submit.  This means the fields can be
+> directly initialized in bio_init instead of first being zeroed and
+> thus should help to micro-optimize even better than the __bio_set_dev
+> that Pavel proposed while also cleaning up code.
+
+Looks pretty straight forward from the block core point of view. Didn't
+look too closely at the fs/driver changes yet.
+
+-- 
+Jens Axboe
+
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
