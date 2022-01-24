@@ -2,35 +2,35 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 541C3497B2A
-	for <lists+drbd-dev@lfdr.de>; Mon, 24 Jan 2022 10:11:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DADA497B9E
+	for <lists+drbd-dev@lfdr.de>; Mon, 24 Jan 2022 10:13:31 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 363B0420FC5;
-	Mon, 24 Jan 2022 10:11:31 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2309642A57A;
+	Mon, 24 Jan 2022 10:13:31 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from bombadil.infradead.org (bombadil.infradead.org
 	[198.137.202.133])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1A62B4205C6
-	for <drbd-dev@lists.linbit.com>; Mon, 24 Jan 2022 10:11:29 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 81201420FEA
+	for <drbd-dev@lists.linbit.com>; Mon, 24 Jan 2022 10:11:33 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=pMAOIxwEWgivE8T/8jAutxBqi67ojpc7aSJ9Dfvp1Nk=;
-	b=xHe2ACiTwAYAjp/I5zJRyXa8ki
-	JlnNLXudrLlXUiX6cEigCKlkTBhciArJsMDCFKqz+sqi60Z5HlA6HuKOjc7Lxa8uuV31Tjrrn9i2o
-	fuitG3t8mkNF95ga5JGVLb/VdVUg2NdWllmOqOY00XjI0JRdDRzciunmhniPRzNPdtSaYWxdCyNzc
-	Musr2zaRq8/xl+srtNtDGeIaNmqqS9DkkHEJKhT1AK/jQGaZWQNg+DZ6Yc1BQDudjwt+F39JP3zQ7
-	blPTtw58n/XnFVYKRC4Mt5UJvveE4UCZ4e+Nrt7XpLtReKDGM7X7AGj2ChOx6sVKSwUgI5CuSTWdy
-	lzb9QxpQ==;
+	bh=EcXfe+QJLbyEaBSYcI8IdLx+VpwVU+Twsx7L0heUO1Q=;
+	b=i9tcmKqWExYwFyUC3GAfdvN0G9
+	cAdpT77el2rpxNNIFlvamk56bpHBy6jnsKj8q3rJ8nawaJ8TV7+QPqH/vGIAki4ZzwrDeoVrlWY7x
+	vTq6delBNM/Owx6rHpv19HnjVMkfSK+nS7d5zpnlMcNWTlhUuDN530jXcyf2m/kkhVEaI/q5ryfsX
+	TE7hn5wlaJifpc3rpsnyGrrVENjdur2aPZNRi6GYDrfwvZ8ZzqzKcwpy2OdXl3O1Apcb1fKr2bKrL
+	VVKEY6d77BVmOEMEhxPk3wlx64Im1KfTmaMpWNPoU4MCescTElKDFR4xumyfaYjlYFSg22uNUWoba
+	n1ec9EKw==;
 Received: from [2001:4bb8:184:72a4:a337:a75f:a24e:7e39] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nBvNd-002k0e-Og; Mon, 24 Jan 2022 09:11:18 +0000
+	id 1nBvNg-002k1j-Gg; Mon, 24 Jan 2022 09:11:21 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Date: Mon, 24 Jan 2022 10:10:51 +0100
-Message-Id: <20220124091107.642561-4-hch@lst.de>
+Date: Mon, 24 Jan 2022 10:10:52 +0100
+Message-Id: <20220124091107.642561-5-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220124091107.642561-1-hch@lst.de>
 References: <20220124091107.642561-1-hch@lst.de>
@@ -49,7 +49,7 @@ Cc: linux-block@vger.kernel.org, linux-nfs@vger.kernel.org,
 	Andrew Morton <akpm@linux-foundation.org>, ntfs3@lists.linux.dev,
 	Jack Wang <jinpu.wang@ionos.com>, Pavel Begunkov <asml.silence@gmail.com>,
 	drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 03/19] nfs/blocklayout: remove bl_alloc_init_bio
+Subject: [Drbd-dev] [PATCH 04/19] ntfs3: remove ntfs_alloc_bio
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -68,58 +68,63 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-bio_alloc will never fail when it can sleep.  Remove the now simple
-bl_alloc_init_bio helper and open code it in the only caller.
+bio_alloc will never fail if it is allowed to sleep, so there is no
+need for this loop.  Also remove the __GFP_HIGH specifier as it doesn't
+make sense here given that we'll always fall back to the mempool anyway.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- fs/nfs/blocklayout/blocklayout.c | 26 +++++---------------------
- 1 file changed, 5 insertions(+), 21 deletions(-)
+ fs/ntfs3/fsntfs.c | 23 ++---------------------
+ 1 file changed, 2 insertions(+), 21 deletions(-)
 
-diff --git a/fs/nfs/blocklayout/blocklayout.c b/fs/nfs/blocklayout/blocklayout.c
-index fe860c5387476..38e063af7e98a 100644
---- a/fs/nfs/blocklayout/blocklayout.c
-+++ b/fs/nfs/blocklayout/blocklayout.c
-@@ -115,23 +115,6 @@ bl_submit_bio(struct bio *bio)
- 	return NULL;
+diff --git a/fs/ntfs3/fsntfs.c b/fs/ntfs3/fsntfs.c
+index 4de9acb169689..4a255e21ecf5f 100644
+--- a/fs/ntfs3/fsntfs.c
++++ b/fs/ntfs3/fsntfs.c
+@@ -1443,17 +1443,6 @@ int ntfs_write_bh(struct ntfs_sb_info *sbi, struct NTFS_RECORD_HEADER *rhdr,
+ 	return err;
  }
  
--static struct bio *bl_alloc_init_bio(unsigned int npg,
--		struct block_device *bdev, sector_t disk_sector,
--		bio_end_io_t end_io, struct parallel_io *par)
+-static inline struct bio *ntfs_alloc_bio(u32 nr_vecs)
 -{
--	struct bio *bio;
+-	struct bio *bio = bio_alloc(GFP_NOFS | __GFP_HIGH, nr_vecs);
 -
--	npg = bio_max_segs(npg);
--	bio = bio_alloc(GFP_NOIO, npg);
--	if (bio) {
--		bio->bi_iter.bi_sector = disk_sector;
--		bio_set_dev(bio, bdev);
--		bio->bi_end_io = end_io;
--		bio->bi_private = par;
+-	if (!bio && (current->flags & PF_MEMALLOC)) {
+-		while (!bio && (nr_vecs /= 2))
+-			bio = bio_alloc(GFP_NOFS | __GFP_HIGH, nr_vecs);
 -	}
 -	return bio;
 -}
 -
- static bool offset_in_map(u64 offset, struct pnfs_block_dev_map *map)
- {
- 	return offset >= map->start && offset < map->start + map->len;
-@@ -171,10 +154,11 @@ do_add_page_to_bio(struct bio *bio, int npg, int rw, sector_t isect,
- 
- retry:
- 	if (!bio) {
--		bio = bl_alloc_init_bio(npg, map->bdev,
--				disk_addr >> SECTOR_SHIFT, end_io, par);
--		if (!bio)
--			return ERR_PTR(-ENOMEM);
-+		bio = bio_alloc(GFP_NOIO, bio_max_segs(npg));
-+		bio->bi_iter.bi_sector = disk_addr >> SECTOR_SHIFT;
-+		bio_set_dev(bio, map->bdev);
-+		bio->bi_end_io = end_io;
-+		bio->bi_private = par;
- 		bio_set_op_attrs(bio, rw, 0);
- 	}
- 	if (bio_add_page(bio, page, *len, offset) < *len) {
+ /*
+  * ntfs_bio_pages - Read/write pages from/to disk.
+  */
+@@ -1496,11 +1485,7 @@ int ntfs_bio_pages(struct ntfs_sb_info *sbi, const struct runs_tree *run,
+ 		lbo = ((u64)lcn << cluster_bits) + off;
+ 		len = ((u64)clen << cluster_bits) - off;
+ new_bio:
+-		new = ntfs_alloc_bio(nr_pages - page_idx);
+-		if (!new) {
+-			err = -ENOMEM;
+-			goto out;
+-		}
++		new = bio_alloc(GFP_NOFS, nr_pages - page_idx);
+ 		if (bio) {
+ 			bio_chain(bio, new);
+ 			submit_bio(bio);
+@@ -1599,11 +1584,7 @@ int ntfs_bio_fill_1(struct ntfs_sb_info *sbi, const struct runs_tree *run)
+ 		lbo = (u64)lcn << cluster_bits;
+ 		len = (u64)clen << cluster_bits;
+ new_bio:
+-		new = ntfs_alloc_bio(BIO_MAX_VECS);
+-		if (!new) {
+-			err = -ENOMEM;
+-			break;
+-		}
++		new = bio_alloc(GFP_NOFS, BIO_MAX_VECS);
+ 		if (bio) {
+ 			bio_chain(bio, new);
+ 			submit_bio(bio);
 -- 
 2.30.2
 
