@@ -2,61 +2,58 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6298D49F08F
-	for <lists+drbd-dev@lfdr.de>; Fri, 28 Jan 2022 02:34:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB6A749F3D7
+	for <lists+drbd-dev@lfdr.de>; Fri, 28 Jan 2022 07:47:14 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4CE5C42A58D;
-	Fri, 28 Jan 2022 02:34:36 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A1F9242A57A;
+	Fri, 28 Jan 2022 07:47:13 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id AD27242A583
-	for <drbd-dev@lists.linbit.com>;
-	Fri, 28 Jan 2022 02:34:35 +0100 (CET)
+X-Greylist: delayed 358 seconds by postgrey-1.31 at mail19;
+	Thu, 27 Jan 2022 12:18:19 CET
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E2FAF42A58A
+	for <drbd-dev@lists.linbit.com>; Thu, 27 Jan 2022 12:18:19 +0100 (CET)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 9335961D9F;
-	Fri, 28 Jan 2022 01:34:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54A24C340E4;
-	Fri, 28 Jan 2022 01:34:33 +0000 (UTC)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 3905CB820FC;
+	Thu, 27 Jan 2022 11:12:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A0ECC340E4;
+	Thu, 27 Jan 2022 11:12:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1643333674;
-	bh=syJ8YNq0jFqssCN+Fpn6CejIFER0XxHyJW+5cZh7qQA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=r4MmK2L91UnUY3Ju+lob6pGYrfuC4tFQze7/UdZcwtg0my1bI0HYZ/EGzcR2/0eYh
-	5qWQkXkz6GQ99yyiTKsnnZ4hM95RpS6f7bdJAM5P56admAP3hc/ZCtXKNCnRVkrgES
-	v2zuReXf7omP1BD/F2BPe0mg+8tbNoZzsZhdyhFKiYcIFiKTzLCcaIL+zbZB+jgKI2
-	HaKelY2L0Vg6ndyDgX/aggsEHmYplzWVSHFk3KYEO4hj0B99GHfDlJ8bPCc2gICQtz
-	XRdKz8lPe2Sew/3rSqRIVIUhmZZ9ob0Va5c0yw/atKn6Dw4IaoROTNoyJVls08WLFV
-	3jQ5xdJOfRU/w==
-Date: Thu, 27 Jan 2022 17:34:31 -0800
-From: Jaegeuk Kim <jaegeuk@kernel.org>
-To: NeilBrown <neilb@suse.de>
-Message-ID: <YfNIJxirDBO/pcQQ@google.com>
+	s=k20201202; t=1643281939;
+	bh=V5HYgTWJFQ5JJsKuBtDbntq5jM8gqYnHqlB+WwVQUg0=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=qs+oygNUvOkZojCS4tbIHBbHNnN2c83jSwVTtC+PXReiKpUgTryV/Jn9i4kA11TCx
+	wQIA8T/xXWysKr5FVnBsdp7s6T57gZuXoA8b+6AKW4GBWhPcMDiC878wFDfjGOUfSX
+	5ddnmsg5pr+FfS6jpyfRuWWfH+qIetrTGJZM1PAYwXCjUJyQB7D1Wcs5o++QKht+ze
+	N6Qaj6XKvoxOKPWxiTmKIzgNkaDO61bAS7aaPRXf+qfG+7pz/a1932PlgtYdjIokd4
+	zXshthMZgvLd9Pe0iKyNgu1FzP9P91fWoKA6y5OydLOCZNYRF9sJ2Iz0TLFNBDx5FN
+	vYRqTrnWEMhKw==
+Message-ID: <2e66ef3e8f5df0529d3c289f8ed0be6a051d95ea.camel@kernel.org>
+From: Jeff Layton <jlayton@kernel.org>
+To: NeilBrown <neilb@suse.de>, Andrew Morton <akpm@linux-foundation.org>, 
+	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>, Ilya Dryomov
+	<idryomov@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>, Trond Myklebust
+	<trond.myklebust@hammerspace.com>, Anna Schumaker
+	<anna.schumaker@netapp.com>, Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+	"Darrick J. Wong" <djwong@kernel.org>, Philipp Reisner
+	<philipp.reisner@linbit.com>, Lars Ellenberg <lars.ellenberg@linbit.com>,
+	Paolo Valente <paolo.valente@linaro.org>, Jens Axboe <axboe@kernel.dk>
+Date: Thu, 27 Jan 2022 06:12:15 -0500
+In-Reply-To: <164325158958.29787.8840004338500709466.stgit@noble.brown>
 References: <164325106958.29787.4865219843242892726.stgit@noble.brown>
-	<164325158956.29787.7016948342209980097.stgit@noble.brown>
+	<164325158958.29787.8840004338500709466.stgit@noble.brown>
+User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <164325158956.29787.7016948342209980097.stgit@noble.brown>
-Cc: "Darrick J. Wong" <djwong@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, drbd-dev@lists.linbit.com,
-	Paolo Valente <paolo.valente@linaro.org>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Trond Myklebust <trond.myklebust@hammerspace.com>,
-	Ilya Dryomov <idryomov@gmail.com>, linux-ext4@vger.kernel.org,
-	Chao Yu <chao@kernel.org>, linux-block@vger.kernel.org,
-	linux-nilfs@vger.kernel.org, ceph-devel@vger.kernel.org,
-	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-	Jens Axboe <axboe@kernel.dk>, linux-nfs@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	Anna Schumaker <anna.schumaker@netapp.com>
-Subject: Re: [Drbd-dev] [PATCH 3/9] f2fs: change retry waiting for
- f2fs_write_single_data_page()
+X-Mailman-Approved-At: Fri, 28 Jan 2022 07:47:13 +0100
+Cc: linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	linux-block@vger.kernel.org, linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org, ceph-devel@vger.kernel.org,
+	linux-ext4@vger.kernel.org, drbd-dev@lists.linbit.com
+Subject: Re: [Drbd-dev] [PATCH 5/9] cephfs: don't set/clear bdi_congestion
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -75,67 +72,126 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On 01/27, NeilBrown wrote:
-> f2fs_write_single_data_page() can return -EAGAIN if it cannot get
-> the cp_rwsem lock - it holds a page lock and so cannot wait for it.
+On Thu, 2022-01-27 at 13:46 +1100, NeilBrown wrote:
+> The bdi congestion framework is no-longer used - writeback uses other
+> mechanisms to manage throughput.
 > 
-> Some code which calls f2fs_write_single_data_page() use
-> congestion_wait() and then tries again.  congestion_wait() doesn't do
-> anything useful as congestion is no longer tracked.  So this is just a
-> simple sleep.
+> So remove calls to set_bdi_congested() and clear_bdi_congested(), and
+> remove the writeback_count which is used only to guide the setting and
+> clearing.
 > 
-> A better approach is it wait until the cp_rwsem lock can be taken - then
-> try again.  There is certainly no point trying again *before* the lock
-> can be taken.
+> The congestion_kb mount option is no longer meaningful, but as it is
+> visible to user-space, removing it needs more consideration.
 > 
 > Signed-off-by: NeilBrown <neilb@suse.de>
 > ---
->  fs/f2fs/compress.c |    6 +++---
->  fs/f2fs/data.c     |    9 ++++++---
->  2 files changed, 9 insertions(+), 6 deletions(-)
+>  fs/ceph/addr.c  |   27 ---------------------------
+>  fs/ceph/super.c |    2 --
+>  fs/ceph/super.h |    2 --
+>  3 files changed, 31 deletions(-)
 > 
-> diff --git a/fs/f2fs/compress.c b/fs/f2fs/compress.c
-> index d0c3aeba5945..58ff7f4b296c 100644
-> --- a/fs/f2fs/compress.c
-> +++ b/fs/f2fs/compress.c
-> @@ -1505,9 +1505,9 @@ static int f2fs_write_raw_pages(struct compress_ctx *cc,
->  				if (IS_NOQUOTA(cc->inode))
->  					return 0;
->  				ret = 0;
-> -				cond_resched();
-> -				congestion_wait(BLK_RW_ASYNC,
-> -						DEFAULT_IO_TIMEOUT);
-> +				/* Wait until we can get the lock, then try again. */
-> +				f2fs_lock_op(F2FS_I_SB(cc->inode));
-> +				f2fs_unlock_op(F2FS_I_SB(cc->inode));
-
-Since checkpoint uses down_write(cp_rwsem), I'm not sure the write path is safe
-and needs to wait for checkpoint. Can we just do io_schedule_timeout()?
-
->  				goto retry_write;
->  			}
->  			return ret;
-> diff --git a/fs/f2fs/data.c b/fs/f2fs/data.c
-> index 8c417864c66a..1d2341163e2c 100644
-> --- a/fs/f2fs/data.c
-> +++ b/fs/f2fs/data.c
-> @@ -3047,9 +3047,12 @@ static int f2fs_write_cache_pages(struct address_space *mapping,
->  				} else if (ret == -EAGAIN) {
->  					ret = 0;
->  					if (wbc->sync_mode == WB_SYNC_ALL) {
-> -						cond_resched();
-> -						congestion_wait(BLK_RW_ASYNC,
-> -							DEFAULT_IO_TIMEOUT);
-> +						/* Wait until we can get the
-> +						 * lock, then try again.
-> +						 */
-> +						f2fs_lock_op(F2FS_I_SB(mapping->host));
-> +						f2fs_unlock_op(F2FS_I_SB(mapping->host));
-> +
->  						goto retry_write;
->  					}
->  					goto next;
+> diff --git a/fs/ceph/addr.c b/fs/ceph/addr.c
+> index c98e5238a1b6..9147667f8cd5 100644
+> --- a/fs/ceph/addr.c
+> +++ b/fs/ceph/addr.c
+> @@ -57,11 +57,6 @@
+>   * accounting is preserved.
+>   */
+>  
+> -#define CONGESTION_ON_THRESH(congestion_kb) (congestion_kb >> (PAGE_SHIFT-10))
+> -#define CONGESTION_OFF_THRESH(congestion_kb)				\
+> -	(CONGESTION_ON_THRESH(congestion_kb) -				\
+> -	 (CONGESTION_ON_THRESH(congestion_kb) >> 2))
+> -
+>  static int ceph_netfs_check_write_begin(struct file *file, loff_t pos, unsigned int len,
+>  					struct folio *folio, void **_fsdata);
+>  
+> @@ -561,10 +556,6 @@ static int writepage_nounlock(struct page *page, struct writeback_control *wbc)
+>  	dout("writepage %p page %p index %lu on %llu~%llu snapc %p seq %lld\n",
+>  	     inode, page, page->index, page_off, len, snapc, snapc->seq);
+>  
+> -	if (atomic_long_inc_return(&fsc->writeback_count) >
+> -	    CONGESTION_ON_THRESH(fsc->mount_options->congestion_kb))
+> -		set_bdi_congested(inode_to_bdi(inode), BLK_RW_ASYNC);
+> -
+>  	req = ceph_osdc_new_request(osdc, &ci->i_layout, ceph_vino(inode), page_off, &len, 0, 1,
+>  				    CEPH_OSD_OP_WRITE, CEPH_OSD_FLAG_WRITE, snapc,
+>  				    ceph_wbc.truncate_seq, ceph_wbc.truncate_size,
+> @@ -621,10 +612,6 @@ static int writepage_nounlock(struct page *page, struct writeback_control *wbc)
+>  	ceph_put_wrbuffer_cap_refs(ci, 1, snapc);
+>  	ceph_put_snap_context(snapc);  /* page's reference */
+>  
+> -	if (atomic_long_dec_return(&fsc->writeback_count) <
+> -	    CONGESTION_OFF_THRESH(fsc->mount_options->congestion_kb))
+> -		clear_bdi_congested(inode_to_bdi(inode), BLK_RW_ASYNC);
+> -
+>  	return err;
+>  }
+>  
+> @@ -704,12 +691,6 @@ static void writepages_finish(struct ceph_osd_request *req)
+>  			BUG_ON(!page);
+>  			WARN_ON(!PageUptodate(page));
+>  
+> -			if (atomic_long_dec_return(&fsc->writeback_count) <
+> -			     CONGESTION_OFF_THRESH(
+> -					fsc->mount_options->congestion_kb))
+> -				clear_bdi_congested(inode_to_bdi(inode),
+> -						    BLK_RW_ASYNC);
+> -
+>  			ceph_put_snap_context(detach_page_private(page));
+>  			end_page_writeback(page);
+>  			dout("unlocking %p\n", page);
+> @@ -952,14 +933,6 @@ static int ceph_writepages_start(struct address_space *mapping,
+>  			dout("%p will write page %p idx %lu\n",
+>  			     inode, page, page->index);
+>  
+> -			if (atomic_long_inc_return(&fsc->writeback_count) >
+> -			    CONGESTION_ON_THRESH(
+> -				    fsc->mount_options->congestion_kb)) {
+> -				set_bdi_congested(inode_to_bdi(inode),
+> -						  BLK_RW_ASYNC);
+> -			}
+> -
+> -
+>  			pages[locked_pages++] = page;
+>  			pvec.pages[i] = NULL;
+>  
+> diff --git a/fs/ceph/super.c b/fs/ceph/super.c
+> index bf79f369aec6..b2f38af9fca8 100644
+> --- a/fs/ceph/super.c
+> +++ b/fs/ceph/super.c
+> @@ -801,8 +801,6 @@ static struct ceph_fs_client *create_fs_client(struct ceph_mount_options *fsopt,
+>  	fsc->filp_gen = 1;
+>  	fsc->have_copy_from2 = true;
+>  
+> -	atomic_long_set(&fsc->writeback_count, 0);
+> -
+>  	err = -ENOMEM;
+>  	/*
+>  	 * The number of concurrent works can be high but they don't need
+> diff --git a/fs/ceph/super.h b/fs/ceph/super.h
+> index 67f145e1ae7a..fc58adf1d36a 100644
+> --- a/fs/ceph/super.h
+> +++ b/fs/ceph/super.h
+> @@ -120,8 +120,6 @@ struct ceph_fs_client {
+>  
+>  	struct ceph_mds_client *mdsc;
+>  
+> -	atomic_long_t writeback_count;
+> -
+>  	struct workqueue_struct *inode_wq;
+>  	struct workqueue_struct *cap_wq;
+>  
 > 
+> 
+
+Thanks Neil.
+
+I'll plan to pull this into the ceph testing branch and do some testing
+with it, but at a quick glance I don't forsee any issues. This should
+make v5.18, but we may be able to get it in sooner.
+-- 
+Jeff Layton <jlayton@kernel.org>
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
