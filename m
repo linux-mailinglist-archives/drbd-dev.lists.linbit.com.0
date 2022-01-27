@@ -2,50 +2,50 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB53F49D8B5
-	for <lists+drbd-dev@lfdr.de>; Thu, 27 Jan 2022 03:57:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1582949D881
+	for <lists+drbd-dev@lfdr.de>; Thu, 27 Jan 2022 03:53:09 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D3C8E420FED;
-	Thu, 27 Jan 2022 03:57:38 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E6A49420FC3;
+	Thu, 27 Jan 2022 03:53:08 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
+X-Greylist: delayed 331 seconds by postgrey-1.31 at mail19;
+	Thu, 27 Jan 2022 03:52:38 CET
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7723242063A
-	for <drbd-dev@lists.linbit.com>; Thu, 27 Jan 2022 03:57:37 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 140394207D1
+	for <drbd-dev@lists.linbit.com>; Thu, 27 Jan 2022 03:52:38 +0100 (CET)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	key-exchange X25519 server-signature ECDSA (P-521) server-digest
 	SHA512) (No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 322962195F;
-	Thu, 27 Jan 2022 02:48:34 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id AB2D621905;
+	Thu, 27 Jan 2022 02:47:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1643251714;
+	t=1643251625;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	mime-version:mime-version:content-type:content-type:
-	content-transfer-encoding:content-transfer-encoding:
-	in-reply-to:in-reply-to:references:references;
-	bh=kbTSzbNt6Miq4dsiW9WaAJY+K5DZmoWBdpUeULoz7Kg=;
-	b=1wZkr12wd9U5Jdb4sa3OvdmE/oHFvtt6GyOZDezQUmTc91EwhN0PFy7hIF6sBNZxzjVzzb
-	vMqWdKvjwO9S/rmD3Q+QZoagD+vL7i8IDpgzYbd8KQvSEtk1UM0sOH+An+7Eds+PCLsx/B
-	ZQqra1C7uC6CD7jdxFODg3j2QAlSC/w=
+	content-transfer-encoding:content-transfer-encoding;
+	bh=yDPdolIqP1BqbqmgH35S+RrYDCrJz/kAXtj6i96pLsQ=;
+	b=hAN5Dg0REL/K5jKsVHYqM3X+M7oL7DolmPiPn5nkKXAbr4U3cj5oAi65hMwxiSWo27QmOB
+	cLQTty8i2cI986CYr180STDwieVyetu7kQ3qHdYo7SeahuPrc14qirLFBA73zPbrr4po2f
+	zGgWZWBXgqAPi8k0xRaMTCQlkN1djpM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1643251714;
+	s=susede2_ed25519; t=1643251625;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	mime-version:mime-version:content-type:content-type:
-	content-transfer-encoding:content-transfer-encoding:
-	in-reply-to:in-reply-to:references:references;
-	bh=kbTSzbNt6Miq4dsiW9WaAJY+K5DZmoWBdpUeULoz7Kg=;
-	b=zhTB4TCnIeoWy/UkVvOLLhuwos2xDI6EHBpucyiEuGVNGrBFPJZDsIL8p12sbCoqpKSKHB
-	7DNXoDf4s+YuprBQ==
+	content-transfer-encoding:content-transfer-encoding;
+	bh=yDPdolIqP1BqbqmgH35S+RrYDCrJz/kAXtj6i96pLsQ=;
+	b=x6ydMXUFPK4DvzDKO6csSNrS9nejdxdCvtHG4Sf6wjFPHRmP2fhorasjEjQ6+4R4FunEK1
+	J47b6RQj8pZ6MXBg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	key-exchange X25519 server-signature ECDSA (P-521) server-digest
 	SHA512) (No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3F8AA13E46;
-	Thu, 27 Jan 2022 02:48:25 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E280813E46;
+	Thu, 27 Jan 2022 02:46:58 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA id LLPBOvkH8mEgLAAAMHmgww
-	(envelope-from <neilb@suse.de>); Thu, 27 Jan 2022 02:48:25 +0000
+	by imap2.suse-dmz.suse.de with ESMTPSA id d+tYJ6IH8mGjKwAAMHmgww
+	(envelope-from <neilb@suse.de>); Thu, 27 Jan 2022 02:46:58 +0000
 From: NeilBrown <neilb@suse.de>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
@@ -59,9 +59,7 @@ To: Andrew Morton <akpm@linux-foundation.org>,
 	Lars Ellenberg <lars.ellenberg@linbit.com>,
 	Paolo Valente <paolo.valente@linaro.org>, Jens Axboe <axboe@kernel.dk>
 Date: Thu, 27 Jan 2022 13:46:29 +1100
-Message-ID: <164325158958.29787.8840004338500709466.stgit@noble.brown>
-In-Reply-To: <164325106958.29787.4865219843242892726.stgit@noble.brown>
-References: <164325106958.29787.4865219843242892726.stgit@noble.brown>
+Message-ID: <164325106958.29787.4865219843242892726.stgit@noble.brown>
 User-Agent: StGit/0.23
 MIME-Version: 1.0
 Cc: linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
@@ -69,7 +67,8 @@ Cc: linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
 	linux-block@vger.kernel.org, linux-mm@kvack.org,
 	linux-fsdevel@vger.kernel.org, ceph-devel@vger.kernel.org,
 	linux-ext4@vger.kernel.org, drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 5/9] cephfs: don't set/clear bdi_congestion
+Subject: [Drbd-dev] [PATCH 0/9] Remove remaining parts of congestions
+	tracking code.
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -88,116 +87,67 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-The bdi congestion framework is no-longer used - writeback uses other
-mechanisms to manage throughput.
+Congestion hasn't been reliably tracked for quite some time.
+Most MM uses of it for guiding writeback decisions were removed in 5.16.
+Some other uses were removed in 17-rc1.
 
-So remove calls to set_bdi_congested() and clear_bdi_congested(), and
-remove the writeback_count which is used only to guide the setting and
-clearing.
+This series removes the remaining places that test for congestion, and
+the few places which still set it.
 
-The congestion_kb mount option is no longer meaningful, but as it is
-visible to user-space, removing it needs more consideration.
+The second patch touches a few filesystems.  I didn't think there was
+much value in splitting this out by filesystems, but if maintainers
+would rather I did that, I will.
 
-Signed-off-by: NeilBrown <neilb@suse.de>
+The f2fs, cephfs, fuse, NFS, and block patches can go through the
+respective trees proving the final patch doesn't land until after they
+all do - so maybe it should be held for 5.18-rc2 if all the rest lands
+by 5.18-rc1.
+
+Thanks,
+NeilBrown
+
 ---
- fs/ceph/addr.c  |   27 ---------------------------
- fs/ceph/super.c |    2 --
- fs/ceph/super.h |    2 --
- 3 files changed, 31 deletions(-)
 
-diff --git a/fs/ceph/addr.c b/fs/ceph/addr.c
-index c98e5238a1b6..9147667f8cd5 100644
---- a/fs/ceph/addr.c
-+++ b/fs/ceph/addr.c
-@@ -57,11 +57,6 @@
-  * accounting is preserved.
-  */
- 
--#define CONGESTION_ON_THRESH(congestion_kb) (congestion_kb >> (PAGE_SHIFT-10))
--#define CONGESTION_OFF_THRESH(congestion_kb)				\
--	(CONGESTION_ON_THRESH(congestion_kb) -				\
--	 (CONGESTION_ON_THRESH(congestion_kb) >> 2))
--
- static int ceph_netfs_check_write_begin(struct file *file, loff_t pos, unsigned int len,
- 					struct folio *folio, void **_fsdata);
- 
-@@ -561,10 +556,6 @@ static int writepage_nounlock(struct page *page, struct writeback_control *wbc)
- 	dout("writepage %p page %p index %lu on %llu~%llu snapc %p seq %lld\n",
- 	     inode, page, page->index, page_off, len, snapc, snapc->seq);
- 
--	if (atomic_long_inc_return(&fsc->writeback_count) >
--	    CONGESTION_ON_THRESH(fsc->mount_options->congestion_kb))
--		set_bdi_congested(inode_to_bdi(inode), BLK_RW_ASYNC);
--
- 	req = ceph_osdc_new_request(osdc, &ci->i_layout, ceph_vino(inode), page_off, &len, 0, 1,
- 				    CEPH_OSD_OP_WRITE, CEPH_OSD_FLAG_WRITE, snapc,
- 				    ceph_wbc.truncate_seq, ceph_wbc.truncate_size,
-@@ -621,10 +612,6 @@ static int writepage_nounlock(struct page *page, struct writeback_control *wbc)
- 	ceph_put_wrbuffer_cap_refs(ci, 1, snapc);
- 	ceph_put_snap_context(snapc);  /* page's reference */
- 
--	if (atomic_long_dec_return(&fsc->writeback_count) <
--	    CONGESTION_OFF_THRESH(fsc->mount_options->congestion_kb))
--		clear_bdi_congested(inode_to_bdi(inode), BLK_RW_ASYNC);
--
- 	return err;
- }
- 
-@@ -704,12 +691,6 @@ static void writepages_finish(struct ceph_osd_request *req)
- 			BUG_ON(!page);
- 			WARN_ON(!PageUptodate(page));
- 
--			if (atomic_long_dec_return(&fsc->writeback_count) <
--			     CONGESTION_OFF_THRESH(
--					fsc->mount_options->congestion_kb))
--				clear_bdi_congested(inode_to_bdi(inode),
--						    BLK_RW_ASYNC);
--
- 			ceph_put_snap_context(detach_page_private(page));
- 			end_page_writeback(page);
- 			dout("unlocking %p\n", page);
-@@ -952,14 +933,6 @@ static int ceph_writepages_start(struct address_space *mapping,
- 			dout("%p will write page %p idx %lu\n",
- 			     inode, page, page->index);
- 
--			if (atomic_long_inc_return(&fsc->writeback_count) >
--			    CONGESTION_ON_THRESH(
--				    fsc->mount_options->congestion_kb)) {
--				set_bdi_congested(inode_to_bdi(inode),
--						  BLK_RW_ASYNC);
--			}
--
--
- 			pages[locked_pages++] = page;
- 			pvec.pages[i] = NULL;
- 
-diff --git a/fs/ceph/super.c b/fs/ceph/super.c
-index bf79f369aec6..b2f38af9fca8 100644
---- a/fs/ceph/super.c
-+++ b/fs/ceph/super.c
-@@ -801,8 +801,6 @@ static struct ceph_fs_client *create_fs_client(struct ceph_mount_options *fsopt,
- 	fsc->filp_gen = 1;
- 	fsc->have_copy_from2 = true;
- 
--	atomic_long_set(&fsc->writeback_count, 0);
--
- 	err = -ENOMEM;
- 	/*
- 	 * The number of concurrent works can be high but they don't need
-diff --git a/fs/ceph/super.h b/fs/ceph/super.h
-index 67f145e1ae7a..fc58adf1d36a 100644
---- a/fs/ceph/super.h
-+++ b/fs/ceph/super.h
-@@ -120,8 +120,6 @@ struct ceph_fs_client {
- 
- 	struct ceph_mds_client *mdsc;
- 
--	atomic_long_t writeback_count;
--
- 	struct workqueue_struct *inode_wq;
- 	struct workqueue_struct *cap_wq;
- 
+NeilBrown (9):
+      Remove inode_congested()
+      Remove bdi_congested() and wb_congested() and related functions
+      f2fs: change retry waiting for f2fs_write_single_data_page()
+      f2f2: replace some congestion_wait() calls with io_schedule_timeout()
+      cephfs: don't set/clear bdi_congestion
+      fuse: don't set/clear bdi_congested
+      NFS: remove congestion control.
+      block/bfq-iosched.c: use "false" rather than "BLK_RW_ASYNC"
+      Remove congestion tracking framework.
 
+
+ block/bfq-iosched.c              |  2 +-
+ drivers/block/drbd/drbd_int.h    |  3 --
+ drivers/block/drbd/drbd_req.c    |  3 +-
+ fs/ceph/addr.c                   | 27 ---------------
+ fs/ceph/super.c                  |  2 --
+ fs/ceph/super.h                  |  2 --
+ fs/ext2/ialloc.c                 |  2 --
+ fs/f2fs/compress.c               |  6 ++--
+ fs/f2fs/data.c                   |  9 +++--
+ fs/f2fs/segment.c                | 14 ++++----
+ fs/f2fs/super.c                  |  8 ++---
+ fs/fuse/control.c                | 17 ----------
+ fs/fuse/dev.c                    |  8 -----
+ fs/nfs/sysctl.c                  |  7 ----
+ fs/nfs/write.c                   | 53 +----------------------------
+ fs/nilfs2/segbuf.c               | 11 ------
+ fs/xfs/xfs_buf.c                 |  3 --
+ include/linux/backing-dev-defs.h |  8 -----
+ include/linux/backing-dev.h      | 28 ----------------
+ include/linux/nfs_fs.h           |  1 -
+ include/linux/nfs_fs_sb.h        |  1 -
+ include/trace/events/writeback.h | 28 ----------------
+ mm/backing-dev.c                 | 57 --------------------------------
+ mm/vmscan.c                      |  4 +--
+ 24 files changed, 25 insertions(+), 279 deletions(-)
+
+--
+Signature
 
 _______________________________________________
 drbd-dev mailing list
