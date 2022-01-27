@@ -2,66 +2,68 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B63B49E864
-	for <lists+drbd-dev@lfdr.de>; Thu, 27 Jan 2022 18:09:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5FB749E86F
+	for <lists+drbd-dev@lfdr.de>; Thu, 27 Jan 2022 18:09:41 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 34C8742A58F;
-	Thu, 27 Jan 2022 18:09:02 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 767CF42A590;
+	Thu, 27 Jan 2022 18:09:41 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from us-smtp-delivery-124.mimecast.com
 	(us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id DAE6C4201BE
-	for <drbd-dev@lists.linbit.com>; Thu, 27 Jan 2022 18:09:00 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 00BCB4201BE
+	for <drbd-dev@lists.linbit.com>; Thu, 27 Jan 2022 18:09:39 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1643303340;
+	s=mimecast20190719; t=1643303379;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	in-reply-to:in-reply-to:references:references;
-	bh=kAV23rTMcuty4CJFZ8o8ysOxnvRFj2DI1yB1mT746og=;
-	b=QU+UARpVft1TH4Ycj9CFqX254OOzM8EVrl3ZtSl6Dm32JTefsVBZbhy/HPfFFespA+mbTR
-	N92inGTPutQzpsDrmtG8FbGj739lvdaM7u5zo/Los13xUSThaZNJ09o4q0S2CfBUaczQ+J
-	pX2caUc1wui+XiRXE/spsU6KvZ7L4xc=
+	bh=+dhUoO5mtU5C6v7W8MZ+6HMQJZitoVQcF/qB+IF1Jr0=;
+	b=Gy8LmpFXxAOAGU7wRpJYDntrcuVCM/U9IaryiMmxjzahqE+OOGqUfNitsw1fmHcJ6nz+w4
+	cki2C0YmkAod280gOQQRXPn2SMs0uiYX+AZTdh58R7eU9uHOdlYpRG2yid3l6SN89qdQDQ
+	W3IziguawlapZVvthny9kdx9gifJfKk=
 Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
 	[209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
 	(version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	us-mta-541-uytTuDC7MF6Lt3zcXP7dmg-1; Thu, 27 Jan 2022 12:08:58 -0500
-X-MC-Unique: uytTuDC7MF6Lt3zcXP7dmg-1
+	us-mta-19-CkjxJhaVNy-cZHUoDJBtxg-1; Thu, 27 Jan 2022 12:09:38 -0500
+X-MC-Unique: CkjxJhaVNy-cZHUoDJBtxg-1
 Received: by mail-qk1-f197.google.com with SMTP id
-	q5-20020a05620a0d8500b004738c1b48beso2838965qkl.7
-	for <drbd-dev@lists.linbit.com>; Thu, 27 Jan 2022 09:08:58 -0800 (PST)
+	k190-20020a37a1c7000000b0047d8a74b130so2840851qke.10
+	for <drbd-dev@lists.linbit.com>; Thu, 27 Jan 2022 09:09:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20210112;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to;
-	bh=kAV23rTMcuty4CJFZ8o8ysOxnvRFj2DI1yB1mT746og=;
-	b=pDIzBWoLLry9veK52QpJ2ytPViX2sXftcqLms5WokobN+llxI7rCPMloCJSQrhkIgF
-	qxXEDtbIlGssSWZKHISnmBJIjP1qkNXhUeyGVsMQvKrwnFYEA755rW40hm+AdOWdyVlp
-	WmVVqTAFHkoM0DyVp25drlW+T/uJtSapA+Khy4uEoA9dpIRrpMzLt3D8UUsqYNmfMv+f
-	wi8WJKesDahLaTL2bqYRIHFX0EB9zAUaPjmlVLOBcX6mEeX1Y/yrBGFXzXU290Th2Cp9
-	i6FP4MhIcJx8lfvv0+boUXIlBUoMJcjAlqYXmRbQD2PM4Nd3KXY3WlPbjRCcvTol689Z
-	DkUw==
-X-Gm-Message-State: AOAM533PegZ78h2u/QcyI9Y0K6weBDV7WMOZWeC8G/XVdg60smrD4ZTS
-	dLhCJWOAUnWWKnkKUu1PIF+mmYTFrv2yDMOunouLNvp/DBe7UbK1tDhWvNZx01YMfkqJ3c7amwI
-	lfoPutn2Z8g24x9G3hyI=
-X-Received: by 2002:ac8:44c9:: with SMTP id b9mr3555327qto.524.1643303338470; 
-	Thu, 27 Jan 2022 09:08:58 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyDu0k2yM0Z7B8jNmnNXJFkDazruS7TZzFMNaHKbWmY0JBs9tIC0IfQuLij5Gmty6LtXXG+Yw==
-X-Received: by 2002:ac8:44c9:: with SMTP id b9mr3555294qto.524.1643303338263; 
-	Thu, 27 Jan 2022 09:08:58 -0800 (PST)
+	bh=+dhUoO5mtU5C6v7W8MZ+6HMQJZitoVQcF/qB+IF1Jr0=;
+	b=a/bC3o2/JtX1E5TYRyLQHOcaf4XvHojhXXoisDJDGhLWur0ktSeVTiqpiZtwhM3YxM
+	/giYjKvuRRhE4SqOyqB9L1LD1wd5IUVotA1RT8i+3WknmFCY2oHqSw1eT40RUyPqf+Jm
+	i2N/7APyXUXhamHDryxu4P0MfiDM+OHs36uadYoT3EdaitSX6bwy8b7N0g54eidQzDTq
+	w7VTg/rvRC9i5x63D3No1v0i/EVAwEHV1/7PdDMVUcRlmg0BFE7LNcX0Tpxurl2yjKaU
+	WGIAfsFphZoFNRIlN+prXiLs6xzhKKmTsvU15K7GelZVpCcCJIytl2JsAiH6+PuUvCuL
+	iFUA==
+X-Gm-Message-State: AOAM533D/dA7dLdRp5W2dxbGlEZ09TZGu7u5Cni9DhGXWPk8XWlhNxHK
+	3IIGmrKAyoMyOUrrfgCnfCGNeTZH1sUsAdPBeqiRpQydroLf7jTRvvimwXfolh0t1TxFMIXbU2m
+	AEZd+3HW6OW/6QQX5czY=
+X-Received: by 2002:a05:620a:1671:: with SMTP id
+	d17mr3422687qko.683.1643303377469; 
+	Thu, 27 Jan 2022 09:09:37 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyie4bqi26jfgNY8Cjw+Pn5xYBOKV6NvnkIoBYF0/ZaizWWrCUD9ZTrfOlIA4zvFGF0i2/RFw==
+X-Received: by 2002:a05:620a:1671:: with SMTP id
+	d17mr3422658qko.683.1643303377286; 
+	Thu, 27 Jan 2022 09:09:37 -0800 (PST)
 Received: from localhost (pool-68-160-176-52.bstnma.fios.verizon.net.
-	[68.160.176.52]) by smtp.gmail.com with ESMTPSA id
-	a141sm1694826qkc.73.2022.01.27.09.08.57
+	[68.160.176.52])
+	by smtp.gmail.com with ESMTPSA id i8sm1628636qti.52.2022.01.27.09.09.36
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 27 Jan 2022 09:08:57 -0800 (PST)
-Date: Thu, 27 Jan 2022 12:08:56 -0500
+	Thu, 27 Jan 2022 09:09:36 -0800 (PST)
+Date: Thu, 27 Jan 2022 12:09:36 -0500
 From: Mike Snitzer <snitzer@redhat.com>
 To: Christoph Hellwig <hch@lst.de>
-Message-ID: <YfLRqCMAhLH8xhDD@redhat.com>
+Message-ID: <YfLR0DPcDOYO65Hp@redhat.com>
 References: <20220124091107.642561-1-hch@lst.de>
-	<20220124091107.642561-6-hch@lst.de>
+	<20220124091107.642561-7-hch@lst.de>
 MIME-Version: 1.0
-In-Reply-To: <20220124091107.642561-6-hch@lst.de>
+In-Reply-To: <20220124091107.642561-7-hch@lst.de>
 Authentication-Results: relay.mimecast.com;
 	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=snitzer@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -79,8 +81,7 @@ Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
 	Andrew Morton <akpm@linux-foundation.org>, ntfs3@lists.linux.dev,
 	Jack Wang <jinpu.wang@ionos.com>, Pavel Begunkov <asml.silence@gmail.com>,
 	drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH 05/19] dm: bio_alloc can't fail if it is
-	allowed to sleep
+Subject: Re: [Drbd-dev] [PATCH 06/19] dm-crypt: remove clone_init
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -102,8 +103,9 @@ Errors-To: drbd-dev-bounces@lists.linbit.com
 On Mon, Jan 24 2022 at  4:10P -0500,
 Christoph Hellwig <hch@lst.de> wrote:
 
-> Remove handling of NULL returns from sleeping bio_alloc calls given that
-> those can't fail.
+> Just open code it next to the bio allocations, which saves a few lines
+> of code, prepares for future changes and allows to remove the duplicate
+> bi_opf assignment for the bio_clone_fast case in kcryptd_io_read.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 
