@@ -2,50 +2,50 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0748549D8BD
-	for <lists+drbd-dev@lfdr.de>; Thu, 27 Jan 2022 03:59:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB53F49D8B5
+	for <lists+drbd-dev@lfdr.de>; Thu, 27 Jan 2022 03:57:39 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D875142A56E;
-	Thu, 27 Jan 2022 03:59:38 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D3C8E420FED;
+	Thu, 27 Jan 2022 03:57:38 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 80FD7420FED
-	for <drbd-dev@lists.linbit.com>; Thu, 27 Jan 2022 03:58:42 +0100 (CET)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7723242063A
+	for <drbd-dev@lists.linbit.com>; Thu, 27 Jan 2022 03:57:37 +0100 (CET)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	key-exchange X25519 server-signature ECDSA (P-521) server-digest
 	SHA512) (No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5F1EE1F3AF;
-	Thu, 27 Jan 2022 02:48:45 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 322962195F;
+	Thu, 27 Jan 2022 02:48:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1643251725;
+	t=1643251714;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	mime-version:mime-version:content-type:content-type:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
-	bh=Y1aXkZm3vGEbDQ2TliKD25GZMctmdkQ6PpfcUSoKNn4=;
-	b=iKuO/pFvd/uxxEXD+TDMVC91aqp4wHW5W0GKf/YBfpsCMKaqylpo+su+GTLOqGsrVwhDyE
-	nwPNg1RKM8e1Me9JSv79QL1h0R21rPA/01WWlikszufSsXm+6l8GpCCSefHqw2Neqt48aR
-	0rHFWiDRVkgXkzGaEvWGC3L0gHL1KtE=
+	bh=kbTSzbNt6Miq4dsiW9WaAJY+K5DZmoWBdpUeULoz7Kg=;
+	b=1wZkr12wd9U5Jdb4sa3OvdmE/oHFvtt6GyOZDezQUmTc91EwhN0PFy7hIF6sBNZxzjVzzb
+	vMqWdKvjwO9S/rmD3Q+QZoagD+vL7i8IDpgzYbd8KQvSEtk1UM0sOH+An+7Eds+PCLsx/B
+	ZQqra1C7uC6CD7jdxFODg3j2QAlSC/w=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1643251725;
+	s=susede2_ed25519; t=1643251714;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	mime-version:mime-version:content-type:content-type:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
-	bh=Y1aXkZm3vGEbDQ2TliKD25GZMctmdkQ6PpfcUSoKNn4=;
-	b=o7L95KLhcEyU7sp1r7lBF22DT3yl1OaEF+4Yr9q72waZ8jlqTVOwzVSrElBPDvv2XH+bIB
-	JRbq7SRtYRMuCDAQ==
+	bh=kbTSzbNt6Miq4dsiW9WaAJY+K5DZmoWBdpUeULoz7Kg=;
+	b=zhTB4TCnIeoWy/UkVvOLLhuwos2xDI6EHBpucyiEuGVNGrBFPJZDsIL8p12sbCoqpKSKHB
+	7DNXoDf4s+YuprBQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	key-exchange X25519 server-signature ECDSA (P-521) server-digest
 	SHA512) (No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6C7E013E46;
-	Thu, 27 Jan 2022 02:48:38 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3F8AA13E46;
+	Thu, 27 Jan 2022 02:48:25 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA id 8LLTCQYI8mEsLAAAMHmgww
-	(envelope-from <neilb@suse.de>); Thu, 27 Jan 2022 02:48:38 +0000
+	by imap2.suse-dmz.suse.de with ESMTPSA id LLPBOvkH8mEgLAAAMHmgww
+	(envelope-from <neilb@suse.de>); Thu, 27 Jan 2022 02:48:25 +0000
 From: NeilBrown <neilb@suse.de>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
@@ -59,7 +59,7 @@ To: Andrew Morton <akpm@linux-foundation.org>,
 	Lars Ellenberg <lars.ellenberg@linbit.com>,
 	Paolo Valente <paolo.valente@linaro.org>, Jens Axboe <axboe@kernel.dk>
 Date: Thu, 27 Jan 2022 13:46:29 +1100
-Message-ID: <164325158958.29787.9472805850412952920.stgit@noble.brown>
+Message-ID: <164325158958.29787.8840004338500709466.stgit@noble.brown>
 In-Reply-To: <164325106958.29787.4865219843242892726.stgit@noble.brown>
 References: <164325106958.29787.4865219843242892726.stgit@noble.brown>
 User-Agent: StGit/0.23
@@ -69,7 +69,7 @@ Cc: linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
 	linux-block@vger.kernel.org, linux-mm@kvack.org,
 	linux-fsdevel@vger.kernel.org, ceph-devel@vger.kernel.org,
 	linux-ext4@vger.kernel.org, drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 6/9] fuse: don't set/clear bdi_congested
+Subject: [Drbd-dev] [PATCH 5/9] cephfs: don't set/clear bdi_congestion
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -88,76 +88,115 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-The bid congestion framework is no longer used to manage writeout etc,
-so drop updating it in fuse.
+The bdi congestion framework is no-longer used - writeback uses other
+mechanisms to manage throughput.
+
+So remove calls to set_bdi_congested() and clear_bdi_congested(), and
+remove the writeback_count which is used only to guide the setting and
+clearing.
+
+The congestion_kb mount option is no longer meaningful, but as it is
+visible to user-space, removing it needs more consideration.
 
 Signed-off-by: NeilBrown <neilb@suse.de>
 ---
- fs/fuse/control.c |   17 -----------------
- fs/fuse/dev.c     |    8 --------
- 2 files changed, 25 deletions(-)
+ fs/ceph/addr.c  |   27 ---------------------------
+ fs/ceph/super.c |    2 --
+ fs/ceph/super.h |    2 --
+ 3 files changed, 31 deletions(-)
 
-diff --git a/fs/fuse/control.c b/fs/fuse/control.c
-index 000d2e5627e9..7cede9a3bc96 100644
---- a/fs/fuse/control.c
-+++ b/fs/fuse/control.c
-@@ -164,7 +164,6 @@ static ssize_t fuse_conn_congestion_threshold_write(struct file *file,
- {
- 	unsigned val;
- 	struct fuse_conn *fc;
--	struct fuse_mount *fm;
- 	ssize_t ret;
+diff --git a/fs/ceph/addr.c b/fs/ceph/addr.c
+index c98e5238a1b6..9147667f8cd5 100644
+--- a/fs/ceph/addr.c
++++ b/fs/ceph/addr.c
+@@ -57,11 +57,6 @@
+  * accounting is preserved.
+  */
  
- 	ret = fuse_conn_limit_write(file, buf, count, ppos, &val,
-@@ -178,22 +177,6 @@ static ssize_t fuse_conn_congestion_threshold_write(struct file *file,
- 	down_read(&fc->killsb);
- 	spin_lock(&fc->bg_lock);
- 	fc->congestion_threshold = val;
+-#define CONGESTION_ON_THRESH(congestion_kb) (congestion_kb >> (PAGE_SHIFT-10))
+-#define CONGESTION_OFF_THRESH(congestion_kb)				\
+-	(CONGESTION_ON_THRESH(congestion_kb) -				\
+-	 (CONGESTION_ON_THRESH(congestion_kb) >> 2))
 -
--	/*
--	 * Get any fuse_mount belonging to this fuse_conn; s_bdi is
--	 * shared between all of them
--	 */
--
--	if (!list_empty(&fc->mounts)) {
--		fm = list_first_entry(&fc->mounts, struct fuse_mount, fc_entry);
--		if (fc->num_background < fc->congestion_threshold) {
--			clear_bdi_congested(fm->sb->s_bdi, BLK_RW_SYNC);
--			clear_bdi_congested(fm->sb->s_bdi, BLK_RW_ASYNC);
--		} else {
--			set_bdi_congested(fm->sb->s_bdi, BLK_RW_SYNC);
--			set_bdi_congested(fm->sb->s_bdi, BLK_RW_ASYNC);
--		}
--	}
- 	spin_unlock(&fc->bg_lock);
- 	up_read(&fc->killsb);
- 	fuse_conn_put(fc);
-diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-index cd54a529460d..e1b4a846c90d 100644
---- a/fs/fuse/dev.c
-+++ b/fs/fuse/dev.c
-@@ -315,10 +315,6 @@ void fuse_request_end(struct fuse_req *req)
- 				wake_up(&fc->blocked_waitq);
- 		}
+ static int ceph_netfs_check_write_begin(struct file *file, loff_t pos, unsigned int len,
+ 					struct folio *folio, void **_fsdata);
  
--		if (fc->num_background == fc->congestion_threshold && fm->sb) {
--			clear_bdi_congested(fm->sb->s_bdi, BLK_RW_SYNC);
--			clear_bdi_congested(fm->sb->s_bdi, BLK_RW_ASYNC);
--		}
- 		fc->num_background--;
- 		fc->active_background--;
- 		flush_bg_queue(fc);
-@@ -540,10 +536,6 @@ static bool fuse_request_queue_background(struct fuse_req *req)
- 		fc->num_background++;
- 		if (fc->num_background == fc->max_background)
- 			fc->blocked = 1;
--		if (fc->num_background == fc->congestion_threshold && fm->sb) {
--			set_bdi_congested(fm->sb->s_bdi, BLK_RW_SYNC);
--			set_bdi_congested(fm->sb->s_bdi, BLK_RW_ASYNC);
--		}
- 		list_add_tail(&req->list, &fc->bg_queue);
- 		flush_bg_queue(fc);
- 		queued = true;
+@@ -561,10 +556,6 @@ static int writepage_nounlock(struct page *page, struct writeback_control *wbc)
+ 	dout("writepage %p page %p index %lu on %llu~%llu snapc %p seq %lld\n",
+ 	     inode, page, page->index, page_off, len, snapc, snapc->seq);
+ 
+-	if (atomic_long_inc_return(&fsc->writeback_count) >
+-	    CONGESTION_ON_THRESH(fsc->mount_options->congestion_kb))
+-		set_bdi_congested(inode_to_bdi(inode), BLK_RW_ASYNC);
+-
+ 	req = ceph_osdc_new_request(osdc, &ci->i_layout, ceph_vino(inode), page_off, &len, 0, 1,
+ 				    CEPH_OSD_OP_WRITE, CEPH_OSD_FLAG_WRITE, snapc,
+ 				    ceph_wbc.truncate_seq, ceph_wbc.truncate_size,
+@@ -621,10 +612,6 @@ static int writepage_nounlock(struct page *page, struct writeback_control *wbc)
+ 	ceph_put_wrbuffer_cap_refs(ci, 1, snapc);
+ 	ceph_put_snap_context(snapc);  /* page's reference */
+ 
+-	if (atomic_long_dec_return(&fsc->writeback_count) <
+-	    CONGESTION_OFF_THRESH(fsc->mount_options->congestion_kb))
+-		clear_bdi_congested(inode_to_bdi(inode), BLK_RW_ASYNC);
+-
+ 	return err;
+ }
+ 
+@@ -704,12 +691,6 @@ static void writepages_finish(struct ceph_osd_request *req)
+ 			BUG_ON(!page);
+ 			WARN_ON(!PageUptodate(page));
+ 
+-			if (atomic_long_dec_return(&fsc->writeback_count) <
+-			     CONGESTION_OFF_THRESH(
+-					fsc->mount_options->congestion_kb))
+-				clear_bdi_congested(inode_to_bdi(inode),
+-						    BLK_RW_ASYNC);
+-
+ 			ceph_put_snap_context(detach_page_private(page));
+ 			end_page_writeback(page);
+ 			dout("unlocking %p\n", page);
+@@ -952,14 +933,6 @@ static int ceph_writepages_start(struct address_space *mapping,
+ 			dout("%p will write page %p idx %lu\n",
+ 			     inode, page, page->index);
+ 
+-			if (atomic_long_inc_return(&fsc->writeback_count) >
+-			    CONGESTION_ON_THRESH(
+-				    fsc->mount_options->congestion_kb)) {
+-				set_bdi_congested(inode_to_bdi(inode),
+-						  BLK_RW_ASYNC);
+-			}
+-
+-
+ 			pages[locked_pages++] = page;
+ 			pvec.pages[i] = NULL;
+ 
+diff --git a/fs/ceph/super.c b/fs/ceph/super.c
+index bf79f369aec6..b2f38af9fca8 100644
+--- a/fs/ceph/super.c
++++ b/fs/ceph/super.c
+@@ -801,8 +801,6 @@ static struct ceph_fs_client *create_fs_client(struct ceph_mount_options *fsopt,
+ 	fsc->filp_gen = 1;
+ 	fsc->have_copy_from2 = true;
+ 
+-	atomic_long_set(&fsc->writeback_count, 0);
+-
+ 	err = -ENOMEM;
+ 	/*
+ 	 * The number of concurrent works can be high but they don't need
+diff --git a/fs/ceph/super.h b/fs/ceph/super.h
+index 67f145e1ae7a..fc58adf1d36a 100644
+--- a/fs/ceph/super.h
++++ b/fs/ceph/super.h
+@@ -120,8 +120,6 @@ struct ceph_fs_client {
+ 
+ 	struct ceph_mds_client *mdsc;
+ 
+-	atomic_long_t writeback_count;
+-
+ 	struct workqueue_struct *inode_wq;
+ 	struct workqueue_struct *cap_wq;
+ 
 
 
 _______________________________________________
