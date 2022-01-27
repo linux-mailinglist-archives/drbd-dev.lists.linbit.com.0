@@ -2,66 +2,70 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 164C849ED8D
-	for <lists+drbd-dev@lfdr.de>; Thu, 27 Jan 2022 22:38:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4C2E49EDF1
+	for <lists+drbd-dev@lfdr.de>; Thu, 27 Jan 2022 23:10:26 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B4CEF42A58B;
-	Thu, 27 Jan 2022 22:38:20 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7392542A584;
+	Thu, 27 Jan 2022 23:10:25 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
-	[209.85.167.51])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 677E54201F8
-	for <drbd-dev@lists.linbit.com>; Thu, 27 Jan 2022 22:38:18 +0100 (CET)
-Received: by mail-lf1-f51.google.com with SMTP id x11so7947277lfa.2
-	for <drbd-dev@lists.linbit.com>; Thu, 27 Jan 2022 13:38:18 -0800 (PST)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
+	[209.85.208.181])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 592324201E3
+	for <drbd-dev@lists.linbit.com>; Thu, 27 Jan 2022 23:10:24 +0100 (CET)
+Received: by mail-lj1-f181.google.com with SMTP id t14so6313648ljh.8
+	for <drbd-dev@lists.linbit.com>; Thu, 27 Jan 2022 14:10:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=z+U+izVFukrEKq10kL5qCCsiT3qJmeLAo+mnNrOVCPU=;
-	b=DwtRea8LCCOg/PGJHjd1bTltmn0bHa2clILkAwGYtZppoAY25qIBMTxyD6B5uMLit6
-	7wk+d+sZiWX35l8wQaAoyrJ9H5CizW30SYci3NU1ojzD14qB67btK2MGpyfbQ3U8Fswu
-	zxqpCDGkYCIAg/NDZ5r6/eIuacbMkuvBlqu9ammCZDYbuScyx0/VXZFI/czsoS4aCdCY
-	RzPo3aqhubsJoGDCZLj5SmdkiGyLla36RWFVNiU5MVGZ7MrbcY5xEOS4+eUv/n2M8qYN
-	MVuY5Y428ZMyJxOjYYJ1BtbtHPjLQ+HBbJ/bfmBPwl0UHF3vKl1N9F7XDbteSxFshMZ6
-	OfIw==
+	:cc; bh=pkUjSb/fdfaa3FAu68ePw4JIYSvRfOC6qyjCilb3MLA=;
+	b=RZypLcBcYIUdWY9vV42TppO4LaQPblBv+kCbhi7sSIeity0kCuHxjxBkOW+017vQfl
+	mGJzLUkiIibnMnTTVFBLt50VetVg1KzsVDl5jUao0XF5T7oAmS+N8pzAB7j2FNpZGYiq
+	xbHy2XvQvsScldzehtVeFOoApJ3rHFqpSLvhJxxrFdkCY4SBOyNaqvrt+GIQFpxxuFFh
+	CmyJh/SQOY6vLReOapEDPt77zxgz4JT8F/AZF2zWXE0KCoQ1ChkpEBN24khQj5g1i9qq
+	aguCWoq8pgm51d0p5z0SrS13R+0j/TGLyIS5NFK+7PHw2xgpowySjWS1of9EUGPSq6jn
+	/AOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20210112;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=z+U+izVFukrEKq10kL5qCCsiT3qJmeLAo+mnNrOVCPU=;
-	b=jqtTOFFDGzifxNpnlUiGkgXbQu5L/I3mtVlrzKsUCfZRyzqIGh3DjcKqS8ZBYilYLV
-	SVq1jkC+rX4cHWsSJJrhMakXGsPEMy46Hx0UA+iIewMb9EiPNMVpWbmWCSAm9IjoyY19
-	AFNYiJImVavFOznQu9vrC9z+ztydu1oW+9NZIs4JUmFSTGClNbAfD+r/JiuOtdCieve8
-	zEUxi79Aeqss/aUCygtpj6kTtijDdoO2WBjEZWovzR9F+Bc4dgh0H0yxoEQ5R5QZ/uEW
-	dd9XuxTTeAG61rvmbofD08+0VokkU79zo80b3gs7ACclZd1hz4hS5k9aTnpIMxKCENuK
-	hoJQ==
-X-Gm-Message-State: AOAM532F5kIV7fqOA1+SSQzjNZ/4Hc4+k4ul+SKhdpvVUw5PoiHm3ru+
-	/VvFmZ/LMXxS0sHxRBxYKGVLK5RRy1xzB5Y8dfw=
-X-Google-Smtp-Source: ABdhPJxaVoQ4SfBVmSOjFCGrgluhZGplrFWaRNqk5pMVob8JHRQWRWEKNtxwMeMPmpBWjy5SR70YaIdo0zrC/X/8wRA=
-X-Received: by 2002:ac2:58f7:: with SMTP id v23mr4043478lfo.390.1643319497799; 
-	Thu, 27 Jan 2022 13:38:17 -0800 (PST)
+	bh=pkUjSb/fdfaa3FAu68ePw4JIYSvRfOC6qyjCilb3MLA=;
+	b=1H8hR0YM6y9eQ8r9b2hdxbo5sTxtY89gUFYd4h/nXQfU1ReagYJM6kwFFLWhAC1vmv
+	6KjGXMdhG4dx/y102eyhPrJCIGFn2PHXeeMNqRm82s4pby2ReTKRhIfTepSJMIYINMJC
+	lrJspQ/03GwIYIyZzDDlC6j85UznVrdpvSCvowL3vwhifdVrXPux4v+nUF68qB6V+KmS
+	KfcVGJCSk4eA1OcmL3iffx1s4gSJJ5Q7gzFbtjVECLiB8XpRWyigmsb/WtX9soEZc6+r
+	wwZCAUYswgTkYchNvn6s1/9Juy0JfjaItCd6jojl40KmAQUEszIIZNbr9LIWWQqkxg58
+	xQrA==
+X-Gm-Message-State: AOAM5320jsfL2Mdz4BSHiNCWZZuTkzSIOeTNZ98PeQkpy/JcJj2Yk8iS
+	EETvCWn4/S0SpAKGO0mpCnxnx380OdjZDPzffgo=
+X-Google-Smtp-Source: ABdhPJy9dJl6L/bnRQi8tK1Am+5DPjPBZvatcTyLSMpbpD4vy19hTtp8mGF/Cl1TBx2f3Cw7TL+lgScx4mlljQ4behg=
+X-Received: by 2002:a2e:5d3:: with SMTP id 202mr3981304ljf.330.1643321423317; 
+	Thu, 27 Jan 2022 14:10:23 -0800 (PST)
 MIME-Version: 1.0
-References: <20220124091107.642561-1-hch@lst.de>
-	<20220124091107.642561-3-hch@lst.de>
-In-Reply-To: <20220124091107.642561-3-hch@lst.de>
+References: <164325106958.29787.4865219843242892726.stgit@noble.brown>
+	<164325158955.29787.4769373293473421057.stgit@noble.brown>
+In-Reply-To: <164325158955.29787.4769373293473421057.stgit@noble.brown>
 From: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date: Fri, 28 Jan 2022 06:38:05 +0900
-Message-ID: <CAKFNMomoLqbbOwg5d6aBHCyGT5v+NF=N2Rm3QwYk8NDXsoJHtA@mail.gmail.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
-	linux-nfs@vger.kernel.org, linux-nilfs <linux-nilfs@vger.kernel.org>,
-	Mike Snitzer <snitzer@redhat.com>,
+Date: Fri, 28 Jan 2022 07:10:11 +0900
+Message-ID: <CAKFNMom4Z76ti4fp69UeKYf0d4x635OR7Q_CjVnBj+vQSuhESg@mail.gmail.com>
+To: NeilBrown <neilb@suse.de>
+Cc: "Darrick J. Wong" <djwong@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+	Linux MM <linux-mm@kvack.org>, drbd-dev@lists.linbit.com,
+	Paolo Valente <paolo.valente@linaro.org>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Ilya Dryomov <idryomov@gmail.com>, linux-ext4@vger.kernel.org,
+	Chao Yu <chao@kernel.org>, linux-block@vger.kernel.org,
+	linux-nilfs <linux-nilfs@vger.kernel.org>,
+	Jaegeuk Kim <jaegeuk@kernel.org>, ceph-devel@vger.kernel.org,
+	Trond Myklebust <trond.myklebust@hammerspace.com>,
+	Jens Axboe <axboe@kernel.dk>, linux-nfs@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jeff Layton <jlayton@kernel.org>,
 	Philipp Reisner <philipp.reisner@linbit.com>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	=?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.co>,
-	device-mapper development <dm-devel@redhat.com>,
-	"Md . Haris Iqbal" <haris.iqbal@ionos.com>,
+	linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org,
 	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	linux-fsdevel@vger.kernel.org, xen-devel@lists.xenproject.org,
-	Andrew Morton <akpm@linux-foundation.org>, ntfs3@lists.linux.dev,
-	Jack Wang <jinpu.wang@ionos.com>, Pavel Begunkov <asml.silence@gmail.com>,
-	drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH 02/19] nilfs2: remove nilfs_alloc_seg_bio
+	Anna Schumaker <anna.schumaker@netapp.com>
+Subject: Re: [Drbd-dev] [PATCH 2/9] Remove bdi_congested() and
+	wb_congested() and related functions
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -80,20 +84,35 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Mon, Jan 24, 2022 at 6:11 PM Christoph Hellwig <hch@lst.de> wrote:
+On Thu, Jan 27, 2022 at 11:47 AM NeilBrown <neilb@suse.de> wrote:
 >
-> bio_alloc will never fail when it can sleep.  Remove the now simple
-> nilfs_alloc_seg_bio helper and open code it in the only caller.
+> These functions are no longer useful as the only bdis that report
+> congestion are in ceph, fuse, and nfs.  None of those bdis can be the
+> target of the calls in drbd, ext2, nilfs2, or xfs.
 >
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Removing the test on bdi_write_contested() in current_may_throttle()
+> could cause a small change in behaviour, but only when PF_LOCAL_THROTTLE
+> is set.
+>
+> So replace the calls by 'false' and simplify the code - and remove the
+> functions.
+>
+> Signed-off-by: NeilBrown <neilb@suse.de>
 > ---
->  fs/nilfs2/segbuf.c | 31 ++++---------------------------
->  1 file changed, 4 insertions(+), 27 deletions(-)
+>  drivers/block/drbd/drbd_int.h |    3 ---
+>  drivers/block/drbd/drbd_req.c |    3 +--
+>  fs/ext2/ialloc.c              |    2 --
+>  fs/nilfs2/segbuf.c            |   11 -----------
+>  fs/xfs/xfs_buf.c              |    3 ---
+>  include/linux/backing-dev.h   |   26 --------------------------
+>  mm/vmscan.c                   |    4 +---
+>  7 files changed, 2 insertions(+), 50 deletions(-)
+
+for nilfs2 bits,
 
 Acked-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
 
-Thanks!
-
+Thanks,
 Ryusuke Konishi
 _______________________________________________
 drbd-dev mailing list
