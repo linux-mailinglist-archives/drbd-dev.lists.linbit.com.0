@@ -2,79 +2,63 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E04149F03E
-	for <lists+drbd-dev@lfdr.de>; Fri, 28 Jan 2022 01:59:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A96B49F08E
+	for <lists+drbd-dev@lfdr.de>; Fri, 28 Jan 2022 02:34:07 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 019A542A588;
-	Fri, 28 Jan 2022 01:59:01 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0F6F242A58B;
+	Fri, 28 Jan 2022 02:34:06 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com
-	[209.85.166.48])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6BA1B42A582
-	for <drbd-dev@lists.linbit.com>; Fri, 28 Jan 2022 01:58:59 +0100 (CET)
-Received: by mail-io1-f48.google.com with SMTP id z199so5863670iof.10
-	for <drbd-dev@lists.linbit.com>; Thu, 27 Jan 2022 16:58:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=OnqrK1B7nE7jhPSJbx7uJGsFsnzMH0p8PmdMrmsnx7c=;
-	b=eiqFDzffYRJHxrlhdAhplyWNbDu7+9XCywnSXd70CEjIhMS+QILhU1gn2PxLfmnCZT
-	bNJ9Uu6Wc0dwdvneqYk7j+Gx1rRovjfECn7zCQ0xWiL4H6hvX9A8b5oKYyqce02E7DCW
-	NTzQ49F7FCqba9EG78FvWG2FJ0q8GVrQIyWy2fIDxxDCLv3njcQzyLih4s1aXLOz0i+/
-	5sSTGgzeA0gu4w3dPuF1jSpGKYFT3eqFqlPbp/g33aBBagrayGA8ak+IubpG+AiehtbE
-	3dsYzg7w2/MbCg9ctg4WDF1ndwIhh6gr6Vd+Zl57wcQBRUaLrzVSaK25RiFiy+diDvja
-	JVRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20210112;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=OnqrK1B7nE7jhPSJbx7uJGsFsnzMH0p8PmdMrmsnx7c=;
-	b=L16JRp2eQCrW0tyHnho46breb1lNlL/G2aJfmVaZwzNK6wxrfrpRhJxdDr6GDC3fWg
-	Fc6CJno6uDR0kqXE8x0x1L3DsfA2Q8eJt9EKhkb6yXxgS/3qmUMzXiG9B4/lsGZEFmlv
-	KhhjZsqpG+0de9u61CaaDbt9AqDWS3wrWvlOSD0iyHY4cZ6m5B5a7olF/dwh3ii52gjn
-	dMipkVgAQvC8UfuC132+f3F1kiaf6OonQ34///fBvgMmYsxcKu6ezEBnWcv1HCBrv6Q1
-	NIoey4yRIb2wBhVOvz+vk+kgnxSgItU/dgP7KoVB9GwmfEgWoKVu2n5I0GJ4lbX8Mcp+
-	Oztg==
-X-Gm-Message-State: AOAM531RvgxDYh2SSxMNprZASQ9AeHb9UtK3rbVvZfuJqII4XpUp28yJ
-	Tm4AMqRxZyXAkoJ+yBzqojhYRw==
-X-Google-Smtp-Source: ABdhPJwV/AEHiSXVQGFEZXPZwOlZ61Jpa3Td0l0CjC3IrFA3/SuJ9toHc9iJFAxn2WQdRiu2+bdIdQ==
-X-Received: by 2002:a02:84ef:: with SMTP id f102mr3301483jai.25.1643331538286; 
-	Thu, 27 Jan 2022 16:58:58 -0800 (PST)
-Received: from [192.168.1.116] ([66.219.217.159])
-	by smtp.gmail.com with ESMTPSA id
-	m4sm12789023iln.48.2022.01.27.16.58.56
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Thu, 27 Jan 2022 16:58:57 -0800 (PST)
-To: NeilBrown <neilb@suse.de>, Andrew Morton <akpm@linux-foundation.org>,
-	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>, Ilya Dryomov <idryomov@gmail.com>,
+X-Greylist: delayed 380 seconds by postgrey-1.31 at mail19;
+	Fri, 28 Jan 2022 02:34:04 CET
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id AD52E42A583
+	for <drbd-dev@lists.linbit.com>;
+	Fri, 28 Jan 2022 02:34:04 +0100 (CET)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id A8C1861D9B;
+	Fri, 28 Jan 2022 01:27:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59E36C340E4;
+	Fri, 28 Jan 2022 01:27:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1643333263;
+	bh=1DLj8KHTHp8d5WdiUPuZOplV4Q5vuq4iZQ+JC0nHJ2k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Sifa83s71AP+NEqGPXQ/5S92TYI3+oItVpDEaB/zM4U7IG/Phqxl7cKbkNTJMCcdM
+	bf///GlSxnROcERpWqOJnBvLcEP8+e3lzDeKQqcmZ/oJD1Qb71s+egXTZ208pOABI/
+	1ISVx27fNyNNEZ9DW/iPyLY1kzgw+HmRiGu0SsshajEzgLlW4n7gBCh+2fg9TR31Iy
+	COwN/6oumyYRY/WJcIb1/4aEMsCAekeXJa2V806YdfIaZOgwmVd2vQ6VivQad+AtRE
+	oOcOafl34matWgXYicLVuS/pcR46n+6v3OMDvqbEl6vWVFuCfyIfLi+xNUmB50k+at
+	Mloh98egdQ82Q==
+Date: Thu, 27 Jan 2022 17:27:40 -0800
+From: Jaegeuk Kim <jaegeuk@kernel.org>
+To: NeilBrown <neilb@suse.de>
+Message-ID: <YfNGjMZWrlJURRuR@google.com>
+References: <164325106958.29787.4865219843242892726.stgit@noble.brown>
+	<164325158957.29787.2116312603613564596.stgit@noble.brown>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <164325158957.29787.2116312603613564596.stgit@noble.brown>
+Cc: "Darrick J. Wong" <djwong@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, drbd-dev@lists.linbit.com,
+	Paolo Valente <paolo.valente@linaro.org>,
 	Miklos Szeredi <miklos@szeredi.hu>,
 	Trond Myklebust <trond.myklebust@hammerspace.com>,
-	Anna Schumaker <anna.schumaker@netapp.com>,
+	Ilya Dryomov <idryomov@gmail.com>, linux-ext4@vger.kernel.org,
+	Chao Yu <chao@kernel.org>, linux-block@vger.kernel.org,
+	linux-nilfs@vger.kernel.org, ceph-devel@vger.kernel.org,
 	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-	"Darrick J. Wong" <djwong@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>, linux-nfs@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jeff Layton <jlayton@kernel.org>,
 	Philipp Reisner <philipp.reisner@linbit.com>,
+	linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org,
 	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	Paolo Valente <paolo.valente@linaro.org>
-References: <164325106958.29787.4865219843242892726.stgit@noble.brown>
-From: Jens Axboe <axboe@kernel.dk>
-Message-ID: <2e721a70-bc57-0894-9d76-34a9d58c0cb7@kernel.dk>
-Date: Thu, 27 Jan 2022 17:58:55 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <164325106958.29787.4865219843242892726.stgit@noble.brown>
-Content-Language: en-US
-Cc: linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	linux-block@vger.kernel.org, linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org, ceph-devel@vger.kernel.org,
-	linux-ext4@vger.kernel.org, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH 0/9] Remove remaining parts of congestions
-	tracking code.
+	Anna Schumaker <anna.schumaker@netapp.com>
+Subject: Re: [Drbd-dev] [PATCH 4/9] f2f2: replace some congestion_wait()
+ calls with io_schedule_timeout()
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -93,29 +77,132 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On 1/26/22 7:46 PM, NeilBrown wrote:
-> Congestion hasn't been reliably tracked for quite some time.
-> Most MM uses of it for guiding writeback decisions were removed in 5.16.
-> Some other uses were removed in 17-rc1.
-> 
-> This series removes the remaining places that test for congestion, and
-> the few places which still set it.
-> 
-> The second patch touches a few filesystems.  I didn't think there was
-> much value in splitting this out by filesystems, but if maintainers
-> would rather I did that, I will.
-> 
-> The f2fs, cephfs, fuse, NFS, and block patches can go through the
-> respective trees proving the final patch doesn't land until after they
-> all do - so maybe it should be held for 5.18-rc2 if all the rest lands
-> by 5.18-rc1.
+I saw some missing cases. Could you please consider this instead?
+And, please fix "f2f2:" to "f2fs:".
 
-For the series:
+---
+ fs/f2fs/compress.c |  4 +---
+ fs/f2fs/data.c     | 13 ++++++-------
+ fs/f2fs/f2fs.h     |  6 ++++++
+ fs/f2fs/segment.c  |  8 +++-----
+ fs/f2fs/super.c    |  6 ++----
+ 5 files changed, 18 insertions(+), 19 deletions(-)
 
-Acked-by: Jens Axboe <axboe@kernel.dk>
-
+diff --git a/fs/f2fs/compress.c b/fs/f2fs/compress.c
+index 67bac2792e57..6b22d407a4a4 100644
+--- a/fs/f2fs/compress.c
++++ b/fs/f2fs/compress.c
+@@ -1505,9 +1505,7 @@ static int f2fs_write_raw_pages(struct compress_ctx *cc,
+ 				if (IS_NOQUOTA(cc->inode))
+ 					return 0;
+ 				ret = 0;
+-				cond_resched();
+-				congestion_wait(BLK_RW_ASYNC,
+-						DEFAULT_IO_TIMEOUT);
++				f2fs_io_schedule_timeout(DEFAULT_IO_TIMEOUT);
+ 				goto retry_write;
+ 			}
+ 			return ret;
+diff --git a/fs/f2fs/data.c b/fs/f2fs/data.c
+index 0f124e8de1d4..c9285c88cb85 100644
+--- a/fs/f2fs/data.c
++++ b/fs/f2fs/data.c
+@@ -3046,13 +3046,12 @@ static int f2fs_write_cache_pages(struct address_space *mapping,
+ 					goto next;
+ 				} else if (ret == -EAGAIN) {
+ 					ret = 0;
+-					if (wbc->sync_mode == WB_SYNC_ALL) {
+-						cond_resched();
+-						congestion_wait(BLK_RW_ASYNC,
+-							DEFAULT_IO_TIMEOUT);
+-						goto retry_write;
+-					}
+-					goto next;
++					if (wbc->sync_mode != WB_SYNC_ALL)
++						goto next;
++
++					f2fs_io_schedule_timeout(
++						DEFAULT_IO_TIMEOUT);
++					goto retry_write;
+ 				}
+ 				done_index = page->index + 1;
+ 				done = 1;
+diff --git a/fs/f2fs/f2fs.h b/fs/f2fs/f2fs.h
+index 6ddb98ff0b7c..dbd650a5a8fc 100644
+--- a/fs/f2fs/f2fs.h
++++ b/fs/f2fs/f2fs.h
+@@ -4501,6 +4501,12 @@ static inline bool f2fs_block_unit_discard(struct f2fs_sb_info *sbi)
+ 	return F2FS_OPTION(sbi).discard_unit == DISCARD_UNIT_BLOCK;
+ }
+ 
++static inline void f2fs_io_schedule_timeout(long timeout)
++{
++	set_current_state(TASK_UNINTERRUPTIBLE);
++	io_schedule_timeout(timeout);
++}
++
+ #define EFSBADCRC	EBADMSG		/* Bad CRC detected */
+ #define EFSCORRUPTED	EUCLEAN		/* Filesystem is corrupted */
+ 
+diff --git a/fs/f2fs/segment.c b/fs/f2fs/segment.c
+index 56211e201d51..885b27d7e491 100644
+--- a/fs/f2fs/segment.c
++++ b/fs/f2fs/segment.c
+@@ -313,8 +313,7 @@ void f2fs_drop_inmem_pages_all(struct f2fs_sb_info *sbi, bool gc_failure)
+ skip:
+ 		iput(inode);
+ 	}
+-	congestion_wait(BLK_RW_ASYNC, DEFAULT_IO_TIMEOUT);
+-	cond_resched();
++	f2fs_io_schedule_timeout(DEFAULT_IO_TIMEOUT);
+ 	if (gc_failure) {
+ 		if (++looped >= count)
+ 			return;
+@@ -803,8 +802,7 @@ int f2fs_flush_device_cache(struct f2fs_sb_info *sbi)
+ 		do {
+ 			ret = __submit_flush_wait(sbi, FDEV(i).bdev);
+ 			if (ret)
+-				congestion_wait(BLK_RW_ASYNC,
+-						DEFAULT_IO_TIMEOUT);
++				f2fs_io_schedule_timeout(DEFAULT_IO_TIMEOUT);
+ 		} while (ret && --count);
+ 
+ 		if (ret) {
+@@ -3137,7 +3135,7 @@ static unsigned int __issue_discard_cmd_range(struct f2fs_sb_info *sbi,
+ 			blk_finish_plug(&plug);
+ 			mutex_unlock(&dcc->cmd_lock);
+ 			trimmed += __wait_all_discard_cmd(sbi, NULL);
+-			congestion_wait(BLK_RW_ASYNC, DEFAULT_IO_TIMEOUT);
++			f2fs_io_schedule_timeout(DEFAULT_IO_TIMEOUT);
+ 			goto next;
+ 		}
+ skip:
+diff --git a/fs/f2fs/super.c b/fs/f2fs/super.c
+index 9af6c20532ec..f484a839fc52 100644
+--- a/fs/f2fs/super.c
++++ b/fs/f2fs/super.c
+@@ -2135,8 +2135,7 @@ static void f2fs_enable_checkpoint(struct f2fs_sb_info *sbi)
+ 	/* we should flush all the data to keep data consistency */
+ 	do {
+ 		sync_inodes_sb(sbi->sb);
+-		cond_resched();
+-		congestion_wait(BLK_RW_ASYNC, DEFAULT_IO_TIMEOUT);
++		f2fs_io_schedule_timeout(DEFAULT_IO_TIMEOUT);
+ 	} while (get_pages(sbi, F2FS_DIRTY_DATA) && retry--);
+ 
+ 	if (unlikely(retry < 0))
+@@ -2504,8 +2503,7 @@ static ssize_t f2fs_quota_write(struct super_block *sb, int type,
+ 							&page, &fsdata);
+ 		if (unlikely(err)) {
+ 			if (err == -ENOMEM) {
+-				congestion_wait(BLK_RW_ASYNC,
+-						DEFAULT_IO_TIMEOUT);
++				f2fs_io_schedule_timeout(DEFAULT_IO_TIMEOUT);
+ 				goto retry;
+ 			}
+ 			set_sbi_flag(F2FS_SB(sb), SBI_QUOTA_NEED_REPAIR);
 -- 
-Jens Axboe
+2.35.0.rc0.227.g00780c9af4-goog
 
 _______________________________________________
 drbd-dev mailing list
