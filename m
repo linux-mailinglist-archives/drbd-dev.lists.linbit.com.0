@@ -2,61 +2,45 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31C404A739D
-	for <lists+drbd-dev@lfdr.de>; Wed,  2 Feb 2022 15:50:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88A7E4A7525
+	for <lists+drbd-dev@lfdr.de>; Wed,  2 Feb 2022 17:01:21 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 12D6942018F;
-	Wed,  2 Feb 2022 15:50:35 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 79E7442018F;
+	Wed,  2 Feb 2022 17:01:20 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
-	[209.85.214.173])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id CB97942011F
-	for <drbd-dev@lists.linbit.com>; Wed,  2 Feb 2022 15:50:33 +0100 (CET)
-Received: by mail-pl1-f173.google.com with SMTP id d18so18519853plg.2
-	for <drbd-dev@lists.linbit.com>; Wed, 02 Feb 2022 06:50:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-	h=from:to:cc:in-reply-to:references:subject:message-id:date
-	:mime-version:content-transfer-encoding;
-	bh=IAkJ25VWGHpvo748Ps3jmA0wCxSeGiRhv8GghNIjjCc=;
-	b=hs9vTLYzgYWsMhdo7W/FDStWSbFMCMMt9vdgv5sV/q3umnsqiQSEfCqrNim48rcYWQ
-	WNUzTuvQAJ0sDihfOuWS0QOGzEsxWAr0Pnjrw3bWTt/51G0aCscpb7N28MkQRP+Ybw9U
-	QUpyn0NBNkrO1Q8uaUOF4/JbxnMJQMYZShxwVUBk5pnNiEY/YiQ7cSsKkCnJMjsZFJ/R
-	LprEgdjYCoVAPMbCYjcK+kwaAwkWQZ3f8+251u1es631aToqil8P8oY4xfroCSVLk1zW
-	IhfRx5mM6vd7nGUMlO9XrmmP0F0ELYksOi6VL8XXDhWNI42+96xLTzvukOHXjddiZQYF
-	NiVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20210112;
-	h=x-gm-message-state:from:to:cc:in-reply-to:references:subject
-	:message-id:date:mime-version:content-transfer-encoding;
-	bh=IAkJ25VWGHpvo748Ps3jmA0wCxSeGiRhv8GghNIjjCc=;
-	b=sBcE2o4h8G+ze+inUIfA5Qr3NaeD/V4Z0UREavjDLMePygcs49WXZqFeUEVeH7Ss7r
-	DzwuieOidaFCf7C/zuy9e4i3a4bSchU3E0HSwH27l5XVvhocqR9JBX0yrHEngROOrXTn
-	VnbclQQ7C6jMRO2mJR2mPfCYBX/+n+Rqo3OXL5o9twP7025pn1mJeBekEf3lOKJc/bem
-	jpTOLOP/JqDsqGgML9QIULuXB0LKUesYReLj28yjl8qy2Cc5MrizQ+0aWrG4qkTW2mSX
-	xWFpPF6uG++En3ZGa42e3HTlyaKejXyzx4tGSvOT2J/1cY6cM6uYdDCTfbOa+ArYyP+R
-	IR6w==
-X-Gm-Message-State: AOAM533LTY3lrY+Ktj9tM73HhB9llcNvVbqyp2S2C+SzDGnHOUwArM+J
-	qwBMks/TkG88qT7wsymlDAwDZQ==
-X-Google-Smtp-Source: ABdhPJwSLudBNjLMeTvPHLIsOXD+1k6FRXpLWDFks6w4HVgPtg5F+Tt+QBkGoHPVlgrjEzbfwYXf1A==
-X-Received: by 2002:a17:903:2305:: with SMTP id
-	d5mr30165640plh.122.1643813432532; 
-	Wed, 02 Feb 2022 06:50:32 -0800 (PST)
-Received: from [192.168.1.116] ([66.219.217.159])
-	by smtp.gmail.com with ESMTPSA id
-	u18sm27070556pfi.185.2022.02.02.06.50.31
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 02 Feb 2022 06:50:32 -0800 (PST)
-From: Jens Axboe <axboe@kernel.dk>
-To: Christoph Hellwig <hch@lst.de>
-In-Reply-To: <20220124091107.642561-1-hch@lst.de>
-References: <20220124091107.642561-1-hch@lst.de>
-Message-Id: <164381343094.170143.694743005104706258.b4-ty@kernel.dk>
-Date: Wed, 02 Feb 2022 07:50:30 -0700
+Received: from bombadil.infradead.org (bombadil.infradead.org
+	[198.137.202.133])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2C06942011F
+	for <drbd-dev@lists.linbit.com>; Wed,  2 Feb 2022 17:01:16 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=h6DGnPAi6icKpLNtt8Hb/HkwHAnwlWy1Evj+0HJb+8c=;
+	b=AWahWlSz0YktSw/gVWlIFiRi0O
+	6McquSFvdCPlYwTVdvemGueZnId79bkBYFk197k+1sXdSPY337d69WaIzlR1NJYO/xs6Ua6NpTSrQ
+	cDnrGvQ+6n19vTEABc+pGR5mS4aGPtib/UNCLGoilYqFf94UuWsBjox0qy2LX0jrSK1klQDHplGk6
+	gSyI2dBA0mjs7E9rMl3WMsDLQKgkMaoYGk1Wg7InZncLq0C/Qn7GjimHEpmEWyTuR4fiy281IRLcK
+	Jq5XTlw0HdqoiUTTradOV1xJNZm5ShFio2d9FAEFA4Uke0BZa+tYTK2TaIP/r5STx9nAzUq1sq9Ct
+	Kib78m1A==;
+Received: from [2001:4bb8:191:327d:b3e5:1ccd:eaac:6609] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1nFI4F-00G7vu-Ff; Wed, 02 Feb 2022 16:01:11 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Jens Axboe <axboe@kernel.dk>
+Date: Wed,  2 Feb 2022 17:00:56 +0100
+Message-Id: <20220202160109.108149-1-hch@lst.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Cc: linux-block@vger.kernel.org, linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org, Mike Snitzer <snitzer@redhat.com>, Philipp Reisner <philipp.reisner@linbit.com>, Pavel Begunkov <asml.silence@gmail.com>, Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Roger Pau Monné <roger.pau@citrix.co>, dm-devel@redhat.com, "Md . Haris Iqbal" <haris.iqbal@ionos.com>, Lars Ellenberg <lars.ellenberg@linbit.com>, linux-fsdevel@vger.kernel.org, xen-devel@lists.xenproject.org, Andrew Morton <akpm@linux-foundation.org>, ntfs3@lists.linux.dev, Jack Wang <jinpu.wang@ionos.com>, Ryusuke Konishi <konishi.ryusuke@gmail.com>, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] improve the bio allocation interface v2
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+	bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Cc: Mike Snitzer <snitzer@redhat.com>,
+	Philipp Reisner <philipp.reisner@linbit.com>,
+	linux-block@vger.kernel.org, dm-devel@redhat.com,
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
+	Pavel Begunkov <asml.silence@gmail.com>, drbd-dev@lists.linbit.com
+Subject: [Drbd-dev] improve the bio cloning interface v2
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -75,64 +59,51 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Mon, 24 Jan 2022 10:10:48 +0100, Christoph Hellwig wrote:
-> this series is posted early because it has wide-ranging changes and could use some
-> early ACKs before -rc1.
-> 
-> It changes the interface to the bio allocators to always pass a block_device and
-> the operation, which is information needed for every bio submitted through
-> bio_submit.  This means the fields can be directly initialized in bio_init instead
-> of first being zeroed and thus should help to micro-optimize even better than the
-> __bio_set_dev that Pavel proposed while also cleaning up code.
-> 
-> [...]
+Hi Jens,
 
-Applied, thanks!
+this series changes the bio cloning interface to match the rest changes
+to the bio allocation interface and passes the block_device and operation
+to the cloning helpers.  In addition it renames the cloning helpers to
+be more descriptive.
 
-[01/19] fs: remove mpage_alloc
-        commit: d5f68a42da7a4516e7503c281a54a58727f07dc3
-[02/19] nilfs2: remove nilfs_alloc_seg_bio
-        commit: f0d911927b3c7cf5f9edb5941d0287144a602d0d
-[03/19] nfs/blocklayout: remove bl_alloc_init_bio
-        commit: 5d2ca2132f889bc2c90d6d07fc9fc129cfee8955
-[04/19] ntfs3: remove ntfs_alloc_bio
-        commit: 39146b6f66ba5c107d5c5758a17f290846165b4d
-[05/19] dm: bio_alloc can't fail if it is allowed to sleep
-        commit: 53db984e004c7116ce69e2f4a163664453336ae1
-[06/19] dm-crypt: remove clone_init
-        commit: 3f868c09ea8f40f800c4c644c072d91c9eee0d71
-[07/19] dm-snap: use blkdev_issue_flush instead of open coding it
-        commit: eba33b8ef1b90d8996eceb0569c06a4f784ef2b5
-[08/19] dm-thin: use blkdev_issue_flush instead of open coding it
-        commit: 28d7d128aad5cd2178b158900d58365d1fd3de94
-[09/19] drbd: bio_alloc can't fail if it is allow to sleep
-        commit: 4b1dc86d1857f1007865cab759f2285280692eee
-[10/19] rnbd-srv: simplify bio mapping in process_rdma
-        commit: 1fe0640ff94feae6d21417e2f4f2829b882274b1
-[11/19] rnbd-srv: remove struct rnbd_dev_blk_io
-        commit: d7b78de2b1552e3e7ce3a069f075cc2729aa5c34
-[12/19] xen-blkback: bio_alloc can't fail if it is allow to sleep
-        commit: 7d8d0c658d48705fca35238a8ff601b7c5cbc0de
-[13/19] block: move blk_next_bio to bio.c
-        commit: 3b005bf6acf009abd700e2c652c86e5c209cf63d
-[14/19] block: pass a block_device and opf to blk_next_bio
-        commit: 0a3140ea0fae377c9eaa031b7db1670ae422ed47
-[15/19] block: pass a block_device and opf to bio_alloc_bioset
-        commit: 609be1066731fea86436f5f91022f82e592ab456
-[16/19] block: pass a block_device and opf to bio_alloc_kiocb
-        commit: b77c88c2100ce6a5ec8126c13599b5a7f6663e32
-[17/19] block: pass a block_device and opf to bio_alloc
-        commit: 07888c665b405b1cd3577ddebfeb74f4717a84c4
-[18/19] block: pass a block_device and opf to bio_init
-        commit: 49add4966d79244013fce35f95c6833fae82b8b1
-[19/19] block: pass a block_device and opf to bio_reset
-        commit: a7c50c940477bae89fb2b4f51bd969a2d95d7512
+To get there it requires a bit of refactoring in the device mapper code.
 
-Best regards,
--- 
-Jens Axboe
+Changes since v1:
+ - rebased to the lastest for-5.18/block tree
+ - fix a fatal double initialization in device mapper
 
+A git tree is also available here:
 
+    git://git.infradead.org/users/hch/block.git bio_alloc-cleanup-part2
+
+Gitweb:
+
+    http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/bio_alloc-cleanup-part2
+
+Diffstat:
+ Documentation/block/biodoc.rst   |    5 -
+ block/bio-integrity.c            |    1 
+ block/bio.c                      |  106 +++++++++++++-----------
+ block/blk-crypto.c               |    1 
+ block/blk-mq.c                   |    4 
+ block/bounce.c                   |    3 
+ drivers/block/drbd/drbd_req.c    |    5 -
+ drivers/block/drbd/drbd_worker.c |    4 
+ drivers/block/pktcdvd.c          |    4 
+ drivers/md/bcache/request.c      |    6 -
+ drivers/md/dm-cache-target.c     |   26 ++----
+ drivers/md/dm-crypt.c            |   11 +-
+ drivers/md/dm-zoned-target.c     |    3 
+ drivers/md/dm.c                  |  166 +++++++++++++--------------------------
+ drivers/md/md-faulty.c           |    4 
+ drivers/md/md-multipath.c        |    4 
+ drivers/md/md.c                  |    5 -
+ drivers/md/raid1.c               |   34 +++----
+ drivers/md/raid10.c              |   16 +--
+ drivers/md/raid5.c               |    4 
+ fs/btrfs/extent_io.c             |    4 
+ include/linux/bio.h              |    6 -
+ 22 files changed, 183 insertions(+), 239 deletions(-)
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
