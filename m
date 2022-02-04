@@ -2,38 +2,66 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAC9A4A7F42
-	for <lists+drbd-dev@lfdr.de>; Thu,  3 Feb 2022 07:21:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7162F4A9B27
+	for <lists+drbd-dev@lfdr.de>; Fri,  4 Feb 2022 15:43:41 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id BB2594201FA;
-	Thu,  3 Feb 2022 07:21:44 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5CBFF4205D7;
+	Fri,  4 Feb 2022 15:43:40 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 302 seconds by postgrey-1.31 at mail19;
-	Thu, 03 Feb 2022 04:35:39 CET
-Received: from out30-132.freemail.mail.aliyun.com
-	(out30-132.freemail.mail.aliyun.com [115.124.30.132])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0A732420181
-	for <drbd-dev@lists.linbit.com>; Thu,  3 Feb 2022 04:35:38 +0100 (CET)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R101e4; CH=green; DM=||false|;
-	DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04357;
-	MF=yang.lee@linux.alibaba.com; NM=1; PH=DS; RN=8; SR=0;
-	TI=SMTPD_---0V3Tur6c_1643859034; 
-Received: from localhost(mailfrom:yang.lee@linux.alibaba.com
-	fp:SMTPD_---0V3Tur6c_1643859034) by smtp.aliyun-inc.com(127.0.0.1);
-	Thu, 03 Feb 2022 11:30:35 +0800
-From: Yang Li <yang.lee@linux.alibaba.com>
-To: axboe@kernel.dk
-Date: Thu,  3 Feb 2022 11:30:33 +0800
-Message-Id: <20220203033033.52214-1-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 2.20.1.7.g153144c
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
+	[209.85.216.53])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B541D4201F8
+	for <drbd-dev@lists.linbit.com>; Fri,  4 Feb 2022 15:43:39 +0100 (CET)
+Received: by mail-pj1-f53.google.com with SMTP id
+	g15-20020a17090a67cf00b001b7d5b6bedaso6299669pjm.4
+	for <drbd-dev@lists.linbit.com>; Fri, 04 Feb 2022 06:43:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+	h=from:to:cc:in-reply-to:references:subject:message-id:date
+	:mime-version:content-transfer-encoding;
+	bh=WutBl0QBGx1pfuztZArDy53so35nYoGLBU641tHFA5E=;
+	b=5gLVPsHkRMBCV3E2Lf+LAZfl+lzQIxL8Dx8Ab7iW8SOaOjyaFuD4bPeO6+4n7dxN4f
+	iRduYxxz46TcrYyX+1Ap0liSOrAFAXvfPsN4qY3fQaX+BVHW9pb73FM1FKbk7roOUQRO
+	0BjkojN1tKKuNenJkR7GBuZ5Mb+ArbvidZ2wkuyKdKG57XlG1tBiNfGikC8Iame6xsTe
+	jtDZ/jbvWCD9VvaWHpQSPrbCiRdCsHkigU+lcXMijK7epLnz6DEi/Jo9+lafuDW94ZRb
+	ysIOKKVQL32DJkrl070vAgP97yYeEKcA0rVgMzTgfSbXDdyOKCYNziiX6F6rYHWr/JQm
+	u8hA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20210112;
+	h=x-gm-message-state:from:to:cc:in-reply-to:references:subject
+	:message-id:date:mime-version:content-transfer-encoding;
+	bh=WutBl0QBGx1pfuztZArDy53so35nYoGLBU641tHFA5E=;
+	b=gAV7L9sQgtAwS/90XyACYIjYVbQHJRkJGpRlN0/6STspSyE0HOqcFLj5dcnpg+bple
+	OISQrkVYODRlZnQTPIs+ScaOP8cQBrTg/ZgE7BvXCZ/nU1DSwlojOXMKIKjrl5DAouir
+	oYZ7VGIp4PdTlCelsdjEZdlU3fHb/mTE2C49RzclnmCjKrDnPu2m4WwYpv+Emrz2VTp3
+	iDGCSdPQK/gW2273Tm12NvJxGOilJKFih5sQyR0Wn2rDHQgvciQ9GcaUl9cGDd5j3RJv
+	HhIBSVudpJBkHvacHzTYrNzLo0zMkKjSN0tUmu88MJxfxEeu/ep9g8zqOan3u9ONh6hb
+	obIA==
+X-Gm-Message-State: AOAM531Pl0ZBeV9cPzqKtTe1hJMrWHoG0EA0V3pcF7I0KkFdhrUiCN15
+	KPGuvkuGtgPS4mhuE2Piyjyj41o1TpMnkw==
+X-Google-Smtp-Source: ABdhPJyjdkHc+scNtjJ/hehBMbW1t656mFAyg1ZRbmeSiQlqVZ7Age59IT9W0N6D7yrhQorPc/BDeA==
+X-Received: by 2002:a17:90a:741:: with SMTP id
+	s1mr3528802pje.161.1643985818424; 
+	Fri, 04 Feb 2022 06:43:38 -0800 (PST)
+Received: from [192.168.1.116] ([66.219.217.159])
+	by smtp.gmail.com with ESMTPSA id
+	pf4sm15474779pjb.35.2022.02.04.06.43.37
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 04 Feb 2022 06:43:37 -0800 (PST)
+From: Jens Axboe <axboe@kernel.dk>
+To: Christoph Hellwig <hch@lst.de>
+In-Reply-To: <20220202160109.108149-1-hch@lst.de>
+References: <20220202160109.108149-1-hch@lst.de>
+Message-Id: <164398581785.446137.16953674702943074856.b4-ty@kernel.dk>
+Date: Fri, 04 Feb 2022 07:43:37 -0700
 MIME-Version: 1.0
-X-Mailman-Approved-At: Thu, 03 Feb 2022 07:21:42 +0100
-Cc: Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
-	philipp.reisner@linbit.com, linux-block@vger.kernel.org,
-	Yang Li <yang.lee@linux.alibaba.com>, lars.ellenberg@linbit.com,
-	drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH -next] mm/fs: fix boolreturn.cocci warning
+Cc: Mike Snitzer <snitzer@redhat.com>,
+	Philipp Reisner <philipp.reisner@linbit.com>,
+	linux-block@vger.kernel.org, dm-devel@redhat.com,
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
+	Pavel Begunkov <asml.silence@gmail.com>, drbd-dev@lists.linbit.com
+Subject: Re: [Drbd-dev] improve the bio cloning interface v2
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,34 +80,49 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Return statement in function returning bool should use true/false
-instead of 1/0.
+On Wed, 2 Feb 2022 17:00:56 +0100, Christoph Hellwig wrote:
+> this series changes the bio cloning interface to match the rest changes
+> to the bio allocation interface and passes the block_device and operation
+> to the cloning helpers.  In addition it renames the cloning helpers to
+> be more descriptive.
+> 
+> To get there it requires a bit of refactoring in the device mapper code.
+> 
+> [...]
 
-Eliminate the following coccicheck warning:
-./drivers/block/drbd/drbd_req.c:912:9-10: WARNING: return of 0/1 in
-function 'remote_due_to_read_balancing' with return type bool
+Applied, thanks!
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
----
- drivers/block/drbd/drbd_req.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[01/13] drbd: set ->bi_bdev in drbd_req_new
+        commit: c347a787e34cba0e5a80a04082dacaf259105605
+[02/13] dm: add a clone_to_tio helper
+        commit: 6c23f0bd7f16d88c774db37b30c5da82811c41be
+[03/13] dm: fold clone_bio into __clone_and_map_data_bio
+        commit: b1bee79237ce0ab43ef7fe66aa6e5c4783165012
+[04/13] dm: fold __send_duplicate_bios into __clone_and_map_simple_bio
+        commit: 8eabf5d0a7bd9226d6cc25402dde67f372aae838
+[05/13] dm: move cloning the bio into alloc_tio
+        commit: dc8e2021da71f6b2d5971f98ee3e528cf30c409c
+[06/13] dm: pass the bio instead of tio to __map_bio
+        commit: 1561b396106d759fdf5f9a71b412e068f74d2cc9
+[07/13] dm: retun the clone bio from alloc_tio
+        commit: 1d1068cecff70cb8e48c7cb0ba27cc3fd906eb31
+[08/13] dm: simplify the single bio fast path in __send_duplicate_bios
+        commit: 891fced644a7529bfd4b1436b2341527ce8f68ad
+[09/13] dm-cache: remove __remap_to_origin_clear_discard
+        commit: 3c4b455ef8acdacd0e5ecd33428d4f32f861637a
+[10/13] block: clone crypto and integrity data in __bio_clone_fast
+        commit: 56b4b5abcdab6daf71c5536fca2772f178590e06
+[11/13] dm: use bio_clone_fast in alloc_io/alloc_tio
+        commit: 92986f6b4c8a2c24d3a36b80140624f80fd93de4
+[12/13] block: initialize the target bio in __bio_clone_fast
+        commit: a0e8de798dd6710a69d69ec57b246a0e34c4a695
+[13/13] block: pass a block_device to bio_clone_fast
+        commit: abfc426d1b2fb2176df59851a64223b58ddae7e7
 
-diff --git a/drivers/block/drbd/drbd_req.c b/drivers/block/drbd/drbd_req.c
-index 2e5fb7e442e3..c8448379bbcd 100644
---- a/drivers/block/drbd/drbd_req.c
-+++ b/drivers/block/drbd/drbd_req.c
-@@ -909,7 +909,7 @@ static bool remote_due_to_read_balancing(struct drbd_device *device, sector_t se
- 
- 	switch (rbm) {
- 	case RB_CONGESTED_REMOTE:
--		return 0;
-+		return false;
- 	case RB_LEAST_PENDING:
- 		return atomic_read(&device->local_cnt) >
- 			atomic_read(&device->ap_pending_cnt) + atomic_read(&device->rs_pending_cnt);
+Best regards,
 -- 
-2.20.1.7.g153144c
+Jens Axboe
+
 
 _______________________________________________
 drbd-dev mailing list
