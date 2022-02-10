@@ -2,50 +2,50 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3374F4B0584
-	for <lists+drbd-dev@lfdr.de>; Thu, 10 Feb 2022 06:44:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 940914B056F
+	for <lists+drbd-dev@lfdr.de>; Thu, 10 Feb 2022 06:41:20 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0DD63420BA7;
-	Thu, 10 Feb 2022 06:44:20 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 775634207D5;
+	Thu, 10 Feb 2022 06:41:20 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id ACBFD420639
-	for <drbd-dev@lists.linbit.com>; Thu, 10 Feb 2022 06:42:16 +0100 (CET)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D9CB3420012
+	for <drbd-dev@lists.linbit.com>; Thu, 10 Feb 2022 06:39:49 +0100 (CET)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	key-exchange X25519 server-signature ECDSA (P-521) server-digest
 	SHA512) (No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8D1C9210F6;
-	Thu, 10 Feb 2022 05:41:46 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8E8711F43D;
+	Thu, 10 Feb 2022 05:39:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1644471706;
+	t=1644471559;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	mime-version:mime-version:content-type:content-type:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
-	bh=zUXE+p4nU0NR3LK33keTKiC3MiGpqHZzDnhCV/FYFVc=;
-	b=1iOjcBu6oE+BXqXEFHtabUHK7sZNNAt+F9BXNB5uV7m3v4yti6KzGXBiLv7VLruTI3nEpR
-	RzUf48rnigX5xLwZY9cqLSfPrG7m7EbPedvqO83z8P0IJauCacL1yhTk9JKT9feAU1DqJI
-	KUpM8T9cgXJ5IztxA4OlP16a8F1IH8w=
+	bh=j2iKmKfQAV47ltxyUTpJL5kF151jPpkpJZBMxZj0hPA=;
+	b=uKgETFLiX7EG3eRXPuLaRXJzGwKmI41Y099K5XW1KSBpIkvAtu7aaGjeLAQGXG8TUQFaYO
+	OMbK9eXz4PZqR02yAAtlGS6TlPoP/iTMR8GqWOZjaexFnysfcGLyRc7rr/3yf9JBO9+gKt
+	oZC/hm6/xktjcHUh7EOUlnr9KfhiLHA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1644471706;
+	s=susede2_ed25519; t=1644471559;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	mime-version:mime-version:content-type:content-type:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
-	bh=zUXE+p4nU0NR3LK33keTKiC3MiGpqHZzDnhCV/FYFVc=;
-	b=0ZiiWmrlykQukuniHTdmeJDPxTmHcRtiUSrL0vXadFeW3t9RQIDNXluXWa7JinzIWwJ++B
-	zkp5vHuwQfZju0DQ==
+	bh=j2iKmKfQAV47ltxyUTpJL5kF151jPpkpJZBMxZj0hPA=;
+	b=tFH7OafqVWs9TyFo1hmlUCp9XAM4aJZnlfF1apQOnbWq4IG7Y1nuHRPilxWK+gi9ecSy8b
+	ySE9dRcAQmytzwCw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	key-exchange X25519 server-signature ECDSA (P-521) server-digest
 	SHA512) (No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D113C13519;
-	Thu, 10 Feb 2022 05:41:38 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3C0FA13519;
+	Thu, 10 Feb 2022 05:39:11 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA id wj+/IpKlBGLHOQAAMHmgww
-	(envelope-from <neilb@suse.de>); Thu, 10 Feb 2022 05:41:38 +0000
+	by imap2.suse-dmz.suse.de with ESMTPSA id KeDlOv+kBGLuOAAAMHmgww
+	(envelope-from <neilb@suse.de>); Thu, 10 Feb 2022 05:39:11 +0000
 From: NeilBrown <neilb@suse.de>
 To: Andrew Morton <akpm@linux-foundation.org>, Jan Kara <jack@suse.cz>,
 	Wu Fengguang <fengguang.wu@intel.com>, Jaegeuk Kim <jaegeuk@kernel.org>,
@@ -59,7 +59,7 @@ To: Andrew Morton <akpm@linux-foundation.org>, Jan Kara <jack@suse.cz>,
 	Lars Ellenberg <lars.ellenberg@linbit.com>,
 	Paolo Valente <paolo.valente@linaro.org>, Jens Axboe <axboe@kernel.dk>
 Date: Thu, 10 Feb 2022 16:37:52 +1100
-Message-ID: <164447147264.23354.2763356897218946255.stgit@noble.brown>
+Message-ID: <164447147258.23354.13665933242616399479.stgit@noble.brown>
 In-Reply-To: <164447124918.23354.17858831070003318849.stgit@noble.brown>
 References: <164447124918.23354.17858831070003318849.stgit@noble.brown>
 User-Agent: StGit/0.23
@@ -70,8 +70,7 @@ Cc: linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
 	linux-block@vger.kernel.org, linux-mm@kvack.org,
 	linux-fsdevel@vger.kernel.org, ceph-devel@vger.kernel.org,
 	linux-ext4@vger.kernel.org, drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 10/11] block/bfq-iosched.c: use "false" rather
- than "BLK_RW_ASYNC"
+Subject: [Drbd-dev] [PATCH 04/11] fuse: remove reliance on bdi congestion
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -90,28 +89,146 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-bfq_get_queue() expects a "bool" for the third arg, so pass "false"
-rather than "BLK_RW_ASYNC" which will soon be removed.
+The bdi congestion tracking in not widely used and will be removed.
 
-Acked-by: Jens Axboe <axboe@kernel.dk>
+Fuse is one of a small number of filesystems that uses it, setting both
+the sync (read) and async (write) congestion flags at what it determines
+are appropriate times.
+
+The only remaining effect of the sync flag is to cause read-ahead to be
+skipped.
+The only remaining effect of the async flag is to cause (some)
+WB_SYNC_NONE writes to be skipped.
+
+So instead of setting the flags, change:
+ - .readahead to stop when it has submitted all non-async pages
+    for read.
+ - .writepages to do nothing if WB_SYNC_NONE and the flag would be set
+ - .writepage to return AOP_WRITEPAGE_ACTIVATE if WB_SYNC_NONE
+    and the flag would be set.
+
+The writepages change causes a behavioural change in that pageout() can
+now return PAGE_ACTIVATE instead of PAGE_KEEP, so SetPageActive() will
+be called on the page which (I think) will further delay the next attempt
+at writeout.  This might be a good thing.
+
 Signed-off-by: NeilBrown <neilb@suse.de>
 ---
- block/bfq-iosched.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ fs/fuse/control.c |   17 -----------------
+ fs/fuse/dev.c     |    8 --------
+ fs/fuse/file.c    |   17 +++++++++++++++++
+ 3 files changed, 17 insertions(+), 25 deletions(-)
 
-diff --git a/block/bfq-iosched.c b/block/bfq-iosched.c
-index 0c612a911696..4e645ae1e066 100644
---- a/block/bfq-iosched.c
-+++ b/block/bfq-iosched.c
-@@ -5448,7 +5448,7 @@ static void bfq_check_ioprio_change(struct bfq_io_cq *bic, struct bio *bio)
- 	bfqq = bic_to_bfqq(bic, false);
- 	if (bfqq) {
- 		bfq_release_process_ref(bfqd, bfqq);
--		bfqq = bfq_get_queue(bfqd, bio, BLK_RW_ASYNC, bic, true);
-+		bfqq = bfq_get_queue(bfqd, bio, false, bic, true);
- 		bic_set_bfqq(bic, bfqq, false);
+diff --git a/fs/fuse/control.c b/fs/fuse/control.c
+index 000d2e5627e9..7cede9a3bc96 100644
+--- a/fs/fuse/control.c
++++ b/fs/fuse/control.c
+@@ -164,7 +164,6 @@ static ssize_t fuse_conn_congestion_threshold_write(struct file *file,
+ {
+ 	unsigned val;
+ 	struct fuse_conn *fc;
+-	struct fuse_mount *fm;
+ 	ssize_t ret;
+ 
+ 	ret = fuse_conn_limit_write(file, buf, count, ppos, &val,
+@@ -178,22 +177,6 @@ static ssize_t fuse_conn_congestion_threshold_write(struct file *file,
+ 	down_read(&fc->killsb);
+ 	spin_lock(&fc->bg_lock);
+ 	fc->congestion_threshold = val;
+-
+-	/*
+-	 * Get any fuse_mount belonging to this fuse_conn; s_bdi is
+-	 * shared between all of them
+-	 */
+-
+-	if (!list_empty(&fc->mounts)) {
+-		fm = list_first_entry(&fc->mounts, struct fuse_mount, fc_entry);
+-		if (fc->num_background < fc->congestion_threshold) {
+-			clear_bdi_congested(fm->sb->s_bdi, BLK_RW_SYNC);
+-			clear_bdi_congested(fm->sb->s_bdi, BLK_RW_ASYNC);
+-		} else {
+-			set_bdi_congested(fm->sb->s_bdi, BLK_RW_SYNC);
+-			set_bdi_congested(fm->sb->s_bdi, BLK_RW_ASYNC);
+-		}
+-	}
+ 	spin_unlock(&fc->bg_lock);
+ 	up_read(&fc->killsb);
+ 	fuse_conn_put(fc);
+diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+index cd54a529460d..e1b4a846c90d 100644
+--- a/fs/fuse/dev.c
++++ b/fs/fuse/dev.c
+@@ -315,10 +315,6 @@ void fuse_request_end(struct fuse_req *req)
+ 				wake_up(&fc->blocked_waitq);
+ 		}
+ 
+-		if (fc->num_background == fc->congestion_threshold && fm->sb) {
+-			clear_bdi_congested(fm->sb->s_bdi, BLK_RW_SYNC);
+-			clear_bdi_congested(fm->sb->s_bdi, BLK_RW_ASYNC);
+-		}
+ 		fc->num_background--;
+ 		fc->active_background--;
+ 		flush_bg_queue(fc);
+@@ -540,10 +536,6 @@ static bool fuse_request_queue_background(struct fuse_req *req)
+ 		fc->num_background++;
+ 		if (fc->num_background == fc->max_background)
+ 			fc->blocked = 1;
+-		if (fc->num_background == fc->congestion_threshold && fm->sb) {
+-			set_bdi_congested(fm->sb->s_bdi, BLK_RW_SYNC);
+-			set_bdi_congested(fm->sb->s_bdi, BLK_RW_ASYNC);
+-		}
+ 		list_add_tail(&req->list, &fc->bg_queue);
+ 		flush_bg_queue(fc);
+ 		queued = true;
+diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+index 829094451774..94747bac3489 100644
+--- a/fs/fuse/file.c
++++ b/fs/fuse/file.c
+@@ -966,6 +966,14 @@ static void fuse_readahead(struct readahead_control *rac)
+ 		struct fuse_io_args *ia;
+ 		struct fuse_args_pages *ap;
+ 
++		if (fc->num_background >= fc->congestion_threshold &&
++		    rac->ra->async_size >= readahead_count(rac))
++			/*
++			 * Congested and only async pages left, so skip the
++			 * rest.
++			 */
++			break;
++
+ 		nr_pages = readahead_count(rac) - nr_pages;
+ 		if (nr_pages > max_pages)
+ 			nr_pages = max_pages;
+@@ -1958,6 +1966,7 @@ static int fuse_writepage_locked(struct page *page)
+ 
+ static int fuse_writepage(struct page *page, struct writeback_control *wbc)
+ {
++	struct fuse_conn *fc = get_fuse_conn(page->mapping->host);
+ 	int err;
+ 
+ 	if (fuse_page_is_writeback(page->mapping->host, page->index)) {
+@@ -1973,6 +1982,10 @@ static int fuse_writepage(struct page *page, struct writeback_control *wbc)
+ 		return 0;
  	}
  
++	if (wbc->sync_mode == WB_SYNC_NONE &&
++	    fc->num_background >= fc->congestion_threshold)
++		return AOP_WRITEPAGE_ACTIVATE;
++
+ 	err = fuse_writepage_locked(page);
+ 	unlock_page(page);
+ 
+@@ -2226,6 +2239,10 @@ static int fuse_writepages(struct address_space *mapping,
+ 	if (fuse_is_bad(inode))
+ 		goto out;
+ 
++	if (wbc->sync_mode == WB_SYNC_NONE &&
++	    fc->num_background >= fc->congestion_threshold)
++		return 0;
++
+ 	data.inode = inode;
+ 	data.wpa = NULL;
+ 	data.ff = NULL;
 
 
 _______________________________________________
