@@ -2,80 +2,73 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DFD44B90A5
-	for <lists+drbd-dev@lfdr.de>; Wed, 16 Feb 2022 19:45:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53EC24B9659
+	for <lists+drbd-dev@lfdr.de>; Thu, 17 Feb 2022 04:08:04 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 16F044205FC;
-	Wed, 16 Feb 2022 19:45:16 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1505742177E;
+	Thu, 17 Feb 2022 04:08:03 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from us-smtp-delivery-124.mimecast.com
-	(us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B6DA94201F0
-	for <drbd-dev@lists.linbit.com>; Wed, 16 Feb 2022 19:45:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1645037111;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	in-reply-to:in-reply-to:references:references;
-	bh=OOx+E3QllfryzTFmIymhQ3ST1693x2OfbOWkWxjfBfw=;
-	b=Oe+dcRFirPTE+pPlelh3ymMUBZofMfCtaLd0P/9+2oij9QbNKyeDaXcLYN5F9sMMiVsg1F
-	vx8xT5qs3ib9/H22frsbmIMwClKong+MIyQw9xleHTLHhYgoxOqVnWHyjPRJCnbYEpp3uX
-	eG43Daxjuc7cj/NgE68kjholOZWYzZs=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
-	[209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
-	(version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	us-mta-586-3eiqwvX9Ne61yzQMp9WOPw-1; Wed, 16 Feb 2022 13:45:10 -0500
-X-MC-Unique: 3eiqwvX9Ne61yzQMp9WOPw-1
-Received: by mail-qk1-f200.google.com with SMTP id
-	q24-20020a05620a0c9800b0060d5d0b7a90so641474qki.11
-	for <drbd-dev@lists.linbit.com>; Wed, 16 Feb 2022 10:45:10 -0800 (PST)
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
+	[209.85.216.53])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id DD15F42177B
+	for <drbd-dev@lists.linbit.com>; Thu, 17 Feb 2022 04:08:00 +0100 (CET)
+Received: by mail-pj1-f53.google.com with SMTP id
+	h14-20020a17090a130e00b001b88991a305so8202266pja.3
+	for <drbd-dev@lists.linbit.com>; Wed, 16 Feb 2022 19:08:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+	h=message-id:date:mime-version:user-agent:subject:content-language:to
+	:cc:references:from:in-reply-to:content-transfer-encoding;
+	bh=m0P9N0WVb6AAY2j7DvviRpPpziBTQrcj2AKsHwgmWuw=;
+	b=MXrMezWjXbcndPIug7qJGx/KHFAQ7CSHaswSmR9MRANlQU9yJCNBptTPJazM8l/YCk
+	mqAxPoN1u3ukSKF6AZDJQUqb/ILcTsmm6odOPcNe+AecyCA6qkVUDjo2VMVuqzKHNs4v
+	1BvU4cBk2ewB20ZLqR9BXLWfclLCTn/j5n+vya9PD7VgV4uAfHaosnxKv5YylxkqkbJP
+	Ho8xLE0N7fAh/qK0Kkmy6ySJtwCLcyM2EmOOvxYa1X5/mFmuwFYaNotlT5W4Kk0zq2oM
+	OBsmIxWQbbP+Fxvvwx8eeEcAZMg3ZwmKFevlXqa6T5omJ5uYlILM7KsI3b8t7lDKfRU0
+	xGGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20210112;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to;
-	bh=OOx+E3QllfryzTFmIymhQ3ST1693x2OfbOWkWxjfBfw=;
-	b=F38aTTX1PWGorPJc/oCxWeXrOAJ7krsQOUtSYCfFxuX6FEuIT0vD+3qj7QOkVYVIKe
-	S/mIYdpSyJFMMl8mN5OFL+rFDNxAyPrdffwECDTnQrfjRXCNvHz73ypCh3ztDdG8Z9sp
-	hIKMrZX/bf5ZHOsgeb0fa9xedICzjqBZD+E244uuBhONUkzrtp9+o8XTDqIUH5b13U1o
-	HBgbTpCYanyfs6NPiVEdeCXh6SXegWJyC/pEwMFmXfVNQ7uqZykUsZWvTyiJERPb1s31
-	pa7XGl3oQK26pXznf/K4EY3lMjeixikPM5HcMGX19phmkT3M+vJayISWQxGnPl/AWb20
-	gyjA==
-X-Gm-Message-State: AOAM5325MSHFButxT59BkaN5ARmBa/x0EZH9Ta2GbGdRQQ+QMdEShZtx
-	6EyDnSGaNd5MDWtvotfiivkQ+6+Pm4U/2QpXKF8AypMPCI0jEB/AZvsrQ2PYoazKEjWE18lYUGz
-	RuGZoZ4MjjR3zS8SLtgs=
-X-Received: by 2002:a05:6214:21ed:b0:42c:11d1:70cd with SMTP id
-	p13-20020a05621421ed00b0042c11d170cdmr2797937qvj.115.1645037110075;
-	Wed, 16 Feb 2022 10:45:10 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwJgOjhzSS8RxxVMNtzc6xG6mkVlUt//oPzsjAQ7SdjdxSfis7RMELX8WfonQ2JnnKXjLlDqw==
-X-Received: by 2002:a05:6214:21ed:b0:42c:11d1:70cd with SMTP id
-	p13-20020a05621421ed00b0042c11d170cdmr2797925qvj.115.1645037109867;
-	Wed, 16 Feb 2022 10:45:09 -0800 (PST)
-Received: from localhost (pool-68-160-176-52.bstnma.fios.verizon.net.
-	[68.160.176.52]) by smtp.gmail.com with ESMTPSA id
-	i4sm20421081qkn.13.2022.02.16.10.45.09
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 16 Feb 2022 10:45:09 -0800 (PST)
-Date: Wed, 16 Feb 2022 13:45:08 -0500
-From: Mike Snitzer <snitzer@redhat.com>
-To: Christoph Hellwig <hch@lst.de>
-Message-ID: <Yg1GNMD6jIrKOxBE@redhat.com>
-References: <20220209082828.2629273-1-hch@lst.de>
-	<20220209082828.2629273-7-hch@lst.de>
+	h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+	:content-language:to:cc:references:from:in-reply-to
+	:content-transfer-encoding;
+	bh=m0P9N0WVb6AAY2j7DvviRpPpziBTQrcj2AKsHwgmWuw=;
+	b=btMcaf0j90o86GtVrY2UIwh9O8mvZ18774WYSJ5wmiy1sCWBo6+ODgbesqDXU68jjB
+	f82NSaooVOL1akjbDFyvrLWWO132RLotkmBIIrZmDjq5hs4ecSbvpfKB/NBy70sgpnUN
+	yPcys1SkH7uMgobGyfEtHqVeNEFvw5qEHR8wxdMN66mxGV6ypyNi7/3YF7r3Bml5+NLU
+	GbUm4C5R8NuaSOOJB4IGxh8cVAPmfofD2PE4tIuWm6RrHtn6zruyvRE+krDL1e/QIWQn
+	+wX2D9aHtTc79GT7NCFIrDB7hIbSV5OjxEvCX+lGseGaoqHtMoRionIs+iPpdYmn9XvI
+	1fzA==
+X-Gm-Message-State: AOAM533NxH5MDswoS0FXgApDflrY4GAe+cJjMMBJRNEVS3TbITAprlN/
+	jyXMV/6jAS2YjhRQy6iHWOcJHA==
+X-Google-Smtp-Source: ABdhPJz0asluo8iIS9RrrQHu2lUE14mBYhmmL4kxvHAkUj2TEWV/p8/NhGuQnU8TsBWnkNPOevvXaQ==
+X-Received: by 2002:a17:902:f787:b0:14f:43ba:55fc with SMTP id
+	q7-20020a170902f78700b0014f43ba55fcmr979111pln.3.1645067279683; 
+	Wed, 16 Feb 2022 19:07:59 -0800 (PST)
+Received: from [192.168.1.100] ([198.8.77.157])
+	by smtp.gmail.com with ESMTPSA id
+	lb18sm407819pjb.42.2022.02.16.19.07.57
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Wed, 16 Feb 2022 19:07:59 -0800 (PST)
+Message-ID: <2f3f1c98-e013-ee03-2ffb-3a14730b13b9@kernel.dk>
+Date: Wed, 16 Feb 2022 20:07:56 -0700
 MIME-Version: 1.0
-In-Reply-To: <20220209082828.2629273-7-hch@lst.de>
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=snitzer@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
-Cc: axboe@kernel.dk, manoj@linux.ibm.com, linux-scsi@vger.kernel.org,
-	martin.petersen@oracle.com, philipp.reisner@linbit.com,
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+	Thunderbird/91.5.1
+Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>
+References: <20220209082828.2629273-1-hch@lst.de>
+	<yq1wni3sz4k.fsf@ca-mkp.ca.oracle.com> <20220210055151.GA3491@lst.de>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20220210055151.GA3491@lst.de>
+Cc: ukrishn@linux.ibm.com, target-devel@vger.kernel.org,
+	linux-scsi@vger.kernel.org, philipp.reisner@linbit.com,
 	linux-block@vger.kernel.org, dm-devel@redhat.com,
-	target-devel@vger.kernel.org, haris.iqbal@ionos.com,
-	ukrishn@linux.ibm.com, lars.ellenberg@linbit.com,
-	drbd-dev@lists.linbit.com, jinpu.wang@ionos.com, mrochs@linux.ibm.com
-Subject: Re: [Drbd-dev] [PATCH 6/7] dm: remove write same support
+	manoj@linux.ibm.com, haris.iqbal@ionos.com,
+	lars.ellenberg@linbit.com, drbd-dev@lists.linbit.com,
+	jinpu.wang@ionos.com, mrochs@linux.ibm.com
+Subject: Re: [Drbd-dev] remove REQ_OP_WRITE_SAME v2
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -94,17 +87,33 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Wed, Feb 09 2022 at  3:28P -0500,
-Christoph Hellwig <hch@lst.de> wrote:
-
-> There are no more end-users of REQ_OP_WRITE_SAME left, so we can start
-> deleting it.
+On 2/9/22 10:51 PM, Christoph Hellwig wrote:
+> On Wed, Feb 09, 2022 at 01:00:26PM -0500, Martin K. Petersen wrote:
+>>
+>> Christoph,
+>>
+>>> Now that we are using REQ_OP_WRITE_ZEROES for all zeroing needs in the
+>>> kernel there is very little use left for REQ_OP_WRITE_SAME.  We only
+>>> have two callers left, and both just export optional protocol features
+>>> to remote systems: DRBD and the target code.
+>>
+>> No particular objections from me. I had a half-baked series to do the
+>> same thing.
+>>
+>> One thing I would like is to either pull this series through SCSI or do
+>> the block pieces in a post merge branch because I'm about to post my
+>> discard/zeroing rework and that's going to clash with your changes.
 > 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> I'd be fine with taking this through the SCSI tree.  Or we can wait
+> another merge window to make your life easier.
 
-Thanks.
+Let's just use the SCSI tree - I didn't check if it throws any conflicts
+right now, so probably something to check upfront...
 
-Reviewed-by: Mike Snitzer <snitzer@redhat.com>
+If things pan out, you can add my Acked-by to the series.
+
+-- 
+Jens Axboe
 
 _______________________________________________
 drbd-dev mailing list
