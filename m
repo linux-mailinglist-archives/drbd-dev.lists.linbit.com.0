@@ -2,50 +2,50 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41F954BF008
-	for <lists+drbd-dev@lfdr.de>; Tue, 22 Feb 2022 04:20:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B7E14BF00D
+	for <lists+drbd-dev@lfdr.de>; Tue, 22 Feb 2022 04:22:52 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2722A421784;
-	Tue, 22 Feb 2022 04:20:51 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4150C421786;
+	Tue, 22 Feb 2022 04:22:52 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 09F7C420060
-	for <drbd-dev@lists.linbit.com>; Tue, 22 Feb 2022 04:19:39 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1066E4201FE
+	for <drbd-dev@lists.linbit.com>; Tue, 22 Feb 2022 04:20:25 +0100 (CET)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	key-exchange X25519 server-signature ECDSA (P-521) server-digest
 	SHA512) (No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D6B21210E8;
-	Tue, 22 Feb 2022 03:19:08 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id F1CA8210E6;
+	Tue, 22 Feb 2022 03:20:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1645499948;
+	t=1645500024;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	mime-version:mime-version:content-type:content-type:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
-	bh=eBfA0J1VAN4vDciFet8kyITCSUUXphOKJM0dbNgQDlg=;
-	b=i/NDtzyku1VotL27Yt5ND5uuuQDGX4tAL44NUrr7an8PugkHaqoNxoBxn6WhY9Zt0cJN06
-	IrmlVgKZlFI4eGKB2RklR3Dt6IF7R1G7GZaellr0Kq8CN0od6q7uHbJ4mgOfhhW7zJkzqA
-	rO1bQkI32VQdA/pTUNRUBAt4x9JjlcE=
+	bh=ViDG/yMqWZxCAxTaqQtcLcHL6JhRHELXtVbiJuJsPUo=;
+	b=Tmz1uo8woLZXqpnP6AmoA/NTuRgmjrgW2cLueq9/kp9TCyUa6S7R3LyYWeiTFJaHuy3dUM
+	KZRmOxRvt9ZDQSR+hpxKFewxvdZZ9Urtb6en4poxusvXIBIlgrBpBLKDAdWO2ORb+DR1Mi
+	bSVP8TV+gQpT0TCoBjfqhnJf7D5nXLw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1645499948;
+	s=susede2_ed25519; t=1645500024;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	mime-version:mime-version:content-type:content-type:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
-	bh=eBfA0J1VAN4vDciFet8kyITCSUUXphOKJM0dbNgQDlg=;
-	b=G4azxQs3m/GiCNS1OtSNXkwOgWeZkHdPwA5vsNLp+pc6nW6/NFnKo60Ie1EuGO1FdMHYZw
-	2sGIrCV+BV9wnGCQ==
+	bh=ViDG/yMqWZxCAxTaqQtcLcHL6JhRHELXtVbiJuJsPUo=;
+	b=BbqDPkZmtQqupAAVe4rSFiNNNRKLh+0XT0FLFde2mCgSKOwY64NUe64xN29OsgNhaJyglf
+	D4tHxubXuewZC/CA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	key-exchange X25519 server-signature ECDSA (P-521) server-digest
 	SHA512) (No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CE2DB13BA7;
-	Tue, 22 Feb 2022 03:19:01 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8B58613BA7;
+	Tue, 22 Feb 2022 03:20:16 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA id rd8AIyVWFGLCWgAAMHmgww
-	(envelope-from <neilb@suse.de>); Tue, 22 Feb 2022 03:19:01 +0000
+	by imap2.suse-dmz.suse.de with ESMTPSA id pLKjEXBWFGI0WwAAMHmgww
+	(envelope-from <neilb@suse.de>); Tue, 22 Feb 2022 03:20:16 +0000
 From: NeilBrown <neilb@suse.de>
 To: Andrew Morton <akpm@linux-foundation.org>, Jan Kara <jack@suse.cz>,
 	Wu Fengguang <fengguang.wu@intel.com>, Jaegeuk Kim <jaegeuk@kernel.org>,
@@ -59,7 +59,7 @@ To: Andrew Morton <akpm@linux-foundation.org>, Jan Kara <jack@suse.cz>,
 	Lars Ellenberg <lars.ellenberg@linbit.com>,
 	Paolo Valente <paolo.valente@linaro.org>, Jens Axboe <axboe@kernel.dk>
 Date: Tue, 22 Feb 2022 14:17:17 +1100
-Message-ID: <164549983739.9187.14895675781408171186.stgit@noble.brown>
+Message-ID: <164549983746.9187.7949730109246767909.stgit@noble.brown>
 In-Reply-To: <164549971112.9187.16871723439770288255.stgit@noble.brown>
 References: <164549971112.9187.16871723439770288255.stgit@noble.brown>
 User-Agent: StGit/0.23
@@ -69,7 +69,8 @@ Cc: linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
 	linux-f2fs-devel@lists.sourceforge.net, linux-mm@kvack.org,
 	linux-fsdevel@vger.kernel.org, ceph-devel@vger.kernel.org,
 	linux-ext4@vger.kernel.org, drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 06/11] ceph: remove reliance on bdi congestion
+Subject: [Drbd-dev] [PATCH 10/11] block/bfq-iosched.c: use "false" rather
+ than "BLK_RW_ASYNC"
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -88,124 +89,28 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-The bdi congestion tracking in not widely used and will be removed.
+bfq_get_queue() expects a "bool" for the third arg, so pass "false"
+rather than "BLK_RW_ASYNC" which will soon be removed.
 
-CEPHfs is one of a small number of filesystems that uses it, setting
-just the async (write) congestion flags at what it determines are
-appropriate times.
-
-The only remaining effect of the async flag is to cause (some)
-WB_SYNC_NONE writes to be skipped.
-
-So instead of setting the flag, set an internal flag and change:
- - .writepages to do nothing if WB_SYNC_NONE and the flag is set
- - .writepage to return AOP_WRITEPAGE_ACTIVATE if WB_SYNC_NONE
-    and the flag is set.
-
-The writepages change causes a behavioural change in that pageout() can
-now return PAGE_ACTIVATE instead of PAGE_KEEP, so SetPageActive() will
-be called on the page which (I think) wil further delay the next attempt
-at writeout.  This might be a good thing.
-
+Acked-by: Jens Axboe <axboe@kernel.dk>
 Signed-off-by: NeilBrown <neilb@suse.de>
 ---
- fs/ceph/addr.c  |   22 +++++++++++++---------
- fs/ceph/super.c |    1 +
- fs/ceph/super.h |    1 +
- 3 files changed, 15 insertions(+), 9 deletions(-)
+ block/bfq-iosched.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/ceph/addr.c b/fs/ceph/addr.c
-index c98e5238a1b6..dc7af34640dd 100644
---- a/fs/ceph/addr.c
-+++ b/fs/ceph/addr.c
-@@ -563,7 +563,7 @@ static int writepage_nounlock(struct page *page, struct writeback_control *wbc)
+diff --git a/block/bfq-iosched.c b/block/bfq-iosched.c
+index 36a66e97e3c2..ed9bb1054bf2 100644
+--- a/block/bfq-iosched.c
++++ b/block/bfq-iosched.c
+@@ -5448,7 +5448,7 @@ static void bfq_check_ioprio_change(struct bfq_io_cq *bic, struct bio *bio)
+ 	bfqq = bic_to_bfqq(bic, false);
+ 	if (bfqq) {
+ 		bfq_release_process_ref(bfqd, bfqq);
+-		bfqq = bfq_get_queue(bfqd, bio, BLK_RW_ASYNC, bic, true);
++		bfqq = bfq_get_queue(bfqd, bio, false, bic, true);
+ 		bic_set_bfqq(bic, bfqq, false);
+ 	}
  
- 	if (atomic_long_inc_return(&fsc->writeback_count) >
- 	    CONGESTION_ON_THRESH(fsc->mount_options->congestion_kb))
--		set_bdi_congested(inode_to_bdi(inode), BLK_RW_ASYNC);
-+		fsc->write_congested = true;
- 
- 	req = ceph_osdc_new_request(osdc, &ci->i_layout, ceph_vino(inode), page_off, &len, 0, 1,
- 				    CEPH_OSD_OP_WRITE, CEPH_OSD_FLAG_WRITE, snapc,
-@@ -623,7 +623,7 @@ static int writepage_nounlock(struct page *page, struct writeback_control *wbc)
- 
- 	if (atomic_long_dec_return(&fsc->writeback_count) <
- 	    CONGESTION_OFF_THRESH(fsc->mount_options->congestion_kb))
--		clear_bdi_congested(inode_to_bdi(inode), BLK_RW_ASYNC);
-+		fsc->write_congested = false;
- 
- 	return err;
- }
-@@ -635,6 +635,10 @@ static int ceph_writepage(struct page *page, struct writeback_control *wbc)
- 	BUG_ON(!inode);
- 	ihold(inode);
- 
-+	if (wbc->sync_mode == WB_SYNC_NONE &&
-+	    ceph_inode_to_client(inode)->write_congested)
-+		return AOP_WRITEPAGE_ACTIVATE;
-+
- 	wait_on_page_fscache(page);
- 
- 	err = writepage_nounlock(page, wbc);
-@@ -707,8 +711,7 @@ static void writepages_finish(struct ceph_osd_request *req)
- 			if (atomic_long_dec_return(&fsc->writeback_count) <
- 			     CONGESTION_OFF_THRESH(
- 					fsc->mount_options->congestion_kb))
--				clear_bdi_congested(inode_to_bdi(inode),
--						    BLK_RW_ASYNC);
-+				fsc->write_congested = false;
- 
- 			ceph_put_snap_context(detach_page_private(page));
- 			end_page_writeback(page);
-@@ -760,6 +763,10 @@ static int ceph_writepages_start(struct address_space *mapping,
- 	bool done = false;
- 	bool caching = ceph_is_cache_enabled(inode);
- 
-+	if (wbc->sync_mode == WB_SYNC_NONE &&
-+	    fsc->write_congested)
-+		return 0;
-+
- 	dout("writepages_start %p (mode=%s)\n", inode,
- 	     wbc->sync_mode == WB_SYNC_NONE ? "NONE" :
- 	     (wbc->sync_mode == WB_SYNC_ALL ? "ALL" : "HOLD"));
-@@ -954,11 +961,8 @@ static int ceph_writepages_start(struct address_space *mapping,
- 
- 			if (atomic_long_inc_return(&fsc->writeback_count) >
- 			    CONGESTION_ON_THRESH(
--				    fsc->mount_options->congestion_kb)) {
--				set_bdi_congested(inode_to_bdi(inode),
--						  BLK_RW_ASYNC);
--			}
--
-+				    fsc->mount_options->congestion_kb))
-+				fsc->write_congested = true;
- 
- 			pages[locked_pages++] = page;
- 			pvec.pages[i] = NULL;
-diff --git a/fs/ceph/super.c b/fs/ceph/super.c
-index bf79f369aec6..4a3b77d049c7 100644
---- a/fs/ceph/super.c
-+++ b/fs/ceph/super.c
-@@ -802,6 +802,7 @@ static struct ceph_fs_client *create_fs_client(struct ceph_mount_options *fsopt,
- 	fsc->have_copy_from2 = true;
- 
- 	atomic_long_set(&fsc->writeback_count, 0);
-+	fsc->write_congested = false;
- 
- 	err = -ENOMEM;
- 	/*
-diff --git a/fs/ceph/super.h b/fs/ceph/super.h
-index 67f145e1ae7a..0bd97aea2319 100644
---- a/fs/ceph/super.h
-+++ b/fs/ceph/super.h
-@@ -121,6 +121,7 @@ struct ceph_fs_client {
- 	struct ceph_mds_client *mdsc;
- 
- 	atomic_long_t writeback_count;
-+	bool write_congested;
- 
- 	struct workqueue_struct *inode_wq;
- 	struct workqueue_struct *cap_wq;
 
 
 _______________________________________________
