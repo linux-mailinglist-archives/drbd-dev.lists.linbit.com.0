@@ -2,50 +2,50 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE5024BEFF6
-	for <lists+drbd-dev@lfdr.de>; Tue, 22 Feb 2022 04:18:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23E5E4BF00C
+	for <lists+drbd-dev@lfdr.de>; Tue, 22 Feb 2022 04:22:22 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id BE31042177C;
-	Tue, 22 Feb 2022 04:18:21 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0A313421785;
+	Tue, 22 Feb 2022 04:22:22 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A86E1420060
-	for <drbd-dev@lists.linbit.com>; Tue, 22 Feb 2022 04:18:03 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 805FD42177D
+	for <drbd-dev@lists.linbit.com>; Tue, 22 Feb 2022 04:20:16 +0100 (CET)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	key-exchange X25519 server-signature ECDSA (P-521) server-digest
 	SHA512) (No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7DAB821100;
-	Tue, 22 Feb 2022 03:18:03 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 642C3210E8;
+	Tue, 22 Feb 2022 03:19:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1645499883;
+	t=1645499986;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	mime-version:mime-version:content-type:content-type:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
-	bh=TNOQTzqXc1dwn0sxVclyo5qS7TsZyCY45jkw8WmjP7o=;
-	b=kR91uGJ/RTS+8au54fMBC4GFPKvaC1Yv8WHhfvVKpqmM16g4nNPlQcAHLBtdr5ZLLG+RJF
-	0AU++6qtEyJii20SGyIpbVs10MuwPMU/4wT7WXwMaLbceGreQ8aBE66tHihRjhfbzWVvpS
-	hiYuCHmmNxooYdfWYOf9cBPIOhc4FRg=
+	bh=a+gOCl3Uu5a57JUf3+D8LPhOyA2XikSkYVnvXfrL++o=;
+	b=Fuf3P/4XtdeE3L1qOoOVj29UXHcNj/udX+uqzlAmfU9TQ4gOakVNPvLm6WV9XHNw2Twhqn
+	sG3YK3wsUpMYJGo5O1VFjH1kAV5JG3f+AvZTMT067gsfyTQVn3Z6dnqPXJqzeFAHMMe5N/
+	Hl8f7OyU8NiyeLs25lu+BmR4ahBJxiI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1645499883;
+	s=susede2_ed25519; t=1645499986;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	mime-version:mime-version:content-type:content-type:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
-	bh=TNOQTzqXc1dwn0sxVclyo5qS7TsZyCY45jkw8WmjP7o=;
-	b=8txKd6I/x+pP445IuPzI3CE1ZWl4VGR/oru7gKU7G5Ico3dFFmNbzJjmpXh2/2uBC9kTFG
-	dbGnv5+lrLnOa2CQ==
+	bh=a+gOCl3Uu5a57JUf3+D8LPhOyA2XikSkYVnvXfrL++o=;
+	b=e0iVNMN1hvdpMzQkKCVY9Hbh++qZa15xUJrFknVhOW91N6Iz2FkJ0V9zCPlTRBgCmToxme
+	HItshZI/s+Hha9Dw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	key-exchange X25519 server-signature ECDSA (P-521) server-digest
 	SHA512) (No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C05A113BA7;
-	Tue, 22 Feb 2022 03:17:54 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F0FE913BA7;
+	Tue, 22 Feb 2022 03:19:36 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA id 7k2IH+JVFGJZWgAAMHmgww
-	(envelope-from <neilb@suse.de>); Tue, 22 Feb 2022 03:17:54 +0000
+	by imap2.suse-dmz.suse.de with ESMTPSA id xgsvKkhWFGIFWwAAMHmgww
+	(envelope-from <neilb@suse.de>); Tue, 22 Feb 2022 03:19:36 +0000
 From: NeilBrown <neilb@suse.de>
 To: Andrew Morton <akpm@linux-foundation.org>, Jan Kara <jack@suse.cz>,
 	Wu Fengguang <fengguang.wu@intel.com>, Jaegeuk Kim <jaegeuk@kernel.org>,
@@ -59,7 +59,7 @@ To: Andrew Morton <akpm@linux-foundation.org>, Jan Kara <jack@suse.cz>,
 	Lars Ellenberg <lars.ellenberg@linbit.com>,
 	Paolo Valente <paolo.valente@linaro.org>, Jens Axboe <axboe@kernel.dk>
 Date: Tue, 22 Feb 2022 14:17:17 +1100
-Message-ID: <164549983733.9187.17894407453436115822.stgit@noble.brown>
+Message-ID: <164549983742.9187.2570198746005819592.stgit@noble.brown>
 In-Reply-To: <164549971112.9187.16871723439770288255.stgit@noble.brown>
 References: <164549971112.9187.16871723439770288255.stgit@noble.brown>
 User-Agent: StGit/0.23
@@ -69,8 +69,8 @@ Cc: linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
 	linux-f2fs-devel@lists.sourceforge.net, linux-mm@kvack.org,
 	linux-fsdevel@vger.kernel.org, ceph-devel@vger.kernel.org,
 	linux-ext4@vger.kernel.org, drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 01/11] DOC: convert 'subsection' to 'section' in
-	gfp.h
+Subject: [Drbd-dev] [PATCH 08/11] Remove bdi_congested() and wb_congested()
+ and related functions
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -89,66 +89,178 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Various DOC: sections in gfp.h have subsection headers (~~~) but the
-place where they are included in mm-api.rst does not have section, only
-chapters.
-So convert to section headers (---) to avoid confusion.  Specifically if
-section are added later in mm-api.rst, an error results.
+These functions are no longer useful as no BDIs report congestions any
+more.
 
+Removing the test on bdi_write_contested() in current_may_throttle()
+could cause a small change in behaviour, but only when PF_LOCAL_THROTTLE
+is set.
+
+So replace the calls by 'false' and simplify the code - and remove the
+functions.
+
+Acked-by: Ryusuke Konishi <konishi.ryusuke@gmail.com> (for nilfs bits)
 Signed-off-by: NeilBrown <neilb@suse.de>
 ---
- include/linux/gfp.h |   10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/block/drbd/drbd_int.h |    3 ---
+ drivers/block/drbd/drbd_req.c |    3 +--
+ fs/ext2/ialloc.c              |    5 -----
+ fs/nilfs2/segbuf.c            |   15 ---------------
+ fs/xfs/xfs_buf.c              |    3 ---
+ include/linux/backing-dev.h   |   26 --------------------------
+ mm/vmscan.c                   |    4 +---
+ 7 files changed, 2 insertions(+), 57 deletions(-)
 
-diff --git a/include/linux/gfp.h b/include/linux/gfp.h
-index 80f63c862be5..20f6fbe12993 100644
---- a/include/linux/gfp.h
-+++ b/include/linux/gfp.h
-@@ -79,7 +79,7 @@ struct vm_area_struct;
-  * DOC: Page mobility and placement hints
-  *
-  * Page mobility and placement hints
-- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+ * ---------------------------------
-  *
-  * These flags provide hints about how mobile the page is. Pages with similar
-  * mobility are placed within the same pageblocks to minimise problems due
-@@ -112,7 +112,7 @@ struct vm_area_struct;
-  * DOC: Watermark modifiers
-  *
-  * Watermark modifiers -- controls access to emergency reserves
-- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+ * ------------------------------------------------------------
-  *
-  * %__GFP_HIGH indicates that the caller is high-priority and that granting
-  * the request is necessary before the system can make forward progress.
-@@ -144,7 +144,7 @@ struct vm_area_struct;
-  * DOC: Reclaim modifiers
-  *
-  * Reclaim modifiers
-- * ~~~~~~~~~~~~~~~~~
-+ * -----------------
-  * Please note that all the following flags are only applicable to sleepable
-  * allocations (e.g. %GFP_NOWAIT and %GFP_ATOMIC will ignore them).
-  *
-@@ -224,7 +224,7 @@ struct vm_area_struct;
-  * DOC: Action modifiers
-  *
-  * Action modifiers
-- * ~~~~~~~~~~~~~~~~
-+ * ----------------
-  *
-  * %__GFP_NOWARN suppresses allocation failure reports.
-  *
-@@ -256,7 +256,7 @@ struct vm_area_struct;
-  * DOC: Useful GFP flag combinations
-  *
-  * Useful GFP flag combinations
-- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+ * ----------------------------
-  *
-  * Useful GFP flag combinations that are commonly used. It is recommended
-  * that subsystems start with one of these combinations and then set/clear
+diff --git a/drivers/block/drbd/drbd_int.h b/drivers/block/drbd/drbd_int.h
+index f27d5b0f9a0b..f804b1bfb3e6 100644
+--- a/drivers/block/drbd/drbd_int.h
++++ b/drivers/block/drbd/drbd_int.h
+@@ -638,9 +638,6 @@ enum {
+ 	STATE_SENT,		/* Do not change state/UUIDs while this is set */
+ 	CALLBACK_PENDING,	/* Whether we have a call_usermodehelper(, UMH_WAIT_PROC)
+ 				 * pending, from drbd worker context.
+-				 * If set, bdi_write_congested() returns true,
+-				 * so shrink_page_list() would not recurse into,
+-				 * and potentially deadlock on, this drbd worker.
+ 				 */
+ 	DISCONNECT_SENT,
+ 
+diff --git a/drivers/block/drbd/drbd_req.c b/drivers/block/drbd/drbd_req.c
+index 3235532ae077..2e5fb7e442e3 100644
+--- a/drivers/block/drbd/drbd_req.c
++++ b/drivers/block/drbd/drbd_req.c
+@@ -909,8 +909,7 @@ static bool remote_due_to_read_balancing(struct drbd_device *device, sector_t se
+ 
+ 	switch (rbm) {
+ 	case RB_CONGESTED_REMOTE:
+-		return bdi_read_congested(
+-			device->ldev->backing_bdev->bd_disk->bdi);
++		return 0;
+ 	case RB_LEAST_PENDING:
+ 		return atomic_read(&device->local_cnt) >
+ 			atomic_read(&device->ap_pending_cnt) + atomic_read(&device->rs_pending_cnt);
+diff --git a/fs/ext2/ialloc.c b/fs/ext2/ialloc.c
+index df14e750e9fe..998dd2ac8008 100644
+--- a/fs/ext2/ialloc.c
++++ b/fs/ext2/ialloc.c
+@@ -170,11 +170,6 @@ static void ext2_preread_inode(struct inode *inode)
+ 	unsigned long offset;
+ 	unsigned long block;
+ 	struct ext2_group_desc * gdp;
+-	struct backing_dev_info *bdi;
+-
+-	bdi = inode_to_bdi(inode);
+-	if (bdi_rw_congested(bdi))
+-		return;
+ 
+ 	block_group = (inode->i_ino - 1) / EXT2_INODES_PER_GROUP(inode->i_sb);
+ 	gdp = ext2_get_group_desc(inode->i_sb, block_group, NULL);
+diff --git a/fs/nilfs2/segbuf.c b/fs/nilfs2/segbuf.c
+index 43287b0d3e9b..c4510f79037f 100644
+--- a/fs/nilfs2/segbuf.c
++++ b/fs/nilfs2/segbuf.c
+@@ -343,17 +343,6 @@ static int nilfs_segbuf_submit_bio(struct nilfs_segment_buffer *segbuf,
+ 	struct bio *bio = wi->bio;
+ 	int err;
+ 
+-	if (segbuf->sb_nbio > 0 &&
+-	    bdi_write_congested(segbuf->sb_super->s_bdi)) {
+-		wait_for_completion(&segbuf->sb_bio_event);
+-		segbuf->sb_nbio--;
+-		if (unlikely(atomic_read(&segbuf->sb_err))) {
+-			bio_put(bio);
+-			err = -EIO;
+-			goto failed;
+-		}
+-	}
+-
+ 	bio->bi_end_io = nilfs_end_bio_write;
+ 	bio->bi_private = segbuf;
+ 	bio_set_op_attrs(bio, mode, mode_flags);
+@@ -365,10 +354,6 @@ static int nilfs_segbuf_submit_bio(struct nilfs_segment_buffer *segbuf,
+ 	wi->nr_vecs = min(wi->max_pages, wi->rest_blocks);
+ 	wi->start = wi->end;
+ 	return 0;
+-
+- failed:
+-	wi->bio = NULL;
+-	return err;
+ }
+ 
+ /**
+diff --git a/fs/xfs/xfs_buf.c b/fs/xfs/xfs_buf.c
+index b45e0d50a405..b7ebcfe6b8d3 100644
+--- a/fs/xfs/xfs_buf.c
++++ b/fs/xfs/xfs_buf.c
+@@ -843,9 +843,6 @@ xfs_buf_readahead_map(
+ {
+ 	struct xfs_buf		*bp;
+ 
+-	if (bdi_read_congested(target->bt_bdev->bd_disk->bdi))
+-		return;
+-
+ 	xfs_buf_read_map(target, map, nmaps,
+ 		     XBF_TRYLOCK | XBF_ASYNC | XBF_READ_AHEAD, &bp, ops,
+ 		     __this_address);
+diff --git a/include/linux/backing-dev.h b/include/linux/backing-dev.h
+index 860b675c2929..2d764566280c 100644
+--- a/include/linux/backing-dev.h
++++ b/include/linux/backing-dev.h
+@@ -135,11 +135,6 @@ static inline bool writeback_in_progress(struct bdi_writeback *wb)
+ 
+ struct backing_dev_info *inode_to_bdi(struct inode *inode);
+ 
+-static inline int wb_congested(struct bdi_writeback *wb, int cong_bits)
+-{
+-	return wb->congested & cong_bits;
+-}
+-
+ long congestion_wait(int sync, long timeout);
+ 
+ static inline bool mapping_can_writeback(struct address_space *mapping)
+@@ -391,27 +386,6 @@ static inline void wb_blkcg_offline(struct blkcg *blkcg)
+ 
+ #endif	/* CONFIG_CGROUP_WRITEBACK */
+ 
+-static inline int bdi_congested(struct backing_dev_info *bdi, int cong_bits)
+-{
+-	return wb_congested(&bdi->wb, cong_bits);
+-}
+-
+-static inline int bdi_read_congested(struct backing_dev_info *bdi)
+-{
+-	return bdi_congested(bdi, 1 << WB_sync_congested);
+-}
+-
+-static inline int bdi_write_congested(struct backing_dev_info *bdi)
+-{
+-	return bdi_congested(bdi, 1 << WB_async_congested);
+-}
+-
+-static inline int bdi_rw_congested(struct backing_dev_info *bdi)
+-{
+-	return bdi_congested(bdi, (1 << WB_sync_congested) |
+-				  (1 << WB_async_congested));
+-}
+-
+ const char *bdi_dev_name(struct backing_dev_info *bdi);
+ 
+ #endif	/* _LINUX_BACKING_DEV_H */
+diff --git a/mm/vmscan.c b/mm/vmscan.c
+index e38de6456cdc..5e1469887afa 100644
+--- a/mm/vmscan.c
++++ b/mm/vmscan.c
+@@ -2364,9 +2364,7 @@ static unsigned int move_pages_to_lru(struct lruvec *lruvec,
+  */
+ static int current_may_throttle(void)
+ {
+-	return !(current->flags & PF_LOCAL_THROTTLE) ||
+-		current->backing_dev_info == NULL ||
+-		bdi_write_congested(current->backing_dev_info);
++	return !(current->flags & PF_LOCAL_THROTTLE);
+ }
+ 
+ /*
 
 
 _______________________________________________
