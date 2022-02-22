@@ -2,50 +2,50 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2F684BF00B
-	for <lists+drbd-dev@lfdr.de>; Tue, 22 Feb 2022 04:21:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8123B4BF00A
+	for <lists+drbd-dev@lfdr.de>; Tue, 22 Feb 2022 04:21:21 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C0ACA421786;
-	Tue, 22 Feb 2022 04:21:51 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6772C421785;
+	Tue, 22 Feb 2022 04:21:21 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B80E74205DD
-	for <drbd-dev@lists.linbit.com>; Tue, 22 Feb 2022 04:20:06 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 082234205A5
+	for <drbd-dev@lists.linbit.com>; Tue, 22 Feb 2022 04:19:55 +0100 (CET)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	key-exchange X25519 server-signature ECDSA (P-521) server-digest
 	SHA512) (No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A77DF210E6;
-	Tue, 22 Feb 2022 03:20:06 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DBDD621100;
+	Tue, 22 Feb 2022 03:19:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1645500006;
+	t=1645499965;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	mime-version:mime-version:content-type:content-type:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
-	bh=QxH/65m79qvzBGSCwVr/N2GJs7ZD/rte4Udz5IqpfIY=;
-	b=1izYW0top9BS+iGfXZVpKBuJ+MwMK08zsbUAzadqpGOGRwgyzsXY0KDfKzHJtGimNVXYoj
-	YhuEAPMn4VxOA/kBjGsoV5UTt9YspUnvu+gax168HsZudoD00qGGBJyvTZw7EGhrd1u24P
-	ZQ+YUljewjlzwFNP28OSuOKUhNTgyTw=
+	bh=RbUXOs9o56AE+9aA99+j+3O0P0BMpWeX3WKiudfnzeA=;
+	b=uPbiVXUe7w5sYUIT5dwHuzhIC4qbjJ1xs8q/0BoZOJbDvLdbvdbo49owkip1kqY0iabL0m
+	Ji4dGvlhbpYvlOdmt8uBaa/6XYpDB3ktI/t+6/yxQGK22Vu6R8dhLDrscOPkcAcFapvIEa
+	qUYCPwHnZ+01wnQVuWdD2tllbEiE2jM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1645500006;
+	s=susede2_ed25519; t=1645499965;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	mime-version:mime-version:content-type:content-type:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
-	bh=QxH/65m79qvzBGSCwVr/N2GJs7ZD/rte4Udz5IqpfIY=;
-	b=aZJVVnALmXFu3ExBGTckF/YwvXjWy9CmPulvw2T47YMa7c6/yeRvxkKpZ8N0EufKCpXPz9
-	J/yg0Bxc1k1hRJBw==
+	bh=RbUXOs9o56AE+9aA99+j+3O0P0BMpWeX3WKiudfnzeA=;
+	b=vyXA51OeNgPwDY5Aipw39zHIGvNfGvhogiKlu7XQ3auBHYjmli7lfQSXA8NqHqjjdXbi6H
+	yXRjdtI5LdPRsNCA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	key-exchange X25519 server-signature ECDSA (P-521) server-digest
 	SHA512) (No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1B32713BA7;
-	Tue, 22 Feb 2022 03:19:54 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AA89213BA7;
+	Tue, 22 Feb 2022 03:19:13 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA id eOF7CFpWFGISWwAAMHmgww
-	(envelope-from <neilb@suse.de>); Tue, 22 Feb 2022 03:19:54 +0000
+	by imap2.suse-dmz.suse.de with ESMTPSA id UmzqFTFWFGLrWgAAMHmgww
+	(envelope-from <neilb@suse.de>); Tue, 22 Feb 2022 03:19:13 +0000
 From: NeilBrown <neilb@suse.de>
 To: Andrew Morton <akpm@linux-foundation.org>, Jan Kara <jack@suse.cz>,
 	Wu Fengguang <fengguang.wu@intel.com>, Jaegeuk Kim <jaegeuk@kernel.org>,
@@ -59,7 +59,7 @@ To: Andrew Morton <akpm@linux-foundation.org>, Jan Kara <jack@suse.cz>,
 	Lars Ellenberg <lars.ellenberg@linbit.com>,
 	Paolo Valente <paolo.valente@linaro.org>, Jens Axboe <axboe@kernel.dk>
 Date: Tue, 22 Feb 2022 14:17:17 +1100
-Message-ID: <164549983744.9187.6425865370954230902.stgit@noble.brown>
+Message-ID: <164549983741.9187.2174285592262191311.stgit@noble.brown>
 In-Reply-To: <164549971112.9187.16871723439770288255.stgit@noble.brown>
 References: <164549971112.9187.16871723439770288255.stgit@noble.brown>
 User-Agent: StGit/0.23
@@ -69,8 +69,7 @@ Cc: linux-nfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
 	linux-f2fs-devel@lists.sourceforge.net, linux-mm@kvack.org,
 	linux-fsdevel@vger.kernel.org, ceph-devel@vger.kernel.org,
 	linux-ext4@vger.kernel.org, drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 09/11] f2fs: replace congestion_wait() calls with
- io_schedule_timeout()
+Subject: [Drbd-dev] [PATCH 07/11] Remove inode_congested()
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -89,123 +88,187 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-As congestion is no longer tracked, congestion_wait() is effectively
-equivalent to io_schedule_timeout().
-So introduce f2fs_io_schedule_timeout() which sets TASK_UNINTERRUPTIBLE
-and call that instead.
+inode_congested() reports if the backing-device for the inode is
+congested.  No bdi reports congestion any more, so this always
+returns 'false'.
+
+So remove inode_congested() and related functions, and remove the call
+sites, assuming that inode_congested() always returns 'false'.
 
 Signed-off-by: NeilBrown <neilb@suse.de>
 ---
- fs/f2fs/compress.c |    4 +---
- fs/f2fs/data.c     |    3 +--
- fs/f2fs/f2fs.h     |    6 ++++++
- fs/f2fs/segment.c  |    8 +++-----
- fs/f2fs/super.c    |    6 ++----
- 5 files changed, 13 insertions(+), 14 deletions(-)
+ fs/fs-writeback.c           |   37 -------------------------------------
+ include/linux/backing-dev.h |   22 ----------------------
+ mm/fadvise.c                |    5 ++---
+ mm/readahead.c              |    6 ------
+ mm/vmscan.c                 |   17 +----------------
+ 5 files changed, 3 insertions(+), 84 deletions(-)
 
-diff --git a/fs/f2fs/compress.c b/fs/f2fs/compress.c
-index d0c3aeba5945..2f95559025ad 100644
---- a/fs/f2fs/compress.c
-+++ b/fs/f2fs/compress.c
-@@ -1505,9 +1505,7 @@ static int f2fs_write_raw_pages(struct compress_ctx *cc,
- 				if (IS_NOQUOTA(cc->inode))
- 					return 0;
- 				ret = 0;
--				cond_resched();
--				congestion_wait(BLK_RW_ASYNC,
--						DEFAULT_IO_TIMEOUT);
-+				f2fs_io_schedule_timeout(DEFAULT_IO_TIMEOUT);
- 				goto retry_write;
- 			}
- 			return ret;
-diff --git a/fs/f2fs/data.c b/fs/f2fs/data.c
-index 8c417864c66a..d428ddfd42ee 100644
---- a/fs/f2fs/data.c
-+++ b/fs/f2fs/data.c
-@@ -3047,8 +3047,7 @@ static int f2fs_write_cache_pages(struct address_space *mapping,
- 				} else if (ret == -EAGAIN) {
- 					ret = 0;
- 					if (wbc->sync_mode == WB_SYNC_ALL) {
--						cond_resched();
--						congestion_wait(BLK_RW_ASYNC,
-+						f2fs_io_schedule_timeout(
- 							DEFAULT_IO_TIMEOUT);
- 						goto retry_write;
- 					}
-diff --git a/fs/f2fs/f2fs.h b/fs/f2fs/f2fs.h
-index 68b44015514f..467f5dbdc7d1 100644
---- a/fs/f2fs/f2fs.h
-+++ b/fs/f2fs/f2fs.h
-@@ -4426,6 +4426,12 @@ static inline bool f2fs_block_unit_discard(struct f2fs_sb_info *sbi)
- 	return F2FS_OPTION(sbi).discard_unit == DISCARD_UNIT_BLOCK;
+diff --git a/fs/fs-writeback.c b/fs/fs-writeback.c
+index f8d7fe6db989..42a3dfad40b8 100644
+--- a/fs/fs-writeback.c
++++ b/fs/fs-writeback.c
+@@ -893,43 +893,6 @@ void wbc_account_cgroup_owner(struct writeback_control *wbc, struct page *page,
+ }
+ EXPORT_SYMBOL_GPL(wbc_account_cgroup_owner);
+ 
+-/**
+- * inode_congested - test whether an inode is congested
+- * @inode: inode to test for congestion (may be NULL)
+- * @cong_bits: mask of WB_[a]sync_congested bits to test
+- *
+- * Tests whether @inode is congested.  @cong_bits is the mask of congestion
+- * bits to test and the return value is the mask of set bits.
+- *
+- * If cgroup writeback is enabled for @inode, the congestion state is
+- * determined by whether the cgwb (cgroup bdi_writeback) for the blkcg
+- * associated with @inode is congested; otherwise, the root wb's congestion
+- * state is used.
+- *
+- * @inode is allowed to be NULL as this function is often called on
+- * mapping->host which is NULL for the swapper space.
+- */
+-int inode_congested(struct inode *inode, int cong_bits)
+-{
+-	/*
+-	 * Once set, ->i_wb never becomes NULL while the inode is alive.
+-	 * Start transaction iff ->i_wb is visible.
+-	 */
+-	if (inode && inode_to_wb_is_valid(inode)) {
+-		struct bdi_writeback *wb;
+-		struct wb_lock_cookie lock_cookie = {};
+-		bool congested;
+-
+-		wb = unlocked_inode_to_wb_begin(inode, &lock_cookie);
+-		congested = wb_congested(wb, cong_bits);
+-		unlocked_inode_to_wb_end(inode, &lock_cookie);
+-		return congested;
+-	}
+-
+-	return wb_congested(&inode_to_bdi(inode)->wb, cong_bits);
+-}
+-EXPORT_SYMBOL_GPL(inode_congested);
+-
+ /**
+  * wb_split_bdi_pages - split nr_pages to write according to bandwidth
+  * @wb: target bdi_writeback to split @nr_pages to
+diff --git a/include/linux/backing-dev.h b/include/linux/backing-dev.h
+index 483979c1b9f4..860b675c2929 100644
+--- a/include/linux/backing-dev.h
++++ b/include/linux/backing-dev.h
+@@ -162,7 +162,6 @@ struct bdi_writeback *wb_get_create(struct backing_dev_info *bdi,
+ 				    gfp_t gfp);
+ void wb_memcg_offline(struct mem_cgroup *memcg);
+ void wb_blkcg_offline(struct blkcg *blkcg);
+-int inode_congested(struct inode *inode, int cong_bits);
+ 
+ /**
+  * inode_cgwb_enabled - test whether cgroup writeback is enabled on an inode
+@@ -390,29 +389,8 @@ static inline void wb_blkcg_offline(struct blkcg *blkcg)
+ {
  }
  
-+static inline void f2fs_io_schedule_timeout(long timeout)
-+{
-+	set_current_state(TASK_UNINTERRUPTIBLE);
-+	io_schedule_timeout(timeout);
-+}
-+
- #define EFSBADCRC	EBADMSG		/* Bad CRC detected */
- #define EFSCORRUPTED	EUCLEAN		/* Filesystem is corrupted */
+-static inline int inode_congested(struct inode *inode, int cong_bits)
+-{
+-	return wb_congested(&inode_to_bdi(inode)->wb, cong_bits);
+-}
+-
+ #endif	/* CONFIG_CGROUP_WRITEBACK */
  
-diff --git a/fs/f2fs/segment.c b/fs/f2fs/segment.c
-index 1dabc8244083..6ff20da44ad7 100644
---- a/fs/f2fs/segment.c
-+++ b/fs/f2fs/segment.c
-@@ -313,8 +313,7 @@ void f2fs_drop_inmem_pages_all(struct f2fs_sb_info *sbi, bool gc_failure)
- skip:
- 		iput(inode);
+-static inline int inode_read_congested(struct inode *inode)
+-{
+-	return inode_congested(inode, 1 << WB_sync_congested);
+-}
+-
+-static inline int inode_write_congested(struct inode *inode)
+-{
+-	return inode_congested(inode, 1 << WB_async_congested);
+-}
+-
+-static inline int inode_rw_congested(struct inode *inode)
+-{
+-	return inode_congested(inode, (1 << WB_sync_congested) |
+-				      (1 << WB_async_congested));
+-}
+-
+ static inline int bdi_congested(struct backing_dev_info *bdi, int cong_bits)
+ {
+ 	return wb_congested(&bdi->wb, cong_bits);
+diff --git a/mm/fadvise.c b/mm/fadvise.c
+index d6baa4f451c5..338f16022012 100644
+--- a/mm/fadvise.c
++++ b/mm/fadvise.c
+@@ -109,9 +109,8 @@ int generic_fadvise(struct file *file, loff_t offset, loff_t len, int advice)
+ 	case POSIX_FADV_NOREUSE:
+ 		break;
+ 	case POSIX_FADV_DONTNEED:
+-		if (!inode_write_congested(mapping->host))
+-			__filemap_fdatawrite_range(mapping, offset, endbyte,
+-						   WB_SYNC_NONE);
++		__filemap_fdatawrite_range(mapping, offset, endbyte,
++					   WB_SYNC_NONE);
+ 
+ 		/*
+ 		 * First and last FULL page! Partial pages are deliberately
+diff --git a/mm/readahead.c b/mm/readahead.c
+index 8a97bd408cf6..f61943fd1741 100644
+--- a/mm/readahead.c
++++ b/mm/readahead.c
+@@ -709,12 +709,6 @@ void page_cache_async_ra(struct readahead_control *ractl,
+ 
+ 	folio_clear_readahead(folio);
+ 
+-	/*
+-	 * Defer asynchronous read-ahead on IO congestion.
+-	 */
+-	if (inode_read_congested(ractl->mapping->host))
+-		return;
+-
+ 	if (blk_cgroup_congested())
+ 		return;
+ 
+diff --git a/mm/vmscan.c b/mm/vmscan.c
+index 59b14e0d696c..e38de6456cdc 100644
+--- a/mm/vmscan.c
++++ b/mm/vmscan.c
+@@ -989,17 +989,6 @@ static inline int is_page_cache_freeable(struct page *page)
+ 	return page_count(page) - page_has_private(page) == 1 + page_cache_pins;
+ }
+ 
+-static int may_write_to_inode(struct inode *inode)
+-{
+-	if (current->flags & PF_SWAPWRITE)
+-		return 1;
+-	if (!inode_write_congested(inode))
+-		return 1;
+-	if (inode_to_bdi(inode) == current->backing_dev_info)
+-		return 1;
+-	return 0;
+-}
+-
+ /*
+  * We detected a synchronous write error writing a page out.  Probably
+  * -ENOSPC.  We need to propagate that into the address_space for a subsequent
+@@ -1201,8 +1190,6 @@ static pageout_t pageout(struct page *page, struct address_space *mapping)
  	}
--	congestion_wait(BLK_RW_ASYNC, DEFAULT_IO_TIMEOUT);
--	cond_resched();
-+	f2fs_io_schedule_timeout(DEFAULT_IO_TIMEOUT);
- 	if (gc_failure) {
- 		if (++looped >= count)
- 			return;
-@@ -803,8 +802,7 @@ int f2fs_flush_device_cache(struct f2fs_sb_info *sbi)
- 		do {
- 			ret = __submit_flush_wait(sbi, FDEV(i).bdev);
- 			if (ret)
--				congestion_wait(BLK_RW_ASYNC,
--						DEFAULT_IO_TIMEOUT);
-+				f2fs_io_schedule_timeout(DEFAULT_IO_TIMEOUT);
- 		} while (ret && --count);
+ 	if (mapping->a_ops->writepage == NULL)
+ 		return PAGE_ACTIVATE;
+-	if (!may_write_to_inode(mapping->host))
+-		return PAGE_KEEP;
  
- 		if (ret) {
-@@ -3133,7 +3131,7 @@ static unsigned int __issue_discard_cmd_range(struct f2fs_sb_info *sbi,
- 			blk_finish_plug(&plug);
- 			mutex_unlock(&dcc->cmd_lock);
- 			trimmed += __wait_all_discard_cmd(sbi, NULL);
--			congestion_wait(BLK_RW_ASYNC, DEFAULT_IO_TIMEOUT);
-+			f2fs_io_schedule_timeout(DEFAULT_IO_TIMEOUT);
- 			goto next;
- 		}
- skip:
-diff --git a/fs/f2fs/super.c b/fs/f2fs/super.c
-index baefd398ec1a..ebd32daf052c 100644
---- a/fs/f2fs/super.c
-+++ b/fs/f2fs/super.c
-@@ -2135,8 +2135,7 @@ static void f2fs_enable_checkpoint(struct f2fs_sb_info *sbi)
- 	/* we should flush all the data to keep data consistency */
- 	do {
- 		sync_inodes_sb(sbi->sb);
--		cond_resched();
--		congestion_wait(BLK_RW_ASYNC, DEFAULT_IO_TIMEOUT);
-+		f2fs_io_schedule_timeout(DEFAULT_IO_TIMEOUT);
- 	} while (get_pages(sbi, F2FS_DIRTY_DATA) && retry--);
+ 	if (clear_page_dirty_for_io(page)) {
+ 		int res;
+@@ -1578,9 +1565,7 @@ static unsigned int shrink_page_list(struct list_head *page_list,
+ 		 * end of the LRU a second time.
+ 		 */
+ 		mapping = page_mapping(page);
+-		if (((dirty || writeback) && mapping &&
+-		     inode_write_congested(mapping->host)) ||
+-		    (writeback && PageReclaim(page)))
++		if (writeback && PageReclaim(page))
+ 			stat->nr_congested++;
  
- 	if (unlikely(retry < 0))
-@@ -2504,8 +2503,7 @@ static ssize_t f2fs_quota_write(struct super_block *sb, int type,
- 							&page, &fsdata);
- 		if (unlikely(err)) {
- 			if (err == -ENOMEM) {
--				congestion_wait(BLK_RW_ASYNC,
--						DEFAULT_IO_TIMEOUT);
-+				f2fs_io_schedule_timeout(DEFAULT_IO_TIMEOUT);
- 				goto retry;
- 			}
- 			set_sbi_flag(F2FS_SB(sb), SBI_QUOTA_NEED_REPAIR);
+ 		/*
 
 
 _______________________________________________
