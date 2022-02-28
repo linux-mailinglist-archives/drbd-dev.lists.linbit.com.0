@@ -2,65 +2,65 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id F083F4C7962
-	for <lists+drbd-dev@lfdr.de>; Mon, 28 Feb 2022 21:03:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37B7F4C7966
+	for <lists+drbd-dev@lfdr.de>; Mon, 28 Feb 2022 21:03:58 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D5A3A420835;
-	Mon, 28 Feb 2022 21:03:28 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 175CC42177D;
+	Mon, 28 Feb 2022 21:03:58 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
-	[209.85.218.46])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4F9254205DD
-	for <drbd-dev@lists.linbit.com>; Mon, 28 Feb 2022 21:03:26 +0100 (CET)
-Received: by mail-ej1-f46.google.com with SMTP id p14so27047374ejf.11
-	for <drbd-dev@lists.linbit.com>; Mon, 28 Feb 2022 12:03:26 -0800 (PST)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+	[209.85.167.49])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6C3B64205DD
+	for <drbd-dev@lists.linbit.com>; Mon, 28 Feb 2022 21:03:52 +0100 (CET)
+Received: by mail-lf1-f49.google.com with SMTP id b11so23251504lfb.12
+	for <drbd-dev@lists.linbit.com>; Mon, 28 Feb 2022 12:03:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux-foundation.org; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=gT/mxIYbzDn15+z84Rt0/ZmLFqIl34ZjMPCseIzUB9o=;
-	b=Tm2RrZZp9rg85Q2lAdsba4a3IH+hQMy5xZCbUizCCXmPzyfZ+2VRqEslWXZB4tPt3B
-	Xz8lYe63CHEdQCuWSaPC9nNMhFWrnR54Ihwd0u2qPZVZ4zvhHacXKCw+SJS4BR1PfT62
-	xCFGBc0xrmrOEo0QPHvZeTHUhXNuWYmty+udI=
+	:cc; bh=uod9R4vPcpqIjzHofeC96qXcIXUlGW+U5alvKq7K0ZA=;
+	b=Y+K+LAchMzIcesbCiqrzhisJgvbUIKYh3oFG/AlZJTKul1K9rRfHylHsN/EgM8hdwz
+	P3hABFpC0Wcw+/0V4cKR5X0P787Wy9QwMeL5ORY50P9+oNZqmMp6NkFq4yV6NAIkP79C
+	0bvk8ZnwfFSPqzKfD7Qqea+fs2YLRTaNcLanw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20210112;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=gT/mxIYbzDn15+z84Rt0/ZmLFqIl34ZjMPCseIzUB9o=;
-	b=OALFbYuPegLTg6PleLsXDr2k68+Q9p/pYuKPOP1YQFpThUbinaWwdk3uDPDJlK0Psj
-	FsyJ2ftmrMGyLEfHIbeDINYSuyRMgk+/ETuBuQSmMDc72wWexr/Pt0oeaWnmO59JwhaC
-	Rzblbn32NIy3V+0igFF2YgZQk9YFmiSYbUVZ/jnVgLHoEWBs90nyJ63G13dnI21Xu7Hi
-	RgchHOmu6dOcNg9yWt447p5JLQPm4oKEzz7QAhNeLdkA2B3fLbNxuXOIcZ8CSZM5qZbC
-	K4bnluxaCfnl9jsREFDdPYo/RU9toSlkLfRh1362KMSvbQb4YF8WA8x9JwuxPUVHR1jX
-	yC9g==
-X-Gm-Message-State: AOAM530eRfgSKSBfFz5YQgwIqN+pdI46j6U3rAZLHn/VC6b3wjYLS/+K
-	nXzm2g/obY97FQDUDsoTQDAt+3m1FeoX+0OiVkw=
-X-Google-Smtp-Source: ABdhPJy6xp+7+qWykePkQ+gVc7WzJdgX7uO+lmjvhRcAiMRldzkLq3gQxsceW7QbLC4c6H/DqFJT7A==
-X-Received: by 2002:a17:906:3e84:b0:6cf:cd36:6316 with SMTP id
-	a4-20020a1709063e8400b006cfcd366316mr16306946ejj.581.1646078546397;
-	Mon, 28 Feb 2022 12:02:26 -0800 (PST)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com.
-	[209.85.208.44]) by smtp.gmail.com with ESMTPSA id
-	w11-20020a056402128b00b00412ec3f5f74sm6385842edv.62.2022.02.28.12.02.26
+	bh=uod9R4vPcpqIjzHofeC96qXcIXUlGW+U5alvKq7K0ZA=;
+	b=q1lJYb/GVSl/ctPO/OVr6F2AOpyMeF7eWGeSSCpkDlH9O+09zEKBveWebPxqeCTypn
+	KoF+TlB1wKTyJebukrqG9hoTCAkpaWEVc89yH5UyH96caJUQBcLwhBCMPa+otA2q6mda
+	WbMeHdYIrsx4Bo089vyRJuD9ImraWZVfYrT1+2bfEuv8PnUzcPiLYvrN7nvSqthNkFXq
+	8DnGz9/mMd6pZOKtrifqr0ofMhUu3ugjYpGLzGi/qxSbGhKS6FARlWXEqwqaBkhuuma9
+	GBcnMoDWUTNaPY/ZxZ0nAyx9leYjqLx11b/030Z4XZovk5DHoh7GlNcWIywk3W7GXQLY
+	byiw==
+X-Gm-Message-State: AOAM531Xy/JhKMYpXOXfA0wguwv/mOxXX8Nqge8epvxTGrR5iXJjY3nL
+	zEIgePVfFCDOV3/kWTsqkltNbGauxjZcUjdsB+I=
+X-Google-Smtp-Source: ABdhPJxnpvO42MT904LKUene5nh0dgUGTDEH9drYnwdjg5cyeUp82DZXBCDeQqb+bwWV7G+beVTYBQ==
+X-Received: by 2002:a05:6512:b21:b0:443:db77:375e with SMTP id
+	w33-20020a0565120b2100b00443db77375emr13114417lfu.1.1646078631798;
+	Mon, 28 Feb 2022 12:03:51 -0800 (PST)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com.
+	[209.85.167.54]) by smtp.gmail.com with ESMTPSA id
+	10-20020a2e154a000000b00246876c0bb7sm859773ljv.74.2022.02.28.12.03.51
 	for <drbd-dev@lists.linbit.com>
 	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Mon, 28 Feb 2022 12:02:26 -0800 (PST)
-Received: by mail-ed1-f44.google.com with SMTP id g20so19167354edw.6
-	for <drbd-dev@lists.linbit.com>; Mon, 28 Feb 2022 12:02:26 -0800 (PST)
-X-Received: by 2002:ac2:5313:0:b0:443:99c1:7e89 with SMTP id
-	c19-20020ac25313000000b0044399c17e89mr13183568lfh.531.1646078183366;
-	Mon, 28 Feb 2022 11:56:23 -0800 (PST)
+	Mon, 28 Feb 2022 12:03:51 -0800 (PST)
+Received: by mail-lf1-f54.google.com with SMTP id b11so23251345lfb.12
+	for <drbd-dev@lists.linbit.com>; Mon, 28 Feb 2022 12:03:51 -0800 (PST)
+X-Received: by 2002:ac2:44a4:0:b0:445:8fc5:a12a with SMTP id
+	c4-20020ac244a4000000b004458fc5a12amr7653619lfm.27.1646078630855;
+	Mon, 28 Feb 2022 12:03:50 -0800 (PST)
 MIME-Version: 1.0
 References: <20220228110822.491923-1-jakobkoschel@gmail.com>
 	<20220228110822.491923-3-jakobkoschel@gmail.com>
 	<2e4e95d6-f6c9-a188-e1cd-b1eae465562a@amd.com>
-In-Reply-To: <2e4e95d6-f6c9-a188-e1cd-b1eae465562a@amd.com>
+	<CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
+In-Reply-To: <CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
 From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 28 Feb 2022 11:56:07 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
-Message-ID: <CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
+Date: Mon, 28 Feb 2022 12:03:34 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wj8fkosQ7=bps5K+DDazBXk=ypfn49A0sEq+7-nZnyfXA@mail.gmail.com>
+Message-ID: <CAHk-=wj8fkosQ7=bps5K+DDazBXk=ypfn49A0sEq+7-nZnyfXA@mail.gmail.com>
 To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: multipart/mixed; boundary="00000000000064a3e305d91971a9"
 Cc: linux-wireless <linux-wireless@vger.kernel.org>,
 	alsa-devel@alsa-project.org, KVM list <kvm@vger.kernel.org>,
 	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
@@ -118,88 +118,43 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
---00000000000064a3e305d91971a9
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Feb 28, 2022 at 4:19 AM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
+On Mon, Feb 28, 2022 at 11:56 AM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
-> I don't think that using the extra variable makes the code in any way
-> more reliable or easier to read.
+> I do wish we could actually poison the 'pos' value after the loop
+> somehow - but clearly the "might be uninitialized" I was hoping for
+> isn't the way to do it.
 
-So I think the next step is to do the attached patch (which requires
-that "-std=3Dgnu11" that was discussed in the original thread).
+Side note: we do need *some* way to do it.
 
-That will guarantee that the 'pos' parameter of list_for_each_entry()
-is only updated INSIDE the for_each_list_entry() loop, and can never
-point to the (wrongly typed) head entry.
+Because if we make that change, and only set it to another pointer
+when not the head, then we very much change the semantics of
+"list_for_each_head()". The "list was empty" case would now exit with
+'pos' not set at all (or set to NULL if we add that). Or it would be
+set to the last entry.
 
-And I would actually hope that it should actually cause compiler
-warnings about possibly uninitialized variables if people then use the
-'pos' pointer outside the loop. Except
+And regardless, that means that all the
 
- (a) that code in sgx/encl.c currently initializes 'tmp' to NULL for
-inexplicable reasons - possibly because it already expected this
-behavior
+        if (pos == head)
 
- (b) when I remove that NULL initializer, I still don't get a warning,
-because we've disabled -Wno-maybe-uninitialized since it results in so
-many false positives.
+kinds of checks after the loop would be fundamentally broken.
 
-Oh well.
+Darn. I really hoped for (and naively expected) that we could actually
+have the compiler warn about the use-after-loop case. That whole
+"compiler will now complain about bad use" was integral to my clever
+plan to use the C99 feature of declaring the iterator inside the loop.
 
-Anyway, give this patch a look, and at least if it's expanded to do
-"(pos) =3D NULL" in the entry statement for the for-loop, it will avoid
-the HEAD type confusion that Jakob is working on. And I think in a
-cleaner way than the horrid games he plays.
+But my "clever plan" was apparently some ACME-level Wile E. Coyote sh*t.
 
-(But it won't avoid possible CPU speculation of such type confusion.
-That, in my opinion, is a completely different issue)
+Darn.
 
-I do wish we could actually poison the 'pos' value after the loop
-somehow - but clearly the "might be uninitialized" I was hoping for
-isn't the way to do it.
-
-Anybody have any ideas?
-
-                Linus
-
---00000000000064a3e305d91971a9
-Content-Type: application/octet-stream; name=p
-Content-Disposition: attachment; filename=p
-Content-Transfer-Encoding: base64
-Content-ID: <f_l073sb6w0>
-X-Attachment-Id: f_l073sb6w0
-
-ZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvbGlzdC5oIGIvaW5jbHVkZS9saW51eC9saXN0LmgK
-aW5kZXggZGQ2YzIwNDFkMDljLi5iYWI5OTU1OTZhYWEgMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvbGlu
-dXgvbGlzdC5oCisrKyBiL2luY2x1ZGUvbGludXgvbGlzdC5oCkBAIC02MzQsMTAgKzYzNCwxMCBA
-QCBzdGF0aWMgaW5saW5lIHZvaWQgbGlzdF9zcGxpY2VfdGFpbF9pbml0KHN0cnVjdCBsaXN0X2hl
-YWQgKmxpc3QsCiAgKiBAaGVhZDoJdGhlIGhlYWQgZm9yIHlvdXIgbGlzdC4KICAqIEBtZW1iZXI6
-CXRoZSBuYW1lIG9mIHRoZSBsaXN0X2hlYWQgd2l0aGluIHRoZSBzdHJ1Y3QuCiAgKi8KLSNkZWZp
-bmUgbGlzdF9mb3JfZWFjaF9lbnRyeShwb3MsIGhlYWQsIG1lbWJlcikJCQkJXAotCWZvciAocG9z
-ID0gbGlzdF9maXJzdF9lbnRyeShoZWFkLCB0eXBlb2YoKnBvcyksIG1lbWJlcik7CVwKLQkgICAg
-ICFsaXN0X2VudHJ5X2lzX2hlYWQocG9zLCBoZWFkLCBtZW1iZXIpOwkJCVwKLQkgICAgIHBvcyA9
-IGxpc3RfbmV4dF9lbnRyeShwb3MsIG1lbWJlcikpCisjZGVmaW5lIGxpc3RfZm9yX2VhY2hfZW50
-cnkocG9zLCBoZWFkLCBtZW1iZXIpCQkJCQlcCisJZm9yICh0eXBlb2YocG9zKSBfX2l0ZXIgPSBs
-aXN0X2ZpcnN0X2VudHJ5KGhlYWQsIHR5cGVvZigqcG9zKSwgbWVtYmVyKTsJXAorCSAgICAgIWxp
-c3RfZW50cnlfaXNfaGVhZChfX2l0ZXIsIGhlYWQsIG1lbWJlcikgJiYgKCgocG9zKT1fX2l0ZXIp
-LDEpOwlcCisJICAgICBfX2l0ZXIgPSBsaXN0X25leHRfZW50cnkoX19pdGVyLCBtZW1iZXIpKQog
-CiAvKioKICAqIGxpc3RfZm9yX2VhY2hfZW50cnlfcmV2ZXJzZSAtIGl0ZXJhdGUgYmFja3dhcmRz
-IG92ZXIgbGlzdCBvZiBnaXZlbiB0eXBlLgo=
---00000000000064a3e305d91971a9
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+                   Linus
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
 https://lists.linbit.com/mailman/listinfo/drbd-dev
-
---00000000000064a3e305d91971a9--
