@@ -2,49 +2,49 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 492B04C8C20
-	for <lists+drbd-dev@lfdr.de>; Tue,  1 Mar 2022 14:00:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E48DC4C8CA2
+	for <lists+drbd-dev@lfdr.de>; Tue,  1 Mar 2022 14:28:47 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2563842179C;
-	Tue,  1 Mar 2022 14:00:38 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 92FB042179E;
+	Tue,  1 Mar 2022 14:28:46 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com
-	[209.85.166.175])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 286A5421798
-	for <drbd-dev@lists.linbit.com>; Tue,  1 Mar 2022 14:00:35 +0100 (CET)
-Received: by mail-il1-f175.google.com with SMTP id i14so642049ilv.4
-	for <drbd-dev@lists.linbit.com>; Tue, 01 Mar 2022 05:00:35 -0800 (PST)
+Received: from mail-il1-f177.google.com (mail-il1-f177.google.com
+	[209.85.166.177])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C3595421798
+	for <drbd-dev@lists.linbit.com>; Tue,  1 Mar 2022 14:28:44 +0100 (CET)
+Received: by mail-il1-f177.google.com with SMTP id d3so12517721ilr.10
+	for <drbd-dev@lists.linbit.com>; Tue, 01 Mar 2022 05:28:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=szeredi.hu; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=QG2k2eItwE4VAk3PGGex6QHZy3T0xaD3lTCoY/HpYco=;
-	b=ZQjeLrdHbWEck4K6RpeBY4QI1uE5CcoVwO5sZTKvbH0jCtE/epL+AV1J2T6nTvQB7B
-	/yPS0KVOUZAhUGfHU54H1jmlgYJUgdfLLmM3xmB3rY9RzzFoWNFI2Zci83Jzu2Okp0E4
-	AJRAtv/WKjpa/XnIsui/qXUZ2c4GyPza8OAZk=
+	:cc; bh=0rqEHtyUvKInY3eDADJFtpu+gdfZq4axYpoJEFqNG8M=;
+	b=I2qodJt4VEaNZJyZteahkXLrk3gcBP6spDM9mba7O5eU1RB0noMF3SaBN+E8vfdw3Y
+	GW1Qja0562jHy97CnNHFiAvEnhDIzFZuk2nVuHxePbR8HX9rviCDiIna9neO0UiGoLDn
+	jsXu+RAKBdy7qxqlxo03hClTY9xe+rR+zNfDg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20210112;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=QG2k2eItwE4VAk3PGGex6QHZy3T0xaD3lTCoY/HpYco=;
-	b=3EHiP2BSU99tE6HGY/30eLulqYycL3xU2lOjR8EC5KjoV6gdQX977k4KQXTOnO/QB+
-	d67qNVXIeiPrEZZoUFQk/Zofh/FDfAWur7kdOh8JTHwvehwWAQ8csTYDPGV0XxkBpzkr
-	b6JmskrJFWXdvVEsg5kDVNs1pGyn4ERY32rOVPwxjT5aeKuBcM2jbRe8hGqSSYKhQUNg
-	WMx2oSzCAuPtIxOY2MpRELJl6yWXBbYrFJdEAPFyeygn9/WZRhvQIg59h8pxzZN26auk
-	KdMdCyS8zjzehgHB3/0n+8lk8lTVEjZxshj2ZEtwPhjIdABiwWCyf9Ey8ogzqOYuQHrX
-	tsuA==
-X-Gm-Message-State: AOAM5300+wkjrL9yxGV7nkbWr3amzuoRhWppV6sK4cPjdiQIAlKL8TZb
-	MUUB98kNp2+rkrdp5zsKUDVbKz/fhfZ+2Py2+dStyw==
-X-Google-Smtp-Source: ABdhPJygTkLKJoxpKoMnQComCB9wJUKiAgXMWJlY4Oqe0COwyi0CYb7/OKDFQvAmbtgocYjrHTjH3LgZXlKpwAjqw/Q=
-X-Received: by 2002:a92:cf12:0:b0:2be:3a27:67c7 with SMTP id
-	c18-20020a92cf12000000b002be3a2767c7mr23363367ilo.187.1646139635155;
-	Tue, 01 Mar 2022 05:00:35 -0800 (PST)
+	bh=0rqEHtyUvKInY3eDADJFtpu+gdfZq4axYpoJEFqNG8M=;
+	b=B4SKK/oylUrv5RSyqH/p8i+H93rHCKSaULUha38h/spM7J21V1vxGBg3YNC6682Whm
+	aqYz39awmK1SPFaeEY+a+9Ye0wGI2PwU0VVd6dwOG/3HYkhzGSqxvXub8Gki8vtHZvJ5
+	V3wu042bMXrKQLM+pKJH7XdOWe87bk1HJkgPG/mZF5iZnapr4nGPROeA9yTB0FjynKro
+	ZxXNYU9yGkZhXEoyzFNBspBLv1b9K3QNvBTYqr3vGTvn7xrlZQ1oNp6360s3zqYJHoCc
+	VIkwd2GooN3OhYivoMSs05YqO2vBwaR1DxJjXYz7OBj3Fz393FyQVNFXnE3/Y3HlEGCT
+	MzuA==
+X-Gm-Message-State: AOAM532cUJRFxGuZnHPJ9EuAjNrbzYOEXZkeLl06BhQvIqTsvFXghI6G
+	Ck5K9IXu7C+G71Z6PiX5k+TfvcmIfcb3QwM7sBuQdQ==
+X-Google-Smtp-Source: ABdhPJwFD3IYwN4qrYy++4yIV02k4VVunIMIlONHamgVoi7ny6ji/ttTCSgiD81N18MIcwz3ac7fQNZ2oqyazBRiwXg=
+X-Received: by 2002:a92:ca4a:0:b0:2ba:878e:fd12 with SMTP id
+	q10-20020a92ca4a000000b002ba878efd12mr22464625ilo.139.1646141263901;
+	Tue, 01 Mar 2022 05:27:43 -0800 (PST)
 MIME-Version: 1.0
 References: <164549971112.9187.16871723439770288255.stgit@noble.brown>
-	<164549983736.9187.16755913785880819183.stgit@noble.brown>
-In-Reply-To: <164549983736.9187.16755913785880819183.stgit@noble.brown>
+	<164549983737.9187.2627117501000365074.stgit@noble.brown>
+In-Reply-To: <164549983737.9187.2627117501000365074.stgit@noble.brown>
 From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Tue, 1 Mar 2022 14:00:24 +0100
-Message-ID: <CAJfpegs=DhCO62EFV0Q_i2fmqJnziJy1t4itP9deS=FuWEA=TQ@mail.gmail.com>
+Date: Tue, 1 Mar 2022 14:27:33 +0100
+Message-ID: <CAJfpegsGOFD46KM8pxFAemokv9OOsCSHk=ag6jZZ=VscijMXZQ@mail.gmail.com>
 To: NeilBrown <neilb@suse.de>
 Cc: Jan Kara <jack@suse.cz>, linux-doc@vger.kernel.org,
 	"Darrick J. Wong" <djwong@kernel.org>,
@@ -63,8 +63,7 @@ Cc: Jan Kara <jack@suse.cz>, linux-doc@vger.kernel.org,
 	Lars Ellenberg <lars.ellenberg@linbit.com>,
 	Wu Fengguang <fengguang.wu@intel.com>,
 	Anna Schumaker <anna.schumaker@netapp.com>
-Subject: Re: [Drbd-dev] [PATCH 03/11] MM: improve cleanup when ->readpages
- doesn't process all pages.
+Subject: Re: [Drbd-dev] [PATCH 04/11] fuse: remove reliance on bdi congestion
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -85,62 +84,124 @@ Errors-To: drbd-dev-bounces@lists.linbit.com
 
 On Tue, 22 Feb 2022 at 04:18, NeilBrown <neilb@suse.de> wrote:
 >
-> If ->readpages doesn't process all the pages, then it is best to act as
-> though they weren't requested so that a subsequent readahead can try
-> again.
-> So:
->   - remove any 'ahead' pages from the page cache so they can be loaded
->     with ->readahead() rather then multiple ->read()s
->   - update the file_ra_state to reflect the reads that were actually
->     submitted.
+> The bdi congestion tracking in not widely used and will be removed.
 >
-> This allows ->readpages() to abort early due e.g.  to congestion, which
-> will then allow us to remove the inode_read_congested() test from
-> page_Cache_async_ra().
+> Fuse is one of a small number of filesystems that uses it, setting both
+> the sync (read) and async (write) congestion flags at what it determines
+> are appropriate times.
+>
+> The only remaining effect of the sync flag is to cause read-ahead to be
+> skipped.
+> The only remaining effect of the async flag is to cause (some)
+> WB_SYNC_NONE writes to be skipped.
+>
+> So instead of setting the flags, change:
+>  - .readahead to stop when it has submitted all non-async pages
+>     for read.
+>  - .writepages to do nothing if WB_SYNC_NONE and the flag would be set
+>  - .writepage to return AOP_WRITEPAGE_ACTIVATE if WB_SYNC_NONE
+>     and the flag would be set.
+>
+> The writepages change causes a behavioural change in that pageout() can
+> now return PAGE_ACTIVATE instead of PAGE_KEEP, so SetPageActive() will
+> be called on the page which (I think) will further delay the next attempt
+> at writeout.  This might be a good thing.
 >
 > Signed-off-by: NeilBrown <neilb@suse.de>
 > ---
->  mm/readahead.c |   19 +++++++++++++++++--
->  1 file changed, 17 insertions(+), 2 deletions(-)
+>  fs/fuse/control.c |   17 -----------------
+>  fs/fuse/dev.c     |    8 --------
+>  fs/fuse/file.c    |   17 +++++++++++++++++
+>  3 files changed, 17 insertions(+), 25 deletions(-)
 >
-> diff --git a/mm/readahead.c b/mm/readahead.c
-> index 73b2bc5302e0..8a97bd408cf6 100644
-> --- a/mm/readahead.c
-> +++ b/mm/readahead.c
-> @@ -104,7 +104,13 @@
->   * for necessary resources (e.g.  memory or indexing information) to
->   * become available.  Pages in the final ``async_size`` may be
->   * considered less urgent and failure to read them is more acceptable.
-> - * They will eventually be read individually using ->readpage().
-> + * In this case it is best to use delete_from_page_cache() to remove the
-> + * pages from the page cache as is automatically done for pages that
-> + * were not fetched with readahead_page().  This will allow a
-> + * subsequent synchronous read ahead request to try them again.  If they
-> + * are left in the page cache, then they will be read individually using
-> + * ->readpage().
-> + *
->   */
+> diff --git a/fs/fuse/control.c b/fs/fuse/control.c
+> index 000d2e5627e9..7cede9a3bc96 100644
+> --- a/fs/fuse/control.c
+> +++ b/fs/fuse/control.c
+> @@ -164,7 +164,6 @@ static ssize_t fuse_conn_congestion_threshold_write(struct file *file,
+>  {
+>         unsigned val;
+>         struct fuse_conn *fc;
+> -       struct fuse_mount *fm;
+>         ssize_t ret;
 >
->  #include <linux/kernel.h>
-> @@ -226,8 +232,17 @@ static void read_pages(struct readahead_control *rac, struct list_head *pages,
+>         ret = fuse_conn_limit_write(file, buf, count, ppos, &val,
+> @@ -178,22 +177,6 @@ static ssize_t fuse_conn_congestion_threshold_write(struct file *file,
+>         down_read(&fc->killsb);
+>         spin_lock(&fc->bg_lock);
+>         fc->congestion_threshold = val;
+> -
+> -       /*
+> -        * Get any fuse_mount belonging to this fuse_conn; s_bdi is
+> -        * shared between all of them
+> -        */
+> -
+> -       if (!list_empty(&fc->mounts)) {
+> -               fm = list_first_entry(&fc->mounts, struct fuse_mount, fc_entry);
+> -               if (fc->num_background < fc->congestion_threshold) {
+> -                       clear_bdi_congested(fm->sb->s_bdi, BLK_RW_SYNC);
+> -                       clear_bdi_congested(fm->sb->s_bdi, BLK_RW_ASYNC);
+> -               } else {
+> -                       set_bdi_congested(fm->sb->s_bdi, BLK_RW_SYNC);
+> -                       set_bdi_congested(fm->sb->s_bdi, BLK_RW_ASYNC);
+> -               }
+> -       }
+>         spin_unlock(&fc->bg_lock);
+>         up_read(&fc->killsb);
+>         fuse_conn_put(fc);
+> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+> index cd54a529460d..e1b4a846c90d 100644
+> --- a/fs/fuse/dev.c
+> +++ b/fs/fuse/dev.c
+> @@ -315,10 +315,6 @@ void fuse_request_end(struct fuse_req *req)
+>                                 wake_up(&fc->blocked_waitq);
+>                 }
 >
->         if (aops->readahead) {
->                 aops->readahead(rac);
-> -               /* Clean up the remaining pages */
-> +               /*
-> +                * Clean up the remaining pages.  The sizes in ->ra
-> +                * maybe be used to size next read-ahead, so make sure
-> +                * they accurately reflect what happened.
-> +                */
->                 while ((page = readahead_page(rac))) {
-> +                       rac->ra->size -= 1;
-> +                       if (rac->ra->async_size > 0) {
-> +                               rac->ra->async_size -= 1;
-> +                               delete_from_page_cache(page);
-> +                       }
+> -               if (fc->num_background == fc->congestion_threshold && fm->sb) {
+> -                       clear_bdi_congested(fm->sb->s_bdi, BLK_RW_SYNC);
+> -                       clear_bdi_congested(fm->sb->s_bdi, BLK_RW_ASYNC);
+> -               }
+>                 fc->num_background--;
+>                 fc->active_background--;
+>                 flush_bg_queue(fc);
+> @@ -540,10 +536,6 @@ static bool fuse_request_queue_background(struct fuse_req *req)
+>                 fc->num_background++;
+>                 if (fc->num_background == fc->max_background)
+>                         fc->blocked = 1;
+> -               if (fc->num_background == fc->congestion_threshold && fm->sb) {
+> -                       set_bdi_congested(fm->sb->s_bdi, BLK_RW_SYNC);
+> -                       set_bdi_congested(fm->sb->s_bdi, BLK_RW_ASYNC);
+> -               }
+>                 list_add_tail(&req->list, &fc->bg_queue);
+>                 flush_bg_queue(fc);
+>                 queued = true;
+> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+> index 829094451774..94747bac3489 100644
+> --- a/fs/fuse/file.c
+> +++ b/fs/fuse/file.c
+> @@ -966,6 +966,14 @@ static void fuse_readahead(struct readahead_control *rac)
+>                 struct fuse_io_args *ia;
+>                 struct fuse_args_pages *ap;
+>
+> +               if (fc->num_background >= fc->congestion_threshold &&
+> +                   rac->ra->async_size >= readahead_count(rac))
+> +                       /*
+> +                        * Congested and only async pages left, so skip the
+> +                        * rest.
+> +                        */
+> +                       break;
 
-Does the  above imply that filesystem should submit at least ra->size
-pages, regardless of congestion?
+Ah, you are taking care of it here...
+
+Regarding the async part: a potential (corner?) case is if task A is
+reading region X and triggering readahead for region Y and at the same
+time task B is reading region Y.  In the congestion case it can happen
+that non-uptodate pages in Y are truncated off the pagecache while B
+is waiting for them to become uptodate.
+
+This shouldn't be too hard to trigger, just need two sequential
+readers of the same file, where one is just ahead of the other.  I'll
+try to do a test program for this case specifically.
 
 Thanks,
 Miklos
