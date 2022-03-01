@@ -2,54 +2,54 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0FBD4C7F73
-	for <lists+drbd-dev@lfdr.de>; Tue,  1 Mar 2022 01:42:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 158E94C7F80
+	for <lists+drbd-dev@lfdr.de>; Tue,  1 Mar 2022 01:45:33 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 95C4942179A;
-	Tue,  1 Mar 2022 01:42:34 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0802F42179F;
+	Tue,  1 Mar 2022 01:45:32 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
-	[209.85.167.41])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E95BB421791
-	for <drbd-dev@lists.linbit.com>; Tue,  1 Mar 2022 01:42:25 +0100 (CET)
-Received: by mail-lf1-f41.google.com with SMTP id t13so12252828lfd.9
-	for <drbd-dev@lists.linbit.com>; Mon, 28 Feb 2022 16:42:25 -0800 (PST)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+	[209.85.167.48])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id EB515421791
+	for <drbd-dev@lists.linbit.com>; Tue,  1 Mar 2022 01:45:30 +0100 (CET)
+Received: by mail-lf1-f48.google.com with SMTP id b9so24294163lfv.7
+	for <drbd-dev@lists.linbit.com>; Mon, 28 Feb 2022 16:45:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux-foundation.org; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=cUh7YOptqnvj33mIS3WykOaibv0ctq8lQu0USbAcExo=;
-	b=gduPBw6Te4zeyjZyaNuQQxqABiMq6fHp34ckrObT/FmzNLnDhHL/6KerjIgP5i0R8H
-	Vm0a8HwZ8W8PnRRZRxnIsSc7yENLFtSGfKUqeeqvjpp8888PKIgF8NBwqM5k9ZzIrQCZ
-	iYuicfiGesL4zlgkSDywOQeUUhyrP2kMozUBc=
+	:cc; bh=BlmDHl6uq7o6y8aC/cJk7fo5oLGvHdeOO4XUoHPiZHY=;
+	b=CuWkmdhnuqYUPLlFfSW5kqvLG+/BaUYxswQvwT5TlbeMKdgX0f6Tdop/2MomIxMIWT
+	P4yfskuo3sOir2HSEC5b7N//0EkwPlLVbS+ffho6xWO2QaHJfy0oi9bnLtClO4bSDX+r
+	dQzBghLtont2uRRAhfDOfzUglX2wpO3DzhpXQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20210112;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=cUh7YOptqnvj33mIS3WykOaibv0ctq8lQu0USbAcExo=;
-	b=fIcN4YnQW1HGRVHmiSaAYhOnIjHVxBxXAzf3ceHBB+DJvfGf13+pL9JtbJ68C5h/zJ
-	NrR7N73iL6fMn/j638uSvuzzrj++qZrYV0IgxWme/YYsIjp2HlFBANZZsvXznhr5tHNb
-	3MWnTkhsQZIzZLtc4P2X6L1Z6ZC0I81LxBFIkyr3BpsjZfhTl+yBMsj5TANn8TmAn8m7
-	PIIU1Wsz5GDZRRES6WZhimgShs8Hzw+QslJ1iePtWHkt81Ah5tbXZu92SwvWBvJk8A+A
-	hafuyxrwonvHwXV6gW5oIQEprK8KIf1QUDSrMG6OtEmgJfjvMU8f+fyYiq+GzxHXpwgV
-	c4JQ==
-X-Gm-Message-State: AOAM5308OsY03/V60i+D47tnf8S/T4dgymC7TwqbZsCFfCMcHrS+m8cd
-	ljx44/lfbrBvQN9MrU2oyngNftCiR+jc+ch4N2w=
-X-Google-Smtp-Source: ABdhPJxHR3a6cUAly0rJ/8x1Ze/urprxH38mMTr1mPT5cjBb88M2b5DLtUhSrH++XzlpDZfX82/0YQ==
-X-Received: by 2002:a05:6512:3f09:b0:43a:4463:56f9 with SMTP id
-	y9-20020a0565123f0900b0043a446356f9mr13867499lfa.533.1646095284934;
-	Mon, 28 Feb 2022 16:41:24 -0800 (PST)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com.
-	[209.85.167.47]) by smtp.gmail.com with ESMTPSA id
-	p3-20020a19f003000000b00443ddeee4basm1211413lfc.70.2022.02.28.16.41.21
+	bh=BlmDHl6uq7o6y8aC/cJk7fo5oLGvHdeOO4XUoHPiZHY=;
+	b=yh2+4vIj6BgoHJ1CmgThxMDWWtJQ8bJR+9yiQsTkoc/Wc6JdBCqFxwt//bl2yTJ85m
+	GIdJBgeKw0tSZYfHABujI2VNWgPF7daFx2n3FLQEH+mppmWceW9tzIRxLZ+fHJYWXNPh
+	mIJ2vcnZcOZcFB+faV15svhq76AXYGyANN1jeFYCPDBeUik/Zseg66k9VIdR4lzGjoEp
+	I4VPY3azAxEtL5WeYdhQJzi8dY6tdKqPIPmUXkonHwyzk08sUWR2oU8ijL2OidITzpH6
+	814Qb+1qQF0g4cWL5IinOhqI87NtZaov4iMwa0Qf46TCo+X5mTr54UXmEWGRhqlh5Op2
+	l5JQ==
+X-Gm-Message-State: AOAM531rK/CWJgkFmtrr88HIZsH+q7BxEQbfxZVz4GOjnbYWBbJ1JzyZ
+	IuEdqxfJy48HowFX0IkIzrW9mRAk7lSEvlWn+b0=
+X-Google-Smtp-Source: ABdhPJwxLgTMYjE4b2dpae5UHKXLxv8bCOtLNXufhM3Xvkb2UCGUJ+DuectrZ8RqEx+UTqlagSMmTg==
+X-Received: by 2002:a19:ae17:0:b0:438:8566:3ce8 with SMTP id
+	f23-20020a19ae17000000b0043885663ce8mr14872014lfc.488.1646095530072;
+	Mon, 28 Feb 2022 16:45:30 -0800 (PST)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com.
+	[209.85.167.44]) by smtp.gmail.com with ESMTPSA id
+	c40-20020a05651223a800b00443d571f25csm1209896lfv.214.2022.02.28.16.45.27
 	for <drbd-dev@lists.linbit.com>
 	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Mon, 28 Feb 2022 16:41:21 -0800 (PST)
-Received: by mail-lf1-f47.google.com with SMTP id u20so24290691lff.2
-	for <drbd-dev@lists.linbit.com>; Mon, 28 Feb 2022 16:41:21 -0800 (PST)
-X-Received: by 2002:ac2:4d91:0:b0:443:127b:558a with SMTP id
-	g17-20020ac24d91000000b00443127b558amr14552706lfe.542.1646095280878;
-	Mon, 28 Feb 2022 16:41:20 -0800 (PST)
+	Mon, 28 Feb 2022 16:45:28 -0800 (PST)
+Received: by mail-lf1-f44.google.com with SMTP id f37so24217523lfv.8
+	for <drbd-dev@lists.linbit.com>; Mon, 28 Feb 2022 16:45:27 -0800 (PST)
+X-Received: by 2002:a05:6512:3042:b0:437:96f5:e68a with SMTP id
+	b2-20020a056512304200b0043796f5e68amr14778245lfb.449.1646095527444;
+	Mon, 28 Feb 2022 16:45:27 -0800 (PST)
 MIME-Version: 1.0
 References: <20220228110822.491923-1-jakobkoschel@gmail.com>
 	<20220228110822.491923-3-jakobkoschel@gmail.com>
@@ -57,27 +57,28 @@ References: <20220228110822.491923-1-jakobkoschel@gmail.com>
 	<CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
 	<CAHk-=wj8fkosQ7=bps5K+DDazBXk=ypfn49A0sEq+7-nZnyfXA@mail.gmail.com>
 	<CAHk-=wiTCvLQkHcJ3y0hpqH7FEk9D28LDvZZogC6OVLk7naBww@mail.gmail.com>
-	<FC710A1A-524E-481B-A668-FC258F529A2E@gmail.com>
-In-Reply-To: <FC710A1A-524E-481B-A668-FC258F529A2E@gmail.com>
+	<Yh0tl3Lni4weIMkl@casper.infradead.org>
+	<CAHk-=wgBfJ1-cPA2LTvFyyy8owpfmtCuyiZi4+um8DhFNe+CyA@mail.gmail.com>
+	<Yh1aMm3hFe/j9ZbI@casper.infradead.org>
+In-Reply-To: <Yh1aMm3hFe/j9ZbI@casper.infradead.org>
 From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 28 Feb 2022 16:41:04 -0800
-X-Gmail-Original-Message-ID: <CAHk-=whLK11HyvpUtEftOjc3Gup2V77KpAQ2fycj3uai=qceHw@mail.gmail.com>
-Message-ID: <CAHk-=whLK11HyvpUtEftOjc3Gup2V77KpAQ2fycj3uai=qceHw@mail.gmail.com>
-To: Jakob Koschel <jakobkoschel@gmail.com>
+Date: Mon, 28 Feb 2022 16:45:11 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wi0gSUMBr2SVF01Gy1xC1w1iGtJT5ztju9BPWYKjdh+NA@mail.gmail.com>
+Message-ID: <CAHk-=wi0gSUMBr2SVF01Gy1xC1w1iGtJT5ztju9BPWYKjdh+NA@mail.gmail.com>
+To: Matthew Wilcox <willy@infradead.org>
 Cc: linux-wireless <linux-wireless@vger.kernel.org>,
 	alsa-devel@alsa-project.org, KVM list <kvm@vger.kernel.org>,
 	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
 	linux-iio@vger.kernel.org, nouveau@lists.freedesktop.org,
 	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	dri-devel <dri-devel@lists.freedesktop.org>,
-	Cristiano Giuffrida <c.giuffrida@vu.nl>,
-	amd-gfx list <amd-gfx@lists.freedesktop.org>,
-	linux1394-devel@lists.sourceforge.net, drbd-dev@lists.linbit.com,
-	linux-arch <linux-arch@vger.kernel.org>,
+	Cristiano Giuffrida <c.giuffrida@vu.nl>, "Bos,
+	H.J." <h.j.bos@vu.nl>, linux1394-devel@lists.sourceforge.net,
+	drbd-dev@lists.linbit.com, linux-arch <linux-arch@vger.kernel.org>,
 	CIFS <linux-cifs@vger.kernel.org>, linux-aspeed@lists.ozlabs.org,
 	linux-scsi <linux-scsi@vger.kernel.org>,
-	linux-rdma <linux-rdma@vger.kernel.org>,
-	linux-staging@lists.linux.dev, "Bos, H.J." <h.j.bos@vu.nl>,
+	linux-rdma <linux-rdma@vger.kernel.org>, linux-staging@lists.linux.dev,
+	amd-gfx list <amd-gfx@lists.freedesktop.org>,
 	Jason Gunthorpe <jgg@ziepe.ca>, intel-wired-lan@lists.osuosl.org,
 	kgdb-bugreport@lists.sourceforge.net,
 	bcm-kernel-feedback-list@broadcom.com,
@@ -89,6 +90,7 @@ Cc: linux-wireless <linux-wireless@vger.kernel.org>,
 	Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
 	Nathan Chancellor <nathan@kernel.org>, dma <dmaengine@vger.kernel.org>,
 	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Jakob Koschel <jakobkoschel@gmail.com>,
 	v9fs-developer@lists.sourceforge.net,
 	linux-tegra <linux-tegra@vger.kernel.org>,
 	Thomas Gleixner <tglx@linutronix.de>,
@@ -127,103 +129,25 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Mon, Feb 28, 2022 at 1:47 PM Jakob Koschel <jakobkoschel@gmail.com> wrote:
+On Mon, Feb 28, 2022 at 3:26 PM Matthew Wilcox <willy@infradead.org> wrote:
 >
-> The goal of this is to get compiler warnings right? This would indeed be great.
+> #define ___PASTE(a, b)  a##b
+> #define __PASTE(a, b) ___PASTE(a, b)
+> #define _min(a, b, u) ({         \
 
-Yes, so I don't mind having a one-time patch that has been gathered
-using some automated checker tool, but I don't think that works from a
-long-term maintenance perspective.
+Yeah, except that's ugly beyond belief, plus it's literally not what
+we do in the kernel.
 
-So if we have the basic rule being "don't use the loop iterator after
-the loop has finished, because it can cause all kinds of subtle
-issues", then in _addition_ to fixing the existing code paths that
-have this issue, I really would want to (a) get a compiler warning for
-future cases and (b) make it not actually _work_ for future cases.
+Really. The "-Wshadow doesn't work on the kernel" is not some new
+issue, because you have to do completely insane things to the source
+code to enable it.
 
-Because otherwise it will just happen again.
+Just compare your uglier-than-sin version to my straightforward one.
+One does the usual and obvious "use a private variable to avoid the
+classic multi-use of a macro argument". And the other one is an
+abomination.
 
-> Changing the list_for_each_entry() macro first will break all of those cases
-> (e.g. the ones using 'list_entry_is_head()).
-
-So I have no problems with breaking cases that we basically already
-have a patch for due to  your automated tool. There were certainly
-more than a handful, but it didn't look _too_ bad to just make the
-rule be "don't use the iterator after the loop".
-
-Of course, that's just based on that patch of yours. Maybe there are a
-ton of other cases that your patch didn't change, because they didn't
-match your trigger case, so I may just be overly optimistic here.
-
-But basically to _me_, the important part is that the end result is
-maintainable longer-term. I'm more than happy to have a one-time patch
-to fix a lot of dubious cases if we can then have clean rules going
-forward.
-
-> I assumed it is better to fix those cases first and then have a simple
-> coccinelle script changing the macro + moving the iterator into the scope
-> of the macro.
-
-So that had been another plan of mine, until I actually looked at
-changing the macro. In the one case I looked at, it was ugly beyond
-belief.
-
-It turns out that just syntactically, it's really nice to give the
-type of the iterator from outside the way we do now. Yeah, it may be a
-bit odd, and maybe it's partly because I'm so used to the
-"list_for_each_list_entry()" syntax, but moving the type into the loop
-construct really made it nasty - either one very complex line, or
-having to split it over two lines which was even worse.
-
-Maybe the place I looked at just happened to have a long typename, but
-it's basically always going to be a struct, so it's never a _simple_
-type. And it just looked very odd adn unnatural to have the type as
-one of the "arguments" to that list_for_each_entry() macro.
-
-So yes, initially my idea had been to just move the iterator entirely
-inside the macro. But specifying the type got so ugly that I think
-that
-
-        typeof (pos) pos
-
-trick inside the macro really ends up giving us the best of all worlds:
-
- (a) let's us keep the existing syntax and code for all the nice cases
-that did everything inside the loop anyway
-
- (b) gives us a nice warning for any normal use-after-loop case
-(unless you explicitly initialized it like that
-sgx_mmu_notifier_release() function did for no good reason
-
- (c) also guarantees that even if you don't get a warning,
-non-converted (or newly written) bad code won't actually _work_
-
-so you end up getting the new rules without any ambiguity or mistaken
-
-> With this you are no longer able to set the 'outer' pos within the list
-> iterator loop body or am I missing something?
-
-Correct. Any assignment inside the loop will be entirely just to the
-local loop case. So any "break;" out of the loop will have to set
-another variable - like your updated patch did.
-
-> I fail to see how this will make most of the changes in this
-> patch obsolete (if that was the intention).
-
-I hope my explanation above clarifies my thinking: I do not dislike
-your patch, and in fact your patch is indeed required to make the new
-semantics work.
-
-What I disliked was always the maintainability of your patch - making
-the rules be something that isn't actually visible in the source code,
-and letting the old semantics still work as well as they ever did, and
-having to basically run some verification pass to find bad users.
-
-(I also disliked your original patch that mixed up the "CPU
-speculation type safety" with the actual non-speculative problems, but
-that was another issue).
-
-                Linus
+              Linus
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
