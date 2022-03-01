@@ -2,54 +2,54 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8BAF4C93E6
-	for <lists+drbd-dev@lfdr.de>; Tue,  1 Mar 2022 20:07:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 912304C9497
+	for <lists+drbd-dev@lfdr.de>; Tue,  1 Mar 2022 20:42:50 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 47ECB4217BB;
-	Tue,  1 Mar 2022 20:07:09 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 530E74217B7;
+	Tue,  1 Mar 2022 20:42:49 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
-	[209.85.208.179])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id BAD334217A2
-	for <drbd-dev@lists.linbit.com>; Tue,  1 Mar 2022 20:07:07 +0100 (CET)
-Received: by mail-lj1-f179.google.com with SMTP id bn33so23182180ljb.6
-	for <drbd-dev@lists.linbit.com>; Tue, 01 Mar 2022 11:07:07 -0800 (PST)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+	[209.85.167.42])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7E8484217A0
+	for <drbd-dev@lists.linbit.com>; Tue,  1 Mar 2022 20:42:47 +0100 (CET)
+Received: by mail-lf1-f42.google.com with SMTP id f37so28617523lfv.8
+	for <drbd-dev@lists.linbit.com>; Tue, 01 Mar 2022 11:42:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux-foundation.org; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=+FYbGAw6yxU17iUDUp61Ry7f+ZSO9wN0ehJ+hGfk2DQ=;
-	b=NEmpYuhxkY3jphhiKwB9rL7CFHETV0OarciDwH/Y25b8gogpFDGLbcsm2Hp5JlhbRM
-	fgLdNaX0z1k1bpDTdAa2T+xhPoQGBlkWInAyVtxomjmoWydKKz6S1Vw5P8QyPxUNcXPG
-	O8s4ZVUjpR1ZVkG2oqZOMI9ApgRXI/RsyC5iE=
+	:cc; bh=PzY8tILS7/J5BzJfiKLdBDXy8/s4RAHqODI+UdY57jc=;
+	b=MSgmT6lRet0jPev3NhT8poLSNE2IuVKHhTmnMdindDPsxNrbDdzPrkBSaT4BauMeD+
+	LWq3ALR2NImH9IAbyg/9Mpz0DLX1H3V94a1gLKACC1HvSqM9EwtH2Km4ZUYlkqLoZgsQ
+	ZV7jqWBOB7cCGsim0JopuTtvt6tgng/ReKRwg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20210112;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=+FYbGAw6yxU17iUDUp61Ry7f+ZSO9wN0ehJ+hGfk2DQ=;
-	b=3Z8NgwZlj7Wll4XbiNaKwQdmRSIcPysXLASC6Bpzrvp89/56y2jVFqllO87j930plL
-	odT/3QO21632mlerUi0inUHTNil4rXzOf5eQYAopaVc107axfCwYG+H8l9UivnBinpTq
-	GZ+U2FPz5sUSwyFZHuU6lLD57jPtmJqLHSLXv9oZzJkvRhyIx6uNebT7PH8m9vsN4PGW
-	3EoEiYKsyIOhM8GeZS69KIHFE+Qq2e+ZmlnmICO9l49cJG7mEcn40/7yGE/XbpWdr0Lt
-	N2RBzoXw2oGMkq/36S9FhqujG/rMbUzYDH+kUA7/cGhgrQL/voM8nYx8R9TUTeke25tE
-	tLhg==
-X-Gm-Message-State: AOAM531O4LQ30Oi1gTqF7PlMvR14FPQIfUiT4i7yCns7bQkSl7ywqLY/
-	2Jhzmd5oWW4g4EGe0LgJkm5vHD2XhVTQXjP5efA=
-X-Google-Smtp-Source: ABdhPJwNQnB1apF8dDn1q9OZsKvO5dqCV/pThfcn144JGKF80Cjotcemdy8c3o2BtMcUGBcqVT/Slg==
-X-Received: by 2002:a05:651c:178c:b0:245:fd2c:2d2b with SMTP id
-	bn12-20020a05651c178c00b00245fd2c2d2bmr17796342ljb.486.1646161626566;
-	Tue, 01 Mar 2022 11:07:06 -0800 (PST)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com.
-	[209.85.208.174]) by smtp.gmail.com with ESMTPSA id
-	b15-20020ac2562f000000b004437f2667bfsm1622813lff.308.2022.03.01.11.07.02
+	bh=PzY8tILS7/J5BzJfiKLdBDXy8/s4RAHqODI+UdY57jc=;
+	b=rsirp2xdP5pSVyTrU/4FQCYw7T2D1XvyIBBH1huJJ0c0HwpbUZ3Ts34O7h71YTJey2
+	O+/buMw5qsRIf1NAGoBRR4RBmErn6BjZTs9onw2hwZHFAjQDdXchdsmGYOTMEXt98K6V
+	Ci3KWYc+AKcFKd3xjQ45eXV1N6fnX/TcOPlnLSw57Rt+4kx+dqt5osSUVZA4h0G9gPcF
+	wa4JWjh4iGoU3YuBYe18PhryUGHWo3FKUUDkyIjFJg7tffO2LgH81IYqEAT7EsAx0r40
+	S5bj+pJl8M8YCkKWFvWDvGnjdxBx42ukm799tpoCP1nisRFX7AmMDvXXMm0zJsSWfthb
+	ZQQQ==
+X-Gm-Message-State: AOAM531T/cn5STj3vdCX5mJc6YgxQKZ2OannUtQw/eMj3nNxN5uxTUMo
+	hXqMWJY/oAD3aP7ZIZgBG97S/4Pf9e492c3iG9M=
+X-Google-Smtp-Source: ABdhPJwL4eGxLRl80WvNXofXOch/KDDj20E1wsu5Tg13cC2qxmUL69iLar3GBrTvTRIJHRNjzUwUUQ==
+X-Received: by 2002:a05:6512:690:b0:443:7f26:bb11 with SMTP id
+	t16-20020a056512069000b004437f26bb11mr16523816lfe.33.1646163766531;
+	Tue, 01 Mar 2022 11:42:46 -0800 (PST)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com.
+	[209.85.208.180]) by smtp.gmail.com with ESMTPSA id
+	f8-20020a2e3808000000b002468b8ca6d1sm1317024lja.27.2022.03.01.11.42.43
 	for <drbd-dev@lists.linbit.com>
 	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Tue, 01 Mar 2022 11:07:04 -0800 (PST)
-Received: by mail-lj1-f174.google.com with SMTP id e8so23189660ljj.2
-	for <drbd-dev@lists.linbit.com>; Tue, 01 Mar 2022 11:07:02 -0800 (PST)
+	Tue, 01 Mar 2022 11:42:43 -0800 (PST)
+Received: by mail-lj1-f180.google.com with SMTP id v22so23295364ljh.7
+	for <drbd-dev@lists.linbit.com>; Tue, 01 Mar 2022 11:42:43 -0800 (PST)
 X-Received: by 2002:a2e:3013:0:b0:246:2ca9:365e with SMTP id
-	w19-20020a2e3013000000b002462ca9365emr17902580ljw.291.1646161622598;
-	Tue, 01 Mar 2022 11:07:02 -0800 (PST)
+	w19-20020a2e3013000000b002462ca9365emr17983151ljw.291.1646163763108;
+	Tue, 01 Mar 2022 11:42:43 -0800 (PST)
 MIME-Version: 1.0
 References: <20220228110822.491923-1-jakobkoschel@gmail.com>
 	<20220228110822.491923-3-jakobkoschel@gmail.com>
@@ -59,11 +59,12 @@ References: <20220228110822.491923-1-jakobkoschel@gmail.com>
 	<b2d20961dbb7533f380827a7fcc313ff849875c1.camel@HansenPartnership.com>
 	<7D0C2A5D-500E-4F38-AD0C-A76E132A390E@kernel.org>
 	<73fa82a20910c06784be2352a655acc59e9942ea.camel@HansenPartnership.com>
-In-Reply-To: <73fa82a20910c06784be2352a655acc59e9942ea.camel@HansenPartnership.com>
+	<CAHk-=wiT5HX6Kp0Qv4ZYK_rkq9t5fZ5zZ7vzvi6pub9kgp=72g@mail.gmail.com>
+In-Reply-To: <CAHk-=wiT5HX6Kp0Qv4ZYK_rkq9t5fZ5zZ7vzvi6pub9kgp=72g@mail.gmail.com>
 From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Tue, 1 Mar 2022 11:06:45 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wiT5HX6Kp0Qv4ZYK_rkq9t5fZ5zZ7vzvi6pub9kgp=72g@mail.gmail.com>
-Message-ID: <CAHk-=wiT5HX6Kp0Qv4ZYK_rkq9t5fZ5zZ7vzvi6pub9kgp=72g@mail.gmail.com>
+Date: Tue, 1 Mar 2022 11:42:26 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wghQygmASNUWj=LZn5FR5wsce2osyR6EXcfEB_FaX_6Og@mail.gmail.com>
+Message-ID: <CAHk-=wghQygmASNUWj=LZn5FR5wsce2osyR6EXcfEB_FaX_6Og@mail.gmail.com>
 To: James Bottomley <James.Bottomley@hansenpartnership.com>
 Cc: linux-wireless <linux-wireless@vger.kernel.org>,
 	alsa-devel@alsa-project.org, KVM list <kvm@vger.kernel.org>,
@@ -128,57 +129,38 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Mon, Feb 28, 2022 at 2:29 PM James Bottomley
-<James.Bottomley@hansenpartnership.com> wrote:
+On Tue, Mar 1, 2022 at 11:06 AM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
-> However, if the desire is really to poison the loop variable then we
-> can do
->
-> #define list_for_each_entry(pos, head, member)                          \
->         for (pos = list_first_entry(head, typeof(*pos), member);        \
->              !list_entry_is_head(pos, head, member) && ((pos = NULL) == NULL;                   \
->              pos = list_next_entry(pos, member))
->
-> Which would at least set pos to NULL when the loop completes.
+> So instead of that simple "if (!entry)", we'd effectively have to
+> continue to use something that still works with the old world order
+> (ie that "if (list_entry_is_head())" model).
 
-That would actually have been excellent if we had done that
-originally. It would not only avoid the stale and incorrectly typed
-head entry left-over turd, it would also have made it very easy to
-test for "did I find an entry in the loop".
+Just to prove my point about how this is painful, that doesn't work at all.
 
-But I don't much like it in the situation we are now.
+If the loop iterator at the end is NULL (good, in theory), we can't
+use "list_entry_is_head()" to check whether we ended. We'd have to use
+a new thing entirely, to handle the "list_for_each_entry() has the
+old/new semantics" cases.
 
-Why? Mainly because it basically changes the semantics of the loop
-_without_ any warnings about it.  And we don't actually get the
-advantage of the nicer semantics, because we can't actually make code
-do
+That's largely why I was pushing for the "let's make it impossible to
+use the loop iterator at all outside the loop". It avoids the
+confusing case, and the patches to move to that stricter semantic can
+be merged independently (and before) doing the actual semantic change.
 
-        list_for_each_entry(entry, ....) {
-                ..
-        }
-        if (!entry)
-                return -ESRCH;
-        .. use the entry we found ..
+I'm not saying my suggested approach is wonderful either. Honestly,
+it's painful that we have so nasty semantics for the end-of-loop case
+for list_for_each_entry().
 
-because that would be a disaster for back-porting, plus it would be a
-flag-day issue (ie we'd have to change the semantics of the loop at
-the same time we change every single user).
+The minimal patch would clearly be to keep those broken semantics, and
+just force everybody to use the list_entry_is_head() case. That's the
+"we know we messed up, we are too lazy to fix it, we'll just work
+around it and people need to be careful" approach.
 
-So instead of that simple "if (!entry)", we'd effectively have to
-continue to use something that still works with the old world order
-(ie that "if (list_entry_is_head())" model).
+And laziness is a virtue. But bad semantics are bad semantics. So it's
+a question of balancing those two issues.
 
-So we couldn't really take _advantage_ of the nicer semantics, and
-we'd not even get a warning if somebody does it wrong - the code would
-just silently do the wrong thing.
-
-IOW: I don't think you are wrong about that patch: it would solve the
-problem that Jakob wants to solve, and it would have absolutely been
-much better if we had done this from the beginning. But I think that
-in our current situation, it's actually a really fragile solution to
-the "don't do that then" problem we have.
-
-              Linus
+               Linus
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
