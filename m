@@ -2,46 +2,46 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F5994C81CA
-	for <lists+drbd-dev@lfdr.de>; Tue,  1 Mar 2022 04:54:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF0C34C81D4
+	for <lists+drbd-dev@lfdr.de>; Tue,  1 Mar 2022 04:59:11 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 32F844217A8;
-	Tue,  1 Mar 2022 04:54:29 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B48594217AA;
+	Tue,  1 Mar 2022 04:59:10 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D18604217A1
-	for <drbd-dev@lists.linbit.com>; Tue,  1 Mar 2022 04:54:26 +0100 (CET)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6FA6F4217A1
+	for <drbd-dev@lists.linbit.com>; Tue,  1 Mar 2022 04:59:08 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
 	d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-	t=1646106867; x=1677642867;
+	t=1646107149; x=1677643149;
 	h=date:from:to:cc:subject:message-id:references:
 	mime-version:in-reply-to;
-	bh=VS6fmfe+veXdqFV0QkiV3wt3rSbkw9JdxwIlqxaie1k=;
-	b=ibrtZ1cOkZlqxfgWlGaNPdgJJYob5ekUBywZ2LqoUGQCm8KqLQLToSw8
-	Xs92eflDkEHpqAE380ntNsXqWjxW+H6XZ/K+yZTjU2I4XunA7ID1IL16E
-	YflzfETvVFt0XyW6oBSFgelc0+6GAxdqtauDj0+9iiA0PncivtVMwTyu4
-	xNHXkoDb1yD6nXAUAjEqcArwwt6BITYtprG8b5Mn/T2Ik1ufE4R7y2MxT
-	qfkZKnPzz6sy5waL+DvBmIK0kfXo2r68JCCGWrOCmBAB6xPZpbkM2qYzc
-	IOJQyyzPyxoY/eOfoyb1wXibHUuyZwpSi3VaLRtWqXbxULFaW2yBq1LK/ w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10272"; a="316264232"
-X-IronPort-AV: E=Sophos;i="5.90,144,1643702400"; d="scan'208";a="316264232"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
-	28 Feb 2022 19:54:25 -0800
-X-IronPort-AV: E=Sophos;i="5.90,144,1643702400"; d="scan'208";a="641118781"
+	bh=JmKLQqD/paUGVR0IFWSaZMWPH0JozuynpP4eKVlBoHg=;
+	b=SLInjPXPOnhUDrB61ob3TAw4vs0OmIv2YeByfULV0IYfMWknURXqG5tx
+	iTEpx+9mybcMl7BGUu2R/Zc5ZqIXeo/f4GwRkTrrLMe7hqgQFSZdce4oI
+	QvEeRy8LiG5Y6/RhtJ9D7tw15nHvOEOZiGVYR1l7nG49TJdWaL3eG+xbx
+	np7K6QeDIf+0VlmpHX+U3Bx7TgAgZH0IqI0FJaEpIOHmsARS+65Ikgk4+
+	wm7BmQwx5OFwGe9+yZ8gbXgkUm62zNDSfW9yCgny8QIocXbxIN7/T4tpo
+	maJMjkkX/IbxTm7Vg7FCzPLK6s4yMRQDbPU0WFglW10N2sh40uNgoMxUC A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10272"; a="233019238"
+X-IronPort-AV: E=Sophos;i="5.90,144,1643702400"; d="scan'208";a="233019238"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+	28 Feb 2022 19:59:08 -0800
+X-IronPort-AV: E=Sophos;i="5.90,144,1643702400"; d="scan'208";a="575563941"
 Received: from chunhanz-mobl.amr.corp.intel.com (HELO localhost)
-	([10.212.29.175]) by orsmga004-auth.jf.intel.com with
-	ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2022 19:54:24 -0800
-Date: Mon, 28 Feb 2022 19:54:23 -0800
+	([10.212.29.175]) by orsmga001-auth.jf.intel.com with
+	ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2022 19:59:07 -0800
+Date: Mon, 28 Feb 2022 19:59:06 -0800
 From: Ira Weiny <ira.weiny@intel.com>
 To: Christoph Hellwig <hch@lst.de>
-Message-ID: <Yh2Y76PZxSHF1stE@iweiny-desk3>
+Message-ID: <Yh2aCi6gtG0naC1r@iweiny-desk3>
 References: <20220222155156.597597-1-hch@lst.de>
-	<20220222155156.597597-6-hch@lst.de>
+	<20220222155156.597597-7-hch@lst.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20220222155156.597597-6-hch@lst.de>
+In-Reply-To: <20220222155156.597597-7-hch@lst.de>
 Cc: Jens Axboe <axboe@kernel.dk>, Chris Zankel <chris@zankel.net>,
 	Justin Sanders <justin@coraid.com>, Minchan Kim <minchan@kernel.org>,
 	Vishal Verma <vishal.l.verma@intel.com>, linux-xtensa@linux-xtensa.org,
@@ -52,8 +52,8 @@ Cc: Jens Axboe <axboe@kernel.dk>, Chris Zankel <chris@zankel.net>,
 	Lars Ellenberg <lars.ellenberg@linbit.com>,
 	Dan Williams <dan.j.williams@intel.com>,
 	Nitin Gupta <ngupta@vflare.org>, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH 05/10] nvdimm-blk: use bvec_kmap_local in
- nd_blk_rw_integrity
+Subject: Re: [Drbd-dev] [PATCH 06/10] nvdimm-btt: use bvec_kmap_local in
+	btt_rw_integrity
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -72,35 +72,45 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Tue, Feb 22, 2022 at 04:51:51PM +0100, Christoph Hellwig wrote:
+On Tue, Feb 22, 2022 at 04:51:52PM +0100, Christoph Hellwig wrote:
 > Using local kmaps slightly reduces the chances to stray writes, and
 > the bvec interface cleans up the code a little bit.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
-
-Reviewed-by: Ira Weiny <ira.weiny@intel.com>
-
 > ---
->  drivers/nvdimm/blk.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
+>  drivers/nvdimm/btt.c | 10 ++++------
+>  1 file changed, 4 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/nvdimm/blk.c b/drivers/nvdimm/blk.c
-> index c1db43524d755..0a38738335941 100644
-> --- a/drivers/nvdimm/blk.c
-> +++ b/drivers/nvdimm/blk.c
-> @@ -88,10 +88,9 @@ static int nd_blk_rw_integrity(struct nd_namespace_blk *nsblk,
+> diff --git a/drivers/nvdimm/btt.c b/drivers/nvdimm/btt.c
+> index cbd994f7f1fe6..9613e54c7a675 100644
+> --- a/drivers/nvdimm/btt.c
+> +++ b/drivers/nvdimm/btt.c
+> @@ -1163,17 +1163,15 @@ static int btt_rw_integrity(struct btt *btt, struct bio_integrity_payload *bip,
 >  		 */
 >  
 >  		cur_len = min(len, bv.bv_len);
-> -		iobuf = kmap_atomic(bv.bv_page);
-> -		err = ndbr->do_io(ndbr, dev_offset, iobuf + bv.bv_offset,
-> -				cur_len, rw);
-> -		kunmap_atomic(iobuf);
-> +		iobuf = bvec_kmap_local(&bv);
-> +		err = ndbr->do_io(ndbr, dev_offset, iobuf, cur_len, rw);
-> +		kunmap_local(iobuf);
->  		if (err)
->  			return err;
+> -		mem = kmap_atomic(bv.bv_page);
+> +		mem = bvec_kmap_local(&bv);
+>  		if (rw)
+> -			ret = arena_write_bytes(arena, meta_nsoff,
+> -					mem + bv.bv_offset, cur_len,
+> +			ret = arena_write_bytes(arena, meta_nsoff, mem, cur_len,
+
+Why drop bv.bv_offset here and below?
+
+Ira
+
+>  					NVDIMM_IO_ATOMIC);
+>  		else
+> -			ret = arena_read_bytes(arena, meta_nsoff,
+> -					mem + bv.bv_offset, cur_len,
+> +			ret = arena_read_bytes(arena, meta_nsoff, mem, cur_len,
+>  					NVDIMM_IO_ATOMIC);
+>  
+> -		kunmap_atomic(mem);
+> +		kunmap_local(mem);
+>  		if (ret)
+>  			return ret;
 >  
 > -- 
 > 2.30.2
