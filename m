@@ -2,50 +2,48 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BD1C4CA4F4
-	for <lists+drbd-dev@lfdr.de>; Wed,  2 Mar 2022 13:40:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DF274CA4F5
+	for <lists+drbd-dev@lfdr.de>; Wed,  2 Mar 2022 13:40:40 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2BA5E4217A0;
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 50C944217AB;
 	Wed,  2 Mar 2022 13:40:38 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 423 seconds by postgrey-1.31 at mail19;
-	Tue, 01 Mar 2022 18:45:47 CET
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
 	[66.111.4.229])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2DE03420368
-	for <drbd-dev@lists.linbit.com>; Tue,  1 Mar 2022 18:45:46 +0100 (CET)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 668835801CF;
-	Tue,  1 Mar 2022 12:36:34 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-	by compute2.internal (MEProxy); Tue, 01 Mar 2022 12:36:34 -0500
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4055D42179F
+	for <drbd-dev@lists.linbit.com>; Tue,  1 Mar 2022 19:00:16 +0100 (CET)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 1F34E5801D0;
+	Tue,  1 Mar 2022 12:58:06 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+	by compute1.internal (MEProxy); Tue, 01 Mar 2022 12:58:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
 	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm3; bh=5OE8xr6GO9X7MbNpDAcWFGeEO3b3B/8LX5WMVM
-	23luQ=; b=PuP2NuoqB9WepsjY0Uqokte1F02OSePW/KnqWPOHGfC62jDMQy8d6J
-	jihmHY7jaxPeYmV/brYSLMo2rdd0E65RFIbVZNaw+d6hF5TlV5h/HTFiyyQeuhEh
-	tTvMohVc8vJzz2F3uGXDhJ11n60AMBcwryX0OIQ4h4vBoJz9sXnQjtTWmMBfJvV8
-	ASNImP/JJmHc6aQngUkaR/9ejN6V67gkY3Ss3hOhMxZ05fa2rytR+8neryd7GnHR
-	NnoILjHkJCXbghnuIwO3WAIr0wjFgm+H99CgrlgjXtrJoB87p0eZTz8QaQ9jXLS7
-	eUmDU4ThQ2iD/GAcK9q8FPfYZ3dj5Siw==
+	:subject:to:to; s=fm3; bh=1b8nHfrBOcjPGYcB+Q6wr00uk1GmKX3v3ZNCnj
+	2Fc4I=; b=ZBUT+xBEPIHuw8jHImLNH+x52gankwE7MJd8sDFwnEoy45z1BwbhNh
+	xKsOdQ1yD9u7q0d/6DIUtrg535wnOmT4Lvdd1apo2YuuhLLDVkYx1vSgNyoTE5fJ
+	ofsW7j8uCMJyXK6Loz8rrLOzHyzxWsYiemruNwAl4gNUMe4M/NVtyIVhNAgsOfjy
+	b/w/wzWa4VwoEUleGhkhNF3kRyKpQ3Usq/8Ca14buwUMr/k/0v+gPaqGXYzqUKuv
+	KllGIGlPN88CAydfwqCLzM8aK7V+EiOvYiI4kF7OI9OB3TO949n6Hy8EMtjF8IqZ
+	MBlpj07s0Rnbq4GNXj6M7/3IgLXdvpRA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=5OE8xr6GO9X7MbNpD
-	AcWFGeEO3b3B/8LX5WMVM23luQ=; b=EDVGv6yEMy7PTbky8OfXVA9jYKh0oiM5+
-	sk6xt1CX3smAZYI0P9oaKzOCIkwMemVmh9foKoLwOV/IyVUBTTJc+ljLrovpUDdP
-	pIA4BCkMgcGpU96mM/8o9zjz4bY87GlxWmxlUETAhWUvR7QqjYOuAQqLjAz9vvM2
-	9w41DE+muRcTBgXgq7R5mX2xPAK9bu7QEmldC6d/UhIWw84PgZEMMUkVZDfimvGr
-	9rb1WTZ4HmbXffSgmjvpYAD0fz3a3kb/jxO9vzcKzkIUx9MDQUxolnVJ5gWPPm0P
-	3SACLLdt3Ji3p4//lVUF9os4MIANF8EQiUgikZ8An4R/ZWSxaE7Og==
-X-ME-Sender: <xms:oFkeYrv0LJt2Pjt0ZOYMYd1jCK6G-Z0GZXtRlOiCbijoVlbqDToesg>
-	<xme:oFkeYsdRXoRXAxTjhPFWtM5JX8rU2-dsIwxZfpFocA89gDBFD4vx9xsWmcbxEuUyQ
-	lpRakwPpYLi7A>
-X-ME-Received: <xmr:oFkeYuzzdQb5kL72Vvj74Xn0xRRyhzff8uvNHTyUqFsrLF_56anw9-ykyIbZGqAzSj0KTqXLBgC1Qf0KKdPZ7IM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddtvddguddttdcutefuodetggdotefrod
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=1b8nHfrBOcjPGYcB+
+	Q6wr00uk1GmKX3v3ZNCnj2Fc4I=; b=EY31l7G2XfgL9rSC/gwvRf8zFgwtBT7xS
+	zGIS7YVvo/KA/v9LCSJOIARDHfRqiRvn2gTz078tIpwk3oIxG21buWNUxNQmSUyy
+	MyYKa/Xe0zh4/DCiQIRNMfBLOEXackhRaibWR2bFKht/sqIYkVYfZsf6JTqkc8aS
+	N/+KxLe8dnTTbLIJQe4lQN4jxuybvA2M70S25Fv9b7VdN/aPfJftqSYQ4WVfyPqY
+	0tbQrYevVZ6RBtubRdYtr3gnZBflyWFJSH5G+LkmECZ7pFmQ2xcqosvgp1dXRrwM
+	GXM5n5s+pyNtUs5gG+ueV8296EmUoxyY6tuEcr0WZBCuK4oOvJTLg==
+X-ME-Sender: <xms:rF4eYt_khXW9JUELKd3sbskivfb6p9VNYJ9HJTNdiVa20a5SzZwcHg>
+	<xme:rF4eYhvpLP3jG67Y92AJSSlOEm5MH8cOme-q_WmBEiKHi2-d33bdpDbAgKuSlQzhv
+	bEXTTYYFzUc5A>
+X-ME-Received: <xmr:rF4eYrDa0WtfQIncLyLiGZ2_QzeJH36bSCyCi0g3L7auz9QrwNL4PuRbLUYhHGofRJvw4tCnLgWVuPYzt-8dyqU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddtvddguddtgecutefuodetggdotefrod
 	ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
 	necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 	enucfjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghg
@@ -53,18 +51,17 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddtvddguddttdcutefuodetgg
 	ejgfffgfeivddukedvkedtleelleeghfeljeeiueeggeevueduudekvdetnecuvehluhhs
 	thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorg
 	hhrdgtohhm
-X-ME-Proxy: <xmx:oFkeYqNP0oPgoNRpau1EsmnsGvsi8MuHt5Oau7Uh5DcasQw65k9YTg>
-	<xmx:oFkeYr8eoBRonSMDQgE0d2CdwAX12XsrowbLGxOxF_rvtS3YwiTEgg>
-	<xmx:oFkeYqVNxx7WBcYUGhcHc73BR9KI7xEAuh9FjZrqFDwJGYsF_7MqUw>
-	<xmx:olkeYkWtK93reuC1fg-f2X2RrUvR780eGtvCg6vOtajRgdiJ73bSmQ>
+X-ME-Proxy: <xmx:rF4eYhep9_FqzdGryzLUlkyDm8oB4NZlyIpp5U2aPsiBO5Uc_pu1KA>
+	<xmx:rF4eYiNt1Zd7p4zbskEHRd607PiISY-ihvHig6bYJF7awgzM4cA48A>
+	<xmx:rF4eYjmGF931qz2wbkLW14iXG2GvWL_-CIczc4jJ1wtvDsjYWSRagQ>
+	<xmx:rl4eYkl7_n3lofGsDcutmkSMBLsPYoIzfmJgc1TjOF9wAZv0ieQERQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
-	1 Mar 2022 12:36:31 -0500 (EST)
-Date: Tue, 1 Mar 2022 18:36:27 +0100
+	1 Mar 2022 12:58:03 -0500 (EST)
+Date: Tue, 1 Mar 2022 18:58:02 +0100
 From: Greg KH <greg@kroah.com>
 To: Jakob Koschel <jakobkoschel@gmail.com>
-Message-ID: <Yh5ZmwiH5AxtQ69K@kroah.com>
-References: <20220228110822.491923-1-jakobkoschel@gmail.com>
-	<20220228110822.491923-3-jakobkoschel@gmail.com>
+Message-ID: <Yh5eqmAv0P2nnSq0@kroah.com>
+References: <20220228110822.491923-3-jakobkoschel@gmail.com>
 	<2e4e95d6-f6c9-a188-e1cd-b1eae465562a@amd.com>
 	<CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
 	<CAHk-=wj8fkosQ7=bps5K+DDazBXk=ypfn49A0sEq+7-nZnyfXA@mail.gmail.com>
@@ -72,9 +69,11 @@ References: <20220228110822.491923-1-jakobkoschel@gmail.com>
 	<FC710A1A-524E-481B-A668-FC258F529A2E@gmail.com>
 	<CAHk-=whLK11HyvpUtEftOjc3Gup2V77KpAQ2fycj3uai=qceHw@mail.gmail.com>
 	<CEDAD0D9-56EE-4105-9107-72C2EAD940B0@gmail.com>
+	<Yh5ZmwiH5AxtQ69K@kroah.com>
+	<4B1AFAD9-C1B3-499C-945A-C259361ABA8C@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CEDAD0D9-56EE-4105-9107-72C2EAD940B0@gmail.com>
+In-Reply-To: <4B1AFAD9-C1B3-499C-945A-C259361ABA8C@gmail.com>
 X-Mailman-Approved-At: Wed, 02 Mar 2022 13:40:36 +0100
 Cc: linux-wireless <linux-wireless@vger.kernel.org>,
 	alsa-devel@alsa-project.org, KVM list <kvm@vger.kernel.org>,
@@ -140,50 +139,67 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Tue, Mar 01, 2022 at 12:28:15PM +0100, Jakob Koschel wrote:
+On Tue, Mar 01, 2022 at 06:40:04PM +0100, Jakob Koschel wrote:
 > 
 > 
-> > On 1. Mar 2022, at 01:41, Linus Torvalds <torvalds@linux-foundation.org> wrote:
+> > On 1. Mar 2022, at 18:36, Greg KH <greg@kroah.com> wrote:
 > > 
-> > On Mon, Feb 28, 2022 at 1:47 PM Jakob Koschel <jakobkoschel@gmail.com> wrote:
+> > On Tue, Mar 01, 2022 at 12:28:15PM +0100, Jakob Koschel wrote:
 > >> 
-> >> The goal of this is to get compiler warnings right? This would indeed be great.
+> >> 
+> >>> On 1. Mar 2022, at 01:41, Linus Torvalds <torvalds@linux-foundation.org> wrote:
+> >>> 
+> >>> On Mon, Feb 28, 2022 at 1:47 PM Jakob Koschel <jakobkoschel@gmail.com> wrote:
+> >>>> 
+> >>>> The goal of this is to get compiler warnings right? This would indeed be great.
+> >>> 
+> >>> Yes, so I don't mind having a one-time patch that has been gathered
+> >>> using some automated checker tool, but I don't think that works from a
+> >>> long-term maintenance perspective.
+> >>> 
+> >>> So if we have the basic rule being "don't use the loop iterator after
+> >>> the loop has finished, because it can cause all kinds of subtle
+> >>> issues", then in _addition_ to fixing the existing code paths that
+> >>> have this issue, I really would want to (a) get a compiler warning for
+> >>> future cases and (b) make it not actually _work_ for future cases.
+> >>> 
+> >>> Because otherwise it will just happen again.
+> >>> 
+> >>>> Changing the list_for_each_entry() macro first will break all of those cases
+> >>>> (e.g. the ones using 'list_entry_is_head()).
+> >>> 
+> >>> So I have no problems with breaking cases that we basically already
+> >>> have a patch for due to  your automated tool. There were certainly
+> >>> more than a handful, but it didn't look _too_ bad to just make the
+> >>> rule be "don't use the iterator after the loop".
+> >>> 
+> >>> Of course, that's just based on that patch of yours. Maybe there are a
+> >>> ton of other cases that your patch didn't change, because they didn't
+> >>> match your trigger case, so I may just be overly optimistic here.
+> >> 
+> >> Based on the coccinelle script there are ~480 cases that need fixing
+> >> in total. I'll now finish all of them and then split them by
+> >> submodules as Greg suggested and repost a patch set per submodule.
+> >> Sounds good?
 > > 
-> > Yes, so I don't mind having a one-time patch that has been gathered
-> > using some automated checker tool, but I don't think that works from a
-> > long-term maintenance perspective.
+> > Sounds good to me!
 > > 
-> > So if we have the basic rule being "don't use the loop iterator after
-> > the loop has finished, because it can cause all kinds of subtle
-> > issues", then in _addition_ to fixing the existing code paths that
-> > have this issue, I really would want to (a) get a compiler warning for
-> > future cases and (b) make it not actually _work_ for future cases.
-> > 
-> > Because otherwise it will just happen again.
-> > 
-> >> Changing the list_for_each_entry() macro first will break all of those cases
-> >> (e.g. the ones using 'list_entry_is_head()).
-> > 
-> > So I have no problems with breaking cases that we basically already
-> > have a patch for due to  your automated tool. There were certainly
-> > more than a handful, but it didn't look _too_ bad to just make the
-> > rule be "don't use the iterator after the loop".
-> > 
-> > Of course, that's just based on that patch of yours. Maybe there are a
-> > ton of other cases that your patch didn't change, because they didn't
-> > match your trigger case, so I may just be overly optimistic here.
+> > If you need help carving these up and maintaining them over time as
+> > different subsystem maintainers accept/ignore them, just let me know.
+> > Doing large patchsets like this can be tough without a lot of
+> > experience.
 > 
-> Based on the coccinelle script there are ~480 cases that need fixing
-> in total. I'll now finish all of them and then split them by
-> submodules as Greg suggested and repost a patch set per submodule.
-> Sounds good?
+> Very much appreciated!
+> 
+> There will probably be some cases that do not match one of the pattern
+> we already discussed and need separate attention.
+> 
+> I was planning to start with one subsystem and adjust the coming ones
+> according to the feedback gather there instead of posting all of them
+> in one go.
 
-Sounds good to me!
-
-If you need help carving these up and maintaining them over time as
-different subsystem maintainers accept/ignore them, just let me know.
-Doing large patchsets like this can be tough without a lot of
-experience.
+That seems wise.  Feel free to use USB as a testing ground for this if
+you want to :)
 
 thanks,
 
