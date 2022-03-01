@@ -2,54 +2,54 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 158E94C7F80
-	for <lists+drbd-dev@lfdr.de>; Tue,  1 Mar 2022 01:45:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ACFA4C7FD8
+	for <lists+drbd-dev@lfdr.de>; Tue,  1 Mar 2022 01:58:07 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0802F42179F;
-	Tue,  1 Mar 2022 01:45:32 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 35C2D4217A0;
+	Tue,  1 Mar 2022 01:58:06 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
-	[209.85.167.48])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id EB515421791
-	for <drbd-dev@lists.linbit.com>; Tue,  1 Mar 2022 01:45:30 +0100 (CET)
-Received: by mail-lf1-f48.google.com with SMTP id b9so24294163lfv.7
-	for <drbd-dev@lists.linbit.com>; Mon, 28 Feb 2022 16:45:30 -0800 (PST)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
+	[209.85.208.175])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 70D2442179D
+	for <drbd-dev@lists.linbit.com>; Tue,  1 Mar 2022 01:58:05 +0100 (CET)
+Received: by mail-lj1-f175.google.com with SMTP id l12so7898887ljh.12
+	for <drbd-dev@lists.linbit.com>; Mon, 28 Feb 2022 16:58:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linux-foundation.org; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=BlmDHl6uq7o6y8aC/cJk7fo5oLGvHdeOO4XUoHPiZHY=;
-	b=CuWkmdhnuqYUPLlFfSW5kqvLG+/BaUYxswQvwT5TlbeMKdgX0f6Tdop/2MomIxMIWT
-	P4yfskuo3sOir2HSEC5b7N//0EkwPlLVbS+ffho6xWO2QaHJfy0oi9bnLtClO4bSDX+r
-	dQzBghLtont2uRRAhfDOfzUglX2wpO3DzhpXQ=
+	:cc; bh=+UrwimTIhzKiU9pJv3o5X6bf+6FXMWBGxz+Z+GIIGDc=;
+	b=avIYh8aQ2dDobwKAVUmxzj/7dS14/rGtEVGY0pMiaJUsHbP3qIU6kno3XMfBz/RlQM
+	DBr9tOtZ8iqO/uKNwSujAwo9mle8zBl2HT1HDuvvvRH+Bqr8BYPzCJojUUOk2VYbR5wW
+	hMzIeM3di7snjNNfrAaBZvtX47IfluwYB/RPY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20210112;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=BlmDHl6uq7o6y8aC/cJk7fo5oLGvHdeOO4XUoHPiZHY=;
-	b=yh2+4vIj6BgoHJ1CmgThxMDWWtJQ8bJR+9yiQsTkoc/Wc6JdBCqFxwt//bl2yTJ85m
-	GIdJBgeKw0tSZYfHABujI2VNWgPF7daFx2n3FLQEH+mppmWceW9tzIRxLZ+fHJYWXNPh
-	mIJ2vcnZcOZcFB+faV15svhq76AXYGyANN1jeFYCPDBeUik/Zseg66k9VIdR4lzGjoEp
-	I4VPY3azAxEtL5WeYdhQJzi8dY6tdKqPIPmUXkonHwyzk08sUWR2oU8ijL2OidITzpH6
-	814Qb+1qQF0g4cWL5IinOhqI87NtZaov4iMwa0Qf46TCo+X5mTr54UXmEWGRhqlh5Op2
-	l5JQ==
-X-Gm-Message-State: AOAM531rK/CWJgkFmtrr88HIZsH+q7BxEQbfxZVz4GOjnbYWBbJ1JzyZ
-	IuEdqxfJy48HowFX0IkIzrW9mRAk7lSEvlWn+b0=
-X-Google-Smtp-Source: ABdhPJwxLgTMYjE4b2dpae5UHKXLxv8bCOtLNXufhM3Xvkb2UCGUJ+DuectrZ8RqEx+UTqlagSMmTg==
-X-Received: by 2002:a19:ae17:0:b0:438:8566:3ce8 with SMTP id
-	f23-20020a19ae17000000b0043885663ce8mr14872014lfc.488.1646095530072;
-	Mon, 28 Feb 2022 16:45:30 -0800 (PST)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com.
-	[209.85.167.44]) by smtp.gmail.com with ESMTPSA id
-	c40-20020a05651223a800b00443d571f25csm1209896lfv.214.2022.02.28.16.45.27
+	bh=+UrwimTIhzKiU9pJv3o5X6bf+6FXMWBGxz+Z+GIIGDc=;
+	b=s2OC+b7n69ECQb8iPoRJxnlDMgyIoaUf2MfDQr1bZmyZsYFJyayIM3m2WmShjXfRZz
+	xxL0XHkA9FUeO3cpDZF7VLPjMEDa6zp6lSVteXojvhVGY+0h1lGJmEqMqwrUfX/cI9WG
+	mpPgXlMs1MeBM49skmA7NwemBJPSj7Lv7Xau3oSy/S1E/191LFJF9xi4mpFhqgx0qzvI
+	v2g1aInf+m/d9z4VrMUlO/7y3vWCakd36aedTFiOylHByN0eBAg4GdlXLSV4SS2SXm+U
+	DICkDrnX+8TactCub23qm6OlI0I8Gi9fsd63E1dHUll8fkx3DlQkCsIIpCSVRsJeOweN
+	SuMA==
+X-Gm-Message-State: AOAM530fi4TI53DRIvemeU/1VBRXyYLfLVOS48vBhdaY+nWZNGsshouf
+	0PJL55yW6ZDrc+Yn8za8b27qLb+Kk2gzaDPzMP0=
+X-Google-Smtp-Source: ABdhPJzpkfbx7BTVT8c91BKO6FNwLYHeSuP06VUqatYpkqwqBtqXftxRDy8fDiZiAJeU/7l9UtFIog==
+X-Received: by 2002:a2e:8890:0:b0:244:d635:b4af with SMTP id
+	k16-20020a2e8890000000b00244d635b4afmr15469201lji.33.1646096284612;
+	Mon, 28 Feb 2022 16:58:04 -0800 (PST)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com.
+	[209.85.167.49]) by smtp.gmail.com with ESMTPSA id
+	l16-20020a2ea810000000b00246204d9590sm1611086ljq.28.2022.02.28.16.58.03
 	for <drbd-dev@lists.linbit.com>
 	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Mon, 28 Feb 2022 16:45:28 -0800 (PST)
-Received: by mail-lf1-f44.google.com with SMTP id f37so24217523lfv.8
-	for <drbd-dev@lists.linbit.com>; Mon, 28 Feb 2022 16:45:27 -0800 (PST)
+	Mon, 28 Feb 2022 16:58:03 -0800 (PST)
+Received: by mail-lf1-f49.google.com with SMTP id m14so24307284lfu.4
+	for <drbd-dev@lists.linbit.com>; Mon, 28 Feb 2022 16:58:03 -0800 (PST)
 X-Received: by 2002:a05:6512:3042:b0:437:96f5:e68a with SMTP id
-	b2-20020a056512304200b0043796f5e68amr14778245lfb.449.1646095527444;
-	Mon, 28 Feb 2022 16:45:27 -0800 (PST)
+	b2-20020a056512304200b0043796f5e68amr14803965lfb.449.1646096282839;
+	Mon, 28 Feb 2022 16:58:02 -0800 (PST)
 MIME-Version: 1.0
 References: <20220228110822.491923-1-jakobkoschel@gmail.com>
 	<20220228110822.491923-3-jakobkoschel@gmail.com>
@@ -60,11 +60,12 @@ References: <20220228110822.491923-1-jakobkoschel@gmail.com>
 	<Yh0tl3Lni4weIMkl@casper.infradead.org>
 	<CAHk-=wgBfJ1-cPA2LTvFyyy8owpfmtCuyiZi4+um8DhFNe+CyA@mail.gmail.com>
 	<Yh1aMm3hFe/j9ZbI@casper.infradead.org>
-In-Reply-To: <Yh1aMm3hFe/j9ZbI@casper.infradead.org>
+	<CAHk-=wi0gSUMBr2SVF01Gy1xC1w1iGtJT5ztju9BPWYKjdh+NA@mail.gmail.com>
+In-Reply-To: <CAHk-=wi0gSUMBr2SVF01Gy1xC1w1iGtJT5ztju9BPWYKjdh+NA@mail.gmail.com>
 From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 28 Feb 2022 16:45:11 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wi0gSUMBr2SVF01Gy1xC1w1iGtJT5ztju9BPWYKjdh+NA@mail.gmail.com>
-Message-ID: <CAHk-=wi0gSUMBr2SVF01Gy1xC1w1iGtJT5ztju9BPWYKjdh+NA@mail.gmail.com>
+Date: Mon, 28 Feb 2022 16:57:46 -0800
+X-Gmail-Original-Message-ID: <CAHk-=whqJmCZ+VHTJPwsHYc1YNNEvWS7=ukqGKfBxcBYAToAkw@mail.gmail.com>
+Message-ID: <CAHk-=whqJmCZ+VHTJPwsHYc1YNNEvWS7=ukqGKfBxcBYAToAkw@mail.gmail.com>
 To: Matthew Wilcox <willy@infradead.org>
 Cc: linux-wireless <linux-wireless@vger.kernel.org>,
 	alsa-devel@alsa-project.org, KVM list <kvm@vger.kernel.org>,
@@ -129,25 +130,18 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Mon, Feb 28, 2022 at 3:26 PM Matthew Wilcox <willy@infradead.org> wrote:
+On Mon, Feb 28, 2022 at 4:45 PM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
-> #define ___PASTE(a, b)  a##b
-> #define __PASTE(a, b) ___PASTE(a, b)
-> #define _min(a, b, u) ({         \
+> Yeah, except that's ugly beyond belief, plus it's literally not what
+> we do in the kernel.
 
-Yeah, except that's ugly beyond belief, plus it's literally not what
-we do in the kernel.
+(Of course, I probably shouldn't have used 'min()' as an example,
+because that is actually one of the few places where we do exactly
+that, using our __UNIQUE_ID() macros. Exactly because people _have_
+tried to do -Wshadow when doing W=2).
 
-Really. The "-Wshadow doesn't work on the kernel" is not some new
-issue, because you have to do completely insane things to the source
-code to enable it.
-
-Just compare your uglier-than-sin version to my straightforward one.
-One does the usual and obvious "use a private variable to avoid the
-classic multi-use of a macro argument". And the other one is an
-abomination.
-
-              Linus
+                 Linus
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
