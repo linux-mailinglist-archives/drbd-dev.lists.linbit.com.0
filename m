@@ -2,55 +2,37 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CD8A4C98C9
-	for <lists+drbd-dev@lfdr.de>; Wed,  2 Mar 2022 00:04:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 830344C995D
+	for <lists+drbd-dev@lfdr.de>; Wed,  2 Mar 2022 00:31:03 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2A41E4217B6;
-	Wed,  2 Mar 2022 00:04:43 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 66D564217BA;
+	Wed,  2 Mar 2022 00:31:02 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
-	[209.85.167.46])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id BE2CB4217A2
-	for <drbd-dev@lists.linbit.com>; Wed,  2 Mar 2022 00:04:41 +0100 (CET)
-Received: by mail-lf1-f46.google.com with SMTP id y24so29455113lfg.1
-	for <drbd-dev@lists.linbit.com>; Tue, 01 Mar 2022 15:04:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ojIOUCrgcIak8ZCc1skMdXRKcTVmt9Elm/o+1+I6jGA=;
-	b=fmg4LXx5HRB2mrrWsHndl76rC2chdk1sBRQyNWtz+o2V+K2vg9psF6vr/ppax24roG
-	0IEY6nkgVM6qwn95jhK4YeupoNeTj8/flkbxBQUDmf863ReCVguQlY3gsMWixLyIz8Mx
-	ewpCP9yjbapnom8xtoCAmNy70uRnweYHKzlsw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20210112;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=ojIOUCrgcIak8ZCc1skMdXRKcTVmt9Elm/o+1+I6jGA=;
-	b=Yc4sQP4gu5Y/dIxvP7LHWT9wg8uD7ol5yCsQgVqpaiNJ1FG3x3TSRmjLGmPEt7Fs5s
-	F7DLVABeJ4tcmOioYpYUMBoQHrdtu4bzgECBWXqqYvF+/DxNXcyOsbbGwVL/ulhwpnaW
-	Q01fTjp7QWH8OMIGPjFoq7JhgZPzQ9RQnpyqQSQrpXEqQm7T4A9Xa+Bd9Fs2Lsq2czRj
-	lZF1uoXPWvlSQjHmbtTfi8Sbq9QEM8iugca84/fMIHmoExHdQT5wmFKY4SKppuKq22ql
-	UkMeJjsQSzBd8Rjg88JtMlbtJ3yqQeXGRNpeJ0TAqN/LrqoH/vBCr/rapbaTrifE20te
-	B1tA==
-X-Gm-Message-State: AOAM533NU7irrg6v7Trp7tG5eTGuWxhbbPZoLZ4fPwryCa23Y3hU2SLa
-	oZ7FPg5WR1kD8zbp3TGk3p0jdZibTTVe/8eL7Wk=
-X-Google-Smtp-Source: ABdhPJzu3p3EYgRAY9o3BybjCvUcUoKK1qzuunnw0Q0mTLbLmBWVjA8t2i8BEVRJqoTDm5k/lJSAig==
-X-Received: by 2002:a05:6512:ac3:b0:443:d3e3:db0a with SMTP id
-	n3-20020a0565120ac300b00443d3e3db0amr17227636lfu.298.1646175820803;
-	Tue, 01 Mar 2022 15:03:40 -0800 (PST)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com.
-	[209.85.208.174]) by smtp.gmail.com with ESMTPSA id
-	p7-20020ac24ec7000000b00443d65ea161sm1712641lfr.291.2022.03.01.15.03.36
-	for <drbd-dev@lists.linbit.com>
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Tue, 01 Mar 2022 15:03:36 -0800 (PST)
-Received: by mail-lj1-f174.google.com with SMTP id l12so12031873ljh.12
-	for <drbd-dev@lists.linbit.com>; Tue, 01 Mar 2022 15:03:36 -0800 (PST)
-X-Received: by 2002:a2e:924d:0:b0:246:370c:5618 with SMTP id
-	v13-20020a2e924d000000b00246370c5618mr18436468ljg.358.1646175815802;
-	Tue, 01 Mar 2022 15:03:35 -0800 (PST)
-MIME-Version: 1.0
+X-Greylist: delayed 669 seconds by postgrey-1.31 at mail19;
+	Wed, 02 Mar 2022 00:31:00 CET
+Received: from eu-smtp-delivery-151.mimecast.com
+	(eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D32C14217A0
+	for <drbd-dev@lists.linbit.com>; Wed,  2 Mar 2022 00:31:00 +0100 (CET)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+	relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+	uk-mta-274-hYNDa1-rPGCuZAB3qy-How-1; Tue, 01 Mar 2022 23:19:49 +0000
+X-MC-Unique: hYNDa1-rPGCuZAB3qy-How-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+	AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft
+	SMTP Server (TLS) id 15.0.1497.28; Tue, 1 Mar 2022 23:19:46 +0000
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+	AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+	15.00.1497.028; Tue, 1 Mar 2022 23:19:46 +0000
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Linus Torvalds' <torvalds@linux-foundation.org>
+Thread-Topic: [PATCH 2/6] treewide: remove using list iterator after loop body
+	as a ptr
+Thread-Index: AQHYLZ9++DU/OogLf0+tiSFmjztyUKyrHL5AgAAJGICAAAEEcA==
+Date: Tue, 1 Mar 2022 23:19:46 +0000
+Message-ID: <0ced2b155b984882b39e895f0211037c@AcuMS.aculab.com>
 References: <20220228110822.491923-1-jakobkoschel@gmail.com>
 	<20220228110822.491923-3-jakobkoschel@gmail.com>
 	<2e4e95d6-f6c9-a188-e1cd-b1eae465562a@amd.com>
@@ -61,12 +43,19 @@ References: <20220228110822.491923-1-jakobkoschel@gmail.com>
 	<73fa82a20910c06784be2352a655acc59e9942ea.camel@HansenPartnership.com>
 	<CAHk-=wiT5HX6Kp0Qv4ZYK_rkq9t5fZ5zZ7vzvi6pub9kgp=72g@mail.gmail.com>
 	<7dc860874d434d2288f36730d8ea3312@AcuMS.aculab.com>
-In-Reply-To: <7dc860874d434d2288f36730d8ea3312@AcuMS.aculab.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Tue, 1 Mar 2022 15:03:19 -0800
-X-Gmail-Original-Message-ID: <CAHk-=whKqg89zu4T95+ctY-hocR6kDArpo2qO14-kV40Ga7ufw@mail.gmail.com>
-Message-ID: <CAHk-=whKqg89zu4T95+ctY-hocR6kDArpo2qO14-kV40Ga7ufw@mail.gmail.com>
-To: David Laight <David.Laight@aculab.com>
+	<CAHk-=whKqg89zu4T95+ctY-hocR6kDArpo2qO14-kV40Ga7ufw@mail.gmail.com>
+In-Reply-To: <CAHk-=whKqg89zu4T95+ctY-hocR6kDArpo2qO14-kV40Ga7ufw@mail.gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
+MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
 Cc: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
 	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
 	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
@@ -92,8 +81,8 @@ Cc: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
 	<bcm-kernel-feedback-list@broadcom.com>,
 	Dan Carpenter <dan.carpenter@oracle.com>,
 	Linux Media Mailing List <linux-media@vger.kernel.org>,
-	Kees Cook <keescook@chromium.org>, Arnd Bergman <arnd@arndb.de>,
-	Linux PM <linux-pm@vger.kernel.org>,
+	Kees Cook <keescook@chromium.org>, Arnd
+	Bergman <arnd@arndb.de>, Linux PM <linux-pm@vger.kernel.org>,
 	linux-block <linux-block@vger.kernel.org>,
 	intel-gfx <intel-gfx@lists.freedesktop.org>,
 	Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
@@ -104,8 +93,8 @@ Cc: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
 	"v9fs-developer@lists.sourceforge.net"
 	<v9fs-developer@lists.sourceforge.net>,
 	linux-tegra <linux-tegra@vger.kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>, Andy
+	Shevchenko <andriy.shevchenko@linux.intel.com>,
 	Linux ARM <linux-arm-kernel@lists.infradead.org>,
 	"linux-sgx@vger.kernel.org" <linux-sgx@vger.kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>, Netdev <netdev@vger.kernel.org>,
@@ -120,8 +109,8 @@ Cc: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
 	<linux-mediatek@lists.infradead.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-	Mike Rapoport <rppt@kernel.org>
+	=?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>, Mike
+	Rapoport <rppt@kernel.org>
 Subject: Re: [Drbd-dev] [PATCH 2/6] treewide: remove using list iterator
  after loop body as a ptr
 X-BeenThere: drbd-dev@lists.linbit.com
@@ -142,22 +131,48 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Tue, Mar 1, 2022 at 2:58 PM David Laight <David.Laight@aculab.com> wrote:
->
-> Can it be resolved by making:
-> #define list_entry_is_head(pos, head, member) ((pos) == NULL)
-> and double-checking that it isn't used anywhere else (except in
-> the list macros themselves).
+From: Linus Torvalds
+> Sent: 01 March 2022 23:03
+> 
+> On Tue, Mar 1, 2022 at 2:58 PM David Laight <David.Laight@aculab.com> wrote:
+> >
+> > Can it be resolved by making:
+> > #define list_entry_is_head(pos, head, member) ((pos) == NULL)
+> > and double-checking that it isn't used anywhere else (except in
+> > the list macros themselves).
+> 
+> Well, yes, except for the fact that then the name is entirely misleading...
+> 
+> And somebody possibly uses it together with list_first_entry() etc, so
+> it really is completely broken to mix that change with the list
+> traversal change.
 
-Well, yes, except for the fact that then the name is entirely misleading...
+Probably true :-(
 
-And somebody possibly uses it together with list_first_entry() etc, so
-it really is completely broken to mix that change with the list
-traversal change.
+Actually adding list_entry_not_found() as a synonym for
+list_entry_is_head() and changing the 25ish places that
+use it after a loop might work.
 
-             Linus
+Once that is done the loop can be changed at the same time
+as list_entry_not_found().
+That won't affect the in-tree callers.
+(and my out of tree modules don't use those lists - so I
+don't care about that!)
 
-               Linus
+Having said that there are so few users of list_entry_is_head()
+it is reasonable to generate two new names.
+One for use after list_for_each_entry() and one for list_next_entry().
+Then the change all the call sites.
+After that list_entry_is_head() can be deleted - breaking out of
+tree compiles.
+Finally list_for_each_entry() can be rewritten to set NULL
+at the end of the list.
+
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
