@@ -2,112 +2,59 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id B59BF4CA6F8
-	for <lists+drbd-dev@lfdr.de>; Wed,  2 Mar 2022 15:04:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 898B24CAB1F
+	for <lists+drbd-dev@lfdr.de>; Wed,  2 Mar 2022 18:07:24 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 92F654217A2;
-	Wed,  2 Mar 2022 15:04:13 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6CD1542179C;
+	Wed,  2 Mar 2022 18:07:23 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from eu-smtp-delivery-151.mimecast.com
-	(eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3828842179A
-	for <drbd-dev@lists.linbit.com>; Wed,  2 Mar 2022 15:04:11 +0100 (CET)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
-	relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
-	uk-mta-196-4Li6Fux3PdyQ14Lo-DMf3A-1; Wed, 02 Mar 2022 14:04:10 +0000
-X-MC-Unique: 4Li6Fux3PdyQ14Lo-DMf3A-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
-	AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft
-	SMTP Server (TLS) id 15.0.1497.28; Wed, 2 Mar 2022 14:04:06 +0000
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
-	AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
-	15.00.1497.028; Wed, 2 Mar 2022 14:04:06 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Xiaomeng Tong' <xiam0nd.tong@gmail.com>, "torvalds@linux-foundation.org"
-	<torvalds@linux-foundation.org>
-Thread-Topic: [PATCH 2/6] treewide: remove using list iterator after loop body
-	as a ptr
-Thread-Index: AQHYLhg9+DU/OogLf0+tiSFmjztyUKysHu+Q
-Date: Wed, 2 Mar 2022 14:04:06 +0000
-Message-ID: <1077f17e50d34dc2bbfdf4e52a1cb2fd@AcuMS.aculab.com>
-References: <CAHk-=whLK11HyvpUtEftOjc3Gup2V77KpAQ2fycj3uai=qceHw@mail.gmail.com>
-	<20220302093106.8402-1-xiam0nd.tong@gmail.com>
-In-Reply-To: <20220302093106.8402-1-xiam0nd.tong@gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 00EA9421797
+	for <drbd-dev@lists.linbit.com>; Wed,  2 Mar 2022 18:07:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+	t=1646240841; x=1677776841;
+	h=date:from:to:cc:subject:message-id:references:
+	mime-version:in-reply-to;
+	bh=ZDYri7lCowU3GJr6M0z1hSFUZr0wdNpx1kXCi+W+DLY=;
+	b=nma4VllXPRiz8QWip4YbLoQfd7U5fTSPhk+aXDSRgogx+q85JacV5bRD
+	8b55B62caiTXuV2qumzq1cw8yF5hb1vB/y2hicmbVk0qnUZb0UaiSoziy
+	K3TCBadHlICrp1j18HnQ8OvNHnh2eg5Qhl4cZS/K4FnDpFL/bRZbB0X1d
+	getToFhXlN/0TKW6MCHeRtj0mYCJJjweZNI5jdv5lJXCmZNTeI0LzIeTF
+	j8rY6W/wDsiLml9hSnEJBsfWo+NSnogZiYJycewPeo+ED1KZRy/zjqJHI
+	/ENSL6Xqvc4rH0hi2jq+bYw21PCgzImKsOk6jF4GIWVRrpLH/p1lxpm7F g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10274"; a="236963385"
+X-IronPort-AV: E=Sophos;i="5.90,149,1643702400"; d="scan'208";a="236963385"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+	02 Mar 2022 09:04:52 -0800
+X-IronPort-AV: E=Sophos;i="5.90,149,1643702400"; d="scan'208";a="493606916"
+Received: from akshatak-mobl.amr.corp.intel.com (HELO localhost)
+	([10.212.41.96]) by orsmga003-auth.jf.intel.com with
+	ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2022 09:04:51 -0800
+Date: Wed, 2 Mar 2022 09:04:50 -0800
+From: Ira Weiny <ira.weiny@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Message-ID: <Yh+jshFsKMt+iI55@iweiny-desk3>
+References: <20220222155156.597597-1-hch@lst.de>
+	<20220222155156.597597-7-hch@lst.de>
+	<Yh2aCi6gtG0naC1r@iweiny-desk3> <20220301122042.GB3405@lst.de>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Cc: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-	"gustavo@embeddedor.com" <gustavo@embeddedor.com>,
-	"linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-	"kgdb-bugreport@lists.sourceforge.net"
-	<kgdb-bugreport@lists.sourceforge.net>,
-	"linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"c.giuffrida@vu.nl" <c.giuffrida@vu.nl>,
-	"amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
-	"samba-technical@lists.samba.org" <samba-technical@lists.samba.org>,
-	"linux1394-devel@lists.sourceforge.net"
-	<linux1394-devel@lists.sourceforge.net>,
-	"drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
-	"linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-	"linux-cifs@vger.kernel.org" <linux-cifs@vger.kernel.org>,
-	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"h.j.bos@vu.nl" <h.j.bos@vu.nl>, "jgg@ziepe.ca" <jgg@ziepe.ca>,
-	"intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
-	"nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
-	"bcm-kernel-feedback-list@broadcom.com"
-	<bcm-kernel-feedback-list@broadcom.com>,
-	"dan.carpenter@oracle.com" <dan.carpenter@oracle.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"keescook@chromium.org" <keescook@chromium.org>,
-	"arnd@arndb.de" <arnd@arndb.de>,
-	"linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-	"intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
-	"bjohannesmeyer@gmail.com" <bjohannesmeyer@gmail.com>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"christophe.jaillet@wanadoo.fr" <christophe.jaillet@wanadoo.fr>,
-	"jakobkoschel@gmail.com" <jakobkoschel@gmail.com>,
-	"v9fs-developer@lists.sourceforge.net"
-	<v9fs-developer@lists.sourceforge.net>,
-	"linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-	"tglx@linutronix.de" <tglx@linutronix.de>,
-	"andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>,
-	"linux-sgx@vger.kernel.org" <linux-sgx@vger.kernel.org>,
-	"nathan@kernel.org" <nathan@kernel.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-f2fs-devel@lists.sourceforge.net"
-	<linux-f2fs-devel@lists.sourceforge.net>,
-	"tipc-discussion@lists.sourceforge.net"
-	<tipc-discussion@lists.sourceforge.net>,
-	"linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-	"dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
-	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-	"christian.koenig@amd.com" <christian.koenig@amd.com>,
-	"rppt@kernel.org" <rppt@kernel.org>
-Subject: Re: [Drbd-dev] [PATCH 2/6] treewide: remove using list iterator
- after loop body as a ptr
+Content-Disposition: inline
+In-Reply-To: <20220301122042.GB3405@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Chris Zankel <chris@zankel.net>,
+	Justin Sanders <justin@coraid.com>, Minchan Kim <minchan@kernel.org>,
+	Vishal Verma <vishal.l.verma@intel.com>, linux-xtensa@linux-xtensa.org,
+	Philipp Reisner <philipp.reisner@linbit.com>,
+	Denis Efremov <efremov@linux.com>, Coly Li <colyli@suse.de>,
+	linux-block@vger.kernel.org, Max Filippov <jcmvbkbc@gmail.com>,
+	linux-bcache@vger.kernel.org, nvdimm@lists.linux.dev,
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Nitin Gupta <ngupta@vflare.org>, drbd-dev@lists.linbit.com
+Subject: Re: [Drbd-dev] [PATCH 06/10] nvdimm-btt: use bvec_kmap_local in
+	btt_rw_integrity
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -126,39 +73,39 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-From: Xiaomeng Tong
-> Sent: 02 March 2022 09:31
+On Tue, Mar 01, 2022 at 01:20:42PM +0100, Christoph Hellwig wrote:
+> On Mon, Feb 28, 2022 at 07:59:06PM -0800, Ira Weiny wrote:
+> > On Tue, Feb 22, 2022 at 04:51:52PM +0100, Christoph Hellwig wrote:
+> > > Using local kmaps slightly reduces the chances to stray writes, and
+> > > the bvec interface cleans up the code a little bit.
+> > > 
+> > > Signed-off-by: Christoph Hellwig <hch@lst.de>
+> > > ---
+> > >  drivers/nvdimm/btt.c | 10 ++++------
+> > >  1 file changed, 4 insertions(+), 6 deletions(-)
+> > > 
+> > > diff --git a/drivers/nvdimm/btt.c b/drivers/nvdimm/btt.c
+> > > index cbd994f7f1fe6..9613e54c7a675 100644
+> > > --- a/drivers/nvdimm/btt.c
+> > > +++ b/drivers/nvdimm/btt.c
+> > > @@ -1163,17 +1163,15 @@ static int btt_rw_integrity(struct btt *btt, struct bio_integrity_payload *bip,
+> > >  		 */
+> > >  
+> > >  		cur_len = min(len, bv.bv_len);
+> > > -		mem = kmap_atomic(bv.bv_page);
+> > > +		mem = bvec_kmap_local(&bv);
+> > >  		if (rw)
+> > > -			ret = arena_write_bytes(arena, meta_nsoff,
+> > > -					mem + bv.bv_offset, cur_len,
+> > > +			ret = arena_write_bytes(arena, meta_nsoff, mem, cur_len,
+> > 
+> > Why drop bv.bv_offset here and below?
 > 
-> On Mon, 28 Feb 2022 16:41:04 -0800, Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
-> >
-> > But basically to _me_, the important part is that the end result is
-> > maintainable longer-term.
-> 
-> I couldn't agree more. And because of that, I stick with the following
-> approach because it's maintainable longer-term than "type(pos) pos" one:
->  Implements a new macro for each list_for_each_entry* with _inside suffix.
->   #define list_for_each_entry_inside(pos, type, head, member)
+> Because bvec_kmap_local includes bv_offset in the pointer that it
+> returns.
 
-I think that it would be better to make any alternate loop macro
-just set the variable to NULL on the loop exit.
-That is easier to code for and the compiler might be persuaded to
-not redo the test.
-
-It also doesn't need an extra variable defined in the for() statement
-so can be back-ported to older kernels without required declaration
-in the middle of blocks.
-
-OTOH there may be alternative definitions that can be used to get
-the compiler (or other compiler-like tools) to detect broken code.
-Even if the definition can't possibly generate a working kerrnel.
-
-	David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
-
+Ah I missed that.  Thanks,
+Ira
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
