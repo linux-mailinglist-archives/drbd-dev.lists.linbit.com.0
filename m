@@ -2,52 +2,55 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 567DB4CAF6F
-	for <lists+drbd-dev@lfdr.de>; Wed,  2 Mar 2022 21:08:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 662BE4CAF9A
+	for <lists+drbd-dev@lfdr.de>; Wed,  2 Mar 2022 21:20:07 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2F95442179B;
-	Wed,  2 Mar 2022 21:08:08 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4B66842179D;
+	Wed,  2 Mar 2022 21:20:06 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
-	[209.85.214.178])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E5D17420177
-	for <drbd-dev@lists.linbit.com>; Wed,  2 Mar 2022 21:08:06 +0100 (CET)
-Received: by mail-pl1-f178.google.com with SMTP id q11so2508864pln.11
-	for <drbd-dev@lists.linbit.com>; Wed, 02 Mar 2022 12:08:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to;
-	bh=9llME+iRL2iH9L07jwvbWbmbHLr47Rbz7WJ4fOgTlZc=;
-	b=IvpJRwG7ynxkReEE85KaN5rJUYtD4xKNHA+hy6TwBmoQ8B3uYeJI+QViQcnaGiWq86
-	F88M3HTERkoil1v4VBpPtCvYuei+/tfueI2kCXzM7ddvcotxLyWZwiewhTHLUCy28lRK
-	BraqPBOXvwYRthhpbxTgJWS9pGCc3zSZJBqHk=
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+	[209.85.167.42])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 39AF2421798
+	for <drbd-dev@lists.linbit.com>; Wed,  2 Mar 2022 21:20:05 +0100 (CET)
+Received: by mail-lf1-f42.google.com with SMTP id bu29so4878031lfb.0
+	for <drbd-dev@lists.linbit.com>; Wed, 02 Mar 2022 12:20:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Uy+qIY61mUv01aVZ77KYqcI4VQ6CnEr5ehBFaIlKwdg=;
+	b=Be+smD91jIehBxsphVP8GxPmG9fZ7UzsziFVI8sCcayH4ghcjVwFadN69qX3SSZZfA
+	w/nKcppYscRVDTynDM99u+3Int1mDvzuW1vHPoDdJ+8JxYLDdH7+xaY9DZL7COnmW4q3
+	yEVm7FisHcBkdW7xwzBny/SyDipBoZU1ONqUc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20210112;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to;
-	bh=9llME+iRL2iH9L07jwvbWbmbHLr47Rbz7WJ4fOgTlZc=;
-	b=NBXQX+1EfDgIxqh8urMRnzBIBzV393lxPDJUL4l5QZLs//Sb14qDeHBXSQ66tlt29Y
-	VRiuxKxHJPyPrkUJls4dTHAsimCwRsgGRB4tYsR3xT8yrCi7pNRdu+7uLy8zL8a6P4mc
-	4OL9Nv1R0htw0AM6Bd+uZIcu1e9flkxF40Q0foy5F4zqe6Pi3OVsRxk4gs6RNZS1utIQ
-	vBrcga71OVEHCvHbLooPsf941u74hWpeERZDA4biRIjC/UEi286MIRVX3H8aS2swqXuU
-	EcIispV61A3DM6TLJkrbdlF70W0muKUR0z0uGQyUQCXk0ywqQAIMptAZBe67pAnA4KYx
-	k40A==
-X-Gm-Message-State: AOAM531F8R/x7GRN2isxE11bfgqEVMEdeIvSvdAhHaZ1qyJsuO3JKIv2
-	51j4P/9H806qvYKBgIjBkREZ4Q==
-X-Google-Smtp-Source: ABdhPJyalZw/yElDAQSdRYusWOxjkvZUrvn+e5j/jboS/+hXUtUpvVb6mMnbBbqlv1j/a0ygzQBPkQ==
-X-Received: by 2002:a17:90b:94e:b0:1bc:c99f:ede1 with SMTP id
-	dw14-20020a17090b094e00b001bcc99fede1mr1518926pjb.49.1646251625762;
-	Wed, 02 Mar 2022 12:07:05 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-	by smtp.gmail.com with ESMTPSA id
-	d25-20020a637359000000b0037843afb785sm6664pgn.25.2022.03.02.12.07.05
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 02 Mar 2022 12:07:05 -0800 (PST)
-Date: Wed, 2 Mar 2022 12:07:04 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Message-ID: <202203021158.DB5204A0@keescook>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Uy+qIY61mUv01aVZ77KYqcI4VQ6CnEr5ehBFaIlKwdg=;
+	b=3RthwZxB/aWN63MlzraTdLfh83YLnVdtfOgjLODD3HrurO+RVes/OEH4NsGq2XxY7Q
+	egoh9ddIrUtnFQaThgG7wqIMuSA3gjE9mHiYR+kJtNeqlq0qtcSDKpwRB8Hx5QOfv04p
+	liZQdGBgmTf+4UTwJUWzKvYCids1YWTP1u6ToaxNZZsU4ksnhq5AMa+hfA5va5NqPrRO
+	fWmjJvjudug4IIAdlYSo77eI6I90A5DbvM7r8U67oSgSD466dSz2bw598QO2dACOQNzD
+	3cOLCYzvu/u4Yd+LME/NXq3V6b63LJcita+yLn+t08DiXiJx5U3KrRckKxR8NfWsemTY
+	Nvxw==
+X-Gm-Message-State: AOAM532t/YtWQiX7ef78SSjz3FZRW/UpIiavFXDty2fUuIXOukMwZjJ9
+	3lQULc7iiQzXtOQNLjVREGKIo1mzAbL4H+QRC+U=
+X-Google-Smtp-Source: ABdhPJxD+clobHmrVqARzDenhC0MDtGfebrZFIO/VF+toQqixuYO06IMBIhZbDdCGur7MovAGGfaLA==
+X-Received: by 2002:a19:d619:0:b0:43a:1224:bf8c with SMTP id
+	n25-20020a19d619000000b0043a1224bf8cmr19189315lfg.276.1646252344323;
+	Wed, 02 Mar 2022 12:19:04 -0800 (PST)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com.
+	[209.85.208.175]) by smtp.gmail.com with ESMTPSA id
+	p6-20020a05651238c600b00443de9cdc48sm9646lft.226.2022.03.02.12.19.02
+	for <drbd-dev@lists.linbit.com>
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Wed, 02 Mar 2022 12:19:03 -0800 (PST)
+Received: by mail-lj1-f175.google.com with SMTP id t14so3901425ljh.8
+	for <drbd-dev@lists.linbit.com>; Wed, 02 Mar 2022 12:19:02 -0800 (PST)
+X-Received: by 2002:a2e:3013:0:b0:246:2ca9:365e with SMTP id
+	w19-20020a2e3013000000b002462ca9365emr21092331ljw.291.1646252342192;
+	Wed, 02 Mar 2022 12:19:02 -0800 (PST)
+MIME-Version: 1.0
 References: <282f0f8d-f491-26fc-6ae0-604b367a5a1a@amd.com>
 	<b2d20961dbb7533f380827a7fcc313ff849875c1.camel@HansenPartnership.com>
 	<7D0C2A5D-500E-4F38-AD0C-A76E132A390E@kernel.org>
@@ -58,15 +61,19 @@ References: <282f0f8d-f491-26fc-6ae0-604b367a5a1a@amd.com>
 	<0ced2b155b984882b39e895f0211037c@AcuMS.aculab.com>
 	<CAHk-=wix0HLCBs5sxAeW3uckg0YncXbTjMsE-Tv8WzmkOgLAXQ@mail.gmail.com>
 	<78ccb184-405e-da93-1e02-078f90d2b9bc@rasmusvillemoes.dk>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <78ccb184-405e-da93-1e02-078f90d2b9bc@rasmusvillemoes.dk>
+	<202203021158.DB5204A0@keescook>
+In-Reply-To: <202203021158.DB5204A0@keescook>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Wed, 2 Mar 2022 12:18:45 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wikKPC0LUqZ8++EC5JOvGdBqVH9uUaTX=DvBioDoReYww@mail.gmail.com>
+Message-ID: <CAHk-=wikKPC0LUqZ8++EC5JOvGdBqVH9uUaTX=DvBioDoReYww@mail.gmail.com>
+To: Kees Cook <keescook@chromium.org>
 Cc: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
 	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
 	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
 	"linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
 	"nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
-	linux-block <linux-block@vger.kernel.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	dri-devel <dri-devel@lists.freedesktop.org>,
 	Cristiano Giuffrida <c.giuffrida@vu.nl>, "Bos, H.J." <h.j.bos@vu.nl>,
 	"samba-technical@lists.samba.org" <samba-technical@lists.samba.org>,
@@ -87,8 +94,8 @@ Cc: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
 	Dan Carpenter <dan.carpenter@oracle.com>,
 	Linux Media Mailing List <linux-media@vger.kernel.org>,
 	Arnd Bergman <arnd@arndb.de>, Linux PM <linux-pm@vger.kernel.org>,
+	linux-block <linux-block@vger.kernel.org>,
 	intel-gfx <intel-gfx@lists.freedesktop.org>,
-	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
 	Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
 	James Bottomley <James.Bottomley@hansenpartnership.com>,
 	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
@@ -112,8 +119,8 @@ Cc: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
 	dma <dmaengine@vger.kernel.org>, "linux-mediatek@lists.infradead.org"
 	<linux-mediatek@lists.infradead.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
 	Mike Rapoport <rppt@kernel.org>
 Subject: Re: [Drbd-dev] [PATCH 2/6] treewide: remove using list iterator
  after loop body as a ptr
@@ -135,59 +142,27 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Wed, Mar 02, 2022 at 10:29:31AM +0100, Rasmus Villemoes wrote:
-> This won't help the current issue (because it doesn't exist and might
-> never), but just in case some compiler people are listening, I'd like to
-> have some sort of way to tell the compiler "treat this variable as
-> uninitialized from here on". So one could do
-> 
-> #define kfree(p) do { __kfree(p); __magic_uninit(p); } while (0)
-> 
-> with __magic_uninit being a magic no-op that doesn't affect the
-> semantics of the code, but could be used by the compiler's "[is/may be]
-> used uninitialized" machinery to flag e.g. double frees on some odd
-> error path etc. It would probably only work for local automatic
-> variables, but it should be possible to just ignore the hint if p is
-> some expression like foo->bar or has side effects. If we had that, the
-> end-of-loop test could include that to "uninitialize" the iterator.
+On Wed, Mar 2, 2022 at 12:07 PM Kees Cook <keescook@chromium.org> wrote:
+>
+> I've long wanted to change kfree() to explicitly set pointers to NULL on
+> free. https://github.com/KSPP/linux/issues/87
 
-I've long wanted to change kfree() to explicitly set pointers to NULL on
-free. https://github.com/KSPP/linux/issues/87
+We've had this discussion with the gcc people in the past, and gcc
+actually has some support for it, but it's sadly tied to the actual
+function name (ie gcc has some special-casing for "free()")
 
-The thing stopping a trivial transformation of kfree() is:
+See
 
-	kfree(get_some_pointer());
+    https://gcc.gnu.org/bugzilla/show_bug.cgi?id=94527
 
-I would argue, though, that the above is poor form: the thing holding
-the pointer should be the thing freeing it, so these cases should be
-refactored and kfree() could do the NULLing by default.
+for some of that discussion.
 
-Quoting myself in the above issue:
+Oh, and I see some patch actually got merged since I looked there last
+so that you can mark "deallocator" functions, but I think it's only
+for the context matching, not for actually killing accesses to the
+pointer afterwards.
 
-
-Without doing massive tree-wide changes, I think we need compiler
-support. If we had something like __builtin_is_lvalue(), we could
-distinguish function returns from lvalues. For example, right now a
-common case are things like:
-
-	kfree(get_some_ptr());
-
-But if we could at least gain coverage of the lvalue cases, and detect
-them statically at compile-time, we could do:
-
-#define __kfree_and_null(x) do { __kfree(*x); *x = NULL; } while (0)
-#define kfree(x) __builtin_choose_expr(__builtin_is_lvalue(x),
-			__kfree_and_null(&(x)), __kfree(x))
-
-Alternatively, we could do a tree-wide change of the former case (findable
-with Coccinelle) and change them into something like kfree_no_null()
-and redefine kfree() itself:
-
-#define kfree_no_null(x) do { void *__ptr = (x); __kfree(__ptr); } while (0)
-#define kfree(x) do { __kfree(x); x = NULL; } while (0)
-
--- 
-Kees Cook
+               Linus
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
