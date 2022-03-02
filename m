@@ -2,122 +2,128 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DF274CA4F5
-	for <lists+drbd-dev@lfdr.de>; Wed,  2 Mar 2022 13:40:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E0624CA4F6
+	for <lists+drbd-dev@lfdr.de>; Wed,  2 Mar 2022 13:40:41 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 50C944217AB;
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 74B2A4217B5;
 	Wed,  2 Mar 2022 13:40:38 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
-	[66.111.4.229])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4055D42179F
-	for <drbd-dev@lists.linbit.com>; Tue,  1 Mar 2022 19:00:16 +0100 (CET)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 1F34E5801D0;
-	Tue,  1 Mar 2022 12:58:06 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-	by compute1.internal (MEProxy); Tue, 01 Mar 2022 12:58:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm3; bh=1b8nHfrBOcjPGYcB+Q6wr00uk1GmKX3v3ZNCnj
-	2Fc4I=; b=ZBUT+xBEPIHuw8jHImLNH+x52gankwE7MJd8sDFwnEoy45z1BwbhNh
-	xKsOdQ1yD9u7q0d/6DIUtrg535wnOmT4Lvdd1apo2YuuhLLDVkYx1vSgNyoTE5fJ
-	ofsW7j8uCMJyXK6Loz8rrLOzHyzxWsYiemruNwAl4gNUMe4M/NVtyIVhNAgsOfjy
-	b/w/wzWa4VwoEUleGhkhNF3kRyKpQ3Usq/8Ca14buwUMr/k/0v+gPaqGXYzqUKuv
-	KllGIGlPN88CAydfwqCLzM8aK7V+EiOvYiI4kF7OI9OB3TO949n6Hy8EMtjF8IqZ
-	MBlpj07s0Rnbq4GNXj6M7/3IgLXdvpRA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=1b8nHfrBOcjPGYcB+
-	Q6wr00uk1GmKX3v3ZNCnj2Fc4I=; b=EY31l7G2XfgL9rSC/gwvRf8zFgwtBT7xS
-	zGIS7YVvo/KA/v9LCSJOIARDHfRqiRvn2gTz078tIpwk3oIxG21buWNUxNQmSUyy
-	MyYKa/Xe0zh4/DCiQIRNMfBLOEXackhRaibWR2bFKht/sqIYkVYfZsf6JTqkc8aS
-	N/+KxLe8dnTTbLIJQe4lQN4jxuybvA2M70S25Fv9b7VdN/aPfJftqSYQ4WVfyPqY
-	0tbQrYevVZ6RBtubRdYtr3gnZBflyWFJSH5G+LkmECZ7pFmQ2xcqosvgp1dXRrwM
-	GXM5n5s+pyNtUs5gG+ueV8296EmUoxyY6tuEcr0WZBCuK4oOvJTLg==
-X-ME-Sender: <xms:rF4eYt_khXW9JUELKd3sbskivfb6p9VNYJ9HJTNdiVa20a5SzZwcHg>
-	<xme:rF4eYhvpLP3jG67Y92AJSSlOEm5MH8cOme-q_WmBEiKHi2-d33bdpDbAgKuSlQzhv
-	bEXTTYYFzUc5A>
-X-ME-Received: <xmr:rF4eYrDa0WtfQIncLyLiGZ2_QzeJH36bSCyCi0g3L7auz9QrwNL4PuRbLUYhHGofRJvw4tCnLgWVuPYzt-8dyqU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddtvddguddtgecutefuodetggdotefrod
-	ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-	necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-	enucfjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghg
-	ucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepveeuhe
-	ejgfffgfeivddukedvkedtleelleeghfeljeeiueeggeevueduudekvdetnecuvehluhhs
-	thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorg
-	hhrdgtohhm
-X-ME-Proxy: <xmx:rF4eYhep9_FqzdGryzLUlkyDm8oB4NZlyIpp5U2aPsiBO5Uc_pu1KA>
-	<xmx:rF4eYiNt1Zd7p4zbskEHRd607PiISY-ihvHig6bYJF7awgzM4cA48A>
-	<xmx:rF4eYjmGF931qz2wbkLW14iXG2GvWL_-CIczc4jJ1wtvDsjYWSRagQ>
-	<xmx:rl4eYkl7_n3lofGsDcutmkSMBLsPYoIzfmJgc1TjOF9wAZv0ieQERQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
-	1 Mar 2022 12:58:03 -0500 (EST)
-Date: Tue, 1 Mar 2022 18:58:02 +0100
-From: Greg KH <greg@kroah.com>
-To: Jakob Koschel <jakobkoschel@gmail.com>
-Message-ID: <Yh5eqmAv0P2nnSq0@kroah.com>
-References: <20220228110822.491923-3-jakobkoschel@gmail.com>
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
+	[209.85.208.171])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 94E414202F4
+	for <drbd-dev@lists.linbit.com>; Wed,  2 Mar 2022 10:29:35 +0100 (CET)
+Received: by mail-lj1-f171.google.com with SMTP id bn33so1385752ljb.6
+	for <drbd-dev@lists.linbit.com>; Wed, 02 Mar 2022 01:29:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=rasmusvillemoes.dk; s=google;
+	h=message-id:date:mime-version:user-agent:subject:content-language:to
+	:cc:references:from:in-reply-to:content-transfer-encoding;
+	bh=XH8CYV/Z50iBLZ27uSo3DlVY0KhJ8ZO+RiecWTcYel0=;
+	b=IQg4uBejV+wOE9gbvRPz3nvi4LkiiVw4YSIjC8NPteocLXX0uLpiZyGXJ60leACu72
+	E2mMgbaj2BDeYnhoOw0DKPRcT2bjIlB4yRTWQZ65OcYRTHhlWzgeq8LyFprIEpiij6N8
+	YNaymndxJaFKphqyYHlKdyPolm4uaJOX+WJuI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20210112;
+	h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+	:content-language:to:cc:references:from:in-reply-to
+	:content-transfer-encoding;
+	bh=XH8CYV/Z50iBLZ27uSo3DlVY0KhJ8ZO+RiecWTcYel0=;
+	b=sv9paGjxrDn8ENdjHFsIfrpVbWQDvTl4Dz9it66QyanUd4hJRBPFSPQo4+1y/a3yss
+	sBagJEFZwgkajJFZzfxy4bRg9AFxlcjdvLLpxa9MDlTBPqam/uxvmPwpgXetUoG+++2p
+	lvYfF9b1swqhjUGgMYnqgK10ZAT9EwweQQa4I9evXkMs+mxkjhYTmRqH5iGFDG1A5zA1
+	+qNuX+XI/osULXrmJfbUDJKiM1dOjykMzX9bmPzcYXXQN3i33m1oAnPaVNyzKwwNiaZX
+	qasxeR1W2Sxj8pyTTm2UtXLp4F1zVaWj8m8ckK5Yy0XHgTpBOjoDMLTuLaBYc0LdvrtO
+	o0Wg==
+X-Gm-Message-State: AOAM533zKFeYdD5AhHMu8LIV2vxsyBnp/O7xlbDqQtlOGTMhyMdOqUH2
+	Q5GRUVSZj4ko6ctAWDshRsq3bA==
+X-Google-Smtp-Source: ABdhPJxPRWTwhfDKGEWi/HTZUmtnN6xoKL1T2KNwEAF9KgB2sMMXSt6lke7BfBVtPRIEaNMyntkyzw==
+X-Received: by 2002:a2e:3c0d:0:b0:246:3c52:7ada with SMTP id
+	j13-20020a2e3c0d000000b002463c527adamr19885072lja.459.1646213374808;
+	Wed, 02 Mar 2022 01:29:34 -0800 (PST)
+Received: from [172.16.11.74] ([81.216.59.226])
+	by smtp.gmail.com with ESMTPSA id
+	f36-20020a0565123b2400b0043795432e87sm1960430lfv.150.2022.03.02.01.29.31
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Wed, 02 Mar 2022 01:29:33 -0800 (PST)
+Message-ID: <78ccb184-405e-da93-1e02-078f90d2b9bc@rasmusvillemoes.dk>
+Date: Wed, 2 Mar 2022 10:29:31 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+	Thunderbird/91.5.0
+Content-Language: en-US
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+	David Laight <David.Laight@aculab.com>
+References: <20220228110822.491923-1-jakobkoschel@gmail.com>
+	<20220228110822.491923-3-jakobkoschel@gmail.com>
 	<2e4e95d6-f6c9-a188-e1cd-b1eae465562a@amd.com>
 	<CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
-	<CAHk-=wj8fkosQ7=bps5K+DDazBXk=ypfn49A0sEq+7-nZnyfXA@mail.gmail.com>
-	<CAHk-=wiTCvLQkHcJ3y0hpqH7FEk9D28LDvZZogC6OVLk7naBww@mail.gmail.com>
-	<FC710A1A-524E-481B-A668-FC258F529A2E@gmail.com>
-	<CAHk-=whLK11HyvpUtEftOjc3Gup2V77KpAQ2fycj3uai=qceHw@mail.gmail.com>
-	<CEDAD0D9-56EE-4105-9107-72C2EAD940B0@gmail.com>
-	<Yh5ZmwiH5AxtQ69K@kroah.com>
-	<4B1AFAD9-C1B3-499C-945A-C259361ABA8C@gmail.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <4B1AFAD9-C1B3-499C-945A-C259361ABA8C@gmail.com>
+	<282f0f8d-f491-26fc-6ae0-604b367a5a1a@amd.com>
+	<b2d20961dbb7533f380827a7fcc313ff849875c1.camel@HansenPartnership.com>
+	<7D0C2A5D-500E-4F38-AD0C-A76E132A390E@kernel.org>
+	<73fa82a20910c06784be2352a655acc59e9942ea.camel@HansenPartnership.com>
+	<CAHk-=wiT5HX6Kp0Qv4ZYK_rkq9t5fZ5zZ7vzvi6pub9kgp=72g@mail.gmail.com>
+	<7dc860874d434d2288f36730d8ea3312@AcuMS.aculab.com>
+	<CAHk-=whKqg89zu4T95+ctY-hocR6kDArpo2qO14-kV40Ga7ufw@mail.gmail.com>
+	<0ced2b155b984882b39e895f0211037c@AcuMS.aculab.com>
+	<CAHk-=wix0HLCBs5sxAeW3uckg0YncXbTjMsE-Tv8WzmkOgLAXQ@mail.gmail.com>
+From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+In-Reply-To: <CAHk-=wix0HLCBs5sxAeW3uckg0YncXbTjMsE-Tv8WzmkOgLAXQ@mail.gmail.com>
 X-Mailman-Approved-At: Wed, 02 Mar 2022 13:40:36 +0100
-Cc: linux-wireless <linux-wireless@vger.kernel.org>,
-	alsa-devel@alsa-project.org, KVM list <kvm@vger.kernel.org>,
+Cc: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
 	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-	linux-iio@vger.kernel.org, nouveau@lists.freedesktop.org,
+	"linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+	"nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
 	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	dri-devel <dri-devel@lists.freedesktop.org>,
-	Cristiano Giuffrida <c.giuffrida@vu.nl>,
-	amd-gfx list <amd-gfx@lists.freedesktop.org>,
-	linux1394-devel@lists.sourceforge.net, drbd-dev@lists.linbit.com,
-	linux-arch <linux-arch@vger.kernel.org>,
-	CIFS <linux-cifs@vger.kernel.org>, linux-aspeed@lists.ozlabs.org,
-	linux-scsi <linux-scsi@vger.kernel.org>,
+	Cristiano Giuffrida <c.giuffrida@vu.nl>, "Bos, H.J." <h.j.bos@vu.nl>,
+	"samba-technical@lists.samba.org" <samba-technical@lists.samba.org>,
+	"linux1394-devel@lists.sourceforge.net"
+	<linux1394-devel@lists.sourceforge.net>,
+	"drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
+	linux-arch <linux-arch@vger.kernel.org>, CIFS <linux-cifs@vger.kernel.org>,
+	KVM list <kvm@vger.kernel.org>, linux-scsi <linux-scsi@vger.kernel.org>,
 	linux-rdma <linux-rdma@vger.kernel.org>,
-	linux-staging@lists.linux.dev, "Bos, H.J." <h.j.bos@vu.nl>,
-	Jason Gunthorpe <jgg@ziepe.ca>, intel-wired-lan@lists.osuosl.org,
-	kgdb-bugreport@lists.sourceforge.net,
-	bcm-kernel-feedback-list@broadcom.com,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	amd-gfx list <amd-gfx@lists.freedesktop.org>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	"intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+	"kgdb-bugreport@lists.sourceforge.net"
+	<kgdb-bugreport@lists.sourceforge.net>,
+	"bcm-kernel-feedback-list@broadcom.com"
+	<bcm-kernel-feedback-list@broadcom.com>,
 	Dan Carpenter <dan.carpenter@oracle.com>,
 	Linux Media Mailing List <linux-media@vger.kernel.org>,
 	Kees Cook <keescook@chromium.org>, Arnd Bergman <arnd@arndb.de>,
 	Linux PM <linux-pm@vger.kernel.org>,
+	linux-block <linux-block@vger.kernel.org>,
 	intel-gfx <intel-gfx@lists.freedesktop.org>,
-	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
 	Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
-	Nathan Chancellor <nathan@kernel.org>, dma <dmaengine@vger.kernel.org>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>,
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
 	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	v9fs-developer@lists.sourceforge.net,
+	Jakob Koschel <jakobkoschel@gmail.com>,
+	"v9fs-developer@lists.sourceforge.net"
+	<v9fs-developer@lists.sourceforge.net>,
 	linux-tegra <linux-tegra@vger.kernel.org>,
 	Thomas Gleixner <tglx@linutronix.de>,
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	Linux ARM <linux-arm-kernel@lists.infradead.org>,
-	linux-sgx@vger.kernel.org, linux-block <linux-block@vger.kernel.org>,
-	Netdev <netdev@vger.kernel.org>, linux-usb@vger.kernel.org,
-	samba-technical@lists.samba.org,
+	"linux-sgx@vger.kernel.org" <linux-sgx@vger.kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>, Netdev <netdev@vger.kernel.org>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	linux-wireless <linux-wireless@vger.kernel.org>,
 	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux F2FS Dev Mailing List <linux-f2fs-devel@lists.sourceforge.net>,
-	tipc-discussion@lists.sourceforge.net,
+	"tipc-discussion@lists.sourceforge.net"
+	<tipc-discussion@lists.sourceforge.net>,
 	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-	linux-mediatek@lists.infradead.org,
+	dma <dmaengine@vger.kernel.org>, "linux-mediatek@lists.infradead.org"
+	<linux-mediatek@lists.infradead.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+	=?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
 	Mike Rapoport <rppt@kernel.org>
 Subject: Re: [Drbd-dev] [PATCH 2/6] treewide: remove using list iterator
  after loop body as a ptr
@@ -139,71 +145,44 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Tue, Mar 01, 2022 at 06:40:04PM +0100, Jakob Koschel wrote:
-> 
-> 
-> > On 1. Mar 2022, at 18:36, Greg KH <greg@kroah.com> wrote:
-> > 
-> > On Tue, Mar 01, 2022 at 12:28:15PM +0100, Jakob Koschel wrote:
-> >> 
-> >> 
-> >>> On 1. Mar 2022, at 01:41, Linus Torvalds <torvalds@linux-foundation.org> wrote:
-> >>> 
-> >>> On Mon, Feb 28, 2022 at 1:47 PM Jakob Koschel <jakobkoschel@gmail.com> wrote:
-> >>>> 
-> >>>> The goal of this is to get compiler warnings right? This would indeed be great.
-> >>> 
-> >>> Yes, so I don't mind having a one-time patch that has been gathered
-> >>> using some automated checker tool, but I don't think that works from a
-> >>> long-term maintenance perspective.
-> >>> 
-> >>> So if we have the basic rule being "don't use the loop iterator after
-> >>> the loop has finished, because it can cause all kinds of subtle
-> >>> issues", then in _addition_ to fixing the existing code paths that
-> >>> have this issue, I really would want to (a) get a compiler warning for
-> >>> future cases and (b) make it not actually _work_ for future cases.
-> >>> 
-> >>> Because otherwise it will just happen again.
-> >>> 
-> >>>> Changing the list_for_each_entry() macro first will break all of those cases
-> >>>> (e.g. the ones using 'list_entry_is_head()).
-> >>> 
-> >>> So I have no problems with breaking cases that we basically already
-> >>> have a patch for due to  your automated tool. There were certainly
-> >>> more than a handful, but it didn't look _too_ bad to just make the
-> >>> rule be "don't use the iterator after the loop".
-> >>> 
-> >>> Of course, that's just based on that patch of yours. Maybe there are a
-> >>> ton of other cases that your patch didn't change, because they didn't
-> >>> match your trigger case, so I may just be overly optimistic here.
-> >> 
-> >> Based on the coccinelle script there are ~480 cases that need fixing
-> >> in total. I'll now finish all of them and then split them by
-> >> submodules as Greg suggested and repost a patch set per submodule.
-> >> Sounds good?
-> > 
-> > Sounds good to me!
-> > 
-> > If you need help carving these up and maintaining them over time as
-> > different subsystem maintainers accept/ignore them, just let me know.
-> > Doing large patchsets like this can be tough without a lot of
-> > experience.
-> 
-> Very much appreciated!
-> 
-> There will probably be some cases that do not match one of the pattern
-> we already discussed and need separate attention.
-> 
-> I was planning to start with one subsystem and adjust the coming ones
-> according to the feedback gather there instead of posting all of them
-> in one go.
+On 02/03/2022 00.55, Linus Torvalds wrote:
+> On Tue, Mar 1, 2022 at 3:19 PM David Laight <David.Laight@aculab.com> wrote:
+>>
 
-That seems wise.  Feel free to use USB as a testing ground for this if
-you want to :)
+> With the "don't use iterator outside the loop" approach, the exact
+> same code works in both the old world order and the new world order,
+> and you don't have the semantic confusion. And *if* you try to use the
+> iterator outside the loop, you'll _mostly_ (*) get a compiler warning
+> about it not being initialized.
+> 
+>              Linus
+> 
+> (*) Unless somebody initializes the iterator pointer pointlessly.
+> Which clearly does happen. Thus the "mostly". It's not perfect, and
+> that's most definitely not nice - but it should at least hopefully
+> make it that much harder to mess up.
 
-thanks,
+This won't help the current issue (because it doesn't exist and might
+never), but just in case some compiler people are listening, I'd like to
+have some sort of way to tell the compiler "treat this variable as
+uninitialized from here on". So one could do
 
-greg k-h
+#define kfree(p) do { __kfree(p); __magic_uninit(p); } while (0)
+
+with __magic_uninit being a magic no-op that doesn't affect the
+semantics of the code, but could be used by the compiler's "[is/may be]
+used uninitialized" machinery to flag e.g. double frees on some odd
+error path etc. It would probably only work for local automatic
+variables, but it should be possible to just ignore the hint if p is
+some expression like foo->bar or has side effects. If we had that, the
+end-of-loop test could include that to "uninitialize" the iterator.
+
+Maybe sparse/smatch or some other static analyzer could implement such a
+magic thing? Maybe it's better as a function attribute
+[__attribute__((uninitializes(1)))] to avoid having to macrofy all
+functions that release resources.
+
+Rasmus
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
