@@ -2,35 +2,35 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12A2A4CBC5B
-	for <lists+drbd-dev@lfdr.de>; Thu,  3 Mar 2022 12:20:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 390F94CBC6F
+	for <lists+drbd-dev@lfdr.de>; Thu,  3 Mar 2022 12:20:36 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E697342178F;
-	Thu,  3 Mar 2022 12:20:05 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1FD9A421795;
+	Thu,  3 Mar 2022 12:20:36 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from bombadil.infradead.org (bombadil.infradead.org
 	[198.137.202.133])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 086AC42065E
-	for <drbd-dev@lists.linbit.com>; Thu,  3 Mar 2022 12:19:33 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E3D87421783
+	for <drbd-dev@lists.linbit.com>; Thu,  3 Mar 2022 12:19:43 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=QVVaIqgGyDnx9ueY7z/hzj3O9uq8fALFMD1DXm83SrU=;
-	b=OOGFiYRrrPZgXxgrDmd0Ot5+++
-	J2ACUC7ZfBTAnB/yKwzsccoWtvqn3jk9jM8Kxj+XQ7PpfC7zK79z8grscIPB9Q5JO2ik15NUcjXg+
-	koSBXepexshcqqANRhAoZNg/u8pu9oN6bTTVoEa/V7QCZBlUOSthPFdVPX8r6KsrPN+9nycK9X3NL
-	ucbuggOoCDs+VbIj1t5Zq6H1tHDnNC+KXv/DqZQhNi7iMDGfBgh0+7ytTharPyxZj5+2SRjOBEdkh
-	xgI0DBTGQMtLVqu2G8rNjnMPAZkZhZcP1l6n8gtl2M01qs78nSKfQYzl4difO/6jtf+vCzKM2xQcG
-	2IJ34mXg==;
+	bh=UaLkM9d2e/Rtz8iJbPdrKJftE3tucWBaeY/oAyYvKbs=;
+	b=q17kpGrSmWHzWFrYFzz3RSj0Ma
+	ACac794xzvKoWj1VmHSwiQJtBODXCLZsUG4TdYCMYOtZKaQ0VI4dAsqq62XKOU98kJpXZaXxwTFeC
+	YWfrjfy3HhAAARtX9VfXEnq/fN7SQ2cGN1rLTyNYkTYDLzRuIIFkMPuFMR2V+EL1wbI1RxbkzkGv7
+	SLax6LCSra7cCIWU9nev7pADx/K3i9uvk28MABKSbMBVI/nIu6CH/FVEPHlyE06Rej0c9K9au8TFU
+	ANUrN0F5Wj0Bb/BHwqgfA10nBUrawNqdngkWo4c1cAW5gW2GlJoup63gRdfA7vZ0vtXc29PQtvXb5
+	mdM1M/bw==;
 Received: from [91.93.38.115] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nPjUS-006Bum-TO; Thu, 03 Mar 2022 11:19:25 +0000
+	id 1nPjUd-006Bvp-Ce; Thu, 03 Mar 2022 11:19:37 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Date: Thu,  3 Mar 2022 14:18:56 +0300
-Message-Id: <20220303111905.321089-2-hch@lst.de>
+Date: Thu,  3 Mar 2022 14:18:57 +0300
+Message-Id: <20220303111905.321089-3-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220303111905.321089-1-hch@lst.de>
 References: <20220303111905.321089-1-hch@lst.de>
@@ -47,8 +47,7 @@ Cc: Chris Zankel <chris@zankel.net>, Justin Sanders <justin@coraid.com>,
 	Lars Ellenberg <lars.ellenberg@linbit.com>,
 	Ira Weiny <ira.weiny@intel.com>, Dan Williams <dan.j.williams@intel.com>,
 	Nitin Gupta <ngupta@vflare.org>, drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 01/10] iss-simdisk: use bvec_kmap_local in
-	simdisk_submit_bio
+Subject: [Drbd-dev] [PATCH 02/10] aoe: use bvec_kmap_local in bvcpy
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -71,31 +70,26 @@ Using local kmaps slightly reduces the chances to stray writes, and
 the bvec interface cleans up the code a little bit.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Ira Weiny <ira.weiny@intel.com>
 ---
- arch/xtensa/platforms/iss/simdisk.c | 4 ++--
+ drivers/block/aoe/aoecmd.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/xtensa/platforms/iss/simdisk.c b/arch/xtensa/platforms/iss/simdisk.c
-index 8eb6ad1a3a1de..0f0e0724397f4 100644
---- a/arch/xtensa/platforms/iss/simdisk.c
-+++ b/arch/xtensa/platforms/iss/simdisk.c
-@@ -108,13 +108,13 @@ static void simdisk_submit_bio(struct bio *bio)
- 	sector_t sector = bio->bi_iter.bi_sector;
+diff --git a/drivers/block/aoe/aoecmd.c b/drivers/block/aoe/aoecmd.c
+index cc11f89a0928f..384073ef2323c 100644
+--- a/drivers/block/aoe/aoecmd.c
++++ b/drivers/block/aoe/aoecmd.c
+@@ -1018,9 +1018,9 @@ bvcpy(struct sk_buff *skb, struct bio *bio, struct bvec_iter iter, long cnt)
+ 	iter.bi_size = cnt;
  
- 	bio_for_each_segment(bvec, bio, iter) {
--		char *buffer = kmap_atomic(bvec.bv_page) + bvec.bv_offset;
-+		char *buffer = bvec_kmap_local(&bvec);
- 		unsigned len = bvec.bv_len >> SECTOR_SHIFT;
- 
- 		simdisk_transfer(dev, sector, len, buffer,
- 				bio_data_dir(bio) == WRITE);
- 		sector += len;
--		kunmap_atomic(buffer);
-+		kunmap_local(buffer);
+ 	__bio_for_each_segment(bv, bio, iter, iter) {
+-		char *p = kmap_atomic(bv.bv_page) + bv.bv_offset;
++		char *p = bvec_kmap_local(&bv);
+ 		skb_copy_bits(skb, soff, p, bv.bv_len);
+-		kunmap_atomic(p);
++		kunmap_local(p);
+ 		soff += bv.bv_len;
  	}
- 
- 	bio_endio(bio);
+ }
 -- 
 2.30.2
 
