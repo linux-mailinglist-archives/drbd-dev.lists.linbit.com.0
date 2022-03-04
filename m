@@ -2,66 +2,72 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2E724CD32E
-	for <lists+drbd-dev@lfdr.de>; Fri,  4 Mar 2022 12:14:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 644A24CDD55
+	for <lists+drbd-dev@lfdr.de>; Fri,  4 Mar 2022 20:30:43 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id BE0264201E4;
-	Fri,  4 Mar 2022 12:14:39 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1C07D4201B9;
+	Fri,  4 Mar 2022 20:30:41 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 591CE4201CB
-	for <drbd-dev@lists.linbit.com>;
-	Fri,  4 Mar 2022 12:14:38 +0100 (CET)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 6495561CAB;
-	Fri,  4 Mar 2022 11:14:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7958DC340E9;
-	Fri,  4 Mar 2022 11:14:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1646392446;
-	bh=oMRkrgkieQqbJLozH2f1WWABMteAvIgUeoZgr4XZLG4=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=ik9/iqlkSYV+ppGVcBuwu2APgDACKwcHntHw+Hu2Xr2jfUIu91CbsiGhv5jpiECni
-	a9ovy2jThDcrU31vb3KB6PNgCDbjxn7wJSUL91b4PsewrN4+rSSjwpeYjmoA689kh4
-	iDM6CtEhfpShSDPSpPc8OIhQniSoJ0vCl0gEMEfWWqbowcPyp/OV9D5KAOaqrN4GF7
-	NkaSTJNMWNW1q7JiBxw6Y8agL6pJATIClarAY+MMxefSgKrrjMeZe0bTtYVrgIPW8i
-	BgnfCclXxDPDHqmIImbnZl+viTCZzSUfh9tCE21gQuO0asP18iC8AbQv7azba/hjRh
-	5NjtEiNztu8Xw==
-Message-ID: <1c5aa5552850dc90bdeb5f8bc0e4f5dd3270a382.camel@kernel.org>
-From: Jeff Layton <jlayton@kernel.org>
-To: NeilBrown <neilb@suse.de>
-Date: Fri, 04 Mar 2022 06:14:03 -0500
-In-Reply-To: <164636204663.29369.1845040729675190216@noble.neil.brown.name>
-References: <164549971112.9187.16871723439770288255.stgit@noble.brown>
-	, <164549983739.9187.14895675781408171186.stgit@noble.brown>
-	, <ccc81eb5c23f933137c5da8d5050540cc54e58f0.camel@kernel.org>
-	, <164568131640.25116.884631856219777713@noble.neil.brown.name>
-	, <e8ec98a9c4fab9b7aa099001f09ff9b11f0c3f96.camel@kernel.org>
-	<164636204663.29369.1845040729675190216@noble.neil.brown.name>
-User-Agent: Evolution 3.42.4 (3.42.4-1.fc35) 
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
+	[209.85.216.48])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D7A60420060
+	for <drbd-dev@lists.linbit.com>; Fri,  4 Mar 2022 20:30:38 +0100 (CET)
+Received: by mail-pj1-f48.google.com with SMTP id
+	v1-20020a17090a088100b001bf25f97c6eso2070994pjc.0
+	for <drbd-dev@lists.linbit.com>; Fri, 04 Mar 2022 11:30:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+	h=from:to:cc:in-reply-to:references:subject:message-id:date
+	:mime-version:content-transfer-encoding;
+	bh=ngnYdHqHX0ob26fBskLNuWtCgUWkLmLTIT0t9WbICL4=;
+	b=Rnbcg4cjSLMt35FRWfDoCNwLG8yqIEcNC/4CDuqOeWUL2UbhD5icci+r2Vs6F+oKhv
+	Dm/P2jTtoALbDOce0IyLxnV8wEwzldwUNzUPSlySLaTJ19yqxQq+RGOiGpGrynEfk5gY
+	9tmt52DxY7GoyUlHxtomylt6F+cJdeiwaGHaspEoiRImWbfOqPglCdayEgI0ElKkMIyW
+	qtpd7NFyo8640nNaWdjrLgIJBNVGdwKCwS9yqD3zx4MgtHstP9TlXS3cUCKxGI88CTJZ
+	EEiFM/Lnz9ee2vdwEll1E5aN0rWTm0fqNv8DEwiAJn8YTbqzl+wE3dG3W6oPutlaw/SW
+	f5DQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20210112;
+	h=x-gm-message-state:from:to:cc:in-reply-to:references:subject
+	:message-id:date:mime-version:content-transfer-encoding;
+	bh=ngnYdHqHX0ob26fBskLNuWtCgUWkLmLTIT0t9WbICL4=;
+	b=r5P68AT0JfNyf7faIa5AySiiKmlWMHnwx9p4ZaySDFLt0luruPwP7xGoTpzH8yyasD
+	WcdYpsKBJ71J8X3jIXx+/5i68PiHjciXwCJ+CX5sSWIkMqtwPKAHlebdT4YK8BXaWtiy
+	cKiM1RFLAswLyRS8u38V8irabjep/STiyhpJndSXij+YOKHqUCeQcTyDGq2X9xyYSLHZ
+	DCNRiDEZ/4r2dYMM5pGqpOWSsMjI3ZerP6tN2PkGLfdjPZkJDMfQMmZMJsI8QcK26E6A
+	m05egVe1SHXnvpN/ZiLz0n/zODI+mgKkgYqFQub/NwD02gdd4gFstfiXverSb+cXbBZz
+	8OMA==
+X-Gm-Message-State: AOAM5313RYfippcuruv7KTZ7aKffZcDB4n2G4vfbEkmx3t+2Rl40ilB9
+	bUaviQzUzJiR7tJ8CbWKjqtQEw==
+X-Google-Smtp-Source: ABdhPJxOOPisoZmDfj6F3/n1EIPu2+rUEXchMh8/8sGgVHx2B8DfMALx8wwjZbLjjoqkE4MjHXrmVQ==
+X-Received: by 2002:a17:90b:1c8e:b0:1bf:364c:dd7a with SMTP id
+	oo14-20020a17090b1c8e00b001bf364cdd7amr173281pjb.103.1646422177250;
+	Fri, 04 Mar 2022 11:29:37 -0800 (PST)
+Received: from [127.0.1.1] ([198.8.77.157]) by smtp.gmail.com with ESMTPSA id
+	mu1-20020a17090b388100b001bedddf2000sm5521490pjb.14.2022.03.04.11.29.35
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 04 Mar 2022 11:29:36 -0800 (PST)
+From: Jens Axboe <axboe@kernel.dk>
+To: Christoph Hellwig <hch@lst.de>
+In-Reply-To: <20220303111905.321089-2-hch@lst.de>
+References: <20220303111905.321089-1-hch@lst.de>
+	<20220303111905.321089-2-hch@lst.de>
+Message-Id: <164642217510.204397.18145743592419266706.b4-ty@kernel.dk>
+Date: Fri, 04 Mar 2022 12:29:35 -0700
 MIME-Version: 1.0
-Cc: Jan Kara <jack@suse.cz>, linux-doc@vger.kernel.org,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Reisner <philipp.reisner@linbit.com>, linux-mm@kvack.org,
-	drbd-dev@lists.linbit.com, linux-nilfs@vger.kernel.org,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Trond Myklebust <trond.myklebust@hammerspace.com>, Wu@linbit.com,
-	Ilya Dryomov <idryomov@gmail.com>, linux-ext4@vger.kernel.org,
-	Philipp@linbit.com, linux-kernel@vger.kernel.org,
-	Yu <chao@kernel.org>, Paolo Valente <paolo.valente@linaro.org>,
-	Jaegeuk Kim <jaegeuk@kernel.org>, ceph-devel@vger.kernel.org,
-	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-	Jens Axboe <axboe@kernel.dk>, linux-nfs@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>, Chao@linbit.com,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-fsdevel@vger.kernel.org,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	Fengguang <fengguang.wu@intel.com>,
-	Anna Schumaker <anna.schumaker@netapp.com>
-Subject: Re: [Drbd-dev] [PATCH 06/11] ceph: remove reliance on bdi congestion
+Cc: nvdimm@lists.linux.dev, Justin Sanders <justin@coraid.com>,
+	linux-xtensa@linux-xtensa.org, Max Filippov <jcmvbkbc@gmail.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Philipp Reisner <philipp.reisner@linbit.com>,
+	Denis Efremov <efremov@linux.com>, Coly Li <colyli@suse.de>,
+	linux-block@vger.kernel.org, Minchan Kim <minchan@kernel.org>,
+	linux-bcache@vger.kernel.org, Lars Ellenberg <lars.ellenberg@linbit.com>,
+	Chris Zankel <chris@zankel.net>, Ira Weiny <ira.weiny@intel.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Nitin Gupta <ngupta@vflare.org>, drbd-dev@lists.linbit.com
+Subject: Re: [Drbd-dev] [PATCH 01/10] iss-simdisk: use bvec_kmap_local in
+	simdisk_submit_bio
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -80,106 +86,40 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Fri, 2022-03-04 at 13:47 +1100, NeilBrown wrote:
-> On Thu, 24 Feb 2022, Jeff Layton wrote:
-> > On Thu, 2022-02-24 at 16:41 +1100, NeilBrown wrote:
-> > > On Thu, 24 Feb 2022, Jeff Layton wrote:
-> > > > On Tue, 2022-02-22 at 14:17 +1100, NeilBrown wrote:
-> > > > > The bdi congestion tracking in not widely used and will be removed.
-> > > > > 
-> > > > > CEPHfs is one of a small number of filesystems that uses it, setting
-> > > > > just the async (write) congestion flags at what it determines are
-> > > > > appropriate times.
-> > > > > 
-> > > > > The only remaining effect of the async flag is to cause (some)
-> > > > > WB_SYNC_NONE writes to be skipped.
-> > > > > 
-> > > > > So instead of setting the flag, set an internal flag and change:
-> > > > >  - .writepages to do nothing if WB_SYNC_NONE and the flag is set
-> > > > >  - .writepage to return AOP_WRITEPAGE_ACTIVATE if WB_SYNC_NONE
-> > > > >     and the flag is set.
-> > > > > 
-> > > > > The writepages change causes a behavioural change in that pageout() can
-> > > > > now return PAGE_ACTIVATE instead of PAGE_KEEP, so SetPageActive() will
-> > > > > be called on the page which (I think) wil further delay the next attempt
-> > > > > at writeout.  This might be a good thing.
-> > > > > 
-> > > > > Signed-off-by: NeilBrown <neilb@suse.de>
-> > > > 
-> > > > Maybe. I have to wonder whether all of this is really useful.
-> > > > 
-> > > > When things are congested we'll avoid trying to issue new writeback
-> > > > requests. Note that we don't prevent new pages from being dirtied here -
-> > > > - only their being written back.
-> > > > 
-> > > > This also doesn't do anything in the DIO or sync_write cases, so if we
-> > > > lose caps or are doing DIO, we'll just keep churning out "unlimited"
-> > > > writes in those cases anyway.
-> > > 
-> > > I think the point of congestion tracking is to differentiate between
-> > > sync and async IO.  Or maybe "required" and "optional".
-> > > Eventually the "optional" IO will become required, but if we can delay
-> > > it until a time when there is less "required" io, then maybe we can
-> > > improve perceived latency.
-> > > 
-> > > "optional" IO here is write-back and read-ahead.  If the load of
-> > > "required" IO is bursty, and if we can shuffle that optional stuff into
-> > > the quiet periods, we might win.
-> > > 
-> > 
-> > In that case, maybe we should be counting in-flight reads too and deny
-> > readahead when the count crosses some threshold? It seems a bit silly to
-> > only look at writes when it comes to "congestion".
+On Thu, 3 Mar 2022 14:18:56 +0300, Christoph Hellwig wrote:
+> Using local kmaps slightly reduces the chances to stray writes, and
+> the bvec interface cleans up the code a little bit.
 > 
-> I agree that seems a bit silly.
-> 
-> > 
-> > > Whether this is a real need is an important question that I don't have an
-> > > answer for.  And whether it is better to leave delayed requests in the
-> > > page cache, or in the low-level queue with sync requests able to
-> > > over-take them - I don't know.  If you have multiple low-level queue as
-> > > you say you can with ceph, then lower might be better.
-> > > 
-> > > The block layer has REQ_RAHEAD ..  maybe those request get should get a
-> > > lower priority ... though I don't think they do.
-> > > NFS has a 3 level priority queue, with write-back going at a lower
-> > > priority ... I think... for NFSv3 at least.
-> > > 
-> > > Sometimes I suspect that as all our transports have become faster, we
-> > > have been able to ignore the extra latency caused by poor scheduling of
-> > > optional requests.  But at other times when my recently upgraded desktop
-> > > is struggling to view a web page while compiling a kernel ...  I wonder
-> > > if maybe we don't have the balance right any more.
-> > > 
-> > > So maybe you are right - maybe we can rip all this stuff out.
-> > > 
-> > 
-> > I lean more toward just removing it. The existing implementation seems a
-> > bit half-baked with the gaps in what's being counted. Granted, the
-> > default congestion threshold is pretty high with modern memory sizes, so
-> > it probably doesn't come into play much in practice, but removing it
-> > would reduce some complexity in the client.
-> 
-> I'd love to have some test that could reliably generate congestion and
-> measure latencies for other IO.  Without that, it is mostly guess work.
-> So I cannot argue against your proposal, and do agree that removing the
-> code would reduce complexity.  I have no idea what the costs might be -
-> if any.  Hence my focus was on not changing behaviour.
 > 
 
-Fair enough -- caution is warranted.
+Applied, thanks!
 
-I think the thing to do here is to take your patch for now, and then we
-can look at just removing all of this stuff at some point in the future.
-That would also give us a fallback that doesn't require the old
-congestion infrastructure if it turns out that it is needed.
+[01/10] iss-simdisk: use bvec_kmap_local in simdisk_submit_bio
+        commit: 143a70b8b4300faa92ad82468f65dccd440e7957
+[02/10] aoe: use bvec_kmap_local in bvcpy
+        commit: b7ab4611b6c793100197abc93e069d6f9aab7960
+[03/10] zram: use memcpy_to_bvec in zram_bvec_read
+        commit: b3bd0a8a74ab970cc1cf0849e66bd0906741105b
+[04/10] zram: use memcpy_from_bvec in zram_bvec_write
+        commit: bd3d3203eb84d08a6daef805efe9316b79d3bf3c
+[05/10] nvdimm-blk: use bvec_kmap_local in nd_blk_rw_integrity
+        commit: 20072ec828640b7d23a0cfdbccf0dea48e77ba3e
+[06/10] nvdimm-btt: use bvec_kmap_local in btt_rw_integrity
+        commit: 3205190655ea56ea5e00815eeff4dab2bde0af80
+[07/10] bcache: use bvec_kmap_local in bio_csum
+        commit: 07fee7aba5472d0e65345146a68b4bd1a8b656c3
+[08/10] drbd: use bvec_kmap_local in drbd_csum_bio
+        commit: 472278508dce25316e806e45778658c3e4b353b3
+[09/10] drbd: use bvec_kmap_local in recv_dless_read
+        commit: 3eddaa60b8411c135d1c71090dea9b59ff3f2e26
+[10/10] floppy: use memcpy_{to,from}_bvec
+        commit: 13d4ef0f66b7ee9415e101e213acaf94a0cb28ee
 
-I'm assuming this is going in via Andrew's tree, but let us know if
-you'd like us to take any of these in via the ceph tree.
-
-Thanks,
+Best regards,
 -- 
-Jeff Layton <jlayton@kernel.org>
+Jens Axboe
+
+
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
