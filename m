@@ -2,86 +2,45 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id C43FE4E55E4
-	for <lists+drbd-dev@lfdr.de>; Wed, 23 Mar 2022 17:03:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2EFF4E6CC2
+	for <lists+drbd-dev@lfdr.de>; Fri, 25 Mar 2022 04:07:50 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A38CA4203B4;
-	Wed, 23 Mar 2022 17:03:57 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C5879420471;
+	Fri, 25 Mar 2022 04:07:49 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 1232 seconds by postgrey-1.31 at mail19;
-	Wed, 23 Mar 2022 17:03:55 CET
-Received: from gateway22.websitewelcome.com (gateway22.websitewelcome.com
-	[192.185.47.125])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4F2CD420332
-	for <drbd-dev@lists.linbit.com>; Wed, 23 Mar 2022 17:03:55 +0100 (CET)
-Received: from cm17.websitewelcome.com (cm17.websitewelcome.com [100.42.49.20])
-	by gateway22.websitewelcome.com (Postfix) with ESMTP id 591F5377A
-	for <drbd-dev@lists.linbit.com>; Wed, 23 Mar 2022 10:43:22 -0500 (CDT)
-Received: from 162-215-252-75.unifiedlayer.com ([208.91.199.152])
-	by cmsmtp with SMTP
-	id X38snuzh722u3X38snJOxY; Wed, 23 Mar 2022 10:43:22 -0500
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=roeck-us.net; s=default;
-	h=Content-Type:MIME-Version:Message-ID:Subject:Cc:
-	To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=lagRXHohghy8kR3woCuBBmkrcJ/jzmeeFU/A5c+1noo=;
-	b=SKVgFgGANbObFf6amjfV24eu+h
-	n0xWMkM27kPmvFAgvKcqFv+hfIHThLfoWcRnd1X8xFUcQP3HR13LA4VzmRqW+O6FeAgRVxjx27KSe
-	hl2iN+faBt50LA0zMJAn8QRAKthN0v2Vcku3E5ajko0c30LSgmQO+U3vw8gVUULYf32KGgJo+PCIE
-	flVfEntmD6Pxj237DGMtNbwdJvCMhuo0fSfOesmqg5BySHh87KeT7TljcegAXg6iNDlRbUWxBpB1P
-	33QYer1vvhIIEQ4VhMb6a9eCkP1nCGe/5sBMPEQF8lCzmBRQ54ViRtb5zi3O8POeIPCXsSH7hXR8d
-	33EJ51dQ==;
-Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net
-	([108.223.40.66]:57638 helo=localhost)
-	by bh-25.webhostbox.net with esmtpsa (TLS1.2) tls
-	TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
-	(envelope-from <linux@roeck-us.net>)
-	id 1nX38q-0034li-Mc; Wed, 23 Mar 2022 15:43:20 +0000
-Date: Wed, 23 Mar 2022 08:43:19 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Christoph Hellwig <hch@lst.de>
-Message-ID: <20220323154319.GA2268247@roeck-us.net>
+X-Greylist: delayed 346 seconds by postgrey-1.31 at mail19;
+	Fri, 25 Mar 2022 04:07:47 CET
+Received: from mail-m24100.qiye.163.com (mail-m24100.qiye.163.com
+	[220.194.24.100])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 30C254203DF
+	for <drbd-dev@lists.linbit.com>; Fri, 25 Mar 2022 04:07:47 +0100 (CET)
+Received: from easystack.cn (localhost [127.0.0.1])
+	by mail-m24100.qiye.163.com (Hmail) with ESMTP id DBC0956023E;
+	Fri, 25 Mar 2022 11:01:58 +0800 (CST)
+Message-ID: <AJ*A6wDEId6nn-rl7MpNZapM.3.1648177318891.Hmail.rui.xu@easystack.cn>
+To: Rui Xu <rui.xu@easystack.cn>
+X-Priority: 3
+X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2015-163.com
+X-Originating-IP: 153.3.1.47
+In-Reply-To: <20220223084442.3312409-1-rui.xu@easystack.cn>
 MIME-Version: 1.0
-Content-Disposition: inline
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
-X-AntiAbuse: Original Domain - lists.linbit.com
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - roeck-us.net
-X-BWhitelist: no
-X-Source-IP: 108.223.40.66
-X-Source-L: No
-X-Exim-ID: 1nX38q-0034li-Mc
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (localhost)
-	[108.223.40.66]:57638
-X-Source-Auth: guenter@roeck-us.net
-X-Email-Count: 13
-X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
-X-Local-Domain: yes
-Cc: Jens Axboe <axboe@kernel.dk>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	linux-nfs@vger.kernel.org, linux-nilfs <linux-nilfs@vger.kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Mike Snitzer <snitzer@redhat.com>,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	Pavel Begunkov <asml.silence@gmail.com>, linux-block@vger.kernel.org,
-	Roger Pau =?iso-8859-1?Q?Monn=E9?= <roger.pau@citrix.co>,
-	device-mapper development <dm-devel@redhat.com>,
-	"Md . Haris Iqbal" <haris.iqbal@ionos.com>,
-	linux-fsdevel@vger.kernel.org, xen-devel@lists.xenproject.org,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	ntfs3@lists.linux.dev, Jack Wang <jinpu.wang@ionos.com>,
-	Ryusuke Konishi <konishi.ryusuke@gmail.com>, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [dm-devel] [PATCH 01/19] fs: remove mpage_alloc
+Received: from rui.xu@easystack.cn( [153.3.1.47) ] by ajax-webmail (
+	[127.0.0.1] ) ; Fri, 25 Mar 2022 11:01:58 +0800 (GMT+08:00)
+From: Xu Rui <rui.xu@easystack.cn>
+Date: Fri, 25 Mar 2022 11:01:58 +0800 (GMT+08:00)
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZCBgUCR5ZQVlLVUtZV1
+	kWDxoPAgseWUFZKDYvK1lXWShZQUlCN1dZLVlBSVdZDwkaFQgSH1lBWRpDSUlWQxkYTx8dQ0NDHx
+	1JVRkRExYaEhckFA4PWVdZFhoPEhUdFFlBWU9LSFVKSktISkxVS1kG
+X-HM-Sender-Digest: e1kJHlYWEh9ZQUpPSk5KSUlLTklNSTdXWQweGVlBDwkOHldZEh8eFQ9Z
+	QVlHOjFROk0MPz4yH00VFVYJF0w2CzUhGgs2VUhVSk1PQ0pMTEhKQktPQlUzFhoSF1UJDhJVAw47
+	HhoIAggPGhgQVRgVRVlXWRILWUFZSk5IVUhVSlVPTFlXWQgBWUFPTEJCN1dZFAsPEhQVCFlBSzcG
+X-HM-Tid: 0a7fbf060beb8c39kuqt17facf8e507
+Cc: philipp.reisner@linbit.com, dongsheng.yang@easystack.cn,
+	drbd-dev@lists.linbit.com
+Subject: Re: [Drbd-dev]
+	=?utf-8?q?=5BPATCH=5D_drbd=3A_fix_a_bug_of_do=5Fchange?=
+	=?utf-8?q?=5Fdisk=5Fstate_when_attach?=
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -100,45 +59,61 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Wed, Mar 23, 2022 at 07:42:48AM +0100, Christoph Hellwig wrote:
-> On Wed, Mar 23, 2022 at 06:38:22AM +0900, Ryusuke Konishi wrote:
-> > This looks because the mask of GFP_KERNEL is removed along with
-> > the removal of mpage_alloc().
-> > 
-> 
-> > The default value of the gfp flag is set to GFP_HIGHUSER_MOVABLE by
-> > inode_init_always().
-> > So, __GFP_HIGHMEM hits the gfp warning at bio_alloc() that
-> > do_mpage_readpage() calls.
-> 
-> Yeah.  Let's try this to match the iomap code:
-> 
-> diff --git a/fs/mpage.c b/fs/mpage.c
-> index 9ed1e58e8d70b..d465883edf719 100644
-> --- a/fs/mpage.c
-> +++ b/fs/mpage.c
-> @@ -148,13 +148,11 @@ static struct bio *do_mpage_readpage(struct mpage_readpage_args *args)
->  	int op = REQ_OP_READ;
->  	unsigned nblocks;
->  	unsigned relative_block;
-> -	gfp_t gfp;
-> +	gfp_t gfp = mapping_gfp_constraint(page->mapping, GFP_KERNEL);
->  
->  	if (args->is_readahead) {
->  		op |= REQ_RAHEAD;
-> -		gfp = readahead_gfp_mask(page->mapping);
-> -	} else {
-> -		gfp = mapping_gfp_constraint(page->mapping, GFP_KERNEL);
-> +		gfp |= __GFP_NORETRY | __GFP_NOWARN;
->  	}
->  
->  	if (page_has_buffers(page))
+PING
+From: Rui Xu <rui.xu@easystack.cn>
+Date: 2022-02-23 16:44:42
+To:  philipp.reisner@linbit.com,drbd-dev@lists.linbit.com
+Cc:  dongsheng.yang@easystack.cn,Rui Xu <rui.xu@easystack.cn>
+Subject: [PATCH] drbd: fix a bug of do_change_disk_state when attach>There is a bug in do_change_disk_state when attach disk to
+>drbd. Consider this scenario:
+>
+>Primary: node-1, Secondary: node-2, node-3
+>
+>(1) Network failure occurs on node-1 so that node-2 and
+>node-3 will lose connection to node-1
+>
+>(2) Detach the disk of drbd on node-2 use 'drbdadm detach'
+>
+>(3) Attach the disk of drbd on node-2 use 'drbdadm attach'
+>
+>we can see that disk state of node-2 will stay in the negotiating
+>and miss a handshake with node-3, what causes this is when we attach,
+>disk state will going to negotiating from attaching, we will determine
+>whether a two-pc is required in do_change_disk_state, since we lose the
+>connection with node-1 and node-1 was first connection, connection->agreeed
+>_pro_version will less than 110, at last, we will not do a two-pc, which
+>leads a problem that node-3 will not send p_state to node-2, then node-2 miss
+>a handshake with node-3 and the disk state of node-2 will not change.
+>
+>Fix it by using supports_two_phase_commit to determine whether a two-pc is
+>really required.
+>
+>Signed-off-by: Rui Xu <rui.xu@easystack.cn>
+>---
+> drbd/drbd_state.c | 5 +----
+> 1 file changed, 1 insertion(+), 4 deletions(-)
+>
+>diff --git a/drbd/drbd_state.c b/drbd/drbd_state.c
+>index aeaf36a..2cb501d 100644
+>--- a/drbd/drbd_state.c
+>+++ b/drbd/drbd_state.c
+>@@ -5173,10 +5173,7 @@ static bool do_change_disk_state(struct change_context *context, enum change_pha
+> 	if (device->disk_state[NOW] == D_ATTACHING &&
+> 	    context->val.disk == D_NEGOTIATING) {
+> 		if (device_has_peer_devices_with_disk(device)) {
+>-			struct drbd_connection *connection =
+>-				first_connection(device->resource);
+>-			cluster_wide_state_change =
+>-				connection && connection->agreed_pro_version >= 110;
+>+			cluster_wide_state_change = supports_two_phase_commit(device->resource);
+> 		} else {
+> 			/* very last part of attach */
+> 			context->val.disk = disk_state_from_md(device);
+>-- 
+>1.8.3.1
+>
 
-That fixes the problem for me.
 
-Tested-by: Guenter Roeck <linux@roeck-us.net>
-
-Guenter
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
