@@ -2,43 +2,59 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 500C44E6CCA
-	for <lists+drbd-dev@lfdr.de>; Fri, 25 Mar 2022 04:12:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34C394E866B
+	for <lists+drbd-dev@lfdr.de>; Sun, 27 Mar 2022 09:09:30 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4BAE3420471;
-	Fri, 25 Mar 2022 04:12:49 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id F16AE42060F;
+	Sun, 27 Mar 2022 09:09:28 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-m24100.qiye.163.com (mail-m24100.qiye.163.com
-	[220.194.24.100])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E47E94201F2
-	for <drbd-dev@lists.linbit.com>; Fri, 25 Mar 2022 04:12:47 +0100 (CET)
-Received: from easystack.cn (localhost [127.0.0.1])
-	by mail-m24100.qiye.163.com (Hmail) with ESMTP id D4416560230;
-	Fri, 25 Mar 2022 11:02:59 +0800 (CST)
-Message-ID: <ANUANAAVIdwn*FrX7b*E8aoA.3.1648177379860.Hmail.rui.xu@easystack.cn>
-To: Rui Xu <rui.xu@easystack.cn>
-X-Priority: 3
-X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2015-163.com
-X-Originating-IP: 153.3.1.47
-In-Reply-To: <20220302123523.471277-1-rui.xu@easystack.cn>
-MIME-Version: 1.0
-Received: from rui.xu@easystack.cn( [153.3.1.47) ] by ajax-webmail (
-	[127.0.0.1] ) ; Fri, 25 Mar 2022 11:02:59 +0800 (GMT+08:00)
-From: Xu Rui <rui.xu@easystack.cn>
-Date: Fri, 25 Mar 2022 11:02:59 +0800 (GMT+08:00)
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZCBgUCR5ZQVlLVUtZV1
-	kWDxoPAgseWUFZKDYvK1lXWShZQUlCN1dZLVlBSVdZDwkaFQgSH1lBWRkfGB5WS04ZTRgYQk8aSR
-	1OVRkRExYaEhckFA4PWVdZFhoPEhUdFFlBWU9LSFVKSktISkxVS1kG
-X-HM-Sender-Digest: e1kJHlYWEh9ZQUpPSk1PTElNSE1NTjdXWQweGVlBDwkOHldZEh8eFQ9Z
-	QVlHOjUuOjU6Oi0yHwwVUT0JI0wZUT5DGhQ6VUhVSk1PQ0pMTEhMQkJCSFUzFhoSF1UJDhJVAw47
-	HhoIAggPGhgQVRgVRVlXWRILWUFZSk5IVUhVSlVPTFlXWQgBWUFITUNMN1dZFAsPEhQVCFlBSzcG
-X-HM-Tid: 0a7fbf06fa148c39kuqt17facf8e533
-Cc: philipp.reisner@linbit.com, dongsheng.yang@easystack.cn,
-	drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev]
-	=?utf-8?q?=5BPATCH=5D_drbd=3Ado_not_wait_for_negotiati?=
-	=?utf-8?q?on_result_with_unconnected_peer?=
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
+	[209.85.215.171])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id ECBE74205D8
+	for <drbd-dev@lists.linbit.com>; Sun, 27 Mar 2022 09:09:26 +0200 (CEST)
+Received: by mail-pg1-f171.google.com with SMTP id w21so9827490pgm.7
+	for <drbd-dev@lists.linbit.com>; Sun, 27 Mar 2022 00:09:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+	h=from:to:cc:subject:date:message-id;
+	bh=Dswsk0jetBijYktZ7SH96xaSPfRhbnA9l3ZIGPdBlrI=;
+	b=i6+b2XSkalNg6DOhuZPtEKFGG0z1vvDdmoEcVQ4ypDwvzICeXJOv4LFhwpx2x18QS+
+	AhlWIC4s2MpT+zM5Ora+fCociP/CzNaaxGO+mJO+Z7nuQbZL7hQ1oRJlNk+n19Hq4lgb
+	7A4rHk02cWxNisZq8XWes7odzO7hdXfD5DMzQIuPQjiRbP1yr1N0cCB7cM7R8ohpRLPx
+	YINtCTy1tB07UxDqqu34cU/PVkwNZBOMFK0p8ZA/Dr3q9nYRJ8HLG8q214dSGaW1ETG9
+	QrK6+hgJlceQmK7rDuk2ew0kSGyBPUZ1iORntFv13yzMoDOr4mqV6wloQ1dkju8jS0pY
+	qzMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20210112;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Dswsk0jetBijYktZ7SH96xaSPfRhbnA9l3ZIGPdBlrI=;
+	b=jBrsCOXvtbUbM/dMuo5W/W+k6xqmVwB2ACpoGvqxVrqy1DZZS2p5aeLbNlVrGS7W7G
+	0D/DjPytes5N4WQSpHPijJ9clxQAIepReK8gLGKUorWuN0/v00k8SxzrprZHICsQUNy6
+	3LtWuWBxoWGTD+YIOm33+Xjdhq2hRVt3sZLyiFLvZuzgiE28SzBK+i73kqNwTJeKqiST
+	Ab1CFntVhf5wdsVUz5JTSCd32Y5CPokjknjY7NBLak+SoDYd1XUonD6xQa1vbbu9aF7P
+	f7zqsKiYvbBZP/qXuFVowwpw47FJB5rk90DMg9NEWpnS07f0EyOVLMdZ4YjiX5c+/K+N
+	cNTA==
+X-Gm-Message-State: AOAM532e533/0IKEmP9g5NqOpGrOnANp5qQ7KA4y9JhGUt5X1mZPBCC9
+	XW48eRtV7VnLUuQtVJYsYks=
+X-Google-Smtp-Source: ABdhPJymh6IMTtnDyhTTmlhAfbLgWrj5zjZfypZgJnag3MlTplfc8wEo9bq0GVF9wmHFKQk5NpcMMg==
+X-Received: by 2002:a63:de0c:0:b0:378:9365:c3c6 with SMTP id
+	f12-20020a63de0c000000b003789365c3c6mr5894337pgg.301.1648364965504;
+	Sun, 27 Mar 2022 00:09:25 -0700 (PDT)
+Received: from localhost ([115.220.243.108]) by smtp.gmail.com with ESMTPSA id
+	k14-20020aa7820e000000b004f7134a70cdsm11349504pfi.61.2022.03.27.00.09.24
+	(version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+	Sun, 27 Mar 2022 00:09:24 -0700 (PDT)
+From: Xiaomeng Tong <xiam0nd.tong@gmail.com>
+To: philipp.reisner@linbit.com
+Date: Sun, 27 Mar 2022 15:09:18 +0800
+Message-Id: <20220327070918.8465-1-xiam0nd.tong@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Cc: axboe@kernel.dk, agruen@linbit.com, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, linux-block@vger.kernel.org,
+	Xiaomeng Tong <xiam0nd.tong@gmail.com>,
+	lars.ellenberg@linbit.com, drbd-dev@lists.linbit.com
+Subject: [Drbd-dev] [PATCH] drbd: fix an invalid memory access caused by
+	incorrect use of list iterator
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,46 +68,63 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-PING
-From: Rui Xu <rui.xu@easystack.cn>
-Date: 2022-03-02 20:35:23
-To:  joel.colledge@linbit.com,philipp.reisner@linbit.com,drbd-dev@lists.linbit.com
-Cc:  dongsheng.yang@easystack.cn,Rui Xu <rui.xu@easystack.cn>
-Subject: [PATCH] drbd:do not wait for negotiation result with unconnected peer>The commit 8a962a6a from Dec 2014
->"drbd: fix leaving of D_NEGOTIATING if some peer do not have the minor yet"
->introduced a bug that disk state will always stay in negotiating since there
->will never be negotiation result with unconnected peer.
->
->So do not wait for an negotiation result with unconnected peer!
->
->Signed-off-by: Rui Xu <rui.xu@easystack.cn>
->---
-> drbd/drbd_state.c | 3 ++-
-> 1 file changed, 2 insertions(+), 1 deletion(-)
->
->diff --git a/drbd/drbd_state.c b/drbd/drbd_state.c
->index aeaf36a..f79f5a4 100644
->--- a/drbd/drbd_state.c
->+++ b/drbd/drbd_state.c
->@@ -1912,7 +1912,8 @@ static void sanitize_state(struct drbd_resource *resource)
-> 				enum drbd_repl_state nr = peer_device->negotiation_result;
-> 				enum drbd_disk_state pdsk = peer_device->disk_state[NEW];
-> 
->-				if (pdsk == D_UNKNOWN || pdsk < D_NEGOTIATING)
->+				if (pdsk == D_UNKNOWN || pdsk < D_NEGOTIATING ||
->+				    peer_device->connection->cstate[NEW] < C_CONNECTED)
-> 					continue;
-> 
-> 				if (pdsk == D_UP_TO_DATE)
->-- 
->1.8.3.1
->
+The bug is here:
+	idr_remove(&connection->peer_devices, vnr);
 
+If the previous for_each_connection() don't exit early (no goto hit
+inside the loop), the iterator 'connection' after the loop will be a
+bogus pointer to an invalid structure object containing the HEAD
+(&resource->connections). As a result, the use of 'connection' above
+will lead to a invalid memory access (including a possible invalid free
+as idr_remove could call free_layer).
+
+The original intention should have been to remove all peer_devices,
+but the following lines have already done the work. So just remove
+this line and the unneeded label, to fix this bug.
+
+Cc: stable@vger.kernel.org
+Fixes: c06ece6ba6f1b ("drbd: Turn connection->volumes into connection->peer_devices")
+Signed-off-by: Xiaomeng Tong <xiam0nd.tong@gmail.com>
+---
+ drivers/block/drbd/drbd_main.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
+index 6f450816c4fa..5d5beeba3ed4 100644
+--- a/drivers/block/drbd/drbd_main.c
++++ b/drivers/block/drbd/drbd_main.c
+@@ -2793,12 +2793,12 @@ enum drbd_ret_code drbd_create_device(struct drbd_config_context *adm_ctx, unsig
+ 
+ 	if (init_submitter(device)) {
+ 		err = ERR_NOMEM;
+-		goto out_idr_remove_vol;
++		goto out_idr_remove_from_resource;
+ 	}
+ 
+ 	err = add_disk(disk);
+ 	if (err)
+-		goto out_idr_remove_vol;
++		goto out_idr_remove_from_resource;
+ 
+ 	/* inherit the connection state */
+ 	device->state.conn = first_connection(resource)->cstate;
+@@ -2812,8 +2812,6 @@ enum drbd_ret_code drbd_create_device(struct drbd_config_context *adm_ctx, unsig
+ 	drbd_debugfs_device_add(device);
+ 	return NO_ERROR;
+ 
+-out_idr_remove_vol:
+-	idr_remove(&connection->peer_devices, vnr);
+ out_idr_remove_from_resource:
+ 	for_each_connection(connection, resource) {
+ 		peer_device = idr_remove(&connection->peer_devices, vnr);
+-- 
+2.17.1
 
 _______________________________________________
 drbd-dev mailing list
