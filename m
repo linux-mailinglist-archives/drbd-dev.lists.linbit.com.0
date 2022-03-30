@@ -2,66 +2,60 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 324984ECB80
-	for <lists+drbd-dev@lfdr.de>; Wed, 30 Mar 2022 20:13:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48FF14ECBD9
+	for <lists+drbd-dev@lfdr.de>; Wed, 30 Mar 2022 20:24:52 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 197764205F5;
-	Wed, 30 Mar 2022 20:13:06 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2D13A4205F5;
+	Wed, 30 Mar 2022 20:24:51 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 302 seconds by postgrey-1.31 at mail19;
-	Wed, 30 Mar 2022 20:13:04 CEST
-Received: from us-smtp-delivery-124.mimecast.com
-	(us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6A1D64202BA
-	for <drbd-dev@lists.linbit.com>; Wed, 30 Mar 2022 20:13:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1648663983;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	in-reply-to:in-reply-to:references:references;
-	bh=uWSt8FFFTI4rhck3dPnwbJuLsSit8PUXxQiArFyosm8=;
-	b=T/gt+m+MHGOb3YLOI+b2E/N9+fA8BTno/A6clmPZCCQZs0PaZS4JuXxNUJfGCEV1p+qC1t
-	Nw8ZS7kyGQCjd+fyiWLtKtyQBZxIcjbqaXnRL3i7dhlwBjkz22NlC87UInxj8Kll23Fzuv
-	OTZ2y/rFQKQt2/64vfGTuIj93B1rgMs=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
-	[209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
-	(version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	us-mta-31-lY4NXrr6NL-5bhBLqMeOuQ-1; Wed, 30 Mar 2022 14:06:27 -0400
-X-MC-Unique: lY4NXrr6NL-5bhBLqMeOuQ-1
-Received: by mail-qv1-f71.google.com with SMTP id
-	x6-20020ad44626000000b0044119c7bf4aso16629853qvv.12
-	for <drbd-dev@lists.linbit.com>; Wed, 30 Mar 2022 11:06:27 -0700 (PDT)
+Received: from mail-il1-f181.google.com (mail-il1-f181.google.com
+	[209.85.166.181])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 503F74201B8
+	for <drbd-dev@lists.linbit.com>; Wed, 30 Mar 2022 20:24:49 +0200 (CEST)
+Received: by mail-il1-f181.google.com with SMTP id x9so15112596ilc.3
+	for <drbd-dev@lists.linbit.com>; Wed, 30 Mar 2022 11:24:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+	h=message-id:date:mime-version:user-agent:subject:content-language:to
+	:cc:references:from:in-reply-to:content-transfer-encoding;
+	bh=JFFSehnkNeo1K8L02V2cW9CThdS75MCRvOKla3KLkAw=;
+	b=BFTCzD4aFvt9JrLiEz1bvzh6geIg6IptVTdj6IDiPuICAE203wQz9TEb+4sd+GuDm8
+	7hfsvwiWBq0a8G/L8JH1EJb4H5BgYFm066eNM++IJprdbaiP/K/RQcVNoIdok+4Buz0n
+	VPAQxsddsYW6lxBAvrCd3pw/AsU0VWg+XQ9+f+uSiaJkninfGHo8tQFy0F2WQL/CkiPX
+	978UdPWCEqFU5zNcqpfpYI+hbpzYnlekkvQ4l365jJLsdpHWW1qs4vwF10T/u8GEeEZH
+	VfPeDuk7IqzhfjQL+dK96hTc4fToK+0EsQR50pC8XTuJ0494LDj5KpiHUMlEIVaBIuzm
+	wOwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20210112;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to;
-	bh=uWSt8FFFTI4rhck3dPnwbJuLsSit8PUXxQiArFyosm8=;
-	b=VDSV+WdrYv6ld947TjJkE5HqYyjPF6j6Gl8pGz666Lgj0rUnoSOS0fo9bhiQVmD0Cf
-	tcHlOX8YJprL5ANPc3n7IvsrlsTtnAW4fY6BY4d8E5nfuEZwJB3j9bHYq0UkAnhL8k7H
-	BbQLKQZYGKDF3SIw6tUpIw4XEoXUgBFqsK2eW/dXNU1Ezlgp7uFWA0AYm7EMiMA2o4R/
-	lb6FcMSAG1IlETT2miSWbhk874pTxRZ9QsamxaXwEzNM88mofAyE5oI3wu387iHLqQ6o
-	2hUIyxrbC4uN0zrlf/ZuBrbGu7tGc69Xd7WE+CQlOclw/b9Iu3sV+/QC6D/3iG+8NqEe
-	1Dkw==
-X-Gm-Message-State: AOAM533+71iyg1NLwZopujlK80oC5NMtNTLRxz3D1uFQsolP6rOuMgPd
-	n5sYUxcbBhUmXNHFLFnJOzBJe33J81lTECMeFf0knZTX9vzhApwT/griVSKFj4upbxiGnqv8nts
-	BKKR60eUqYZ1rdJFKZC8=
-X-Received: by 2002:ad4:5be3:0:b0:441:7bd1:29bd with SMTP id
-	k3-20020ad45be3000000b004417bd129bdmr733380qvc.14.1648663586924;
-	Wed, 30 Mar 2022 11:06:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzkima55vXfIXB4/YhL8vxRAGITI8NXaa0gII7X9gZDBJaWlIZfDnbZH36cgG+Ixq8NEncA6A==
-X-Received: by 2002:ad4:5be3:0:b0:441:7bd1:29bd with SMTP id
-	k3-20020ad45be3000000b004417bd129bdmr733356qvc.14.1648663586730;
-	Wed, 30 Mar 2022 11:06:26 -0700 (PDT)
-Received: from localhost (pool-68-160-176-52.bstnma.fios.verizon.net.
-	[68.160.176.52]) by smtp.gmail.com with ESMTPSA id
-	u20-20020a05620a455400b0067ec0628661sm12639056qkp.110.2022.03.30.11.06.26
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 30 Mar 2022 11:06:26 -0700 (PDT)
-Date: Wed, 30 Mar 2022 14:06:25 -0400
-From: Mike Snitzer <snitzer@redhat.com>
+	h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+	:content-language:to:cc:references:from:in-reply-to
+	:content-transfer-encoding;
+	bh=JFFSehnkNeo1K8L02V2cW9CThdS75MCRvOKla3KLkAw=;
+	b=QX1vaReTS9TGAF9FG5AAPKLaSOlUI93UF4G97QD5EpF98zEnQVYPldl7BR2c9ypNBt
+	faRK+1bTHILOzK/xsZHrn+2P403zfaMBlwq7aZ48lHihinODrIDOPiTLExteU9E6Txj4
+	KqCEejM67vOzHqBY8sAVyhY5w9q1r5qrcb+Xvr66E7703kZV8BqjDveDZxCSXKfzHWi7
+	wXWUtJ938klup9kEuPQIMGQ322mFhEBluHbEwIC2qqoW5+mE3sdPDEX2xvpHU6HY6vvb
+	gF12floAOzMVOXsU1xfpIB+gIFiaHHH9x8N6y3jKFawtPHWORG1c85iDLXKUsvpRlK2u
+	3hCg==
+X-Gm-Message-State: AOAM532ZG7PvYJ9TvTs3K8UL2VKpCdougvb7aEMLmHeOYybKD4D6eelZ
+	BWr7B3lykLXb8KlR+vAhYVWD+A==
+X-Google-Smtp-Source: ABdhPJwUvZiBYV6AGjovRlQg5dfR2IK8vL/m8lnPjq8KMhvUK1WpCP4kEeYA48hTsQvWDg7IrHos5Q==
+X-Received: by 2002:a92:cbc3:0:b0:2c6:78fa:41e9 with SMTP id
+	s3-20020a92cbc3000000b002c678fa41e9mr11278289ilq.112.1648664688212;
+	Wed, 30 Mar 2022 11:24:48 -0700 (PDT)
+Received: from [192.168.1.172] ([207.135.234.126])
+	by smtp.gmail.com with ESMTPSA id
+	i81-20020a6bb854000000b00649c1b67a6csm11564038iof.28.2022.03.30.11.24.47
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Wed, 30 Mar 2022 11:24:47 -0700 (PDT)
+Message-ID: <0dc208a9-22f2-6758-e776-752ff81e2b19@kernel.dk>
+Date: Wed, 30 Mar 2022 12:24:46 -0600
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
+	Thunderbird/91.7.0
+Content-Language: en-US
 To: Philipp Reisner <philipp.reisner@linbit.com>
-Message-ID: <YkScIas+/Ev0trcZ@redhat.com>
 References: <20220329070618.GA20396@lst.de>
 	<CADGDV=UgjZAbmAN-2bO1nyDvA=XCC9Lf2dxWHZ0BwxF12nnztQ@mail.gmail.com>
 	<20220329073254.GA20691@lst.de>
@@ -70,15 +64,10 @@ References: <20220329070618.GA20396@lst.de>
 	<CADGDV=WN2TFR6dO7ZdiQ2ijPjs+7HSsvk0ZCHsHj6ZG5t-oEdA@mail.gmail.com>
 	<3c42b1ed-7c03-64e6-409e-e92247288cac@kernel.dk>
 	<CADGDV=WcTSSC70yG61dazo-WyoLOzp3r+nOk-Eg2x_Ncx=3nRg@mail.gmail.com>
-MIME-Version: 1.0
+From: Jens Axboe <axboe@kernel.dk>
 In-Reply-To: <CADGDV=WcTSSC70yG61dazo-WyoLOzp3r+nOk-Eg2x_Ncx=3nRg@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=snitzer@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
-Cc: Jens Axboe <axboe@kernel.dk>, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, Lars Ellenberg <lars.ellenberg@linbit.com>,
+Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
 	Christoph Hellwig <hch@lst.de>, drbd-dev@lists.linbit.com
 Subject: Re: [Drbd-dev] state of drbd in mainline
 X-BeenThere: drbd-dev@lists.linbit.com
@@ -99,36 +88,67 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Wed, Mar 30 2022 at 11:23P -0400,
-Philipp Reisner <philipp.reisner@linbit.com> wrote:
-
-> > > Jens, my intention is to keep it in-tree, and at some point update it.
-> > > Regarding your questions:
-> >
-> > That'd be great, but it's been years since there was any significant
-> > updates to the in-kernel drbd... I would strongly suggest that the
-> > in-kernel be brought closer to what people are mostly running, as it
-> > stands it's basically unmaintained.
+On 3/30/22 9:23 AM, Philipp Reisner wrote:
+>>> Jens, my intention is to keep it in-tree, and at some point update it.
+>>> Regarding your questions:
+>>
+>> That'd be great, but it's been years since there was any significant
+>> updates to the in-kernel drbd... I would strongly suggest that the
+>> in-kernel be brought closer to what people are mostly running, as it
+>> stands it's basically unmaintained.
 > 
 > The changes we worked on over many Years in the more recent drbd-9.x
 > branches are just too fundamental to do them in small chunks, we could
 > upstream bit by bit.  We need to get that reviewed in a big series.  If I
+
+Your development model is fundamentally broken. You've allowed your 9.x
+branch to totally drift from mainline, which just helps underline my
+earlier point on that in-kernel drbd is effectively abandoned and
+unmaintained.
+
 > started to dump them on linux-block right away, nobody would look at it
 > seriously, since it would be too much.  I intend to get people from red
 > hat/suse assigned to do such a review. Then we will do that on linux-block,
 > so that everyone who cares sees what happens.
 
-Why do you think Red Hat, SUSE or any other distro vendor's engineers
-should be made to review what amounts to be a massive dump of changes
-you developed over years?
+You're just doing it totally wrong. Upstream kernel should match your
+9.x branch, and it should have been developed in sync. What you appear
+to have done is to ignore mainline, while it would've been correct and
+much easier in the long run to ensure that development is regularly
+synced to the mainline kernel. You know, like EVERY other driver that is
+maintained does.
 
-Presummably you have heard of "upstream first"!?  Why do you think it
-doesn't apply to drbd?
+Now you've got a giant pile of patches, which probably don't adhere to
+how we would've done the mainline commits in the first place, and it'll
+cause a huge pain for not just you but upstream reviewers. I don't care
+about the former, but I do care a lot about the latter. That's a giant
+waste of the time of the folks involved on the block side, and
+definitely not what a responsible kernel maintainer would do.
 
-It'd be one thing if drbd never went upstream but _it did_.  As is
-your development model is completely wrong.
+From your reply here and earlier ones, seems to me that you don't grasp
+the gravity of the situation, which is also worrying.
 
-Mike
+>> The main discrepancy here is that there are apparently huge numbers of
+>> in-tree users, yet no fixes or patches at all making it to mainline.
+>> Either drbd is bug free and doesn't require any fixes at all, which I
+>> very much would doubt, or fixes aren't being sent upstream.
+> 
+> It is the broad consent among the users of the drbd-8.4 branch (that is what
+> is in-tree), is that it works for its purpose. It is for sure not bug-free,
+> but people are not running into bugs anymore. So, call it free of relevant
+> bugs, if you want.  No new features go into that branch, on purpose. To keep
+> it that way.
+> 
+> Have a look at that one real bug-fix that was identified in the last Year.
+> https://patchwork.kernel.org/project/linux-block/patch/20210426163032.3454129-1-christoph.boehmwalder@linbit.com/
+> 
+> When do you want to have that reposted to you?
+> right now? Just before the next merge window opens?
+
+That can go in anytime, so please do submit it.
+
+-- 
+Jens Axboe
 
 _______________________________________________
 drbd-dev mailing list
