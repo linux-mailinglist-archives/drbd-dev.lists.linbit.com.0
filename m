@@ -2,63 +2,64 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id C158A4ECCC1
-	for <lists+drbd-dev@lfdr.de>; Wed, 30 Mar 2022 20:55:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28FF44ECCC9
+	for <lists+drbd-dev@lfdr.de>; Wed, 30 Mar 2022 20:59:25 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C3D1B4205DD;
-	Wed, 30 Mar 2022 20:55:56 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2E49C4205F5;
+	Wed, 30 Mar 2022 20:59:24 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
-	[209.85.218.44])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A59B04202BA
-	for <drbd-dev@lists.linbit.com>; Wed, 30 Mar 2022 20:55:55 +0200 (CEST)
-Received: by mail-ej1-f44.google.com with SMTP id o10so43421969ejd.1
-	for <drbd-dev@lists.linbit.com>; Wed, 30 Mar 2022 11:55:55 -0700 (PDT)
+Received: from mail-il1-f173.google.com (mail-il1-f173.google.com
+	[209.85.166.173])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4F15A4202BA
+	for <drbd-dev@lists.linbit.com>; Wed, 30 Mar 2022 20:59:23 +0200 (CEST)
+Received: by mail-il1-f173.google.com with SMTP id z10so2144354iln.0
+	for <drbd-dev@lists.linbit.com>; Wed, 30 Mar 2022 11:59:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linbit-com.20210112.gappssmtp.com; s=20210112;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=fS8vexv5y5IlDW6jDa/CJnkMG23qfhzjDUs+WGYeVjg=;
-	b=uE53q3re8iwnjr6tBa9zKY2osZp3Jp7t2TKEQ3SXNl1//qBGvJExj/tsz6E1PgZ3e/
-	LkmwFOYHMXSgAU9TJywuh/3mnW/vMQ9usbvvqFAMx1fQd8lYOWLLVXhbeuUQve3sXZXf
-	Fq5P2qkDbGUh0zMm4KJHlrdljEz+Ehg0sYvMkHQ52hNhhcRfJ+Hcgkw8bLQIV+4lCT35
-	VzaTaenvPApoHdpE75vTR57mqE52fMwU0uKIf/5Km74RZ7c7aJw81Xwvkc12VZoCOT0e
-	7ARVYYfD3GMdixo06qi0wm53i2TqGld6y+YnhLB6+sXfLvzX9Z+/7m5kbKulshiKjXdT
-	4LZg==
+	d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+	h=from:to:cc:in-reply-to:references:subject:message-id:date
+	:mime-version:content-transfer-encoding;
+	bh=JzhfZ/CUq52HYShJX4rwZw+BsinCzZPXk6aUx2SeaWc=;
+	b=21EfTKuFe/pyVsN6DsG8I8dRhf5by4GPqaSliM7JT+8DDqi3QeZkKta5IeA3F39y59
+	8SPNNznBc5qOkQ6hSpJGSUhbo7IMbfb0R67rb383OK+T4U9TjAWNrDj+ar7Eim4blDwd
+	6FF0WBuhdjG/BmNulBUy5M+Uq49Yh8lsSduxNE0ghGpcRHK/Wz2Tec/I6qwpV3GDZ1Hj
+	XW5IF+JgZiWmf6H2LFT7aSWb7ZBlO2NMIgpC6LwfjfkkTScUvgGEaHBR1Lr8y2Zy6xn0
+	snt/jA0zmPIevcMKYBoI3zpY4EF7PU9xjYip1uO4G3CUHe1AtzzkPF1W5M0MZtLLiRmn
+	N+Dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20210112;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=fS8vexv5y5IlDW6jDa/CJnkMG23qfhzjDUs+WGYeVjg=;
-	b=Nuy6XKdv20sFUCJO1g1Qtzo0GhiTC6Ab41aa2MtlcEcu07pgDsdJQ0H3/NdcRAFa0s
-	C2+hPkAFobph/M2N0g9jPME1/QTh3qcsabrMrNxQKaYu1aLWoD0E7+XZiAU0OOxzKdVX
-	uf5ubFlG/0EcarwdZhLuJcIgAFhzlN4s3LScSvGe08tCFFqUphpXlfedJQ/HgjVdhLU8
-	dVv40TRP45jEOD3O8i1yhVmh7/WlTYGMICEDPIJoUJ3LyEnA/RxyttKGnOGlUcoJVBlA
-	dIGebUguEYyUA1ZP3jOR1aIPlHv/uUZVaJ18+spUJKNZGgNMExNpCwnqfFKmtyhi4gOu
-	oPdw==
-X-Gm-Message-State: AOAM531QX6cFwvfohNMw7px8lOXZMi5THN4z16esx1EdHsx9BbseCTsU
-	Xz6xnLy0zdwZxaSm1oH2bgNwdpcr
-X-Google-Smtp-Source: ABdhPJz+Vt1B8Iq4kvuEZ5n0irgjFoH7JQGrTUQ0hBXINZJsc5RSI/lf6XLpN5R8JUo3VnVHtmsipg==
-X-Received: by 2002:a17:907:16ac:b0:6e0:1646:9121 with SMTP id
-	hc44-20020a17090716ac00b006e016469121mr1136241ejc.194.1648666555117;
-	Wed, 30 Mar 2022 11:55:55 -0700 (PDT)
-Received: from gintonic.linbit (62-99-137-214.static.upcbusiness.at.
-	[62.99.137.214]) by smtp.gmail.com with ESMTPSA id
-	nc13-20020a1709071c0d00b006dfa376ee55sm8554639ejc.131.2022.03.30.11.55.53
+	h=x-gm-message-state:from:to:cc:in-reply-to:references:subject
+	:message-id:date:mime-version:content-transfer-encoding;
+	bh=JzhfZ/CUq52HYShJX4rwZw+BsinCzZPXk6aUx2SeaWc=;
+	b=g2NCz8gaDSSM7kXO1VMGN1nzBZwvVtOfrBKA4pwfUYVWiqwjo+5YwaUtRgMmq8S12r
+	tMNYoRMzW3Z7P/Gmuu3+SH7n9jJgwYzsUiOk4HH/J9g4WuQ+sz75Q1gGVlRGjt2o9Gx8
+	/c21W813AiPWj7G/F+4fTAD+o2Kn2/uwqtMZxCxazKN/QE5C+7efJJFxHaFttT3I18Ss
+	eHHMnMk0Wsc09tlgLE9MKWG+8vALB52lmZR3NGuRk8U8ZiWfTM/27ekm+hVcJzI9axrh
+	of6NyD3TjajI0C91uQwmKGqeki50gpzi2PcMuV30a7Q7UWfI62nteUJvPRohN2wdmpeu
+	hLXQ==
+X-Gm-Message-State: AOAM533loFKQGXd7hQnzrbeIvCoHa4f9AHVWgBd0ZxBteoAeI5X5Pog5
+	dfCRYdGLklUVbhVgmcVcbggrbA==
+X-Google-Smtp-Source: ABdhPJw0ofuukP3d70rMMKQq/MVP/cmS2KuFFYqXVZXDp5tSx4rls8PeIvy/lCBr5ROLmB3npVrs1g==
+X-Received: by 2002:a05:6e02:1846:b0:2c7:b032:5d92 with SMTP id
+	b6-20020a056e02184600b002c7b0325d92mr12107692ilv.237.1648666762286;
+	Wed, 30 Mar 2022 11:59:22 -0700 (PDT)
+Received: from [127.0.1.1] ([207.135.234.126])
+	by smtp.gmail.com with ESMTPSA id
+	p2-20020a5d9c82000000b00649b622f528sm11565183iop.18.2022.03.30.11.59.21
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 30 Mar 2022 11:55:54 -0700 (PDT)
-From: =?UTF-8?q?Christoph=20B=C3=B6hmwalder?=
-	<christoph.boehmwalder@linbit.com>
-To: Jens Axboe <abxoe@kernel.dk>
-Date: Wed, 30 Mar 2022 20:55:51 +0200
-Message-Id: <20220330185551.3553196-1-christoph.boehmwalder@linbit.com>
-X-Mailer: git-send-email 2.32.0
+	Wed, 30 Mar 2022 11:59:21 -0700 (PDT)
+From: Jens Axboe <axboe@kernel.dk>
+To: Jens Axboe <abxoe@kernel.dk>, Christoph Böhmwalder <christoph.boehmwalder@linbit.com>
+In-Reply-To: <20220330185551.3553196-1-christoph.boehmwalder@linbit.com>
+References: <20220330185551.3553196-1-christoph.boehmwalder@linbit.com>
+Message-Id: <164866676126.259715.18309022506548759751.b4-ty@kernel.dk>
+Date: Wed, 30 Mar 2022 12:59:21 -0600
 MIME-Version: 1.0
 Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
 	Philipp Reisner <philipp.reisner@linbit.com>, linux-block@vger.kernel.org,
 	Lars Ellenberg <lars.ellenberg@linbit.com>, drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [RESEND PATCH] drbd: fix potential silent data corruption
+Subject: Re: [Drbd-dev] [RESEND PATCH] drbd: fix potential silent data
+	corruption
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -77,41 +78,15 @@ Content-Transfer-Encoding: base64
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-RnJvbTogTGFycyBFbGxlbmJlcmcgPGxhcnMuZWxsZW5iZXJnQGxpbmJpdC5jb20+CgpTY2VuYXJp
-bzoKLS0tLS0tLS0tCgpiaW8gY2hhaW4gZ2VuZXJhdGVkIGJ5IGJsa19xdWV1ZV9zcGxpdCgpLgpT
-b21lIHNwbGl0IGJpbyBmYWlscyBhbmQgcHJvcGFnYXRlcyBpdHMgZXJyb3Igc3RhdHVzIHRvIHRo
-ZSAicGFyZW50IiBiaW8uCkJ1dCB0aGVuIHRoZSAobGFzdCBwYXJ0IG9mIHRoZSkgcGFyZW50IGJp
-byBpdHNlbGYgY29tcGxldGVzIHdpdGhvdXQgZXJyb3IuCgpXZSB3b3VsZCBjbG9iYmVyIHRoZSBh
-bHJlYWR5IHJlY29yZGVkIGVycm9yIHN0YXR1cyB3aXRoIEJMS19TVFNfT0ssCmNhdXNpbmcgc2ls
-ZW50IGRhdGEgY29ycnVwdGlvbi4KClJlcHJvZHVjZXI6Ci0tLS0tLS0tLS0tCgpIb3cgdG8gdHJp
-Z2dlciB0aGlzIGluIHRoZSByZWFsIHdvcmxkIHdpdGhpbiBzZWNvbmRzOgoKRFJCRCBvbiB0b3Ag
-b2YgZGVncmFkZWQgcGFyaXR5IHJhaWQsCnNtYWxsIHN0cmlwZV9jYWNoZV9zaXplLCBsYXJnZSBy
-ZWFkX2FoZWFkIHNldHRpbmcuCkRyb3AgcGFnZSBjYWNoZSAoc3lzY3RsIHZtLmRyb3BfY2FjaGVz
-PTEsIGZhZHZpc2UgIkRPTlRORUVEIiwKdW1vdW50IGFuZCBtb3VudCBhZ2FpbiwgInJlYm9vdCIp
-LgoKQ2F1c2Ugc2lnbmlmaWNhbnQgcmVhZCBhaGVhZC4KCkxhcmdlIHJlYWQgYWhlYWQgcmVxdWVz
-dCBpcyBzcGxpdCBieSBibGtfcXVldWVfc3BsaXQoKS4KUGFydHMgb2YgdGhlIHJlYWQgYWhlYWQg
-dGhhdCBhcmUgYWxyZWFkeSBpbiB0aGUgc3RyaXBlIGNhY2hlLApvciBmaW5kIGFuIGF2YWlsYWJs
-ZSBzdHJpcGUgY2FjaGUgdG8gdXNlLCBjYW4gYmUgc2VydmljZWQuClBhcnRzIG9mIHRoZSByZWFk
-IGFoZWFkIHRoYXQgd291bGQgbmVlZCAidG9vIG11Y2ggd29yayIsCndvdWxkIG5lZWQgdG8gd2Fp
-dCBmb3IgYSAic3RyaXBlX2hlYWQiIHRvIGJlY29tZSBhdmFpbGFibGUsCmFyZSByZWplY3RlZCBp
-bW1lZGlhdGVseS4KCkZvciBsYXJnZXIgcmVhZCBhaGVhZCByZXF1ZXN0cyB0aGF0IGFyZSBzcGxp
-dCBpbiBtYW55IHBpZWNlcywgaXQgaXMgdmVyeQpsaWtlbHkgdGhhdCBzb21lICJzcGxpdHMiIHdp
-bGwgYmUgc2VydmljZWQsIGJ1dCB0aGVuIHRoZSBzdHJpcGUgY2FjaGUgaXMKZXhoYXVzdGVkL2J1
-c3ksIGFuZCB0aGUgcmVtYWluaW5nIG9uZXMgd2lsbCBiZSByZWplY3RlZC4KClNpZ25lZC1vZmYt
-Ynk6IExhcnMgRWxsZW5iZXJnIDxsYXJzLmVsbGVuYmVyZ0BsaW5iaXQuY29tPgpTaWduZWQtb2Zm
-LWJ5OiBDaHJpc3RvcGggQsO2aG13YWxkZXIgPGNocmlzdG9waC5ib2VobXdhbGRlckBsaW5iaXQu
-Y29tPgpDYzogPHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmc+ICMgNC4xMy54Ci0tLQogZHJpdmVycy9i
-bG9jay9kcmJkL2RyYmRfcmVxLmMgfCAzICsrLQogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9u
-cygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvYmxvY2svZHJiZC9kcmJk
-X3JlcS5jIGIvZHJpdmVycy9ibG9jay9kcmJkL2RyYmRfcmVxLmMKaW5kZXggYzA0Mzk0NTE4YjA3
-Li5lMWU1OGU5MWVlNTggMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvYmxvY2svZHJiZC9kcmJkX3JlcS5j
-CisrKyBiL2RyaXZlcnMvYmxvY2svZHJiZC9kcmJkX3JlcS5jCkBAIC0xODAsNyArMTgwLDggQEAg
-dm9pZCBzdGFydF9uZXdfdGxfZXBvY2goc3RydWN0IGRyYmRfY29ubmVjdGlvbiAqY29ubmVjdGlv
-bikKIHZvaWQgY29tcGxldGVfbWFzdGVyX2JpbyhzdHJ1Y3QgZHJiZF9kZXZpY2UgKmRldmljZSwK
-IAkJc3RydWN0IGJpb19hbmRfZXJyb3IgKm0pCiB7Ci0JbS0+YmlvLT5iaV9zdGF0dXMgPSBlcnJu
-b190b19ibGtfc3RhdHVzKG0tPmVycm9yKTsKKwlpZiAodW5saWtlbHkobS0+ZXJyb3IpKQorCQlt
-LT5iaW8tPmJpX3N0YXR1cyA9IGVycm5vX3RvX2Jsa19zdGF0dXMobS0+ZXJyb3IpOwogCWJpb19l
-bmRpbyhtLT5iaW8pOwogCWRlY19hcF9iaW8oZGV2aWNlKTsKIH0KLS0gCjIuMzIuMAoKX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJiZC1kZXYgbWFpbGlu
-ZyBsaXN0CmRyYmQtZGV2QGxpc3RzLmxpbmJpdC5jb20KaHR0cHM6Ly9saXN0cy5saW5iaXQuY29t
-L21haWxtYW4vbGlzdGluZm8vZHJiZC1kZXYK
+T24gV2VkLCAzMCBNYXIgMjAyMiAyMDo1NTo1MSArMDIwMCwgQ2hyaXN0b3BoIELDtmhtd2FsZGVy
+IHdyb3RlOgo+IEZyb206IExhcnMgRWxsZW5iZXJnIDxsYXJzLmVsbGVuYmVyZ0BsaW5iaXQuY29t
+Pgo+IAo+IFNjZW5hcmlvOgo+IC0tLS0tLS0tLQo+IAo+IGJpbyBjaGFpbiBnZW5lcmF0ZWQgYnkg
+YmxrX3F1ZXVlX3NwbGl0KCkuCj4gU29tZSBzcGxpdCBiaW8gZmFpbHMgYW5kIHByb3BhZ2F0ZXMg
+aXRzIGVycm9yIHN0YXR1cyB0byB0aGUgInBhcmVudCIgYmlvLgo+IEJ1dCB0aGVuIHRoZSAobGFz
+dCBwYXJ0IG9mIHRoZSkgcGFyZW50IGJpbyBpdHNlbGYgY29tcGxldGVzIHdpdGhvdXQgZXJyb3Iu
+Cj4gCj4gWy4uLl0KCkFwcGxpZWQsIHRoYW5rcyEKClsxLzFdIGRyYmQ6IGZpeCBwb3RlbnRpYWwg
+c2lsZW50IGRhdGEgY29ycnVwdGlvbgogICAgICBjb21taXQ6IGY0MzI5ZDFmODQ4YWMzNTc1N2Q5
+Y2M1NDg3NjY5ZDE5ZGZjNTk3OWMKCkJlc3QgcmVnYXJkcywKLS0gCkplbnMgQXhib2UKCgpfX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmJkLWRldiBtYWls
+aW5nIGxpc3QKZHJiZC1kZXZAbGlzdHMubGluYml0LmNvbQpodHRwczovL2xpc3RzLmxpbmJpdC5j
+b20vbWFpbG1hbi9saXN0aW5mby9kcmJkLWRldgo=
