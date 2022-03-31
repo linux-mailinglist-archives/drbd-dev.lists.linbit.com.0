@@ -2,56 +2,58 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE30B4EE3C8
-	for <lists+drbd-dev@lfdr.de>; Fri,  1 Apr 2022 00:05:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 142E74EE3CD
+	for <lists+drbd-dev@lfdr.de>; Fri,  1 Apr 2022 00:06:26 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C405942032B;
-	Fri,  1 Apr 2022 00:05:56 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id EBFC1420600;
+	Fri,  1 Apr 2022 00:06:25 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
-	[209.85.208.53])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E6CCA4201DC
-	for <drbd-dev@lists.linbit.com>; Fri,  1 Apr 2022 00:05:54 +0200 (CEST)
-Received: by mail-ed1-f53.google.com with SMTP id h4so883922edr.3
-	for <drbd-dev@lists.linbit.com>; Thu, 31 Mar 2022 15:05:54 -0700 (PDT)
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
+	[209.85.208.45])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B964E4201DC
+	for <drbd-dev@lists.linbit.com>; Fri,  1 Apr 2022 00:05:55 +0200 (CEST)
+Received: by mail-ed1-f45.google.com with SMTP id b15so880925edn.4
+	for <drbd-dev@lists.linbit.com>; Thu, 31 Mar 2022 15:05:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=3Ho9jg4pQwI43mh2smbjNNYfVQlK85ymR2bcGPQmzEU=;
-	b=TGeR34J+02kbkPsHkSSgqp7sHsJXw5OIEwemL78K4n/ObMV856TJBti1bvbKgUeKQg
-	mnlVUl6utz5rdQjEoK7zAt8Ul/3fBsOyMmW4aAnvXAnWMw2DIPyj62tKAAIBoV0kOiCT
-	FZfMn8Bue+cYPnBEpr5adaZWrYoZNJn49A711nVvaLcKjbpNbZo6ybimlyH6l4UBJIUP
-	08kWipvb4yNxZFsB3c4BI8A1a1Wnw389tVd/BfjiAHUfC1UERENV5KtWX4jy0Yhh9okW
-	9lpZhHNPMERB5zgnJEWmQBLEms4eZwf4pFxlyg53mvPPHxFgPsFXyzol9NBmhWPdFEDg
-	s1dA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=+lEn0rQXRmAObsqwUwKyW/Jy0vdmwy8BXHEgwAE2mHM=;
+	b=PEzt+lNbqXrw78tEz86wAgIk1WgIENnBw4AQdHmYeS76iY4ontNQCB7V2FhHBy137N
+	h25I9VQ0x1o6CC6zeggAoOJdtDlPn9c1z1tZ96oTptUO/ZUDkFx1y54OdctnZSwRzjth
+	2yTXbIkfbLK2y5U+Dxw40iw36w/h6fN5CvxNkhEyZ9bVeboOcS7khnNwGocYDeJ6DTH/
+	fS1rAwNWAnioifnye/a/ou8j/md8VMXAHNChdh9G+ACrGzRkp+k+O2nBldq5EGDzZsDH
+	QkCyBEQZMwcup94DmLfkop43kjPiwhJngebHt3HcdZl/+OPYbYpB0tNoFJ4tTVJxQKU7
+	waNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20210112;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=3Ho9jg4pQwI43mh2smbjNNYfVQlK85ymR2bcGPQmzEU=;
-	b=T5GFgy+QQELX5iiFcKcPn4zK5fLKu1qwuYAqwT2VRNGiWDHFBxxZ1wb9UR3/5SlDLC
-	aCgae1wVdNBrYVF4UJUVrO8az8kqC3mSzSl56yJjdmzArg0twbPqr/TBi2LxNemnkphd
-	q6bzS2XT6W3EwAZv0qyGFAG9ALEHVWYn7YyyhQsNskG1YSeQnrrPCW5jXO2JeaFP93JE
-	mo4UhXJ9KcMYbvVYvJHDVB/hXnJzzoykIzb3FO1QcgvxBpvc4qhGcOpAJHnjYvmHF1Lb
-	jSbXnbQ+BkNrM4JXZQtmO9LkqUT1DaJlYxdj0SgZunLNMLqHANVHheZnUzOs8GeKvJTj
-	TcfA==
-X-Gm-Message-State: AOAM533DS2Ob7cLiWJNZYP6RP96aq/RFExprM83A+NNsVYTxJd9YuKgu
-	LrkYeX9t9yf6l+fIwaUXmO8=
-X-Google-Smtp-Source: ABdhPJxShOKbJ4iBsD8bocoidzsE4n6V+HgZS/4jKAfFsKZmUCc4WqDot638Q5DB+rvQu04qJm8tsQ==
-X-Received: by 2002:a05:6402:1107:b0:416:439a:6a9e with SMTP id
-	u7-20020a056402110700b00416439a6a9emr18117030edv.382.1648764354432;
-	Thu, 31 Mar 2022 15:05:54 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=+lEn0rQXRmAObsqwUwKyW/Jy0vdmwy8BXHEgwAE2mHM=;
+	b=OXch7QNg3boB062bXPAcs60xO/12A/nJrAKfNh8svMv4G1rxBUIFjtunEpqBZxrL7I
+	qLhv6HZI2fzi5+hsZDHVQn0GrHWbJjCNVpxYy5o8O6Xh4+W5f7LQPjvDGgGLvdUU5/+S
+	94we/4092RdWyBYFSVtRhJZRLt76U+KooFPbM1j6ax2C7FG2cZkegyw6AvbQlOnDTjRC
+	lFUpp8Tze05J2JXam0/MhOurVe1jjfqnR1BikEJKvNvY/mxj48N+Pi4pQGuGBcTs4d5u
+	edaG4bRvwpVtd4ln8tBzDy0MFDSwvs+39VYD0f2D62s88/Ok0yu1UttjLyemTBPOn2UF
+	RHzg==
+X-Gm-Message-State: AOAM531Rl2iVbEKz9//7ubAd+C86AyElh+EDTUO33viijL/QTTT8wSW+
+	d7Jq22zkgXQ57wluzRWQGa8=
+X-Google-Smtp-Source: ABdhPJzNZk8q2x1q7JKwPHbmGCK62v+mwob1Y6v9D7/hHAtR5hk1m/aaU1rHniseikkyl4flEhzC2g==
+X-Received: by 2002:a05:6402:1e8a:b0:41a:4242:7de9 with SMTP id
+	f10-20020a0564021e8a00b0041a42427de9mr18307883edf.284.1648764355187;
+	Thu, 31 Mar 2022 15:05:55 -0700 (PDT)
 Received: from localhost.localdomain (i130160.upc-i.chello.nl.
 	[62.195.130.160]) by smtp.googlemail.com with ESMTPSA id
-	o2-20020a50d802000000b00410d7f0c52csm321110edj.8.2022.03.31.15.05.53
+	o2-20020a50d802000000b00410d7f0c52csm321110edj.8.2022.03.31.15.05.54
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
 	Thu, 31 Mar 2022 15:05:54 -0700 (PDT)
 From: Jakob Koschel <jakobkoschel@gmail.com>
 To: Philipp Reisner <philipp.reisner@linbit.com>
-Date: Fri,  1 Apr 2022 00:03:48 +0200
-Message-Id: <20220331220349.885126-1-jakobkoschel@gmail.com>
+Date: Fri,  1 Apr 2022 00:03:49 +0200
+Message-Id: <20220331220349.885126-2-jakobkoschel@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220331220349.885126-1-jakobkoschel@gmail.com>
+References: <20220331220349.885126-1-jakobkoschel@gmail.com>
 MIME-Version: 1.0
 Cc: Jens Axboe <axboe@kernel.dk>, linux-kernel@vger.kernel.org, "Bos,
 	H.J." <h.j.bos@vu.nl>, Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
@@ -59,8 +61,8 @@ Cc: Jens Axboe <axboe@kernel.dk>, linux-kernel@vger.kernel.org, "Bos,
 	Jakob Koschel <jakobkoschel@gmail.com>,
 	Lars Ellenberg <lars.ellenberg@linbit.com>,
 	Mike Rapoport <rppt@kernel.org>, drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 1/2] drbd: remove usage of list iterator variable
-	after loop for list_for_each_entry_safe_from()
+Subject: [Drbd-dev] [PATCH 2/2] drbd: remove check of list iterator against
+	head past the loop body
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -79,50 +81,109 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
+When list_for_each_entry() completes the iteration over the whole list
+without breaking the loop, the iterator value will be a bogus pointer
+computed based on the head element.
+
+While it is safe to use the pointer to determine if it was computed
+based on the head element, either with list_entry_is_head() or
+&pos->member == head, using the iterator variable after the loop should
+be avoided.
+
 In preparation to limit the scope of a list iterator to the list
-traversal loop, use a dedicated pointer to iterate through the list [1].
-
-Since that variable should not be used past the loop iteration, a
-separate variable is used to 'remember the current location within the
-loop'.
-
-To either continue iterating from that position or skip the iteration
-(if the previous iteration was complete) list_prepare_entry() is used.
+traversal loop, use a dedicated pointer to point to the found element [1].
 
 Link: https://lore.kernel.org/all/CAHk-=wgRr_D8CB-D9Kg-c=EHreAsk5SqXPwr9Y7k9sA6cWXJ6w@mail.gmail.com/ [1]
 Signed-off-by: Jakob Koschel <jakobkoschel@gmail.com>
 ---
- drivers/block/drbd/drbd_main.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/block/drbd/drbd_req.c | 42 ++++++++++++++++++++++-------------
+ 1 file changed, 27 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
-index 96881d5babd9..9676a1d214bc 100644
---- a/drivers/block/drbd/drbd_main.c
-+++ b/drivers/block/drbd/drbd_main.c
-@@ -171,7 +171,7 @@ void tl_release(struct drbd_connection *connection, unsigned int barrier_nr,
- 		unsigned int set_size)
+diff --git a/drivers/block/drbd/drbd_req.c b/drivers/block/drbd/drbd_req.c
+index c04394518b07..b2571dc77fe6 100644
+--- a/drivers/block/drbd/drbd_req.c
++++ b/drivers/block/drbd/drbd_req.c
+@@ -332,17 +332,21 @@ static void set_if_null_req_next(struct drbd_peer_device *peer_device, struct dr
+ static void advance_conn_req_next(struct drbd_peer_device *peer_device, struct drbd_request *req)
  {
- 	struct drbd_request *r;
--	struct drbd_request *req = NULL;
-+	struct drbd_request *req = NULL, *tmp = NULL;
- 	int expect_epoch = 0;
- 	int expect_size = 0;
- 
-@@ -225,8 +225,11 @@ void tl_release(struct drbd_connection *connection, unsigned int barrier_nr,
- 	 * to catch requests being barrier-acked "unexpectedly".
- 	 * It usually should find the same req again, or some READ preceding it. */
- 	list_for_each_entry(req, &connection->transfer_log, tl_requests)
--		if (req->epoch == expect_epoch)
-+		if (req->epoch == expect_epoch) {
-+			tmp = req;
+ 	struct drbd_connection *connection = peer_device ? peer_device->connection : NULL;
++	struct drbd_request *iter = req;
+ 	if (!connection)
+ 		return;
+ 	if (connection->req_next != req)
+ 		return;
+-	list_for_each_entry_continue(req, &connection->transfer_log, tl_requests) {
+-		const unsigned s = req->rq_state;
+-		if (s & RQ_NET_QUEUED)
++
++	req = NULL;
++	list_for_each_entry_continue(iter, &connection->transfer_log, tl_requests) {
++		const unsigned int s = iter->rq_state;
++
++		if (s & RQ_NET_QUEUED) {
++			req = iter;
  			break;
 +		}
-+	req = list_prepare_entry(tmp, &connection->transfer_log, tl_requests);
- 	list_for_each_entry_safe_from(req, r, &connection->transfer_log, tl_requests) {
- 		if (req->epoch != expect_epoch)
+ 	}
+-	if (&req->tl_requests == &connection->transfer_log)
+-		req = NULL;
+ 	connection->req_next = req;
+ }
+ 
+@@ -358,17 +362,21 @@ static void set_if_null_req_ack_pending(struct drbd_peer_device *peer_device, st
+ static void advance_conn_req_ack_pending(struct drbd_peer_device *peer_device, struct drbd_request *req)
+ {
+ 	struct drbd_connection *connection = peer_device ? peer_device->connection : NULL;
++	struct drbd_request *iter = req;
+ 	if (!connection)
+ 		return;
+ 	if (connection->req_ack_pending != req)
+ 		return;
+-	list_for_each_entry_continue(req, &connection->transfer_log, tl_requests) {
+-		const unsigned s = req->rq_state;
+-		if ((s & RQ_NET_SENT) && (s & RQ_NET_PENDING))
++
++	req = NULL;
++	list_for_each_entry_continue(iter, &connection->transfer_log, tl_requests) {
++		const unsigned int s = iter->rq_state;
++
++		if ((s & RQ_NET_SENT) && (s & RQ_NET_PENDING)) {
++			req = iter;
  			break;
-
-base-commit: f82da161ea75dc4db21b2499e4b1facd36dab275
++		}
+ 	}
+-	if (&req->tl_requests == &connection->transfer_log)
+-		req = NULL;
+ 	connection->req_ack_pending = req;
+ }
+ 
+@@ -384,17 +392,21 @@ static void set_if_null_req_not_net_done(struct drbd_peer_device *peer_device, s
+ static void advance_conn_req_not_net_done(struct drbd_peer_device *peer_device, struct drbd_request *req)
+ {
+ 	struct drbd_connection *connection = peer_device ? peer_device->connection : NULL;
++	struct drbd_request *iter = req;
+ 	if (!connection)
+ 		return;
+ 	if (connection->req_not_net_done != req)
+ 		return;
+-	list_for_each_entry_continue(req, &connection->transfer_log, tl_requests) {
+-		const unsigned s = req->rq_state;
+-		if ((s & RQ_NET_SENT) && !(s & RQ_NET_DONE))
++
++	req = NULL;
++	list_for_each_entry_continue(iter, &connection->transfer_log, tl_requests) {
++		const unsigned int s = iter->rq_state;
++
++		if ((s & RQ_NET_SENT) && !(s & RQ_NET_DONE)) {
++			req = iter;
+ 			break;
++		}
+ 	}
+-	if (&req->tl_requests == &connection->transfer_log)
+-		req = NULL;
+ 	connection->req_not_net_done = req;
+ }
+ 
 -- 
 2.25.1
 
