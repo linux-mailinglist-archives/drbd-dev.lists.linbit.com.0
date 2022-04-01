@@ -2,66 +2,63 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF2FF4EFD4F
-	for <lists+drbd-dev@lfdr.de>; Sat,  2 Apr 2022 01:56:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A984A4F0F07
+	for <lists+drbd-dev@lfdr.de>; Mon,  4 Apr 2022 07:17:16 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B7C0C42015D;
-	Sat,  2 Apr 2022 01:56:45 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 8503042097C;
+	Mon,  4 Apr 2022 07:17:16 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
-	[209.85.210.180])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9352D42011D
-	for <drbd-dev@lists.linbit.com>; Sat,  2 Apr 2022 01:56:44 +0200 (CEST)
-Received: by mail-pf1-f180.google.com with SMTP id w7so3968164pfu.11
-	for <drbd-dev@lists.linbit.com>; Fri, 01 Apr 2022 16:56:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-	h=from:to:cc:in-reply-to:references:subject:message-id:date
-	:mime-version:content-transfer-encoding;
-	bh=VQ+/LXmZBpLsFWJ/iYBd7+wR3oEOq8NpUsezc2JIIDw=;
-	b=nELgAlV6Vv2GxUEc8WOyDjluNtKh3pCKw9l+sXlrNhWtxWpRQnlCpoYKbdUTvQH9Lr
-	AuOGkrI3yUsyH7dvAa75ZRAev2JfkpPm1AnVB+MJ3PvPXUybjOcbCeH7YjOe8d3fKjHQ
-	bvgiZgtaVO9eMdk3nIcXnBh1XDU5Od2gdyP1m31xyY66hXq2Cf0CpRUV16BBIXoe/4xx
-	TIWAKclzDrq6q8CQdHnv/ByYsF345EJzjT/NIkwH0KD8db33UVuSj8wLjArH1pImZDNB
-	VhbvEsbNvko4CbsDZOkBEB6aK9jODfJvr/eQx1DfdZ2R4CctWHceZhMi2SZvHwitnn9X
-	AwKg==
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
+	[209.85.160.177])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 983794201B9
+	for <drbd-dev@lists.linbit.com>; Fri,  1 Apr 2022 10:36:45 +0200 (CEST)
+Received: by mail-qt1-f177.google.com with SMTP id bp39so1602243qtb.6
+	for <drbd-dev@lists.linbit.com>; Fri, 01 Apr 2022 01:36:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=+mSCDYPk3U9vdhqL8Gmqs9PhseJMmr9FU0irA0rfjxE=;
+	b=VmgqgP1xI/S/P3HIba5wPAeNYZvDDOjgpzdyQ3g3xGbRgAIgVIP1NgrAoq7n1yhYzx
+	Vu3FBKquivjAHibTaQ+JPAv2MEBuBs2yCf9+oMG63qo7I5S8UOLnLspAVW3gWXyb2IxT
+	FCxJSXdRVEVZMjdQILJyD6oUMc+NXX9LEJpgUnaHwV/6esJ1hbVR4AanILYLR9DsC94+
+	eIRo5CsT1co60Xbr47DdRIcKYkm9cWZ6X9ESEBGCBb58EcsiD/F7PaiPPACbIPK+/drs
+	2whc1NRQmUbHgrxiTUNrrpuX1/xmMzCFr711kIvpmq5fxVzAxTTsx2eAEMP78MrYdL7s
+	SFxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20210112;
-	h=x-gm-message-state:from:to:cc:in-reply-to:references:subject
-	:message-id:date:mime-version:content-transfer-encoding;
-	bh=VQ+/LXmZBpLsFWJ/iYBd7+wR3oEOq8NpUsezc2JIIDw=;
-	b=zEJxViWmPJZ8FwRzMhIOduP1GPXRYrHO0fttAD6uxWagN1XkpGnQ5o5lOpUiElG6bp
-	801k29QTZivHZe1wq+5+ZZ1s+GZh8N8AnTLA4etyCQ5O3QN9SG5OBj0U5TTuvz68FQRc
-	JCZSFfU5Ha1dpp+euiFE+SYL7Rg+NT6HdYNVv6n2s4Bdgqo2W0QpxZNMoS1eE5mBEoOk
-	8YhMYdK3u/yTN/ayFhxUJvSvYJRyZXFKA0pmVz9ZDPsejXd4ecijRInxwaYIXlV3sp0Z
-	Xzn3OAM7Z5Mi87/PSjus5aFbG2KNgAybyamLLKjZ7sYvO84CzmmVU8UpTlZDjcufTMbM
-	3Kxg==
-X-Gm-Message-State: AOAM530AXLO/12ZouW/QZFxNQETVzp2w5MbQfL4rkldt/sN87FAPRD17
-	d+XLBucw4fMG6Rh9levKP5ZCGg==
-X-Google-Smtp-Source: ABdhPJyjW8TjDgz0OTj7QB9ER5R991hyLy8Kyoztyj4/dY+4JL34juigk8KO2prtyD4tQpPRf+hD/g==
-X-Received: by 2002:a05:6a00:234f:b0:4f6:f0c0:ec68 with SMTP id
-	j15-20020a056a00234f00b004f6f0c0ec68mr13549033pfj.14.1648857403369;
-	Fri, 01 Apr 2022 16:56:43 -0700 (PDT)
-Received: from [127.0.1.1] ([198.8.77.157]) by smtp.gmail.com with ESMTPSA id
-	v189-20020a622fc6000000b004fb72e95806sm4044187pfv.48.2022.04.01.16.56.42
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=+mSCDYPk3U9vdhqL8Gmqs9PhseJMmr9FU0irA0rfjxE=;
+	b=PJCLeYX+mVIBseEd55ykrP+1KWajzg6h1hq168UmVyk0iSaj7zeoZZLUo559BZBzU0
+	i6FOQTKMkmhmAblQuBF3qX2oKhGdPyu5eMm15xd65xlZEBIytb0n2FIaLIsh0TvdCO9b
+	hXLILoI1tvn17+taeCAM4AgQk5QCL5L8DkqUQde3z7sVcbcB+huN2FHEU+8xE7nJu5k4
+	R6dhzzRR6Na0Pt0eaZRhcF+W6xCoPciIBY9NSplqpwDf+xAu9ZaudVp15edCTYELgXFw
+	/RIgeoauXWMl0kMUNSiesikFlAED+S9+5GaPvufZVx40+lszUmqzciIywkSdUDgEjsJe
+	bUiQ==
+X-Gm-Message-State: AOAM533xeuS14Fey2QlwSAYLm7+YD5NG8cFpgDg1QHdt+Y/CK8Fd09WX
+	iwfZ7b/0TtYHWZTbJSoALVM=
+X-Google-Smtp-Source: ABdhPJzOWkUlQCyJVlzJDVTy84GLdOju1HdNzkPqrDqJ6+tAitfS8ZsYVSOZu/6Y9Eg2vjaf+7S9Dw==
+X-Received: by 2002:a05:622a:1786:b0:2e1:f1b9:8a1d with SMTP id
+	s6-20020a05622a178600b002e1f1b98a1dmr7603681qtk.443.1648802204065;
+	Fri, 01 Apr 2022 01:36:44 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+	by smtp.gmail.com with ESMTPSA id
+	o28-20020a05620a111c00b0067d3b9ef388sm891887qkk.98.2022.04.01.01.36.41
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 01 Apr 2022 16:56:42 -0700 (PDT)
-From: Jens Axboe <axboe@kernel.dk>
-To: Philipp Reisner <philipp.reisner@linbit.com>,
-	Jakob Koschel <jakobkoschel@gmail.com>
-In-Reply-To: <20220331220349.885126-1-jakobkoschel@gmail.com>
-References: <20220331220349.885126-1-jakobkoschel@gmail.com>
-Message-Id: <164885740219.761778.5044909883791536138.b4-ty@kernel.dk>
-Date: Fri, 01 Apr 2022 17:56:42 -0600
+	Fri, 01 Apr 2022 01:36:43 -0700 (PDT)
+From: cgel.zte@gmail.com
+X-Google-Original-From: lv.ruyi@zte.com.cn
+To: philipp.reisner@linbit.com
+Date: Fri,  1 Apr 2022 08:36:37 +0000
+Message-Id: <20220401083637.2407766-1-lv.ruyi@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Cc: linux-kernel@vger.kernel.org, "Bos, H.J." <h.j.bos@vu.nl>,
-	Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
-	linux-block@vger.kernel.org, Cristiano Giuffrida <c.giuffrida@vu.nl>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	Mike Rapoport <rppt@kernel.org>, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH 1/2] drbd: remove usage of list iterator
-	variable after loop for list_for_each_entry_safe_from()
+X-Mailman-Approved-At: Mon, 04 Apr 2022 07:17:15 +0200
+Cc: axboe@kernel.dk, Lv Ruyi <lv.ruyi@zte.com.cn>, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, lars.ellenberg@linbit.com,
+	Zeal Robot <zealci@zte.com.cn>, drbd-dev@lists.linbit.com
+Subject: [Drbd-dev] [PATCH] block: fix potential dereference null pointer
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -80,27 +77,44 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Fri, 1 Apr 2022 00:03:48 +0200, Jakob Koschel wrote:
-> In preparation to limit the scope of a list iterator to the list
-> traversal loop, use a dedicated pointer to iterate through the list [1].
-> 
-> Since that variable should not be used past the loop iteration, a
-> separate variable is used to 'remember the current location within the
-> loop'.
-> 
-> [...]
+From: Lv Ruyi <lv.ruyi@zte.com.cn>
 
-Applied, thanks!
+rcu_dereference may return NULL, so check the returned pointer.
 
-[1/2] drbd: remove usage of list iterator variable after loop for list_for_each_entry_safe_from()
-      commit: 901aeda62efa21f2eae937bccb71b49ae531be06
-[2/2] drbd: remove check of list iterator against head past the loop body
-      commit: 2651ee5ae43241831ca63d7158bb2b151a6a0e1f
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: Lv Ruyi <lv.ruyi@zte.com.cn>
+---
+ drivers/block/drbd/drbd_req.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Best regards,
+diff --git a/drivers/block/drbd/drbd_req.c b/drivers/block/drbd/drbd_req.c
+index e1e58e91ee58..8ab6da155e2f 100644
+--- a/drivers/block/drbd/drbd_req.c
++++ b/drivers/block/drbd/drbd_req.c
+@@ -577,6 +577,10 @@ int __req_mod(struct drbd_request *req, enum drbd_req_event what,
+ 		D_ASSERT(device, !(req->rq_state & RQ_NET_MASK));
+ 		rcu_read_lock();
+ 		nc = rcu_dereference(connection->net_conf);
++		if (!nc) {
++			rcu_read_unlock();
++			break;
++		}
+ 		p = nc->wire_protocol;
+ 		rcu_read_unlock();
+ 		req->rq_state |=
+@@ -690,6 +694,10 @@ int __req_mod(struct drbd_request *req, enum drbd_req_event what,
+ 		/* close the epoch, in case it outgrew the limit */
+ 		rcu_read_lock();
+ 		nc = rcu_dereference(connection->net_conf);
++		if (!nc) {
++			rcu_read_unlock();
++			break;
++		}
+ 		p = nc->max_epoch_size;
+ 		rcu_read_unlock();
+ 		if (connection->current_tle_writes >= p)
 -- 
-Jens Axboe
-
+2.25.1
 
 _______________________________________________
 drbd-dev mailing list
