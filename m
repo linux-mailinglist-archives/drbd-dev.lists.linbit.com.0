@@ -2,134 +2,78 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id F33C54F5A63
-	for <lists+drbd-dev@lfdr.de>; Wed,  6 Apr 2022 12:01:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C8654F5A91
+	for <lists+drbd-dev@lfdr.de>; Wed,  6 Apr 2022 12:31:17 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0BD95420FD5;
-	Wed,  6 Apr 2022 12:01:54 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B43B1420FD6;
+	Wed,  6 Apr 2022 12:31:15 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 331 seconds by postgrey-1.31 at mail19;
-	Wed, 06 Apr 2022 12:01:53 CEST
-Received: from esa5.hgst.iphmx.com (esa5.hgst.iphmx.com [216.71.153.144])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 23531420FD1
-	for <drbd-dev@lists.linbit.com>; Wed,  6 Apr 2022 12:01:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-	t=1649239311; x=1680775311;
-	h=from:to:cc:subject:date:message-id:references:
-	content-transfer-encoding:mime-version;
-	bh=G8FZ0D3PP/OudJ5uuxCAz/C/vBHo8wESZoPwxTWqVEI=;
-	b=eCoLk7rm5eR2uIfLjcuCbb522Ne8YcxQe9zbYgUQG2YBr/o4X+8IrMu5
-	Cle/vkuZz9N59tfUj3Szg4/+jKElspkb++kxm9zv9JtFvjZCRKZnp49zb
-	rHjxbdFXWl12UsoyD3XVsBjJ3CvNk4M4fvgtjHbCBoMiwIvapw9rrHzfO
-	uuwHs3iaG9gHrO8GKHQB1PZbPDvPLoLPINRlxt9pc1BLARCbEmN98Ocb3
-	bFR8m/bEoNcbRrmoOcOFelMPLubU34W9jlaNEVSH+WzlX/3zlck1Tw2cc
-	zApEdvkWfnES845g1FoRbFd8sMjdUCd0vyfUJMTS2CUrk+yfVIOOU+SWj w==;
-X-IronPort-AV: E=Sophos;i="5.90,239,1643644800"; d="scan'208";a="197229643"
-Received: from mail-mw2nam12lp2042.outbound.protection.outlook.com (HELO
-	NAM12-MW2-obe.outbound.protection.outlook.com) ([104.47.66.42])
-	by ob1.hgst.iphmx.com with ESMTP; 06 Apr 2022 17:58:45 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
-	b=ZywV7ltuw9siQImxgkQoPP6wfeZPfN+DIbYHoqvFqg8PspHMPPVbjOGu34Y1VCFutPfcbN7w1CG9uIcpq7NyPeQGhoZepeW1TOBP2zlcPqBmDXXzU/6c4WbvphC7Vg116kMB0hFPBg7c0Q8rkL+JUb9EXS6dJaeFy2qxfVUyz6z5nIddZ1wFqqzpUGT5JOGzqrfslikOn+wgvc+mUxHDocSWTysyYNK8wrMgO8wpoMwwUIy+nw0WFak2qxflo6GZSub70OFUZwWc0j4ME1BjgYxeSUHxKV4AKu7Di064nEfOqWFlcU+DqH/AlhZbI61biQSOcOMiOF9lEL7ZElf4dg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
-	s=arcselector9901;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
-	bh=G8FZ0D3PP/OudJ5uuxCAz/C/vBHo8wESZoPwxTWqVEI=;
-	b=AbViV6LyHbwBkCkSSzHf7MhBfjPBdr54WKxpT8TH/IU79sCSAQffxHuxJ9RNY2EzqxKBO+p/CtlU2dIfFhcVyLKexjvE2GMJkTgUnVGgE8ZOGiAjsWqGZCz+S4s0fi2KF7ovt1G+WQXRH9g/XDe2khg/oNuFANUcA0NsqpLGuhYCzvHSwii3EIBQFNHKMIid6CPBxGtrz4Mt5DenDBgz5WpbjSMua2zobVu8OimqR7cgihpvHcnC6bLPpJAgTQfi0XWpFkQ8aMP4PqpPSOJMwa8Rj/g7k4SszozuP84H/nQt/5puzDMJImjRpwNl+TA3FTVQjs1S5PLAZKzjLAUHxA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
-	smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com;
-	dkim=pass header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com; 
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=G8FZ0D3PP/OudJ5uuxCAz/C/vBHo8wESZoPwxTWqVEI=;
-	b=vanbsnJo4FhAc05B4EMLdoIDZnZc6CnMGAlQXIgKOZVYA6DbT80UxMUlZ/wZQXpK2g5bXanvTRVKrwfWuZkUTgFBF43n8wxbCegEebQVh5Yb5s9fBVE6XXBs8KIPE7Ai+IRlVXIjfihcLTETxl4No0fuwffum1oyx+1efB7QykE=
-Received: from PH0PR04MB7416.namprd04.prod.outlook.com (2603:10b6:510:12::17)
-	by DM6PR04MB6607.namprd04.prod.outlook.com (2603:10b6:5:209::10) with
-	Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.21;
-	Wed, 6 Apr 2022 09:58:44 +0000
-Received: from PH0PR04MB7416.namprd04.prod.outlook.com
-	([fe80::a898:5c75:3097:52c2]) by
-	PH0PR04MB7416.namprd04.prod.outlook.com
-	([fe80::a898:5c75:3097:52c2%3]) with mapi id 15.20.5144.022;
-	Wed, 6 Apr 2022 09:58:44 +0000
-From: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
-To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
-Thread-Topic: [PATCH 14/27] block: add a bdev_max_zone_append_sectors helper
-Thread-Index: AQHYSZgY1jr1xIM/YUq07NGHawfBLw==
-Date: Wed, 6 Apr 2022 09:58:44 +0000
-Message-ID: <PH0PR04MB74161D2CCC5AD43AF09264799BE79@PH0PR04MB7416.namprd04.prod.outlook.com>
-References: <20220406060516.409838-1-hch@lst.de>
-	<20220406060516.409838-15-hch@lst.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
-	header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 2f6a7f3a-4bbd-4cc2-85a2-08da17b40972
-x-ms-traffictypediagnostic: DM6PR04MB6607:EE_
-x-microsoft-antispam-prvs: <DM6PR04MB660754EAC2F7575A81C46B4A9BE79@DM6PR04MB6607.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Pf+KzgmagSIS5atE7qUNGRr1myBVVGSwEKyeGnwHdGjwF8GKBkvoIHDqMGnWFjO7XVa7Cmit9VnU9OIYztUkoZ6Oaqq+m+DiWH3/Dcl/UxK+P88E3f1isC2vpAnDpZpqgSoxQyKuSo19P3TzE/8glOLI6z0BLxqJa3LBIp+eJLbka+iU9uRCJGcYyq2EzzvF+GSwaV6/rfbL34RfHGjSRx0zwHlAe3Kbe4uou4XPkMqQqujVK+FspM3sA99WzgIx4Zcg+5oQR1jIyR4eA4XENp/K0m69Xx8aQEVd4C4NwBIAYB3DJbFAzY/xwFTEh8jZCLaKfZtso51HpFNskLoQWcTVyjcyZmpcj72RYBDj8bY8b+y0gW5f99u30BEwD03iXMk539DztkZxuC2HzN3BPR9e7KwNaRwwncQjXFedlJ7i/0TsMz5nf+dZ1/3hTsc6CrDt4p9WXnzuh263wo3xd8b6MW4eTv1TtLR3IzWdMRJG6cBeGO9RPQAMiItBrNypFxmRFeU4T1cp36pirzbw2w/ywCTEUkYc9uazSWAmIkbs2ELSVlHFGtwIR9gzIB7PlEGWJvLVp2CUKQFt3mcwlEIarIZ+6NjuqDOsMS6YGKX7bI/K6LKHavdoNguno7hvxdITrai2aC+YdO67pyr3n4smmpegwjXfnaI0Pmp9jFcUJll/tJASQJQReuEZSzAgzPzXDpY2hiiRf4a5gE9HNg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:; IPV:NLI; SFV:NSPM;
-	H:PH0PR04MB7416.namprd04.prod.outlook.com; PTR:; CAT:NONE;
-	SFS:(13230001)(4636009)(366004)(4270600006)(9686003)(508600001)(186003)(6506007)(7696005)(2906002)(7416002)(5660300002)(55016003)(8936002)(54906003)(19618925003)(316002)(71200400001)(110136005)(66946007)(52536014)(91956017)(66476007)(66556008)(4326008)(8676002)(64756008)(66446008)(76116006)(122000001)(86362001)(558084003)(38100700002)(82960400001)(33656002)(38070700005);
-	DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 2
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?FnQ2cDOI1Y8dqfwBZ9O49we2ex33sga4MDlqyPsi59CHLjzinNdqahxJKb+7?=
-	=?us-ascii?Q?nLvA4glwLQWN5EGlwq9Vu5N+6RAHp5zPzMSHYKAI+ROqS5ObV22YE1uWhKPU?=
-	=?us-ascii?Q?t/Slc0Vx6la1V2Ehl/8AFvAWHw7Kk3JevtOLqRNrLr0w3euyxPc4I6O7fPTQ?=
-	=?us-ascii?Q?wLfN+Opb6mKJvfOq9BzXaoPuzM535gJJgXGiZQqr6/qzazXpx3T737nbJ/fT?=
-	=?us-ascii?Q?5AYtInAAQcaVRXLBBJ6GN9tSCFD9aXABykDN429p4xlLfpuoDafHP6Jt5DbB?=
-	=?us-ascii?Q?Iydzn9jRd0E0RXYdxFp2csxTMSqFiUWkGWouJQyBb2zUZOXn7G6VB6J4KuZp?=
-	=?us-ascii?Q?fgPATSu1EoTsQYfHXonfg+YKrx8NlCxiY/WvDPDFylow6ArLN9X0TnmQSu+/?=
-	=?us-ascii?Q?95IkUf/R+6oTU/6z37jGwKNh1BGImR8Z7zNd/uM1kkUQPDt6xtfwy79ITE6l?=
-	=?us-ascii?Q?Q9xvZjwe1VhuWGzbavCQQVHCFV7hHqZE4hFqaAuJ/8loV7GxSt384nH03jh6?=
-	=?us-ascii?Q?9hvUXSFWyQok4WycdVBAq2Pne6x63Kd/dzPArvViOJMCNXPPzMfEK2zH+VNk?=
-	=?us-ascii?Q?3w+JAGP9eY7icR0QYXZpvCQn8jI2n5T3gvnfOW20uZaiR/w7EP9NAVWC238p?=
-	=?us-ascii?Q?YyBdPiC0Py8H4BU3o6Exn/i3teu+O1s1FRXY9XsoYqSfv67wXY2BgOSNYQbS?=
-	=?us-ascii?Q?A5HFhEpzP7fd8WRvXw6jIXWJduai4VwRFzBDYyAROlXlWkq4K5uZrnKpDVri?=
-	=?us-ascii?Q?Lt5+iS19PHx7Rg1R4wXdhMzRCIjeeZd6PFaYSh3xZnuu+5Y/9ohSG9i7K502?=
-	=?us-ascii?Q?1a/bzUyzkQNxTw1tQYH5EyiyC91aNMcH4nxXhtJ0Wedzj7mvIGc92lxOt5nE?=
-	=?us-ascii?Q?JXxVC1uDiYmPEFzx4Y7D/dReZPhWqdc/jJdKt2W1YymXQazllgQwdagCnVsb?=
-	=?us-ascii?Q?womFEzuPHfgISWVwI5IydynP4xWEHyHSeic/OWVf2vvnSOGfChy1xgRteWK8?=
-	=?us-ascii?Q?O6lHklcYNZMBh105u3WOxpHTEenIZDxy4CJyZmOxjyHRyQ4/hAEahlgNd5T0?=
-	=?us-ascii?Q?IIYsp55Li1hGb6kle+7E42lhFheoGmLSgVlPzJ2wViUr5JkB3zXPshZNHdCK?=
-	=?us-ascii?Q?Drnr9ry+2eR2o1K0g1sZTYgaa453J2FLPb9EsxMmvl+A368fmvtLSJc6/GHO?=
-	=?us-ascii?Q?kvIPug1OZFdbVSPQJnxaWdWK/ZgXRpNAH8KH2/la8sZCkHzfpGIcxpeAnxvp?=
-	=?us-ascii?Q?Fu1KO8wFnzRvdlhTkpS+//xvC//Yvj9IUA7H47sdMX0MyyQstXAAASDIKQzq?=
-	=?us-ascii?Q?4itpwg8G4I0h6hT1UWz/LYa9haG+XO08rx/HcQSRBLKhwhVFQQ/8TK7uDzGe?=
-	=?us-ascii?Q?UrBw7s5v4mnnSjnPPV0U3E8GhTQO8/rq7n7rEAF9/BOb/A895TI4AENRfP2H?=
-	=?us-ascii?Q?p0lPtXAfbYI2WYitkaAvMjep+iCpB8qGIW0MlNI4ahmo4gxlHF5/DOEVAML3?=
-	=?us-ascii?Q?BsIhXDlHoRVG0p5dRxMkYVIPTIGR3tyHD8mDdRoSdVHc4PDkENOpi0vFrLjM?=
-	=?us-ascii?Q?EsYFTB8/yWBXoKQrEy5lf4EqcvGyrksY/i+ncEk0C/qi0ucMo5O259xy4P5n?=
-	=?us-ascii?Q?3OstWIQojxiCGjB3QzJ3ozRjmyPwY1cmzijUV+XzsMpKKikC4jRprDn5XJ3B?=
-	=?us-ascii?Q?Z+ROJZpHXnIZCV41bUfdPSJQIk3jFqaSY3c3C5xSCmsfRuvM5N+mx+Qv0l5x?=
-	=?us-ascii?Q?vgoI5NvxJ4DIaRE4F1vbqPEUlylYZ3nOFgGkB+69touDu3OoVoMGP2adpG05?=
-x-ms-exchange-antispam-messagedata-1: pB0amHYuRq2xU5J1OT0zoHwBXpZuYFgg+OQ=
-MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR04MB7416.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2f6a7f3a-4bbd-4cc2-85a2-08da17b40972
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Apr 2022 09:58:44.4524 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: cIO2gZbnUPowYwL5/+TFbMlM0mfXcWCM9eVRDLVDk37wzbnptzItElefyoFDRl92/LtkQZrZmaM/CVn+ZNQbb4SjElNyDclRC+u7dyWjvW8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB6607
-Cc: "jfs-discussion@lists.sourceforge.net"
-	<jfs-discussion@lists.sourceforge.net>,
+X-Greylist: delayed 833 seconds by postgrey-1.31 at mail19;
+	Wed, 06 Apr 2022 09:19:08 CEST
+Received: from mail1.bemta34.messagelabs.com (mail1.bemta34.messagelabs.com
+	[195.245.231.4])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 09C53420004
+	for <drbd-dev@lists.linbit.com>; Wed,  6 Apr 2022 09:19:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+	s=170520fj; t=1649228714; i=@fujitsu.com;
+	bh=05cGtA6yxrBEXr8TsKfNblRw+Bdby9YhP92PsT290U4=;
+	h=Date:To:Cc:Subject:Message-ID:Reply-To:References:MIME-Version:
+	Content-Type:In-Reply-To:From;
+	b=BJDFFQHg7gw8WYACPIsS5IO7QZ2Et0/snRy0O1P7sPcx3klPBjnAcFB0x5vQmkc7B
+	wdj7sgZsarcq07EkkN9Uk7cWaXRM4BHIkDNaIuDnoDW/xdWPN+yfeRQ0VLd0GPd0XX
+	YqbordNSTrdttI2gAjHO+G0BfdXM58RE64W8BbUe7mviFWROX5XjUVwj2GTsNCRtCK
+	2WJ4V8hKwe8nmUuYA+n39zIapfnu0J3NGApl7UCEEBLyvU7tS2BrmjwMlFpa9b2hDX
+	gUaY7GvBudukN14SBUkBadO1YF+sMHYk2wGdlkRTCLILZZ+pMjV2no6kK1JlP7i/NG
+	hrGSl+X1ARJQg==
+X-Brightmail-Tracker: H4sIAAAAAAAAA1WSf1CTdRzH+T4bzx5hDz38iq9L8ljCH3ibDDW
+	+ilh6lk8nFJfJJVfZgyy2GsjteThnXAdKKIcRKiTHVFDHrwFhB6OIOQ60BDwhGM6BFxWyGU4R
+	kwqMX+1p54/+e3/u9fq8P/98CEFAPS4hlDpOqc1gNFLcR7h5E8HI6mITUqJcB19GDaPFOHowc
+	gJDvQ3jOLLcP+WNxmx1QmRs+BFDg3/kY+jKtzcwZLm5GlnH60SovOJnHFnPb0cXLb1C9Evjkj
+	f6YakYIPOhGhGaL1uHKmucInSksh2gY+fyBOiovQ1HRfXxqH2+TYTmnF9jyDjeiqH2e/0ilF8
+	9iaHavgoczZhKsFdD6aG+LLr54QkR3VKVQ3/+22GcLhmuBfRESzmgzWenMfryg+tC2jySi9MD
+	Nfdw2vZ3noCe6rDh9HTzi4lksrc6I2Wf7kNv1dRoF5Y56KNrt1zGc8E8UQiWEQGUCcBbV94sB
+	D7ubASwqMMkKASEe8iChp/EvCOkVkFLpRnwOYiSQqerD/C+gGoiYZfTIeL9QCoZLt6O5x2Sio
+	Z/3jJgnv6X4BnbAs77JDVLwuq2CW8PyIZHf50Uehb8YW+5478soCLh8OIdjO8UUC/A2kWCj8u
+	oJJh/XMobkFoB54wzOJ+D3fVNhl7AKzi1BrqKGI8SAW39zYJjIFD/TL/+mX790/6zQFAPNqZo
+	1WkqLp1Ra2SKqCiZQrFetjZGptggZz6VMXJllmy/kuVk0XJmPytXsqycPZC+V5Mqz1ByzcD9Q
+	qlseGAbKDA+kl8CywlMGkz6KhJSAvxS9qUeUDGsao82S6NkL4EVBCGFZBxyM3+tMk2p+0itcT
+	/iYwwJsTSIrNroxiSbyaSz6jQPugrCJCHkyAY3oHigysp4svb4ha0gVBJIAi8vrwBxplKbrub
+	+z10ghADSQHIHXy9WZ3BP2l3uw5j78P1rb/CHOeYpkuRiOVWl7x8SfveXV2mR5OTzV3PqoheN
+	8ht3LNyuk9zUZwMLSQn2nG7ZBY2j9fXj4/Xh6J+Y0PeSaktax4Y6d4cFOZ7z//LgrtqvDm/2t
+	W9dWnvb3L/tiNrwdkfbzTDCd94gjg5/95FjbO+gZtI+y5ozcZk43XrBOln9+2vFBZvW567Z9r
+	1f6qzuA8KkHzrTOXG3xfXJW3si49dl55zK18VVrPzm9FJB8kxZ07XEPMeA3frKF82dFysL5hq
+	Dd6++a1ie0POwZ2DnaGwMN709Qp+4yh63My4WdkU4sod7ulc6TeLr3X51WxpLqKCwyK0maam1
+	qj6pbOGdEGdhiVl3Pu3jc0Nb9JxUyKoYRaRAyzL/Akr/LJA9BAAA
+X-Env-Sender: Alan.Robinson@fujitsu.com
+X-Msg-Ref: server-8.tower-548.messagelabs.com!1649228712!85085!1
+X-Originating-IP: [62.60.8.97]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.85.5; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 31866 invoked from network); 6 Apr 2022 07:05:12 -0000
+Received: from unknown (HELO n03ukasimr01.n03.fujitsu.local) (62.60.8.97)
+	by server-8.tower-548.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384
+	encrypted SMTP; 6 Apr 2022 07:05:12 -0000
+Received: from n03ukasimr01.n03.fujitsu.local (localhost [127.0.0.1])
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with ESMTP id 3681F100190; 
+	Wed,  6 Apr 2022 08:05:12 +0100 (BST)
+Received: from nera.osd.abg.fsc.net (unknown [172.17.20.8])
+	by n03ukasimr01.n03.fujitsu.local (Postfix) with SMTP id 07836100181;
+	Wed,  6 Apr 2022 08:05:10 +0100 (BST)
+Received: by nera.osd.abg.fsc.net (Postfix, from userid 5004)
+	id B86E417478B; Wed,  6 Apr 2022 09:04:46 +0200 (CEST)
+Date: Wed, 6 Apr 2022 09:04:46 +0200
+To: Christoph Hellwig <hch@lst.de>
+Message-ID: <20220406070446.GA1722@ts.fujitsu.com>
+Mail-Followup-To: Alan.Robinson@fujitsu.com, Christoph Hellwig <hch@lst.de>,
+	Jens Axboe <axboe@kernel.dk>,
+	"jfs-discussion@lists.sourceforge.net"
+	<jfs-discussion@lists.sourceforge.net>, 
 	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
 	"virtualization@lists.linux-foundation.org"
-	<virtualization@lists.linux-foundation.org>,
+	<virtualization@lists.linux-foundation.org>, 
 	"linux-mm@kvack.org" <linux-mm@kvack.org>,
 	"dm-devel@redhat.com" <dm-devel@redhat.com>,
 	"target-devel@vger.kernel.org" <target-devel@vger.kernel.org>,
@@ -149,17 +93,59 @@ Cc: "jfs-discussion@lists.sourceforge.net"
 	"linux-raid@vger.kernel.org" <linux-raid@vger.kernel.org>,
 	"linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
 	"linux-f2fs-devel@lists.sourceforge.net"
-	<linux-f2fs-devel@lists.sourceforge.net>,
+	<linux-f2fs-devel@lists.sourceforge.net>, 
 	"linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
 	"ocfs2-devel@oss.oracle.com" <ocfs2-devel@oss.oracle.com>,
 	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
 	"ntfs3@lists.linux.dev" <ntfs3@lists.linux.dev>,
 	"linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>
-Subject: Re: [Drbd-dev] [PATCH 14/27] block: add a
-	bdev_max_zone_append_sectors helper
+References: <20220406060516.409838-1-hch@lst.de>
+	<0b7ae3df301c4fdd8d37f773d8d1eb93@FR3P281MB0843.DEUP281.PROD.OUTLOOK.COM>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <0b7ae3df301c4fdd8d37f773d8d1eb93@FR3P281MB0843.DEUP281.PROD.OUTLOOK.COM>
+X-sent-by-me: robin@sanpedro
+User-Agent: Mutt/1.9.3 (2018-01-21)
+From: Alan.Robinson@fujitsu.com (Alan Robinson)
+X-Virus-Scanned: ClamAV using ClamSMTP
+X-Mailman-Approved-At: Wed, 06 Apr 2022 12:31:15 +0200
+Cc: "jfs-discussion@lists.sourceforge.net"
+	<jfs-discussion@lists.sourceforge.net>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"virtualization@lists.linux-foundation.org"
+	<virtualization@lists.linux-foundation.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"dm-devel@redhat.com" <dm-devel@redhat.com>,
+	"target-devel@vger.kernel.org" <target-devel@vger.kernel.org>,
+	"linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
+	"drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
+	"linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+	"linux-nilfs@vger.kernel.org" <linux-nilfs@vger.kernel.org>,
+	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+	"cluster-devel@redhat.com" <cluster-devel@redhat.com>,
+	"xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+	"linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
+	"linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
+	"nbd@other.debian.org" <nbd@other.debian.org>,
+	"linux-raid@vger.kernel.org" <linux-raid@vger.kernel.org>,
+	"linux-bcache@vger.kernel.org" <linux-bcache@vger.kernel.org>,
+	"ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+	"linux-f2fs-devel@lists.sourceforge.net"
+	<linux-f2fs-devel@lists.sourceforge.net>,
+	"linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
+	"linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"ntfs3@lists.linux.dev" <ntfs3@lists.linux.dev>,
+	"ocfs2-devel@oss.oracle.com" <ocfs2-devel@oss.oracle.com>
+Subject: Re: [Drbd-dev] [PATCH 15/27] block: use bdev_alignment_offset in
+ part_alignment_offset_show
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: Alan.Robinson@fujitsu.com
 List-Id: "*Coordination* of development, patches,
 	contributions -- *Questions* \(even to developers\) go to drbd-user,
 	please." <drbd-dev.lists.linbit.com>
@@ -175,8 +161,46 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Looks good,
-Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
+Hi Christoph,
+
+On Wed, Apr 06, 2022 at 06:05:04AM +0000, Christoph Hellwig wrote:
+> From: Christoph Hellwig <hch@lst.de>
+> Subject: [PATCH 15/27] block: use bdev_alignment_offset in
+>  part_alignment_offset_show
+> 
+> Replace the open coded offset calculation with the proper helper.
+> This is an ABI change in that the -1 for a misaligned partition is
+> properly propagated, which can be considered a bug fix and maches
+
+s/maches/matches/
+
+> what is done on the whole device.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  block/partitions/core.c | 6 +-----
+>  1 file changed, 1 insertion(+), 5 deletions(-)
+> 
+> diff --git a/block/partitions/core.c b/block/partitions/core.c
+> index 2ef8dfa1e5c85..240b3fff521e4 100644
+> --- a/block/partitions/core.c
+> +++ b/block/partitions/core.c
+> @@ -200,11 +200,7 @@ static ssize_t part_ro_show(struct device *dev,
+>  static ssize_t part_alignment_offset_show(struct device *dev,
+>  					  struct device_attribute *attr, char *buf)
+>  {
+> -	struct block_device *bdev = dev_to_bdev(dev);
+> -
+> -	return sprintf(buf, "%u\n",
+> -		queue_limit_alignment_offset(&bdev_get_queue(bdev)->limits,
+> -				bdev->bd_start_sect));
+> +	return sprintf(buf, "%u\n", bdev_alignment_offset(dev_to_bdev(dev)));
+
+Should this now be %d instead of %u, there are one or two examples of
+both in the rest of the patch series.
+
+Alan
+
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
