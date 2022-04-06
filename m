@@ -2,105 +2,67 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FDF94F5827
-	for <lists+drbd-dev@lfdr.de>; Wed,  6 Apr 2022 10:59:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0766B4F582F
+	for <lists+drbd-dev@lfdr.de>; Wed,  6 Apr 2022 11:09:28 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 12478420FBF;
-	Wed,  6 Apr 2022 10:59:53 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E2402420FC0;
+	Wed,  6 Apr 2022 11:09:26 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 428 seconds by postgrey-1.31 at mail19;
-	Wed, 06 Apr 2022 10:59:51 CEST
-Received: from esa3.hgst.iphmx.com (esa3.hgst.iphmx.com [216.71.153.141])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D8EC742011D
-	for <drbd-dev@lists.linbit.com>; Wed,  6 Apr 2022 10:59:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-	t=1649235591; x=1680771591;
-	h=message-id:date:mime-version:subject:to:cc:references:
-	from:in-reply-to:content-transfer-encoding;
-	bh=LFM3dJ4XtmmQmpjm/ADKwYliPf/iPacGMSt9/3x5IFU=;
-	b=kjL0h1G9oPIZf040k4JvI7lLgSHas26LPh+tc+blB0SDm65v7WLAkFAY
-	pq5uFEiUnd/muLXZ0v9YDAMUA5blqd+s6ZTdehMZ9cjlwBud7MTefIXhq
-	WHiCvjnb4CdJFLjzbOIro2cYqFGC5Ayivzl5SXD8KCvOJ0xUJyaE7ozzu
-	pLPYL5bJdwZthX1Bfnbp+zFrydMEiPCDXu4hmrhaBSoTQhSbUEs7q+hNm
-	NrCPK+BTMTRZOuX0ZtaaIyHV/6yk5e8nssbP8wR1Fn5zasW8y9HzrYvRu
-	jzHzKkTAADnajawoxRQYGA42p4hP5KqTAc7NT2sHBOzKbQHs1My8eDgey w==;
-X-IronPort-AV: E=Sophos;i="5.90,239,1643644800"; d="scan'208";a="202066080"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
-	([199.255.45.14])
-	by ob1.hgst.iphmx.com with ESMTP; 06 Apr 2022 16:52:40 +0800
-IronPort-SDR: Aa1HWbWO7Vr4bO3+UDgtD0wCkxCPWOoDWfNKxlpQq3Yfb9DHzRiZ9GU7NpmqIBrcal6ywfuTfo
-	ZudlW0Zh6hZoViPlaBHwSjbT6Fpgcn/1VOMEOplT9K8D7CNh2V65fT5Ze9QU3r561QbkV19Evx
-	SxJMSrglu8pl3TAr0/orBsHpj8L2Yo442v2tRc4WyuaV1/h6DaAYHdYG6RJt4VGB1nrGF7lo0r
-	vAjBMhK1xBDMueGs9iADMGtPQBCro5j24e4+hcdoV7dWD9w+JiDKgq+jggVC0n7f6tk7XreYw/
-	xV/Mr9t9O9H+r5fP5sKSxyRG
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
-	by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
-	06 Apr 2022 01:24:14 -0700
-IronPort-SDR: X0plsfF5db3S292undHAbbLGKlOCOc7B/11sTNYlAqNfCh9CdLbPx0/4O0Poh4KeJHgtXjhEjU
-	3o5KJDryG9WjY0+Zj+h5jLwIyeDI4xjHIW/n0mOOXnK6boVidfS9IS7P3XOla5LzipuwOfaDVM
-	4UZY1pXdmfm9+mf6iaVC0oveq1w/bsCuuYasJQAQXoM+NWGN/vpkL3KwIkK3+ME3dIwUUq4fIn
-	ravKik7bEe75JNvzHtLeqgCsImngwAWCJ21KEV+nMMkH36jiKwCkWcP4ElZ9y27EkedNLku4bb
-	5Vc=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
-	by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
-	06 Apr 2022 01:52:43 -0700
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
-	by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4KYJDm5pfvz1SVny
-	for <drbd-dev@lists.linbit.com>; Wed,  6 Apr 2022 01:52:40 -0700 (PDT)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
-	reason="pass (just generated, assumed good)"
-	header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
-	opensource.wdc.com; h=content-transfer-encoding:content-type
-	:in-reply-to:organization:from:references:to:content-language
-	:subject:user-agent:mime-version:date:message-id; s=dkim; t=
-	1649235159; x=1651827160; bh=LFM3dJ4XtmmQmpjm/ADKwYliPf/iPacGMSt
-	9/3x5IFU=; b=ikqDdTG9ODAQQF/gXGSxdqGX933yPoUen760dZAYRlO1pjUicgY
-	QNTmeVuFXL3991m5ocJlTZlAM/kL9Y+0/7Vqh369/+y1rd8dHIZCsirzcij49SEY
-	lzAIBh2wf5Sf3ey+zlsq0uODq7OVssECPvEDwFf8vv6EXSj1/hUZOIgCb1YrW8o1
-	2M9SVtb0B4XKp93g7XBI0ujENrB5hIjr3CO5qzrkEqkMATglY4o3RYlHRiXsW1Sz
-	sYLuDt6RTZ47ylFhS4lgN/BBnpVQ7fdiQZnyYCU5qRit9Am3tawi9wutpwWz+FNF
-	LQkskhLFb7giNbGTHrp0y0pi3f33Krg86Fg==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
-	by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
-	(amavisd-new, port 10026)
-	with ESMTP id lFTexs7ry3dS for <drbd-dev@lists.linbit.com>;
-	Wed,  6 Apr 2022 01:52:39 -0700 (PDT)
-Received: from [10.149.53.254] (washi.fujisawa.hgst.com [10.149.53.254])
-	by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4KYJDg4WyPz1Rvlx;
-	Wed,  6 Apr 2022 01:52:35 -0700 (PDT)
-Message-ID: <ea3d14cb-00ea-8d7b-4615-9347fdd7aa27@opensource.wdc.com>
-Date: Wed, 6 Apr 2022 17:52:34 +0900
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
+	[209.85.218.53])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E1A76420FBB
+	for <drbd-dev@lists.linbit.com>; Wed,  6 Apr 2022 11:09:25 +0200 (CEST)
+Received: by mail-ej1-f53.google.com with SMTP id dr20so2892553ejc.6
+	for <drbd-dev@lists.linbit.com>; Wed, 06 Apr 2022 02:09:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linbit-com.20210112.gappssmtp.com; s=20210112;
+	h=message-id:date:mime-version:user-agent:subject:content-language:to
+	:cc:references:from:in-reply-to:content-transfer-encoding;
+	bh=wB8UMmxJgv5LvDfeLDltY32XYTo3n5XcwQ+iaIyF/Og=;
+	b=WXm7syME4XdRB4NJGS4GQb5Ax36M1AlMT49VPwWxN+ZXxTMx8CRhOYeB0lRJxT8brq
+	pnkxL/5FhxWQg3xeUJYqtDY/m6WYSw7oYJceeeULLalxUjm3+cdBAn+ui7mqF9rRTXuL
+	2k3SJhuFtj1UuevWdUM1LjH45bWzsVou59a8PfuTsFMZxK2cf91uLo3colj2PfNfMziH
+	ManeoUZnjK/m9d7Z26M1Cl9KC1T1c2D+u4BYg+n4nlmQbK7hkCXTZodRbAOqWrU6yOMN
+	W4uV+4q5icDeOh9eWCFiomSibo6GEPqr0Q0J2pmoyDtgUdEckwuGzu6W4VQJZdtpI4dW
+	oDLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20210112;
+	h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+	:content-language:to:cc:references:from:in-reply-to
+	:content-transfer-encoding;
+	bh=wB8UMmxJgv5LvDfeLDltY32XYTo3n5XcwQ+iaIyF/Og=;
+	b=bDi4ZPIVNG2plEOEmPN+S1QEnoMDGooGdICJ+3DY2y5YhFq4E8Z7aKryP/g2E+QGR9
+	qrrrk8AuDjqIAH9nj236QJimj3tQBCxNqNOEsjm0DUwI5sRIEQNBxmsU48WBIzVWVcqb
+	NlSnHHx5n6jbGX6a7hvfGdf9rKzrFek0BxFyCDI8vSoTqCwmB/7R2T9QhqwRF5CTygDp
+	qkTHWP7NwRM11zauP0u6cO+uLJIzdYRA0gqWAQyet59WZyVQkpfFoo39LXdooT1GOSEn
+	pTyn24XzaRiPglow3y7oV17w4lyywDb/a8gMYmBAeB5q3XdaX9EXuEuA0nlWtxk+Gru+
+	1phw==
+X-Gm-Message-State: AOAM533CmrttNsKGZmsuumrzirePueAJznJeZ9Jf6pQ3654QNAZn1mPu
+	BluuZ59wk0jj978gScxiLycmBlH4
+X-Google-Smtp-Source: ABdhPJyIdk1UwYDrlq6+n4T7hvAK7lZsJilf9jybv8rdA9wBUUKHTLlxaOsDN5nk9M5bR3LdK0kbsQ==
+X-Received: by 2002:a17:906:8301:b0:6e4:896d:59b1 with SMTP id
+	j1-20020a170906830100b006e4896d59b1mr7152842ejx.396.1649236165020;
+	Wed, 06 Apr 2022 02:09:25 -0700 (PDT)
+Received: from [192.168.178.55] (85-127-190-169.dsl.dynamic.surfer.at.
+	[85.127.190.169]) by smtp.gmail.com with ESMTPSA id
+	m3-20020a17090679c300b006cf9ce53354sm6352697ejo.190.2022.04.06.02.09.24
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Wed, 06 Apr 2022 02:09:24 -0700 (PDT)
+Message-ID: <d2626d2f-d348-49a1-e36b-a3eb598ac327@linbit.com>
+Date: Wed, 6 Apr 2022 11:09:23 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
 	Thunderbird/91.7.0
 Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
+To: Christoph Hellwig <hch@lst.de>
 References: <20220406060516.409838-1-hch@lst.de>
-	<20220406060516.409838-15-hch@lst.de>
-From: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Organization: Western Digital Research
-In-Reply-To: <20220406060516.409838-15-hch@lst.de>
-Cc: jfs-discussion@lists.sourceforge.net, linux-nvme@lists.infradead.org,
-	virtualization@lists.linux-foundation.org, linux-mm@kvack.org,
-	dm-devel@redhat.com, target-devel@vger.kernel.org,
-	linux-mtd@lists.infradead.org, drbd-dev@lists.linbit.com,
-	linux-s390@vger.kernel.org, linux-nilfs@vger.kernel.org,
-	linux-scsi@vger.kernel.org, cluster-devel@redhat.com,
-	xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org,
-	linux-um@lists.infradead.org, nbd@other.debian.org,
-	linux-block@vger.kernel.org, linux-bcache@vger.kernel.org,
-	ceph-devel@vger.kernel.org, linux-raid@vger.kernel.org,
-	linux-mmc@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	linux-xfs@vger.kernel.org, ocfs2-devel@oss.oracle.com,
-	linux-fsdevel@vger.kernel.org, ntfs3@lists.linux.dev,
-	linux-btrfs@vger.kernel.org
-Subject: Re: [Drbd-dev] [PATCH 14/27] block: add a
-	bdev_max_zone_append_sectors helper
+	<20220406060516.409838-5-hch@lst.de>
+From: =?UTF-8?Q?Christoph_B=c3=b6hmwalder?= <christoph.boehmwalder@linbit.com>
+In-Reply-To: <20220406060516.409838-5-hch@lst.de>
+Cc: linux-block@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+	drbd-dev@lists.linbit.com
+Subject: Re: [Drbd-dev] [PATCH 04/27] drbd: remove assign_p_sizes_qlim
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -114,81 +76,98 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On 4/6/22 15:05, Christoph Hellwig wrote:
-> Add a helper to check the max supported sectors for zone append based on
-> the block_device instead of having to poke into the block layer internal
-> request_queue.
+Am 06.04.22 um 08:04 schrieb Christoph Hellwig:
+> Fold each branch into its only caller.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->   drivers/nvme/target/zns.c | 3 +--
->   fs/zonefs/super.c         | 3 +--
->   include/linux/blkdev.h    | 6 ++++++
->   3 files changed, 8 insertions(+), 4 deletions(-)
+>  drivers/block/drbd/drbd_main.c | 50 ++++++++++++++++------------------
+>  1 file changed, 23 insertions(+), 27 deletions(-)
 > 
-> diff --git a/drivers/nvme/target/zns.c b/drivers/nvme/target/zns.c
-> index e34718b095504..82b61acf7a72b 100644
-> --- a/drivers/nvme/target/zns.c
-> +++ b/drivers/nvme/target/zns.c
-> @@ -34,8 +34,7 @@ static int validate_conv_zones_cb(struct blk_zone *z,
->   
->   bool nvmet_bdev_zns_enable(struct nvmet_ns *ns)
->   {
-> -	struct request_queue *q = ns->bdev->bd_disk->queue;
-> -	u8 zasl = nvmet_zasl(queue_max_zone_append_sectors(q));
-> +	u8 zasl = nvmet_zasl(bdev_max_zone_append_sectors(ns->bdev));
->   	struct gendisk *bd_disk = ns->bdev->bd_disk;
->   	int ret;
->   
-> diff --git a/fs/zonefs/super.c b/fs/zonefs/super.c
-> index 3614c7834007d..7a63807b736c4 100644
-> --- a/fs/zonefs/super.c
-> +++ b/fs/zonefs/super.c
-> @@ -678,13 +678,12 @@ static ssize_t zonefs_file_dio_append(struct kiocb *iocb, struct iov_iter *from)
->   	struct inode *inode = file_inode(iocb->ki_filp);
->   	struct zonefs_inode_info *zi = ZONEFS_I(inode);
->   	struct block_device *bdev = inode->i_sb->s_bdev;
-> -	unsigned int max;
-> +	unsigned int max = bdev_max_zone_append_sectors(bdev);
->   	struct bio *bio;
->   	ssize_t size;
->   	int nr_pages;
->   	ssize_t ret;
->   
-> -	max = queue_max_zone_append_sectors(bdev_get_queue(bdev));
->   	max = ALIGN_DOWN(max << SECTOR_SHIFT, inode->i_sb->s_blocksize);
->   	iov_iter_truncate(from, max);
->   
-> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-> index a433798c3343e..f8c50b77543eb 100644
-> --- a/include/linux/blkdev.h
-> +++ b/include/linux/blkdev.h
-> @@ -1188,6 +1188,12 @@ static inline unsigned int queue_max_zone_append_sectors(const struct request_qu
->   	return min(l->max_zone_append_sectors, l->max_sectors);
->   }
->   
-> +static inline unsigned int
-> +bdev_max_zone_append_sectors(struct block_device *bdev)
-> +{
-> +	return queue_max_zone_append_sectors(bdev_get_queue(bdev));
-> +}
+> diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
+> index 9676a1d214bc5..74b1b2424efff 100644
+> --- a/drivers/block/drbd/drbd_main.c
+> +++ b/drivers/block/drbd/drbd_main.c
+> @@ -903,31 +903,6 @@ void drbd_gen_and_send_sync_uuid(struct drbd_peer_device *peer_device)
+>  	}
+>  }
+>  
+> -/* communicated if (agreed_features & DRBD_FF_WSAME) */
+> -static void
+> -assign_p_sizes_qlim(struct drbd_device *device, struct p_sizes *p,
+> -					struct request_queue *q)
+> -{
+> -	if (q) {
+> -		p->qlim->physical_block_size = cpu_to_be32(queue_physical_block_size(q));
+> -		p->qlim->logical_block_size = cpu_to_be32(queue_logical_block_size(q));
+> -		p->qlim->alignment_offset = cpu_to_be32(queue_alignment_offset(q));
+> -		p->qlim->io_min = cpu_to_be32(queue_io_min(q));
+> -		p->qlim->io_opt = cpu_to_be32(queue_io_opt(q));
+> -		p->qlim->discard_enabled = blk_queue_discard(q);
+> -		p->qlim->write_same_capable = 0;
+> -	} else {
+> -		q = device->rq_queue;
+> -		p->qlim->physical_block_size = cpu_to_be32(queue_physical_block_size(q));
+> -		p->qlim->logical_block_size = cpu_to_be32(queue_logical_block_size(q));
+> -		p->qlim->alignment_offset = 0;
+> -		p->qlim->io_min = cpu_to_be32(queue_io_min(q));
+> -		p->qlim->io_opt = cpu_to_be32(queue_io_opt(q));
+> -		p->qlim->discard_enabled = 0;
+> -		p->qlim->write_same_capable = 0;
+> -	}
+> -}
+> -
+>  int drbd_send_sizes(struct drbd_peer_device *peer_device, int trigger_reply, enum dds_flags flags)
+>  {
+>  	struct drbd_device *device = peer_device->device;
+> @@ -957,14 +932,35 @@ int drbd_send_sizes(struct drbd_peer_device *peer_device, int trigger_reply, enu
+>  		q_order_type = drbd_queue_order_type(device);
+>  		max_bio_size = queue_max_hw_sectors(q) << 9;
+>  		max_bio_size = min(max_bio_size, DRBD_MAX_BIO_SIZE);
+> -		assign_p_sizes_qlim(device, p, q);
+> +		p->qlim->physical_block_size =
+> +			cpu_to_be32(queue_physical_block_size(q));
+> +		p->qlim->logical_block_size =
+> +			cpu_to_be32(queue_logical_block_size(q));
+> +		p->qlim->alignment_offset =
+> +			cpu_to_be32(queue_alignment_offset(q));
+> +		p->qlim->io_min = cpu_to_be32(queue_io_min(q));
+> +		p->qlim->io_opt = cpu_to_be32(queue_io_opt(q));
+> +		p->qlim->discard_enabled = blk_queue_discard(q);
+> +		p->qlim->write_same_capable =
+> +			!!q->limits.max_write_same_sectors;
+
+queue_limits.max_write_same_sectors was removed in 73bd66d9c834, so this
+does not compile. It's removed in the next patch, so the big picture is
+fine, just this one commit is broken.
+
+>  		put_ldev(device);
+>  	} else {
+> +		struct request_queue *q = device->rq_queue;
 > +
->   static inline unsigned queue_logical_block_size(const struct request_queue *q)
->   {
->   	int retval = 512;
-
-Looks good.
-
-Acked-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-
--- 
-Damien Le Moal
-Western Digital Research
+> +		p->qlim->physical_block_size =
+> +			cpu_to_be32(queue_physical_block_size(q));
+> +		p->qlim->logical_block_size =
+> +			cpu_to_be32(queue_logical_block_size(q));
+> +		p->qlim->alignment_offset = 0;
+> +		p->qlim->io_min = cpu_to_be32(queue_io_min(q));
+> +		p->qlim->io_opt = cpu_to_be32(queue_io_opt(q));
+> +		p->qlim->discard_enabled = 0;
+> +		p->qlim->write_same_capable = 0;
+> +
+>  		d_size = 0;
+>  		u_size = 0;
+>  		q_order_type = QUEUE_ORDERED_NONE;
+>  		max_bio_size = DRBD_MAX_BIO_SIZE; /* ... multiple BIOs per peer_request */
+> -		assign_p_sizes_qlim(device, p, NULL);
+>  	}
+>  
+>  	if (peer_device->connection->agreed_pro_version <= 94)
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
