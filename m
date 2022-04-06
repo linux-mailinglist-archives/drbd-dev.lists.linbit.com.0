@@ -2,67 +2,72 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 204414F5DE3
-	for <lists+drbd-dev@lfdr.de>; Wed,  6 Apr 2022 14:35:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06E9A4F66F2
+	for <lists+drbd-dev@lfdr.de>; Wed,  6 Apr 2022 19:28:32 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E4AA2420FD3;
-	Wed,  6 Apr 2022 14:35:45 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B647B420FD0;
+	Wed,  6 Apr 2022 19:28:30 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
-	[209.85.216.47])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E3A9C420FD0
-	for <drbd-dev@lists.linbit.com>; Wed,  6 Apr 2022 14:35:43 +0200 (CEST)
-Received: by mail-pj1-f47.google.com with SMTP id
-	ku13-20020a17090b218d00b001ca8fcd3adeso5627291pjb.2
-	for <drbd-dev@lists.linbit.com>; Wed, 06 Apr 2022 05:35:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-	h=message-id:date:mime-version:user-agent:subject:content-language:to
-	:cc:references:from:in-reply-to:content-transfer-encoding;
-	bh=odt5YKmMJSj5TevCN9iB8kF64NZNPCBBQ6O3JBapXtw=;
-	b=jx8rjvkPQdndpWlBqdzNaiU8V7O0L9ryqTK/IFAtQ6YsNXlwRF0w/Uxe1PMQIMGxsa
-	92TfmSIsqTSKD2VTxfrJlPBdW7slHAxXzIv8yjCHzh1R2XsoBYgbst+ayNHt8yvhi3/T
-	zW0jBz+wDThcMLiIfD2kAXO7b6g/zHbHAiv7BDqwL8+PV4N6c6AnB4lByHBAsuklGmIK
-	J8hvEqNTlrE2s80JO0RSSdQCim8Ji9FtQ4P7K83sjSXI9zmjU1mY+GPyeSn0kdFThtZT
-	mZHc9kNytXwj9AkF/dVqrgkTodAlyCAAWT9Q7akXeJDC8q4cyrhfDIZFO2SXHZNrtt1w
-	5QHw==
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+	[209.85.167.47])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2ECC6420FC9
+	for <drbd-dev@lists.linbit.com>; Wed,  6 Apr 2022 19:28:28 +0200 (CEST)
+Received: by mail-lf1-f47.google.com with SMTP id z12so5275138lfu.10
+	for <drbd-dev@lists.linbit.com>; Wed, 06 Apr 2022 10:28:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=WJLYFFwKJzu0AzBejzceyC93Fh4AhvIk3A/MNZXzKIU=;
+	b=nHoFYmIVcbUdYBuRBczLdRhO5AcYZ6GHHFtKpS9G1n5vNIpBGLipmKmQ40hQnwfBEK
+	9YcCx5HGe8T4NG1UPywpqZKblDsiU8Uam6EvTYaei53mUEV7gX/X6QEIMPDVNdTe1RsC
+	lSqUADllCjDlRJ3aqfDHj4gGsZ5WvTndElsOvm3ukXbURNWbOjm9tS3FKy9TW5JIte+s
+	iqchodtdlLO+0839AsHapTHL+am4rmkQFqKuweIuQiuTq0iA/dxkHoEkiJl793SmXbAL
+	d6FIVbXVTWtg6j4nPkHK8I7vb1+rBuBMN5T4ZVmgoa+qulAgS9/S0AV92hnwAdWJS/in
+	gNUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20210112;
-	h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-	:content-language:to:cc:references:from:in-reply-to
-	:content-transfer-encoding;
-	bh=odt5YKmMJSj5TevCN9iB8kF64NZNPCBBQ6O3JBapXtw=;
-	b=k92uG7qycXnQD8UXnISP4oURqhRFZkgqSdAQ0SuYdwiu/VJARiaDto4oKMpwGMblr5
-	aNLiWmE4hkz93c1hFvNRgi9WymsjMpTpAldOtTJfZJXoy7RStrpAeCdqRtIIwRkLJtl8
-	M4mkgz6LSjezS8jNY7rAEYNrET6A31Yv8QA6111tjL6RYZn5Tk27fUufdvAgr8TxdIr0
-	jkvWE3S1XhFC/k3Trh+5NPEM5K6rsrF2R6D8G88x3L60Rj6W5bZSzedGGmGoz82VbPA4
-	aTl3GXPhfuMoLcSlOImBqIRlTToTIVBUdv7CfYN7SRVd08p69SxiT1VcmMvR29JtuPb4
-	ZQjw==
-X-Gm-Message-State: AOAM530hH8AYWyF+YueqlKQur/Hxsi+CIYUE/a/KZHzTP7AMIBN2gSle
-	hJ1IS212B9hKooEy7/opmEcjhA==
-X-Google-Smtp-Source: ABdhPJxyD2kZKAeDbbyKliugJjKuLxRxQVesGftYslgT++r2Fmts47ksjmG+WYqpO8FPq1c4Lj7qQw==
-X-Received: by 2002:a17:902:b696:b0:156:b63:6bed with SMTP id
-	c22-20020a170902b69600b001560b636bedmr8461832pls.24.1649248542201;
-	Wed, 06 Apr 2022 05:35:42 -0700 (PDT)
-Received: from [192.168.1.100] ([198.8.77.157])
-	by smtp.gmail.com with ESMTPSA id
-	q13-20020a056a00088d00b004e1bea9c582sm19356588pfj.43.2022.04.06.05.35.40
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Wed, 06 Apr 2022 05:35:41 -0700 (PDT)
-Message-ID: <e2035fff-01e2-0df7-2508-82b741615519@kernel.dk>
-Date: Wed, 6 Apr 2022 06:35:40 -0600
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=WJLYFFwKJzu0AzBejzceyC93Fh4AhvIk3A/MNZXzKIU=;
+	b=QFXJ35ovNQNlu9pk5YhADLq9WITNMhWsja6ahBDexKVeVbFSkGg80sQ58J0ZDSRDJs
+	x74bhUDMewS7CyLUplnEqCLv+23AQggwBaa/tt+TpOH+RLb5dgob63pfwV+28bSZqBg4
+	ZHPnLn+psWs5xr5UkDDo4Shx9js1BDaA40292tZWZaYoIRQdqNIC1lnqkTmDGBbCVJiJ
+	RD0eUend4l68pxhmISIIZ8DsvlhCa+HWpBLbcyeMvrQCeC+Q71OH31mZhe4Rf1wpcYQT
+	yez6Cr73iRH6tYzLLRWIV1j7TmSBe8qDUl9CbogVPvGDveKn8aaFbhK0sJDeciPF3hUh
+	cgVQ==
+X-Gm-Message-State: AOAM532iObCY0LKYOoegF9aneufJVC++Osroxisr7k7omqp6nHrxfqWz
+	2h0hvQcK6XZoERzJ693ErR1rATQM8eYeLdfZ3SA=
+X-Google-Smtp-Source: ABdhPJxvT7YhfWN8QbCVz4oydCsKwT/zbXQ5089WXaSZlqzdjbFflulVc086iBmKtewP4KtbC66vp+jW8qrWjcRFTmg=
+X-Received: by 2002:ac2:5f4d:0:b0:43e:da3e:4529 with SMTP id
+	13-20020ac25f4d000000b0043eda3e4529mr6768924lfz.627.1649266108188;
+	Wed, 06 Apr 2022 10:28:28 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
-	Thunderbird/91.7.0
-Content-Language: en-US
-To: =?UTF-8?Q?Christoph_B=c3=b6hmwalder?= <christoph.boehmwalder@linbit.com>
-References: <60bf3e8f-9cfb-00d1-5fea-71a72ba93258@linbit.com>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <60bf3e8f-9cfb-00d1-5fea-71a72ba93258@linbit.com>
-Cc: linux-block@vger.kernel.org, Lars Ellenberg <lars.ellenberg@linbit.com>,
-	Philipp Reisner <philipp.reisner@linbit.com>, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [GIT PULL] DRBD fixes for Linux 5.18
+References: <20220406060516.409838-1-hch@lst.de>
+	<20220406060516.409838-24-hch@lst.de>
+In-Reply-To: <20220406060516.409838-24-hch@lst.de>
+From: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Date: Thu, 7 Apr 2022 02:28:15 +0900
+Message-ID: <CAKFNMokGOma3pvHdEsnsjuKgW+jpYX9zx8fWwJWyeKuCpKz-YQ@mail.gmail.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: jfs-discussion@lists.sourceforge.net, linux-nvme@lists.infradead.org,
+	virtualization@lists.linux-foundation.org, Linux MM <linux-mm@kvack.org>,
+	device-mapper development <dm-devel@redhat.com>,
+	target-devel@vger.kernel.org, linux-mtd@lists.infradead.org,
+	drbd-dev@lists.linbit.com, linux-s390@vger.kernel.org,
+	linux-nilfs <linux-nilfs@vger.kernel.org>,
+	Andreas Gruenbacher <agruenba@redhat.com>,
+	linux-scsi@vger.kernel.org, cluster-devel@redhat.com,
+	xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org,
+	linux-um@lists.infradead.org, nbd@other.debian.org,
+	linux-block@vger.kernel.org, linux-bcache@vger.kernel.org,
+	ceph-devel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+	linux-raid@vger.kernel.org, linux-mmc@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net,
+	linux-xfs@vger.kernel.org, ocfs2-devel@oss.oracle.com,
+	linux-fsdevel@vger.kernel.org, ntfs3@lists.linux.dev,
+	linux-btrfs@vger.kernel.org
+Subject: Re: [Drbd-dev] [PATCH 23/27] block: add a bdev_max_discard_sectors
+	helper
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -81,50 +86,44 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On 4/6/22 2:06 AM, Christoph B?hmwalder wrote:
-> Hi Jens,
-> 
-> this is the first batch of DRBD updates, catching up from the last few
-> years. These fixes are a bit more substantial, so it would be great if
-> they could still go into 5.18.
+On Wed, Apr 6, 2022 at 11:05 PM Christoph Hellwig <hch@lst.de> wrote:
+>
+> Add a helper to query the number of sectors support per each discard bio
+> based on the block device and use this helper to stop various places from
+> poking into the request_queue to see if discard is supported and if so how
+> much.  This mirrors what is done e.g. for write zeroes as well.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+...
+> diff --git a/drivers/target/target_core_device.c b/drivers/target/target_core_device.c
+> index 16e775bcf4a7c..7d510e4231713 100644
+> --- a/drivers/target/target_core_device.c
+> +++ b/drivers/target/target_core_device.c
+> @@ -829,9 +829,7 @@ struct se_device *target_alloc_device(struct se_hba *hba, const char *name)
+>  }
+>
+>  /*
+> - * Check if the underlying struct block_device request_queue supports
+> - * the QUEUE_FLAG_DISCARD bit for UNMAP/WRITE_SAME in SCSI + TRIM
+> - * in ATA and we need to set TPE=1
 
-Thanks for sending these, but you based the repo on my 5.19 branch,
-which won't work as pulling your tree will then result in me getting
-your 5.18 changes with my 5.19 as well.
+> + * Check if the underlying struct block_device request_queue supports disard.
+>   */
 
-As it happens, this is also a problem for your 5.19 based changes. My
-for-next branch is not stable, just like linux-next isn't stable. In
-terms of shas, not how it runs...
+Here was a typo:
 
-In general, for the block tree, here's what you want to base the changes
-on, using 5.18/5.19 as examples as current/next tree.
+ s/disard/discard/
 
-- If they are bound for 5.18, base them on block-5.18. That branch may
-  not exist if nothing is queued up yet, in which case just base them on
-  the last -rc1 tag for that series. That'd be 5.18-rc1 in this case.
+On Thu, Apr 7, 2022 at 12:19 AM Andreas Gruenbacher <agruenba@redhat.com> wrote:
+> If I'm misreading things, could you please document that
+> bdev_max_discard_sectors() != 0 implies that discard is supported?
 
-- If they are bound for 5.19, usually I will have a 5.19 driver and core
-  block branch. Base them against for-5.19/drivers. If it doesn't exist,
-  previous -rc is a good choice again.
+I got the same impression.   Checking the discard support with
+bdev_max_discard_sectors() != 0 seems a bit unclear than before.
 
-Usually post -rc2 all of the above branches will exist, during merge
-window and right after things are a bit more influx and haven't really
-settled down yet.
-
-Now, there's also the fact that you're using a non kernel.org git tree.
-That's fine, but ideally we'd like you to use signed tags in that case.
-But not sure your key has been signed by anyone in the korg ring of
-trust? Since I've already seen these patches this isn't a huge concern
-for now, but something to get sorted out going forward.
-
-Can you rebase your two pull requests and send them in again? Either
-that, or just git send-email the two series, that'll work too. I'm fine
-applying series from maintainers like that, it doesn't have to be a git
-pull request.
-
--- 
-Jens Axboe
-
+Thanks,
+Ryusuke Konishi
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
