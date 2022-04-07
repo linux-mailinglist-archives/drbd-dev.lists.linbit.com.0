@@ -2,41 +2,41 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF7034F75BF
-	for <lists+drbd-dev@lfdr.de>; Thu,  7 Apr 2022 08:11:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 905294F75C0
+	for <lists+drbd-dev@lfdr.de>; Thu,  7 Apr 2022 08:11:15 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B6E0642102C;
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id CF61C421035;
 	Thu,  7 Apr 2022 08:11:11 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2922E420835
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2B4F242088A
 	for <drbd-dev@lists.linbit.com>; Thu,  7 Apr 2022 03:22:38 +0200 (CEST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 63D0DB8261C;
-	Thu,  7 Apr 2022 01:15:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BC50C385A1;
-	Thu,  7 Apr 2022 01:15:09 +0000 (UTC)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 0722BB8268A;
+	Thu,  7 Apr 2022 01:16:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9789C385A6;
+	Thu,  7 Apr 2022 01:15:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1649294110;
-	bh=MJt93V/iQDPanSdYDKTB/3t7EaS3fGLovZnpcT2ADsI=;
+	s=k20201202; t=1649294159;
+	bh=bA07V3d5pxy3bq4FSeVjBX/PCVPBbT2rfgS9d+qm0vE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=UGQiz5+AvxyzmDD1kKX3k5RkcNGBuUTmn0o0Qgmt7v7FMVAsIRelwi3tbHaGxt8iK
-	vbriyObXUBcPOuyaJ5OU3Q4rZOkTD9qLK8iAGQn+MTdh+HQJBD15xt8fG938jrOzzH
-	9lxUxyYP+Jg0DejEJI60FB+F6CBe8to3iZ/r7G0ONXbrrYFDVEMsP8sKYwaaj0gc5F
-	WkOz/apTxET/OpDFjDBocyPGP16W10IYC451kal95VkY+HbMy1D2eY2+Af8X9Sf6vM
-	5HcV37j/jQh7HAzZ91nR/HFtD8rOx5OjlksBh/4dLsF0cSnjqOhf7L17PUMle03YyA
-	66xswhnk0D4KQ==
+	b=dzy3DpQKGsuUT7K6EupMBIBxtYbDkx+xZEUzdOIoNwPseCXc191HFfGegxdZ6HPIZ
+	PuIag6w1QAKwxmMkPTf9bfCihKRHVGn7/ruFjb7NHkhyLuT6SyO1bjYy8HF6kFZ2BO
+	nyiEh5UGaaWGk72a0n3NTQwI3yuRRlXCZ3INqsSdS+VM3M4CYyUAQGEi/zH1xoh/C5
+	NWQ+5cHi0TcwSvPtSP34jhJJ9SridxwOXWERbImjrCmS68I9iqaFzoOcDLDdNrc+TW
+	bbfRyzPJCOY8LLv2jSJNUaoGRpidUWpwZoMmfY6cZcj9a0gpn+ntYUCw0ntz/+sJbE
+	y5D4EHv+Gg/Rg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Date: Wed,  6 Apr 2022 21:14:09 -0400
-Message-Id: <20220407011413.114662-21-sashal@kernel.org>
+Date: Wed,  6 Apr 2022 21:15:17 -0400
+Message-Id: <20220407011521.115014-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220407011413.114662-1-sashal@kernel.org>
-References: <20220407011413.114662-1-sashal@kernel.org>
+In-Reply-To: <20220407011521.115014-1-sashal@kernel.org>
+References: <20220407011521.115014-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -45,7 +45,7 @@ Cc: Jens Axboe <axboe@kernel.dk>, Sasha Levin <sashal@kernel.org>,
 	philipp.reisner@linbit.com, linux-block@vger.kernel.org,
 	Jakob Koschel <jakobkoschel@gmail.com>,
 	lars.ellenberg@linbit.com, drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH AUTOSEL 5.10 21/25] drbd: remove usage of list
+Subject: [Drbd-dev] [PATCH AUTOSEL 5.4 13/17] drbd: remove usage of list
 	iterator variable after loop
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
@@ -89,10 +89,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
-index 65b95aef8dbc..3cdbd81f983f 100644
+index a18155cdce41..ba10fa24fa1f 100644
 --- a/drivers/block/drbd/drbd_main.c
 +++ b/drivers/block/drbd/drbd_main.c
-@@ -184,7 +184,7 @@ void tl_release(struct drbd_connection *connection, unsigned int barrier_nr,
+@@ -183,7 +183,7 @@ void tl_release(struct drbd_connection *connection, unsigned int barrier_nr,
  		unsigned int set_size)
  {
  	struct drbd_request *r;
@@ -101,7 +101,7 @@ index 65b95aef8dbc..3cdbd81f983f 100644
  	int expect_epoch = 0;
  	int expect_size = 0;
  
-@@ -238,8 +238,11 @@ void tl_release(struct drbd_connection *connection, unsigned int barrier_nr,
+@@ -237,8 +237,11 @@ void tl_release(struct drbd_connection *connection, unsigned int barrier_nr,
  	 * to catch requests being barrier-acked "unexpectedly".
  	 * It usually should find the same req again, or some READ preceding it. */
  	list_for_each_entry(req, &connection->transfer_log, tl_requests)
