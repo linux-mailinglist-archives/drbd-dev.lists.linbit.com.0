@@ -2,58 +2,57 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6055B4F7C4E
-	for <lists+drbd-dev@lfdr.de>; Thu,  7 Apr 2022 12:02:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EFEA4F7D40
+	for <lists+drbd-dev@lfdr.de>; Thu,  7 Apr 2022 12:48:26 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4066E42101F;
-	Thu,  7 Apr 2022 12:02:29 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id EAC4042097C;
+	Thu,  7 Apr 2022 12:48:24 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
-	[209.85.208.50])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 37B41421019
-	for <drbd-dev@lists.linbit.com>; Thu,  7 Apr 2022 12:02:28 +0200 (CEST)
-Received: by mail-ed1-f50.google.com with SMTP id g20so5782155edw.6
-	for <drbd-dev@lists.linbit.com>; Thu, 07 Apr 2022 03:02:28 -0700 (PDT)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
+	[209.85.208.53])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 8AF1642011D
+	for <drbd-dev@lists.linbit.com>; Thu,  7 Apr 2022 12:48:23 +0200 (CEST)
+Received: by mail-ed1-f53.google.com with SMTP id x20so5883518edi.12
+	for <drbd-dev@lists.linbit.com>; Thu, 07 Apr 2022 03:48:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linbit-com.20210112.gappssmtp.com; s=20210112;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=wDxCx1u4F6e2OY2Fv7LkzTUa+/AM50dLcS3/UcnjVmU=;
-	b=GlQwL/m9GKClY8d4ZYFDAaa5WRLjRbD4j9SXI7P55GLJJWd7WV3CHrznzMnYzZ8GtN
-	+TteOO72Q/qDrEb3QxMwiOrFRnurVM1+6LPVy7DNddEIiexIK6qDpPTINpX80uBGnBK+
-	xNzvJ+gQIzRy4B1EuJXk8nSBTpjFbdqmyMgFrQoXI3DwvUQLTRQynsL6Ay72ScEgUPs1
-	vktpA3XcQ1/fU4eAuFVz2M8f+4s8rFAHdmfZL5un/XhOcTTRwhwY4QlIToDffR29ULMJ
-	fTVb6rMk4rDX7YFdYvxyw3/nIxNLVYZG7Il9men1FAKzoO6SeuzTeWyIEB7vuMff7BsE
-	DG9Q==
+	:cc; bh=vEsW32E1SVLlER+oBTv6KdFwS0s/P4kF++msdPMsZQs=;
+	b=0PpM/05Lf7D0rPDO+tVEoOTYoesPA48z6TTtXyngFys/K3hkX8J3UuzVXLNn8RwUr+
+	OsZQwBZLiRET8DmXRItS4b0jnDyU+FZ3/NwU+EC6Eyxr3rw3mEjEXfiZwgrixnUIonba
+	6otnDPersgAOh7CY3KS8PiAOy72Zj/66q6fgFl46+gXVLFM2HbDEf4mHNwGnL8OuTaW1
+	99B6ivdeGKsNv6LFr+U1u90n+B8vf4d3UEIWnDuntCiOrYriKrDw5r6Ir2N3EXRnmPZK
+	K54RdzEOvl+v+lhANxqTKEfKje/0c+lNnVNdwusIABRo3tvwn532/WfHHS1wiU660PC5
+	EyuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20210112;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=wDxCx1u4F6e2OY2Fv7LkzTUa+/AM50dLcS3/UcnjVmU=;
-	b=DnNlwcbUfp7j46FICzifCwW9mmHY6UHnu0qKwIs/qbG2TCMZ7LvPVCZrPp0+ey1ymz
-	gCAoihC8Ios3xDBWADHBqgNe2qn4sg5efSrTH2kMoXFom5ALpnrI/s5i02zEJvl1hecD
-	Zqs8janW4Y4Oc+cQWhFo5xTxy3rwIjfNI9nkdOwxL9jbzzuwZks5AUNru2bl7S7Wm4+v
-	41nd8SI0c3PJeJJmTro+x7boI55b+nLboz/1ocE7nEj+dGFV4ppRHOkb++v/xbKYInIf
-	oHXC/qP+FaZ745JXAUDVgBojJmqYzcgS6Vhg8uWGtWgNYo39pzmrGpeOtQHKXNv7JPCg
-	xI0g==
-X-Gm-Message-State: AOAM5329Hx+QHZQ7bzOwGqR4ixgV0gqe+MXhN2LV3WbBnGr4yJwtXGTW
-	JfCR47VrUZ4uESq3O2K/AgscvKgaryZXsX/TKRR5LW2k
-X-Google-Smtp-Source: ABdhPJyhQCVHsRiSNVBfESs4cqT0PsM5x8z7qUMa9HKWtvN8sgrstZf300T1Fu98GnbJl/ScZbIKaL+OS7EvjBaCdPw=
-X-Received: by 2002:a50:ee05:0:b0:419:39d9:ccd8 with SMTP id
-	g5-20020a50ee05000000b0041939d9ccd8mr13346248eds.369.1649325747807;
-	Thu, 07 Apr 2022 03:02:27 -0700 (PDT)
+	bh=vEsW32E1SVLlER+oBTv6KdFwS0s/P4kF++msdPMsZQs=;
+	b=vQ49+Z5d4YPly7he3lYzCKWlrEPk3BKjTg/xUjk7Oy7kbtP0jehgubr9oSfeZfrK5M
+	Pf+w4NXiauX5qvgK4ucmAYMD7mD1rqjfffVLN1f7+6EnyW+hbIupif98vaR0iqNMVad9
+	AdyxIJzgKOPTftqD36paExxLy3l5ozCALnVABzMY48rFbD4lIEB/QhEv3mKwL0nH4IPL
+	e/v49QlkuZQ19KUB/zBlScjK8eDFAFvAG+6DyOV1o/ECsmh76NCdqvOC+gXIZVtIFFc+
+	qaS4Qa6kMdc0yQ2dffe055WCE/cikozWy+PFApfatjIF8GyGBwpPChW/3IqnDU2JXr06
+	T3hQ==
+X-Gm-Message-State: AOAM532+SznLyAp3x45ZkQHdZV3iTbtKkgn1jQvXIy88OwsC9uw6/YwA
+	dpE6gnDY0wAsVXNeCq8xGQsw95gAmpL/kPT5jzYtxosU6HVm2w==
+X-Google-Smtp-Source: ABdhPJxuvutBqK97UgDkcb3RMQ9JWvJxk40mXBFzxTC4Ip1OxL6PJZcMSAJTTMYCDZ6Hj152G9bqZtDp7R22JmqZgJo=
+X-Received: by 2002:a50:ff02:0:b0:418:e736:e003 with SMTP id
+	a2-20020a50ff02000000b00418e736e003mr13865566edu.370.1649328503089;
+	Thu, 07 Apr 2022 03:48:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220223084442.3312409-1-rui.xu@easystack.cn>
-	<AJ*A6wDEId6nn-rl7MpNZapM.3.1648177318891.Hmail.rui.xu@easystack.cn>
-In-Reply-To: <AJ*A6wDEId6nn-rl7MpNZapM.3.1648177318891.Hmail.rui.xu@easystack.cn>
+References: <20220303071009.1070360-1-rui.xu@easystack.cn>
+In-Reply-To: <20220303071009.1070360-1-rui.xu@easystack.cn>
 From: Joel Colledge <joel.colledge@linbit.com>
-Date: Thu, 7 Apr 2022 12:02:17 +0200
-Message-ID: <CAGNP_+UpeqaLU6bLVBOqORB+k0E=joO9nnTW5JFpmHBZ_pNTgw@mail.gmail.com>
-To: Xu Rui <rui.xu@easystack.cn>
+Date: Thu, 7 Apr 2022 12:48:12 +0200
+Message-ID: <CAGNP_+VZLZhCuMymZO+qwSDZmFjYgyJHLfsPLwGZaGE+E5cD_Q@mail.gmail.com>
+To: Rui Xu <rui.xu@easystack.cn>
 Cc: Philipp Reisner <philipp.reisner@linbit.com>, dongsheng.yang@easystack.cn,
 	drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH] drbd: fix a bug of do_change_disk_state when
-	attach
+Subject: Re: [Drbd-dev] [PATCH] drbd: create new uuid even we dont have
+	quorum
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -74,14 +73,16 @@ Errors-To: drbd-dev-bounces@lists.linbit.com
 
 Hi,
 
-The patch looks plausible but the commit message is hard to
-understand. Please split the 8 line sentence into multiple sentences.
-Also explain at the start which versions need to be mixed to trigger
-this bug.
+When quorum is configured, we expect not to have split-brain
+situations. Hence it is important that we do not generate new UUIDs
+until they are definitely necessary. When we do not have quorum, no
+writes should complete, so we do not need to generate a new UUID. We
+may need to generate one before we regain quorum instead.
 
-Regarding versions - it looks like you have a 3 node cluster where one
-node is running DRBD 8. This is not recommended. What is your
-use-case?
+That said, there have been various bugs in the implementation. Try to
+reproduce your issue with the latest drbd-9.1. If it can still be
+reproduced, then describe the exact reproduction steps and we can
+discuss the appropriate fix.
 
 Best regards,
 Joel
