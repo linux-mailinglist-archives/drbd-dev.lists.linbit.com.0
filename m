@@ -2,77 +2,54 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id E75124F7531
-	for <lists+drbd-dev@lfdr.de>; Thu,  7 Apr 2022 07:18:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27D814F75B9
+	for <lists+drbd-dev@lfdr.de>; Thu,  7 Apr 2022 08:11:10 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id F36BB421006;
-	Thu,  7 Apr 2022 07:18:58 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id F2EE542100E;
+	Thu,  7 Apr 2022 08:11:09 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id EE809421003
-	for <drbd-dev@lists.linbit.com>; Thu,  7 Apr 2022 07:18:57 +0200 (CEST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	key-exchange X25519 server-signature ECDSA (P-521) server-digest
-	SHA512) (No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B3E5F210E1;
-	Thu,  7 Apr 2022 05:18:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1649308737;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	mime-version:mime-version:content-type:content-type:
-	content-transfer-encoding:content-transfer-encoding:
-	in-reply-to:in-reply-to:references:references;
-	bh=A+yNUODWma7WknR/jI5cBa/CbnRiNAE8PcMaVQDIzR4=;
-	b=mnCB1gF89XJ5ZS0vn/sLXjbjQHE0OVf5/BCbnACnemfg918qFrAMS1uu96deBrWbKaTk0y
-	986H3NVh/IurAPnL2y9HkNS4LPMQclLG/RGT1PVgOxZNeKUsvsv1qbmzIT0Ddpaw+xC6qE
-	NWA7dPYsE9i1SiYQLl3VkO1mNMjLBac=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1649308737;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	mime-version:mime-version:content-type:content-type:
-	content-transfer-encoding:content-transfer-encoding:
-	in-reply-to:in-reply-to:references:references;
-	bh=A+yNUODWma7WknR/jI5cBa/CbnRiNAE8PcMaVQDIzR4=;
-	b=kD2ssGZ1opFQemhwtjj59lbGNVo/3qb1+9BNGH243uIB4Twx+Dpu/NW4coV8ja6JRSUAIx
-	INPQyHL1JAX+fNCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	key-exchange X25519 server-signature ECDSA (P-521) server-digest
-	SHA512) (No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1F2F413A66;
-	Thu,  7 Apr 2022 05:18:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA id 9Lo/Nzp0TmKaQQAAMHmgww
-	(envelope-from <colyli@suse.de>); Thu, 07 Apr 2022 05:18:50 +0000
-Message-ID: <f326944f-46b1-e888-18f6-97dcf69d945d@suse.de>
-Date: Thu, 7 Apr 2022 13:18:49 +0800
+X-Greylist: delayed 352 seconds by postgrey-1.31 at mail19;
+	Thu, 07 Apr 2022 03:17:23 CEST
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E1098420161
+	for <drbd-dev@lists.linbit.com>;
+	Thu,  7 Apr 2022 03:17:23 +0200 (CEST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 1D3AD61DCB;
+	Thu,  7 Apr 2022 01:11:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E050CC385AC;
+	Thu,  7 Apr 2022 01:11:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1649293890;
+	bh=dSK9yAemeUsSX+KHHm11m3GLKp6uaBrh9a90DIUvMoY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Sbs16ccZboy/68pQJ1t2Aga3j5yXXQgkEMfVhE0Hzh7ogJ7bwbUpbpFtLJjCOjoHf
+	S1prKisWe6blMB6KrTQ7AwjNEQVrEXJ99I6almTnyDPKx40gA95GIZSli/T6EKEWOY
+	wTrJ+pNzjK+0oYblMKPVC8SB0vxkheFT8nASov9Ich6KfLgtoMRdxcEKOY8dxnMpFD
+	O6PGnr5SvNztoRXP0S2yxEolNQBMm0cqSxTIvRXUf/Is64mVa05BKtaq4trK2Z96Bx
+	EwGmrKPmiMNEnmMxWMyhho7etvuW+Udax4vqM3nspeeugGgMppEIwN4+j6R3JNiUdZ
+	Q28ex0YR/7aAg==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Date: Wed,  6 Apr 2022 21:10:25 -0400
+Message-Id: <20220407011029.113321-27-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220407011029.113321-1-sashal@kernel.org>
+References: <20220407011029.113321-1-sashal@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
-	Gecko/20100101 Thunderbird/91.7.0
-Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>
-References: <20220406060516.409838-1-hch@lst.de>
-	<20220406060516.409838-26-hch@lst.de>
-From: Coly Li <colyli@suse.de>
-In-Reply-To: <20220406060516.409838-26-hch@lst.de>
-Cc: jfs-discussion@lists.sourceforge.net, linux-nvme@lists.infradead.org,
-	virtualization@lists.linux-foundation.org, linux-mm@kvack.org,
-	dm-devel@redhat.com, target-devel@vger.kernel.org,
-	linux-mtd@lists.infradead.org, drbd-dev@lists.linbit.com,
-	linux-s390@vger.kernel.org, linux-nilfs@vger.kernel.org,
-	linux-scsi@vger.kernel.org, cluster-devel@redhat.com,
-	xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org,
-	linux-um@lists.infradead.org, nbd@other.debian.org,
-	linux-block@vger.kernel.org, linux-bcache@vger.kernel.org,
-	ceph-devel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-	linux-raid@vger.kernel.org, linux-mmc@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-xfs@vger.kernel.org, ocfs2-devel@oss.oracle.com,
-	linux-fsdevel@vger.kernel.org, ntfs3@lists.linux.dev,
-	linux-btrfs@vger.kernel.org
-Subject: Re: [Drbd-dev] [PATCH 25/27] block: remove QUEUE_FLAG_DISCARD
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-Mailman-Approved-At: Thu, 07 Apr 2022 08:11:09 +0200
+Cc: Jens Axboe <axboe@kernel.dk>, Sasha Levin <sashal@kernel.org>,
+	philipp.reisner@linbit.com, linux-block@vger.kernel.org,
+	Jakob Koschel <jakobkoschel@gmail.com>,
+	lars.ellenberg@linbit.com, drbd-dev@lists.linbit.com
+Subject: [Drbd-dev] [PATCH AUTOSEL 5.17 27/31] drbd: remove usage of list
+	iterator variable after loop
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -86,75 +63,62 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On 4/6/22 2:05 PM, Christoph Hellwig wrote:
-> Just use a non-zero max_discard_sectors as an indicator for discard
-> support, similar to what is done for write zeroes.
->
-> The only places where needs special attention is the RAID5 driver,
-> which must clear discard support for security reasons by default,
-> even if the default stacking rules would allow for it.
->
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+From: Jakob Koschel <jakobkoschel@gmail.com>
 
-For the bcache part,
+[ Upstream commit 901aeda62efa21f2eae937bccb71b49ae531be06 ]
 
-Acked-by: Coly Li <colyli@suse.de>
+In preparation to limit the scope of a list iterator to the list
+traversal loop, use a dedicated pointer to iterate through the list [1].
 
+Since that variable should not be used past the loop iteration, a
+separate variable is used to 'remember the current location within the
+loop'.
 
-Thanks.
+To either continue iterating from that position or skip the iteration
+(if the previous iteration was complete) list_prepare_entry() is used.
 
-Coly Li
+Link: https://lore.kernel.org/all/CAHk-=wgRr_D8CB-D9Kg-c=EHreAsk5SqXPwr9Y7k9sA6cWXJ6w@mail.gmail.com/ [1]
+Signed-off-by: Jakob Koschel <jakobkoschel@gmail.com>
+Link: https://lore.kernel.org/r/20220331220349.885126-1-jakobkoschel@gmail.com
+Signed-off-by: Jens Axboe <axboe@kernel.dk>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/block/drbd/drbd_main.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-
-> ---
->   arch/um/drivers/ubd_kern.c    |  2 --
->   block/blk-mq-debugfs.c        |  1 -
->   drivers/block/drbd/drbd_nl.c  | 15 ---------------
->   drivers/block/loop.c          |  2 --
->   drivers/block/nbd.c           |  3 ---
->   drivers/block/null_blk/main.c |  1 -
->   drivers/block/rbd.c           |  1 -
->   drivers/block/rnbd/rnbd-clt.c |  2 --
->   drivers/block/virtio_blk.c    |  2 --
->   drivers/block/xen-blkfront.c  |  2 --
->   drivers/block/zram/zram_drv.c |  1 -
->   drivers/md/bcache/super.c     |  1 -
->   drivers/md/dm-table.c         |  5 +----
->   drivers/md/dm-thin.c          |  2 --
->   drivers/md/dm.c               |  1 -
->   drivers/md/md-linear.c        |  9 ---------
->   drivers/md/raid0.c            |  7 -------
->   drivers/md/raid1.c            | 14 --------------
->   drivers/md/raid10.c           | 14 --------------
->   drivers/md/raid5.c            | 12 ++++--------
->   drivers/mmc/core/queue.c      |  1 -
->   drivers/mtd/mtd_blkdevs.c     |  1 -
->   drivers/nvme/host/core.c      |  6 ++----
->   drivers/s390/block/dasd_fba.c |  1 -
->   drivers/scsi/sd.c             |  2 --
->   include/linux/blkdev.h        |  2 --
->   26 files changed, 7 insertions(+), 103 deletions(-)
-[snipped]
-> diff --git a/drivers/md/bcache/super.c b/drivers/md/bcache/super.c
-> index 296f200b2e208..2f49e31142f62 100644
-> --- a/drivers/md/bcache/super.c
-> +++ b/drivers/md/bcache/super.c
-> @@ -973,7 +973,6 @@ static int bcache_device_init(struct bcache_device *d, unsigned int block_size,
->   
->   	blk_queue_flag_set(QUEUE_FLAG_NONROT, d->disk->queue);
->   	blk_queue_flag_clear(QUEUE_FLAG_ADD_RANDOM, d->disk->queue);
-> -	blk_queue_flag_set(QUEUE_FLAG_DISCARD, d->disk->queue);
->   
->   	blk_queue_write_cache(q, true, true);
->   
-
-
-[snipped]
+diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
+index 6f450816c4fa..6831ddbae49d 100644
+--- a/drivers/block/drbd/drbd_main.c
++++ b/drivers/block/drbd/drbd_main.c
+@@ -171,7 +171,7 @@ void tl_release(struct drbd_connection *connection, unsigned int barrier_nr,
+ 		unsigned int set_size)
+ {
+ 	struct drbd_request *r;
+-	struct drbd_request *req = NULL;
++	struct drbd_request *req = NULL, *tmp = NULL;
+ 	int expect_epoch = 0;
+ 	int expect_size = 0;
+ 
+@@ -225,8 +225,11 @@ void tl_release(struct drbd_connection *connection, unsigned int barrier_nr,
+ 	 * to catch requests being barrier-acked "unexpectedly".
+ 	 * It usually should find the same req again, or some READ preceding it. */
+ 	list_for_each_entry(req, &connection->transfer_log, tl_requests)
+-		if (req->epoch == expect_epoch)
++		if (req->epoch == expect_epoch) {
++			tmp = req;
+ 			break;
++		}
++	req = list_prepare_entry(tmp, &connection->transfer_log, tl_requests);
+ 	list_for_each_entry_safe_from(req, r, &connection->transfer_log, tl_requests) {
+ 		if (req->epoch != expect_epoch)
+ 			break;
+-- 
+2.35.1
 
 _______________________________________________
 drbd-dev mailing list
