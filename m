@@ -2,60 +2,88 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EFEA4F7D40
-	for <lists+drbd-dev@lfdr.de>; Thu,  7 Apr 2022 12:48:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 971644F8397
+	for <lists+drbd-dev@lfdr.de>; Thu,  7 Apr 2022 17:34:37 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id EAC4042097C;
-	Thu,  7 Apr 2022 12:48:24 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 77753421028;
+	Thu,  7 Apr 2022 17:34:37 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
-	[209.85.208.53])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 8AF1642011D
-	for <drbd-dev@lists.linbit.com>; Thu,  7 Apr 2022 12:48:23 +0200 (CEST)
-Received: by mail-ed1-f53.google.com with SMTP id x20so5883518edi.12
-	for <drbd-dev@lists.linbit.com>; Thu, 07 Apr 2022 03:48:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linbit-com.20210112.gappssmtp.com; s=20210112;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=vEsW32E1SVLlER+oBTv6KdFwS0s/P4kF++msdPMsZQs=;
-	b=0PpM/05Lf7D0rPDO+tVEoOTYoesPA48z6TTtXyngFys/K3hkX8J3UuzVXLNn8RwUr+
-	OsZQwBZLiRET8DmXRItS4b0jnDyU+FZ3/NwU+EC6Eyxr3rw3mEjEXfiZwgrixnUIonba
-	6otnDPersgAOh7CY3KS8PiAOy72Zj/66q6fgFl46+gXVLFM2HbDEf4mHNwGnL8OuTaW1
-	99B6ivdeGKsNv6LFr+U1u90n+B8vf4d3UEIWnDuntCiOrYriKrDw5r6Ir2N3EXRnmPZK
-	K54RdzEOvl+v+lhANxqTKEfKje/0c+lNnVNdwusIABRo3tvwn532/WfHHS1wiU660PC5
-	EyuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20210112;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=vEsW32E1SVLlER+oBTv6KdFwS0s/P4kF++msdPMsZQs=;
-	b=vQ49+Z5d4YPly7he3lYzCKWlrEPk3BKjTg/xUjk7Oy7kbtP0jehgubr9oSfeZfrK5M
-	Pf+w4NXiauX5qvgK4ucmAYMD7mD1rqjfffVLN1f7+6EnyW+hbIupif98vaR0iqNMVad9
-	AdyxIJzgKOPTftqD36paExxLy3l5ozCALnVABzMY48rFbD4lIEB/QhEv3mKwL0nH4IPL
-	e/v49QlkuZQ19KUB/zBlScjK8eDFAFvAG+6DyOV1o/ECsmh76NCdqvOC+gXIZVtIFFc+
-	qaS4Qa6kMdc0yQ2dffe055WCE/cikozWy+PFApfatjIF8GyGBwpPChW/3IqnDU2JXr06
-	T3hQ==
-X-Gm-Message-State: AOAM532+SznLyAp3x45ZkQHdZV3iTbtKkgn1jQvXIy88OwsC9uw6/YwA
-	dpE6gnDY0wAsVXNeCq8xGQsw95gAmpL/kPT5jzYtxosU6HVm2w==
-X-Google-Smtp-Source: ABdhPJxuvutBqK97UgDkcb3RMQ9JWvJxk40mXBFzxTC4Ip1OxL6PJZcMSAJTTMYCDZ6Hj152G9bqZtDp7R22JmqZgJo=
-X-Received: by 2002:a50:ff02:0:b0:418:e736:e003 with SMTP id
-	a2-20020a50ff02000000b00418e736e003mr13865566edu.370.1649328503089;
-	Thu, 07 Apr 2022 03:48:23 -0700 (PDT)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 8DB7E42100C
+	for <drbd-dev@lists.linbit.com>; Thu,  7 Apr 2022 17:34:06 +0200 (CEST)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+	by smtp-out1.suse.de (Postfix) with ESMTP id D66A6212CA;
+	Thu,  7 Apr 2022 15:24:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1649345092;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	cc:cc:mime-version:mime-version:content-type:content-type:
+	in-reply-to:in-reply-to:references:references;
+	bh=RtA+SPF4j8BVXsqmszO7xH0OxCICEh+Est/knHN20Pw=;
+	b=JdwcskixEmG8Id6CFcHmK2HMPcVcB071Gxs55mSKq7gYvR2Ikd8MNoO/fLtEbVpgdj1eqK
+	9zmwivWn67QHHcgD9Kfm5GQ7CXBQeMe5lW9iJ9AGGV3Pl0ul2ocJyd3loaCvdRBmNQxip+
+	WgCnpcThcFxRJmTkxC30BSU3q0i1qd4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1649345092;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	cc:cc:mime-version:mime-version:content-type:content-type:
+	in-reply-to:in-reply-to:references:references;
+	bh=RtA+SPF4j8BVXsqmszO7xH0OxCICEh+Est/knHN20Pw=;
+	b=pkLC9VLc/9JNFZ5DsOV/UM/28hXligCH1VLYaRzzl6m3sxWEGPlvl1H8p8FVldpalCYBR6
+	DsLUEWMcp0v/ApCw==
+Received: from ds.suse.cz (ds.suse.cz [10.100.12.205])
+	by relay2.suse.de (Postfix) with ESMTP id ADAE4A3B82;
+	Thu,  7 Apr 2022 15:24:52 +0000 (UTC)
+Received: by ds.suse.cz (Postfix, from userid 10065)
+	id 25B6BDA80E; Thu,  7 Apr 2022 17:20:50 +0200 (CEST)
+Date: Thu, 7 Apr 2022 17:20:49 +0200
+From: David Sterba <dsterba@suse.cz>
+To: Christoph Hellwig <hch@lst.de>
+Message-ID: <20220407152049.GH15609@twin.jikos.cz>
+Mail-Followup-To: dsterba@suse.cz, Christoph Hellwig <hch@lst.de>,
+	Jens Axboe <axboe@kernel.dk>, dm-devel@redhat.com,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-um@lists.infradead.org, linux-block@vger.kernel.org,
+	drbd-dev@lists.linbit.com, nbd@other.debian.org,
+	ceph-devel@vger.kernel.org,
+	virtualization@lists.linux-foundation.org,
+	xen-devel@lists.xenproject.org, linux-bcache@vger.kernel.org,
+	linux-raid@vger.kernel.org, linux-mmc@vger.kernel.org,
+	linux-mtd@lists.infradead.org, linux-nvme@lists.infradead.org,
+	linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
+	target-devel@vger.kernel.org, linux-btrfs@vger.kernel.org,
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	cluster-devel@redhat.com, jfs-discussion@lists.sourceforge.net,
+	linux-nilfs@vger.kernel.org, ntfs3@lists.linux.dev,
+	ocfs2-devel@oss.oracle.com, linux-mm@kvack.org
+References: <20220406060516.409838-1-hch@lst.de>
+	<20220406060516.409838-8-hch@lst.de>
 MIME-Version: 1.0
-References: <20220303071009.1070360-1-rui.xu@easystack.cn>
-In-Reply-To: <20220303071009.1070360-1-rui.xu@easystack.cn>
-From: Joel Colledge <joel.colledge@linbit.com>
-Date: Thu, 7 Apr 2022 12:48:12 +0200
-Message-ID: <CAGNP_+VZLZhCuMymZO+qwSDZmFjYgyJHLfsPLwGZaGE+E5cD_Q@mail.gmail.com>
-To: Rui Xu <rui.xu@easystack.cn>
-Cc: Philipp Reisner <philipp.reisner@linbit.com>, dongsheng.yang@easystack.cn,
-	drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH] drbd: create new uuid even we dont have
-	quorum
+Content-Disposition: inline
+In-Reply-To: <20220406060516.409838-8-hch@lst.de>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+Cc: jfs-discussion@lists.sourceforge.net, linux-nvme@lists.infradead.org,
+	virtualization@lists.linux-foundation.org, linux-mm@kvack.org,
+	dm-devel@redhat.com, target-devel@vger.kernel.org,
+	linux-mtd@lists.infradead.org, drbd-dev@lists.linbit.com,
+	linux-s390@vger.kernel.org, linux-nilfs@vger.kernel.org,
+	linux-scsi@vger.kernel.org, cluster-devel@redhat.com,
+	xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org,
+	linux-um@lists.infradead.org, nbd@other.debian.org,
+	linux-block@vger.kernel.org, linux-bcache@vger.kernel.org,
+	ceph-devel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+	linux-raid@vger.kernel.org, linux-mmc@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net,
+	linux-xfs@vger.kernel.org, ocfs2-devel@oss.oracle.com,
+	linux-fsdevel@vger.kernel.org, ntfs3@lists.linux.dev,
+	linux-btrfs@vger.kernel.org
+Subject: Re: [Drbd-dev] [PATCH 07/27] btrfs: use bdev_max_active_zones
+ instead of open coding it
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: dsterba@suse.cz
 List-Id: "*Coordination* of development, patches,
 	contributions -- *Questions* \(even to developers\) go to drbd-user,
 	please." <drbd-dev.lists.linbit.com>
@@ -71,21 +99,12 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Hi,
+On Wed, Apr 06, 2022 at 08:04:56AM +0200, Christoph Hellwig wrote:
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-When quorum is configured, we expect not to have split-brain
-situations. Hence it is important that we do not generate new UUIDs
-until they are definitely necessary. When we do not have quorum, no
-writes should complete, so we do not need to generate a new UUID. We
-may need to generate one before we regain quorum instead.
-
-That said, there have been various bugs in the implementation. Try to
-reproduce your issue with the latest drbd-9.1. If it can still be
-reproduced, then describe the exact reproduction steps and we can
-discuss the appropriate fix.
-
-Best regards,
-Joel
+As it's a standalone patch I can take it (possibly with other similar
+prep btrfs patches) in current development cycle to relieve the
+inter-tree dependencies.
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
