@@ -2,45 +2,59 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12C754F830E
-	for <lists+drbd-dev@lfdr.de>; Thu,  7 Apr 2022 17:27:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C60494F90AE
+	for <lists+drbd-dev@lfdr.de>; Fri,  8 Apr 2022 10:23:48 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id EF47442101E;
-	Thu,  7 Apr 2022 17:27:03 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9C7B84201AE;
+	Fri,  8 Apr 2022 10:23:47 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 56789420128
-	for <drbd-dev@lists.linbit.com>; Thu,  7 Apr 2022 17:27:02 +0200 (CEST)
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id AE08468AFE; Thu,  7 Apr 2022 17:26:59 +0200 (CEST)
-Date: Thu, 7 Apr 2022 17:26:59 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: dsterba@suse.cz, Christoph Hellwig <hch@lst.de>,
-	Jens Axboe <axboe@kernel.dk>, dm-devel@redhat.com,
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-um@lists.infradead.org, linux-block@vger.kernel.org,
-	drbd-dev@lists.linbit.com, nbd@other.debian.org,
-	ceph-devel@vger.kernel.org, virtualization@lists.linux-foundation.org,
-	xen-devel@lists.xenproject.org, linux-bcache@vger.kernel.org,
-	linux-raid@vger.kernel.org, linux-mmc@vger.kernel.org,
-	linux-mtd@lists.infradead.org, linux-nvme@lists.infradead.org,
-	linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
-	target-devel@vger.kernel.org, linux-btrfs@vger.kernel.org,
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	cluster-devel@redhat.com, jfs-discussion@lists.sourceforge.net,
-	linux-nilfs@vger.kernel.org, ntfs3@lists.linux.dev,
-	ocfs2-devel@oss.oracle.com, linux-mm@kvack.org
-Message-ID: <20220407152659.GA15200@lst.de>
-References: <20220406060516.409838-1-hch@lst.de>
-	<20220406060516.409838-8-hch@lst.de>
-	<20220407152049.GH15609@twin.jikos.cz>
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+	[209.85.218.50])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1880A420065
+	for <drbd-dev@lists.linbit.com>; Fri,  8 Apr 2022 10:23:45 +0200 (CEST)
+Received: by mail-ej1-f50.google.com with SMTP id n6so15719422ejc.13
+	for <drbd-dev@lists.linbit.com>; Fri, 08 Apr 2022 01:23:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linbit-com.20210112.gappssmtp.com; s=20210112;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=quc+L6LVYFLCMaxpEl4wlMrsRrL606QVVGdFg0DAltQ=;
+	b=MfAiN1y8roJuFeIZHy6OG9LN0yFh5sM3REafsjhOiNopdIrr2Tlzix3EprrLwN/+Em
+	woGzm92CahS8gZVKQq1RY0GqOrEj4sAffHoo46JKJBdlEdEOwS77l7VFt+18m2z+33Ci
+	DNzgDqfjuYh7kkiWjhd/M4/r6MIlnz+FttlO8YxHhr7irdk3llDpGaZ3KQUyG8AyA3qa
+	iXtPL+MUTCDyUTtu5YNsnQ294KrUk4DR9ULZoqMvqWV2U7KvCupTSYv1zupwbgqY5aVm
+	WotggfkdCBhOpNTkvaIowTAebAVs0vUDR5oAJG5IspPuK3U9M7TNTR9i2xZFJDU1WbFD
+	Rm9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20210112;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=quc+L6LVYFLCMaxpEl4wlMrsRrL606QVVGdFg0DAltQ=;
+	b=t9cx7DfLa+X46RSB+cSEKlbW7BabynRR/BFOkn6S7jjFVzfZ58Uo3D7F5vPFhtRnxA
+	V7V3HiFkJjyEFx1LDkM3wRsUX4HzTbFoJgRAuwP2dfLEG5yoqAit9nswbQQDFOIHOvfQ
+	aD8dKtYJUP0bXcIllYUy1OXoYnY+iOoQI6TiqZvwHkrvuZaiZzQKwf5z6QClofD5cz2p
+	HKx49sqJqRGXrJWJiKYPyH876RbP6MqWTJ2kRSZV8qKkqH1d1BSv1fcqXOTOvWPxailv
+	+X0VDgRVAuSKMT4ALUNeg6xPkl8A++IvH/FNHGKNzoHMZIHc7Z+Yq9k5EiL/dsJdX1hg
+	cqNA==
+X-Gm-Message-State: AOAM532Sq9dcSiQSO5zCiLd+hjwFI+J8bvkArwV76pqtCTNtwet8cFtd
+	a83IXD2GTCs3uCmV9MT2BqKuJry0YcpUZd/IwMU1l4V+1fS5Gw==
+X-Google-Smtp-Source: ABdhPJwkZ6NWx1YbnIDcusZ4dkQN10KkaEd3G/qw304BrIrBE36Pll5xLn3DlzxesXDU1Ha16g32Mkd69gMaDKQd5aA=
+X-Received: by 2002:a17:907:1c0b:b0:6e7:f58a:9b8e with SMTP id
+	nc11-20020a1709071c0b00b006e7f58a9b8emr17703379ejc.438.1649406225313;
+	Fri, 08 Apr 2022 01:23:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20220407152049.GH15609@twin.jikos.cz>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-Subject: Re: [Drbd-dev] [PATCH 07/27] btrfs: use bdev_max_active_zones
- instead of open coding it
+References: <20220302123523.471277-1-rui.xu@easystack.cn>
+	<ANUANAAVIdwn*FrX7b*E8aoA.3.1648177379860.Hmail.rui.xu@easystack.cn>
+	<CAGNP_+U9ex9RjftsSFOcXmhTYs4uXGH+OKskLqUjzARozdEc_w@mail.gmail.com>
+In-Reply-To: <CAGNP_+U9ex9RjftsSFOcXmhTYs4uXGH+OKskLqUjzARozdEc_w@mail.gmail.com>
+From: Joel Colledge <joel.colledge@linbit.com>
+Date: Fri, 8 Apr 2022 10:23:34 +0200
+Message-ID: <CAGNP_+Wmd20E3MBkxsOnyE3Y67zmfUnSqP1vSAHPMap9U-AEVg@mail.gmail.com>
+To: Xu Rui <rui.xu@easystack.cn>
+Cc: Philipp Reisner <philipp.reisner@linbit.com>, dongsheng.yang@easystack.cn,
+	drbd-dev@lists.linbit.com
+Subject: Re: [Drbd-dev] [PATCH] drbd:do not wait for negotiation result with
+	unconnected peer
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -59,16 +73,10 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Thu, Apr 07, 2022 at 05:20:49PM +0200, David Sterba wrote:
-> On Wed, Apr 06, 2022 at 08:04:56AM +0200, Christoph Hellwig wrote:
-> > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> 
-> As it's a standalone patch I can take it (possibly with other similar
-> prep btrfs patches) in current development cycle to relieve the
-> inter-tree dependencies.
+Thanks for this patch! It has been applied in a slightly simplified form as:
+https://github.com/LINBIT/drbd/commit/aea83b266ba9a3c46ea773a12f57b2fb6dff15a4
 
-Unless there's a conflict in other btrfs patches it would probably be
-easiest to merge everything through the block tree.
+Joel
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
