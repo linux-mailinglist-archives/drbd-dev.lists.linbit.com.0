@@ -2,36 +2,36 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F8A24FA41A
-	for <lists+drbd-dev@lfdr.de>; Sat,  9 Apr 2022 06:54:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEEDD4FA465
+	for <lists+drbd-dev@lfdr.de>; Sat,  9 Apr 2022 06:55:28 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 8B295420FD5;
-	Sat,  9 Apr 2022 06:54:58 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C1E83420FFA;
+	Sat,  9 Apr 2022 06:55:28 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from bombadil.infradead.org (bombadil.infradead.org
 	[198.137.202.133])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E1CC9420FE2
-	for <drbd-dev@lists.linbit.com>; Sat,  9 Apr 2022 06:51:20 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A2EFF420FE3
+	for <drbd-dev@lists.linbit.com>; Sat,  9 Apr 2022 06:51:23 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=fGcL4rT6o55inYg+xD7k4NQPOksglZvB+PFSEP+xhA8=;
-	b=x49SryV2SEOzb+YKli0UJZwys7
-	Znb1rsPTkSfYcHPVo9D6b2U83E7uqw2G98XO8zYfl/hKwrvVhicKgqjDvuZYTEB489P843L//CwDT
-	gqCbBf9JUwJ6J0Nu3a/lcC/IfwnnEVdVHN84pWvuhxzJiYH6crHhPnTIzf9dIWY5MLhKlVfzyM0Vq
-	bwRuU6hgXkjUYp1qcxu8V6Fo824rSDUIbNTnNROyu48YrBGf3oVsysJ9CQPrqpevcWLNQdLnu2N4C
-	4XspCM6we8vYPn8dRLL0TG98f118C88z+RALpryzLlARTzoVN3y6dQTJp4lOBr41BAbVo0sl+miwh
-	a6JWWqsQ==;
+	bh=Bh+vV8H1PUD+w/3YWj6wMRz8JdOJ8okMcDjW6Mx/Fiw=;
+	b=DWf7imoDvMSXJTtirA5ltk+rtE
+	YeH7NxKahOANJaW3JeWmpEL0KWvrQ+sUioHsm0dQaUs7Tks6Ss/UVOXMhmulR7QEBLriQYI1KEMzQ
+	aO9ISV0dwvPZErcNPFhlMeFi6wIDVT8NvUOYYMlUOKdrnhvM68xwDYg36srZ722XpvX8aIcmuYcaD
+	sB1HtVb3yxckb8p+8Hs6srY4Fa9xc+Rr/tmxJaQIFCFAy3LRp9g0YB5fD3IXoh+PksnNKd9R9552Q
+	DFKI2Il5Y+lOkByKWQ2YD6LETuE64wDq4THU/F5OZAcQu9U4H1sQRvyeZgS12iohkvkHfPdltFjhr
+	Z+SPB7CA==;
 Received: from 213-147-167-116.nat.highway.webapn.at ([213.147.167.116]
 	helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nd345-0020fc-8h; Sat, 09 Apr 2022 04:51:13 +0000
+	id 1nd348-0020i9-Di; Sat, 09 Apr 2022 04:51:16 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Date: Sat,  9 Apr 2022 06:50:24 +0200
-Message-Id: <20220409045043.23593-9-hch@lst.de>
+Date: Sat,  9 Apr 2022 06:50:25 +0200
+Message-Id: <20220409045043.23593-10-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220409045043.23593-1-hch@lst.de>
 References: <20220409045043.23593-1-hch@lst.de>
@@ -53,7 +53,7 @@ Cc: jfs-discussion@lists.sourceforge.net, linux-nvme@lists.infradead.org,
 	linux-xfs@vger.kernel.org, ocfs2-devel@oss.oracle.com,
 	linux-fsdevel@vger.kernel.org, ntfs3@lists.linux.dev,
 	linux-btrfs@vger.kernel.org
-Subject: [Drbd-dev] [PATCH 08/27] btrfs: use bdev_max_active_zones instead
+Subject: [Drbd-dev] [PATCH 09/27] ntfs3: use bdev_logical_block_size instead
 	of open coding it
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
@@ -76,30 +76,22 @@ Errors-To: drbd-dev-bounces@lists.linbit.com
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Johannes Thumshirn <johannes.thumshirn@wdc.com>
 ---
- fs/btrfs/zoned.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ fs/ntfs3/super.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/btrfs/zoned.c b/fs/btrfs/zoned.c
-index 1b1b310c3c510..f72cad7391a11 100644
---- a/fs/btrfs/zoned.c
-+++ b/fs/btrfs/zoned.c
-@@ -350,7 +350,6 @@ int btrfs_get_dev_zone_info(struct btrfs_device *device, bool populate_cache)
- 	struct btrfs_fs_info *fs_info = device->fs_info;
- 	struct btrfs_zoned_device_info *zone_info = NULL;
- 	struct block_device *bdev = device->bdev;
--	struct request_queue *queue = bdev_get_queue(bdev);
- 	unsigned int max_active_zones;
- 	unsigned int nactive;
- 	sector_t nr_sectors;
-@@ -410,7 +409,7 @@ int btrfs_get_dev_zone_info(struct btrfs_device *device, bool populate_cache)
- 	if (!IS_ALIGNED(nr_sectors, zone_sectors))
- 		zone_info->nr_zones++;
+diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
+index 278dcf5024102..cd30e81abbce0 100644
+--- a/fs/ntfs3/super.c
++++ b/fs/ntfs3/super.c
+@@ -920,7 +920,7 @@ static int ntfs_fill_super(struct super_block *sb, struct fs_context *fc)
+ 	}
  
--	max_active_zones = queue_max_active_zones(queue);
-+	max_active_zones = bdev_max_active_zones(bdev);
- 	if (max_active_zones && max_active_zones < BTRFS_MIN_ACTIVE_ZONES) {
- 		btrfs_err_in_rcu(fs_info,
- "zoned: %s: max active zones %u is too small, need at least %u active zones",
+ 	/* Parse boot. */
+-	err = ntfs_init_from_boot(sb, rq ? queue_logical_block_size(rq) : 512,
++	err = ntfs_init_from_boot(sb, bdev_logical_block_size(bdev),
+ 				  bdev_nr_bytes(bdev));
+ 	if (err)
+ 		goto out;
 -- 
 2.30.2
 
