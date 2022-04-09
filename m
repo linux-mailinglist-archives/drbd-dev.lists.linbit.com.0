@@ -2,42 +2,64 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37CDD4FA4FF
-	for <lists+drbd-dev@lfdr.de>; Sat,  9 Apr 2022 07:20:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A163B4FA5D1
+	for <lists+drbd-dev@lfdr.de>; Sat,  9 Apr 2022 10:15:40 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1EE1D42100E;
-	Sat,  9 Apr 2022 07:20:46 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 76A55420FC7;
+	Sat,  9 Apr 2022 10:15:39 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from bombadil.infradead.org (bombadil.infradead.org
-	[198.137.202.133])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1D96B420FF6
-	for <drbd-dev@lists.linbit.com>; Sat,  9 Apr 2022 07:20:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=eypoqjBCbHteIGJMjEE77faduCfiNIsAQ0ydQeu7OQ0=;
-	b=nqH1nBV8lOr2r5wyOjol3g7s8X
-	NGopilIp147x4XNnQqzR5o2YWkY6IO58VVUojmV/ASvSDXVzRQHv+BqUNN8ISkIuVH5Huq+5W/+g6
-	Fx9NKN7nsNjG6IaaR01B6x8gfqb84JVGaMt2Mch/XsNqmw38mh/kWIOczl1+aSfojYjwvPWnkVT0z
-	zeBYxWSj02o09fDuqh1c1ftABUKI9QxyXU2GCBR2V2aNbgjbyvKcSUL75+QEIgn+hIxNaN3b6eMN+
-	HQ75AhIB7YFYQ9KIFGF2dUiaHQ4ZLNQzEzLlTd1WzYc4Lz5oFphMfcUxRdKyObtKnqHpozib+pvzE
-	Et/uKlCg==;
-Received: from 213-147-167-116.nat.highway.webapn.at ([213.147.167.116]
-	helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nd35G-0021rI-Lh; Sat, 09 Apr 2022 04:52:27 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Jens Axboe <axboe@kernel.dk>
-Date: Sat,  9 Apr 2022 06:50:43 +0200
-Message-Id: <20220409045043.23593-28-hch@lst.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220409045043.23593-1-hch@lst.de>
-References: <20220409045043.23593-1-hch@lst.de>
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+	[209.85.221.47])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id EC3A1420FBB
+	for <drbd-dev@lists.linbit.com>; Sat,  9 Apr 2022 10:15:37 +0200 (CEST)
+Received: by mail-wr1-f47.google.com with SMTP id s28so125710wrb.5
+	for <drbd-dev@lists.linbit.com>; Sat, 09 Apr 2022 01:15:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linbit-com.20210112.gappssmtp.com; s=20210112;
+	h=message-id:date:mime-version:user-agent:subject:content-language:to
+	:cc:references:from:in-reply-to:content-transfer-encoding;
+	bh=sw+fQbvS6SFTnotjqrxbhqCVHIPsenv7yxMzOYGId1I=;
+	b=swx5mkkbJNix1TPl46oJjK+Fw0+J2z/XHhCyUPh+dcKkTNBekj88xkgZeDCIEgfzZd
+	+FA0t7ckuNM4K4OwCilxgo/M+WNIfDm8hTC88nPXmxm39Wp7Y3PlmqfYEyysUU8hQUUf
+	QcFmQYaxbOUrhMO1omCXZ8F/Rog5zixS+JPWEUQR0KkNkX4orlWG0JIiavrTh9qI4888
+	PfuJYdextltFDNT3Q+47ZPQuPkokUbAa0jhifptu2z1GSQMaUF7eHMsw0ukFDymbedqA
+	fJT7coHgReWy+GC/y+kW2UJS/DziuPPZTxFTP9KzlhdtF9p6DIhUJyZVoMiIdhtFkJM+
+	cESQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20210112;
+	h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+	:content-language:to:cc:references:from:in-reply-to
+	:content-transfer-encoding;
+	bh=sw+fQbvS6SFTnotjqrxbhqCVHIPsenv7yxMzOYGId1I=;
+	b=mshEFBPtSjCbygfrLOUc5pppk/HUjKbTTSuJWCRwWL3khevN18lpsodL/umED8gZ0B
+	azHV+urxbzY107dJPoOLqhwdJRLaCNa5uKydP12dw5C3LhiqVVJA3IGnWXwyCVNvpsJE
+	1JEP/boCwiX8E/WyHGrBaeYRpbW4A6c4ZPCqlRaMnXfYI+29k6sSGG7dsH1TzrdwXDBC
+	W/pwjjPbg7g2uTLpoR9Sh3nLkkTyBdBlfvj/Ilp4lEm0T4Ti2oq/UNYhVwxxS5mgornT
+	PUpb3IzGVSra2M8Y1cCEfK3j7xLg/3/u1FZ+6NF7et5qxRGKAONoKUy4heyz1tgfGkNq
+	e2PQ==
+X-Gm-Message-State: AOAM531p+5LxStrkWYdGau1ekEf9NAY+ISuu5uoKlyuc1F9/9cwARZ4s
+	8te3OPhxx4Z8+uiw23I69HAPJjrl
+X-Google-Smtp-Source: ABdhPJzQQyyFsXyXf3Tt03078VjcrkSv2k98fwj9oToPATRHlAVDyH773lIm4bEik17KjObuot5lIg==
+X-Received: by 2002:a5d:6c6b:0:b0:1ea:77ea:dde8 with SMTP id
+	r11-20020a5d6c6b000000b001ea77eadde8mr17920640wrz.690.1649492137216;
+	Sat, 09 Apr 2022 01:15:37 -0700 (PDT)
+Received: from [192.168.169.127] (178.115.52.210.wireless.dyn.drei.com.
+	[178.115.52.210]) by smtp.gmail.com with ESMTPSA id
+	m20-20020a05600c4f5400b0038b5162260csm16809052wmq.23.2022.04.09.01.15.34
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Sat, 09 Apr 2022 01:15:36 -0700 (PDT)
+Message-ID: <72e9bd34-3380-e305-65f0-a17306f5bd08@linbit.com>
+Date: Sat, 9 Apr 2022 10:15:33 +0200
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
-	bombadil.infradead.org. See http://www.infradead.org/rpr.html
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+	Thunderbird/91.6.2
+Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>
+References: <20220409045043.23593-1-hch@lst.de>
+	<20220409045043.23593-25-hch@lst.de>
+From: =?UTF-8?Q?Christoph_B=c3=b6hmwalder?= <christoph.boehmwalder@linbit.com>
+In-Reply-To: <20220409045043.23593-25-hch@lst.de>
 Cc: jfs-discussion@lists.sourceforge.net, linux-nvme@lists.infradead.org,
 	virtualization@lists.linux-foundation.org, linux-mm@kvack.org,
 	dm-devel@redhat.com, target-devel@vger.kernel.org,
@@ -47,12 +69,14 @@ Cc: jfs-discussion@lists.sourceforge.net, linux-nvme@lists.infradead.org,
 	xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org,
 	linux-um@lists.infradead.org, nbd@other.debian.org,
 	linux-block@vger.kernel.org, linux-bcache@vger.kernel.org,
-	ceph-devel@vger.kernel.org, linux-raid@vger.kernel.org,
+	ceph-devel@vger.kernel.org, Coly Li <colyli@suse.de>,
+	Jens Axboe <axboe@kernel.dk>, linux-raid@vger.kernel.org,
+	"Martin K . Petersen" <martin.petersen@oracle.com>,
 	linux-mmc@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
 	linux-xfs@vger.kernel.org, ocfs2-devel@oss.oracle.com,
 	linux-fsdevel@vger.kernel.org, ntfs3@lists.linux.dev,
 	linux-btrfs@vger.kernel.org
-Subject: [Drbd-dev] [PATCH 27/27] direct-io: remove random prefetches
+Subject: Re: [Drbd-dev] [PATCH 24/27] block: remove QUEUE_FLAG_DISCARD
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -66,75 +90,25 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Randomly poking into block device internals for manual prefetches isn't
-exactly a very maintainable thing to do.  And none of the performance
-criticil direct I/O implementations still use this library function
-anyway, so just drop it.
-
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- fs/direct-io.c | 32 ++++----------------------------
- 1 file changed, 4 insertions(+), 28 deletions(-)
-
-diff --git a/fs/direct-io.c b/fs/direct-io.c
-index aef06e607b405..840752006f601 100644
---- a/fs/direct-io.c
-+++ b/fs/direct-io.c
-@@ -1115,11 +1115,10 @@ static inline int drop_refcount(struct dio *dio)
-  * individual fields and will generate much worse code. This is important
-  * for the whole file.
-  */
--static inline ssize_t
--do_blockdev_direct_IO(struct kiocb *iocb, struct inode *inode,
--		      struct block_device *bdev, struct iov_iter *iter,
--		      get_block_t get_block, dio_iodone_t end_io,
--		      dio_submit_t submit_io, int flags)
-+ssize_t __blockdev_direct_IO(struct kiocb *iocb, struct inode *inode,
-+		struct block_device *bdev, struct iov_iter *iter,
-+		get_block_t get_block, dio_iodone_t end_io,
-+		dio_submit_t submit_io, int flags)
- {
- 	unsigned i_blkbits = READ_ONCE(inode->i_blkbits);
- 	unsigned blkbits = i_blkbits;
-@@ -1334,29 +1333,6 @@ do_blockdev_direct_IO(struct kiocb *iocb, struct inode *inode,
- 	kmem_cache_free(dio_cache, dio);
- 	return retval;
- }
--
--ssize_t __blockdev_direct_IO(struct kiocb *iocb, struct inode *inode,
--			     struct block_device *bdev, struct iov_iter *iter,
--			     get_block_t get_block,
--			     dio_iodone_t end_io, dio_submit_t submit_io,
--			     int flags)
--{
--	/*
--	 * The block device state is needed in the end to finally
--	 * submit everything.  Since it's likely to be cache cold
--	 * prefetch it here as first thing to hide some of the
--	 * latency.
--	 *
--	 * Attempt to prefetch the pieces we likely need later.
--	 */
--	prefetch(&bdev->bd_disk->part_tbl);
--	prefetch(bdev->bd_disk->queue);
--	prefetch((char *)bdev->bd_disk->queue + SMP_CACHE_BYTES);
--
--	return do_blockdev_direct_IO(iocb, inode, bdev, iter, get_block,
--				     end_io, submit_io, flags);
--}
--
- EXPORT_SYMBOL(__blockdev_direct_IO);
- 
- static __init int dio_init(void)
--- 
-2.30.2
-
-_______________________________________________
-drbd-dev mailing list
-drbd-dev@lists.linbit.com
-https://lists.linbit.com/mailman/listinfo/drbd-dev
+T24gMDkuMDQuMjIgMDY6NTAsIENocmlzdG9waCBIZWxsd2lnIHdyb3RlOgo+IEp1c3QgdXNlIGEg
+bm9uLXplcm8gbWF4X2Rpc2NhcmRfc2VjdG9ycyBhcyBhbiBpbmRpY2F0b3IgZm9yIGRpc2NhcmQK
+PiBzdXBwb3J0LCBzaW1pbGFyIHRvIHdoYXQgaXMgZG9uZSBmb3Igd3JpdGUgemVyb2VzLgo+IAo+
+IFRoZSBvbmx5IHBsYWNlcyB3aGVyZSBuZWVkcyBzcGVjaWFsIGF0dGVudGlvbiBpcyB0aGUgUkFJ
+RDUgZHJpdmVyLAo+IHdoaWNoIG11c3QgY2xlYXIgZGlzY2FyZCBzdXBwb3J0IGZvciBzZWN1cml0
+eSByZWFzb25zIGJ5IGRlZmF1bHQsCj4gZXZlbiBpZiB0aGUgZGVmYXVsdCBzdGFja2luZyBydWxl
+cyB3b3VsZCBhbGxvdyBmb3IgaXQuCj4gCj4gU2lnbmVkLW9mZi1ieTogQ2hyaXN0b3BoIEhlbGx3
+aWcgPGhjaEBsc3QuZGU+Cj4gUmV2aWV3ZWQtYnk6IE1hcnRpbiBLLiBQZXRlcnNlbiA8bWFydGlu
+LnBldGVyc2VuQG9yYWNsZS5jb20+Cj4gQWNrZWQtYnk6IENocmlzdG9waCBCw7ZobXdhbGRlciA8
+Y2hyaXN0b3BoLmJvZWhtd2FsZGVyQGxpbmJpdC5jb20+IFtidHJmc10KCkkgdGhpbmsgeW91IG1h
+eSBoYXZlIGEgdHlwbyB0aGVyZTogbXkgQUNLIHdhcyBmb3IgZHJiZCwgbm90IGJ0cmZzLgoKPiBB
+Y2tlZC1ieTogQ29seSBMaSA8Y29seWxpQHN1c2UuZGU+IFtiY2FjaGVdCj4gLS0tCj4gICBhcmNo
+L3VtL2RyaXZlcnMvdWJkX2tlcm4uYyAgICAgICAgICB8ICAyIC0tCj4gICBibG9jay9ibGstY29y
+ZS5jICAgICAgICAgICAgICAgICAgICB8ICAyICstCl9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCmRyYmQtZGV2IG1haWxpbmcgbGlzdApkcmJkLWRldkBsaXN0
+cy5saW5iaXQuY29tCmh0dHBzOi8vbGlzdHMubGluYml0LmNvbS9tYWlsbWFuL2xpc3RpbmZvL2Ry
+YmQtZGV2Cg==
