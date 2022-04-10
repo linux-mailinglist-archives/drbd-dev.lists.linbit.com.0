@@ -2,80 +2,47 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 460194FA8F4
-	for <lists+drbd-dev@lfdr.de>; Sat,  9 Apr 2022 16:33:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D9834FAC43
+	for <lists+drbd-dev@lfdr.de>; Sun, 10 Apr 2022 08:26:26 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0F217420FC1;
-	Sat,  9 Apr 2022 16:33:09 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3C8B1420352;
+	Sun, 10 Apr 2022 08:26:25 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A9398420FBE
-	for <drbd-dev@lists.linbit.com>; Sat,  9 Apr 2022 16:33:06 +0200 (CEST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	key-exchange X25519 server-signature ECDSA (P-521) server-digest
-	SHA512) (No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 207A11F864;
-	Sat,  9 Apr 2022 14:33:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1649514786;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	mime-version:mime-version:content-type:content-type:
-	content-transfer-encoding:content-transfer-encoding:
-	in-reply-to:in-reply-to:references:references;
-	bh=BmOfl4NqddautzOtQrZ0dLuhiQSp1fB0SDxF8v7gYBA=;
-	b=SJlQufjnXjTQtqgkhM6MsOUPDPwOMZ6xGLQ76UNS6RR1cEGIg2CW/GZ7A0Nq9xE2LKzjCQ
-	zm4gbJFRwGS5ZR58/OOlzltxzH57NlfDQ1MS9kgXiNk7elM8N3NSClk0AEwvrheO6NCJzw
-	l51uuNG8cURr+Q1l6/il4XbIWcEO2Fg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1649514786;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	mime-version:mime-version:content-type:content-type:
-	content-transfer-encoding:content-transfer-encoding:
-	in-reply-to:in-reply-to:references:references;
-	bh=BmOfl4NqddautzOtQrZ0dLuhiQSp1fB0SDxF8v7gYBA=;
-	b=yiH+qx8I6hbeCP31rtrhbZE5qxMo8OqYiXG+UWOpJ9wghAOQqadl62X34RS7V0fnDyonaX
-	HzX10h1d2uotqQBQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	key-exchange X25519 server-signature ECDSA (P-521) server-digest
-	SHA512) (No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3F41913AA1;
-	Sat,  9 Apr 2022 14:32:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA id m2GpARiZUWLHIgAAMHmgww
-	(envelope-from <colyli@suse.de>); Sat, 09 Apr 2022 14:32:56 +0000
-Message-ID: <f01ac878-9b0d-972b-70dc-6f3f61b9947b@suse.de>
-Date: Sat, 9 Apr 2022 22:32:52 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
-	Gecko/20100101 Thunderbird/91.7.0
-Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C11A54201DC
+	for <drbd-dev@lists.linbit.com>; Sun, 10 Apr 2022 08:26:23 +0200 (CEST)
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id E057168AFE; Sun, 10 Apr 2022 08:26:20 +0200 (CEST)
+Date: Sun, 10 Apr 2022 08:26:20 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>
+Message-ID: <20220410062620.GA16234@lst.de>
 References: <20220409045043.23593-1-hch@lst.de>
-	<20220409045043.23593-27-hch@lst.de>
-From: Coly Li <colyli@suse.de>
-In-Reply-To: <20220409045043.23593-27-hch@lst.de>
+	<20220409045043.23593-25-hch@lst.de>
+	<72e9bd34-3380-e305-65f0-a17306f5bd08@linbit.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <72e9bd34-3380-e305-65f0-a17306f5bd08@linbit.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Cc: jfs-discussion@lists.sourceforge.net, linux-nvme@lists.infradead.org,
 	virtualization@lists.linux-foundation.org, linux-mm@kvack.org,
 	dm-devel@redhat.com, target-devel@vger.kernel.org,
-	linux-mtd@lists.infradead.org, drbd-dev@lists.linbit.com,
-	linux-s390@vger.kernel.org, linux-nilfs@vger.kernel.org,
-	linux-scsi@vger.kernel.org, cluster-devel@redhat.com,
-	xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org,
-	linux-um@lists.infradead.org, nbd@other.debian.org,
-	linux-block@vger.kernel.org, linux-bcache@vger.kernel.org,
-	David Sterba <dsterba@suse.com>, ceph-devel@vger.kernel.org,
-	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-	Jens Axboe <axboe@kernel.dk>, linux-raid@vger.kernel.org,
+	linux-mtd@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+	drbd-dev@lists.linbit.com, linux-s390@vger.kernel.org,
+	linux-nilfs@vger.kernel.org, linux-scsi@vger.kernel.org,
+	cluster-devel@redhat.com, xen-devel@lists.xenproject.org,
+	linux-ext4@vger.kernel.org, linux-um@lists.infradead.org,
+	nbd@other.debian.org, linux-block@vger.kernel.org,
+	linux-bcache@vger.kernel.org, ceph-devel@vger.kernel.org,
+	Coly Li <colyli@suse.de>, Jens Axboe <axboe@kernel.dk>,
+	linux-raid@vger.kernel.org,
 	"Martin K . Petersen" <martin.petersen@oracle.com>,
 	linux-mmc@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
 	linux-xfs@vger.kernel.org, ocfs2-devel@oss.oracle.com,
 	linux-fsdevel@vger.kernel.org, ntfs3@lists.linux.dev,
 	linux-btrfs@vger.kernel.org
-Subject: Re: [Drbd-dev] [PATCH 26/27] block: decouple REQ_OP_SECURE_ERASE
- from REQ_OP_DISCARD
+Subject: Re: [Drbd-dev] [PATCH 24/27] block: remove QUEUE_FLAG_DISCARD
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -89,23 +56,29 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-T24gNC85LzIyIDEyOjUwIFBNLCBDaHJpc3RvcGggSGVsbHdpZyB3cm90ZToKPiBTZWN1cmUgZXJh
-c2UgaXMgYSB2ZXJ5IGRpZmZlcmVudCBvcGVyYXRpb24gZnJvbSBkaXNjYXJkIGluIHRoYXQgaXQg
-aXMKPiBhIGRhdGEgaW50ZWdyaXR5IG9wZXJhdGlvbiB2cyBoaW50LiAgRnVsbHkgc3BsaXQgdGhl
-IGxpbWl0cyBhbmQgaGVscGVyCj4gaW5mcmFzdHJ1Y3R1cmUgdG8gbWFrZSB0aGUgc2VwYXJhdGlv
-biBtb3JlIGNsZWFyLgo+Cj4gU2lnbmVkLW9mZi1ieTogQ2hyaXN0b3BoIEhlbGx3aWcgPGhjaEBs
-c3QuZGU+Cj4gUmV2aWV3ZWQtYnk6IE1hcnRpbiBLLiBQZXRlcnNlbiA8bWFydGluLnBldGVyc2Vu
-QG9yYWNsZS5jb20+Cj4gQWNrZWQtYnk6IENocmlzdG9waCBCw7ZobXdhbGRlciA8Y2hyaXN0b3Bo
-LmJvZWhtd2FsZGVyQGxpbmJpdC5jb20+IFtkcmJkXQo+IEFja2VkLWJ5OiBSeXVzdWtlIEtvbmlz
-aGkgPGtvbmlzaGkucnl1c3VrZUBnbWFpbC5jb20+IFtuaWZzMl0KPiBBY2tlZC1ieTogQ29seSBM
-aSA8Y29seWxpQHN1c2UuZGU+IFtkcmJkXQoKSGkgQ2hyaXN0b3BoLAoKTXkgQUNLIGlzIGZvciBi
-Y2FjaGUsIG5vdCBkcmJkIGhlcmUuCgpUaGFua3MuCgoKQ29seSBMaQoKCgo+IEFja2VkLWJ5OiBE
-YXZpZCBTdGVyYmEgPGRzdGVyYmFAc3VzZS5jb20+IFtidHJmc10KCgoKCgpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmJkLWRldiBtYWlsaW5nIGxpc3QK
-ZHJiZC1kZXZAbGlzdHMubGluYml0LmNvbQpodHRwczovL2xpc3RzLmxpbmJpdC5jb20vbWFpbG1h
-bi9saXN0aW5mby9kcmJkLWRldgo=
+On Sat, Apr 09, 2022 at 10:15:33AM +0200, Christoph B=F6hmwalder wrote:
+> On 09.04.22 06:50, Christoph Hellwig wrote:
+>> Just use a non-zero max_discard_sectors as an indicator for discard
+>> support, similar to what is done for write zeroes.
+>>
+>> The only places where needs special attention is the RAID5 driver,
+>> which must clear discard support for security reasons by default,
+>> even if the default stacking rules would allow for it.
+>>
+>> Signed-off-by: Christoph Hellwig <hch@lst.de>
+>> Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
+>> Acked-by: Christoph B=F6hmwalder <christoph.boehmwalder@linbit.com> [btr=
+fs]
+>
+> I think you may have a typo there: my ACK was for drbd, not btrfs.
+
+Indeed, sorry.
+_______________________________________________
+drbd-dev mailing list
+drbd-dev@lists.linbit.com
+https://lists.linbit.com/mailman/listinfo/drbd-dev
