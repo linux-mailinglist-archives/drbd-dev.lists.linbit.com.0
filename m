@@ -2,28 +2,28 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D9834FAC43
-	for <lists+drbd-dev@lfdr.de>; Sun, 10 Apr 2022 08:26:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B0C34FAC58
+	for <lists+drbd-dev@lfdr.de>; Sun, 10 Apr 2022 08:27:29 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3C8B1420352;
-	Sun, 10 Apr 2022 08:26:25 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6F5B3420835;
+	Sun, 10 Apr 2022 08:27:29 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C11A54201DC
-	for <drbd-dev@lists.linbit.com>; Sun, 10 Apr 2022 08:26:23 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3CCEE4202D3
+	for <drbd-dev@lists.linbit.com>; Sun, 10 Apr 2022 08:27:28 +0200 (CEST)
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id E057168AFE; Sun, 10 Apr 2022 08:26:20 +0200 (CEST)
-Date: Sun, 10 Apr 2022 08:26:20 +0200
+	id 95E2B68AFE; Sun, 10 Apr 2022 08:27:26 +0200 (CEST)
+Date: Sun, 10 Apr 2022 08:27:26 +0200
 From: Christoph Hellwig <hch@lst.de>
-To: Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>
-Message-ID: <20220410062620.GA16234@lst.de>
+To: Coly Li <colyli@suse.de>
+Message-ID: <20220410062726.GB16234@lst.de>
 References: <20220409045043.23593-1-hch@lst.de>
-	<20220409045043.23593-25-hch@lst.de>
-	<72e9bd34-3380-e305-65f0-a17306f5bd08@linbit.com>
+	<20220409045043.23593-27-hch@lst.de>
+	<f01ac878-9b0d-972b-70dc-6f3f61b9947b@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <72e9bd34-3380-e305-65f0-a17306f5bd08@linbit.com>
+In-Reply-To: <f01ac878-9b0d-972b-70dc-6f3f61b9947b@suse.de>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 Cc: jfs-discussion@lists.sourceforge.net, linux-nvme@lists.infradead.org,
 	virtualization@lists.linux-foundation.org, linux-mm@kvack.org,
@@ -34,15 +34,16 @@ Cc: jfs-discussion@lists.sourceforge.net, linux-nvme@lists.infradead.org,
 	cluster-devel@redhat.com, xen-devel@lists.xenproject.org,
 	linux-ext4@vger.kernel.org, linux-um@lists.infradead.org,
 	nbd@other.debian.org, linux-block@vger.kernel.org,
-	linux-bcache@vger.kernel.org, ceph-devel@vger.kernel.org,
-	Coly Li <colyli@suse.de>, Jens Axboe <axboe@kernel.dk>,
-	linux-raid@vger.kernel.org,
+	linux-bcache@vger.kernel.org, David Sterba <dsterba@suse.com>,
+	ceph-devel@vger.kernel.org, Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+	Jens Axboe <axboe@kernel.dk>, linux-raid@vger.kernel.org,
 	"Martin K . Petersen" <martin.petersen@oracle.com>,
 	linux-mmc@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
 	linux-xfs@vger.kernel.org, ocfs2-devel@oss.oracle.com,
 	linux-fsdevel@vger.kernel.org, ntfs3@lists.linux.dev,
 	linux-btrfs@vger.kernel.org
-Subject: Re: [Drbd-dev] [PATCH 24/27] block: remove QUEUE_FLAG_DISCARD
+Subject: Re: [Drbd-dev] [PATCH 26/27] block: decouple REQ_OP_SECURE_ERASE
+ from REQ_OP_DISCARD
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -56,28 +57,19 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Sat, Apr 09, 2022 at 10:15:33AM +0200, Christoph B=F6hmwalder wrote:
-> On 09.04.22 06:50, Christoph Hellwig wrote:
->> Just use a non-zero max_discard_sectors as an indicator for discard
->> support, similar to what is done for write zeroes.
->>
->> The only places where needs special attention is the RAID5 driver,
->> which must clear discard support for security reasons by default,
->> even if the default stacking rules would allow for it.
->>
->> Signed-off-by: Christoph Hellwig <hch@lst.de>
->> Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
->> Acked-by: Christoph B=F6hmwalder <christoph.boehmwalder@linbit.com> [btr=
-fs]
+On Sat, Apr 09, 2022 at 10:32:52PM +0800, Coly Li wrote:
+>> Acked-by: Coly Li <colyli@suse.de> [drbd]
 >
-> I think you may have a typo there: my ACK was for drbd, not btrfs.
+> Hi Christoph,
+>
+> My ACK is for bcache, not drbd here.
 
-Indeed, sorry.
+Fixed.
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
