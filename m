@@ -2,44 +2,62 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54CA74FBBCA
-	for <lists+drbd-dev@lfdr.de>; Mon, 11 Apr 2022 14:12:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5A174FBE6F
+	for <lists+drbd-dev@lfdr.de>; Mon, 11 Apr 2022 16:12:31 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id F17674202F6;
-	Mon, 11 Apr 2022 14:12:35 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 866844202F4;
+	Mon, 11 Apr 2022 16:12:30 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-m24100.qiye.163.com (mail-m24100.qiye.163.com
-	[220.194.24.100])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 71F374201D4
-	for <drbd-dev@lists.linbit.com>; Mon, 11 Apr 2022 14:12:33 +0200 (CEST)
-Received: from easystack.cn (localhost [127.0.0.1])
-	by mail-m24100.qiye.163.com (Hmail) with ESMTP id 486FA560065;
-	Mon, 11 Apr 2022 20:12:32 +0800 (CST)
-Message-ID: <ALwAwgD0IQVS18p0UFmrbKrn.3.1649679152288.Hmail.rui.xu@easystack.cn>
-To: Joel Colledge <joel.colledge@linbit.com>
-X-Priority: 3
-X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2015-163.com
-X-Originating-IP: 218.94.118.90
-In-Reply-To: <CAGNP_+VZLZhCuMymZO+qwSDZmFjYgyJHLfsPLwGZaGE+E5cD_Q@mail.gmail.com>
+X-Greylist: delayed 641 seconds by postgrey-1.31 at mail19;
+	Mon, 11 Apr 2022 16:12:29 CEST
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 43B5F42018F
+	for <drbd-dev@lists.linbit.com>;
+	Mon, 11 Apr 2022 16:12:29 +0200 (CEST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 3B15B6125C;
+	Mon, 11 Apr 2022 14:01:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60E77C385A4;
+	Mon, 11 Apr 2022 14:01:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1649685706;
+	bh=aoF5JI4oA+WPgt/y0IgsxtsbxAXaCuGafPntNOloKP4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Z3DJooO+lpgxb0V7M65iVrqmxI0PEssCJPh+vJ1dEw1YBTDUO4k0Ftowa06gEpR83
+	S1WtT+TAlqYOA3SV5oPOUKBv5r5Czq1jXlmgnBC2vlAsKUSP12Z7m3WPk2IIXa7ddE
+	7+rat37phwTAQkXhdDcOfyIkaP50hX9uWu9MCv3Yv354dhMqhNyhEKK5VIXvkcNSo/
+	Yw75O5ZXcRgYxwAIHqrZej/c3adf+HQOwXoAdC34I68eRF5zbda1Ysdnlbmc/q5KXa
+	+yAvml8INLRMKi4FRTZn17313igwH9BKq1x7zfZpQGp7kDf9WzbZnpQOZP3oofxBEN
+	wCj97MUpv05qA==
+Date: Mon, 11 Apr 2022 08:01:41 -0600
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Message-ID: <YlQ0xbtIcf8gti43@kbusch-mbp.dhcp.thefacebook.com>
+References: <20220409045043.23593-1-hch@lst.de>
+	<20220409045043.23593-25-hch@lst.de>
 MIME-Version: 1.0
-Received: from rui.xu@easystack.cn( [218.94.118.90) ] by ajax-webmail (
-	[127.0.0.1] ) ; Mon, 11 Apr 2022 20:12:32 +0800 (GMT+08:00)
-From: Xu Rui <rui.xu@easystack.cn>
-Date: Mon, 11 Apr 2022 20:12:32 +0800 (GMT+08:00)
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZCBgUCR5ZQVlLVUtZV1
-	kWDxoPAgseWUFZKDYvK1lXWShZQUlCN1dZLVlBSVdZDwkaFQgSH1lBWUNOGExWHhgdQ0JITh1MSE
-	kaVRkRExYaEhckFA4PWVdZFhoPEhUdFFlBWU9LSFVKSktISkNVS1kG
-X-HM-Sender-Digest: e1kJHlYWEh9ZQUpPSEtMSktCSENPQzdXWQweGVlBDwkOHldZEh8eFQ9Z
-	QVlHOjcMOgwcP0syKi0oSkMLSy49FgkZMAkVVUhVSk1PQk1MQkpOSU9ITFUzFhoSF1UJDhJVAw47
-	HhoIAggPGhgQVRgVRVlXWRILWUFZSUpDVUJPVUpKQ1VCS1lXWQgBWUFDSUlON1dZFAsPEhQVCFlB
-	SzcG
-X-HM-Tid: 0a8017ea211a8c39kuqt17facfe9513
-Cc: Philipp Reisner <philipp.reisner@linbit.com>, dongsheng.yang@easystack.cn,
-	drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev]
-	=?utf-8?q?=5BPATCH=5D_drbd=3A_create_new_uuid_even_we_?=
-	=?utf-8?q?dont_have_quorum?=
+Content-Disposition: inline
+In-Reply-To: <20220409045043.23593-25-hch@lst.de>
+Cc: jfs-discussion@lists.sourceforge.net, linux-nvme@lists.infradead.org,
+	virtualization@lists.linux-foundation.org, linux-mm@kvack.org,
+	dm-devel@redhat.com, target-devel@vger.kernel.org,
+	linux-mtd@lists.infradead.org, drbd-dev@lists.linbit.com,
+	linux-s390@vger.kernel.org, linux-nilfs@vger.kernel.org,
+	linux-scsi@vger.kernel.org, cluster-devel@redhat.com,
+	xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org,
+	linux-um@lists.infradead.org, nbd@other.debian.org,
+	linux-block@vger.kernel.org, linux-bcache@vger.kernel.org,
+	ceph-devel@vger.kernel.org, Coly Li <colyli@suse.de>,
+	Jens Axboe <axboe@kernel.dk>, linux-raid@vger.kernel.org,
+	"Martin K . Petersen" <martin.petersen@oracle.com>,
+	linux-mmc@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	linux-xfs@vger.kernel.org, ocfs2-devel@oss.oracle.com,
+	linux-fsdevel@vger.kernel.org, ntfs3@lists.linux.dev,
+	linux-btrfs@vger.kernel.org
+Subject: Re: [Drbd-dev] [PATCH 24/27] block: remove QUEUE_FLAG_DISCARD
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,110 +71,30 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============3789768846178813165=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
---===============3789768846178813165==
-Content-Type: multipart/alternative; BOUNDARY="=_Part_1254859_551640115.1649679152288"
+On Sat, Apr 09, 2022 at 06:50:40AM +0200, Christoph Hellwig wrote:
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index efb85c6d8e2d5..7e07dd69262a7 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -1607,10 +1607,8 @@ static void nvme_config_discard(struct gendisk *disk, struct nvme_ns *ns)
+>  	struct request_queue *queue = disk->queue;
+>  	u32 size = queue_logical_block_size(queue);
+>  
+> -	if (ctrl->max_discard_sectors == 0) {
+> -		blk_queue_flag_clear(QUEUE_FLAG_DISCARD, queue);
+> +	if (ctrl->max_discard_sectors == 0)
+>  		return;
+> -	}
 
---=_Part_1254859_551640115.1649679152288
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-
-SGkgSm9lbCwKVGhhbmtzIGZvciB0aGUgcmVwbHkuIEkgaGF2ZSBhIDMgbm9kZSBjbHVzdGVyIGFu
-ZCBhbGwgMyBub2RlcyBydW5uaW5nIHdpdGggRFJCRDkuMDogUHJpbWFyeSBub2RlIGlzCm5vZGUt
-MSwgIGFuZCBTZWNvbmRhcnkgbm9kZXMgYXJlIG5vZGUtMiBhbmQgbm9kZS0zLCBxdW9ydW0gaXMg
-Y29uZmlndXJlZCBhcyAyLgoKCkFmdGVyIHNvbWUgbW9yZSBpbnZlc3RpZ2F0aW9uLCBJIGZvdW5k
-IHRoZSByb290IGNhdXNlIG9mIHRoaXMgcHJvYmxlbSB3ZSBtZXQgaXMgdGhhdCBORVdfQ1VSX1VV
-SUQKd2lsbCBjbGVhciB3aGV0aGVyIGEgbmV3IHV1aWQgd2FzIGFjdHVhbGx5IGdlbmVyYXRlZCBp
-biBtYWtlX25ld19jdXJyZW50X3V1aWQuCgoKWW91IGNhbiByZXByb2R1Y2UgdGhpcyBwcm9ibGVt
-IG9uIERSQkQ5LjAgdGhyb3VnaCB0aGUgZm9sbG93aW5nIHN0ZXBzOgooMSkgbmV0d29yayBmYWls
-dXJlIG9uIG5vZGUtMgooMikgbmV0d29yayBmYWlsdXJlIG9uIG5vZGUtMwooMykgd3JpdGUgb24g
-bm9kZS0xKHdpbGwgc3VzcGVuZCBzaW5jZSBxdW9ydW0gbG9zcykKKDQpIG5vZGUtMiBuZXR3b3Jr
-IHJlY292ZXJ5Cig1KSBub2RlLTMgbmV0d29yayByZWNvdmVyeQp5b3Ugd2lsbCBmaW5kIHRoYXQg
-ZGF0YSBvbiBub2RlLTMgaXMgaW5jb25zaXN0ZW50IHdpdGggdHdvIG90aGVyIG5vZGVzLgoKCkkg
-YWxzbyBmaW5kIHRoaXMgcHJvYmxlbSBpcyBub3QgZXhpc3QgaW4gRFJCRDkuMSAgc2luY2UgdGhl
-IGNvZGUgb2YgaW5jX2FwX2Jpb19jb25kCmluIERSQkQ5LjEgaXMgZGlmZmVyZW50IGZyb20gdGhh
-dCBpbiBEUkJEOS4wLCBzbyBpIGhhdmUgc2VudCBhIHBhdGNoIGZvciB0aGlzIGJ1ZyBpbgpEUkJE
-OS4wOgoKCmh0dHBzOi8vbGlzdHMubGluYml0LmNvbS9waXBlcm1haWwvZHJiZC1kZXYvMjAyMi1B
-cHJpbC8wMDY1NzYuaHRtbAoKU28geW91IGNhbiBnbyB0byByZXZpZXcgbXkgbmV3IHBhdGNoIGRp
-cmVjdGx5LgpCeSB0aGUgd2F5LCBoYXZlIHlvdSBmb2N1c2VkIG9uIERSQkQ5LjEgYW5kIGlzIHRo
-ZXJlIGEgc3RhYmxlIHZlcmlzb24gb2YgaXQ/ClRoYW5rcywKWHUKCkZyb206IEpvZWwgQ29sbGVk
-Z2UgPGpvZWwuY29sbGVkZ2VAbGluYml0LmNvbT4KRGF0ZTogMjAyMi0wNC0wNyAxODo0ODoxMgpU
-bzogIFJ1aSBYdSA8cnVpLnh1QGVhc3lzdGFjay5jbj4KQ2M6ICBQaGlsaXBwIFJlaXNuZXIgPHBo
-aWxpcHAucmVpc25lckBsaW5iaXQuY29tPixkcmJkLWRldkBsaXN0cy5saW5iaXQuY29tLGRvbmdz
-aGVuZy55YW5nQGVhc3lzdGFjay5jbgpTdWJqZWN0OiBSZTogW1BBVENIXSBkcmJkOiBjcmVhdGUg
-bmV3IHV1aWQgZXZlbiB3ZSBkb250IGhhdmUgcXVvcnVtPkhpLAo+Cj5XaGVuIHF1b3J1bSBpcyBj
-b25maWd1cmVkLCB3ZSBleHBlY3Qgbm90IHRvIGhhdmUgc3BsaXQtYnJhaW4KPnNpdHVhdGlvbnMu
-IEhlbmNlIGl0IGlzIGltcG9ydGFudCB0aGF0IHdlIGRvIG5vdCBnZW5lcmF0ZSBuZXcgVVVJRHMK
-PnVudGlsIHRoZXkgYXJlIGRlZmluaXRlbHkgbmVjZXNzYXJ5LiBXaGVuIHdlIGRvIG5vdCBoYXZl
-IHF1b3J1bSwgbm8KPndyaXRlcyBzaG91bGQgY29tcGxldGUsIHNvIHdlIGRvIG5vdCBuZWVkIHRv
-IGdlbmVyYXRlIGEgbmV3IFVVSUQuIFdlCj5tYXkgbmVlZCB0byBnZW5lcmF0ZSBvbmUgYmVmb3Jl
-IHdlIHJlZ2FpbiBxdW9ydW0gaW5zdGVhZC4KPgo+VGhhdCBzYWlkLCB0aGVyZSBoYXZlIGJlZW4g
-dmFyaW91cyBidWdzIGluIHRoZSBpbXBsZW1lbnRhdGlvbi4gVHJ5IHRvCj5yZXByb2R1Y2UgeW91
-ciBpc3N1ZSB3aXRoIHRoZSBsYXRlc3QgZHJiZC05LjEuIElmIGl0IGNhbiBzdGlsbCBiZQo+cmVw
-cm9kdWNlZCwgdGhlbiBkZXNjcmliZSB0aGUgZXhhY3QgcmVwcm9kdWN0aW9uIHN0ZXBzIGFuZCB3
-ZSBjYW4KPmRpc2N1c3MgdGhlIGFwcHJvcHJpYXRlIGZpeC4KPgo+QmVzdCByZWdhcmRzLAo+Sm9l
-bAoKCg0KDQo=
---=_Part_1254859_551640115.1649679152288
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: base64
-
-PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
-Zm9udC1mYW1pbHk6QXJpYWwiPjxkaXY+SGkgSm9lbCw8L2Rpdj48ZGl2PlRoYW5rcyBmb3IgdGhl
-IHJlcGx5LiBJIGhhdmUgYSAzIG5vZGUgY2x1c3RlciBhbmQgYWxsIDMgbm9kZXMgcnVubmluZyB3
-aXRoIERSQkQ5LjA6IFByaW1hcnkgbm9kZSBpczwvZGl2PjxkaXY+bm9kZS0xLCZuYnNwOyBhbmQg
-U2Vjb25kYXJ5IG5vZGVzIGFyZSBub2RlLTIgYW5kIG5vZGUtMywgcXVvcnVtIGlzIGNvbmZpZ3Vy
-ZWQgYXMgMi48L2Rpdj48ZGl2PjxiciAvPjwvZGl2PjxkaXY+QWZ0ZXIgc29tZSBtb3JlIGludmVz
-dGlnYXRpb24sIEkgZm91bmQgdGhlIHJvb3QgY2F1c2Ugb2YgdGhpcyBwcm9ibGVtIHdlIG1ldCBp
-cyB0aGF0IE5FV19DVVJfVVVJRDwvZGl2PjxkaXY+d2lsbCBjbGVhciB3aGV0aGVyIGEgbmV3IHV1
-aWQgd2FzIGFjdHVhbGx5IGdlbmVyYXRlZCBpbiBtYWtlX25ld19jdXJyZW50X3V1aWQuPC9kaXY+
-PGRpdj48YnIgLz48L2Rpdj48ZGl2PllvdSBjYW4gcmVwcm9kdWNlIHRoaXMgcHJvYmxlbSBvbiBE
-UkJEOS4wIHRocm91Z2ggdGhlIGZvbGxvd2luZyBzdGVwczo8L2Rpdj48ZGl2PigxKSBuZXR3b3Jr
-IGZhaWx1cmUgb24gbm9kZS0yPC9kaXY+PGRpdj4oMikgbmV0d29yayBmYWlsdXJlIG9uIG5vZGUt
-MzwvZGl2PjxkaXY+KDMpIHdyaXRlIG9uIG5vZGUtMSh3aWxsIHN1c3BlbmQgc2luY2UgcXVvcnVt
-IGxvc3MpPC9kaXY+PGRpdj4oNCkgbm9kZS0yIG5ldHdvcmsgcmVjb3Zlcnk8L2Rpdj48ZGl2Pig1
-KSBub2RlLTMgbmV0d29yayByZWNvdmVyeTwvZGl2PjxkaXY+eW91IHdpbGwgZmluZCB0aGF0IGRh
-dGEgb24gbm9kZS0zIGlzIGluY29uc2lzdGVudCB3aXRoIHR3byBvdGhlciBub2Rlcy48L2Rpdj48
-ZGl2PjxiciAvPjwvZGl2PjxkaXY+SSBhbHNvIGZpbmQgdGhpcyBwcm9ibGVtIGlzIG5vdCBleGlz
-dCBpbiBEUkJEOS4xJm5ic3A7IHNpbmNlIHRoZSBjb2RlIG9mIGluY19hcF9iaW9fY29uZDwvZGl2
-PjxkaXY+aW4gRFJCRDkuMSBpcyBkaWZmZXJlbnQgZnJvbSB0aGF0IGluIERSQkQ5LjAsIHNvIGkg
-aGF2ZSBzZW50IGEgcGF0Y2ggZm9yIHRoaXMgYnVnIGluPC9kaXY+PGRpdj5EUkJEOS4wOjxiciAv
-PjwvZGl2PjxkaXYgIHN0eWxlPSJwb3NpdGlvbjpyZWxhdGl2ZTt6b29tOjEiPjwvZGl2PjxkaXY+
-aHR0cHM6Ly9saXN0cy5saW5iaXQuY29tL3BpcGVybWFpbC9kcmJkLWRldi8yMDIyLUFwcmlsLzAw
-NjU3Ni5odG1sPGJyIC8+PC9kaXY+PGRpdj4gU28geW91IGNhbiBnbyB0byByZXZpZXcgbXkgbmV3
-IHBhdGNoIGRpcmVjdGx5LjwvZGl2PjxkaXY+QnkgdGhlIHdheSwgaGF2ZSB5b3UgZm9jdXNlZCBv
-biBEUkJEOS4xIGFuZCBpcyB0aGVyZSBhIHN0YWJsZSB2ZXJpc29uIG9mIGl0PzwvZGl2PjxkaXY+
-VGhhbmtzLDwvZGl2PjxkaXY+WHU8YnIgLz48L2Rpdj48cHJlPkZyb206IEpvZWwgQ29sbGVkZ2Ug
-Jmx0O2pvZWwuY29sbGVkZ2VAbGluYml0LmNvbSZndDsKRGF0ZTogMjAyMi0wNC0wNyAxODo0ODox
-MgpUbzogIFJ1aSBYdSAmbHQ7cnVpLnh1QGVhc3lzdGFjay5jbiZndDsKQ2M6ICBQaGlsaXBwIFJl
-aXNuZXIgJmx0O3BoaWxpcHAucmVpc25lckBsaW5iaXQuY29tJmd0OyxkcmJkLWRldkBsaXN0cy5s
-aW5iaXQuY29tLGRvbmdzaGVuZy55YW5nQGVhc3lzdGFjay5jbgpTdWJqZWN0OiBSZTogW1BBVENI
-XSBkcmJkOiBjcmVhdGUgbmV3IHV1aWQgZXZlbiB3ZSBkb250IGhhdmUgcXVvcnVtJmd0O0hpLAom
-Z3Q7CiZndDtXaGVuIHF1b3J1bSBpcyBjb25maWd1cmVkLCB3ZSBleHBlY3Qgbm90IHRvIGhhdmUg
-c3BsaXQtYnJhaW4KJmd0O3NpdHVhdGlvbnMuIEhlbmNlIGl0IGlzIGltcG9ydGFudCB0aGF0IHdl
-IGRvIG5vdCBnZW5lcmF0ZSBuZXcgVVVJRHMKJmd0O3VudGlsIHRoZXkgYXJlIGRlZmluaXRlbHkg
-bmVjZXNzYXJ5LiBXaGVuIHdlIGRvIG5vdCBoYXZlIHF1b3J1bSwgbm8KJmd0O3dyaXRlcyBzaG91
-bGQgY29tcGxldGUsIHNvIHdlIGRvIG5vdCBuZWVkIHRvIGdlbmVyYXRlIGEgbmV3IFVVSUQuIFdl
-CiZndDttYXkgbmVlZCB0byBnZW5lcmF0ZSBvbmUgYmVmb3JlIHdlIHJlZ2FpbiBxdW9ydW0gaW5z
-dGVhZC4KJmd0OwomZ3Q7VGhhdCBzYWlkLCB0aGVyZSBoYXZlIGJlZW4gdmFyaW91cyBidWdzIGlu
-IHRoZSBpbXBsZW1lbnRhdGlvbi4gVHJ5IHRvCiZndDtyZXByb2R1Y2UgeW91ciBpc3N1ZSB3aXRo
-IHRoZSBsYXRlc3QgZHJiZC05LjEuIElmIGl0IGNhbiBzdGlsbCBiZQomZ3Q7cmVwcm9kdWNlZCwg
-dGhlbiBkZXNjcmliZSB0aGUgZXhhY3QgcmVwcm9kdWN0aW9uIHN0ZXBzIGFuZCB3ZSBjYW4KJmd0
-O2Rpc2N1c3MgdGhlIGFwcHJvcHJpYXRlIGZpeC4KJmd0OwomZ3Q7QmVzdCByZWdhcmRzLAomZ3Q7
-Sm9lbAo8L3ByZT48L2Rpdj48YnI+
---=_Part_1254859_551640115.1649679152288--
-
---===============3789768846178813165==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+I think we need to update the queue limit in this condition. While unlikley,
+the flag was cleared here in case the device changed support for discard from
+the previous reset. 
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
 https://lists.linbit.com/mailman/listinfo/drbd-dev
-
---===============3789768846178813165==--
