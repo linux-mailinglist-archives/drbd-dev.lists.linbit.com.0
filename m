@@ -2,35 +2,35 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05C6E5023CF
-	for <lists+drbd-dev@lfdr.de>; Fri, 15 Apr 2022 07:24:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFCCE5023CE
+	for <lists+drbd-dev@lfdr.de>; Fri, 15 Apr 2022 07:23:45 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id DCB76420FAA;
-	Fri, 15 Apr 2022 07:24:15 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A1F6C420F78;
+	Fri, 15 Apr 2022 07:23:45 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from bombadil.infradead.org (bombadil.infradead.org
 	[198.137.202.133])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B4012420B00
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 54358420AFF
 	for <drbd-dev@lists.linbit.com>; Fri, 15 Apr 2022 07:20:22 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=J+DlKJplDF1Q+uvJsRC9/x84m39e7OAPqS6lbIf59go=;
-	b=SEeH/79eKPqdW8SzrNl3V2nOHl
-	ZWhXxUOKMmxbomD4h47qxDHhmZR1AcrilsdsHynv3whZecHSbjPQD1q9d/FU6+E8K/5xf+VTFPZEC
-	yjptUXDEOozEKnhNef4pA/iH+U6X5UT2a4kDQV1dcB4OMBiR7EqjwvZGUpUqzaw/ctS1BK7jfj0ET
-	6bEbZ634DG1jUBSD4gMSefXlbHX9s1oVYHaM3eb8uWhP4KXYOa4yPkTPaEVS3k17D/+asg++w51Tw
-	tL9Bw3UnRO/ROF9NNLI3S4GrxiqTSBVA9Nyw52Y9tkIfGW9lfoR4Uoz9tWbp7jnXJX8faoVQRTg4x
-	Z/Iw+o9w==;
+	bh=A3F4pzgWH2QQ0wtpIeTWEbWkE7zvp2Hf2SzUvBBV6uI=;
+	b=2blFxPm6xz5pgZn6E5jvsGqhvn
+	2WDz/E43ISZl4v/rhlHMaqtSb4lVbmKeEW11/ljs0aiEkq0TnWEDxeJnrojcMAcOqNB8N3gDxJnoZ
+	0NRetUsPJHvzddTt7lmgpHndIYp7bFipN2chfdRidmHIR3lH3yyIVmQny7lS+2WzaIVhTRY61ZPLW
+	cNdIp932vWgZbDLAr3bVHO1tMLGx1FOnjxoa9UVQZYEIwSKlwU7ByTf62px4tvbNkH8lyOAfKg6eV
+	fvQs7AcyDRrAWF5ZnpqPRd0RsttREedP1tYS6zdjKYykJ8LivF4bs1Leq71tf07T70LHtI3i4RcFf
+	TuAsL+Kw==;
 Received: from [2a02:1205:504b:4280:f5dd:42a4:896c:d877] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1nfDy6-008PUJ-Fn; Fri, 15 Apr 2022 04:54:02 +0000
+	id 1nfDy9-008PY0-20; Fri, 15 Apr 2022 04:54:05 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Date: Fri, 15 Apr 2022 06:52:50 +0200
-Message-Id: <20220415045258.199825-20-hch@lst.de>
+Date: Fri, 15 Apr 2022 06:52:51 +0200
+Message-Id: <20220415045258.199825-21-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220415045258.199825-1-hch@lst.de>
 References: <20220415045258.199825-1-hch@lst.de>
@@ -52,7 +52,8 @@ Cc: jfs-discussion@lists.sourceforge.net, linux-nvme@lists.infradead.org,
 	linux-xfs@vger.kernel.org, ocfs2-devel@oss.oracle.com,
 	linux-fsdevel@vger.kernel.org, ntfs3@lists.linux.dev,
 	linux-btrfs@vger.kernel.org
-Subject: [Drbd-dev] [PATCH 19/27] block: remove queue_discard_alignment
+Subject: [Drbd-dev] [PATCH 20/27] block: use bdev_discard_alignment in
+	part_discard_alignment_show
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -71,49 +72,31 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Just use bdev_alignment_offset in disk_discard_alignment_show instead.
-That helpers is the same except for an always false branch that doesn't
-matter in this slow path.
+Use the bdev based alignment helper instead of open coding it.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
 ---
- block/genhd.c          | 2 +-
- include/linux/blkdev.h | 8 --------
- 2 files changed, 1 insertion(+), 9 deletions(-)
+ block/partitions/core.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/block/genhd.c b/block/genhd.c
-index 712031ce19070..36532b9318419 100644
---- a/block/genhd.c
-+++ b/block/genhd.c
-@@ -1019,7 +1019,7 @@ static ssize_t disk_discard_alignment_show(struct device *dev,
+diff --git a/block/partitions/core.c b/block/partitions/core.c
+index 240b3fff521e4..70dec1c78521d 100644
+--- a/block/partitions/core.c
++++ b/block/partitions/core.c
+@@ -206,11 +206,7 @@ static ssize_t part_alignment_offset_show(struct device *dev,
+ static ssize_t part_discard_alignment_show(struct device *dev,
+ 					   struct device_attribute *attr, char *buf)
  {
- 	struct gendisk *disk = dev_to_disk(dev);
- 
--	return sprintf(buf, "%d\n", queue_discard_alignment(disk->queue));
-+	return sprintf(buf, "%d\n", bdev_alignment_offset(disk->part0));
+-	struct block_device *bdev = dev_to_bdev(dev);
+-
+-	return sprintf(buf, "%u\n",
+-		queue_limit_discard_alignment(&bdev_get_queue(bdev)->limits,
+-				bdev->bd_start_sect));
++	return sprintf(buf, "%u\n", bdev_discard_alignment(dev_to_bdev(dev)));
  }
  
- static ssize_t diskseq_show(struct device *dev,
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 0a1795ac26275..5a9b7aeda010b 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -1253,14 +1253,6 @@ bdev_zone_write_granularity(struct block_device *bdev)
- 
- int bdev_alignment_offset(struct block_device *bdev);
- 
--static inline int queue_discard_alignment(const struct request_queue *q)
--{
--	if (q->limits.discard_misaligned)
--		return -1;
--
--	return q->limits.discard_alignment;
--}
--
- static inline int queue_limit_discard_alignment(struct queue_limits *lim, sector_t sector)
- {
- 	unsigned int alignment, granularity, offset;
+ static DEVICE_ATTR(partition, 0444, part_partition_show, NULL);
 -- 
 2.30.2
 
