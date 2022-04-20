@@ -2,94 +2,59 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 252E9506CE4
-	for <lists+drbd-dev@lfdr.de>; Tue, 19 Apr 2022 14:59:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4BB85085CF
+	for <lists+drbd-dev@lfdr.de>; Wed, 20 Apr 2022 12:22:48 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2EA664202D2;
-	Tue, 19 Apr 2022 14:59:22 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B935B420352;
+	Wed, 20 Apr 2022 12:22:44 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 302F34201B9
-	for <drbd-dev@lists.linbit.com>; Tue, 19 Apr 2022 14:59:20 +0200 (CEST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	key-exchange X25519 server-signature ECDSA (P-521) server-digest
-	SHA512) (No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C99F51F38D;
-	Tue, 19 Apr 2022 12:59:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1650373160;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	cc:cc:mime-version:mime-version:content-type:content-type:
-	in-reply-to:in-reply-to:references:references;
-	bh=VfBYsPW8LdFmKxr65w1hdhdV60yv3YMcCbpJWSrqKvk=;
-	b=NvUNYJ0aijygZaycEKANEzrLj5OpFXGbpMkv75nQ6FnXKgRf9EXcV4+9POedJBZkOwU5S7
-	5pILnN4Shqgf3JhLxLgoR5OWcJL0pDDsuxwB46NB53CVYSYKQtDfU6ZcMenkfu3sqHVTkW
-	IM2WCbvx+MAK2WLHjSdOm9gfT/yomU4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1650373160;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	cc:cc:mime-version:mime-version:content-type:content-type:
-	in-reply-to:in-reply-to:references:references;
-	bh=VfBYsPW8LdFmKxr65w1hdhdV60yv3YMcCbpJWSrqKvk=;
-	b=R3XLspmIJ8AmIyyP6ZGhyQkfkNAvIfydJiDrLZbCwnLmc9AnAFEIt/H4vRE7D3uxeV/uH+
-	hd0WY76/Imja80AA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	key-exchange X25519 server-signature ECDSA (P-521) server-digest
-	SHA512) (No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 550DC139BE;
-	Tue, 19 Apr 2022 12:59:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA id BH7rEyiyXmLxeQAAMHmgww
-	(envelope-from <dsterba@suse.cz>); Tue, 19 Apr 2022 12:59:20 +0000
-Date: Tue, 19 Apr 2022 14:55:17 +0200
-From: David Sterba <dsterba@suse.cz>
-To: Christoph Hellwig <hch@lst.de>
-Message-ID: <20220419125517.GB2348@twin.jikos.cz>
-Mail-Followup-To: dsterba@suse.cz, Christoph Hellwig <hch@lst.de>,
-	Jens Axboe <axboe@kernel.dk>, dm-devel@redhat.com,
-	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-um@lists.infradead.org, linux-block@vger.kernel.org,
-	drbd-dev@lists.linbit.com, nbd@other.debian.org,
-	ceph-devel@vger.kernel.org,
-	virtualization@lists.linux-foundation.org,
-	xen-devel@lists.xenproject.org, linux-bcache@vger.kernel.org,
-	linux-raid@vger.kernel.org, linux-mmc@vger.kernel.org,
-	linux-mtd@lists.infradead.org, linux-nvme@lists.infradead.org,
-	linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
-	target-devel@vger.kernel.org, linux-btrfs@vger.kernel.org,
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	cluster-devel@redhat.com, jfs-discussion@lists.sourceforge.net,
-	linux-nilfs@vger.kernel.org, ntfs3@lists.linux.dev,
-	ocfs2-devel@oss.oracle.com, linux-mm@kvack.org
-References: <20220415045258.199825-1-hch@lst.de>
-	<20220415045258.199825-28-hch@lst.de>
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
+	[209.85.218.54])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C9230420164
+	for <drbd-dev@lists.linbit.com>; Wed, 20 Apr 2022 12:22:43 +0200 (CEST)
+Received: by mail-ej1-f54.google.com with SMTP id g13so2563541ejb.4
+	for <drbd-dev@lists.linbit.com>; Wed, 20 Apr 2022 03:22:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linbit-com.20210112.gappssmtp.com; s=20210112;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=mpFHEL5p0sggB57W/Ivhjmrav/R1jSx4HnTkAGQYgV8=;
+	b=F4eqY7uqvUiCsc5V/cw7gS1fC1DI4nUtMvRds0mGalpoUkHSXy4VCm1qxHV0YtZEgT
+	vPDilnzxNB/ajpTbj5B84aJ68WeJzJC5O0K9pPRgBkwciaj0pl43k/xelAOW/gGA/bdg
+	94xv4i7+qEWd2Iwx7CxUnRTu4KIpBNRmT1btCGtj13PZEz13bMkdBKV9RVNEb4iZXqxt
+	/upMzRbHyG4lPi0JyyIOdxHFH0bLa+Y2iBEpzWHCxw4VuqF8/oTKj+dpdqACPEN2LbRi
+	sNGz7ru9iY7LKax2KLpkv0lmgqgFOUK08Hog5TCKuCmYqIo5wimQQhnJhKsrXDXs5ApZ
+	F6BQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20210112;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=mpFHEL5p0sggB57W/Ivhjmrav/R1jSx4HnTkAGQYgV8=;
+	b=V7g1lGJEU6S2EDjcf6gC17I4YXcRALP1hqqqVzYsATOOoatQACDW3mL525FxvSjgRa
+	zClfm+Tsd1ydQ2h0Mg/6QzPcppisOpr5/JHGfavnuqDsVbzPYPDsXzGxsp+idT5jSiUX
+	3lmuUKBASjegBsYHMNbUe2LPdNSS9OVTtxfP9ZGzZ47faJZ/nrEGaccy/96BKphYpbUz
+	c6msKS1l/l6E+nqDDpLypbDZJtJBn5wgsMQJz3KkFByFL70w3sdyvE1HIBhndElef8hP
+	p69oZTNp5V988HDjVLoTKn5gzSRcxE3y/eR/ZdQUSz2OBgWU7Lx5WEt6atEsrNHKr4tv
+	v3mg==
+X-Gm-Message-State: AOAM533xLXoXauhta6gkouxrFOPFzfgRrBLxGNQNH8bp7musGUbScmSl
+	LUF1/gbYXrvpocWMvI3V0lCB/L3NpzYDoQFG6rCW0Y9I
+X-Google-Smtp-Source: ABdhPJw6AFBzeL92hxTwqw6DBLlmrurhLwYI0pYxV1ourBGtM+L5A2mB5ZmBcQcZ840Hg8sJoZQwcQNnB0ctYGtdWZI=
+X-Received: by 2002:a17:906:dc93:b0:6e8:8d89:8099 with SMTP id
+	cs19-20020a170906dc9300b006e88d898099mr17734536ejc.438.1650450163263;
+	Wed, 20 Apr 2022 03:22:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20220415045258.199825-28-hch@lst.de>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
-Cc: jfs-discussion@lists.sourceforge.net, linux-nvme@lists.infradead.org,
-	virtualization@lists.linux-foundation.org, linux-mm@kvack.org,
-	dm-devel@redhat.com, target-devel@vger.kernel.org,
-	linux-mtd@lists.infradead.org, drbd-dev@lists.linbit.com,
-	linux-s390@vger.kernel.org, linux-nilfs@vger.kernel.org,
-	linux-scsi@vger.kernel.org, cluster-devel@redhat.com,
-	xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org,
-	linux-um@lists.infradead.org, nbd@other.debian.org,
-	linux-block@vger.kernel.org, linux-bcache@vger.kernel.org,
-	ceph-devel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-	linux-raid@vger.kernel.org, linux-mmc@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-xfs@vger.kernel.org, ocfs2-devel@oss.oracle.com,
-	linux-fsdevel@vger.kernel.org, ntfs3@lists.linux.dev,
-	linux-btrfs@vger.kernel.org
-Subject: Re: [Drbd-dev] [PATCH 27/27] direct-io: remove random prefetches
+References: <20220419121647.638794-1-rui.xu@easystack.cn>
+In-Reply-To: <20220419121647.638794-1-rui.xu@easystack.cn>
+From: Joel Colledge <joel.colledge@linbit.com>
+Date: Wed, 20 Apr 2022 12:22:32 +0200
+Message-ID: <CAGNP_+Wfbohf2NkB+LXhHSBEQk_jK-Xi+-wRJimG3G0Z2pbbqg@mail.gmail.com>
+To: Rui Xu <rui.xu@easystack.cn>
+Cc: Philipp Reisner <philipp.reisner@linbit.com>, dongsheng.yang@easystack.cn,
+	drbd-dev@lists.linbit.com
+Subject: Re: [Drbd-dev] [PATCH] drbd: fix a race of drbd_free_peer_req
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: dsterba@suse.cz
 List-Id: "*Coordination* of development, patches,
 	contributions -- *Questions* \(even to developers\) go to drbd-user,
 	please." <drbd-dev.lists.linbit.com>
@@ -105,26 +70,30 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Fri, Apr 15, 2022 at 06:52:58AM +0200, Christoph Hellwig wrote:
-> Randomly poking into block device internals for manual prefetches isn't
-> exactly a very maintainable thing to do.  And none of the performance
-> criticil direct I/O implementations still use this library function
-> anyway, so just drop it.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+Hi Xu,
 
-That the direct io function needed a valid bdev just for the prefetch
-but nothing else was one of the reasons we had to keep the latest_bdev
-in btrfs, so good riddance.
+I think there is a potential race here, but I am not convinced that
+this is a general solution. The peer request could still be freed by
+got_peer_ack() between checking "list_empty(&peer_req->recv_order)"
+and freeing it in drbd_finish_peer_reqs(). Also, this solution keeps
+the page chain for peer requests for an unnecessarily long time, which
+is not ideal in memory constrained situations.
 
-You may want to add the reference to the patch that added the prefetch,
-65dd2aa90aa1 ("dio: optimize cache misses in the submission path") and
-also remove #include <linux/prefetch.h> as there are no more uses of
-prefetch in the file.
+The underlying race, as far as I understand it, is that got_peer_ack()
+can be called while still processing the request in
+drbd_finish_peer_reqs(). This is only relevant for peer writes and not
+resync, so only the e_end_block() path is of interest. got_peer_ack()
+will only be called after we have sent the corresponding barrier ack
+for the peer request.
 
-With that
+On the basis of this reasoning, I think a simple solution is to swap
+drbd_may_finish_epoch() and drbd_free_page_chain() in e_end_block().
+Please try this and send it as a patch if it solves your problem.
 
-Reviewed-by: David Sterba <dsterba@suse.com>
+By the way, this patch doesn't compile due to a mismatched brace.
+
+Best regards,
+Joel
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
