@@ -2,35 +2,43 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89AB751E591
-	for <lists+drbd-dev@lfdr.de>; Sat,  7 May 2022 10:25:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EC8F51E594
+	for <lists+drbd-dev@lfdr.de>; Sat,  7 May 2022 10:27:52 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 29BCC420334;
-	Sat,  7 May 2022 10:25:26 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7C219420471;
+	Sat,  7 May 2022 10:27:51 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-m2837.qiye.163.com (mail-m2837.qiye.163.com [103.74.28.37])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3B5544201FE
-	for <drbd-dev@lists.linbit.com>; Sat,  7 May 2022 10:25:23 +0200 (CEST)
-Received: from localhost.localdomain (unknown [218.94.118.90])
-	by mail-m2837.qiye.163.com (Hmail) with ESMTPA id D0E966007C7;
-	Sat,  7 May 2022 16:25:20 +0800 (CST)
-From: Rui Xu <rui.xu@easystack.cn>
-To: philipp.reisner@linbit.com, drbd-dev@lists.linbit.com,
-	joel.colledge@linbit.com
-Date: Sat,  7 May 2022 16:25:19 +0800
-Message-Id: <20220507082519.1968685-1-rui.xu@easystack.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-m24100.qiye.163.com (mail-m24100.qiye.163.com
+	[220.194.24.100])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4B1554201FE
+	for <drbd-dev@lists.linbit.com>; Sat,  7 May 2022 10:27:49 +0200 (CEST)
+Received: from easystack.cn (localhost [127.0.0.1])
+	by mail-m24100.qiye.163.com (Hmail) with ESMTP id 3F934560166;
+	Sat,  7 May 2022 16:27:48 +0800 (CST)
+Message-ID: <ANcA3QC1IbqI8UC0Hik964qL.3.1651912068250.Hmail.rui.xu@easystack.cn>
+To: Joel Colledge <joel.colledge@linbit.com>
+X-Priority: 3
+X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2015-163.com
+X-Originating-IP: 218.94.118.90
+In-Reply-To: <CAGNP_+Up_UN9eCVShQ=Rg5yHpkFjEUiNcBpRJTMAgYiy=uwp2A@mail.gmail.com>
 MIME-Version: 1.0
+Received: from rui.xu@easystack.cn( [218.94.118.90) ] by ajax-webmail (
+	[127.0.0.1] ) ; Sat, 7 May 2022 16:27:48 +0800 (GMT+08:00)
+From: "rui.xu" <rui.xu@easystack.cn>
+Date: Sat, 7 May 2022 16:27:48 +0800 (GMT+08:00)
 X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZCBgUCR5ZQVlLVUtZV1
-	kWDxoPAgseWUFZKDYvK1lXWShZQUlCN1dZLVlBSVdZDwkaFQgSH1lBWUJISx1WGkgdSR8fTEMZSB
-	kYVRkRExYaEhckFA4PWVdZFhoPEhUdFFlBWU9LSFVKSktITUpVS1kG
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Nxg6EQw5HjIYFjIxL0gzEjUj
-	OkwKCylVSlVKTU5KQkpKQklKQ0NMVTMWGhIXVQkOElUDDjseGggCCA8aGBBVGBVFWVdZEgtZQVlJ
-	SkNVQk9VSkpDVUJLWVdZCAFZQUNCSE03Bg++
-X-HM-Tid: 0a809d9f8f3b841fkuqwd0e966007c7
-Cc: Rui Xu <rui.xu@easystack.cn>, dongsheng.yang@easystack.cn
-Subject: [Drbd-dev] [PATCH] drbd: change the variable ov_left to atomic
+	kWDxoPAgseWUFZKDYvK1lXWShZQUlCN1dZLVlBSVdZDwkaFQgSH1lBWUMZT0pWTUgZTExJHksYQ0
+	8aVRkRExYaEhckFA4PWVdZFhoPEhUdFFlBWU9LSFVKSktISkNVS1kG
+X-HM-Sender-Digest: e1kJHlYWEh9ZQUpPSE1CT09OS05ITTdXWQweGVlBDwkOHldZEh8eFQ9Z
+	QVlHOjUYOkgqOEoyGQoyQy44SzMSEEJNTwo3VUhVSk1OSkJKSUtNQ01OQ1UzFhoSF1UJDhJVAw47
+	HhoIAggPGhgQVRgVRVlXWRILWUFZSUpDVUJPVUpKQ1VCS1lXWQgBWUFOQk1CN1dZFAsPEhQVCFlB
+	SzcG
+X-HM-Tid: 0a809d9fc3778c39kuqt1809494e537
+Cc: Philipp Reisner <philipp.reisner@linbit.com>, drbd-dev@lists.linbit.com
+Subject: Re: [Drbd-dev]
+	=?utf-8?q?=5BPATCH=5D_drbd=3A_change_the_variable_ov?=
+	=?utf-8?q?=5Fleft_to_atomic?=
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,200 +52,81 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============8773276521233427826=="
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-The problem was, that when a node(node-1) is a verify source of another
-node(node-2), it will send P_OV_REQUEST and node-2 will process it. In normal
-scenarios, node-2 will reply P_OV_REPLY to node-1, but if an application IO is
-onging on corresponding sector on node-2, it will reply P_RS_CANCEL to node-1.
+--===============8773276521233427826==
+Content-Type: multipart/alternative; BOUNDARY="=_Part_145293_1124418749.1651912068250"
 
-So w_e_end_ov_reply and got_NegRSDReply can be happened concurrently, it may
-lead to the self subtraction of the variable ov_left happened at the same time,
-finally, the variable ov_left may not be reduced to zero, which causes verify
-unable to end.
+--=_Part_145293_1124418749.1651912068250
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Rui Xu <rui.xu@easystack.cn>
----
- drbd/drbd_debugfs.c  |  4 ++--
- drbd/drbd_int.h      |  2 +-
- drbd/drbd_nl.c       |  4 ++--
- drbd/drbd_receiver.c |  9 +++++----
- drbd/drbd_sender.c   | 12 ++++++------
- drbd/drbd_state.c    |  9 +++++----
- 6 files changed, 21 insertions(+), 19 deletions(-)
+SGkgSm9lbCwKCgpUaGFua3MgZm9yIHlvdXIgc3VnZ2VzdGlvbiBhbmQgaSd2ZSBzZW50IGEgbmV3
+IHBhdGNoIGZvciBpdC4KCgpUaGFua3MsClh1CgoKCgoKCgoKRnJvbTogSm9lbCBDb2xsZWRnZSA8
+am9lbC5jb2xsZWRnZUBsaW5iaXQuY29tPgpEYXRlOiAyMDIyLTA1LTAzIDE2OjM3OjI4ClRvOiAg
+UnVpIFh1IDxydWkueHVAZWFzeXN0YWNrLmNuPgpDYzogIFBoaWxpcHAgUmVpc25lciA8cGhpbGlw
+cC5yZWlzbmVyQGxpbmJpdC5jb20+LGRyYmQtZGV2QGxpc3RzLmxpbmJpdC5jb20KU3ViamVjdDog
+UmU6IFtEcmJkLWRldl0gW1BBVENIXSBkcmJkOiBjaGFuZ2UgdGhlIHZhcmlhYmxlIG92X2xlZnQg
+dG8gYXRvbWljPkhpIFh1LAo+Cj5Zb3VyIGFuYWx5c2lzIG9mIHRoZSBwcm9ibGVtIHNlZW1zIGNv
+cnJlY3QgdG8gbWUuIFNvbWUgZGV0YWlscyBvZiB0aGUKPmZpeCBjb3VsZCBiZSBpbXByb3ZlZC4K
+Pgo+SW4gdmVyaWZ5X3Byb2dyZXNzKCkgdGhlcmUgYXJlIG5vdyAzIHNlcGFyYXRlIGF0b21pYyBv
+cGVyYXRpb25zLiBJdAo+d291bGQgYmUgYmV0dGVyIHRvIHVzZSBhdG9taWM2NF9kZWNfcmV0dXJu
+KCkgYW5kIHRoZW4gdXNlIHRoZSByZXR1cm5lZAo+dmFsdWUgaW5zdGVhZCBvZiBjYWxsaW5nIGF0
+b21pYzY0X3JlYWQoKSBzZXBhcmF0ZWx5LiBUaGlzIGNvdWxkIGhhdmUKPm1pbm9yIGVmZmVjdHMg
+b24gdGhlIGJlaGF2aW9yLgo+Cj5TaW1pbGFybHksIGluIHJlY2VpdmVfRGF0YVJlcXVlc3QoKSB0
+aGVyZSBpcyBubyBuZWVkIHRvIHJlYWQgb3ZfbGVmdAo+YWdhaW4gYWZ0ZXIgc2V0dGluZyBpdC4g
+VGhpcyBzaG91bGQgaGF2ZSBubyBlZmZlY3Qgb24gdGhlIGJlaGF2aW9yLAo+YnV0IGxlYWRzIHRv
+IGNsZWFuZXIgY29kZS4KPgo+QWxzbyB0aGUgcmVwZWF0ZWQgcmVhZHMgaW4gZmluaXNoX3N0YXRl
+X2NoYW5nZSgpIGNvdWxkIGJlIGF2b2lkZWQgZm9yCj5jbGVhbmVyIGNvZGUuIFRha2UgY2FyZSBv
+ZiB0aGUgcmVhZCBhZnRlciBzZXRfb3ZfcG9zaXRpb24oKSwgc2luY2UKPnRoYXQgY2hhbmdlcyB0
+aGUgdmFsdWUgb2Ygb3ZfbGVmdC4gWW91IGNvdWxkIHVzZSBwZWVyX2RldmljZS0+cnNfdG90YWwK
+Pmluc3RlYWQgb2YgcGVlcl9kZXZpY2UtPm92X2xlZnQgdGhlcmUsIHNpbmNlIHRoYXQgaXMgd2hh
+dCBpdCBpcyBzZXQgdG8KPmluIHNldF9vdl9wb3NpdGlvbigpLgo+Cj5CZXN0IHJlZ2FyZHMsCj5K
+b2VsCgoKDQoNCg==
+--=_Part_145293_1124418749.1651912068250
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-diff --git a/drbd/drbd_debugfs.c b/drbd/drbd_debugfs.c
-index fbc6e3f..9fde14a 100644
---- a/drbd/drbd_debugfs.c
-+++ b/drbd/drbd_debugfs.c
-@@ -1428,7 +1428,7 @@ static void drbd_get_syncer_progress(struct drbd_peer_device *pd,
- 	 * for the percentage, we don't care. */
- 
- 	if (repl_state == L_VERIFY_S || repl_state == L_VERIFY_T)
--		*bits_left = pd->ov_left;
-+		*bits_left = atomic64_read(&pd->ov_left);
- 	else
- 		*bits_left = drbd_bm_total_weight(pd) - pd->rs_failed;
- 	/* >> 10 to prevent overflow,
-@@ -1564,7 +1564,7 @@ static void drbd_syncer_progress(struct drbd_peer_device *pd, struct seq_file *s
- 		unsigned long long stop_sector = 0;
- 		if (repl_state == L_VERIFY_S ||
- 		    repl_state == L_VERIFY_T) {
--			bit_pos = bm_bits - pd->ov_left;
-+			bit_pos = bm_bits - (unsigned long)atomic64_read(&pd->ov_left);
- 			stop_sector = pd->ov_stop_sector;
- 		} else
- 			bit_pos = pd->resync_next_bit;
-diff --git a/drbd/drbd_int.h b/drbd/drbd_int.h
-index c042f39..ca5877b 100644
---- a/drbd/drbd_int.h
-+++ b/drbd/drbd_int.h
-@@ -1254,7 +1254,7 @@ struct drbd_peer_device {
- 			      * on the lower level device when we last looked. */
- 	int rs_in_flight; /* resync sectors in flight (to proxy, in proxy and from proxy) */
- 	ktime_t rs_last_mk_req_kt;
--	unsigned long ov_left; /* in bits */
-+	atomic64_t ov_left; /* in bits */
- 	unsigned long ov_skipped; /* in bits */
- 	u64 rs_start_uuid;
- 
-diff --git a/drbd/drbd_nl.c b/drbd/drbd_nl.c
-index 8f49f84..b6ac19f 100644
---- a/drbd/drbd_nl.c
-+++ b/drbd/drbd_nl.c
-@@ -5795,11 +5795,11 @@ static void peer_device_to_statistics(struct peer_device_statistics *s,
- 	s->peer_dev_out_of_sync = BM_BIT_TO_SECT(drbd_bm_total_weight(pd));
- 
- 	if (is_verify_state(pd, NOW)) {
--		rs_left = BM_BIT_TO_SECT(pd->ov_left);
-+		rs_left = BM_BIT_TO_SECT(atomic64_read(&pd->ov_left));
- 		s->peer_dev_ov_start_sector = pd->ov_start_sector;
- 		s->peer_dev_ov_stop_sector = pd->ov_stop_sector;
- 		s->peer_dev_ov_position = pd->ov_position;
--		s->peer_dev_ov_left = BM_BIT_TO_SECT(pd->ov_left);
-+		s->peer_dev_ov_left = BM_BIT_TO_SECT(atomic64_read(&pd->ov_left));
- 		s->peer_dev_ov_skipped = BM_BIT_TO_SECT(pd->ov_skipped);
- 	} else if (is_sync_state(pd, NOW)) {
- 		rs_left = s->peer_dev_out_of_sync - BM_BIT_TO_SECT(pd->rs_failed);
-diff --git a/drbd/drbd_receiver.c b/drbd/drbd_receiver.c
-index f077f2b..bea6e09 100644
---- a/drbd/drbd_receiver.c
-+++ b/drbd/drbd_receiver.c
-@@ -3131,7 +3131,7 @@ bool drbd_rs_c_min_rate_throttle(struct drbd_peer_device *peer_device)
- 		i = (peer_device->rs_last_mark + DRBD_SYNC_MARKS-1) % DRBD_SYNC_MARKS;
- 
- 		if (peer_device->repl_state[NOW] == L_VERIFY_S || peer_device->repl_state[NOW] == L_VERIFY_T)
--			rs_left = peer_device->ov_left;
-+			rs_left = atomic64_read(&peer_device->ov_left);
- 		else
- 			rs_left = drbd_bm_total_weight(peer_device) - peer_device->rs_failed;
- 
-@@ -3330,13 +3330,14 @@ static int receive_DataRequest(struct drbd_connection *connection, struct packet
- 		if (peer_device->ov_start_sector == ~(sector_t)0) {
- 			unsigned long now = jiffies;
- 			int i;
-+			unsigned long ov_left = drbd_bm_bits(device) - BM_SECT_TO_BIT(sector);
-+			atomic64_set(&peer_device->ov_left, ov_left);	
- 			peer_device->ov_start_sector = sector;
--			peer_device->ov_left = drbd_bm_bits(device) - BM_SECT_TO_BIT(sector);
- 			peer_device->ov_skipped = 0;
--			peer_device->rs_total = peer_device->ov_left;
-+			peer_device->rs_total = ov_left;
- 			peer_device->rs_last_writeout = now;
- 			for (i = 0; i < DRBD_SYNC_MARKS; i++) {
--				peer_device->rs_mark_left[i] = peer_device->ov_left;
-+				peer_device->rs_mark_left[i] = ov_left;
- 				peer_device->rs_mark_time[i] = now;
- 			}
- 			drbd_info(device, "Online Verify start sector: %llu\n",
-diff --git a/drbd/drbd_sender.c b/drbd/drbd_sender.c
-index 134e6b9..5d514c5 100644
---- a/drbd/drbd_sender.c
-+++ b/drbd/drbd_sender.c
-@@ -1280,7 +1280,7 @@ void drbd_resync_finished(struct drbd_peer_device *peer_device,
- 	db = peer_device->rs_total;
- 	/* adjust for verify start and stop sectors, respective reached position */
- 	if (repl_state[NOW] == L_VERIFY_S || repl_state[NOW] == L_VERIFY_T)
--		db -= peer_device->ov_left;
-+		db -= atomic64_read(&peer_device->ov_left);
- 
- 	dbdt = Bit2KB(db/dt);
- 	peer_device->rs_paused /= HZ;
-@@ -1424,7 +1424,7 @@ out_unlock:
- 
- out:
- 	/* reset start sector, if we reached end of device */
--	if (verify_done && peer_device->ov_left == 0)
-+	if (verify_done && atomic64_read(&peer_device->ov_left) == 0)
- 		peer_device->ov_start_sector = 0;
- 
- 	drbd_md_sync_if_dirty(device);
-@@ -1711,13 +1711,13 @@ void verify_progress(struct drbd_peer_device *peer_device,
- 		(peer_device->repl_state[NOW] == L_VERIFY_S) &&
- 		(sector + (size>>9)) >= peer_device->ov_stop_sector;
- 
--	--peer_device->ov_left;
-+	unsigned long ov_left = atomic64_dec_return(&peer_device->ov_left);
- 
- 	/* let's advance progress step marks only for every other megabyte */
--	if ((peer_device->ov_left & 0x1ff) == 0)
--		drbd_advance_rs_marks(peer_device, peer_device->ov_left);
-+	if ((ov_left & 0x1ff) == 0)
-+		drbd_advance_rs_marks(peer_device, ov_left);
- 
--	if (peer_device->ov_left == 0 || stop_sector_reached)
-+	if (ov_left == 0 || stop_sector_reached)
- 		drbd_peer_device_post_work(peer_device, RS_DONE);
- }
- 
-diff --git a/drbd/drbd_state.c b/drbd/drbd_state.c
-index 896c035..7f81192 100644
---- a/drbd/drbd_state.c
-+++ b/drbd/drbd_state.c
-@@ -2234,7 +2234,7 @@ static void set_ov_position(struct drbd_peer_device *peer_device,
- 			peer_device->rs_total -= bit;
- 		peer_device->ov_position = peer_device->ov_start_sector;
- 	}
--	peer_device->ov_left = peer_device->rs_total;
-+	atomic64_set(&peer_device->ov_left, peer_device->rs_total);
- 	peer_device->ov_skipped = 0;
- }
- 
-@@ -2416,6 +2416,7 @@ static void finish_state_change(struct drbd_resource *resource, struct completio
- 			enum drbd_disk_state *peer_disk_state = peer_device->disk_state;
- 			struct drbd_connection *connection = peer_device->connection;
- 			enum drbd_role *peer_role = connection->peer_role;
-+			unsigned long ov_left = atomic64_read(&peer_device->ov_left);
- 
- 			if (repl_state[OLD] <= L_ESTABLISHED && repl_state[NEW] == L_WF_BITMAP_S)
- 				starting_resync = true;
-@@ -2432,8 +2433,8 @@ static void finish_state_change(struct drbd_resource *resource, struct completio
- 			if ((repl_state[OLD] == L_VERIFY_S || repl_state[OLD] == L_VERIFY_T) &&
- 			    repl_state[NEW] <= L_ESTABLISHED) {
- 				peer_device->ov_start_sector =
--					BM_BIT_TO_SECT(drbd_bm_bits(device) - peer_device->ov_left);
--				if (peer_device->ov_left)
-+					BM_BIT_TO_SECT(drbd_bm_bits(device) - ov_left);
-+				if (ov_left)
- 					drbd_info(peer_device, "Online Verify reached sector %llu\n",
- 						  (unsigned long long)peer_device->ov_start_sector);
- 			}
-@@ -2475,7 +2476,7 @@ static void finish_state_change(struct drbd_resource *resource, struct completio
- 				peer_device->ov_last_skipped_start = 0;
- 				peer_device->rs_last_writeout = now;
- 				for (i = 0; i < DRBD_SYNC_MARKS; i++) {
--					peer_device->rs_mark_left[i] = peer_device->ov_left;
-+					peer_device->rs_mark_left[i] = peer_device->rs_total;
- 					peer_device->rs_mark_time[i] = now;
- 				}
- 
--- 
-1.8.3.1
+PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
+Zm9udC1mYW1pbHk6QXJpYWwiPjxkaXY+SGkgSm9lbCw8L2Rpdj48ZGl2PjxiciAvPjwvZGl2Pjxk
+aXY+VGhhbmtzIGZvciB5b3VyIHN1Z2dlc3Rpb24gYW5kIGkndmUgc2VudCBhIG5ldyBwYXRjaCBm
+b3IgaXQuPC9kaXY+PGRpdj48YnIgLz48L2Rpdj48ZGl2PlRoYW5rcyw8L2Rpdj48ZGl2Plh1PGJy
+IC8+PC9kaXY+PGJyIC8+PGJyIC8+PGJyIC8+PGJyIC8+PGRpdiAgc3R5bGU9InBvc2l0aW9uOnJl
+bGF0aXZlO3pvb206MSI+PC9kaXY+PGJyIC8+PHByZT48YnIgLz5Gcm9tOiBKb2VsIENvbGxlZGdl
+ICZsdDtqb2VsLmNvbGxlZGdlQGxpbmJpdC5jb20mZ3Q7CkRhdGU6IDIwMjItMDUtMDMgMTY6Mzc6
+MjgKVG86ICBSdWkgWHUgJmx0O3J1aS54dUBlYXN5c3RhY2suY24mZ3Q7CkNjOiAgUGhpbGlwcCBS
+ZWlzbmVyICZsdDtwaGlsaXBwLnJlaXNuZXJAbGluYml0LmNvbSZndDssZHJiZC1kZXZAbGlzdHMu
+bGluYml0LmNvbQpTdWJqZWN0OiBSZTogW0RyYmQtZGV2XSBbUEFUQ0hdIGRyYmQ6IGNoYW5nZSB0
+aGUgdmFyaWFibGUgb3ZfbGVmdCB0byBhdG9taWMmZ3Q7SGkgWHUsCiZndDsKJmd0O1lvdXIgYW5h
+bHlzaXMgb2YgdGhlIHByb2JsZW0gc2VlbXMgY29ycmVjdCB0byBtZS4gU29tZSBkZXRhaWxzIG9m
+IHRoZQomZ3Q7Zml4IGNvdWxkIGJlIGltcHJvdmVkLgomZ3Q7CiZndDtJbiB2ZXJpZnlfcHJvZ3Jl
+c3MoKSB0aGVyZSBhcmUgbm93IDMgc2VwYXJhdGUgYXRvbWljIG9wZXJhdGlvbnMuIEl0CiZndDt3
+b3VsZCBiZSBiZXR0ZXIgdG8gdXNlIGF0b21pYzY0X2RlY19yZXR1cm4oKSBhbmQgdGhlbiB1c2Ug
+dGhlIHJldHVybmVkCiZndDt2YWx1ZSBpbnN0ZWFkIG9mIGNhbGxpbmcgYXRvbWljNjRfcmVhZCgp
+IHNlcGFyYXRlbHkuIFRoaXMgY291bGQgaGF2ZQomZ3Q7bWlub3IgZWZmZWN0cyBvbiB0aGUgYmVo
+YXZpb3IuCiZndDsKJmd0O1NpbWlsYXJseSwgaW4gcmVjZWl2ZV9EYXRhUmVxdWVzdCgpIHRoZXJl
+IGlzIG5vIG5lZWQgdG8gcmVhZCBvdl9sZWZ0CiZndDthZ2FpbiBhZnRlciBzZXR0aW5nIGl0LiBU
+aGlzIHNob3VsZCBoYXZlIG5vIGVmZmVjdCBvbiB0aGUgYmVoYXZpb3IsCiZndDtidXQgbGVhZHMg
+dG8gY2xlYW5lciBjb2RlLgomZ3Q7CiZndDtBbHNvIHRoZSByZXBlYXRlZCByZWFkcyBpbiBmaW5p
+c2hfc3RhdGVfY2hhbmdlKCkgY291bGQgYmUgYXZvaWRlZCBmb3IKJmd0O2NsZWFuZXIgY29kZS4g
+VGFrZSBjYXJlIG9mIHRoZSByZWFkIGFmdGVyIHNldF9vdl9wb3NpdGlvbigpLCBzaW5jZQomZ3Q7
+dGhhdCBjaGFuZ2VzIHRoZSB2YWx1ZSBvZiBvdl9sZWZ0LiBZb3UgY291bGQgdXNlIHBlZXJfZGV2
+aWNlLSZndDtyc190b3RhbAomZ3Q7aW5zdGVhZCBvZiBwZWVyX2RldmljZS0mZ3Q7b3ZfbGVmdCB0
+aGVyZSwgc2luY2UgdGhhdCBpcyB3aGF0IGl0IGlzIHNldCB0bwomZ3Q7aW4gc2V0X292X3Bvc2l0
+aW9uKCkuCiZndDsKJmd0O0Jlc3QgcmVnYXJkcywKJmd0O0pvZWwKPC9wcmU+PC9kaXY+PGJyPg==
+--=_Part_145293_1124418749.1651912068250--
+
+--===============8773276521233427826==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
 https://lists.linbit.com/mailman/listinfo/drbd-dev
+
+--===============8773276521233427826==--
