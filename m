@@ -2,57 +2,44 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3D06523379
-	for <lists+drbd-dev@lfdr.de>; Wed, 11 May 2022 14:57:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A25B1524E8D
+	for <lists+drbd-dev@lfdr.de>; Thu, 12 May 2022 15:45:47 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 54DAC420620;
-	Wed, 11 May 2022 14:57:34 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 70D0B420835;
+	Thu, 12 May 2022 15:45:46 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
-	[209.85.218.52])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A406F420372
-	for <drbd-dev@lists.linbit.com>; Wed, 11 May 2022 14:57:32 +0200 (CEST)
-Received: by mail-ej1-f52.google.com with SMTP id g6so3910823ejw.1
-	for <drbd-dev@lists.linbit.com>; Wed, 11 May 2022 05:57:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linbit-com.20210112.gappssmtp.com; s=20210112;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=uEi4yzhbI7jqCjtEXz9AYoFve5a1zJAPo8B/uGqWbMk=;
-	b=QaGbbub3etgXuMsMy2s9jKeAfRen6DntecD7YHDzF6RL7NaUX7QLgTvQkeazCN5vZW
-	XeRjf2ty7Q1cpOzrjYOmxvTGjrkrAfxDZGoBSCN8LwT3iZosb0f0OhkGBfHg742I6oUi
-	md1BkMDTWHgYwIcs5pzK6aYUxZtd+3pt6RJ+9hrIIgw89eeZ2dKKLQlkzFpunyQO1UQQ
-	qNc83hAKyfXDnQ9WPLq1MZVILd5ywQAmcjllrhLrNJNgI972m34ygEW5d75eJBXIDIYZ
-	3w4WKQ5UOC+sq9T7xcQ8k9+YrvZqOF3L4I+UNSQCf4+2y+Dj0RZIi4hCuF0xlMqh2muC
-	JFOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20210112;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=uEi4yzhbI7jqCjtEXz9AYoFve5a1zJAPo8B/uGqWbMk=;
-	b=e05Zmyxn98USPIe/89JkENBaeGeEI4Igi5JS5bDMc1PHCls5ATY6J76F5R5OE2vtzp
-	pqnXcbGOuZmw286vCKypQSJ4m6taF4lbor/v91JF/S4ZJ7uiT6zZP3jc+9WlMcHNIxkT
-	MiSByOJpD8tAvAROUUdKwjIqtFoD+ZK6k5c75vTLhm81uoZ35S3cYij5EygrKK5A9VE1
-	O7MEWRaSe0S0sQZFf9dlTosXWcLRu2mqrGlpq7SsuLWLI41/IPlJOK2CF91sKl1n0QZQ
-	d06V6D/6MF6jiPO0aYBVpjbDvPLTUyb2h95ozAdb9+hyxuEY7l+6l+9Rgg9r3AIUO/uV
-	gLzQ==
-X-Gm-Message-State: AOAM532oO9xyB1faI0JLe+q7LbFLhE47WsK5+G44eC8qzqgnAYV8A+PB
-	1XgPcB/ZGp2U4LJN5swgTdgf0ivF8/qxO1SNH2lcruU9RlN+DYuK
-X-Google-Smtp-Source: ABdhPJzVDZ6oVbG+qF8BjS0K8R1RFB18ff5e5hZ4aBhZKp9xOYILYDmUIcV63cAk6KUrQoWPTQ/klC8amYaFZ5ojx4o=
-X-Received: by 2002:a17:907:971b:b0:6f4:3b8c:ae04 with SMTP id
-	jg27-20020a170907971b00b006f43b8cae04mr24652008ejc.548.1652273792030;
-	Wed, 11 May 2022 05:56:32 -0700 (PDT)
+X-Greylist: delayed 545 seconds by postgrey-1.31 at mail19;
+	Thu, 12 May 2022 15:45:44 CEST
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id DE95B420620
+	for <drbd-dev@lists.linbit.com>; Thu, 12 May 2022 15:45:44 +0200 (CEST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 7C5EAB82824;
+	Thu, 12 May 2022 13:36:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E93D6C385B8;
+	Thu, 12 May 2022 13:36:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1652362597;
+	bh=rE4QEyUb4MKsqyAyI4vk8vafoo8AxA00Z7qGR4Faxws=;
+	h=Subject:To:Cc:From:Date:From;
+	b=s59tJZMU8O0A/eHbeRy2R10hFy+SC0esWW4LlThtO8atRmsiaNbB105GUeRcYQMMK
+	FFvfsZIqnsHFoqzuICI87DcvhXvsj1DfAx9i48i7pZ+aGO70I6DkLjw1ayZqUsuU8V
+	UueqER0LglmXST26zrfHmWWawoDpJbCYgn73Ki3o=
+To: axboe@kernel.dk, drbd-dev@lists.linbit.com, gregkh@linuxfoundation.org,
+	lars.ellenberg@linbit.com, lee.jones@linaro.org,
+	nathan@kernel.org, philipp.reisner@linbit.com
+From: <gregkh@linuxfoundation.org>
+Date: Thu, 12 May 2022 15:36:34 +0200
+Message-ID: <1652362594246150@kroah.com>
 MIME-Version: 1.0
-References: <CAGNP_+VQDpNfrDgWLDc0F1Va-Fnt5VEAFreXVn7ufiq6R_OJTQ@mail.gmail.com>
-	<ABEAGAAXIWGeUYOCD1PNhaqL.3.1652248501946.Hmail.rui.xu@easystack.cn>
-In-Reply-To: <ABEAGAAXIWGeUYOCD1PNhaqL.3.1652248501946.Hmail.rui.xu@easystack.cn>
-From: Joel Colledge <joel.colledge@linbit.com>
-Date: Wed, 11 May 2022 14:56:20 +0200
-Message-ID: <CAGNP_+WCw4+Obv_o0631Mi4Nub52O3OgHsCO_jesc-dGxBfUsQ@mail.gmail.com>
-To: "rui.xu" <rui.xu@easystack.cn>
-Cc: Philipp Reisner <philipp.reisner@linbit.com>, dongsheng.yang@easystack.cn,
-	drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] drbd: a proposal of two-primaries mode
+X-stable: commit
+X-Patchwork-Hint: ignore 
+Cc: stable-commits@vger.kernel.org
+Subject: [Drbd-dev] Patch "block: drbd: drbd_nl: Make conversion to 'enum
+	drbd_ret_code' explicit" has been added to the 4.9-stable tree
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -66,38 +53,90 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Hi Xu,
-
-The topic of active/active iSCSI targets on dual primary DRBD has been
-discussed in detail before. Here are some examples:
-
-https://lists.linbit.com/pipermail/drbd-user/2010-October/014845.html
-https://lists.linbit.com/pipermail/drbd-user/2011-November/017238.html
-https://lists.linbit.com/pipermail/drbd-user/2013-October/020295.html
-
-In short, active/active iSCSI targets with dual primary DRBD is not
-recommended. Unless there have been significant recent developments,
-this is still the case.
-
-The solution with iSCSI target failover via a cluster manager should
-not introduce much more failover delay. You need to get the
-distributed lock from your paxos system already. That is essentially
-the same as what the cluster manager would do. The only additional
-overhead is that you have to promote DRBD and start an iSCSI target.
-
-You could try configuring your iSCSI initiator into a failover mode,
-rather than load balancing, assuming it has such an option. Although
-this is not the solution I would recommend, it is less likely to run
-into problems.
-
-Best regards,
-Joel
-_______________________________________________
-drbd-dev mailing list
-drbd-dev@lists.linbit.com
-https://lists.linbit.com/mailman/listinfo/drbd-dev
+ClRoaXMgaXMgYSBub3RlIHRvIGxldCB5b3Uga25vdyB0aGF0IEkndmUganVzdCBhZGRlZCB0aGUg
+cGF0Y2ggdGl0bGVkCgogICAgYmxvY2s6IGRyYmQ6IGRyYmRfbmw6IE1ha2UgY29udmVyc2lvbiB0
+byAnZW51bSBkcmJkX3JldF9jb2RlJyBleHBsaWNpdAoKdG8gdGhlIDQuOS1zdGFibGUgdHJlZSB3
+aGljaCBjYW4gYmUgZm91bmQgYXQ6CiAgICBodHRwOi8vd3d3Lmtlcm5lbC5vcmcvZ2l0Lz9wPWxp
+bnV4L2tlcm5lbC9naXQvc3RhYmxlL3N0YWJsZS1xdWV1ZS5naXQ7YT1zdW1tYXJ5CgpUaGUgZmls
+ZW5hbWUgb2YgdGhlIHBhdGNoIGlzOgogICAgIGJsb2NrLWRyYmQtZHJiZF9ubC1tYWtlLWNvbnZl
+cnNpb24tdG8tZW51bS1kcmJkX3JldF9jb2RlLWV4cGxpY2l0LnBhdGNoCmFuZCBpdCBjYW4gYmUg
+Zm91bmQgaW4gdGhlIHF1ZXVlLTQuOSBzdWJkaXJlY3RvcnkuCgpJZiB5b3UsIG9yIGFueW9uZSBl
+bHNlLCBmZWVscyBpdCBzaG91bGQgbm90IGJlIGFkZGVkIHRvIHRoZSBzdGFibGUgdHJlZSwKcGxl
+YXNlIGxldCA8c3RhYmxlQHZnZXIua2VybmVsLm9yZz4ga25vdyBhYm91dCBpdC4KCgpGcm9tIDFm
+MWU4N2I0ZGM0NTk4ZWFjNTdhNjk4Njg1MzRiOTJkNjVlNDdlODIgTW9uIFNlcCAxNyAwMDowMDow
+MCAyMDAxCkZyb206IExlZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFyby5vcmc+CkRhdGU6IEZyaSwg
+MTIgTWFyIDIwMjEgMTA6NTU6MjYgKzAwMDAKU3ViamVjdDogYmxvY2s6IGRyYmQ6IGRyYmRfbmw6
+IE1ha2UgY29udmVyc2lvbiB0byAnZW51bSBkcmJkX3JldF9jb2RlJyBleHBsaWNpdApNSU1FLVZl
+cnNpb246IDEuMApDb250ZW50LVR5cGU6IHRleHQvcGxhaW47IGNoYXJzZXQ9VVRGLTgKQ29udGVu
+dC1UcmFuc2Zlci1FbmNvZGluZzogOGJpdAoKRnJvbTogTGVlIEpvbmVzIDxsZWUuam9uZXNAbGlu
+YXJvLm9yZz4KCmNvbW1pdCAxZjFlODdiNGRjNDU5OGVhYzU3YTY5ODY4NTM0YjkyZDY1ZTQ3ZTgy
+IHVwc3RyZWFtLgoKRml4ZXMgdGhlIGZvbGxvd2luZyBXPTEga2VybmVsIGJ1aWxkIHdhcm5pbmco
+cyk6CgogZnJvbSBkcml2ZXJzL2Jsb2NrL2RyYmQvZHJiZF9ubC5jOjI0OgogZHJpdmVycy9ibG9j
+ay9kcmJkL2RyYmRfbmwuYzogSW4gZnVuY3Rpb24g4oCYZHJiZF9hZG1fc2V0X3JvbGXigJk6CiBk
+cml2ZXJzL2Jsb2NrL2RyYmQvZHJiZF9ubC5jOjc5MzoxMTogd2FybmluZzogaW1wbGljaXQgY29u
+dmVyc2lvbiBmcm9tIOKAmGVudW0gZHJiZF9zdGF0ZV9yduKAmSB0byDigJhlbnVtIGRyYmRfcmV0
+X2NvZGXigJkgWy1XZW51bS1jb252ZXJzaW9uXQogZHJpdmVycy9ibG9jay9kcmJkL2RyYmRfbmwu
+Yzo3OTU6MTE6IHdhcm5pbmc6IGltcGxpY2l0IGNvbnZlcnNpb24gZnJvbSDigJhlbnVtIGRyYmRf
+c3RhdGVfcnbigJkgdG8g4oCYZW51bSBkcmJkX3JldF9jb2Rl4oCZIFstV2VudW0tY29udmVyc2lv
+bl0KIGRyaXZlcnMvYmxvY2svZHJiZC9kcmJkX25sLmM6IEluIGZ1bmN0aW9uIOKAmGRyYmRfYWRt
+X2F0dGFjaOKAmToKIGRyaXZlcnMvYmxvY2svZHJiZC9kcmJkX25sLmM6MTk2NToxMDogd2Fybmlu
+ZzogaW1wbGljaXQgY29udmVyc2lvbiBmcm9tIOKAmGVudW0gZHJiZF9zdGF0ZV9yduKAmSB0byDi
+gJhlbnVtIGRyYmRfcmV0X2NvZGXigJkgWy1XZW51bS1jb252ZXJzaW9uXQogZHJpdmVycy9ibG9j
+ay9kcmJkL2RyYmRfbmwuYzogSW4gZnVuY3Rpb24g4oCYZHJiZF9hZG1fY29ubmVjdOKAmToKIGRy
+aXZlcnMvYmxvY2svZHJiZC9kcmJkX25sLmM6MjY5MDoxMDogd2FybmluZzogaW1wbGljaXQgY29u
+dmVyc2lvbiBmcm9tIOKAmGVudW0gZHJiZF9zdGF0ZV9yduKAmSB0byDigJhlbnVtIGRyYmRfcmV0
+X2NvZGXigJkgWy1XZW51bS1jb252ZXJzaW9uXQogZHJpdmVycy9ibG9jay9kcmJkL2RyYmRfbmwu
+YzogSW4gZnVuY3Rpb24g4oCYZHJiZF9hZG1fZGlzY29ubmVjdOKAmToKIGRyaXZlcnMvYmxvY2sv
+ZHJiZC9kcmJkX25sLmM6MjgwMzoxMTogd2FybmluZzogaW1wbGljaXQgY29udmVyc2lvbiBmcm9t
+IOKAmGVudW0gZHJiZF9zdGF0ZV9yduKAmSB0byDigJhlbnVtIGRyYmRfcmV0X2NvZGXigJkgWy1X
+ZW51bS1jb252ZXJzaW9uXQoKQ2M6IFBoaWxpcHAgUmVpc25lciA8cGhpbGlwcC5yZWlzbmVyQGxp
+bmJpdC5jb20+CkNjOiBMYXJzIEVsbGVuYmVyZyA8bGFycy5lbGxlbmJlcmdAbGluYml0LmNvbT4K
+Q2M6IEplbnMgQXhib2UgPGF4Ym9lQGtlcm5lbC5kaz4KQ2M6IGRyYmQtZGV2QGxpc3RzLmxpbmJp
+dC5jb20KQ2M6IGxpbnV4LWJsb2NrQHZnZXIua2VybmVsLm9yZwpTaWduZWQtb2ZmLWJ5OiBMZWUg
+Sm9uZXMgPGxlZS5qb25lc0BsaW5hcm8ub3JnPgpMaW5rOiBodHRwczovL2xvcmUua2VybmVsLm9y
+Zy9yLzIwMjEwMzEyMTA1NTMwLjIyMTkwMDgtOC1sZWUuam9uZXNAbGluYXJvLm9yZwpTaWduZWQt
+b2ZmLWJ5OiBKZW5zIEF4Ym9lIDxheGJvZUBrZXJuZWwuZGs+CkNjOiBOYXRoYW4gQ2hhbmNlbGxv
+ciA8bmF0aGFuQGtlcm5lbC5vcmc+ClNpZ25lZC1vZmYtYnk6IEdyZWcgS3JvYWgtSGFydG1hbiA8
+Z3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5vcmc+Ci0tLQogZHJpdmVycy9ibG9jay9kcmJkL2RyYmRf
+bmwuYyB8ICAgMTMgKysrKysrKystLS0tLQogMSBmaWxlIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygr
+KSwgNSBkZWxldGlvbnMoLSkKCi0tLSBhL2RyaXZlcnMvYmxvY2svZHJiZC9kcmJkX25sLmMKKysr
+IGIvZHJpdmVycy9ibG9jay9kcmJkL2RyYmRfbmwuYwpAQCAtNzc0LDkgKzc3NCwxMSBAQCBpbnQg
+ZHJiZF9hZG1fc2V0X3JvbGUoc3RydWN0IHNrX2J1ZmYgKnNrCiAJbXV0ZXhfbG9jaygmYWRtX2N0
+eC5yZXNvdXJjZS0+YWRtX211dGV4KTsKIAogCWlmIChpbmZvLT5nZW5saGRyLT5jbWQgPT0gRFJC
+RF9BRE1fUFJJTUFSWSkKLQkJcmV0Y29kZSA9IGRyYmRfc2V0X3JvbGUoYWRtX2N0eC5kZXZpY2Us
+IFJfUFJJTUFSWSwgcGFybXMuYXNzdW1lX3VwdG9kYXRlKTsKKwkJcmV0Y29kZSA9IChlbnVtIGRy
+YmRfcmV0X2NvZGUpZHJiZF9zZXRfcm9sZShhZG1fY3R4LmRldmljZSwKKwkJCQkJCVJfUFJJTUFS
+WSwgcGFybXMuYXNzdW1lX3VwdG9kYXRlKTsKIAllbHNlCi0JCXJldGNvZGUgPSBkcmJkX3NldF9y
+b2xlKGFkbV9jdHguZGV2aWNlLCBSX1NFQ09OREFSWSwgMCk7CisJCXJldGNvZGUgPSAoZW51bSBk
+cmJkX3JldF9jb2RlKWRyYmRfc2V0X3JvbGUoYWRtX2N0eC5kZXZpY2UsCisJCQkJCQlSX1NFQ09O
+REFSWSwgMCk7CiAKIAltdXRleF91bmxvY2soJmFkbV9jdHgucmVzb3VyY2UtPmFkbV9tdXRleCk7
+CiAJZ2VubF9sb2NrKCk7CkBAIC0xOTMzLDcgKzE5MzUsNyBAQCBpbnQgZHJiZF9hZG1fYXR0YWNo
+KHN0cnVjdCBza19idWZmICpza2IsCiAJZHJiZF9mbHVzaF93b3JrcXVldWUoJmNvbm5lY3Rpb24t
+PnNlbmRlcl93b3JrKTsKIAogCXJ2ID0gX2RyYmRfcmVxdWVzdF9zdGF0ZShkZXZpY2UsIE5TKGRp
+c2ssIERfQVRUQUNISU5HKSwgQ1NfVkVSQk9TRSk7Ci0JcmV0Y29kZSA9IHJ2OyAgLyogRklYTUU6
+IFR5cGUgbWlzbWF0Y2guICovCisJcmV0Y29kZSA9IChlbnVtIGRyYmRfcmV0X2NvZGUpcnY7CiAJ
+ZHJiZF9yZXN1bWVfaW8oZGV2aWNlKTsKIAlpZiAocnYgPCBTU19TVUNDRVNTKQogCQlnb3RvIGZh
+aWw7CkBAIC0yNjg0LDcgKzI2ODYsOCBAQCBpbnQgZHJiZF9hZG1fY29ubmVjdChzdHJ1Y3Qgc2tf
+YnVmZiAqc2tiCiAJfQogCXJjdV9yZWFkX3VubG9jaygpOwogCi0JcmV0Y29kZSA9IGNvbm5fcmVx
+dWVzdF9zdGF0ZShjb25uZWN0aW9uLCBOUyhjb25uLCBDX1VOQ09OTkVDVEVEKSwgQ1NfVkVSQk9T
+RSk7CisJcmV0Y29kZSA9IChlbnVtIGRyYmRfcmV0X2NvZGUpY29ubl9yZXF1ZXN0X3N0YXRlKGNv
+bm5lY3Rpb24sCisJCQkJCU5TKGNvbm4sIENfVU5DT05ORUNURUQpLCBDU19WRVJCT1NFKTsKIAog
+CWNvbm5fcmVjb25maWdfZG9uZShjb25uZWN0aW9uKTsKIAltdXRleF91bmxvY2soJmFkbV9jdHgu
+cmVzb3VyY2UtPmFkbV9tdXRleCk7CkBAIC0yNzkwLDcgKzI3OTMsNyBAQCBpbnQgZHJiZF9hZG1f
+ZGlzY29ubmVjdChzdHJ1Y3Qgc2tfYnVmZiAqCiAJbXV0ZXhfbG9jaygmYWRtX2N0eC5yZXNvdXJj
+ZS0+YWRtX211dGV4KTsKIAlydiA9IGNvbm5fdHJ5X2Rpc2Nvbm5lY3QoY29ubmVjdGlvbiwgcGFy
+bXMuZm9yY2VfZGlzY29ubmVjdCk7CiAJaWYgKHJ2IDwgU1NfU1VDQ0VTUykKLQkJcmV0Y29kZSA9
+IHJ2OyAgLyogRklYTUU6IFR5cGUgbWlzbWF0Y2guICovCisJCXJldGNvZGUgPSAoZW51bSBkcmJk
+X3JldF9jb2RlKXJ2OwogCWVsc2UKIAkJcmV0Y29kZSA9IE5PX0VSUk9SOwogCW11dGV4X3VubG9j
+aygmYWRtX2N0eC5yZXNvdXJjZS0+YWRtX211dGV4KTsKCgpQYXRjaGVzIGN1cnJlbnRseSBpbiBz
+dGFibGUtcXVldWUgd2hpY2ggbWlnaHQgYmUgZnJvbSBsZWUuam9uZXNAbGluYXJvLm9yZyBhcmUK
+CnF1ZXVlLTQuOS9ibG9jay1kcmJkLWRyYmRfbmwtbWFrZS1jb252ZXJzaW9uLXRvLWVudW0tZHJi
+ZF9yZXRfY29kZS1leHBsaWNpdC5wYXRjaApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmJkLWRldiBtYWlsaW5nIGxpc3QKZHJiZC1kZXZAbGlzdHMubGlu
+Yml0LmNvbQpodHRwczovL2xpc3RzLmxpbmJpdC5jb20vbWFpbG1hbi9saXN0aW5mby9kcmJkLWRl
+dgo=
