@@ -2,38 +2,37 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF30B5263DE
-	for <lists+drbd-dev@lfdr.de>; Fri, 13 May 2022 16:25:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 082F75263F4
+	for <lists+drbd-dev@lfdr.de>; Fri, 13 May 2022 16:26:09 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B13FB420219;
-	Fri, 13 May 2022 16:25:38 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E224C4203A9;
+	Fri, 13 May 2022 16:26:08 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 75D00420219
-	for <drbd-dev@lists.linbit.com>;
-	Fri, 13 May 2022 16:25:37 +0200 (CEST)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5A0974202A8
+	for <drbd-dev@lists.linbit.com>; Fri, 13 May 2022 16:25:54 +0200 (CEST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id D68576214D;
-	Fri, 13 May 2022 14:25:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA5CEC36AE3;
-	Fri, 13 May 2022 14:25:05 +0000 (UTC)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 91298B83076;
+	Fri, 13 May 2022 14:25:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD4A8C36AEB;
+	Fri, 13 May 2022 14:25:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1652451906;
+	s=korg; t=1652451954;
 	bh=1rAX63CmmlAyCcvSdcrn1qcybbMifvjTCNBFWxMoBnI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=hkRcUpyEKoLD5+l9czcAZLQ8wwqh0291Hdt0eYzl9OO2Bm2L8yf3bQ3jmE+kjSeId
-	R/jWFPz4KsL0UFFB+xRiQiIf13cAEtFImrrYuu2zXp4qeDL55i4id1oHE2jtjAij9q
-	CeO+Z6tajx+V/sZJQ/qbTR8/xaR1vSAsYttdAT0c=
+	b=hNdcslPLPKaKCeMF8yJjz4ItHNWUwxdbqvZnv5P2SUlvq3RKvwUY2zbCWmXXgReOD
+	CFHYSHNOX9fmnbdjqkAUwfR0gNjO/p30/sGNy0WTlaUuXg7TTuqo4vxUEaMBtn68KF
+	usRH3SgrPYPlbVumvGd2RswcCvG9kMBrewRron5A=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Date: Fri, 13 May 2022 16:23:18 +0200
-Message-Id: <20220513142227.454534022@linuxfoundation.org>
+Date: Fri, 13 May 2022 16:23:24 +0200
+Message-Id: <20220513142227.970166768@linuxfoundation.org>
 X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220513142227.381154244@linuxfoundation.org>
-References: <20220513142227.381154244@linuxfoundation.org>
+In-Reply-To: <20220513142227.897535454@linuxfoundation.org>
+References: <20220513142227.897535454@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Cc: Jens Axboe <axboe@kernel.dk>, Nathan Chancellor <nathan@kernel.org>,
@@ -42,7 +41,7 @@ Cc: Jens Axboe <axboe@kernel.dk>, Nathan Chancellor <nathan@kernel.org>,
 	stable@vger.kernel.org, linux-block@vger.kernel.org,
 	Lars Ellenberg <lars.ellenberg@linbit.com>,
 	Lee Jones <lee.jones@linaro.org>, drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 4.14 02/14] block: drbd: drbd_nl: Make conversion
+Subject: [Drbd-dev] [PATCH 4.19 02/15] block: drbd: drbd_nl: Make conversion
 	to enum drbd_ret_code explicit
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
