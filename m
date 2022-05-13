@@ -2,38 +2,38 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id E23905263DD
-	for <lists+drbd-dev@lfdr.de>; Fri, 13 May 2022 16:25:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF30B5263DE
+	for <lists+drbd-dev@lfdr.de>; Fri, 13 May 2022 16:25:38 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 88AFB420323;
-	Fri, 13 May 2022 16:24:59 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B13FB420219;
+	Fri, 13 May 2022 16:25:38 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 21202420219
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 75D00420219
 	for <drbd-dev@lists.linbit.com>;
-	Fri, 13 May 2022 16:24:57 +0200 (CEST)
+	Fri, 13 May 2022 16:25:37 +0200 (CEST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 3A54562070;
-	Fri, 13 May 2022 14:24:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94300C34100;
-	Fri, 13 May 2022 14:24:26 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id D68576214D;
+	Fri, 13 May 2022 14:25:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA5CEC36AE3;
+	Fri, 13 May 2022 14:25:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1652451867;
-	bh=ETI53b86DAHqatpudtFy7YPhyal4lKlxeI/cCzB39YI=;
+	s=korg; t=1652451906;
+	bh=1rAX63CmmlAyCcvSdcrn1qcybbMifvjTCNBFWxMoBnI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ooIJZw6xKVCCwyqQvgkNI2RKZBLCLG7Mm8GLQKUh+yyaJKPEvarplgoPXrwptYNXp
-	Ux892aw+DHXDoqiKXePfKGfXnOzEDRJ2RKZncqa2jUtoW5jjRNknM9b7Pg1xB7Q134
-	xs5Dm8s2VWUQC9svHvHydaBMVXaEbYmc6mBrC/Og=
+	b=hkRcUpyEKoLD5+l9czcAZLQ8wwqh0291Hdt0eYzl9OO2Bm2L8yf3bQ3jmE+kjSeId
+	R/jWFPz4KsL0UFFB+xRiQiIf13cAEtFImrrYuu2zXp4qeDL55i4id1oHE2jtjAij9q
+	CeO+Z6tajx+V/sZJQ/qbTR8/xaR1vSAsYttdAT0c=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Date: Fri, 13 May 2022 16:23:17 +0200
-Message-Id: <20220513142225.984359309@linuxfoundation.org>
+Date: Fri, 13 May 2022 16:23:18 +0200
+Message-Id: <20220513142227.454534022@linuxfoundation.org>
 X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220513142225.909697091@linuxfoundation.org>
-References: <20220513142225.909697091@linuxfoundation.org>
+In-Reply-To: <20220513142227.381154244@linuxfoundation.org>
+References: <20220513142227.381154244@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Cc: Jens Axboe <axboe@kernel.dk>, Nathan Chancellor <nathan@kernel.org>,
@@ -42,8 +42,8 @@ Cc: Jens Axboe <axboe@kernel.dk>, Nathan Chancellor <nathan@kernel.org>,
 	stable@vger.kernel.org, linux-block@vger.kernel.org,
 	Lars Ellenberg <lars.ellenberg@linbit.com>,
 	Lee Jones <lee.jones@linaro.org>, drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 4.9 2/7] block: drbd: drbd_nl: Make conversion to
-	enum drbd_ret_code explicit
+Subject: [Drbd-dev] [PATCH 4.14 02/14] block: drbd: drbd_nl: Make conversion
+	to enum drbd_ret_code explicit
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -103,20 +103,20 @@ ZG1fY3R4LmRldmljZSwKKwkJCQkJCVJfUFJJTUFSWSwgcGFybXMuYXNzdW1lX3VwdG9kYXRlKTsK
 IAllbHNlCi0JCXJldGNvZGUgPSBkcmJkX3NldF9yb2xlKGFkbV9jdHguZGV2aWNlLCBSX1NFQ09O
 REFSWSwgMCk7CisJCXJldGNvZGUgPSAoZW51bSBkcmJkX3JldF9jb2RlKWRyYmRfc2V0X3JvbGUo
 YWRtX2N0eC5kZXZpY2UsCisJCQkJCQlSX1NFQ09OREFSWSwgMCk7CiAKIAltdXRleF91bmxvY2so
-JmFkbV9jdHgucmVzb3VyY2UtPmFkbV9tdXRleCk7CiAJZ2VubF9sb2NrKCk7CkBAIC0xOTMzLDcg
-KzE5MzUsNyBAQCBpbnQgZHJiZF9hZG1fYXR0YWNoKHN0cnVjdCBza19idWZmICpza2IsCiAJZHJi
+JmFkbV9jdHgucmVzb3VyY2UtPmFkbV9tdXRleCk7CiAJZ2VubF9sb2NrKCk7CkBAIC0xOTQxLDcg
+KzE5NDMsNyBAQCBpbnQgZHJiZF9hZG1fYXR0YWNoKHN0cnVjdCBza19idWZmICpza2IsCiAJZHJi
 ZF9mbHVzaF93b3JrcXVldWUoJmNvbm5lY3Rpb24tPnNlbmRlcl93b3JrKTsKIAogCXJ2ID0gX2Ry
 YmRfcmVxdWVzdF9zdGF0ZShkZXZpY2UsIE5TKGRpc2ssIERfQVRUQUNISU5HKSwgQ1NfVkVSQk9T
 RSk7Ci0JcmV0Y29kZSA9IHJ2OyAgLyogRklYTUU6IFR5cGUgbWlzbWF0Y2guICovCisJcmV0Y29k
 ZSA9IChlbnVtIGRyYmRfcmV0X2NvZGUpcnY7CiAJZHJiZF9yZXN1bWVfaW8oZGV2aWNlKTsKIAlp
-ZiAocnYgPCBTU19TVUNDRVNTKQogCQlnb3RvIGZhaWw7CkBAIC0yNjg0LDcgKzI2ODYsOCBAQCBp
+ZiAocnYgPCBTU19TVUNDRVNTKQogCQlnb3RvIGZhaWw7CkBAIC0yNjcxLDcgKzI2NzMsOCBAQCBp
 bnQgZHJiZF9hZG1fY29ubmVjdChzdHJ1Y3Qgc2tfYnVmZiAqc2tiCiAJfQogCXJjdV9yZWFkX3Vu
 bG9jaygpOwogCi0JcmV0Y29kZSA9IGNvbm5fcmVxdWVzdF9zdGF0ZShjb25uZWN0aW9uLCBOUyhj
 b25uLCBDX1VOQ09OTkVDVEVEKSwgQ1NfVkVSQk9TRSk7CisJcmV0Y29kZSA9IChlbnVtIGRyYmRf
 cmV0X2NvZGUpY29ubl9yZXF1ZXN0X3N0YXRlKGNvbm5lY3Rpb24sCisJCQkJCU5TKGNvbm4sIENf
 VU5DT05ORUNURUQpLCBDU19WRVJCT1NFKTsKIAogCWNvbm5fcmVjb25maWdfZG9uZShjb25uZWN0
 aW9uKTsKIAltdXRleF91bmxvY2soJmFkbV9jdHgucmVzb3VyY2UtPmFkbV9tdXRleCk7CkBAIC0y
-NzkwLDcgKzI3OTMsNyBAQCBpbnQgZHJiZF9hZG1fZGlzY29ubmVjdChzdHJ1Y3Qgc2tfYnVmZiAq
+Nzc3LDcgKzI3ODAsNyBAQCBpbnQgZHJiZF9hZG1fZGlzY29ubmVjdChzdHJ1Y3Qgc2tfYnVmZiAq
 CiAJbXV0ZXhfbG9jaygmYWRtX2N0eC5yZXNvdXJjZS0+YWRtX211dGV4KTsKIAlydiA9IGNvbm5f
 dHJ5X2Rpc2Nvbm5lY3QoY29ubmVjdGlvbiwgcGFybXMuZm9yY2VfZGlzY29ubmVjdCk7CiAJaWYg
 KHJ2IDwgU1NfU1VDQ0VTUykKLQkJcmV0Y29kZSA9IHJ2OyAgLyogRklYTUU6IFR5cGUgbWlzbWF0
