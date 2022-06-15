@@ -2,57 +2,59 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE7DD53BA02
-	for <lists+drbd-dev@lfdr.de>; Thu,  2 Jun 2022 15:44:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB87F54CBB9
+	for <lists+drbd-dev@lfdr.de>; Wed, 15 Jun 2022 16:49:49 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id AF08D4202BA;
-	Thu,  2 Jun 2022 15:44:08 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A3F77420F78;
+	Wed, 15 Jun 2022 16:49:48 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
-	[209.85.216.46])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 84BFB420177
-	for <drbd-dev@lists.linbit.com>; Thu,  2 Jun 2022 15:44:07 +0200 (CEST)
-Received: by mail-pj1-f46.google.com with SMTP id n10so4951386pjh.5
-	for <drbd-dev@lists.linbit.com>; Thu, 02 Jun 2022 06:44:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=sourceruckus-org.20210112.gappssmtp.com; s=20210112;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=gPPwlQqvoQTbtECTxcrxrg6SFOdePdwoYFqfMm866F8=;
-	b=kWePubxM0Bf0JaShuIx9jth0Mny3aF117Tm6SbJXyY0EEF/KT6H0Q08WgK8sK+fQYx
-	JCdrosPpnC5pNrC4qA/OE/W9FOx9v8HYsoUsqIbfLZDechckenS6Mn3MSw+xOaPmonVM
-	k20K4sSBXl7dFDtrmNMSMO5MYriEcz5hJ0BzMXrwNYBdM+JFGsjabfzhADVOM4td9ZYA
-	mbJUS7Tv68kSnFK0MkotuBQ87Z/jMGpbR2EUHOV7uv5DvtNyMcZi6Tu168zW68dX3l2/
-	ZWzm56RTGBgHL14rEDcapSBVo/WaJhVUnyH1TdM6I29A+MJ8Vk8cWfjuCz4K9AvTxmvY
-	6ITw==
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
+	[209.85.218.54])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 43DFE420632
+	for <drbd-dev@lists.linbit.com>; Wed, 15 Jun 2022 16:06:51 +0200 (CEST)
+Received: by mail-ej1-f54.google.com with SMTP id n10so23468442ejk.5
+	for <drbd-dev@lists.linbit.com>; Wed, 15 Jun 2022 07:06:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=B0r9apFuqJJV7ZRpd76/TTNp8i8bzKGQL4SiZt2zSiM=;
+	b=GdmxQK+IE0S17tl5qz5FCFXexDgV2yFTkqqbtob3GVABMG0S2cwYDJ4wEwndS+2hNg
+	mv9wx3qn1Esnk3LWWo6IWrSjseMt2BBxWHblyQh8MLcTeaithgVv42SbyvZaYCrgxtZj
+	ct8Du4XVoDyKXn/t4c0gUWjQxX8E81RUfmq/+EhA8u0/qjeNxvgS+cfz5w7uGXUu27Jx
+	AuhglJimuPjPgP7Dw7m1dGDU8bP1umZaeYv1HzcQmxezlMvBJIy6ch7zV80r24oxhiHC
+	DCIYXwVhVIz7mVaKsbGJrBay1/T3F7KfmcKElC1b7qrC0spWhGP/TCiN1PwdwYMvdSnL
+	xlPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20210112;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=gPPwlQqvoQTbtECTxcrxrg6SFOdePdwoYFqfMm866F8=;
-	b=SZGy8O3Ec+7c3tmNtLaZw/yoOdnyugW9D06yqMFj45YXR4dMrwmyft2Ep+a6/B0HI4
-	m/7G4z94sv9IiA9ZrmFwqlQXIw3pZQ2q9QyZdBQ87mdLPt3gI2ifYYDC4xGZvuvZK3nx
-	p+ADBy5AlUWMgiQSZOkulj3jMskPYfbZLvoqxkfYOw8b4P6amv+lfDKs8rHU7zAgsDHX
-	fRC/76DWbDbHGHc6AJ9MAgXlBO/Q1lXV53b7NqF/8ZKZwBdZOXpon+cz8D2NW3Uka+nt
-	lp7D2gxLQBgo9QZlLj00PKZMcRXYGqfFQ+iYUusUE75YrMTINWARPwrxKE4S4bcmThlx
-	tAbQ==
-X-Gm-Message-State: AOAM533Q75qwzniFl/UKssmLBor4GBg5h+HqDIlJL4p59VT0h8Nhgj6c
-	O45lrh+ZNH9H1hv5GgCRRd9PoVSZ7ocPH0xdwu0gTs9uDzb5fsLfTQI=
-X-Google-Smtp-Source: ABdhPJz5VGg0IVzurOhnMLfR4Sv4ay1+nLsQESDqEFQYx4S0fBp67tQ4oXJEc/prDFJto1tZP0yUOUpSzLxkJDwORLg=
-X-Received: by 2002:a17:903:40c4:b0:163:df09:904e with SMTP id
-	t4-20020a17090340c400b00163df09904emr4946170pld.155.1654177446245;
-	Thu, 02 Jun 2022 06:44:06 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=B0r9apFuqJJV7ZRpd76/TTNp8i8bzKGQL4SiZt2zSiM=;
+	b=RfGyXhjW036XG77x4OTMXXNvy8TQKDJXWCr6EuSvMOQ7jRFg2mn2loeHSYfijR66G0
+	S+WgTfSOhuTpigtg4QxaPreRniO1FfzuZReHnAb8K2f6QDcQq25YfdM2ffQ3BSr2f+bV
+	Kao1rlwrrAFSYjEZErano28WVp2vn/agZdbEI1dsoxB7uy4yK6d5syIprc8KwlBhUTTp
+	XOysQA7TjTo8k1EXea90IGavv9/trpVy1uck+iJ2J1ZB1cSRP+b6gfz80k2TuHbsaNGA
+	167WRtRKUjuAwDZRh5CYkbXziWCQgjef32TQBqF7oou4hGxhXN/vm5YPM+wgqfPFa5H4
+	n+sA==
+X-Gm-Message-State: AJIora+axfFB4wE8NFUavZAIdD25x0tNOaQHv7/zTNHyg2jtEtF4RDgc
+	eXbuZYfFd+rDP4nLxrTiYgsmcH1ZMTZ6Vg==
+X-Google-Smtp-Source: AGRyM1tRy6fl6HhnCUdH45RDLpY+EiN4XnruMYP4NbPwJdqXbmvFJqZQMSDsP/Idglog7f6qLtw2+Q==
+X-Received: by 2002:a17:907:2cc5:b0:711:d50b:287a with SMTP id
+	hg5-20020a1709072cc500b00711d50b287amr9055913ejc.47.1655302010186;
+	Wed, 15 Jun 2022 07:06:50 -0700 (PDT)
+Received: from localhost.localdomain ([109.164.100.246])
+	by smtp.gmail.com with ESMTPSA id
+	h14-20020a1709060f4e00b006fedcb78854sm6248330ejj.164.2022.06.15.07.06.48
+	(version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+	Wed, 15 Jun 2022 07:06:49 -0700 (PDT)
+From: Andrei Kvapil <kvapss@gmail.com>
+To: drbd-dev@lists.linbit.com
+Date: Wed, 15 Jun 2022 16:06:20 +0200
+Message-Id: <20220615140620.31630-1-kvapss@gmail.com>
+X-Mailer: git-send-email 2.32.0 (Apple Git-132)
 MIME-Version: 1.0
-References: <CAA1fRFhZrTfHegCWwNoSsUkmvBBfFmd9viQVsmCpSMFQNH5vTg@mail.gmail.com>
-	<79d35a2a-2603-41fd-18b8-19f4544ca09a@linbit.com>
-In-Reply-To: <79d35a2a-2603-41fd-18b8-19f4544ca09a@linbit.com>
-From: Michael Labriola <veggiemike@sourceruckus.org>
-Date: Thu, 2 Jun 2022 09:43:55 -0400
-Message-ID: <CAA1fRFhU8NYwYWudMLM+S6FwaOY-SCkSv1jFkTdOKEAKq0=A0Q@mail.gmail.com>
-To: =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>
-Cc: drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] Linux 5.18 status
+X-Mailman-Approved-At: Wed, 15 Jun 2022 16:49:47 +0200
+Subject: [Drbd-dev] [PATCH] compat: make spaas url configurable
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -66,37 +68,76 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-T24gVGh1LCBKdW4gMiwgMjAyMiBhdCA3OjIxIEFNIENocmlzdG9waCBCw7ZobXdhbGRlcgo8Y2hy
-aXN0b3BoLmJvZWhtd2FsZGVyQGxpbmJpdC5jb20+IHdyb3RlOgo+Cj4gQW0gMDEuMDYuMjIgdW0g
-MTY6MDMgc2NocmllYiBNaWNoYWVsIExhYnJpb2xhOgo+ID4gQWhveSEgIExvb2tzIGxpa2UgdGhl
-IGRyYmQtOS4xIGJyYW5jaCBkb2Vzbid0IGNvbXBpbGUgYWdhaW5zdCA1LjE4Cj4gPiB5ZXQuICBJ
-cyBzb21lYm9keSB3b3JraW5nIHRocm91Z2ggdGhlIDUuMTggYmxvY2sgbGF5ZXIgY2hhbmdlcwo+
-ID4gYWxyZWFkeT8gIElmIGFueW9uZSdzIGdvdCBhIGJyYW5jaCB0byB0ZXN0LCBJJ2QgZ2xhZGx5
-IHRyeSBpdCBvdXQuCj4gPgo+ID4gLS0KPiA+IE1pY2hhZWwgRCBMYWJyaW9sYQo+ID4gNDAxLTMx
-Ni05ODQ0IChjZWxsKQo+Cj4gSGksCj4KPiBJJ20gd29ya2luZyBvbiA1LjE4IGNvbXBhdCBhcyB3
-ZSBzcGVhay4gU2luY2Ugbm8gZGlzdHJpYnV0aW9uIHdlIGJ1aWxkCj4gZm9yIGlzIHVzaW5nIDUu
-MTgsIHRoaXMgaGFzIGEgc29tZXdoYXQgbG93ZXIgcHJpb3JpdHksIGJ1dCBpdCBpcyBiZWluZyBk
-b25lLgoKVGhhdCdzIGdvb2QgdG8gaGVhci4gIEkgdG9vayBhIGxvb2sgYXQgdGhlIGNoYW5nZXMg
-dGhlIG90aGVyIGRheSwgYW5kCnRoZXkgbG9va2VkIGEgbGl0dGxlIHRvbyBkZWVwIGZvciBtZSB0
-byBzYWZlbHkgZml4IG9uIG15IG93bi4KCj4gSSB3b3VsZCBlc3RpbWF0ZSB3ZSBoYXZlIGFyb3Vu
-ZCA1IG9yIDYgcmVtYWluaW5nIG5vbi10cml2aWFsIHBhdGNoZXMKPiB0aGF0IHJlcXVpcmUgcmVh
-bCBhdHRlbnRpb24gYmVmb3JlIHdlIGNhbiBidWlsZCBmb3IgNS4xOC4KPgo+IElmIGV2ZXJ5dGhp
-bmcgZ29lcyB0byBwbGFuLCB0aGUgZml4ZXMgbWlnaHQgbWFrZSBpdCBpbnRvIHRoZSBuZXh0IERS
-QkQKPiByZWxlYXNlIGluIG1pZC1KdW5lLCBidXQgSSByZWFsbHkgY2FuJ3QgbWFrZSBhbnkgcHJv
-bWlzZXMuCgpJJ2QgbG92ZSB0byBoZWxwIHRlc3QgdGhpbmdzIG91dCBhcyB0aGluZ3Mgc3RhcnQg
-dG8gY29tZSB0b2dldGhlci4KTGV0IG1lIGtub3cgd2hlcmUgdG8gcHVsbCBmcm9tLCBhbmQgSSds
-bCBjb21waWxlIGFuZCBnaXZlIGl0IHNvbWUKZ2VudGxlIHRlc3Rpbmcgb24gYSAzLW5vZGUgc2V0
-dXAuCgpJIGhpc3RvcmljYWxseSBtYWtlIGRyYmQ5IHdvcmsgImZvci1tZSIgb24gbmV3IGtlcm5l
-bHMgYXMgdGhleSBjb21lCm91dCB3aXRoIHRoZSBpbnRlbnQgb2YgcHJldHR5aW5nIHVwIG15IHBh
-dGNoZXMgYW5kIHN1Ym1pdHRpbmcgdGhlbQpoZXJlIChlLmcuLCBjb21wYXQgcGF0Y2ggYnVpbGQg
-c3lzdGVtIHN0dWZmIGZvciBvbGRlciBrZXJuZWxzKSwgYnV0CnJhcmVseSBtYW5hZ2UgdG8gZm9s
-bG93IHRocm91Z2ggYmVmb3JlIHlvdSBndXlzIGZpeCBpdCB1cHN0cmVhbS4KCi0tCk1pY2hhZWwg
-RCBMYWJyaW9sYQo0MDEtMzE2LTk4NDQgKGNlbGwpCl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCmRyYmQtZGV2IG1haWxpbmcgbGlzdApkcmJkLWRldkBsaXN0
-cy5saW5iaXQuY29tCmh0dHBzOi8vbGlzdHMubGluYml0LmNvbS9tYWlsbWFuL2xpc3RpbmZvL2Ry
-YmQtZGV2Cg==
+Add opportunity to override SPAAS_URL with local address in case of
+building drbd in environments without external internet connectivity.
+---
+ Makefile                                    | 1 +
+ drbd/Makefile                               | 2 ++
+ drbd/drbd-kernel-compat/gen_compat_patch.sh | 7 ++++---
+ 3 files changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 87c29518..37d7851d 100644
+--- a/Makefile
++++ b/Makefile
+@@ -37,6 +37,7 @@ DOCKERIMAGESTARGETS = $(addprefix dockerimage.,$(DOCKERIMAGES))
+ # Use the SPAAS (spatch as a service) online service
+ # Have this as make variable for distributions.
+ SPAAS ?= true
++SPAAS_URL ?= https://drbd.io:2020
+ 
+ # default for KDIR/KVER
+ ifndef KVER
+diff --git a/drbd/Makefile b/drbd/Makefile
+index 597cf30f..089e5e3a 100644
+--- a/drbd/Makefile
++++ b/drbd/Makefile
+@@ -40,7 +40,9 @@ MAKEFLAGS += -rR --no-print-directory
+ # Use the SPAAS (spatch as a service) online service
+ # Have this as make variable for distributions.
+ SPAAS ?= true
++SPAAS_URL ?= https://drbd.io:2020
+ export SPAAS
++export SPAAS_URL
+ 
+ # since 2.6.16, KERNELRELEASE may be empty,
+ # e.g. when building against some (broken?) linux-header package.
+diff --git a/drbd/drbd-kernel-compat/gen_compat_patch.sh b/drbd/drbd-kernel-compat/gen_compat_patch.sh
+index c57b961c..b8595722 100644
+--- a/drbd/drbd-kernel-compat/gen_compat_patch.sh
++++ b/drbd/drbd-kernel-compat/gen_compat_patch.sh
+@@ -125,10 +125,11 @@ else
+     echo "  SPAAS    $chksum"
+ 
+     # check if SPAAS is even reachable
+-    if ! curl -fsS https://drbd.io:2020/api/v1/hello; then
++    SPAAS_URL=${SPAAS_URL:-https://drbd.io:2020}
++    if ! curl -fsS $SPAAS_URL/api/v1/hello; then
+         echo "  ERROR: SPAAS is not reachable! Please check if your network"
+         echo "  configuration or some firewall prohibits access to "
+-        echo "  https://drbd.io:2020."
++        echo "  $SPAAS_URL."
+         exit 1
+     fi
+ 
+@@ -136,7 +137,7 @@ else
+     rm -f $compat_patch.tmp.header $compat_patch.tmp
+     if ! base64 $incdir/compat.h |
+ 	curl -T - -X POST -o $compat_patch.tmp -D $compat_patch.tmp.header -f \
+-	    https://drbd.io:2020/api/v1/spatch/$REL_VERSION
++	    $SPAAS_URL/api/v1/spatch/$REL_VERSION
+     then
+ 	ex=${PIPESTATUS[*]}
+ 	(
+-- 
+2.32.0 (Apple Git-132)
+
+_______________________________________________
+drbd-dev mailing list
+drbd-dev@lists.linbit.com
+https://lists.linbit.com/mailman/listinfo/drbd-dev
