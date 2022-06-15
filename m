@@ -2,59 +2,55 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB87F54CBB9
-	for <lists+drbd-dev@lfdr.de>; Wed, 15 Jun 2022 16:49:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 193D454CEB5
+	for <lists+drbd-dev@lfdr.de>; Wed, 15 Jun 2022 18:33:13 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A3F77420F78;
-	Wed, 15 Jun 2022 16:49:48 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B2343420F78;
+	Wed, 15 Jun 2022 18:33:11 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
-	[209.85.218.54])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 43DFE420632
-	for <drbd-dev@lists.linbit.com>; Wed, 15 Jun 2022 16:06:51 +0200 (CEST)
-Received: by mail-ej1-f54.google.com with SMTP id n10so23468442ejk.5
-	for <drbd-dev@lists.linbit.com>; Wed, 15 Jun 2022 07:06:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=B0r9apFuqJJV7ZRpd76/TTNp8i8bzKGQL4SiZt2zSiM=;
-	b=GdmxQK+IE0S17tl5qz5FCFXexDgV2yFTkqqbtob3GVABMG0S2cwYDJ4wEwndS+2hNg
-	mv9wx3qn1Esnk3LWWo6IWrSjseMt2BBxWHblyQh8MLcTeaithgVv42SbyvZaYCrgxtZj
-	ct8Du4XVoDyKXn/t4c0gUWjQxX8E81RUfmq/+EhA8u0/qjeNxvgS+cfz5w7uGXUu27Jx
-	AuhglJimuPjPgP7Dw7m1dGDU8bP1umZaeYv1HzcQmxezlMvBJIy6ch7zV80r24oxhiHC
-	DCIYXwVhVIz7mVaKsbGJrBay1/T3F7KfmcKElC1b7qrC0spWhGP/TCiN1PwdwYMvdSnL
-	xlPg==
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
+	[209.85.218.43])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9D746420632
+	for <drbd-dev@lists.linbit.com>; Wed, 15 Jun 2022 18:32:59 +0200 (CEST)
+Received: by mail-ej1-f43.google.com with SMTP id s12so24355334ejx.3
+	for <drbd-dev@lists.linbit.com>; Wed, 15 Jun 2022 09:32:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linbit-com.20210112.gappssmtp.com; s=20210112;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=ceb8E6/DSaYnRXVA+UXn75LFb9ReftlzFzi22w6y83s=;
+	b=VQfgUpwtf4/a3iMr7fpp8DkC0F6oIgQ6WCQtZ1tvPiSWxqwEyIY38HKKlZJafys/+h
+	hQ69JHuOxGoGKb1U9Vz75hk8CRdEz9nt0TBBwjSalK2IApGQo222AjejLeJL3NqzLF8Z
+	Xr57szaRzApziCtafoN4JFRKeZ3+/vTVclGRj5HoOh2gVBr4BRdW6AIIpYLHmEnqM1hv
+	eXN0f2PP3ImXnacMTL6y+1S1NQSZFXjmAPPpQsq/tR3plKtj9pt/S1uGGdKw5cqoV9zK
+	qkmoMnHRmGH+yM/Qku9ZDu6VYasoIIUJBRJXRe/08gmGuTHeaouxlvKD5kt4irvNAFrO
+	lxkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20210112;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=B0r9apFuqJJV7ZRpd76/TTNp8i8bzKGQL4SiZt2zSiM=;
-	b=RfGyXhjW036XG77x4OTMXXNvy8TQKDJXWCr6EuSvMOQ7jRFg2mn2loeHSYfijR66G0
-	S+WgTfSOhuTpigtg4QxaPreRniO1FfzuZReHnAb8K2f6QDcQq25YfdM2ffQ3BSr2f+bV
-	Kao1rlwrrAFSYjEZErano28WVp2vn/agZdbEI1dsoxB7uy4yK6d5syIprc8KwlBhUTTp
-	XOysQA7TjTo8k1EXea90IGavv9/trpVy1uck+iJ2J1ZB1cSRP+b6gfz80k2TuHbsaNGA
-	167WRtRKUjuAwDZRh5CYkbXziWCQgjef32TQBqF7oou4hGxhXN/vm5YPM+wgqfPFa5H4
-	n+sA==
-X-Gm-Message-State: AJIora+axfFB4wE8NFUavZAIdD25x0tNOaQHv7/zTNHyg2jtEtF4RDgc
-	eXbuZYfFd+rDP4nLxrTiYgsmcH1ZMTZ6Vg==
-X-Google-Smtp-Source: AGRyM1tRy6fl6HhnCUdH45RDLpY+EiN4XnruMYP4NbPwJdqXbmvFJqZQMSDsP/Idglog7f6qLtw2+Q==
-X-Received: by 2002:a17:907:2cc5:b0:711:d50b:287a with SMTP id
-	hg5-20020a1709072cc500b00711d50b287amr9055913ejc.47.1655302010186;
-	Wed, 15 Jun 2022 07:06:50 -0700 (PDT)
-Received: from localhost.localdomain ([109.164.100.246])
-	by smtp.gmail.com with ESMTPSA id
-	h14-20020a1709060f4e00b006fedcb78854sm6248330ejj.164.2022.06.15.07.06.48
-	(version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-	Wed, 15 Jun 2022 07:06:49 -0700 (PDT)
-From: Andrei Kvapil <kvapss@gmail.com>
-To: drbd-dev@lists.linbit.com
-Date: Wed, 15 Jun 2022 16:06:20 +0200
-Message-Id: <20220615140620.31630-1-kvapss@gmail.com>
-X-Mailer: git-send-email 2.32.0 (Apple Git-132)
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=ceb8E6/DSaYnRXVA+UXn75LFb9ReftlzFzi22w6y83s=;
+	b=EYtwXPpIBVYL9jWR9SrtAzASGspqNQ+tl9zgQcUYFtGFvPqCerEtUmmMGNRKU4zztB
+	zavlEe3rWnmKoSjCOujzjHAez0v+IRQ9IUkv0J6fmkHgM6ttylUlgsjqpKic3mNldm+z
+	+9szCe3LmuriNixS6QB7QRVz6R19Go8aFynaJI+yczNb5VomI/naWivnZDvrQMNN6dgp
+	KTUHu+PZhciqokDSaZOeHbA/ejtl+/RZbMpBUChY/JX3MurUGAMzYrjnnUubllivxv2+
+	ua0mCxItjfCviJCd9x2lAuc33bRWoJC3PgzGGVhNb1XMq3hCEt5anKkcSU+/0+z6O8un
+	gYdw==
+X-Gm-Message-State: AJIora+niUrwwlSGVDeInh6xjRNOdayFxlHxL3AhkU5L9cLLDbecsgZO
+	/GyoCEtifSFDmVsxDbtIPPZGTVDxkfOZ9U3on4aMvpeC
+X-Google-Smtp-Source: AGRyM1txLZ8fVXZMTjyV7Ui9j0IIk/HBV15aotHPJfocwpc/Eu2eDiu1MzjScfz25jS6g/PtKB+3SEWGUiPDqTpnShM=
+X-Received: by 2002:a17:907:8a1d:b0:711:d86e:cc5 with SMTP id
+	sc29-20020a1709078a1d00b00711d86e0cc5mr597228ejc.237.1655310779124;
+	Wed, 15 Jun 2022 09:32:59 -0700 (PDT)
 MIME-Version: 1.0
-X-Mailman-Approved-At: Wed, 15 Jun 2022 16:49:47 +0200
-Subject: [Drbd-dev] [PATCH] compat: make spaas url configurable
+References: <20220615140620.31630-1-kvapss@gmail.com>
+In-Reply-To: <20220615140620.31630-1-kvapss@gmail.com>
+From: Joel Colledge <joel.colledge@linbit.com>
+Date: Wed, 15 Jun 2022 18:32:48 +0200
+Message-ID: <CAGNP_+VHaMWzb-Z4ujuasuVDoLE459JAQ6q88JDLGeKJwKfmjw@mail.gmail.com>
+To: Andrei Kvapil <kvapss@gmail.com>
+Cc: drbd-dev@lists.linbit.com
+Subject: Re: [Drbd-dev] [PATCH] compat: make spaas url configurable
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -73,70 +69,28 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Add opportunity to override SPAAS_URL with local address in case of
-building drbd in environments without external internet connectivity.
----
- Makefile                                    | 1 +
- drbd/Makefile                               | 2 ++
- drbd/drbd-kernel-compat/gen_compat_patch.sh | 7 ++++---
- 3 files changed, 7 insertions(+), 3 deletions(-)
+Thanks for the contribution. Seems like a reasonable idea to me.
 
-diff --git a/Makefile b/Makefile
-index 87c29518..37d7851d 100644
---- a/Makefile
-+++ b/Makefile
-@@ -37,6 +37,7 @@ DOCKERIMAGESTARGETS = $(addprefix dockerimage.,$(DOCKERIMAGES))
- # Use the SPAAS (spatch as a service) online service
- # Have this as make variable for distributions.
- SPAAS ?= true
-+SPAAS_URL ?= https://drbd.io:2020
- 
- # default for KDIR/KVER
- ifndef KVER
-diff --git a/drbd/Makefile b/drbd/Makefile
-index 597cf30f..089e5e3a 100644
---- a/drbd/Makefile
-+++ b/drbd/Makefile
-@@ -40,7 +40,9 @@ MAKEFLAGS += -rR --no-print-directory
- # Use the SPAAS (spatch as a service) online service
- # Have this as make variable for distributions.
- SPAAS ?= true
-+SPAAS_URL ?= https://drbd.io:2020
- export SPAAS
-+export SPAAS_URL
- 
- # since 2.6.16, KERNELRELEASE may be empty,
- # e.g. when building against some (broken?) linux-header package.
-diff --git a/drbd/drbd-kernel-compat/gen_compat_patch.sh b/drbd/drbd-kernel-compat/gen_compat_patch.sh
-index c57b961c..b8595722 100644
---- a/drbd/drbd-kernel-compat/gen_compat_patch.sh
-+++ b/drbd/drbd-kernel-compat/gen_compat_patch.sh
-@@ -125,10 +125,11 @@ else
-     echo "  SPAAS    $chksum"
- 
-     # check if SPAAS is even reachable
--    if ! curl -fsS https://drbd.io:2020/api/v1/hello; then
-+    SPAAS_URL=${SPAAS_URL:-https://drbd.io:2020}
-+    if ! curl -fsS $SPAAS_URL/api/v1/hello; then
-         echo "  ERROR: SPAAS is not reachable! Please check if your network"
-         echo "  configuration or some firewall prohibits access to "
--        echo "  https://drbd.io:2020."
-+        echo "  $SPAAS_URL."
-         exit 1
-     fi
- 
-@@ -136,7 +137,7 @@ else
-     rm -f $compat_patch.tmp.header $compat_patch.tmp
-     if ! base64 $incdir/compat.h |
- 	curl -T - -X POST -o $compat_patch.tmp -D $compat_patch.tmp.header -f \
--	    https://drbd.io:2020/api/v1/spatch/$REL_VERSION
-+	    $SPAAS_URL/api/v1/spatch/$REL_VERSION
-     then
- 	ex=${PIPESTATUS[*]}
- 	(
--- 
-2.32.0 (Apple Git-132)
+> diff --git a/Makefile b/Makefile
+> index 87c29518..37d7851d 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -37,6 +37,7 @@ DOCKERIMAGESTARGETS = $(addprefix dockerimage.,$(DOCKERIMAGES))
+>  # Use the SPAAS (spatch as a service) online service
+>  # Have this as make variable for distributions.
+>  SPAAS ?= true
+> +SPAAS_URL ?= https://drbd.io:2020
 
+What is the purpose of this definition in the top-level Makefile? As
+far as I can see, it is only needed in the other one.
+
+I guess it serves a documentation purpose, showing what command line
+variables can be set. That is presumably the point of the SPAAS
+variable in the top-level makefile. In that case, explicitly pass it
+down like the SPAAS variable for consistency.
+
+Best regards,
+Joel
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
