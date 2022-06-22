@@ -2,40 +2,64 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECE5055559C
-	for <lists+drbd-dev@lfdr.de>; Wed, 22 Jun 2022 22:58:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22D0C55557D
+	for <lists+drbd-dev@lfdr.de>; Wed, 22 Jun 2022 22:50:07 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id CAA89420621;
-	Wed, 22 Jun 2022 22:58:17 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C2BCC420621;
+	Wed, 22 Jun 2022 22:50:05 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from smtpbg.qq.com (smtpbg138.qq.com [106.55.201.18])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id F373442060F
-	for <drbd-dev@lists.linbit.com>; Wed, 22 Jun 2022 18:05:12 +0200 (CEST)
-X-QQ-mid: bizesmtp66t1655913147t3a158w9
-Received: from ubuntu.localdomain ( [106.117.78.84])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 22 Jun 2022 23:52:22 +0800 (CST)
-X-QQ-SSF: 01000000008000B0C000E00A0000000
-X-QQ-FEAT: F3yR32iATbiPoMYvaDYTFsBZP9QS13DHRUXxAF9nw2AecPV51DVC2kmloL/tk
-	2mNTwzMeXCZZ1SGC0+j0lExTrDTnubodTIzsw7t/2xgMnCj+mc7Fnvt+JPvh26zQYou9GQ9
-	0/BAqjpdfuvmkVwry71ZqbJpH636cOkrUwN9nQt2q49m0il6X/C2BaQQhhVc4j4TXjfzxlk
-	EvuXFFSjG2N7yeN6SSziicY4/yaosBlzJxmLNb1Qhg/f5RJsluE+lzbP+THkyVYGGsNNXkF
-	otiu1Gk8cA66+padPxGLebmT9OuKratvx95tMPZy1/qjN6qRGTU+XYYZSHARkLSRQ2Bl1+U
-	RhBgot9y9W9zx+hbpgHZpPb9Qf9GOcvT8w8o4hR
-X-QQ-GoodBg: 0
-From: Jiang Jian <jiangjian@cdjrlc.com>
-To: axboe@kernel.dk
-Date: Wed, 22 Jun 2022 23:52:20 +0800
-Message-Id: <20220622155220.8704-1-jiangjian@cdjrlc.com>
-X-Mailer: git-send-email 2.17.1
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:cdjrlc.com:qybgspam:qybgspam10
-X-Mailman-Approved-At: Wed, 22 Jun 2022 22:58:16 +0200
-Cc: philipp.reisner@linbit.com, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, Jiang Jian <jiangjian@cdjrlc.com>,
-	lars.ellenberg@linbit.com, drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH] block: drbd: drbd_state: Fix typo in comments
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
+	[209.85.218.44])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2E3E4420471
+	for <drbd-dev@lists.linbit.com>; Wed, 22 Jun 2022 22:50:03 +0200 (CEST)
+Received: by mail-ej1-f44.google.com with SMTP id sb34so7733302ejc.11
+	for <drbd-dev@lists.linbit.com>; Wed, 22 Jun 2022 13:50:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linbit-com.20210112.gappssmtp.com; s=20210112;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=ZHXPpmGBZdWvyxJmjdrgfrKKRqzgpyVWDxj3Vo4u3a8=;
+	b=amKj6GxTy79R1fQyEaKL/UbiJB+b7qC0lpa79+GG3RNmYt5sNwRzoWmFKndZ5GtSto
+	25mDi4yacnKCgTp3UlvpdhTAADuUa9T5XQ9SGMKoMNy75ZO6H7mzCBDY5vmqdsJEhGEP
+	9EtbwC3ORKDaZvhefaNNbOP47aMPcroYnTI484BN+egnnZi4XhoMOZWtlP6uVo+RBoqS
+	oZ026JONzAFv9vBGnFiQayoxuBsG7nIytyQhgZ7jv0mystORbsNYReCihNuZLTnGeQ2U
+	Sn5bvNh8WCwYFddXaKRY9Npmjg8fZADdDu+Ds2F9j8M1Ta2X+dGNRAkA1yN3uiEMwUJ8
+	wa7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20210112;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=ZHXPpmGBZdWvyxJmjdrgfrKKRqzgpyVWDxj3Vo4u3a8=;
+	b=2HTk5qBEDeMEejO4RRvpiuYa5aiYaorNlr2VEvd6stfdrqsiOPMHzLNgz9boV4MQCc
+	mr6CO4/6Xn7GlWWdcchyQKckq3DdsYTLlvaYczZhBWDCF/fIKW0bGjbzQxGHCdIaNKYh
+	qU9PxdHVmKZMAy3LVtOwUeabBjFXf230j6HfHu8wVSx5LMr0Uk9pblIDGy9pXHlYkEFx
+	QRNnzzHfPwr7wKSemZ68qtPGxZiKEPIeBQpHeP4bMG1ZWOxEEZ/otW2wP7paIztubNEa
+	MZrG2+nyhdicEFG8fqL7cpwtkqtsLt7ThlnqeEY80umAU8KsXj7hDuYI/LzpUGcMXSBM
+	RSSw==
+X-Gm-Message-State: AJIora/6giuqcARXuGRScPJRLr47CALtjnGj24fnXfMHu4PE7Pg5luWt
+	3oanxqFyZ9z8jHKaE+ReS3dzu5cn
+X-Google-Smtp-Source: AGRyM1uhNDH7Tmmo2hHrTQe2MuMLk8efymrGKpDNFJyYZlQwkDyFJsjamDPwgxnQFT2jP77skKEDVA==
+X-Received: by 2002:a17:907:7b86:b0:711:d2c8:ab18 with SMTP id
+	ne6-20020a1709077b8600b00711d2c8ab18mr4827993ejc.580.1655931003525;
+	Wed, 22 Jun 2022 13:50:03 -0700 (PDT)
+Received: from localhost (h082218028181.host.wavenet.at. [82.218.28.181])
+	by smtp.gmail.com with ESMTPSA id
+	z19-20020a056402275300b004319b12371asm16539896edd.47.2022.06.22.13.50.02
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 22 Jun 2022 13:50:02 -0700 (PDT)
+From: =?UTF-8?q?Christoph=20B=C3=B6hmwalder?=
+	<christoph.boehmwalder@linbit.com>
+To: Jens Axboe <axboe@kernel.dk>
+Date: Wed, 22 Jun 2022 22:49:32 +0200
+Message-Id: <20220622204932.196830-1-christoph.boehmwalder@linbit.com>
+X-Mailer: git-send-email 2.36.1
+MIME-Version: 1.0
+Cc: Philipp Reisner <philipp.reisner@linbit.com>, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, Lars Ellenberg <lars.ellenberg@linbit.com>,
+	drbd-dev@lists.linbit.com
+Subject: [Drbd-dev] [PATCH] drbd: bm_page_async_io: fix spurious bitmap "IO
+	error" on large volumes
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,45 +73,79 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Replace 'is' with 'it'
-
-file: drivers/block/drbd/drbd_state.c
-line: 1900
-
-* But is is still not save to dreference ldev here, since
-
-changed to:
-
-* But it is still not save to dreference ldev here, since
-
-Signed-off-by: Jiang Jian <jiangjian@cdjrlc.com>
----
- drivers/block/drbd/drbd_state.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/block/drbd/drbd_state.c b/drivers/block/drbd/drbd_state.c
-index 3f7bf9f2d874..99927c44f0c3 100644
---- a/drivers/block/drbd/drbd_state.c
-+++ b/drivers/block/drbd/drbd_state.c
-@@ -1897,7 +1897,7 @@ static void after_state_ch(struct drbd_device *device, union drbd_state os,
- 		int was_io_error = 0;
- 		/* corresponding get_ldev was in _drbd_set_state, to serialize
- 		 * our cleanup here with the transition to D_DISKLESS.
--		 * But is is still not save to dreference ldev here, since
-+		 * But it is still not save to dreference ldev here, since
- 		 * we might come from an failed Attach before ldev was set. */
- 		if (device->ldev) {
- 			rcu_read_lock();
--- 
-2.17.1
-
-_______________________________________________
-drbd-dev mailing list
-drbd-dev@lists.linbit.com
-https://lists.linbit.com/mailman/listinfo/drbd-dev
+RnJvbTogTGFycyBFbGxlbmJlcmcgPGxhcnMuZWxsZW5iZXJnQGxpbmJpdC5jb20+CgpXZSB1c3Vh
+bGx5IGRvIGFsbCBvdXIgYml0bWFwIElPIGluIHVuaXRzIG9mIFBBR0VfU0laRS4KCldpdGggdmVy
+eSBzbWFsbCBvciBvZGRseSBzaXplZCBleHRlcm5hbCBtZXRhIGRhdGEsIG9yIHdpdGgKUEFHRV9T
+SVpFICE9IDRrLCBpdCBjYW4gaGFwcGVuIHRoYXQgb3VyIGxhc3Qgb24tZGlzayBiaXRtYXAgcGFn
+ZQppcyBub3QgZnVsbHkgUEFHRV9TSVpFIGFsaWduZWQsIHNvIHdlIG1heSBuZWVkIHRvIGFkanVz
+dCB0aGUgc2l6ZQpvZiB0aGUgSU8uCgpXZSB1c2VkIHRvIGRvIHRoYXQgd2l0aAogIG1pbl90KHVu
+c2lnbmVkIGludCwgUEFHRV9TSVpFLAoJbGFzdF9hbGxvd2VkX3NlY3RvciAtIGN1cnJlbnRfb2Zm
+c2V0KTsKQW5kIGZvciBqdXN0IHRoZSByaWdodCBkaWZmLCAodW5zaWduZWQgaW50KShkaWZmKSB3
+aWxsIHJlc3VsdCBpbiAwLgoKQSBiaW8gb2YgbGVuZ3RoIDAgd2lsbCBjb3JyZWN0bHkgYmUgcmVq
+ZWN0ZWQgd2l0aCBhbiBJTyBlcnJvcgooYW5kIHNvbWUgc2NhcnkgV0FSTl9PTl9PTkNFKCkpIGJ5
+IHRoZSBzY3NpIGxheWVyLgoKRG8gdGhlIGNhbGN1bGF0aW9uIHByb3Blcmx5LgoKU2lnbmVkLW9m
+Zi1ieTogTGFycyBFbGxlbmJlcmcgPGxhcnMuZWxsZW5iZXJnQGxpbmJpdC5jb20+ClNpZ25lZC1v
+ZmYtYnk6IENocmlzdG9waCBCw7ZobXdhbGRlciA8Y2hyaXN0b3BoLmJvZWhtd2FsZGVyQGxpbmJp
+dC5jb20+Ci0tLQogZHJpdmVycy9ibG9jay9kcmJkL2RyYmRfYml0bWFwLmMgfCA0OSArKysrKysr
+KysrKysrKysrKysrKysrKysrKystLS0tLQogMSBmaWxlIGNoYW5nZWQsIDQyIGluc2VydGlvbnMo
+KyksIDcgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ibG9jay9kcmJkL2RyYmRf
+Yml0bWFwLmMgYi9kcml2ZXJzL2Jsb2NrL2RyYmQvZHJiZF9iaXRtYXAuYwppbmRleCA5ZTA2MGU0
+OWIzZjguLmJkMjEzM2VmNmUwYSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ibG9jay9kcmJkL2RyYmRf
+Yml0bWFwLmMKKysrIGIvZHJpdmVycy9ibG9jay9kcmJkL2RyYmRfYml0bWFwLmMKQEAgLTk3NCwy
+NSArOTc0LDU4IEBAIHN0YXRpYyB2b2lkIGRyYmRfYm1fZW5kaW8oc3RydWN0IGJpbyAqYmlvKQog
+CX0KIH0KIAorLyogRm9yIHRoZSBsYXlvdXQsIHNlZSBjb21tZW50IGFib3ZlIGRyYmRfbWRfc2V0
+X3NlY3Rvcl9vZmZzZXRzKCkuICovCitzdGF0aWMgaW5saW5lIHNlY3Rvcl90IGRyYmRfbWRfbGFz
+dF9iaXRtYXBfc2VjdG9yKHN0cnVjdCBkcmJkX2JhY2tpbmdfZGV2ICpiZGV2KQoreworCXN3aXRj
+aCAoYmRldi0+bWQubWV0YV9kZXZfaWR4KSB7CisJY2FzZSBEUkJEX01EX0lOREVYX0lOVEVSTkFM
+OgorCWNhc2UgRFJCRF9NRF9JTkRFWF9GTEVYX0lOVDoKKwkJcmV0dXJuIGJkZXYtPm1kLm1kX29m
+ZnNldCArIGJkZXYtPm1kLmFsX29mZnNldCAtMTsKKwljYXNlIERSQkRfTURfSU5ERVhfRkxFWF9F
+WFQ6CisJZGVmYXVsdDoKKwkJcmV0dXJuIGJkZXYtPm1kLm1kX29mZnNldCArIGJkZXYtPm1kLm1k
+X3NpemVfc2VjdCAtMTsKKwl9Cit9CisKIHN0YXRpYyB2b2lkIGJtX3BhZ2VfaW9fYXN5bmMoc3Ry
+dWN0IGRyYmRfYm1fYWlvX2N0eCAqY3R4LCBpbnQgcGFnZV9ucikgX19tdXN0X2hvbGQobG9jYWwp
+CiB7CiAJc3RydWN0IGRyYmRfZGV2aWNlICpkZXZpY2UgPSBjdHgtPmRldmljZTsKIAl1bnNpZ25l
+ZCBpbnQgb3AgPSAoY3R4LT5mbGFncyAmIEJNX0FJT19SRUFEKSA/IFJFUV9PUF9SRUFEIDogUkVR
+X09QX1dSSVRFOwotCXN0cnVjdCBiaW8gKmJpbyA9IGJpb19hbGxvY19iaW9zZXQoZGV2aWNlLT5s
+ZGV2LT5tZF9iZGV2LCAxLCBvcCwKLQkJCQkJICAgR0ZQX05PSU8sICZkcmJkX21kX2lvX2Jpb19z
+ZXQpOwogCXN0cnVjdCBkcmJkX2JpdG1hcCAqYiA9IGRldmljZS0+Yml0bWFwOworCXN0cnVjdCBi
+aW8gKmJpbzsKIAlzdHJ1Y3QgcGFnZSAqcGFnZTsKKwlzZWN0b3JfdCBsYXN0X2JtX3NlY3Q7CisJ
+c2VjdG9yX3QgZmlyc3RfYm1fc2VjdDsKKwlzZWN0b3JfdCBvbl9kaXNrX3NlY3RvcjsKIAl1bnNp
+Z25lZCBpbnQgbGVuOwogCi0Jc2VjdG9yX3Qgb25fZGlza19zZWN0b3IgPQotCQlkZXZpY2UtPmxk
+ZXYtPm1kLm1kX29mZnNldCArIGRldmljZS0+bGRldi0+bWQuYm1fb2Zmc2V0OwotCW9uX2Rpc2tf
+c2VjdG9yICs9ICgoc2VjdG9yX3QpcGFnZV9ucikgPDwgKFBBR0VfU0hJRlQtOSk7CisJZmlyc3Rf
+Ym1fc2VjdCA9IGRldmljZS0+bGRldi0+bWQubWRfb2Zmc2V0ICsgZGV2aWNlLT5sZGV2LT5tZC5i
+bV9vZmZzZXQ7CisJb25fZGlza19zZWN0b3IgPSBmaXJzdF9ibV9zZWN0ICsgKCgoc2VjdG9yX3Qp
+cGFnZV9ucikgPDwgKFBBR0VfU0hJRlQtU0VDVE9SX1NISUZUKSk7CiAKIAkvKiB0aGlzIG1pZ2h0
+IGhhcHBlbiB3aXRoIHZlcnkgc21hbGwKIAkgKiBmbGV4aWJsZSBleHRlcm5hbCBtZXRhIGRhdGEg
+ZGV2aWNlLAogCSAqIG9yIHdpdGggUEFHRV9TSVpFID4gNGsgKi8KLQlsZW4gPSBtaW5fdCh1bnNp
+Z25lZCBpbnQsIFBBR0VfU0laRSwKLQkJKGRyYmRfbWRfbGFzdF9zZWN0b3IoZGV2aWNlLT5sZGV2
+KSAtIG9uX2Rpc2tfc2VjdG9yICsgMSk8PDkpOworCWxhc3RfYm1fc2VjdCA9IGRyYmRfbWRfbGFz
+dF9iaXRtYXBfc2VjdG9yKGRldmljZS0+bGRldik7CisJaWYgKGZpcnN0X2JtX3NlY3QgPD0gb25f
+ZGlza19zZWN0b3IgJiYgbGFzdF9ibV9zZWN0ID49IG9uX2Rpc2tfc2VjdG9yKSB7CisJCXNlY3Rv
+cl90IGxlbl9zZWN0ID0gbGFzdF9ibV9zZWN0IC0gb25fZGlza19zZWN0b3IgKyAxOworCQlpZiAo
+bGVuX3NlY3QgPCBQQUdFX1NJWkUvU0VDVE9SX1NJWkUpCisJCQlsZW4gPSAodW5zaWduZWQgaW50
+KWxlbl9zZWN0KlNFQ1RPUl9TSVpFOworCQllbHNlCisJCQlsZW4gPSBQQUdFX1NJWkU7CisJfSBl
+bHNlIHsKKwkJaWYgKF9fcmF0ZWxpbWl0KCZkcmJkX3JhdGVsaW1pdF9zdGF0ZSkpIHsKKwkJCWRy
+YmRfZXJyKGRldmljZSwgIkludmFsaWQgb2Zmc2V0IGR1cmluZyBvbi1kaXNrIGJpdG1hcCBhY2Nl
+c3M6ICIKKwkJCQkgInBhZ2UgaWR4ICV1LCBzZWN0b3IgJWxsdVxuIiwgcGFnZV9uciwgb25fZGlz
+a19zZWN0b3IpOworCQl9CisJCWN0eC0+ZXJyb3IgPSAtRUlPOworCQlibV9zZXRfcGFnZV9pb19l
+cnIoYi0+Ym1fcGFnZXNbcGFnZV9ucl0pOworCQlpZiAoYXRvbWljX2RlY19hbmRfdGVzdCgmY3R4
+LT5pbl9mbGlnaHQpKSB7CisJCQljdHgtPmRvbmUgPSAxOworCQkJd2FrZV91cCgmZGV2aWNlLT5t
+aXNjX3dhaXQpOworCQkJa3JlZl9wdXQoJmN0eC0+a3JlZiwgJmRyYmRfYm1fYWlvX2N0eF9kZXN0
+cm95KTsKKwkJfQorCQlyZXR1cm47CisJfQogCiAJLyogc2VyaWFsaXplIElPIG9uIHRoaXMgcGFn
+ZSAqLwogCWJtX3BhZ2VfbG9ja19pbyhkZXZpY2UsIHBhZ2VfbnIpOwpAQCAtMTAwNyw2ICsxMDQw
+LDggQEAgc3RhdGljIHZvaWQgYm1fcGFnZV9pb19hc3luYyhzdHJ1Y3QgZHJiZF9ibV9haW9fY3R4
+ICpjdHgsIGludCBwYWdlX25yKSBfX211c3RfaG8KIAkJYm1fc3RvcmVfcGFnZV9pZHgocGFnZSwg
+cGFnZV9ucik7CiAJfSBlbHNlCiAJCXBhZ2UgPSBiLT5ibV9wYWdlc1twYWdlX25yXTsKKwliaW8g
+PSBiaW9fYWxsb2NfYmlvc2V0KGRldmljZS0+bGRldi0+bWRfYmRldiwgMSwgb3AsIEdGUF9OT0lP
+LAorCQkJJmRyYmRfbWRfaW9fYmlvX3NldCk7CiAJYmlvLT5iaV9pdGVyLmJpX3NlY3RvciA9IG9u
+X2Rpc2tfc2VjdG9yOwogCS8qIGJpb19hZGRfcGFnZSBvZiBhIHNpbmdsZSBwYWdlIHRvIGFuIGVt
+cHR5IGJpbyB3aWxsIGFsd2F5cyBzdWNjZWVkLAogCSAqIGFjY29yZGluZyB0byBhcGkuICBEbyB3
+ZSB3YW50IHRvIGFzc2VydCB0aGF0PyAqLwotLSAKMi4zNi4xCgpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmJkLWRldiBtYWlsaW5nIGxpc3QKZHJiZC1k
+ZXZAbGlzdHMubGluYml0LmNvbQpodHRwczovL2xpc3RzLmxpbmJpdC5jb20vbWFpbG1hbi9saXN0
+aW5mby9kcmJkLWRldgo=
