@@ -2,36 +2,36 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20F6B572DE8
-	for <lists+drbd-dev@lfdr.de>; Wed, 13 Jul 2022 08:10:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCFA5572EDB
+	for <lists+drbd-dev@lfdr.de>; Wed, 13 Jul 2022 09:12:50 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 03FFD42097C;
-	Wed, 13 Jul 2022 08:10:00 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9A0B8420FAC;
+	Wed, 13 Jul 2022 09:12:49 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from bombadil.infradead.org (bombadil.infradead.org
 	[198.137.202.133])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2944D42097C
-	for <drbd-dev@lists.linbit.com>; Wed, 13 Jul 2022 08:09:01 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E8C7A420F78
+	for <drbd-dev@lists.linbit.com>; Wed, 13 Jul 2022 09:12:39 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=Y2m5n2ywVdorzEoaFVlEdw3M6b4Binlg2HpluXfaIZg=;
-	b=aY8PUpMOr3XL4OGdcJC3oZLePj
-	U2Fpy5CT1WtNvKl+Uh2jm9+2lBXEu/Jso/1cholqbux8jzHP3uQ/4/wImvAQ3GuR2SrEuZ/gSB7He
-	57CgDQLolbdY00Dzuwwr2vNEIgrxp2tIoBknZFSKaduvhaGj1E1fBPc/THzPcVj1eroIl7hMQUprV
-	/QynO1qrDenogR8CfOhS4ukxm0TgzTd0/AGa4IQnrUaIWlT77XHIsNONx0aYZP5hsMoueapQNk0Nw
-	RtbEUPKVuSWup65o3wgXLZUx7fXmOIh7e5sk0ewAprdrhvV1K3tdjHdt7+zkT4HxaLTkBXvHvlDwz
-	OM73TuRg==;
+	bh=+oupOjpjN539hy7C7mOoKBMVZDA7YOt+U1a+XjhL5Ns=;
+	b=SppXqYL9lOHjNHJFVIsh0T/5NK
+	thTYqttsVuX9ral09ViQiJsG0BqI+m2Y6uMyPhwe2AVn+9jbprGRivJH9ddWe5e2zJpp3Uqj8X/qA
+	h/p+Hima0jwo2ow4lUwnJfGygYuJ7ry7o19DW0r5NP0HfYsde0cnH77T5+Ad03RQFoqtOH8QYa4Rp
+	KOMLvHbUs0O6xMh7bWvgY6cyW6WS9V9UjUrnbbsUmymRzVqe91SGDWq2itxqUTJXBR7JinVMSDJoA
+	d2b+wMFDOmjP0AHja00eSStrbMdsyqy8MDxoDBE0tR8Jembbeu9Acs0rIrPBoHY4FqswpEbh65DTl
+	J6OtNZLQ==;
 Received: from ip4d15c27d.dynamic.kabel-deutschland.de ([77.21.194.125]
 	helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oBVJK-000NNd-M0; Wed, 13 Jul 2022 05:53:23 +0000
+	id 1oBVJN-000NOa-LE; Wed, 13 Jul 2022 05:53:26 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Date: Wed, 13 Jul 2022 07:53:09 +0200
-Message-Id: <20220713055317.1888500-2-hch@lst.de>
+Date: Wed, 13 Jul 2022 07:53:10 +0200
+Message-Id: <20220713055317.1888500-3-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220713055317.1888500-1-hch@lst.de>
 References: <20220713055317.1888500-1-hch@lst.de>
@@ -46,8 +46,8 @@ Cc: linux-block@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
 	"Md. Haris Iqbal" <haris.iqbal@ionos.com>,
 	linux-ext4@vger.kernel.org, Jack Wang <jinpu.wang@ionos.com>,
 	ocfs2-devel@oss.oracle.com, drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 1/9] block: stop using bdevname in
-	bdev_write_inode
+Subject: [Drbd-dev] [PATCH 2/9] block: stop using bdevname in
+	__blkdev_issue_discard
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -66,35 +66,30 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Just use the %pg format specifier instead.  Also reformat the
-printk statement to be more readable.
+Just use the %pg format specifier instead.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- block/bdev.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ block/blk-lib.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/block/bdev.c b/block/bdev.c
-index 5fe06c1f2def4..ce05175e71cea 100644
---- a/block/bdev.c
-+++ b/block/bdev.c
-@@ -54,12 +54,10 @@ static void bdev_write_inode(struct block_device *bdev)
- 	while (inode->i_state & I_DIRTY) {
- 		spin_unlock(&inode->i_lock);
- 		ret = write_inode_now(inode, true);
--		if (ret) {
--			char name[BDEVNAME_SIZE];
--			pr_warn_ratelimited("VFS: Dirty inode writeback failed "
--					    "for block device %s (err=%d).\n",
--					    bdevname(bdev, name), ret);
--		}
-+		if (ret)
-+			pr_warn_ratelimited(
-+	"VFS: Dirty inode writeback failed for block device %pg (err=%d).\n",
-+				bdev, ret);
- 		spin_lock(&inode->i_lock);
+diff --git a/block/blk-lib.c b/block/blk-lib.c
+index 09b7e1200c0f4..67e6dbc1ae817 100644
+--- a/block/blk-lib.c
++++ b/block/blk-lib.c
+@@ -48,10 +48,8 @@ int __blkdev_issue_discard(struct block_device *bdev, sector_t sector,
+ 
+ 	/* In case the discard granularity isn't set by buggy device driver */
+ 	if (WARN_ON_ONCE(!bdev_discard_granularity(bdev))) {
+-		char dev_name[BDEVNAME_SIZE];
+-
+-		bdevname(bdev, dev_name);
+-		pr_err_ratelimited("%s: Error: discard_granularity is 0.\n", dev_name);
++		pr_err_ratelimited("%pg: Error: discard_granularity is 0.\n",
++				   bdev);
+ 		return -EOPNOTSUPP;
  	}
- 	spin_unlock(&inode->i_lock);
+ 
 -- 
 2.30.2
 
