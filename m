@@ -2,64 +2,49 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACA8A556E84
-	for <lists+drbd-dev@lfdr.de>; Thu, 23 Jun 2022 00:33:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88B0E572E6D
+	for <lists+drbd-dev@lfdr.de>; Wed, 13 Jul 2022 08:50:53 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 722CA420621;
-	Thu, 23 Jun 2022 00:33:14 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 502E9420F75;
+	Wed, 13 Jul 2022 08:50:52 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
-	[209.85.216.54])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 10CE9420471
-	for <drbd-dev@lists.linbit.com>; Thu, 23 Jun 2022 00:33:12 +0200 (CEST)
-Received: by mail-pj1-f54.google.com with SMTP id
-	h34-20020a17090a29a500b001eb01527d9eso792405pjd.3
-	for <drbd-dev@lists.linbit.com>; Wed, 22 Jun 2022 15:33:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-	h=from:to:cc:in-reply-to:references:subject:message-id:date
-	:mime-version:content-transfer-encoding;
-	bh=QAYDnhWBUumQJXLfjLM/HrotAv8NVofKnBHrbwoQ4uI=;
-	b=T4SQKvmVgykOMJflWwdcXiHwHaW6ppUL6HpcoyV5P5YmLv05PZ6ywgtWJGQ81+ry4m
-	KszItlKZ3EpSACiBoKNrLwpXRyen8O2vs6mNbpNljaC5f++yyLxx9MZMY2XBeRgdaKGS
-	A09Kxam4vbOBqas6DMCnXxbiHv2vgOyUg+nis+ZaifLjO2p3D62Uamrmaacp3j6HzKLd
-	gCaxNXS5PcwEZ9PvFm7wmN9+rrIK3WKQrtYGPvw3alATQw6CJ/odCJ1ugivLjM2GCFEs
-	cQDUIfAud4wtRq7y5/IGcX6YRcyll6JC9SwX3zx14ytWSwCqmz1r1cPZ2rC2SAw1Tj2n
-	6x8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20210112;
-	h=x-gm-message-state:from:to:cc:in-reply-to:references:subject
-	:message-id:date:mime-version:content-transfer-encoding;
-	bh=QAYDnhWBUumQJXLfjLM/HrotAv8NVofKnBHrbwoQ4uI=;
-	b=U9msNNEFwC7559yOGmPAy9dYnf5/wOsFEIrmbWfe6mwWMQ7s2Ob99+MmOZJrfhVN4/
-	/liTYiZ85xOGOOqQZjIDzApYGpuHVPsxgvO3H+k5cc8THe9duEqxVRPxatzILS9ZXb7t
-	24KtH3H+s+IQHKmYQauQEbPRYtmE7EfB5oHSHFHuSW65/027c1TWuTyON3hFXYTi6aWV
-	HgSZuANkgPHOF7+NUgVYSFSHOR66CyPF3T1OGrxk9rRLykykdF3QQHD38HyjqIYKwFRk
-	s4eAYZrIseSiEk4pbFmw5QEfwMmrmjYBTPWKqdbgGhmVL7uHhq6I90NHztjt5WN1r6qW
-	8/Yg==
-X-Gm-Message-State: AJIora/Kw4kN3Ms3tO2qzTpK09a1yBMbkmv2OOZBV2rST4TRLsVL7qRu
-	xuPmtVfonbxqSUvXQW6sIdO75w==
-X-Google-Smtp-Source: AGRyM1sVc1ogbU/b7rlbzF68iEfptv2tG9a4AJSUp9uVgyMRQ81sfKMlvvYWh45MR18JSdkr1pN45Q==
-X-Received: by 2002:a17:902:e810:b0:16a:2934:c8f7 with SMTP id
-	u16-20020a170902e81000b0016a2934c8f7mr16468040plg.171.1655937191761;
-	Wed, 22 Jun 2022 15:33:11 -0700 (PDT)
-Received: from [127.0.1.1] ([198.8.77.157]) by smtp.gmail.com with ESMTPSA id
-	m14-20020a63ed4e000000b0040d2717473fsm2191066pgk.38.2022.06.22.15.33.10
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 22 Jun 2022 15:33:11 -0700 (PDT)
-From: Jens Axboe <axboe@kernel.dk>
-To: christoph.boehmwalder@linbit.com
-In-Reply-To: <20220622204932.196830-1-christoph.boehmwalder@linbit.com>
-References: <20220622204932.196830-1-christoph.boehmwalder@linbit.com>
-Message-Id: <165593719059.163762.1120892404181433441.b4-ty@kernel.dk>
-Date: Wed, 22 Jun 2022 16:33:10 -0600
+Received: from bombadil.infradead.org (bombadil.infradead.org
+	[198.137.202.133])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 19F9A42097C
+	for <drbd-dev@lists.linbit.com>; Wed, 13 Jul 2022 08:50:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=KrpjvwUcHbQf2YuRp2OWaODTDZci6DgQG3eP4OSBmUI=;
+	b=YRBK/+Qzhe+1221YOQ4iqzLn/5
+	4Vwf1PyNclwthcoNXZ8KOoB+GAm/JBggQtmauR03xvzEJ6HJrky94ioJYu/id13gc3E8Vp3eEjaPZ
+	4/U7tIzjiBG7yOAf5AudMpRTfWM/glZnmH0Q5KsdHn9yGpUBaGPrRgAqZ84jMYIXbbDNEzhIhaeXE
+	HPqbGv7ZwbHz+9nAFWGg1NsiY6L75v7smtXveUpmZ+cLceuQWo6JUhgy4Vj3ymFqb/j70IVLdScfi
+	nMcJLQNaBI3D7FKAwYGd4Ir2YoBbRsfjJA6+RJnMFwO2T37jlyn5qeZ+yBeFjFD20xwQM/46VSp4+
+	+bC9PZdw==;
+Received: from ip4d15c27d.dynamic.kabel-deutschland.de ([77.21.194.125]
+	helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1oBVJH-000NMY-Jw; Wed, 13 Jul 2022 05:53:20 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Jens Axboe <axboe@kernel.dk>
+Date: Wed, 13 Jul 2022 07:53:08 +0200
+Message-Id: <20220713055317.1888500-1-hch@lst.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Cc: linux-block@vger.kernel.org, lars.ellenberg@linbit.com,
-	philipp.reisner@linbit.com, linux-kernel@vger.kernel.org,
-	drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH] drbd: bm_page_async_io: fix spurious bitmap
-	"IO error" on large volumes
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+	bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Cc: linux-block@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
+	Song Liu <song@kernel.org>, Mark Fasheh <mark@fasheh.com>,
+	linux-raid@vger.kernel.org, Joseph Qi <joseph.qi@linux.alibaba.com>,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	Joel Becker <jlbec@evilplan.org>, Jan Kara <jack@suse.com>,
+	"Md. Haris Iqbal" <haris.iqbal@ionos.com>,
+	linux-ext4@vger.kernel.org, Jack Wang <jinpu.wang@ionos.com>,
+	ocfs2-devel@oss.oracle.com, drbd-dev@lists.linbit.com
+Subject: [Drbd-dev] remove bdevname
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -73,21 +58,37 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-T24gV2VkLCAyMiBKdW4gMjAyMiAyMjo0OTozMiArMDIwMCwgQ2hyaXN0b3BoIELDtmhtd2FsZGVy
-IHdyb3RlOgo+IEZyb206IExhcnMgRWxsZW5iZXJnIDxsYXJzLmVsbGVuYmVyZ0BsaW5iaXQuY29t
-Pgo+IAo+IFdlIHVzdWFsbHkgZG8gYWxsIG91ciBiaXRtYXAgSU8gaW4gdW5pdHMgb2YgUEFHRV9T
-SVpFLgo+IAo+IFdpdGggdmVyeSBzbWFsbCBvciBvZGRseSBzaXplZCBleHRlcm5hbCBtZXRhIGRh
-dGEsIG9yIHdpdGgKPiBQQUdFX1NJWkUgIT0gNGssIGl0IGNhbiBoYXBwZW4gdGhhdCBvdXIgbGFz
-dCBvbi1kaXNrIGJpdG1hcCBwYWdlCj4gaXMgbm90IGZ1bGx5IFBBR0VfU0laRSBhbGlnbmVkLCBz
-byB3ZSBtYXkgbmVlZCB0byBhZGp1c3QgdGhlIHNpemUKPiBvZiB0aGUgSU8uCj4gCj4gWy4uLl0K
-CkFwcGxpZWQsIHRoYW5rcyEKClsxLzFdIGRyYmQ6IGJtX3BhZ2VfYXN5bmNfaW86IGZpeCBzcHVy
-aW91cyBiaXRtYXAgIklPIGVycm9yIiBvbiBsYXJnZSB2b2x1bWVzCiAgICAgIGNvbW1pdDogNjY5
-MjMzMjZiNTE5YmJjNGViY2I1Mjc1NjQ1YjU4NDI3ZjgwMTgyNAoKQmVzdCByZWdhcmRzLAotLSAK
-SmVucyBBeGJvZQoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyYmQtZGV2IG1haWxpbmcgbGlzdApkcmJkLWRldkBsaXN0cy5saW5iaXQuY29tCmh0dHBz
-Oi8vbGlzdHMubGluYml0LmNvbS9tYWlsbWFuL2xpc3RpbmZvL2RyYmQtZGV2Cg==
+Hi Jens,
+
+this series removes the final uses and the implementation of the bdevname()
+function.
+
+Diffstat:
+ block/bdev.c                        |   10 ++---
+ block/blk-lib.c                     |    6 +--
+ block/genhd.c                       |   23 ------------
+ drivers/block/drbd/drbd_req.c       |    6 +--
+ drivers/block/pktcdvd.c             |   10 +----
+ drivers/block/rnbd/rnbd-srv-dev.c   |    1 
+ drivers/block/rnbd/rnbd-srv-dev.h   |    1 
+ drivers/block/rnbd/rnbd-srv-sysfs.c |    5 +-
+ drivers/block/rnbd/rnbd-srv.c       |    9 ++---
+ drivers/block/rnbd/rnbd-srv.h       |    3 -
+ drivers/md/md.c                     |    2 -
+ drivers/md/raid1.c                  |    2 -
+ drivers/md/raid10.c                 |    2 -
+ fs/ext4/mmp.c                       |    9 ++---
+ fs/jbd2/journal.c                   |    6 ++-
+ fs/ocfs2/cluster/heartbeat.c        |   64 ++++++++++++++++--------------------
+ include/linux/blkdev.h              |    1 
+ kernel/trace/blktrace.c             |    4 +-
+ 18 files changed, 62 insertions(+), 102 deletions(-)
+_______________________________________________
+drbd-dev mailing list
+drbd-dev@lists.linbit.com
+https://lists.linbit.com/mailman/listinfo/drbd-dev
