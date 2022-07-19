@@ -2,44 +2,57 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26119579D03
-	for <lists+drbd-dev@lfdr.de>; Tue, 19 Jul 2022 14:46:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 290AC57A193
+	for <lists+drbd-dev@lfdr.de>; Tue, 19 Jul 2022 16:32:07 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B961F4206B6;
-	Tue, 19 Jul 2022 14:46:54 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 13271420668;
+	Tue, 19 Jul 2022 16:32:04 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 377 seconds by postgrey-1.31 at mail19;
-	Tue, 19 Jul 2022 14:24:07 CEST
-Received: from smtpbg.qq.com (biz-43-154-221-58.mail.qq.com [43.154.221.58])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 54EAA4202B8
-	for <drbd-dev@lists.linbit.com>; Tue, 19 Jul 2022 14:24:07 +0200 (CEST)
-X-QQ-mid: bizesmtp84t1658232992tcyg0vfy
-Received: from localhost.localdomain ( [171.223.96.21])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 19 Jul 2022 20:16:30 +0800 (CST)
-X-QQ-SSF: 01000000002000F0U000B00A0000020
-X-QQ-FEAT: 4rCmCcmdMHdi35qznvqNxxvnEWdSiRmmST1u+A2o6peXFM/RSPwShRDt80gHA
-	y5DVAxaORbKKdxdxy0RXOWPAkhqBXotrr90r8Qf4Fi65bbCAqQWvR+03tN+lHkZi7TSZNv9
-	YoX+BR/arF0CSkVM85USAgAIDuf0wu4iiLQdvhsq4Ocr/CJpCJofS+HLnDok5GJZIB1rDqi
-	J6rFXe2FhiUBBzfDsiDdyKVIREWrAb0bSisepF97ZleNonM52r0awyxf0NnR5e1YOOBqY1N
-	v3oRZHhM6xhmec09WOtHr94pWHAVP9DKk/Ty1NJKxSCEDjcfjcqjrQSma+V3qWnFgCzR5Sl
-	y6VHSuQJNuBjinDlb9d4ay4X9oLx2CXW8D7CFc8MQzb1KZKp3V2Y1HdEIWxfmHri3jJ+1RU
-	4xvtfeMJsrs=
-X-QQ-GoodBg: 0
-From: Jason Wang <wangborong@cdjrlc.com>
-To: axboe@kernel.dk
-Date: Sat, 16 Jul 2022 12:14:34 +0800
-Message-Id: <20220716041434.33148-1-wangborong@cdjrlc.com>
-X-Mailer: git-send-email 2.35.1
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
+	[209.85.210.182])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 8AA89420668
+	for <drbd-dev@lists.linbit.com>; Tue, 19 Jul 2022 16:32:02 +0200 (CEST)
+Received: by mail-pf1-f182.google.com with SMTP id w185so13724580pfb.4
+	for <drbd-dev@lists.linbit.com>; Tue, 19 Jul 2022 07:32:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=sourceruckus-org.20210112.gappssmtp.com; s=20210112;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=dHF5A1ma9FaZmqOX4/iMhSUc+wOGWhRIGt5s8qZfyHY=;
+	b=WbqI4WW9X6ZwHCCtCP9E6EfNufYk17zsaRv0944SfoDFuOXokaZdasWAWcLv8mm3lS
+	LNnnApxLRAAn0pnrSyQWEobi/sbbB4LP1+7PVP0jAYMTM5U23OP0cVgCgTF5GhSrdN4R
+	mN5io/Kb4EBKQpTOmhEWXEYG7O7Tz7Z3+sNEtyvq9oq5q4Fy3MgmXDe+tV6arfN8Mxj7
+	Fbkhp4xyhx5SX00JHBbefTRyQu4iTImYk9z6rmK1p4UnM8RWPz4mrgMaN65+UL6Gw8Tl
+	0ik8Kd6poV3YgoGwsErs0tI6gWjdT+blMm43OCeaVzY+phThKmfob3xa7d2nc5P/CeCl
+	UGQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20210112;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=dHF5A1ma9FaZmqOX4/iMhSUc+wOGWhRIGt5s8qZfyHY=;
+	b=UiIhLeSt4XPSijCxFM44iWuwvW429iN2VCfnfNAT2xJk+FgEjw/bw4ivXH9GH8R5s6
+	Oh1yBQWvpeyuLOiaHSy7WyAIj3sMjB8Cae4FYNZ0CUKLqbCdJzIfBCz1kD8XcFNaz7RQ
+	/aRG7mE0DCeVCxjcbdXxntOJ8OlP+/Kf/XmNtWQNyOryH2fovo4wY+MDczCtO+5gaX0G
+	qUrtbMwlMySUZUpv6Rub4ymQ2rKRHouTxPjuFgqrpb9aqTMtLwd5llDLZjY9xW6uRBDx
+	sINKMekTkA1WS3JJK5BAHj8+eOKLxSv/VWw3tbQDob+gDmLRt8VjfYpeJ3tmwCBuzGPP
+	EOBg==
+X-Gm-Message-State: AJIora8EkrANLJ+8+GNOWUsKo9tns9yDrdFESoutNBcK2FORjAl9GvCF
+	NKX7UtsfLMRNLNX4HUweLyfUf1YJOgEN3RI62a9mjJQZFbTV7iTP
+X-Google-Smtp-Source: AGRyM1u+M8HDXZXWWPM+YKxrRfqSraeJviJHO6XOXnpJBRXbdrWvquy0uBWcZ2FBPI5LV9K3V+wezyNFi+9H6BvMw6I=
+X-Received: by 2002:a63:db54:0:b0:419:698f:fce0 with SMTP id
+	x20-20020a63db54000000b00419698ffce0mr28900073pgi.424.1658241121184;
+	Tue, 19 Jul 2022 07:32:01 -0700 (PDT)
 MIME-Version: 1.0
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr6
-X-Mailman-Approved-At: Tue, 19 Jul 2022 14:46:53 +0200
-Cc: philipp.reisner@linbit.com, Jason Wang <wangborong@cdjrlc.com>,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	lars.ellenberg@linbit.com, drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH] block/drbd: Fix comment typo
+References: <20220718203421.963-1-veggiemike@sourceruckus.org>
+	<acd5b1c9-d770-8db9-45a0-c78051cc3f59@linbit.com>
+In-Reply-To: <acd5b1c9-d770-8db9-45a0-c78051cc3f59@linbit.com>
+From: Michael Labriola <veggiemike@sourceruckus.org>
+Date: Tue, 19 Jul 2022 10:31:50 -0400
+Message-ID: <CAA1fRFh1NbuJ-TYKXF3GX6XdDXbEQWmWZzx2-Q6eM9M_NfLKZQ@mail.gmail.com>
+To: =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>
+Cc: drbd-dev@lists.linbit.com
+Subject: Re: [Drbd-dev] [PATCH] compat: actually, bio_alloc now has 4 params
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,35 +66,72 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-The double `and' is duplicated in line 89, remove one.
-
-Signed-off-by: Jason Wang <wangborong@cdjrlc.com>
----
- drivers/block/drbd/drbd_bitmap.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/block/drbd/drbd_bitmap.c b/drivers/block/drbd/drbd_bitmap.c
-index 7d9db33363de..736416186c2f 100644
---- a/drivers/block/drbd/drbd_bitmap.c
-+++ b/drivers/block/drbd/drbd_bitmap.c
-@@ -86,7 +86,7 @@ struct drbd_bitmap {
- 
- 	/* exclusively to be used by __al_write_transaction(),
- 	 * drbd_bm_mark_for_writeout() and
--	 * and drbd_bm_write_hinted() -> bm_rw() called from there.
-+	 * drbd_bm_write_hinted() -> bm_rw() called from there.
- 	 */
- 	unsigned int n_bitmap_hints;
- 	unsigned int al_bitmap_hints[AL_UPDATES_PER_TRANSACTION];
--- 
-2.35.1
-
-_______________________________________________
-drbd-dev mailing list
-drbd-dev@lists.linbit.com
-https://lists.linbit.com/mailman/listinfo/drbd-dev
+T24gVHVlLCBKdWwgMTksIDIwMjIgYXQgNzozMSBBTSBDaHJpc3RvcGggQsO2aG13YWxkZXIKPGNo
+cmlzdG9waC5ib2VobXdhbGRlckBsaW5iaXQuY29tPiB3cm90ZToKPgo+IEFtIDE4LjA3LjIyIHVt
+IDIyOjM0IHNjaHJpZWIgTWljaGFlbCBEIExhYnJpb2xhOgo+ID4gVGhlIG9yaWdpbmFsIGNvbXBh
+dCBjaGVjayBmb3IgdGhpcyBnb3QgYSBiaXQgd3JhcHBlZCBhcm91bmQgdGhlIGF4bGUuCj4gPiBC
+b3RoIGJpb19hbGxvYygpIGFuZCBiaW9fYWxsb2NfYmlvc2V0KCkgZ3JldyAyIG1vcmUgYXJndW1l
+bnRzLiAgQWxsCj4gPiB0aGUgY29tbWVudHMgYW5kIGZpbGVuYW1lcyBmcm9tIGI2ZDRkNTg4NTk3
+IHNheSAiYmlvX2FsbG9jIGhhcyA1Cj4gPiBwYXJhbXMiLCBidXQgaXQgd2FzIGFjdHVhbGx5IGJp
+b19hbGxvY19iaW9zZXQoKSB0aGF0IG5vdyBoYXMgNSBwYXJhbXMuCj4gPiBBbmQgdGhlIHRlc3Qg
+dGFrZXMgdGhlIDUgcGFyYW1zIG5vdyByZXF1aXJlZCBmb3IgYmlvX2FsbG9jX2Jpb3NldCgpCj4g
+PiBhbmQgcGFzc2VkIHRoZW0gaW50byBiaW9fYWxsb2MoKS4uLiB3aGljaCBjYXVzZXMgdGhlIGNv
+cnJlY3QgY29kZSBmb3IKPiA+IDUuMTcga2VybmVscyB0byBnZXQgcGF0Y2hlZCBiYWNrIG91dCBl
+cnJvbmVvdXNseS4KPiA+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBNaWNoYWVsIEQgTGFicmlvbGEgPHZl
+Z2dpZW1pa2VAc291cmNlcnVja3VzLm9yZz4KPiA+IC0tLQo+ID4gIC4uLm5vX2hhc181X3BhcmFt
+cy5jb2NjaSA9PiBiaW9fYWxsb2NfX25vX2hhc180X3BhcmFtcy5jb2NjaX0gfCAwCj4gPiAgZHJi
+ZC9kcmJkLWtlcm5lbC1jb21wYXQvZ2VuX3BhdGNoX25hbWVzLmMgICAgICAgICAgICAgICAgICAg
+ICB8IDIgKy0KPiA+ICAuLi4ve2Jpb19hbGxvY19oYXNfNV9wYXJhbXMuYyA9PiBiaW9fYWxsb2Nf
+aGFzXzRfcGFyYW1zLmN9ICAgIHwgNCArKy0tCj4gPiAgMyBmaWxlcyBjaGFuZ2VkLCAzIGluc2Vy
+dGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCj4gPiAgcmVuYW1lIGRyYmQvZHJiZC1rZXJuZWwtY29t
+cGF0L2NvY2NpL3tiaW9fYWxsb2NfX25vX2hhc181X3BhcmFtcy5jb2NjaSA9PiBiaW9fYWxsb2Nf
+X25vX2hhc180X3BhcmFtcy5jb2NjaX0gKDEwMCUpCj4gPiAgcmVuYW1lIGRyYmQvZHJiZC1rZXJu
+ZWwtY29tcGF0L3Rlc3RzL3tiaW9fYWxsb2NfaGFzXzVfcGFyYW1zLmMgPT4gYmlvX2FsbG9jX2hh
+c180X3BhcmFtcy5jfSAoODAlKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9kcmJkL2RyYmQta2VybmVs
+LWNvbXBhdC9jb2NjaS9iaW9fYWxsb2NfX25vX2hhc181X3BhcmFtcy5jb2NjaSBiL2RyYmQvZHJi
+ZC1rZXJuZWwtY29tcGF0L2NvY2NpL2Jpb19hbGxvY19fbm9faGFzXzRfcGFyYW1zLmNvY2NpCj4g
+PiBzaW1pbGFyaXR5IGluZGV4IDEwMCUKPiA+IHJlbmFtZSBmcm9tIGRyYmQvZHJiZC1rZXJuZWwt
+Y29tcGF0L2NvY2NpL2Jpb19hbGxvY19fbm9faGFzXzVfcGFyYW1zLmNvY2NpCj4gPiByZW5hbWUg
+dG8gZHJiZC9kcmJkLWtlcm5lbC1jb21wYXQvY29jY2kvYmlvX2FsbG9jX19ub19oYXNfNF9wYXJh
+bXMuY29jY2kKPiA+IGRpZmYgLS1naXQgYS9kcmJkL2RyYmQta2VybmVsLWNvbXBhdC9nZW5fcGF0
+Y2hfbmFtZXMuYyBiL2RyYmQvZHJiZC1rZXJuZWwtY29tcGF0L2dlbl9wYXRjaF9uYW1lcy5jCj4g
+PiBpbmRleCBlOThjM2Q0NC4uMTA3NGJiMTIgMTAwNjQ0Cj4gPiAtLS0gYS9kcmJkL2RyYmQta2Vy
+bmVsLWNvbXBhdC9nZW5fcGF0Y2hfbmFtZXMuYwo+ID4gKysrIGIvZHJiZC9kcmJkLWtlcm5lbC1j
+b21wYXQvZ2VuX3BhdGNoX25hbWVzLmMKPiA+IEBAIC0xMDIsNyArMTAyLDcgQEAgaW50IG1haW4o
+aW50IGFyZ2MsIGNoYXIgKiphcmd2KQo+ID4gICNlbmRpZgo+ID4KPiA+ICAgICAgIHBhdGNoKDEs
+ICJiaW9fYWxsb2MiLCB0cnVlLCBmYWxzZSwKPiA+IC0gICAgICAgICAgIENPTVBBVF9CSU9fQUxM
+T0NfSEFTXzVfUEFSQU1TLCAiaGFzXzVfcGFyYW1zIik7Cj4gPiArICAgICAgICAgICBDT01QQVRf
+QklPX0FMTE9DX0hBU180X1BBUkFNUywgImhhc180X3BhcmFtcyIpOwo+ID4KPiA+ICAjaWYgIWRl
+ZmluZWQoQ09NUEFUX0hBVkVfQklPX1NFVF9ERVYpCj4gPiAgICAgICBwYXRjaCgxLCAiYmlvX3Nl
+dF9kZXYiLCB0cnVlLCBmYWxzZSwKPiA+IGRpZmYgLS1naXQgYS9kcmJkL2RyYmQta2VybmVsLWNv
+bXBhdC90ZXN0cy9iaW9fYWxsb2NfaGFzXzVfcGFyYW1zLmMgYi9kcmJkL2RyYmQta2VybmVsLWNv
+bXBhdC90ZXN0cy9iaW9fYWxsb2NfaGFzXzRfcGFyYW1zLmMKPiA+IHNpbWlsYXJpdHkgaW5kZXgg
+ODAlCj4gPiByZW5hbWUgZnJvbSBkcmJkL2RyYmQta2VybmVsLWNvbXBhdC90ZXN0cy9iaW9fYWxs
+b2NfaGFzXzVfcGFyYW1zLmMKPiA+IHJlbmFtZSB0byBkcmJkL2RyYmQta2VybmVsLWNvbXBhdC90
+ZXN0cy9iaW9fYWxsb2NfaGFzXzRfcGFyYW1zLmMKPiA+IGluZGV4IDFjMjhmMDQ5Li42MDAwZTEw
+MSAxMDA2NDQKPiA+IC0tLSBhL2RyYmQvZHJiZC1rZXJuZWwtY29tcGF0L3Rlc3RzL2Jpb19hbGxv
+Y19oYXNfNV9wYXJhbXMuYwo+ID4gKysrIGIvZHJiZC9kcmJkLWtlcm5lbC1jb21wYXQvdGVzdHMv
+YmlvX2FsbG9jX2hhc180X3BhcmFtcy5jCj4gPiBAQCAtNiw3ICs2LDcgQEAKPiA+ICAjaW5jbHVk
+ZSA8bGludXgvYmlvLmg+Cj4gPgo+ID4gIHN0cnVjdCBiaW8gKmZvbyhzdHJ1Y3QgYmxvY2tfZGV2
+aWNlICpiZGV2LCB1bnNpZ25lZCBzaG9ydCBucl92ZWNzLAo+ID4gLSAgICAgICAgICAgICB1bnNp
+Z25lZCBpbnQgb3BmLCBnZnBfdCBnZnBfbWFzaywgc3RydWN0IGJpb19zZXQgKmJzKQo+ID4gKyAg
+ICAgICAgICAgICB1bnNpZ25lZCBpbnQgb3BmLCBnZnBfdCBnZnBfbWFzaykKPiA+ICB7Cj4gPiAt
+ICAgICByZXR1cm4gYmlvX2FsbG9jKGJkZXYsIG5yX3ZlY3MsIG9wZiwgZ2ZwX21hc2ssIGJzKTsK
+PiA+ICsgICAgIHJldHVybiBiaW9fYWxsb2MoYmRldiwgbnJfdmVjcywgb3BmLCBnZnBfbWFzayk7
+Cj4gPiAgfQo+Cj4gRCdvaCwgc2VlbXMgbGlrZSBJIGluZGVlZCBtaXhlZCB0aG9zZSB1cC4KPiBH
+b29kIGNhdGNoLCB0aGFua3MhCj4KPiBBcHBsaWVkIGFzIGh0dHBzOi8vZ2l0aHViLmNvbS9MSU5C
+SVQvZHJiZC9jb21taXQvZTQ3YzY0YTM1ZmFlYjliMDgwNzcyYjA2OGE1NjMwOTc2Y2IwNzU0ZAo+
+Cj4gSSdtIGdsYWQgdG8gaGF2ZSBzb21lb25lIGluIHRoZSBjb21tdW5pdHkgdG8gZG91YmxlLWNo
+ZWNrIG15IHN0dWZmIDopCgpObyBwcm9ibGVtLiAgVG9vayBsb25nZXIgdG8gcmVtZW1iZXIgaG93
+IHRvIGdldCBnaXQgc2VuZC1lbWFpbCB0byB3b3JrCnRoYW4gaXQgZGlkIHRvIGZpeCBpdC4gIDst
+KQoKLS0KTWljaGFlbCBEIExhYnJpb2xhCjQwMS0zMTYtOTg0NCAoY2VsbCkKCj4KPiAtLQo+IENo
+cmlzdG9waCBCw7ZobXdhbGRlcgo+IExJTkJJVCB8IEtlZXBpbmcgdGhlIERpZ2l0YWwgV29ybGQg
+UnVubmluZwo+IERSQkQgSEEg4oCUICBEaXNhc3RlciBSZWNvdmVyeSDigJQgU29mdHdhcmUgZGVm
+aW5lZCBTdG9yYWdlCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmRyYmQtZGV2IG1haWxpbmcgbGlzdApkcmJkLWRldkBsaXN0cy5saW5iaXQuY29tCmh0dHBz
+Oi8vbGlzdHMubGluYml0LmNvbS9tYWlsbWFuL2xpc3RpbmZvL2RyYmQtZGV2Cg==
