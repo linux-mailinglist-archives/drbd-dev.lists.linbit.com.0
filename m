@@ -2,57 +2,52 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 290AC57A193
-	for <lists+drbd-dev@lfdr.de>; Tue, 19 Jul 2022 16:32:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01FC357A345
+	for <lists+drbd-dev@lfdr.de>; Tue, 19 Jul 2022 17:35:46 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 13271420668;
-	Tue, 19 Jul 2022 16:32:04 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id F13DD4207B5;
+	Tue, 19 Jul 2022 17:35:44 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
-	[209.85.210.182])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 8AA89420668
-	for <drbd-dev@lists.linbit.com>; Tue, 19 Jul 2022 16:32:02 +0200 (CEST)
-Received: by mail-pf1-f182.google.com with SMTP id w185so13724580pfb.4
-	for <drbd-dev@lists.linbit.com>; Tue, 19 Jul 2022 07:32:02 -0700 (PDT)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
+	[209.85.214.180])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 68E9C4206B5
+	for <drbd-dev@lists.linbit.com>; Tue, 19 Jul 2022 17:35:43 +0200 (CEST)
+Received: by mail-pl1-f180.google.com with SMTP id k19so12286363pll.5
+	for <drbd-dev@lists.linbit.com>; Tue, 19 Jul 2022 08:35:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=sourceruckus-org.20210112.gappssmtp.com; s=20210112;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=dHF5A1ma9FaZmqOX4/iMhSUc+wOGWhRIGt5s8qZfyHY=;
-	b=WbqI4WW9X6ZwHCCtCP9E6EfNufYk17zsaRv0944SfoDFuOXokaZdasWAWcLv8mm3lS
-	LNnnApxLRAAn0pnrSyQWEobi/sbbB4LP1+7PVP0jAYMTM5U23OP0cVgCgTF5GhSrdN4R
-	mN5io/Kb4EBKQpTOmhEWXEYG7O7Tz7Z3+sNEtyvq9oq5q4Fy3MgmXDe+tV6arfN8Mxj7
-	Fbkhp4xyhx5SX00JHBbefTRyQu4iTImYk9z6rmK1p4UnM8RWPz4mrgMaN65+UL6Gw8Tl
-	0ik8Kd6poV3YgoGwsErs0tI6gWjdT+blMm43OCeaVzY+phThKmfob3xa7d2nc5P/CeCl
-	UGQQ==
+	h=mime-version:from:date:message-id:subject:to;
+	bh=aB+vcFJmM0yGvVgQ/Z7bOvLX0U/8RF7R2YkrROk1vaE=;
+	b=yk0typMfo9CAA5RyBVY7SdNy5o4sA7VgcGTKyXnS+2DIxXSe09gkqg3MR2FC1wx80q
+	4stNe14s24JPovrooIi/HXnb7vNO8g4VQkgtq6hhUMJhn+rauEl58KchF+32ywATKThT
+	9miUVmZHJvFJA9jtR1PNpro+tVcsnmOCOeDdDbfHD9E/4z94qMnS378EbZaXiOCj62/I
+	xGs78zYtBzWxcFuvyh6okv5rFWrSKXmiczv2ER1jjmM3Rb/MUKcEvr6/lkp0toUl7fjL
+	99Iii58bv+G1DJfrK0+lCuin/5OxXSENrZKWtehG7mEPwObqx4nwRcqjFz4xLe/tTBli
+	h/Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20210112;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=dHF5A1ma9FaZmqOX4/iMhSUc+wOGWhRIGt5s8qZfyHY=;
-	b=UiIhLeSt4XPSijCxFM44iWuwvW429iN2VCfnfNAT2xJk+FgEjw/bw4ivXH9GH8R5s6
-	Oh1yBQWvpeyuLOiaHSy7WyAIj3sMjB8Cae4FYNZ0CUKLqbCdJzIfBCz1kD8XcFNaz7RQ
-	/aRG7mE0DCeVCxjcbdXxntOJ8OlP+/Kf/XmNtWQNyOryH2fovo4wY+MDczCtO+5gaX0G
-	qUrtbMwlMySUZUpv6Rub4ymQ2rKRHouTxPjuFgqrpb9aqTMtLwd5llDLZjY9xW6uRBDx
-	sINKMekTkA1WS3JJK5BAHj8+eOKLxSv/VWw3tbQDob+gDmLRt8VjfYpeJ3tmwCBuzGPP
-	EOBg==
-X-Gm-Message-State: AJIora8EkrANLJ+8+GNOWUsKo9tns9yDrdFESoutNBcK2FORjAl9GvCF
-	NKX7UtsfLMRNLNX4HUweLyfUf1YJOgEN3RI62a9mjJQZFbTV7iTP
-X-Google-Smtp-Source: AGRyM1u+M8HDXZXWWPM+YKxrRfqSraeJviJHO6XOXnpJBRXbdrWvquy0uBWcZ2FBPI5LV9K3V+wezyNFi+9H6BvMw6I=
-X-Received: by 2002:a63:db54:0:b0:419:698f:fce0 with SMTP id
-	x20-20020a63db54000000b00419698ffce0mr28900073pgi.424.1658241121184;
-	Tue, 19 Jul 2022 07:32:01 -0700 (PDT)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=aB+vcFJmM0yGvVgQ/Z7bOvLX0U/8RF7R2YkrROk1vaE=;
+	b=DNfJjEzZ+EhXgCYRnqlnDHvbl71dVDTatzYo79hDWbjohusRkIs8A2Kelh7NfLrIP0
+	XYNvL2ANLXLItT5SKcT5XvCKMEogej3iL5djrG5CCKvM1FK8ZqvTp4ytaI2qCIbE42Xb
+	1wOIg2lPJ96psUvCszwTAf1o+4MqXmxxsWZijwxrC07LVETjOYf/Yipm7fSHzB8/Zs1v
+	XJd8VfRkbxe2mGIdmju5X2tOx67f+GJAsVPMx7cEX3G0dSbB3DKykY6bNrBMyk0Xld/C
+	k0r6hlW7WdSi6e+ghXZTmtwA+eUGOSWVQzrHSadNTF1LmTChpq+d9tC0mqpKTzKceNnQ
+	INdQ==
+X-Gm-Message-State: AJIora9sfwhvRh72Bd+aPO8NF9s/A0zv/eJybFfG+VzrSlnne3mNMOI3
+	nIab/GV6aWu3xIIHBioYBrNSS6FIzABPWouLRRoPcUeHtZsiiMVC
+X-Google-Smtp-Source: AGRyM1uRO5Ys4AqXFpObDLyKJzj0+TAJcwbwYaEzsWXDYUciKVVfBGLTLOqNO5W8vftVe1lE6SGrhvUddx+ZDw4ULA0=
+X-Received: by 2002:a17:90a:5b10:b0:1f2:c0a:f175 with SMTP id
+	o16-20020a17090a5b1000b001f20c0af175mr2582270pji.20.1658244941789;
+	Tue, 19 Jul 2022 08:35:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220718203421.963-1-veggiemike@sourceruckus.org>
-	<acd5b1c9-d770-8db9-45a0-c78051cc3f59@linbit.com>
-In-Reply-To: <acd5b1c9-d770-8db9-45a0-c78051cc3f59@linbit.com>
 From: Michael Labriola <veggiemike@sourceruckus.org>
-Date: Tue, 19 Jul 2022 10:31:50 -0400
-Message-ID: <CAA1fRFh1NbuJ-TYKXF3GX6XdDXbEQWmWZzx2-Q6eM9M_NfLKZQ@mail.gmail.com>
-To: =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>
-Cc: drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH] compat: actually, bio_alloc now has 4 params
+Date: Tue, 19 Jul 2022 11:35:30 -0400
+Message-ID: <CAA1fRFhjfFsADzgr0BS7H3=5Tzfu54g764dRE+WSHi4tjDDpyQ@mail.gmail.com>
+To: drbd-dev@lists.linbit.com
+Subject: [Drbd-dev] corrupted resource can't be fixed by rolling back to old
+	snapshot
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -66,72 +61,99 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-T24gVHVlLCBKdWwgMTksIDIwMjIgYXQgNzozMSBBTSBDaHJpc3RvcGggQsO2aG13YWxkZXIKPGNo
-cmlzdG9waC5ib2VobXdhbGRlckBsaW5iaXQuY29tPiB3cm90ZToKPgo+IEFtIDE4LjA3LjIyIHVt
-IDIyOjM0IHNjaHJpZWIgTWljaGFlbCBEIExhYnJpb2xhOgo+ID4gVGhlIG9yaWdpbmFsIGNvbXBh
-dCBjaGVjayBmb3IgdGhpcyBnb3QgYSBiaXQgd3JhcHBlZCBhcm91bmQgdGhlIGF4bGUuCj4gPiBC
-b3RoIGJpb19hbGxvYygpIGFuZCBiaW9fYWxsb2NfYmlvc2V0KCkgZ3JldyAyIG1vcmUgYXJndW1l
-bnRzLiAgQWxsCj4gPiB0aGUgY29tbWVudHMgYW5kIGZpbGVuYW1lcyBmcm9tIGI2ZDRkNTg4NTk3
-IHNheSAiYmlvX2FsbG9jIGhhcyA1Cj4gPiBwYXJhbXMiLCBidXQgaXQgd2FzIGFjdHVhbGx5IGJp
-b19hbGxvY19iaW9zZXQoKSB0aGF0IG5vdyBoYXMgNSBwYXJhbXMuCj4gPiBBbmQgdGhlIHRlc3Qg
-dGFrZXMgdGhlIDUgcGFyYW1zIG5vdyByZXF1aXJlZCBmb3IgYmlvX2FsbG9jX2Jpb3NldCgpCj4g
-PiBhbmQgcGFzc2VkIHRoZW0gaW50byBiaW9fYWxsb2MoKS4uLiB3aGljaCBjYXVzZXMgdGhlIGNv
-cnJlY3QgY29kZSBmb3IKPiA+IDUuMTcga2VybmVscyB0byBnZXQgcGF0Y2hlZCBiYWNrIG91dCBl
-cnJvbmVvdXNseS4KPiA+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBNaWNoYWVsIEQgTGFicmlvbGEgPHZl
-Z2dpZW1pa2VAc291cmNlcnVja3VzLm9yZz4KPiA+IC0tLQo+ID4gIC4uLm5vX2hhc181X3BhcmFt
-cy5jb2NjaSA9PiBiaW9fYWxsb2NfX25vX2hhc180X3BhcmFtcy5jb2NjaX0gfCAwCj4gPiAgZHJi
-ZC9kcmJkLWtlcm5lbC1jb21wYXQvZ2VuX3BhdGNoX25hbWVzLmMgICAgICAgICAgICAgICAgICAg
-ICB8IDIgKy0KPiA+ICAuLi4ve2Jpb19hbGxvY19oYXNfNV9wYXJhbXMuYyA9PiBiaW9fYWxsb2Nf
-aGFzXzRfcGFyYW1zLmN9ICAgIHwgNCArKy0tCj4gPiAgMyBmaWxlcyBjaGFuZ2VkLCAzIGluc2Vy
-dGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCj4gPiAgcmVuYW1lIGRyYmQvZHJiZC1rZXJuZWwtY29t
-cGF0L2NvY2NpL3tiaW9fYWxsb2NfX25vX2hhc181X3BhcmFtcy5jb2NjaSA9PiBiaW9fYWxsb2Nf
-X25vX2hhc180X3BhcmFtcy5jb2NjaX0gKDEwMCUpCj4gPiAgcmVuYW1lIGRyYmQvZHJiZC1rZXJu
-ZWwtY29tcGF0L3Rlc3RzL3tiaW9fYWxsb2NfaGFzXzVfcGFyYW1zLmMgPT4gYmlvX2FsbG9jX2hh
-c180X3BhcmFtcy5jfSAoODAlKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9kcmJkL2RyYmQta2VybmVs
-LWNvbXBhdC9jb2NjaS9iaW9fYWxsb2NfX25vX2hhc181X3BhcmFtcy5jb2NjaSBiL2RyYmQvZHJi
-ZC1rZXJuZWwtY29tcGF0L2NvY2NpL2Jpb19hbGxvY19fbm9faGFzXzRfcGFyYW1zLmNvY2NpCj4g
-PiBzaW1pbGFyaXR5IGluZGV4IDEwMCUKPiA+IHJlbmFtZSBmcm9tIGRyYmQvZHJiZC1rZXJuZWwt
-Y29tcGF0L2NvY2NpL2Jpb19hbGxvY19fbm9faGFzXzVfcGFyYW1zLmNvY2NpCj4gPiByZW5hbWUg
-dG8gZHJiZC9kcmJkLWtlcm5lbC1jb21wYXQvY29jY2kvYmlvX2FsbG9jX19ub19oYXNfNF9wYXJh
-bXMuY29jY2kKPiA+IGRpZmYgLS1naXQgYS9kcmJkL2RyYmQta2VybmVsLWNvbXBhdC9nZW5fcGF0
-Y2hfbmFtZXMuYyBiL2RyYmQvZHJiZC1rZXJuZWwtY29tcGF0L2dlbl9wYXRjaF9uYW1lcy5jCj4g
-PiBpbmRleCBlOThjM2Q0NC4uMTA3NGJiMTIgMTAwNjQ0Cj4gPiAtLS0gYS9kcmJkL2RyYmQta2Vy
-bmVsLWNvbXBhdC9nZW5fcGF0Y2hfbmFtZXMuYwo+ID4gKysrIGIvZHJiZC9kcmJkLWtlcm5lbC1j
-b21wYXQvZ2VuX3BhdGNoX25hbWVzLmMKPiA+IEBAIC0xMDIsNyArMTAyLDcgQEAgaW50IG1haW4o
-aW50IGFyZ2MsIGNoYXIgKiphcmd2KQo+ID4gICNlbmRpZgo+ID4KPiA+ICAgICAgIHBhdGNoKDEs
-ICJiaW9fYWxsb2MiLCB0cnVlLCBmYWxzZSwKPiA+IC0gICAgICAgICAgIENPTVBBVF9CSU9fQUxM
-T0NfSEFTXzVfUEFSQU1TLCAiaGFzXzVfcGFyYW1zIik7Cj4gPiArICAgICAgICAgICBDT01QQVRf
-QklPX0FMTE9DX0hBU180X1BBUkFNUywgImhhc180X3BhcmFtcyIpOwo+ID4KPiA+ICAjaWYgIWRl
-ZmluZWQoQ09NUEFUX0hBVkVfQklPX1NFVF9ERVYpCj4gPiAgICAgICBwYXRjaCgxLCAiYmlvX3Nl
-dF9kZXYiLCB0cnVlLCBmYWxzZSwKPiA+IGRpZmYgLS1naXQgYS9kcmJkL2RyYmQta2VybmVsLWNv
-bXBhdC90ZXN0cy9iaW9fYWxsb2NfaGFzXzVfcGFyYW1zLmMgYi9kcmJkL2RyYmQta2VybmVsLWNv
-bXBhdC90ZXN0cy9iaW9fYWxsb2NfaGFzXzRfcGFyYW1zLmMKPiA+IHNpbWlsYXJpdHkgaW5kZXgg
-ODAlCj4gPiByZW5hbWUgZnJvbSBkcmJkL2RyYmQta2VybmVsLWNvbXBhdC90ZXN0cy9iaW9fYWxs
-b2NfaGFzXzVfcGFyYW1zLmMKPiA+IHJlbmFtZSB0byBkcmJkL2RyYmQta2VybmVsLWNvbXBhdC90
-ZXN0cy9iaW9fYWxsb2NfaGFzXzRfcGFyYW1zLmMKPiA+IGluZGV4IDFjMjhmMDQ5Li42MDAwZTEw
-MSAxMDA2NDQKPiA+IC0tLSBhL2RyYmQvZHJiZC1rZXJuZWwtY29tcGF0L3Rlc3RzL2Jpb19hbGxv
-Y19oYXNfNV9wYXJhbXMuYwo+ID4gKysrIGIvZHJiZC9kcmJkLWtlcm5lbC1jb21wYXQvdGVzdHMv
-YmlvX2FsbG9jX2hhc180X3BhcmFtcy5jCj4gPiBAQCAtNiw3ICs2LDcgQEAKPiA+ICAjaW5jbHVk
-ZSA8bGludXgvYmlvLmg+Cj4gPgo+ID4gIHN0cnVjdCBiaW8gKmZvbyhzdHJ1Y3QgYmxvY2tfZGV2
-aWNlICpiZGV2LCB1bnNpZ25lZCBzaG9ydCBucl92ZWNzLAo+ID4gLSAgICAgICAgICAgICB1bnNp
-Z25lZCBpbnQgb3BmLCBnZnBfdCBnZnBfbWFzaywgc3RydWN0IGJpb19zZXQgKmJzKQo+ID4gKyAg
-ICAgICAgICAgICB1bnNpZ25lZCBpbnQgb3BmLCBnZnBfdCBnZnBfbWFzaykKPiA+ICB7Cj4gPiAt
-ICAgICByZXR1cm4gYmlvX2FsbG9jKGJkZXYsIG5yX3ZlY3MsIG9wZiwgZ2ZwX21hc2ssIGJzKTsK
-PiA+ICsgICAgIHJldHVybiBiaW9fYWxsb2MoYmRldiwgbnJfdmVjcywgb3BmLCBnZnBfbWFzayk7
-Cj4gPiAgfQo+Cj4gRCdvaCwgc2VlbXMgbGlrZSBJIGluZGVlZCBtaXhlZCB0aG9zZSB1cC4KPiBH
-b29kIGNhdGNoLCB0aGFua3MhCj4KPiBBcHBsaWVkIGFzIGh0dHBzOi8vZ2l0aHViLmNvbS9MSU5C
-SVQvZHJiZC9jb21taXQvZTQ3YzY0YTM1ZmFlYjliMDgwNzcyYjA2OGE1NjMwOTc2Y2IwNzU0ZAo+
-Cj4gSSdtIGdsYWQgdG8gaGF2ZSBzb21lb25lIGluIHRoZSBjb21tdW5pdHkgdG8gZG91YmxlLWNo
-ZWNrIG15IHN0dWZmIDopCgpObyBwcm9ibGVtLiAgVG9vayBsb25nZXIgdG8gcmVtZW1iZXIgaG93
-IHRvIGdldCBnaXQgc2VuZC1lbWFpbCB0byB3b3JrCnRoYW4gaXQgZGlkIHRvIGZpeCBpdC4gIDst
-KQoKLS0KTWljaGFlbCBEIExhYnJpb2xhCjQwMS0zMTYtOTg0NCAoY2VsbCkKCj4KPiAtLQo+IENo
-cmlzdG9waCBCw7ZobXdhbGRlcgo+IExJTkJJVCB8IEtlZXBpbmcgdGhlIERpZ2l0YWwgV29ybGQg
-UnVubmluZwo+IERSQkQgSEEg4oCUICBEaXNhc3RlciBSZWNvdmVyeSDigJQgU29mdHdhcmUgZGVm
-aW5lZCBTdG9yYWdlCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyYmQtZGV2IG1haWxpbmcgbGlzdApkcmJkLWRldkBsaXN0cy5saW5iaXQuY29tCmh0dHBz
-Oi8vbGlzdHMubGluYml0LmNvbS9tYWlsbWFuL2xpc3RpbmZvL2RyYmQtZGV2Cg==
+Hey, all.  I posted this to drbd-user a few weeks ago and didn't get
+any feedback...  Hoping I get a nibble on drbd-dev.
+
+Here's a question that's bugging me.  I've had this happen
+multiple times now (over the course of 2-3 years, so infrequent).
+I've got a system set up with DRBD resources using ZFS volumes as the
+block devices (for volume management and snapshots among other
+reasons).  I've had some obvious hardware problems lead to what I
+think is corrupted DRBD metadata a few times.  Now, I had expected to
+be able to simply rollback to an earlier snapshot of the underlying
+ZVOL on the primary, a slightly older one on the secondary node, and
+sync back up nicely.  But what happens instead is no matter how old of
+a snapshot I use, I continue to get these types of errors:
+
+drbdadm dump-md nautilus_data
+Found meta data is "unclean", please apply-al first
+
+drbdadm apply-al nautilus_data
+extent 4746752 beyond end of bitmap!
+extent 4870144 beyond end of bitmap!
+extent 5436416 beyond end of bitmap!
+extent 5437440 beyond end of bitmap!
+...
+extent 6793216 beyond end of bitmap!
+extent 6793218 beyond end of bitmap!
+../shared/drbdmeta.c:2028:apply_al: ASSERT(bm_pos - bm_on_disk_pos <=
+chunk - this_extent_size) failed.
+
+What I'm trying to understand is how can I be corrupting my DRBD
+resource so badly that going back in time to an older version of the
+block device used by the resource is STILL corrupt?
+
+This is an Ubuntu 20.04 system with 5.15 kernel and DRBD 9.1.5, but as
+mentioned I've seen this problem a couple times over the years with
+5.10 and 5.4 kernels and whatever version of DRBD9 compiled for those
+kernels at the time.  I'm convinced I must be fundamentally
+misunderstanding something about how DRBD works on this one.
+
+My resource config follows:
+
+# resource nautilus_data on skywalker: not ignored, not stacked
+# defined at /etc/drbd.d/nautilus_data.res:1
+resource nautilus_data {
+    device               /dev/drbd1 minor 1;
+    meta-disk            internal;
+    on skywalker {
+        node-id 0;
+        disk             /dev/zdata/nautilus;
+        address          ipv4 10.1.20.201:7810;
+    }
+    on vader {
+        node-id 1;
+        disk             /dev/zdata/nautilus;
+        address          ipv4 10.1.20.202:7810;
+    }
+    connection {
+        host skywalker         address         ipv4 192.168.1.2:7810;
+        host vader         address         ipv4 192.168.1.3:7810;
+        net {
+            _name        vader;
+        }
+    }
+    net {
+        protocol           C;
+        max-buffers      36k;
+        max-epoch-size   20000;
+        sndbuf-size       2M;
+        rcvbuf-size       4M;
+        allow-two-primaries yes;
+        after-sb-0pri    discard-zero-changes;
+        after-sb-1pri    discard-secondary;
+        after-sb-2pri    disconnect;
+    }
+    disk {
+        disk-barrier      no;
+        disk-flushes      no;
+        al-extents       3833;
+        c-plan-ahead       1;
+        c-fill-target    24M;
+        c-max-rate       110M;
+        c-min-rate       10M;
+    }
+}
+
+--
+Michael D Labriola
+401-316-9844 (cell)
+_______________________________________________
+drbd-dev mailing list
+drbd-dev@lists.linbit.com
+https://lists.linbit.com/mailman/listinfo/drbd-dev
