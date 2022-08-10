@@ -2,38 +2,63 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8348658EBA7
-	for <lists+drbd-dev@lfdr.de>; Wed, 10 Aug 2022 14:07:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 999AC58F04B
+	for <lists+drbd-dev@lfdr.de>; Wed, 10 Aug 2022 18:23:37 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5E13E4207B5;
-	Wed, 10 Aug 2022 14:07:33 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4E5CF4207B2;
+	Wed, 10 Aug 2022 18:23:36 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 570 seconds by postgrey-1.31 at mail19;
-	Wed, 10 Aug 2022 14:07:29 CEST
-Received: from mail-m24180.qiye.163.com (mail-m24180.qiye.163.com
-	[220.194.24.180])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id AEA3C42066B
-	for <drbd-dev@lists.linbit.com>; Wed, 10 Aug 2022 14:07:29 +0200 (CEST)
-Received: from localhost.localdomain (unknown [218.94.118.90])
-	by mail-m24180.qiye.163.com (Hmail) with ESMTPA id 8C8133A01DD;
-	Wed, 10 Aug 2022 19:57:55 +0800 (CST)
-From: Rui Xu <rui.xu@easystack.cn>
-To: philipp.reisner@linbit.com, drbd-dev@lists.linbit.com,
-	joel.colledge@linbit.com
-Date: Wed, 10 Aug 2022 19:57:48 +0800
-Message-Id: <20220810115748.1484527-1-rui.xu@easystack.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
+	[209.85.216.68])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id CCC47420667
+	for <drbd-dev@lists.linbit.com>; Wed, 10 Aug 2022 18:23:34 +0200 (CEST)
+Received: by mail-pj1-f68.google.com with SMTP id
+	o3-20020a17090a0a0300b001f7649cd317so2718456pjo.0
+	for <drbd-dev@lists.linbit.com>; Wed, 10 Aug 2022 09:23:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+	:to:from:from:to:cc;
+	bh=l8jhnzzqeUT5rXTZfmZY4lz5ekShp+fFejfQhPINonU=;
+	b=VhANZ/q4aqvEs0EeI/8SuOVCaH8vxi28tvShKjDV/ju2ZX1OV7fEpSOLKwmr24AOil
+	nCzLc2WEEpb+uhU66hB5q4Xo6kodhi/kjxdnv9tObLw/YWf8nELjzcx86Fy/6imXbO1L
+	eAAF6VKmrWkvCTICh9BPkrnWubsegUWjHMlYtJ+f87fGI5I0a6anSI1Y3iehWDcNP8A+
+	WuUmZPdEcYaoAetjaz+MRizyIET0lFomI+Yc6KTbTbcvcaL7dyx2AJkejFIePXtusjw+
+	mGF1IDBzXzx8v7ZweCFVMIJSjukqeKmqhzmw2Yx3QAxYz4jtjG2Kz+1YLFaVDmKaxmFG
+	/Deg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20210112;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+	:to:from:x-gm-message-state:from:to:cc;
+	bh=l8jhnzzqeUT5rXTZfmZY4lz5ekShp+fFejfQhPINonU=;
+	b=HSY59mAJEXMKhRAXdoGFxhp9zQA2Bvw6qZN5hyVJu7LKCuIncodi50DYBAbLWWU8fo
+	8TZ7J8y+3k9vIf0kJEmA9/BpItQV9cCpdqhWmg9q9WcktBx1L6MiovQAayXYMtbD8Mzl
+	wTrre5atZp+7wyD7+Q6XNuJsuJsLI8BEm6/RfmW2xkjVh8bvBOZ2f3aXTs5MwGau6ZBt
+	JTX+KN2vduDDeeYQ1oa2vOYQvs7HiZ46q6oeG51PpDTd8cEt/3s3qR/WLAHg1k4hN2r2
+	Egc2nXZRPnRWtRBmhXdBhnsg3ANHy6lzIQl3zvD2PNNKt0GnjUYxzNCSfoFBKKv8svqp
+	Bj1Q==
+X-Gm-Message-State: ACgBeo1rLx1TMvPsQLUmXID/gd4oLX2DBUVmq4fALbH7Bn6EEpFcte3R
+	nyMtOKjrapwnobT7SWromLA=
+X-Google-Smtp-Source: AA6agR4OvhdIkxW4LvoYb4FzC7Lsm5mQfR6T+5vFXIuNHryu6LWpDn/2oTNhAq1Rm5tFAzkNDd87dg==
+X-Received: by 2002:a17:902:7c01:b0:16f:9649:be73 with SMTP id
+	x1-20020a1709027c0100b0016f9649be73mr23601802pll.70.1660148613445;
+	Wed, 10 Aug 2022 09:23:33 -0700 (PDT)
+Received: from localhost.localdomain ([223.79.192.142])
+	by smtp.gmail.com with ESMTPSA id
+	u13-20020a170902e80d00b0015e8d4eb1f7sm13307539plg.65.2022.08.10.09.23.27
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 10 Aug 2022 09:23:32 -0700 (PDT)
+From: John Sanpe <sanpeqf@gmail.com>
+To: philipp.reisner@linbit.com, lars.ellenberg@linbit.com,
+	christoph.boehmwalder@linbit.com
+Date: Thu, 11 Aug 2022 00:23:01 +0800
+Message-Id: <20220810162301.201540-1-sanpeqf@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFJQjdXWS1ZQUlXWQ8JGhUIEh9ZQVlDTxhJVkMfTxlJTEwfS09IHlUZERMWGhIXJBQOD1
-	lXWRgSC1lBWUlKQ1VCT1VKSkNVQktZV1kWGg8SFR0UWUFZT0tIVUpKS0hKQ1VLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Pio6SQw5FTIOFhNWHiEBLjYP
-	NRhPFE9VSlVKTU1LSkhJTUxNTENIVTMWGhIXVQkOElUDDjseGggCCA8aGBBVGBVFWVdZEgtZQVlJ
-	SkNVQk9VSkpDVUJLWVdZCAFZQUpOTEtCNwY+
-X-HM-Tid: 0a82879e51f68d66kuqt8c8133a01dd
-Cc: Rui Xu <rui.xu@easystack.cn>, dongsheng.yang@easystack.cn
-Subject: [Drbd-dev] [PATCH] drbd: retry the IO when connection lost
+Cc: John Sanpe <sanpeqf@gmail.com>, linux-kernel@vger.kernel.org,
+	drbd-dev@lists.linbit.com
+Subject: [Drbd-dev] [PATCH] lib/ubsan: add missing line feed of
+	alignment-assumption.
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,398 +77,37 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Commit 33600a4632f2 has introduced some problems, for example,
-the problem mentioned in commit 300bfb7ba.
+Added three missing '\n' to pr_err format.
 
-My test also meet a problem introduced by commit 33600a4632f2.
-I have three nodes running with drbd9.1(node-1, node-2 and node-3),
-node-1 is primary and other nodes are secondary. Both quorum and
-quorum-minimum-redundancy are set to 2.
-
-Cut down the connection between node-1 and node-3 first, then cut
-down the connection between node-1 and node-2. When the connection
-between node-1 and node-3 comes back, the node-3 whose disk status
-isn't UPTODATE prevents the quorum-minimum-redundancy coming back,
-the resync process--send bitmap , in turn, is blocked by the
-suspended IO. Here is a dead lock.
-
-We can solve those problems by close the blocked IO with POSTPONE,
-so the IO will neither return back to upper caller nor block the
-resync process. As soon as the resync with peers completes, the quorum
-will come back and the IO will be retried.
-
-And it's simpler than the current mechanism.
-
-Signed-off-by: Rui Xu <rui.xu@easystack.cn>
+Signed-off-by: John Sanpe <sanpeqf@gmail.com>
 ---
- drbd/drbd_main.c     | 59 ++++++++++++++++++-------------
- drbd/drbd_receiver.c | 19 +++-------
- drbd/drbd_req.c      | 82 ++++++--------------------------------------
- drbd/drbd_req.h      |  4 ---
- drbd/drbd_state.c    | 48 --------------------------
- 5 files changed, 51 insertions(+), 161 deletions(-)
+ lib/ubsan.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drbd/drbd_main.c b/drbd/drbd_main.c
-index 24baa860..dbee64d4 100644
---- a/drbd/drbd_main.c
-+++ b/drbd/drbd_main.c
-@@ -2926,43 +2926,32 @@ void drbd_req_destroy_lock(struct kref *kref)
- 	read_unlock_irq(&resource->state_rwlock);
- }
+diff --git a/lib/ubsan.c b/lib/ubsan.c
+index 36bd75e33426..705250ba88bf 100644
+--- a/lib/ubsan.c
++++ b/lib/ubsan.c
+@@ -371,14 +371,14 @@ void __ubsan_handle_alignment_assumption(void *_data, unsigned long ptr,
+ 	ubsan_prologue(&data->location, "alignment-assumption");
  
-+struct drbd_request_dummy {
-+	struct list_head retry_list;
-+	struct bio *master_bio;
-+	struct drbd_device *device;
-+	unsigned long start_jif;
-+	ktime_t start_kt;
-+};
-+
- static void do_retry(struct work_struct *ws)
- {
- 	struct retry_worker *retry = container_of(ws, struct retry_worker, worker);
- 	LIST_HEAD(writes);
--	struct drbd_request *req, *tmp;
-+	struct drbd_request_dummy *req, *tmp;
+ 	if (offset)
+-		pr_err("assumption of %lu byte alignment (with offset of %lu byte) for pointer of type %s failed",
++		pr_err("assumption of %lu byte alignment (with offset of %lu byte) for pointer of type %s failed\n",
+ 		       align, offset, data->type->type_name);
+ 	else
+-		pr_err("assumption of %lu byte alignment for pointer of type %s failed",
++		pr_err("assumption of %lu byte alignment for pointer of type %s failed\n",
+ 		       align, data->type->type_name);
  
- 	spin_lock_irq(&retry->lock);
- 	list_splice_init(&retry->writes, &writes);
- 	spin_unlock_irq(&retry->lock);
- 
--	list_for_each_entry_safe(req, tmp, &writes, list) {
-+	list_for_each_entry_safe(req, tmp, &writes, retry_list) {
- 		struct drbd_device *device = req->device;
- 		struct bio *bio = req->master_bio;
- 		unsigned long start_jif = req->start_jif;
--		bool expected;
- 		ktime_get_accounting_assign(ktime_t start_kt, req->start_kt);
- 
--
--		/* No locking when accessing local_rq_state & net_rq_state, since
--		 * this request is not active at the moment. */
--		expected =
--			expect(device, atomic_read(&req->completion_ref) == 0) &&
--			expect(device, req->local_rq_state & RQ_POSTPONED) &&
--			expect(device, (req->local_rq_state & RQ_LOCAL_PENDING) == 0 ||
--			       (req->local_rq_state & RQ_LOCAL_ABORTED) != 0);
--
--		if (!expected)
--			drbd_err(device, "req=%p completion_ref=%d rq_state=%x\n",
--				req, atomic_read(&req->completion_ref),
--				req->local_rq_state);
--
--		/* We still need to put one kref associated with the
--		 * "completion_ref" going zero in the code path that queued it
--		 * here.  The request object may still be referenced by a
--		 * frozen local req->private_bio, in case we force-detached.
--		 */
--		kref_put(&req->kref, drbd_req_destroy_lock);
-+		list_del_init(&req->retry_list);
-+		kfree(req);
- 
- 		/* A single suspended or otherwise blocking device may stall
- 		 * all others as well. This code path is to recover from a
-@@ -2979,12 +2968,34 @@ static void do_retry(struct work_struct *ws)
- 	}
- }
- 
-+void drbd_dummy_request_prepare(struct drbd_request *req,
-+										struct drbd_request_dummy *dummy)
-+{
-+	INIT_LIST_HEAD(&dummy->retry_list);
-+	dummy->device = req->device;
-+	dummy->master_bio = req->master_bio;
-+	dummy->start_jif = req->start_jif;
-+	ktime_get_accounting_assign(dummy->start_kt, req->start_kt);
-+}
-+
- /* called via drbd_req_put_completion_ref() */
- void drbd_restart_request(struct drbd_request *req)
- {
- 	unsigned long flags;
-+	struct drbd_request_dummy *req_dummy;
-+	int alloc_times = 0;
-+
-+retry_alloc:
-+	req_dummy = kzalloc(sizeof(struct drbd_request_dummy), GFP_ATOMIC);
-+	if (!req_dummy) {
-+		alloc_times++;
-+		BUG_ON(alloc_times >= 100);
-+		goto retry_alloc;
-+	}
-+	drbd_dummy_request_prepare(req, req_dummy);
-+
- 	spin_lock_irqsave(&retry.lock, flags);
--	list_move_tail(&req->list, &retry.writes);
-+	list_move_tail(&req_dummy->retry_list, &retry.writes);
- 	spin_unlock_irqrestore(&retry.lock, flags);
- 
- 	/* Drop the extra reference that would otherwise
-diff --git a/drbd/drbd_receiver.c b/drbd/drbd_receiver.c
-index f077f2b1..716fa555 100644
---- a/drbd/drbd_receiver.c
-+++ b/drbd/drbd_receiver.c
-@@ -3852,13 +3852,6 @@ static enum sync_strategy drbd_uuid_compare(struct drbd_peer_device *peer_device
- 			return SYNC_TARGET_USE_BITMAP;
- 		}
- 
--		if (connection->agreed_pro_version >= 120) {
--			*rule = RULE_RECONNECTED;
--			if (peer_device->uuid_flags & UUID_FLAG_RECONNECT &&
--			    local_uuid_flags & UUID_FLAG_RECONNECT)
--				return NO_SYNC;
--		}
--
- 		if (connection->agreed_pro_version >= 121 &&
- 		    (wire_protocol == DRBD_PROT_A || wire_protocol == DRBD_PROT_B)) {
- 			*rule = RULE_CRASHED_PRIMARY;
-@@ -3886,12 +3879,11 @@ static enum sync_strategy drbd_uuid_compare(struct drbd_peer_device *peer_device
- 				SYNC_SOURCE_IF_BOTH_FAILED :
- 				SYNC_TARGET_IF_BOTH_FAILED;
- 
--		if (connection->agreed_pro_version < 120) {
--			*rule = RULE_RECONNECTED;
--			if (peer_device->uuid_flags & UUID_FLAG_RECONNECT &&
--			    local_uuid_flags & UUID_FLAG_RECONNECT)
-+		*rule = RULE_RECONNECTED;
-+		/* This is a safety net for the following two clauses */
-+		if (peer_device->uuid_flags & UUID_FLAG_RECONNECT &&
-+			local_uuid_flags & UUID_FLAG_RECONNECT)
- 				return NO_SYNC;
--		}
- 
- 		/* Peer crashed as primary, I survived, resync from me */
- 		if (peer_device->uuid_flags & UUID_FLAG_CRASHED_PRIMARY &&
-@@ -7897,8 +7889,7 @@ static void conn_disconnect(struct drbd_connection *connection)
- 	/* Apply these changes after peer_device_disconnected() because that
- 	 * may cause the loss of other connections to be detected, which can
- 	 * change the suspended state. */
--	tl_walk(connection, &connection->req_not_net_done,
--			resource->cached_susp ? CONNECTION_LOST_WHILE_SUSPENDED : CONNECTION_LOST);
-+	tl_walk(connection, NULL, CONNECTION_LOST);
- 
- 	i = drbd_free_peer_reqs(connection, &connection->read_ee, true);
- 	if (i)
-diff --git a/drbd/drbd_req.c b/drbd/drbd_req.c
-index 4537584c..2ce304ad 100644
---- a/drbd/drbd_req.c
-+++ b/drbd/drbd_req.c
-@@ -582,12 +582,8 @@ static void drbd_req_put_completion_ref(struct drbd_request *req, struct bio_and
- 	if (req->local_rq_state & RQ_LOCAL_ABORTED)
- 		return;
- 
--	if (req->local_rq_state & RQ_POSTPONED) {
--		/* don't destroy the req object just yet,
--		 * but queue it for retry */
-+	if (req->local_rq_state & RQ_POSTPONED)
- 		drbd_restart_request(req);
--		return;
--	}
- 
- 	kref_put(&req->kref, drbd_req_destroy);
- }
-@@ -1049,29 +1045,17 @@ void __req_mod(struct drbd_request *req, enum drbd_req_event what,
- 		break;
- 
- 	case CONNECTION_LOST:
--	case CONNECTION_LOST_WHILE_SUSPENDED:
--		/* Only apply to requests that were for this peer but not done. */
--		if (!(req->net_rq_state[idx] & RQ_NET_MASK) || req->net_rq_state[idx] & RQ_NET_DONE)
--			break;
--
--		/* For protocol A, or when not suspended, we consider the
--		 * request to be lost towards this peer.
--		 *
--		 * Protocol B&C requests are kept while suspended because
--		 * resending is allowed. If such a request is pending to this
--		 * peer, we suspend its completion until IO is resumed. This is
--		 * a conservative simplification. We could complete it while
--		 * suspended once we know it has been received by "enough"
--		 * peers. However, we do not track that.
--		 *
--		 * If the request is no longer pending to this peer, then we
--		 * have already received the corresponding ack. The request may
--		 * complete as far as this peer is concerned. */
--		if (what == CONNECTION_LOST ||
--				!(req->net_rq_state[idx] & (RQ_EXP_RECEIVE_ACK|RQ_EXP_WRITE_ACK)))
-+		if (!(req->net_rq_state[idx] & (RQ_EXP_RECEIVE_ACK|RQ_EXP_WRITE_ACK))) {
- 			mod_rq_state(req, m, peer_device, RQ_NET_PENDING|RQ_NET_OK, RQ_NET_DONE);
--		else if (req->net_rq_state[idx] & RQ_NET_PENDING)
--			mod_rq_state(req, m, peer_device, 0, RQ_COMPLETION_SUSP);
-+		} else if (req->net_rq_state[idx] & RQ_NET_OK) {
-+			goto barrier_acked;
-+		} else {
-+			if (!(req->local_rq_state & RQ_POSTPONED))
-+					req->local_rq_state |= RQ_POSTPONED;
-+			mod_rq_state(req, m, peer_device,
-+							RQ_NET_OK|RQ_NET_PENDING|RQ_COMPLETION_SUSP,
-+							RQ_NET_DONE);
-+		}
- 		break;
- 
- 	case WRITE_ACKED_BY_PEER_AND_SIS:
-@@ -1101,50 +1085,6 @@ void __req_mod(struct drbd_request *req, enum drbd_req_event what,
- 			     (req->local_rq_state & RQ_WRITE) ? 0 : RQ_NET_DONE);
- 		break;
- 
--	case COMPLETION_RESUMED:
--		mod_rq_state(req, m, peer_device, RQ_COMPLETION_SUSP, 0);
--		break;
--
--	case CANCEL_SUSPENDED_IO:
--		/* Only apply to requests that were for this peer but not done. */
--		if (!(req->net_rq_state[idx] & RQ_NET_MASK) || req->net_rq_state[idx] & RQ_NET_DONE)
--			break;
--
--		/* CONNECTION_LOST_WHILE_SUSPENDED followed by
--		 * CANCEL_SUSPENDED_IO should be essentially the same as
--		 * CONNECTION_LOST. Make the corresponding changes. The
--		 * RQ_COMPLETION_SUSP flag is handled by COMPLETION_RESUMED. */
--		mod_rq_state(req, m, peer_device, RQ_NET_PENDING|RQ_NET_OK, RQ_NET_DONE);
--		break;
--
--	case RESEND:
--		/* If RQ_NET_OK is already set, we got a P_WRITE_ACK or P_RECV_ACK
--		   before the connection loss (B&C only); only P_BARRIER_ACK
--		   (or the local completion?) was missing when we suspended.
--		   Throwing them out of the TL here by pretending we got a BARRIER_ACK.
--		   During connection handshake, we ensure that the peer was not rebooted.
--
--		   Protocol A requests always have RQ_NET_OK removed when the
--		   connection is lost, so this will never apply to them.
--
--		   Resending is only allowed on synchronous connections,
--		   where all requests not yet completed to upper layers would
--		   be in the same "reorder-domain", there can not possibly be
--		   any dependency between incomplete requests, and we are
--		   allowed to complete this one "out-of-sequence".
--		 */
--		if (req->net_rq_state[idx] & RQ_NET_OK)
--			goto barrier_acked;
--
--		/* Only apply to requests that are pending a response from
--		 * this peer. */
--		if (!(req->net_rq_state[idx] & RQ_NET_PENDING))
--			break;
--
--		D_ASSERT(device, !(req->net_rq_state[idx] & RQ_NET_QUEUED));
--		mod_rq_state(req, m, peer_device, RQ_NET_SENT, RQ_NET_QUEUED);
--		break;
--
- 	case BARRIER_ACKED:
- barrier_acked:
- 		/* barrier ack for READ requests does not make sense */
-diff --git a/drbd/drbd_req.h b/drbd/drbd_req.h
-index 3cc364a2..e7776332 100644
---- a/drbd/drbd_req.h
-+++ b/drbd/drbd_req.h
-@@ -86,7 +86,6 @@ enum drbd_req_event {
- 	HANDED_OVER_TO_NETWORK,
- 	OOS_HANDED_TO_NETWORK,
- 	CONNECTION_LOST,
--	CONNECTION_LOST_WHILE_SUSPENDED,
- 	RECV_ACKED_BY_PEER,
- 	WRITE_ACKED_BY_PEER,
- 	WRITE_ACKED_BY_PEER_AND_SIS, /* and set_in_sync */
-@@ -102,9 +101,6 @@ enum drbd_req_event {
- 	DISCARD_COMPLETED_WITH_ERROR,
- 
- 	ABORT_DISK_IO,
--	RESEND,
--	CANCEL_SUSPENDED_IO,
--	COMPLETION_RESUMED,
- 	NOTHING,
- };
- 
-diff --git a/drbd/drbd_state.c b/drbd/drbd_state.c
-index 896c0354..17a8b857 100644
---- a/drbd/drbd_state.c
-+++ b/drbd/drbd_state.c
-@@ -2316,18 +2316,6 @@ static bool extra_ldev_ref_for_after_state_chg(enum drbd_disk_state *disk_state)
- 	       (disk_state[OLD] != D_DISKLESS && disk_state[NEW] == D_DISKLESS);
- }
- 
--static bool has_starting_resyncs(struct drbd_connection *connection)
--{
--	struct drbd_peer_device *peer_device;
--	int vnr;
--
--	idr_for_each_entry(&connection->peer_devices, peer_device, vnr) {
--		if (peer_device->repl_state[NEW] > L_ESTABLISHED)
--			return true;
--	}
--	return false;
--}
--
- /**
-  * finish_state_change  -  carry out actions triggered by a state change
-  */
-@@ -2342,7 +2330,6 @@ static void finish_state_change(struct drbd_resource *resource, struct completio
- 	bool some_peer_is_primary = false;
- 	bool some_peer_request_in_flight = false;
- 	bool resource_suspended[2];
--	bool unfreeze_io = false;
- 	int vnr;
- 
- 	print_state_change(resource, "");
-@@ -2672,12 +2659,6 @@ static void finish_state_change(struct drbd_resource *resource, struct completio
- 		if (!device->have_quorum[OLD] && device->have_quorum[NEW])
- 			clear_bit(PRIMARY_LOST_QUORUM, &device->flags);
- 
--		if (resource_suspended[NEW] &&
--		    !(role[OLD] == R_PRIMARY && !drbd_data_accessible(device, OLD)) &&
--		     (role[NEW] == R_PRIMARY && !drbd_data_accessible(device, NEW)) &&
--		    resource->res_opts.on_no_data == OND_IO_ERROR)
--			unfreeze_io = true;
--
- 		if (role[OLD] == R_PRIMARY && role[NEW] == R_SECONDARY)
- 			clear_bit(NEW_CUR_UUID, &device->flags);
- 	}
-@@ -2708,32 +2689,6 @@ static void finish_state_change(struct drbd_resource *resource, struct completio
- 		if (cstate[OLD] < C_CONNECTED && cstate[NEW] == C_CONNECTED)
- 			connection->last_reconnect_jif = jiffies;
- 
--		if (resource_suspended[OLD]) {
--			enum drbd_req_event walk_event = -1;
--
--			/* If we resume IO without this connection, then we
--			 * need to cancel suspended requests. */
--			if ((!resource_suspended[NEW] || unfreeze_io) && cstate[NEW] < C_CONNECTED)
--				walk_event = CANCEL_SUSPENDED_IO;
--			/* On reconnection when we have been suspended we need
--			 * to process suspended requests. If there are resyncs,
--			 * that means that it was not a simple disconnect and
--			 * reconnect, so we cannot resend. We must cancel
--			 * instead. */
--			else if (cstate[OLD] < C_CONNECTED && cstate[NEW] == C_CONNECTED)
--				walk_event = has_starting_resyncs(connection) ? CANCEL_SUSPENDED_IO : RESEND;
--
--			if (walk_event != -1)
--				__tl_walk(resource, connection, &connection->req_not_net_done, walk_event);
--
--			/* Since we are in finish_state_change(), and the state
--			 * was previously not C_CONNECTED, the sender cannot
--			 * have received any requests yet. So it will find any
--			 * requests to resend when it rescans the transfer log. */
--			if (walk_event == RESEND)
--				wake_up(&connection->sender_work.q_wait);
--		}
--
- 		if (cstate[OLD] == C_CONNECTED && cstate[NEW] < C_CONNECTED)
- 			set_bit(RECONNECT, &connection->flags);
- 
-@@ -2765,9 +2720,6 @@ static void finish_state_change(struct drbd_resource *resource, struct completio
- 		}
- 	}
- 
--	if ((resource_suspended[OLD] && !resource_suspended[NEW]) || unfreeze_io)
--		__tl_walk(resource, NULL, NULL, COMPLETION_RESUMED);
--
- 	queue_after_state_change_work(resource, done);
- }
+ 	real_ptr = ptr - offset;
+-	pr_err("%saddress is %lu aligned, misalignment offset is %lu bytes",
++	pr_err("%saddress is %lu aligned, misalignment offset is %lu bytes\n",
+ 	       offset ? "offset " : "", BIT(real_ptr ? __ffs(real_ptr) : 0),
+ 	       real_ptr & (align - 1));
  
 -- 
-2.25.1
+2.36.1
 
 _______________________________________________
 drbd-dev mailing list
