@@ -2,19 +2,19 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E86C5BD9B5
-	for <lists+drbd-dev@lfdr.de>; Tue, 20 Sep 2022 03:53:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 680C15BD9B3
+	for <lists+drbd-dev@lfdr.de>; Tue, 20 Sep 2022 03:52:26 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1219E420667;
-	Tue, 20 Sep 2022 03:53:23 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A6A5A4205FD;
+	Tue, 20 Sep 2022 03:52:22 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 930F84203D5
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A51E94204BE
 	for <drbd-dev@lists.linbit.com>;
-	Tue, 20 Sep 2022 03:52:19 +0200 (CEST)
-Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.55])
-	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4MWkvw3J1xz14QgZ;
+	Tue, 20 Sep 2022 03:52:20 +0200 (CEST)
+Received: from kwepemi500012.china.huawei.com (unknown [172.30.72.56])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MWkvw40RyzlW3x;
 	Tue, 20 Sep 2022 09:48:12 +0800 (CST)
 Received: from cgs.huawei.com (10.244.148.83) by
 	kwepemi500012.china.huawei.com (7.221.188.12) with Microsoft SMTP
@@ -25,8 +25,8 @@ From: Gaosheng Cui <cuigaosheng1@huawei.com>
 To: <philipp.reisner@linbit.com>, <lars.ellenberg@linbit.com>,
 	<christoph.boehmwalder@linbit.com>, <axboe@kernel.dk>,
 	<cuigaosheng1@huawei.com>
-Date: Tue, 20 Sep 2022 09:52:15 +0800
-Message-ID: <20220920015216.782190-2-cuigaosheng1@huawei.com>
+Date: Tue, 20 Sep 2022 09:52:16 +0800
+Message-ID: <20220920015216.782190-3-cuigaosheng1@huawei.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220920015216.782190-1-cuigaosheng1@huawei.com>
 References: <20220920015216.782190-1-cuigaosheng1@huawei.com>
@@ -36,8 +36,8 @@ X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
 	kwepemi500012.china.huawei.com (7.221.188.12)
 X-CFilter-Loop: Reflected
 Cc: linux-block@vger.kernel.org, drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 1/2] drbd: remove orphan _req_may_be_done()
-	declaration
+Subject: [Drbd-dev] [PATCH 2/2] block/drbd: remove useless comments in
+	receive_DataReply()
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -56,29 +56,29 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-The _req_may_be_done() has been removed by
-commit 6870ca6d463e ("drbd: factor out master_bio completion
-and drbd_request destruction paths"), so remove the orphan
-declaration.
+All implementations of req->collision, _req_may_be_done and
+drbd_fail_pending_reads have been removed, so remove the comments
+in receive_DataReply() that provide no useful information.
 
 Signed-off-by: Gaosheng Cui <cuigaosheng1@huawei.com>
 ---
- drivers/block/drbd/drbd_req.h | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/block/drbd/drbd_receiver.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/block/drbd/drbd_req.h b/drivers/block/drbd/drbd_req.h
-index 511f39a08de4..6237fa1dcb0e 100644
---- a/drivers/block/drbd/drbd_req.h
-+++ b/drivers/block/drbd/drbd_req.h
-@@ -266,8 +266,6 @@ struct bio_and_error {
+diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd_receiver.c
+index af4c7d65490b..c897c4572036 100644
+--- a/drivers/block/drbd/drbd_receiver.c
++++ b/drivers/block/drbd/drbd_receiver.c
+@@ -2113,9 +2113,6 @@ static int receive_DataReply(struct drbd_connection *connection, struct packet_i
+ 	if (unlikely(!req))
+ 		return -EIO;
  
- extern void start_new_tl_epoch(struct drbd_connection *connection);
- extern void drbd_req_destroy(struct kref *kref);
--extern void _req_may_be_done(struct drbd_request *req,
--		struct bio_and_error *m);
- extern int __req_mod(struct drbd_request *req, enum drbd_req_event what,
- 		struct bio_and_error *m);
- extern void complete_master_bio(struct drbd_device *device,
+-	/* hlist_del(&req->collision) is done in _req_may_be_done, to avoid
+-	 * special casing it there for the various failure cases.
+-	 * still no race with drbd_fail_pending_reads */
+ 	err = recv_dless_read(peer_device, req, sector, pi->size);
+ 	if (!err)
+ 		req_mod(req, DATA_RECEIVED);
 -- 
 2.25.1
 
