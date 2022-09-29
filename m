@@ -2,72 +2,57 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id D56645E5839
-	for <lists+drbd-dev@lfdr.de>; Thu, 22 Sep 2022 03:45:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5179A5EF24A
+	for <lists+drbd-dev@lfdr.de>; Thu, 29 Sep 2022 11:39:59 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id BEA36421741;
-	Thu, 22 Sep 2022 03:45:58 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id BAACD4203D5;
+	Thu, 29 Sep 2022 11:39:58 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
-	[209.85.214.174])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6EF7D4210D5
-	for <drbd-dev@lists.linbit.com>; Thu, 22 Sep 2022 03:45:27 +0200 (CEST)
-Received: by mail-pl1-f174.google.com with SMTP id f23so7395232plr.6
-	for <drbd-dev@lists.linbit.com>; Wed, 21 Sep 2022 18:45:27 -0700 (PDT)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
+	[209.85.208.52])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 028F8420175
+	for <drbd-dev@lists.linbit.com>; Thu, 29 Sep 2022 11:39:57 +0200 (CEST)
+Received: by mail-ed1-f52.google.com with SMTP id y100so685109ede.6
+	for <drbd-dev@lists.linbit.com>; Thu, 29 Sep 2022 02:39:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-	h=content-transfer-encoding:mime-version:date:message-id:subject
-	:references:in-reply-to:cc:to:from:from:to:cc:subject:date;
-	bh=of02u+W0a1fJbkhALT5lyxy6mI2eTOHNNOZNhldOWNM=;
-	b=YHYEkxUpO2gJnHkRF6uoPmkKlDJxGxf+tkd8cPJIqSIOhyH2dpS2GTupXtfZw0Iccb
-	NVMpIULXPrmG5XLuB9m2jBLIkFvNchMXoHurvj2eDQ2cwJIZ5wHvk4uKCOBhO3bTZG3B
-	XG0pXuCgnyQ1ZdA/YKw2fX+h8lYCVhZTgMUek5At542rnzhDBarWb+aXPf728KrtCFdg
-	QRw9m/Aa6m4Y4yn85jpqroXqmOGDpcjSnEeNwNnmnUfxNMIGy3LCtYbTWyQzHeKVTrXT
-	+LEXuqtCcB+zOXZa0D/WIrh2KvNXFjAjPZlc7KibCEjZF92iGgPDcBNVX3Hw7CqDpS1u
-	vOhQ==
+	d=linbit-com.20210112.gappssmtp.com; s=20210112;
+	h=cc:to:subject:message-id:date:from:in-reply-to:references
+	:mime-version:from:to:cc:subject:date;
+	bh=Z25XMcQT9UMS6U5UGo589F/7ZcQSNgGwsHBfv7OVdRE=;
+	b=q4r+OUuw2J2dScfCfRRGRMsg5CPy8dXLkLzoe7cmhjiUhe7eLOXeetqOvZsuGhrI7y
+	4Rr1b/JQUVnJNNH9UVOQRwbRbzFMTQdVEuiNjRIKOOFsp9J1A9gA22ag7tuSK5bgRNhN
+	QV4RIIsXRXPii6ZrMVEUB2TG0dycOga5hti+a9MzCu97iErEO+8t3hVzI50gFqbQLJYa
+	GJgPqz6929T5epwoK3HGgYUmDw2cHD/StoCxxFcfQPeMwNyIqGReOVxRaEFQK8Yj2Yx3
+	PqqgIHM7IAQShhi5bw+VnVXjTkjMZpn0I0PVOPOxGr1/JxuMTevE3/9nyr7MY+95zJT/
+	3cPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20210112;
-	h=content-transfer-encoding:mime-version:date:message-id:subject
-	:references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-	:subject:date;
-	bh=of02u+W0a1fJbkhALT5lyxy6mI2eTOHNNOZNhldOWNM=;
-	b=DQk4bKLuJL+1ZMnswwcO8rfQoKlJFLcijFQ87/mlHit3iyiMJvfeskuYofy/t9PEzP
-	ZK37+iEhwGRUlh6f3sZgYtGe4wbiC4m1WTkJ7IOZRN+hpBmyc/yQsi6is6sTfVAnSRAj
-	vIqAzoEOjoA9d30gb39s7fd4GovTk/iS6e1VWp7Vzy8L0xJ6n5Neufj8plzoe064Dmx8
-	EZcN4ZWmoBMUgVuOSeiQjAMadGXhHQqJ46nPiUQqlhDdNACMVEQYGazRN26D1UYr/d6f
-	O7ROtKsqLIek7qwRYdukG6Vw6P/DwcGZqLBtga18OJrOKtuF47DtpvwCav5IctCDRQMU
-	e4pA==
-X-Gm-Message-State: ACrzQf2IYt4wWBrH7eu+zb2eCGomHOs3hA6Q5kkoZRZymsxYBuYHAVcn
-	4V2v/usbb/9Yy/9uB4S1x2OBbA==
-X-Google-Smtp-Source: AMsMyM6GdV+9Eh1x8OstRGmCqVDq81KREd4Z39Fz7SQh36xV6m3BD5CE/QdnUagdaedMDftVS2pghw==
-X-Received: by 2002:a17:90b:3b50:b0:202:9e4a:2fdf with SMTP id
-	ot16-20020a17090b3b5000b002029e4a2fdfmr1100085pjb.240.1663811126524;
-	Wed, 21 Sep 2022 18:45:26 -0700 (PDT)
-Received: from [127.0.0.1] ([198.8.77.157]) by smtp.gmail.com with ESMTPSA id
-	n8-20020a170902e54800b0016c0b0fe1c6sm2701763plf.73.2022.09.21.18.45.25
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 21 Sep 2022 18:45:26 -0700 (PDT)
-From: Jens Axboe <axboe@kernel.dk>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	linux-kernel@vger.kernel.org
-In-Reply-To: <20220818205958.6552-1-wsa+renesas@sang-engineering.com>
-References: <20220818205958.6552-1-wsa+renesas@sang-engineering.com>
-Message-Id: <166381112502.39678.10835166660229447824.b4-ty@kernel.dk>
-Date: Wed, 21 Sep 2022 19:45:25 -0600
+	h=cc:to:subject:message-id:date:from:in-reply-to:references
+	:mime-version:x-gm-message-state:from:to:cc:subject:date;
+	bh=Z25XMcQT9UMS6U5UGo589F/7ZcQSNgGwsHBfv7OVdRE=;
+	b=z/UncqVerJAdyE9V2/xIEYM/nMvX5v+RGVkGmdoyW7vsss3MGAgetLLjNNWidj228t
+	HU4XpY03iVwgdKF6A26QAvhF7SXxx8qMSaaYehiJ8Le28FbH+zYopVZZ5DZt7BJ241uf
+	YKZypc5ihNyxMNQoMdt7lpGQe1YciUkC6I69FSYkLAsqKoCXEbdiW6xUNgl13hmgY0Xz
+	PXUZINWkEXSH0KBV8htTcFB3v72v4BiQRRAO38noxDNqEAaINpMavOrO+Cf703q4XH2P
+	TOtabQAgJ02AJS+g24ySdJ1eFUTrjV4+9yM8Pr5PL3QaQzeanAdGMhcLjDh3NSBnCr4c
+	LpSg==
+X-Gm-Message-State: ACrzQf0M87B32pCoaodFTak0c2XlXeAgFaOLu3NZlLa4R/iUeHKSq33w
+	xrPdSFC/HNjMjqmCuMqkU/u+wMpBk9B6tJiIsiJL1nHz
+X-Google-Smtp-Source: AMsMyM5KXDt+n+5LbJ2vwZlZVL+9KkAIFu5z3GZ+NSXJYhq7CG1Am8Eg7j8ZMDpktgQh3YNrEqlYXTbSCMlXqI+TyIU=
+X-Received: by 2002:a05:6402:c95:b0:457:37d4:c4c5 with SMTP id
+	cm21-20020a0564020c9500b0045737d4c4c5mr2398150edb.267.1664444397300;
+	Thu, 29 Sep 2022 02:39:57 -0700 (PDT)
 MIME-Version: 1.0
-X-Mailer: b4 0.10.0-dev-355bd
-Cc: Minchan Kim <minchan@kernel.org>, Geoff Levand <geoff@infradead.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	Nicholas Piggin <npiggin@gmail.com>, linux-block@vger.kernel.org,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Jim Paris <jim@jtan.com>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	linuxppc-dev@lists.ozlabs.org, Nitin Gupta <ngupta@vflare.org>,
+References: <20220921090710.2238953-1-rui.xu@easystack.cn>
+In-Reply-To: <20220921090710.2238953-1-rui.xu@easystack.cn>
+From: Joel Colledge <joel.colledge@linbit.com>
+Date: Thu, 29 Sep 2022 11:39:46 +0200
+Message-ID: <CAGNP_+Xh9e8hA+B73Li4P-kZ6KvcazAQkwCpfAzDCpR-7HzDBA@mail.gmail.com>
+To: Rui Xu <rui.xu@easystack.cn>
+Cc: philipp.reisner@linbit.com, dongsheng.yang@easystack.cn,
 	drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH] block: move from strlcpy with unused retval
-	to strscpy
+Subject: Re: [Drbd-dev] [PATCH] drbd: fix a bug of got_peer_ack
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -86,23 +71,37 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Thu, 18 Aug 2022 22:59:57 +0200, Wolfram Sang wrote:
-> Follow the advice of the below link and prefer 'strscpy' in this
-> subsystem. Conversion is 1:1 because the return value is not used.
-> Generated by a coccinelle script.
-> 
-> 
+Hi Xu,
 
-Applied, thanks!
+> Consider a scenrio that io is ongoing and the backing disk of
+> secondary drbd suddenly broken. Some requset from primary node
+> will not be processed in receive_Data since there is no ldev.
+> And primary node will send peer_ack to secondary node for those
+> requsets, but the secondary node will not find these requests in
+> got_peer_ack.
+>
+> The first problem caused by this bug is that the two nodes will be
+> disconnected, and the second problem is that some peer requests
+> can't be destroyed.
 
-[1/1] block: move from strlcpy with unused retval to strscpy
-      commit: e55e1b4831563e5766f88fa821f5bfac0d6c298c
+I can confirm this issue. Thanks for reporting it.
+
+> Fix it by find the last peer request on peer_requests list and then
+> the remaining requests on the list will be destroyed.
+
+I believe this is a valid solution. It is missing the case where
+another peer ack is sent afterwards too, so that got_peer_ack() is
+called with connection->peer_requests empty. But don't worry about
+that for now.
+
+The question is - do we need to send peer acks to peers that responded
+with P_NEG_ACK at all? At the point when the write fails on the
+secondary, we could set the bitmap bits and free the request. Then we
+don't need the peer-ack from the primary. This may lead to a simpler
+and more robust solution. I'll try it.
 
 Best regards,
--- 
-Jens Axboe
-
-
+Joel
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
