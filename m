@@ -2,52 +2,52 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id A96EC5F60F9
-	for <lists+drbd-dev@lfdr.de>; Thu,  6 Oct 2022 08:18:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97DA75F60FA
+	for <lists+drbd-dev@lfdr.de>; Thu,  6 Oct 2022 08:18:37 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 723E74252D5;
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A293F4252DD;
 	Thu,  6 Oct 2022 08:18:28 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
-	[209.85.216.42])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 396264201C4
-	for <drbd-dev@lists.linbit.com>; Thu,  6 Oct 2022 06:45:27 +0200 (CEST)
-Received: by mail-pj1-f42.google.com with SMTP id fw14so746810pjb.3
-	for <drbd-dev@lists.linbit.com>; Wed, 05 Oct 2022 21:45:27 -0700 (PDT)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+	[209.85.214.171])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C5E1F4201C4
+	for <drbd-dev@lists.linbit.com>; Thu,  6 Oct 2022 06:48:12 +0200 (CEST)
+Received: by mail-pl1-f171.google.com with SMTP id 10so750517pli.0
+	for <drbd-dev@lists.linbit.com>; Wed, 05 Oct 2022 21:48:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
 	h=in-reply-to:content-disposition:mime-version:references:message-id
 	:subject:cc:to:from:date:from:to:cc:subject:date;
-	bh=BXKZz/gOYpFYEK/kvAD1ks5ZMqdWWvWPR9euDTlMinY=;
-	b=Pa5J7iVIfOPPpc5FnD+VCPFKYUv3DdEsBgX8F3veGLnr0MqCAKKnFqdt9Zn7I1vA4a
-	hp/m/n+zFRiftLounW3GI1Yh9t5CRw9Qy1PoS1A+KhEfND0rtCnNn/VAYMO7oSLOURb7
-	x/xHspG9KrvXOaDvidgpTqZEY9MLlutH21Sdk=
+	bh=Zga/kwguXOa9tZGzF2X+ZLpnzxGRszRa7j7kheBbr2g=;
+	b=VDYXzBjTmlsVIl+Y4iF0uyvrgTLR7zDCDitOOtRhnnkCI+cj7BOAV+jXORmkdJC8NR
+	kLVeoGGmNjWIzbs7ngaNL2av6vzDETZ5xNshsjkA6+Ddrv+XZy7wZSPrRI2h/WYQMveo
+	FOjR6IXNtLQ2MzWVWNTzoDYr9QH87X51UPqiU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20210112;
 	h=in-reply-to:content-disposition:mime-version:references:message-id
 	:subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-	bh=BXKZz/gOYpFYEK/kvAD1ks5ZMqdWWvWPR9euDTlMinY=;
-	b=CljSTHSh/FMq7YR6Qs8n1k6prHANuCJNewgfiB9NZLlmpLNDKhzkXpnqT0lXg1Ljje
-	x3u5Ige8RXEID8SwMKnhznLLsolcN807y1kaEX306GUWt4aPlEuIAYzKo9mzoZTcH78y
-	9bIRMt2f80upEaTkpJ2dBJue5U9bTfwZgM16G+ht/25fxZF7dIA/X82IMeXCTlxeN2h3
-	OkTCE2QaOh5YolB8U2hsJRLq2GwgNlq2LVZGv3Wic85TjOmTV4L37v0fQbtwP3jjntYo
-	S6bWPKuhTthtPbgt7XQB7l4AOi4oJIvsO7Si/s7T7iQ6y/5AsIZu3Kvf5IvVpfoIzCwy
-	F+GQ==
-X-Gm-Message-State: ACrzQf0mV1pTyL9bYLzGw4zMpDzb9y9EXKjH5cHhmJooXpSLT7zjOl4M
-	cBC8n6wdCOECM/IFgTl2ZlMREQ==
-X-Google-Smtp-Source: AMsMyM7BFOiJDjGZF65COEMp2Clzr5vtXi0588PB1vqUCkCeq9oCGZAqcRbRAS5gmL3ROlmwc9XhOA==
-X-Received: by 2002:a17:90b:384a:b0:203:7388:64bf with SMTP id
-	nl10-20020a17090b384a00b00203738864bfmr8697904pjb.115.1665031527009;
-	Wed, 05 Oct 2022 21:45:27 -0700 (PDT)
+	bh=Zga/kwguXOa9tZGzF2X+ZLpnzxGRszRa7j7kheBbr2g=;
+	b=Zfu1mqgOqkMWrjFcEqz8lIVQTVi5Z0lFhUNJylEK4ctB1EaVDT8dH9YfQNYKxDqxk/
+	/lVzXxC9NcpslokZ9+cYzlpMZJNar7cnJBAO1VNlvi/KPNdg7Rj0XomH3n1WAw0V/D3P
+	Gw1sS6KvMDJryo0/xgTQICMAtcDyp0PLkiugb1/FejqI58pn9Ak0Uv1OqlfdUYXcc1zT
+	L711CcQuyWs2bkv9Xc5SEqozhqjt32pT8tBQvB5igeq9Kt7++zQEq6HoQC4cJbtS69hI
+	V5O0cCHr+k13uIK1HrXc36NuFLY5CPL7tK1+1W7RAHPYAE2NMGP+/ZxzV/7BSNwKrv1H
+	Mdow==
+X-Gm-Message-State: ACrzQf0OVnWCqQb+geScmG1Cxj4xllOVcbgN5MdXRB3p9C/7xIZt208z
+	T635ZWi+xlGzQMLh2B+cxFUoIg==
+X-Google-Smtp-Source: AMsMyM5noNd8dF5/8fuBkrlB/HNbt95GlgliJJ8jYtlN4mBVQXEji+jNlD1vk9tphNCBxko7f/llIA==
+X-Received: by 2002:a17:90b:254b:b0:200:a860:5bf9 with SMTP id
+	nw11-20020a17090b254b00b00200a8605bf9mr8436942pjb.176.1665031691628;
+	Wed, 05 Oct 2022 21:48:11 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
 	by smtp.gmail.com with ESMTPSA id
-	d5-20020a62f805000000b0054124008c14sm11733797pfh.154.2022.10.05.21.45.23
+	t20-20020a170902dcd400b00178a8f4d4f2sm11197475pll.74.2022.10.05.21.48.10
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 05 Oct 2022 21:45:24 -0700 (PDT)
-Date: Wed, 5 Oct 2022 21:45:22 -0700
+	Wed, 05 Oct 2022 21:48:10 -0700 (PDT)
+Date: Wed, 5 Oct 2022 21:48:09 -0700
 From: Kees Cook <keescook@chromium.org>
 To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Message-ID: <202210052144.5DA3690D@keescook>
+Message-ID: <202210052148.AA3C7BB@keescook>
 References: <20221005214844.2699-1-Jason@zx2c4.com>
 	<20221005214844.2699-5-Jason@zx2c4.com>
 MIME-Version: 1.0
@@ -207,6 +207,8 @@ On Wed, Oct 05, 2022 at 11:48:43PM +0200, Jason A. Donenfeld wrote:
 > get_random_bytes() for several releases now, and compiles down to the
 > exact same code. Replace the deprecated wrapper with a direct call to
 > the real function.
+> 
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 
 Global search/replace matches. :)
 
