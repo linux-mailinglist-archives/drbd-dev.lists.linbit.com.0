@@ -2,57 +2,58 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9AF85F60F7
-	for <lists+drbd-dev@lfdr.de>; Thu,  6 Oct 2022 08:18:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1EA85F60F8
+	for <lists+drbd-dev@lfdr.de>; Thu,  6 Oct 2022 08:18:35 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id F0FBD4252BC;
-	Thu,  6 Oct 2022 08:18:27 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3C4454252C8;
+	Thu,  6 Oct 2022 08:18:28 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
-	[209.85.214.181])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5B1974201AA
-	for <drbd-dev@lists.linbit.com>; Thu,  6 Oct 2022 06:38:06 +0200 (CEST)
-Received: by mail-pl1-f181.google.com with SMTP id x6so640748pll.11
-	for <drbd-dev@lists.linbit.com>; Wed, 05 Oct 2022 21:38:05 -0700 (PDT)
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
+	[209.85.216.41])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1215C4201AA
+	for <drbd-dev@lists.linbit.com>; Thu,  6 Oct 2022 06:39:08 +0200 (CEST)
+Received: by mail-pj1-f41.google.com with SMTP id
+	p3-20020a17090a284300b0020a85fa3ffcso3280832pjf.2
+	for <drbd-dev@lists.linbit.com>; Wed, 05 Oct 2022 21:39:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
 	h=in-reply-to:content-disposition:mime-version:references:message-id
 	:subject:cc:to:from:date:from:to:cc:subject:date;
-	bh=+S5GQGZ6/D/Mg+joUObE0SvwDFyqkvRT2sP5/5vRQvk=;
-	b=FnhfzhzYXlNcl6IxqwADyyzc747mTy8MU4rkgJN+LmLi1BBuM+8meOEr2rKBNA5cdb
-	UV5cg1R4d2Z6xBRg09lXiXAPPCtiRk0FnLoDXMxi1ZwCUSCYDye4OaZgSAusHDiISi0X
-	vF5wP8hNjXz8Z2pcn3GjqjTxVus9QcfOT5k48=
+	bh=y1Ewt823HoXUJ+RVCiU5hfekdC+9m7ghxyBCLtj1eUk=;
+	b=Fcbv6b+yCuol0AU1mIs9HnAOz2/wjXtHru3VW95DL3V7mKymOrKADEfZ1NfF0xLiTB
+	LkCGzY8eutuXPS5+afbW7jf6o9DhcYADtCDqs8Qo8xeP+lYFZISv7p7XEeNAqavCs9/t
+	xtqe21TFW/x7aAqkAHw+ftHWXMel86ys26msI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20210112;
 	h=in-reply-to:content-disposition:mime-version:references:message-id
 	:subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-	bh=+S5GQGZ6/D/Mg+joUObE0SvwDFyqkvRT2sP5/5vRQvk=;
-	b=nW9DCQI2F+c/FYNgXAYP0PF8R87qloj7aakFnplTQl7ztvGpV7PNf550lIirn/sHNx
-	ULw/0BVFrl3fDHd790ICTWr4Rh85YgnGmoKS0aeB0I5Tz4tVNnbpK52lIKXGj8XYzKNq
-	izizOjvM77Ir++hVul67RMRJdcZO+HzdBxm/DYPgGLh8FubNT/MoqCtt5E8zlHc9TsIu
-	qZn6ArLNliI3mx2ddsFpyHP6803GZNdNfOs3V1VjLYHBYpOD3vE7OIsDc9reXeEVBsYH
-	IBEiPCPRvo6+rtMquR8d3pV/Oze+KvQWZcpZaGx0Uh3t1edQYPEKqtUOs0DrW7EtZfr2
-	bnvw==
-X-Gm-Message-State: ACrzQf1CMsY0QkYamQrorKkvSXXen0jahZBZBBsCiTuHRMbXI/Mbw6GR
-	thu8BWTo8VS3KeyZ+EKQVI5n5Q==
-X-Google-Smtp-Source: AMsMyM5wQShENjZofrpCE9JXF1y8+Mj33eJ2Bpuqg3wBtAV3umQgBeXMs02cH4EGpzIndWjF3gW38w==
-X-Received: by 2002:a17:902:db0a:b0:178:2636:b6de with SMTP id
-	m10-20020a170902db0a00b001782636b6demr2822346plx.58.1665031085103;
-	Wed, 05 Oct 2022 21:38:05 -0700 (PDT)
+	bh=y1Ewt823HoXUJ+RVCiU5hfekdC+9m7ghxyBCLtj1eUk=;
+	b=ij/uWZquQQbtzVsI55niNRHEFQOdgbbs0KEKpYiOGFWIHDgZFD/cnkzEMHZ6Cgli8A
+	ZJSb302Bd5L6E8e3HRU0pt/HNE14wJRZqt604AkcdZF+QKlirkyIJvkNdHQBFr9vt4Jw
+	ZBtAODDb5JBnQMNgrsbv1qiHhr5saoG9r44S7KP4Z9v8KAk+qIzE3rhaWkghicRb9k95
+	Ivz+FB+DY/nm/4okwCGH1H+k1lH8+K6C9OaeiA6wgHT9jUCNRkOv1s1AUvvJ+NwG/xHW
+	VIFL4ZIBGutGLXlzAJWXFo6+ZRfLCZw1UJM5x0KDLkaYHJZlDXncKtnsCuec8KGp+AZD
+	kQWw==
+X-Gm-Message-State: ACrzQf1W+6DBpg+/+Xq2MqSwLOwV4QtJyXchSYssZvS20q5VZj0CIW5C
+	ZGCJjTFuMqHZi8P6xe0430dBow==
+X-Google-Smtp-Source: AMsMyM60ELYmxh+A5d0x30z3COx8LaynKqt9bJxGAbjfrLwodOIKXzOKJgIYAS8Aw4fmck7UQns81A==
+X-Received: by 2002:a17:902:db0f:b0:176:e70f:6277 with SMTP id
+	m15-20020a170902db0f00b00176e70f6277mr2639160plx.13.1665031147915;
+	Wed, 05 Oct 2022 21:39:07 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
 	by smtp.gmail.com with ESMTPSA id
-	l18-20020a17090aaa9200b001fd8316db51sm1928521pjq.7.2022.10.05.21.38.03
+	d12-20020a634f0c000000b00439d071c110sm673132pgb.43.2022.10.05.21.39.05
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 05 Oct 2022 21:38:03 -0700 (PDT)
-Date: Wed, 5 Oct 2022 21:38:02 -0700
+	Wed, 05 Oct 2022 21:39:06 -0700 (PDT)
+Date: Wed, 5 Oct 2022 21:39:03 -0700
 From: Kees Cook <keescook@chromium.org>
 To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Message-ID: <202210052126.B34A2C62@keescook>
+Message-ID: <202210052138.A585E4CC@keescook>
 References: <20221005214844.2699-1-Jason@zx2c4.com>
-	<20221005214844.2699-3-Jason@zx2c4.com>
+	<20221005214844.2699-6-Jason@zx2c4.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20221005214844.2699-3-Jason@zx2c4.com>
+In-Reply-To: <20221005214844.2699-6-Jason@zx2c4.com>
 X-Mailman-Approved-At: Thu, 06 Oct 2022 08:18:24 +0200
 Cc: Andrew Lunn <andrew@lunn.ch>, "Darrick J . Wong" <djwong@kernel.org>,
 	Ulf Hansson <ulf.hansson@linaro.org>, dri-devel@lists.freedesktop.org,
@@ -182,8 +183,7 @@ Cc: Andrew Lunn <andrew@lunn.ch>, "Darrick J . Wong" <djwong@kernel.org>,
 	Thomas Graf <tgraf@suug.ch>, Johannes Berg <johannes@sipsolutions.net>,
 	Sungjong Seo <sj1557.seo@samsung.com>,
 	Martin KaFai Lau <martin.lau@linux.dev>
-Subject: Re: [Drbd-dev] [PATCH v1 2/5] treewide: use get_random_{u8,
-	u16}() when possible
+Subject: Re: [Drbd-dev] [PATCH v1 5/5] prandom: remove unused functions
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -202,78 +202,11 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Wed, Oct 05, 2022 at 11:48:41PM +0200, Jason A. Donenfeld wrote:
-> Rather than truncate a 32-bit value to a 16-bit value or an 8-bit value,
-> simply use the get_random_{u8,u16}() functions, which are faster than
-> wasting the additional bytes from a 32-bit value.
+On Wed, Oct 05, 2022 at 11:48:44PM +0200, Jason A. Donenfeld wrote:
+> With no callers left of prandom_u32() and prandom_bytes(), remove these
+> deprecated wrappers.
 > 
 > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-
-Same question about "mechanism of transformation".
-
-> diff --git a/drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_cm.c b/drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_cm.c
-> index ddfe9208529a..ac452a0111a9 100644
-> --- a/drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_cm.c
-> +++ b/drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_cm.c
-> @@ -1467,7 +1467,7 @@ static void make_established(struct sock *sk, u32 snd_isn, unsigned int opt)
->  	tp->write_seq = snd_isn;
->  	tp->snd_nxt = snd_isn;
->  	tp->snd_una = snd_isn;
-> -	inet_sk(sk)->inet_id = prandom_u32();
-> +	inet_sk(sk)->inet_id = get_random_u16();
->  	assign_rxopt(sk, opt);
->  
->  	if (tp->rcv_wnd > (RCV_BUFSIZ_M << 10))
-
-This one I had to go look at -- inet_id is u16, so yeah. :)
-
-> diff --git a/lib/test_vmalloc.c b/lib/test_vmalloc.c
-> index 56ffaa8dd3f6..0131ed2cd1bd 100644
-> --- a/lib/test_vmalloc.c
-> +++ b/lib/test_vmalloc.c
-> @@ -80,7 +80,7 @@ static int random_size_align_alloc_test(void)
->  	int i;
->  
->  	for (i = 0; i < test_loop_count; i++) {
-> -		rnd = prandom_u32();
-> +		rnd = get_random_u8();
->  
->  		/*
->  		 * Maximum 1024 pages, if PAGE_SIZE is 4096.
-
-This wasn't obvious either, but it looks like it's because it never
-consumes more than u8?
-
-> diff --git a/net/netfilter/nf_nat_core.c b/net/netfilter/nf_nat_core.c
-> index 7981be526f26..57c7686ac485 100644
-> --- a/net/netfilter/nf_nat_core.c
-> +++ b/net/netfilter/nf_nat_core.c
-> @@ -468,7 +468,7 @@ static void nf_nat_l4proto_unique_tuple(struct nf_conntrack_tuple *tuple,
->  	if (range->flags & NF_NAT_RANGE_PROTO_OFFSET)
->  		off = (ntohs(*keyptr) - ntohs(range->base_proto.all));
->  	else
-> -		off = prandom_u32();
-> +		off = get_random_u16();
->  
->  	attempts = range_size;
-
-Yup, u16 off;
-
-> diff --git a/net/sched/sch_sfb.c b/net/sched/sch_sfb.c
-> index 2829455211f8..7eb70acb4d58 100644
-> --- a/net/sched/sch_sfb.c
-> +++ b/net/sched/sch_sfb.c
-> @@ -379,7 +379,7 @@ static int sfb_enqueue(struct sk_buff *skb, struct Qdisc *sch,
->  		goto enqueue;
->  	}
->  
-> -	r = prandom_u32() & SFB_MAX_PROB;
-> +	r = get_random_u16() & SFB_MAX_PROB;
->  
->  	if (unlikely(r < p_min)) {
->  		if (unlikely(p_min > SFB_MAX_PROB / 2)) {
-
-include/uapi/linux/pkt_sched.h:#define SFB_MAX_PROB 0xFFFF
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
 
