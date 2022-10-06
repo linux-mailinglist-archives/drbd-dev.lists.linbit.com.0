@@ -2,49 +2,65 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6A8C5F97A4
-	for <lists+drbd-dev@lfdr.de>; Mon, 10 Oct 2022 07:13:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 118E05F97A5
+	for <lists+drbd-dev@lfdr.de>; Mon, 10 Oct 2022 07:13:30 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 397EC4210C8;
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 78E7F421741;
 	Mon, 10 Oct 2022 07:13:26 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 468 seconds by postgrey-1.31 at mail19;
-	Thu, 06 Oct 2022 14:53:45 CEST
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5B8134206CF
-	for <drbd-dev@lists.linbit.com>; Thu,  6 Oct 2022 14:53:45 +0200 (CEST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 90876B82089;
-	Thu,  6 Oct 2022 12:53:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65819C433D6;
-	Thu,  6 Oct 2022 12:53:28 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
-	header.b="JFNs4Haz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
-	t=1665060806;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	in-reply-to:in-reply-to:references:references;
-	bh=+Hkd+03ZPFCZHL4SytFYjQxSlVLh/tCnsKNFxa5wK+g=;
-	b=JFNs4Hazt/h3DVxpbrAbzMPE9whooDcKk8uIX5aTYNyaQ0ww6ONDZEpvj0pBCk5Bkl2DLt
-	ktmEJcNw1Kn2Ot/YdbAehCwxq7qPZvj6WGsUyAnJyfFHg6BU5H6pbom+jt+FBFixHsfFyw
-	FXN6BTv1V4qGzBVuWo2f1r2ZOkBYL5M=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 82a088b4
-	(TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
-	Thu, 6 Oct 2022 12:53:26 +0000 (UTC)
-Date: Thu, 6 Oct 2022 06:53:14 -0600
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: Kees Cook <keescook@chromium.org>
-Message-ID: <Yz7PusEN5TG1PvJZ@zx2c4.com>
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com
+	[209.85.160.181])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5A9624206CF
+	for <drbd-dev@lists.linbit.com>; Thu,  6 Oct 2022 14:55:22 +0200 (CEST)
+Received: by mail-qt1-f181.google.com with SMTP id cj27so876232qtb.7
+	for <drbd-dev@lists.linbit.com>; Thu, 06 Oct 2022 05:55:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+	h=in-reply-to:content-disposition:mime-version:references:message-id
+	:subject:cc:to:from:date:from:to:cc:subject:date;
+	bh=Tn+sqw4/yCgRf+qJVvhcwv0+F43hCZc6SWcnJkISat8=;
+	b=fRB9gEBBoKCu8DvmgrE5jsT6iQulOo1Wq07FJ4Am2X2qPDPghUCGIGqelzq6LtOhav
+	Q3ch36mdptG+4DDNPe7LXRCCqOYd+swKkjl9ojx7+DaHms2Ps8ZhIK036brGZcmpW/UJ
+	S9x30Eavu5Tk31fMMwn3nSkBSD8/Tghiz9zSBMFnjKzScWXJY3JUjmENpKuorArjMkg6
+	rQNb/QJQWH453Lx7yVByUvRWnmkZMXKg6u7yi6uAEcrODzXacr1TQUVtDk0Ogg7EUu2A
+	PX8hy4jr/Qi4/DXYjmQMgPSxylmXfgjJuV6SX/HkBNz1t9W02fkJr+gOlTe0wIrhjOHu
+	XfWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20210112;
+	h=in-reply-to:content-disposition:mime-version:references:message-id
+	:subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+	bh=Tn+sqw4/yCgRf+qJVvhcwv0+F43hCZc6SWcnJkISat8=;
+	b=k7dle2+thbFzEWvgre2k/rq4ijWn1fgC4IaNbTg5s2+HXbrQh4uQcTjvlxcluGBgZo
+	hAC4eUaWQR8VVbPMT1NBr6H56CP8lHxrz5Nv4ZtzCQI/BnVxz7lRV5yZd9R0zKAvxb2/
+	PLXscwHmADYbKOxTIe5jEjT7Jvmr2DJf4iX/Ou0u8pum0Cf9v8kN8KNjZUSPd9QhwvFo
+	C5LDXEr//JBX+iUT6LNFp7OvXVvIhNhXlsZY3bjlixkGe4iJrsHbygBRH1evOr6mga2o
+	sH7u52AM/SmJmjYdovkLwD3pwODvhtdyV4q8FfVhfgARtjVh5Mum1jI7dZMnWJCm3ynd
+	Z7dA==
+X-Gm-Message-State: ACrzQf1m6OENepsCKZpyJlOajv+K3P5yvktRKUopvn/tC219XD9Dxd7h
+	kNq7+bBHp6bFnZEN368oOpi2Zg==
+X-Google-Smtp-Source: AMsMyM6DY4Mi45rJXGQRcvjS/Cgf2XLFtfLp/9bVtPvTrZ0iTBUQxQv19mmgtcwcA6rTIK+j1eJYjA==
+X-Received: by 2002:ac8:5a05:0:b0:35b:bac9:d3ff with SMTP id
+	n5-20020ac85a05000000b0035bbac9d3ffmr3176264qta.374.1665060922186;
+	Thu, 06 Oct 2022 05:55:22 -0700 (PDT)
+Received: from ziepe.ca
+	(hlfxns017vw-47-55-122-23.dhcp-dynamic.fibreop.ns.bellaliant.net.
+	[47.55.122.23]) by smtp.gmail.com with ESMTPSA id
+	a16-20020a05620a16d000b006b58d8f6181sm18923537qkn.72.2022.10.06.05.55.20
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 06 Oct 2022 05:55:20 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+	(envelope-from <jgg@ziepe.ca>) id 1ogQPH-00A172-Pm;
+	Thu, 06 Oct 2022 09:55:19 -0300
+Date: Thu, 6 Oct 2022 09:55:19 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Message-ID: <Yz7QN3cbKABexzoB@ziepe.ca>
 References: <20221005214844.2699-1-Jason@zx2c4.com>
-	<202210052148.B11CBC60@keescook>
+	<20221005214844.2699-2-Jason@zx2c4.com>
+	<202210052035.A1020E3@keescook> <Yz7N5WsqmKiUl+6b@zx2c4.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <202210052148.B11CBC60@keescook>
+In-Reply-To: <Yz7N5WsqmKiUl+6b@zx2c4.com>
 X-Mailman-Approved-At: Mon, 10 Oct 2022 07:13:23 +0200
 Cc: Andrew Lunn <andrew@lunn.ch>, "Darrick J . Wong" <djwong@kernel.org>,
 	Ulf Hansson <ulf.hansson@linaro.org>, dri-devel@lists.freedesktop.org,
@@ -122,7 +138,7 @@ Cc: Andrew Lunn <andrew@lunn.ch>, "Darrick J . Wong" <djwong@kernel.org>,
 	"Naveen N . Rao" <naveen.n.rao@linux.ibm.com>,
 	Ilya Dryomov <idryomov@gmail.com>, Paolo Abeni <pabeni@redhat.com>,
 	Pablo Neira Ayuso <pablo@netfilter.org>, Marco Elver <elver@google.com>,
-	Yury Norov <yury.norov@gmail.com>,
+	Kees Cook <keescook@chromium.org>, Yury Norov <yury.norov@gmail.com>,
 	"James E . J . Bottomley" <jejb@linux.ibm.com>,
 	Jamal Hadi Salim <jhs@mojatatu.com>,
 	KP Singh <kpsingh@kernel.org>, Borislav Petkov <bp@alien8.de>,
@@ -152,8 +168,7 @@ Cc: Andrew Lunn <andrew@lunn.ch>, "Darrick J . Wong" <djwong@kernel.org>,
 	linux-scsi@vger.kernel.org, dccp@vger.kernel.org,
 	Richard Weinberger <richard@nod.at>, Russell King <linux@armlinux.org.uk>,
 	Jaehoon Chung <jh80.chung@samsung.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Ingo Molnar <mingo@redhat.com>,
-	Jakub Kicinski <kuba@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
 	John Fastabend <john.fastabend@gmail.com>,
 	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
 	Manivannan Sadhasivam <mani@kernel.org>,
@@ -174,8 +189,8 @@ Cc: Andrew Lunn <andrew@lunn.ch>, "Darrick J . Wong" <djwong@kernel.org>,
 	Thomas Graf <tgraf@suug.ch>, Johannes Berg <johannes@sipsolutions.net>,
 	Sungjong Seo <sj1557.seo@samsung.com>,
 	Martin KaFai Lau <martin.lau@linux.dev>
-Subject: Re: [Drbd-dev] [PATCH v1 0/5] treewide cleanup of random integer
-	usage
+Subject: Re: [Drbd-dev] [PATCH v1 1/5] treewide: use prandom_u32_max() when
+	possible
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -194,38 +209,43 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Wed, Oct 05, 2022 at 09:55:43PM -0700, Kees Cook wrote:
-> It'd be nice to capture some (all?) of the above somewhere. Perhaps just
-> a massive comment in the header?
-
-I'll include (something like) this in some "how to use" documentation
-I'm working on separately.
-
-> > I've CC'd get_maintainers.pl, which is a pretty big list. Probably some
-> > portion of those are going to bounce, too, and everytime you reply to
-> > this thread, you'll have to deal with a bunch of bounces coming
-> > immediately after. And a recipient list this big will probably dock my
-> > email domain's spam reputation, at least temporarily. Sigh. I think
-> > that's just how it goes with treewide cleanups though. Again, let me
-> > know if I'm doing it wrong.
+On Thu, Oct 06, 2022 at 06:45:25AM -0600, Jason A. Donenfeld wrote:
+> Hi Kees,
 > 
-> I usually stick to just mailing lists and subsystem maintainers.
+> On Wed, Oct 05, 2022 at 09:16:50PM -0700, Kees Cook wrote:
+> > On Wed, Oct 05, 2022 at 11:48:40PM +0200, Jason A. Donenfeld wrote:
+> > > Rather than incurring a division or requesting too many random bytes for
+> > > the given range, use the prandom_u32_max() function, which only takes
+> > > the minimum required bytes from the RNG and avoids divisions.
+> > 
+> > Yes please!
+> > 
+> > Since this is a treewide patch, it's helpful for (me at least) doing
+> > reviews to detail the mechanism of the transformation.
+> 
+> This is hand done. There were also various wrong seds done. And then I'd
+> edit the .diff manually, and then reapply it, as an iterative process.
+> No internet on the airplane, and oddly no spatch already on my laptop (I
+> think I had some Gentoo ocaml issues at some point and removed it?).
+> 
+> > e.g. I imagine this could be done with something like Coccinelle and
+> 
+> Feel free to check the work here by using Coccinelle if you're into
+> that.
 
-Lord have mercy I really wish I had done that. I supremely butchered the
-sending of this, and then tried to save it by resubmitting directly to
-vger with the same message ID but truncated CC, which mostly worked, but
-the whole thing is a mess. I'll trim this to subsystem maintainers and
-resubmit a v2 right away, rather than having people wade through the
-mess.
+Generally these series are a lot easier to review if it is structured
+as a patches doing all the unusual stuff that had to be by hand
+followed by an unmodified Coccinelle/sed/etc handling the simple
+stuff.
 
-To any one who's reading this: no more replies to v1! It clogs the
-tubes.
+Especially stuff that is reworking the logic beyond simple
+substitution should be one patch per subsystem not rolled into a giant
+one patch conversion.
 
-> If any of the subsystems ask you to break this up (I hope not), I've got
+This makes the whole workflow better because the hand-done stuff can
+have a chance to flow through subsystem trees.
 
-Oh god I surely hope not. Sounds like a massive waste of time and
-paperwork.
-
+Thanks,
 Jason
 _______________________________________________
 drbd-dev mailing list
