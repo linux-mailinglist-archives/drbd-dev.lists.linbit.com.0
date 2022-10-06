@@ -2,188 +2,70 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 489445F60FC
-	for <lists+drbd-dev@lfdr.de>; Thu,  6 Oct 2022 08:18:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D69C75F6347
+	for <lists+drbd-dev@lfdr.de>; Thu,  6 Oct 2022 11:07:58 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 23B5E4252EE;
-	Thu,  6 Oct 2022 08:18:29 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 15BEC4203D5;
+	Thu,  6 Oct 2022 11:07:58 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
-	[209.85.214.172])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B444A4201C4
-	for <drbd-dev@lists.linbit.com>; Thu,  6 Oct 2022 07:40:39 +0200 (CEST)
-Received: by mail-pl1-f172.google.com with SMTP id l4so756797plb.8
-	for <drbd-dev@lists.linbit.com>; Wed, 05 Oct 2022 22:40:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
-	h=in-reply-to:content-disposition:mime-version:references:message-id
-	:subject:cc:to:from:date:from:to:cc:subject:date;
-	bh=7rD76ImKhWSr9uLkAh+d+zcZYfUm0ip9Vo7hna38oSs=;
-	b=HIlnByPTia/JV2Hio0Z3vTGHRO3pP+g3PDOdFVRfXo+4JMSWemnyOHulYs1b2f7JO3
-	4B68mkEwVVg8IQ3IkOWlhCZu1DHmNpOVf5BI7g3+ztCRosIDaXqnmyXn8NbvhlX0kAlJ
-	1+EIMZBflEmYzO5Z7VvIiaOCr5rSQzs8/emFI=
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+	[209.85.221.46])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 831BF4201A5
+	for <drbd-dev@lists.linbit.com>; Thu,  6 Oct 2022 11:07:56 +0200 (CEST)
+Received: by mail-wr1-f46.google.com with SMTP id n12so1656027wrp.10
+	for <drbd-dev@lists.linbit.com>; Thu, 06 Oct 2022 02:07:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linbit-com.20210112.gappssmtp.com; s=20210112;
+	h=content-transfer-encoding:in-reply-to:from:references:cc:to
+	:content-language:subject:user-agent:mime-version:date:message-id
+	:from:to:cc:subject:date;
+	bh=1aJ5REXRMTq1sh1mUk4G4sr0eg6/nM0EyPCJJ1eSDvw=;
+	b=oj64Vi+eOZpuQI+htjvWY8sZHF5q7NbF+S/U6svj8thZ8X+Vg61vlsVc/qwgGMjZPa
+	VXvzaKeVOCf0sB0AzJGjZIAqfcpn0ScowzTj6E2p3tNJjjJFXlcuAxAxwbmYjy2X4PxD
+	p5817amn3pGou9aDw3/3LN7zIHRtbNzeztLeODaCwncXV9oP4atBx6VB6dzF8F3BKapK
+	8eq4LlFlCBqQ4Cc07YqQahf8C0LJxg4oWEy3v3wrV+QakfsJ2mtsguJXew72RomAcHro
+	r2hI6ZgNVmzk3lDJEllh7IW2xAz8etTQX5Bo6N2ds44bV2iJpDX7XuEyc+8VFIfw5J7M
+	vpMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20210112;
-	h=in-reply-to:content-disposition:mime-version:references:message-id
-	:subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-	bh=7rD76ImKhWSr9uLkAh+d+zcZYfUm0ip9Vo7hna38oSs=;
-	b=hhwgOvtE9RGxzt/Q3OkeMbFWa4PJ+bTLN8B2zTI3PIl2IVhFP7kU4du5h7c/o1xILj
-	AnK7+jV00yz3v2pYh5HeYbTv0Q27KThzKU1wXmIiD3bs+TxHn5wbrEAnzGnfPfYt37ns
-	Cun7VzjLaJ86uzz90DA8xWs/omKY8pIATK3nH5MX5pIPCfwC5Cplfnhxz0fzWl8W5btj
-	/KR715M/mCtJFg2iquccjCL6NBhCMDVMyYrEoHj7z4j08NYlLEdhfvasKTXaebi4C+HJ
-	cV3g79v3whRO1k/SMWGT4XxeURdE38t95S4tvE3KLH1fVZPP+f6bcFdYGBW+h8I/h3HQ
-	euWA==
-X-Gm-Message-State: ACrzQf0QyOWMgpKnj+Z9QBQhk592Y2ujCgKnGB4sKs5aDgaPa5xBHw+p
-	GsSmohJhRmxbNjxP96oBed02Sw==
-X-Google-Smtp-Source: AMsMyM5d8kq/QLGWHL1lT7d4vvr6wiHcKPw02UiifePzthTJzj01ofprelzHftcv9opKc24+zWNWRw==
-X-Received: by 2002:a17:90b:1943:b0:20a:85e9:f089 with SMTP id
-	nk3-20020a17090b194300b0020a85e9f089mr3484011pjb.47.1665034838827;
-	Wed, 05 Oct 2022 22:40:38 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-	by smtp.gmail.com with ESMTPSA id
-	s9-20020a63ff49000000b0043be31d490dsm776833pgk.67.2022.10.05.22.40.37
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 05 Oct 2022 22:40:38 -0700 (PDT)
-Date: Wed, 5 Oct 2022 22:40:36 -0700
-From: Kees Cook <keescook@chromium.org>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Message-ID: <202210052240.23F1699@keescook>
-References: <20221005214844.2699-1-Jason@zx2c4.com>
-	<202210052148.B11CBC60@keescook>
+	h=content-transfer-encoding:in-reply-to:from:references:cc:to
+	:content-language:subject:user-agent:mime-version:date:message-id
+	:x-gm-message-state:from:to:cc:subject:date;
+	bh=1aJ5REXRMTq1sh1mUk4G4sr0eg6/nM0EyPCJJ1eSDvw=;
+	b=S8w294QQfb1gwZgmYTuSgzCvh5w0mk/cfjMDMXKBeAmxCZNIYia9ymuVOugzR6HAcc
+	D8jb9/TC0yFBVeaq1SCF3c80d6BotDEeJZ0mNr2tRzgzWj0goARa/Lwx1UxW9tac9KaC
+	cqeZQGUbp78YNcf9BY44aeRB7IOwK2ATkF6ESKqh7TWtk43FPhqbaSB+t3RpHJczqJaz
+	LAijsfEz+dvAPlBnJC3t7aD7XQyCBZtMMWdBh6jCCyXskIdR3OGt1b4twGE/1yBL5oHp
+	Zl8jDfjKbFIPZit3tNQ597z7I12pNJZBhjEIHdYYPyqRkc7LK/kVLO/kWiPJSyIH3gTx
+	8BQQ==
+X-Gm-Message-State: ACrzQf2zsfgSzRF1Xwy25+k/2nUXcLsvUqqmgO1QlScEdNQLJdQYztZI
+	8dkUnAIDWwEPi4BVbZmy3Une5qj0
+X-Google-Smtp-Source: AMsMyM4T3aR66ySnGUYOn1F8FVH43uhaw24LlS828ZglEOXX6NaXvHYdoyqonBfmR2ibWCuDf+ldjg==
+X-Received: by 2002:a5d:4889:0:b0:22b:214:38dd with SMTP id
+	g9-20020a5d4889000000b0022b021438ddmr2603126wrq.32.1665047276144;
+	Thu, 06 Oct 2022 02:07:56 -0700 (PDT)
+Received: from [10.43.66.1] (62-99-137-214.static.upcbusiness.at.
+	[62.99.137.214]) by smtp.gmail.com with ESMTPSA id
+	l20-20020a1c7914000000b003b47ff307e1sm873687wme.31.2022.10.06.02.07.55
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Thu, 06 Oct 2022 02:07:55 -0700 (PDT)
+Message-ID: <892bcf4d-70d9-8833-9449-c55fa719158e@linbit.com>
+Date: Thu, 6 Oct 2022 11:07:54 +0200
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <202210052148.B11CBC60@keescook>
-X-Mailman-Approved-At: Thu, 06 Oct 2022 08:18:24 +0200
-Cc: Andrew Lunn <andrew@lunn.ch>, "Darrick J . Wong" <djwong@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>, dri-devel@lists.freedesktop.org,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>, linux-sctp@vger.kernel.org,
-	"Md . Haris Iqbal" <haris.iqbal@ionos.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>, Christoph Hellwig <hch@lst.de>,
-	Andy Gospodarek <andy@greyhouse.net>,
-	Sergey Matyukevich <geomatsi@gmail.com>,
-	Rohit Maheshwari <rohitm@chelsio.com>,
-	Michael Ellerman <mpe@ellerman.id.au>, ceph-devel@vger.kernel.org,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Jozsef Kadlecsik <kadlec@netfilter.org>,
-	Nilesh Javali <njavali@marvell.com>, Jean-Paul Roubelat <jpr@f6fbb.org>,
-	Dick Kennedy <dick.kennedy@broadcom.com>,
-	Jay Vosburgh <j.vosburgh@gmail.com>,
-	Potnuri Bharat Teja <bharat@chelsio.com>,
-	Vinay Kumar Yadav <vinay.yadav@chelsio.com>,
-	linux-nfs@vger.kernel.org, Nicholas Piggin <npiggin@gmail.com>,
-	Igor Mitsyanko <imitsyanko@quantenna.com>,
-	Andy Lutomirski <luto@kernel.org>, linux-hams@vger.kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Trond Myklebust <trond.myklebust@hammerspace.com>,
-	linux-raid@vger.kernel.org, Neil Horman <nhorman@tuxdriver.com>,
-	Hante Meuleman <hante.meuleman@broadcom.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
-	Michael Chan <michael.chan@broadcom.com>,
-	linux-kernel@vger.kernel.org, Varun Prakash <varun@chelsio.com>,
-	Chuck Lever <chuck.lever@oracle.com>, netfilter-devel@vger.kernel.org,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Jiri Olsa <jolsa@kernel.org>, Jan Kara <jack@suse.com>,
-	linux-fsdevel@vger.kernel.org, Lars Ellenberg <lars.ellenberg@linbit.com>,
-	linux-media@vger.kernel.org, Claudiu Beznea <claudiu.beznea@microchip.com>,
-	Sharvari Harisangam <sharvari.harisangam@nxp.com>,
-	linux-fbdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-mmc@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
-	Song Liu <song@kernel.org>, Eric Dumazet <edumazet@google.com>,
-	target-devel@vger.kernel.org, John Stultz <jstultz@google.com>,
-	Stanislav Fomichev <sdf@google.com>,
-	Gregory Greenman <gregory.greenman@intel.com>,
-	drbd-dev@lists.linbit.com, dev@openvswitch.org,
-	Leon Romanovsky <leon@kernel.org>, Helge Deller <deller@gmx.de>,
-	Hugh Dickins <hughd@google.com>, James Smart <james.smart@broadcom.com>,
-	Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
-	Pravin B Shelar <pshelar@ovn.org>, Julian Anastasov <ja@ssi.bg>,
-	coreteam@netfilter.org, Veaceslav Falico <vfalico@gmail.com>,
-	Yonghong Song <yhs@fb.com>, Namjae Jeon <linkinjeon@kernel.org>,
-	linux-crypto@vger.kernel.org,
-	Santosh Shilimkar <santosh.shilimkar@oracle.com>,
-	Ganapathi Bhat <ganapathi017@gmail.com>, linux-actions@lists.infradead.org,
-	Simon Horman <horms@verge.net.au>, Jaegeuk Kim <jaegeuk@kernel.org>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-	Hao Luo <haoluo@google.com>, Theodore Ts'o <tytso@mit.edu>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
-	Florian Westphal <fw@strlen.de>,
-	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-	Jon Maloy <jmaloy@redhat.com>, Vlad Yasevich <vyasevich@gmail.com>,
-	Anna Schumaker <anna@kernel.org>, Haoyue Xu <xuhaoyue1@hisilicon.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>, linux-wireless@vger.kernel.org,
-	Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	linux-nvme@lists.infradead.org, Michal Januszewski <spock@gentoo.org>,
-	linux-mtd@lists.infradead.org, kasan-dev@googlegroups.com,
-	Cong Wang <xiyou.wangcong@gmail.com>,
-	Thomas Sailer <t.sailer@alumni.ethz.ch>,
-	Ajay Singh <ajay.kathat@microchip.com>,
-	Xiubo Li <xiubli@redhat.com>, Sagi Grimberg <sagi@grimberg.me>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Jonathan Corbet <corbet@lwn.net>, linux-rdma@vger.kernel.org,
-	lvs-devel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	"Naveen N . Rao" <naveen.n.rao@linux.ibm.com>,
-	Ilya Dryomov <idryomov@gmail.com>, Paolo Abeni <pabeni@redhat.com>,
-	Pablo Neira Ayuso <pablo@netfilter.org>, Marco Elver <elver@google.com>,
-	Yury Norov <yury.norov@gmail.com>,
-	"James E . J . Bottomley" <jejb@linux.ibm.com>,
-	Jamal Hadi Salim <jhs@mojatatu.com>,
-	KP Singh <kpsingh@kernel.org>, Borislav Petkov <bp@alien8.de>,
-	Keith Busch <kbusch@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Franky Lin <franky.lin@broadcom.com>,
-	Arend van Spriel <aspriel@gmail.com>, linux-ext4@vger.kernel.org,
-	Wenpeng Liang <liangwenpeng@huawei.com>,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	Xinming Hu <huxinming820@gmail.com>,
-	linux-stm32@st-md-mailman.stormreply.com, Jeff Layton <jlayton@kernel.org>,
-	SHA-cyfmac-dev-list@infineon.com, linux-xfs@vger.kernel.org,
-	netdev@vger.kernel.org, Ying Xue <ying.xue@windriver.com>,
-	Manish Rangankar <mrangankar@marvell.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@toke.dk>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Peter Zijlstra <peterz@infradead.org>, "H . Peter Anvin" <hpa@zytor.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Amitkumar Karwar <amitkarwar@gmail.com>, linux-mm@kvack.org,
-	Andreas Dilger <adilger.kernel@dilger.ca>,
-	Ayush Sawal <ayush.sawal@chelsio.com>,
-	Andreas Noever <andreas.noever@gmail.com>, Jiri Pirko <jiri@resnulli.us>,
-	linux-f2fs-devel@lists.sourceforge.net, Jack Wang <jinpu.wang@ionos.com>,
-	Steffen Klassert <steffen.klassert@secunet.com>, rds-devel@oss.oracle.com,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	linux-scsi@vger.kernel.org, dccp@vger.kernel.org,
-	Richard Weinberger <richard@nod.at>, Russell King <linux@armlinux.org.uk>,
-	Jaehoon Chung <jh80.chung@samsung.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Ingo Molnar <mingo@redhat.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Michael Jamet <michael.jamet@intel.com>,
-	Kalle Valo <kvalo@kernel.org>, Chao Yu <chao@kernel.org>,
-	Akinobu Mita <akinobu.mita@gmail.com>,
-	linux-block@vger.kernel.org, dmaengine@vger.kernel.org,
-	Hannes Reinecke <hare@suse.de>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Dmitry Vyukov <dvyukov@google.com>, Jens Axboe <axboe@kernel.dk>,
-	cake@lists.bufferbloat.net, brcm80211-dev-list.pdl@broadcom.com,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-	linuxppc-dev@lists.ozlabs.org, David Ahern <dsahern@kernel.org>,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	Stephen Hemminger <stephen@networkplumber.org>,
-	Vinod Koul <vkoul@kernel.org>, tipc-discussion@lists.sourceforge.net,
-	Thomas Graf <tgraf@suug.ch>, Johannes Berg <johannes@sipsolutions.net>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>
-Subject: Re: [Drbd-dev] [PATCH v1 0/5] treewide cleanup of random integer
-	usage
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+	Thunderbird/91.11.0
+Content-Language: en-US
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>, linux-kernel@vger.kernel.org
+References: <20221005214844.2699-1-Jason@zx2c4.com>
+	<20221005214844.2699-2-Jason@zx2c4.com>
+From: =?UTF-8?Q?Christoph_B=c3=b6hmwalder?= <christoph.boehmwalder@linbit.com>
+In-Reply-To: <20221005214844.2699-2-Jason@zx2c4.com>
+Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
+	Philipp Reisner <philipp.reisner@linbit.com>, drbd-dev@lists.linbit.com
+Subject: Re: [Drbd-dev] [PATCH v1 1/5] treewide: use prandom_u32_max() when
+	possible
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -197,21 +79,101 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Wed, Oct 05, 2022 at 09:55:43PM -0700, Kees Cook wrote:
-> If any of the subsystems ask you to break this up (I hope not), I've got
-> this[1], which does a reasonable job of splitting a commit up into
-> separate commits for each matching subsystem.
-
-[1] https://github.com/kees/kernel-tools/blob/trunk/split-on-maintainer
-
--- 
-Kees Cook
-_______________________________________________
-drbd-dev mailing list
-drbd-dev@lists.linbit.com
-https://lists.linbit.com/mailman/listinfo/drbd-dev
+T24gMDUuMTAuMjIgMjM6NDgsIEphc29uIEEuIERvbmVuZmVsZCB3cm90ZToKPiBSYXRoZXIgdGhh
+biBpbmN1cnJpbmcgYSBkaXZpc2lvbiBvciByZXF1ZXN0aW5nIHRvbyBtYW55IHJhbmRvbSBieXRl
+cyBmb3IKPiB0aGUgZ2l2ZW4gcmFuZ2UsIHVzZSB0aGUgcHJhbmRvbV91MzJfbWF4KCkgZnVuY3Rp
+b24sIHdoaWNoIG9ubHkgdGFrZXMKPiB0aGUgbWluaW11bSByZXF1aXJlZCBieXRlcyBmcm9tIHRo
+ZSBSTkcgYW5kIGF2b2lkcyBkaXZpc2lvbnMuCj4gCj4gU2lnbmVkLW9mZi1ieTogSmFzb24gQS4g
+RG9uZW5mZWxkIDxKYXNvbkB6eDJjNC5jb20+Cj4gLS0tCj4gIGFyY2gveDg2L21tL3BhdC9jcGEt
+dGVzdC5jICAgICAgICAgICAgICAgICAgICB8ICA0ICstCj4gIGNyeXB0by90ZXN0bWdyLmMgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICB8IDg2ICsrKysrKysrKy0tLS0tLS0tLS0KPiAgZHJp
+dmVycy9ibG9jay9kcmJkL2RyYmRfcmVjZWl2ZXIuYyAgICAgICAgICAgIHwgIDQgKy0KCkZvciB0
+aGUgZHJiZCBwYXJ0OgoKUmV2aWV3ZWQtYnk6IENocmlzdG9waCBCw7ZobXdhbGRlciA8Y2hyaXN0
+b3BoLmJvZWhtd2FsZGVyQGxpbmJpdC5jb20+Cgo+ICBkcml2ZXJzL2luZmluaWJhbmQvY29yZS9j
+bWEuYyAgICAgICAgICAgICAgICAgfCAgMiArLQo+ICBkcml2ZXJzL2luZmluaWJhbmQvaHcvY3hn
+YjQvaWRfdGFibGUuYyAgICAgICAgfCAgNCArLQo+ICBkcml2ZXJzL2luZmluaWJhbmQvaHcvaG5z
+L2huc19yb2NlX2FoLmMgICAgICAgfCAgNSArLQo+ICBkcml2ZXJzL2luZmluaWJhbmQvdWxwL3J0
+cnMvcnRycy1jbHQuYyAgICAgICAgfCAgMyArLQo+ICBkcml2ZXJzL21tYy9jb3JlL2NvcmUuYyAg
+ICAgICAgICAgICAgICAgICAgICAgfCAgNCArLQo+ICBkcml2ZXJzL21tYy9ob3N0L2R3X21tYy5j
+ICAgICAgICAgICAgICAgICAgICAgfCAgMiArLQo+ICBkcml2ZXJzL210ZC9uYW5kL3Jhdy9uYW5k
+c2ltLmMgICAgICAgICAgICAgICAgfCAgNCArLQo+ICBkcml2ZXJzL210ZC90ZXN0cy9tdGRfbmFu
+ZGVjY3Rlc3QuYyAgICAgICAgICAgfCAxMCArLS0KPiAgZHJpdmVycy9tdGQvdGVzdHMvc3RyZXNz
+dGVzdC5jICAgICAgICAgICAgICAgIHwgMTcgKy0tLQo+ICBkcml2ZXJzL210ZC91YmkvZGVidWcu
+YyAgICAgICAgICAgICAgICAgICAgICAgfCAgMiArLQo+ICBkcml2ZXJzL210ZC91YmkvZGVidWcu
+aCAgICAgICAgICAgICAgICAgICAgICAgfCAgNiArLQo+ICBkcml2ZXJzL25ldC9ldGhlcm5ldC9i
+cm9hZGNvbS9jbmljLmMgICAgICAgICAgfCAgMyArLQo+ICAuLi4vY2hlbHNpby9pbmxpbmVfY3J5
+cHRvL2NodGxzL2NodGxzX2lvLmMgICAgfCAgNCArLQo+ICBkcml2ZXJzL25ldC9oYW1yYWRpby9i
+YXljb21fZXBwLmMgICAgICAgICAgICAgfCAgMiArLQo+ICBkcml2ZXJzL25ldC9oYW1yYWRpby9o
+ZGxjZHJ2LmMgICAgICAgICAgICAgICAgfCAgMiArLQo+ICBkcml2ZXJzL25ldC9oYW1yYWRpby95
+YW0uYyAgICAgICAgICAgICAgICAgICAgfCAgMiArLQo+ICBkcml2ZXJzL25ldC9waHkvYXQ4MDN4
+LmMgICAgICAgICAgICAgICAgICAgICAgfCAgMiArLQo+ICAuLi4vYnJvYWRjb20vYnJjbTgwMjEx
+L2JyY21mbWFjL3AycC5jICAgICAgICAgfCAgMiArLQo+ICAuLi4vbmV0L3dpcmVsZXNzL2ludGVs
+L2l3bHdpZmkvbXZtL21hYy1jdHh0LmMgfCAgMiArLQo+ICBkcml2ZXJzL3Njc2kvZmNvZS9mY29l
+X2N0bHIuYyAgICAgICAgICAgICAgICAgfCAgNCArLQo+ICBkcml2ZXJzL3Njc2kvcWVkaS9xZWRp
+X21haW4uYyAgICAgICAgICAgICAgICAgfCAgMiArLQo+ICBmcy9jZXBoL2lub2RlLmMgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgfCAgMiArLQo+ICBmcy9jZXBoL21kc21hcC5jICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgfCAgMiArLQo+ICBmcy9leHQ0L3N1cGVyLmMgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgfCAgNyArLQo+ICBmcy9mMmZzL2djLmMgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgfCAgMiArLQo+ICBmcy9mMmZzL3NlZ21lbnQuYyAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgfCAgOCArLQo+ICBmcy91Ymlmcy9kZWJ1Zy5jICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgfCAgOCArLQo+ICBmcy91Ymlmcy9scHRfY29tbWl0LmMg
+ICAgICAgICAgICAgICAgICAgICAgICAgfCAxNCArLS0KPiAgZnMvdWJpZnMvdG5jX2NvbW1pdC5j
+ICAgICAgICAgICAgICAgICAgICAgICAgIHwgIDIgKy0KPiAgZnMveGZzL2xpYnhmcy94ZnNfYWxs
+b2MuYyAgICAgICAgICAgICAgICAgICAgIHwgIDIgKy0KPiAgZnMveGZzL2xpYnhmcy94ZnNfaWFs
+bG9jLmMgICAgICAgICAgICAgICAgICAgIHwgIDIgKy0KPiAgZnMveGZzL3hmc19lcnJvci5jICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIHwgIDIgKy0KPiAga2VybmVsL3RpbWUvY2xvY2tzb3Vy
+Y2UuYyAgICAgICAgICAgICAgICAgICAgIHwgIDIgKy0KPiAgbGliL2ZhdWx0LWluamVjdC5jICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIHwgIDIgKy0KPiAgbGliL2ZpbmRfYml0X2JlbmNobWFy
+ay5jICAgICAgICAgICAgICAgICAgICAgIHwgIDQgKy0KPiAgbGliL3JlZWRfc29sb21vbi90ZXN0
+X3JzbGliLmMgICAgICAgICAgICAgICAgIHwgIDYgKy0KPiAgbGliL3NiaXRtYXAuYyAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIHwgIDQgKy0KPiAgbGliL3Rlc3RfbGlzdF9zb3J0LmMg
+ICAgICAgICAgICAgICAgICAgICAgICAgIHwgIDIgKy0KPiAgbGliL3Rlc3Rfdm1hbGxvYy5jICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIHwgMTcgKy0tLQo+ICBuZXQvY2VwaC9tb25fY2xpZW50
+LmMgICAgICAgICAgICAgICAgICAgICAgICAgfCAgMiArLQo+ICBuZXQvY2VwaC9vc2RfY2xpZW50
+LmMgICAgICAgICAgICAgICAgICAgICAgICAgfCAgMiArLQo+ICBuZXQvY29yZS9uZWlnaGJvdXIu
+YyAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgMiArLQo+ICBuZXQvY29yZS9wa3RnZW4uYyAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgfCA0MyArKysrKy0tLS0tCj4gIG5ldC9jb3JlL3N0
+cmVhbS5jICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAyICstCj4gIG5ldC9pcHY0L2ln
+bXAuYyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICA2ICstCj4gIG5ldC9pcHY0L2lu
+ZXRfY29ubmVjdGlvbl9zb2NrLmMgICAgICAgICAgICAgICB8ICAyICstCj4gIG5ldC9pcHY0L2lu
+ZXRfaGFzaHRhYmxlcy5jICAgICAgICAgICAgICAgICAgICB8ICAyICstCj4gIG5ldC9pcHY2L2Fk
+ZHJjb25mLmMgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICA4ICstCj4gIG5ldC9pcHY2L21j
+YXN0LmMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8IDEwICstLQo+ICBuZXQvbmV0Zmls
+dGVyL2lwdnMvaXBfdnNfdHdvcy5jICAgICAgICAgICAgICAgfCAgNCArLQo+ICBuZXQvcGFja2V0
+L2FmX3BhY2tldC5jICAgICAgICAgICAgICAgICAgICAgICAgfCAgMiArLQo+ICBuZXQvc2NoZWQv
+YWN0X2dhY3QuYyAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgMiArLQo+ICBuZXQvc2NoZWQv
+YWN0X3NhbXBsZS5jICAgICAgICAgICAgICAgICAgICAgICAgfCAgMiArLQo+ICBuZXQvc2NoZWQv
+c2NoX25ldGVtLmMgICAgICAgICAgICAgICAgICAgICAgICAgfCAgNCArLQo+ICBuZXQvc2N0cC9z
+b2NrZXQuYyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgMiArLQo+ICBuZXQvc3VucnBj
+L2NhY2hlLmMgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgMiArLQo+ICBuZXQvc3VucnBj
+L3hwcnRzb2NrLmMgICAgICAgICAgICAgICAgICAgICAgICAgfCAgMiArLQo+ICBuZXQvdGlwYy9z
+b2NrZXQuYyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgMiArLQo+ICBuZXQveGZybS94
+ZnJtX3N0YXRlLmMgICAgICAgICAgICAgICAgICAgICAgICAgfCAgMiArLQo+ICA2MiBmaWxlcyBj
+aGFuZ2VkLCAxNzMgaW5zZXJ0aW9ucygrKSwgMTk2IGRlbGV0aW9ucygtKQo+IApbLi4uXQo+IGRp
+ZmYgLS1naXQgYS9kcml2ZXJzL2Jsb2NrL2RyYmQvZHJiZF9yZWNlaXZlci5jIGIvZHJpdmVycy9i
+bG9jay9kcmJkL2RyYmRfcmVjZWl2ZXIuYwo+IGluZGV4IGFmNGM3ZDY1NDkwYi4uZDhiMTQxN2Rj
+NTAzIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvYmxvY2svZHJiZC9kcmJkX3JlY2VpdmVyLmMKPiAr
+KysgYi9kcml2ZXJzL2Jsb2NrL2RyYmQvZHJiZF9yZWNlaXZlci5jCj4gQEAgLTc4MSw3ICs3ODEs
+NyBAQCBzdGF0aWMgc3RydWN0IHNvY2tldCAqZHJiZF93YWl0X2Zvcl9jb25uZWN0KHN0cnVjdCBk
+cmJkX2Nvbm5lY3Rpb24gKmNvbm5lY3Rpb24sCj4gIAo+ICAJdGltZW8gPSBjb25uZWN0X2ludCAq
+IEhaOwo+ICAJLyogMjguNSUgcmFuZG9tIGppdHRlciAqLwo+IC0JdGltZW8gKz0gKHByYW5kb21f
+dTMyKCkgJiAxKSA/IHRpbWVvIC8gNyA6IC10aW1lbyAvIDc7Cj4gKwl0aW1lbyArPSBwcmFuZG9t
+X3UzMl9tYXgoMikgPyB0aW1lbyAvIDcgOiAtdGltZW8gLyA3Owo+ICAKPiAgCWVyciA9IHdhaXRf
+Zm9yX2NvbXBsZXRpb25faW50ZXJydXB0aWJsZV90aW1lb3V0KCZhZC0+ZG9vcl9iZWxsLCB0aW1l
+byk7Cj4gIAlpZiAoZXJyIDw9IDApCj4gQEAgLTEwMDQsNyArMTAwNCw3IEBAIHN0YXRpYyBpbnQg
+Y29ubl9jb25uZWN0KHN0cnVjdCBkcmJkX2Nvbm5lY3Rpb24gKmNvbm5lY3Rpb24pCj4gIAkJCQlk
+cmJkX3dhcm4oY29ubmVjdGlvbiwgIkVycm9yIHJlY2VpdmluZyBpbml0aWFsIHBhY2tldFxuIik7
+Cj4gIAkJCQlzb2NrX3JlbGVhc2Uocyk7Cj4gIHJhbmRvbWl6ZToKPiAtCQkJCWlmIChwcmFuZG9t
+X3UzMigpICYgMSkKPiArCQkJCWlmIChwcmFuZG9tX3UzMl9tYXgoMikpCj4gIAkJCQkJZ290byBy
+ZXRyeTsKPiAgCQkJfQo+ICAJCX1bLi4uXQoKKEhhZCB0byBjdXQgb3V0IG1vc3Qgb2YgdGhlIEND
+IGxpc3QgYmVjYXVzZSBHb29nbGUgY29tcGxhaW5zIGFib3V0ICJ0b28gbWFueQpyZWNpcGllbnRz
+IikuCgotLQpDaHJpc3RvcGggQsO2aG13YWxkZXIKTElOQklUIHwgS2VlcGluZyB0aGUgRGlnaXRh
+bCBXb3JsZCBSdW5uaW5nCkRSQkQgSEEg4oCUICBEaXNhc3RlciBSZWNvdmVyeSDigJQgU29mdHdh
+cmUgZGVmaW5lZCBTdG9yYWdlCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCmRyYmQtZGV2IG1haWxpbmcgbGlzdApkcmJkLWRldkBsaXN0cy5saW5iaXQuY29t
+Cmh0dHBzOi8vbGlzdHMubGluYml0LmNvbS9tYWlsbWFuL2xpc3RpbmZvL2RyYmQtZGV2Cg==
