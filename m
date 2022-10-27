@@ -2,77 +2,46 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDFEC6113B6
-	for <lists+drbd-dev@lfdr.de>; Fri, 28 Oct 2022 15:56:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB4F36114A5
+	for <lists+drbd-dev@lfdr.de>; Fri, 28 Oct 2022 16:35:19 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3C465421771;
-	Fri, 28 Oct 2022 15:56:56 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 39FD34252B7;
+	Fri, 28 Oct 2022 16:35:19 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-il1-f174.google.com (mail-il1-f174.google.com
-	[209.85.166.174])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 855FD420671
-	for <drbd-dev@lists.linbit.com>; Fri, 28 Oct 2022 15:56:53 +0200 (CEST)
-Received: by mail-il1-f174.google.com with SMTP id z9so2969465ilu.10
-	for <drbd-dev@lists.linbit.com>; Fri, 28 Oct 2022 06:56:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-	h=content-transfer-encoding:in-reply-to:from:references:cc:to
-	:content-language:subject:user-agent:mime-version:date:message-id
-	:from:to:cc:subject:date:message-id:reply-to;
-	bh=sNmbf1DrFhGYblawzk2OE47DJTJRUcUrHVQAL/CfprY=;
-	b=dG6ulbLayOltV06VckG15ZM5FJG6iiZzromr13Dxi9USxiXVkCtDGqYIAKXSbEjEsg
-	6/4zFI9eNDP16ioOt8eBqfK8LLHx9YAtHYAYPLbwGmmU5UBbzmoybUtx16fyzkvhSzR3
-	HPY9oV/7QoeTtkKuooaEE+gZnrMu+aqm39boPj7zzGFLLvQJ6VBcsZBBqut7VaIb/buj
-	q895fmC/zzzcl+kzWfQ5az43Fi57FG/UVkb72MqRQqVdXSkkuM09YdFcOS8Tska1OEc5
-	j3FPfxhv11zq8/5nlaYYCS0Zbo0fVkH/+r+h15pChOem9+8KkNlUI3gQ8khWOzAEmFqK
-	kHSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20210112;
-	h=content-transfer-encoding:in-reply-to:from:references:cc:to
-	:content-language:subject:user-agent:mime-version:date:message-id
-	:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-	bh=sNmbf1DrFhGYblawzk2OE47DJTJRUcUrHVQAL/CfprY=;
-	b=ATXzIyuiaXAv0pmdROXUrxNhC0swcPSTBnLpPaXHptdssRxdz7dVrSL/QIfKTjD64P
-	5G26le4qJjimmt7e/PmgpkFtYEH7kc227W9bvPawuaDNUC1CL3XQ8BrZafwhVOhWSnuF
-	E5MfmDQ+N3ImQI3wg18pcURVdhqQ3j/cZAZlc3lmhsv2eRcFWQuROCL2Xe9QUOXTZFtd
-	/wvLMTeEg5DmwCWdik+9gBh+4RDuJBMHyCs/4jWC2VpPWw1c4PsLa9P+wCY6PggIGhle
-	dMMWwf04sIj/JsU/rsa02Re2fd92qIwOiChCaXY/a8Hw6UcGfHKVf592c5E2qIW+ISbW
-	CpmQ==
-X-Gm-Message-State: ACrzQf0KEWgsZBdGvGrZMih1DVFmpJpHkRwqP08Eu7hXeyMO0v5bmCrv
-	yqY6wBUZD0s1X3YsY5lD/avmUg==
-X-Google-Smtp-Source: AMsMyM67Rc2FdwlFNx71PR911GhNj2eaxZcauUCfpYlVrbJm9CnlVNFcL7nioQrLtCwqwEdextZnag==
-X-Received: by 2002:a05:6e02:1e02:b0:2fc:6288:e6e6 with SMTP id
-	g2-20020a056e021e0200b002fc6288e6e6mr35376483ila.172.1666965412619;
-	Fri, 28 Oct 2022 06:56:52 -0700 (PDT)
-Received: from [192.168.1.94] ([207.135.234.126])
-	by smtp.gmail.com with ESMTPSA id
-	k11-20020a0566022a4b00b006bba42f7822sm1704584iov.52.2022.10.28.06.56.51
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Fri, 28 Oct 2022 06:56:51 -0700 (PDT)
-Message-ID: <60b91c39-1e54-ac8b-5e9e-db7e46ca2d60@kernel.dk>
-Date: Fri, 28 Oct 2022 07:56:50 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
-	Thunderbird/102.3.3
-Content-Language: en-US
-To: Steven Rostedt <rostedt@goodmis.org>, Christoph Hellwig <hch@infradead.org>
+X-Greylist: delayed 522 seconds by postgrey-1.31 at mail19;
+	Thu, 27 Oct 2022 17:17:54 CEST
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5B4204203C5
+	for <drbd-dev@lists.linbit.com>;
+	Thu, 27 Oct 2022 17:17:54 +0200 (CEST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 97CBD6239F;
+	Thu, 27 Oct 2022 15:09:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C744FC43146;
+	Thu, 27 Oct 2022 15:09:10 +0000 (UTC)
+Received: from rostedt by gandalf.local.home with local (Exim 4.96)
+	(envelope-from <rostedt@goodmis.org>) id 1oo4VZ-00BvTl-3C;
+	Thu, 27 Oct 2022 11:09:25 -0400
+Message-ID: <20221027150925.819019339@goodmis.org>
+User-Agent: quilt/0.66
+Date: Thu, 27 Oct 2022 11:05:29 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: linux-kernel@vger.kernel.org
 References: <20221027150525.753064657@goodmis.org>
-	<20221027150925.819019339@goodmis.org>
-	<20221027111944.39b3a80c@gandalf.local.home>
-	<Y1uSG/7VXWLNlxlt@infradead.org>
-	<20221028062414.7859f787@gandalf.local.home>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20221028062414.7859f787@gandalf.local.home>
-Cc: Stephen Boyd <sboyd@kernel.org>, linux-kernel@vger.kernel.org,
+MIME-Version: 1.0
+X-Mailman-Approved-At: Fri, 28 Oct 2022 16:35:18 +0200
+Cc: Jens Axboe <axboe@kernel.dk>, Stephen Boyd <sboyd@kernel.org>,
 	Philipp Reisner <philipp.reisner@linbit.com>,
 	linux-block@vger.kernel.org, Tejun Heo <tj@kernel.org>,
 	cgroups@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
 	Linus Torvalds <torvalds@linux-foundation.org>,
 	Lars Ellenberg <lars.ellenberg@linbit.com>,
 	Guenter Roeck <linux@roeck-us.net>, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [RFC][PATCH v2 04/31] timers: block: Use
- del_timer_shutdown() before freeing timer
+Subject: [Drbd-dev] [RFC][PATCH v2 04/31] timers: block: Use
+	del_timer_shutdown() before freeing timer
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -86,33 +55,91 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On 10/28/22 4:24 AM, Steven Rostedt wrote:
-> On Fri, 28 Oct 2022 01:26:03 -0700
-> Christoph Hellwig <hch@infradead.org> wrote:
-> 
->> This is just a single patch out of apparently 31, which claims that
->> something that doesn't even exist in mainline must be used without any
->> explanation.  How do you expect anyone to be able to review it?
-> 
->   https://lore.kernel.org/all/20221027150525.753064657@goodmis.org/
-> 
-> Only the first patch is relevant to you. I guess the Cc list would have
-> been too big to Cc everyone that was Cc'd in the series.
-
-No it's not, because how on earth would anyone know what the change does
-if you only see the simple s/name/newname change? The patch is useless
-by itself.
-
--- 
-Jens Axboe
-
-
-_______________________________________________
-drbd-dev mailing list
-drbd-dev@lists.linbit.com
-https://lists.linbit.com/mailman/listinfo/drbd-dev
+RnJvbTogIlN0ZXZlbiBSb3N0ZWR0IChHb29nbGUpIiA8cm9zdGVkdEBnb29kbWlzLm9yZz4KCkJl
+Zm9yZSBhIHRpbWVyIGlzIGZyZWVkLCBkZWxfdGltZXJfc2h1dGRvd24oKSBtdXN0IGJlIGNhbGxl
+ZC4KCkxpbms6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2FsbC8yMDIyMDQwNzE2MTc0NS43ZDY3
+NTRiM0BnYW5kYWxmLmxvY2FsLmhvbWUvCgpDYzogUGhpbGlwcCBSZWlzbmVyIDxwaGlsaXBwLnJl
+aXNuZXJAbGluYml0LmNvbT4KQ2M6IExhcnMgRWxsZW5iZXJnIDxsYXJzLmVsbGVuYmVyZ0BsaW5i
+aXQuY29tPgpDYzogIkNocmlzdG9waCBCw7ZobXdhbGRlciIgPGNocmlzdG9waC5ib2VobXdhbGRl
+ckBsaW5iaXQuY29tPgpDYzogSmVucyBBeGJvZSA8YXhib2VAa2VybmVsLmRrPgpDYzogZHJiZC1k
+ZXZAbGlzdHMubGluYml0LmNvbQpDYzogVGVqdW4gSGVvIDx0akBrZXJuZWwub3JnPgpDYzogY2dy
+b3Vwc0B2Z2VyLmtlcm5lbC5vcmcKQ2M6IGxpbnV4LWJsb2NrQHZnZXIua2VybmVsLm9yZwpTaWdu
+ZWQtb2ZmLWJ5OiBTdGV2ZW4gUm9zdGVkdCAoR29vZ2xlKSA8cm9zdGVkdEBnb29kbWlzLm9yZz4K
+LS0tCiBibG9jay9ibGstaW9jb3N0LmMgICAgICAgICAgICAgfCAyICstCiBibG9jay9ibGstaW9s
+YXRlbmN5LmMgICAgICAgICAgfCAyICstCiBibG9jay9ibGstc3RhdC5jICAgICAgICAgICAgICAg
+fCAyICstCiBibG9jay9ibGstdGhyb3R0bGUuYyAgICAgICAgICAgfCAyICstCiBibG9jay9reWJl
+ci1pb3NjaGVkLmMgICAgICAgICAgfCAyICstCiBkcml2ZXJzL2Jsb2NrL2RyYmQvZHJiZF9tYWlu
+LmMgfCAyICstCiBkcml2ZXJzL2Jsb2NrL2xvb3AuYyAgICAgICAgICAgfCAyICstCiBkcml2ZXJz
+L2Jsb2NrL3N1bnZkYy5jICAgICAgICAgfCAyICstCiA4IGZpbGVzIGNoYW5nZWQsIDggaW5zZXJ0
+aW9ucygrKSwgOCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9ibG9jay9ibGstaW9jb3N0LmMg
+Yi9ibG9jay9ibGstaW9jb3N0LmMKaW5kZXggNDk1Mzk2NDI1YmFkLi5lMmQ0YmRkM2QxMzUgMTAw
+NjQ0Ci0tLSBhL2Jsb2NrL2Jsay1pb2Nvc3QuYworKysgYi9ibG9jay9ibGstaW9jb3N0LmMKQEAg
+LTI4MTQsNyArMjgxNCw3IEBAIHN0YXRpYyB2b2lkIGlvY19ycW9zX2V4aXQoc3RydWN0IHJxX3Fv
+cyAqcnFvcykKIAlpb2MtPnJ1bm5pbmcgPSBJT0NfU1RPUDsKIAlzcGluX3VubG9ja19pcnEoJmlv
+Yy0+bG9jayk7CiAKLQlkZWxfdGltZXJfc3luYygmaW9jLT50aW1lcik7CisJZGVsX3RpbWVyX3No
+dXRkb3duKCZpb2MtPnRpbWVyKTsKIAlmcmVlX3BlcmNwdShpb2MtPnBjcHVfc3RhdCk7CiAJa2Zy
+ZWUoaW9jKTsKIH0KZGlmZiAtLWdpdCBhL2Jsb2NrL2Jsay1pb2xhdGVuY3kuYyBiL2Jsb2NrL2Js
+ay1pb2xhdGVuY3kuYwppbmRleCA1NzFmYTk1YWFmZTkuLjdiNjFmMDlhZmVkZCAxMDA2NDQKLS0t
+IGEvYmxvY2svYmxrLWlvbGF0ZW5jeS5jCisrKyBiL2Jsb2NrL2Jsay1pb2xhdGVuY3kuYwpAQCAt
+NjQ1LDcgKzY0NSw3IEBAIHN0YXRpYyB2b2lkIGJsa2NnX2lvbGF0ZW5jeV9leGl0KHN0cnVjdCBy
+cV9xb3MgKnJxb3MpCiB7CiAJc3RydWN0IGJsa19pb2xhdGVuY3kgKmJsa2lvbGF0ID0gQkxLSU9M
+QVRFTkNZKHJxb3MpOwogCi0JZGVsX3RpbWVyX3N5bmMoJmJsa2lvbGF0LT50aW1lcik7CisJZGVs
+X3RpbWVyX3NodXRkb3duKCZibGtpb2xhdC0+dGltZXIpOwogCWZsdXNoX3dvcmsoJmJsa2lvbGF0
+LT5lbmFibGVfd29yayk7CiAJYmxrY2dfZGVhY3RpdmF0ZV9wb2xpY3kocnFvcy0+cSwgJmJsa2Nn
+X3BvbGljeV9pb2xhdGVuY3kpOwogCWtmcmVlKGJsa2lvbGF0KTsKZGlmZiAtLWdpdCBhL2Jsb2Nr
+L2Jsay1zdGF0LmMgYi9ibG9jay9ibGstc3RhdC5jCmluZGV4IDJlYTAxYjVjMWFjYS4uZGU1MWRi
+MzAyYzQ0IDEwMDY0NAotLS0gYS9ibG9jay9ibGstc3RhdC5jCisrKyBiL2Jsb2NrL2Jsay1zdGF0
+LmMKQEAgLTE2NSw3ICsxNjUsNyBAQCB2b2lkIGJsa19zdGF0X3JlbW92ZV9jYWxsYmFjayhzdHJ1
+Y3QgcmVxdWVzdF9xdWV1ZSAqcSwKIAkJYmxrX3F1ZXVlX2ZsYWdfY2xlYXIoUVVFVUVfRkxBR19T
+VEFUUywgcSk7CiAJc3Bpbl91bmxvY2tfaXJxcmVzdG9yZSgmcS0+c3RhdHMtPmxvY2ssIGZsYWdz
+KTsKIAotCWRlbF90aW1lcl9zeW5jKCZjYi0+dGltZXIpOworCWRlbF90aW1lcl9zaHV0ZG93bigm
+Y2ItPnRpbWVyKTsKIH0KIAogc3RhdGljIHZvaWQgYmxrX3N0YXRfZnJlZV9jYWxsYmFja19yY3Uo
+c3RydWN0IHJjdV9oZWFkICpoZWFkKQpkaWZmIC0tZ2l0IGEvYmxvY2svYmxrLXRocm90dGxlLmMg
+Yi9ibG9jay9ibGstdGhyb3R0bGUuYwppbmRleCA4NDc3MjFkYzJiMmIuLjk1YWY5OWYyNDEzNyAx
+MDA2NDQKLS0tIGEvYmxvY2svYmxrLXRocm90dGxlLmMKKysrIGIvYmxvY2svYmxrLXRocm90dGxl
+LmMKQEAgLTQ5MCw3ICs0OTAsNyBAQCBzdGF0aWMgdm9pZCB0aHJvdGxfcGRfZnJlZShzdHJ1Y3Qg
+YmxrZ19wb2xpY3lfZGF0YSAqcGQpCiB7CiAJc3RydWN0IHRocm90bF9ncnAgKnRnID0gcGRfdG9f
+dGcocGQpOwogCi0JZGVsX3RpbWVyX3N5bmMoJnRnLT5zZXJ2aWNlX3F1ZXVlLnBlbmRpbmdfdGlt
+ZXIpOworCWRlbF90aW1lcl9zaHV0ZG93bigmdGctPnNlcnZpY2VfcXVldWUucGVuZGluZ190aW1l
+cik7CiAJYmxrZ19yd3N0YXRfZXhpdCgmdGctPnN0YXRfYnl0ZXMpOwogCWJsa2dfcndzdGF0X2V4
+aXQoJnRnLT5zdGF0X2lvcyk7CiAJa2ZyZWUodGcpOwpkaWZmIC0tZ2l0IGEvYmxvY2sva3liZXIt
+aW9zY2hlZC5jIGIvYmxvY2sva3liZXItaW9zY2hlZC5jCmluZGV4IGIwNTM1N2JjZWQ5OS4uNTlh
+NDQ0YTQ3YmEzIDEwMDY0NAotLS0gYS9ibG9jay9reWJlci1pb3NjaGVkLmMKKysrIGIvYmxvY2sv
+a3liZXItaW9zY2hlZC5jCkBAIC00MzQsNyArNDM0LDcgQEAgc3RhdGljIHZvaWQga3liZXJfZXhp
+dF9zY2hlZChzdHJ1Y3QgZWxldmF0b3JfcXVldWUgKmUpCiAJc3RydWN0IGt5YmVyX3F1ZXVlX2Rh
+dGEgKmtxZCA9IGUtPmVsZXZhdG9yX2RhdGE7CiAJaW50IGk7CiAKLQlkZWxfdGltZXJfc3luYygm
+a3FkLT50aW1lcik7CisJZGVsX3RpbWVyX3NodXRkb3duKCZrcWQtPnRpbWVyKTsKIAlibGtfc3Rh
+dF9kaXNhYmxlX2FjY291bnRpbmcoa3FkLT5xKTsKIAogCWZvciAoaSA9IDA7IGkgPCBLWUJFUl9O
+VU1fRE9NQUlOUzsgaSsrKQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ibG9jay9kcmJkL2RyYmRfbWFp
+bi5jIGIvZHJpdmVycy9ibG9jay9kcmJkL2RyYmRfbWFpbi5jCmluZGV4IGYzZTRkYjE2ZmQwNy4u
+M2Y1NzRmMzc2OWMzIDEwMDY0NAotLS0gYS9kcml2ZXJzL2Jsb2NrL2RyYmQvZHJiZF9tYWluLmMK
+KysrIGIvZHJpdmVycy9ibG9jay9kcmJkL2RyYmRfbWFpbi5jCkBAIC0yMTg0LDcgKzIxODQsNyBA
+QCB2b2lkIGRyYmRfZGVzdHJveV9kZXZpY2Uoc3RydWN0IGtyZWYgKmtyZWYpCiAJc3RydWN0IGRy
+YmRfcmVzb3VyY2UgKnJlc291cmNlID0gZGV2aWNlLT5yZXNvdXJjZTsKIAlzdHJ1Y3QgZHJiZF9w
+ZWVyX2RldmljZSAqcGVlcl9kZXZpY2UsICp0bXBfcGVlcl9kZXZpY2U7CiAKLQlkZWxfdGltZXJf
+c3luYygmZGV2aWNlLT5yZXF1ZXN0X3RpbWVyKTsKKwlkZWxfdGltZXJfc2h1dGRvd24oJmRldmlj
+ZS0+cmVxdWVzdF90aW1lcik7CiAKIAkvKiBwYXJhbm9pYSBhc3NlcnRzICovCiAJRF9BU1NFUlQo
+ZGV2aWNlLCBkZXZpY2UtPm9wZW5fY250ID09IDApOwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ibG9j
+ay9sb29wLmMgYi9kcml2ZXJzL2Jsb2NrL2xvb3AuYwppbmRleCBhZDkyMTkyYzdkNjEuLmQxMzRh
+NWZkNGFlNyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ibG9jay9sb29wLmMKKysrIGIvZHJpdmVycy9i
+bG9jay9sb29wLmMKQEAgLTE3NTUsNyArMTc1NSw3IEBAIHN0YXRpYyB2b2lkIGxvX2ZyZWVfZGlz
+ayhzdHJ1Y3QgZ2VuZGlzayAqZGlzaykKIAlpZiAobG8tPndvcmtxdWV1ZSkKIAkJZGVzdHJveV93
+b3JrcXVldWUobG8tPndvcmtxdWV1ZSk7CiAJbG9vcF9mcmVlX2lkbGVfd29ya2VycyhsbywgdHJ1
+ZSk7Ci0JZGVsX3RpbWVyX3N5bmMoJmxvLT50aW1lcik7CisJZGVsX3RpbWVyX3NodXRkb3duKCZs
+by0+dGltZXIpOwogCW11dGV4X2Rlc3Ryb3koJmxvLT5sb19tdXRleCk7CiAJa2ZyZWUobG8pOwog
+fQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ibG9jay9zdW52ZGMuYyBiL2RyaXZlcnMvYmxvY2svc3Vu
+dmRjLmMKaW5kZXggZmI4NTVkYTk3MWVlLi45ODY4OTM3YTk2MDIgMTAwNjQ0Ci0tLSBhL2RyaXZl
+cnMvYmxvY2svc3VudmRjLmMKKysrIGIvZHJpdmVycy9ibG9jay9zdW52ZGMuYwpAQCAtMTA2Nyw3
+ICsxMDY3LDcgQEAgc3RhdGljIHZvaWQgdmRjX3BvcnRfcmVtb3ZlKHN0cnVjdCB2aW9fZGV2ICp2
+ZGV2KQogCiAJCWZsdXNoX3dvcmsoJnBvcnQtPmxkY19yZXNldF93b3JrKTsKIAkJY2FuY2VsX2Rl
+bGF5ZWRfd29ya19zeW5jKCZwb3J0LT5sZGNfcmVzZXRfdGltZXJfd29yayk7Ci0JCWRlbF90aW1l
+cl9zeW5jKCZwb3J0LT52aW8udGltZXIpOworCQlkZWxfdGltZXJfc2h1dGRvd24oJnBvcnQtPnZp
+by50aW1lcik7CiAKIAkJZGVsX2dlbmRpc2socG9ydC0+ZGlzayk7CiAJCXB1dF9kaXNrKHBvcnQt
+PmRpc2spOwotLSAKMi4zNS4xCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCmRyYmQtZGV2IG1haWxpbmcgbGlzdApkcmJkLWRldkBsaXN0cy5saW5iaXQuY29t
+Cmh0dHBzOi8vbGlzdHMubGluYml0LmNvbS9tYWlsbWFuL2xpc3RpbmZvL2RyYmQtZGV2Cg==
