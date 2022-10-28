@@ -2,42 +2,43 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B6F86114A6
+	by mail.lfdr.de (Postfix) with ESMTPS id C40936114A7
 	for <lists+drbd-dev@lfdr.de>; Fri, 28 Oct 2022 16:35:20 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 54C4C4252CC;
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6CFCE4252DB;
 	Fri, 28 Oct 2022 16:35:19 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 407 seconds by postgrey-1.31 at mail19;
-	Thu, 27 Oct 2022 17:26:20 CEST
+X-Greylist: delayed 438 seconds by postgrey-1.31 at mail19;
+	Fri, 28 Oct 2022 12:31:20 CEST
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1A0564203BD
-	for <drbd-dev@lists.linbit.com>; Thu, 27 Oct 2022 17:26:20 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5A56C4203BD
+	for <drbd-dev@lists.linbit.com>; Fri, 28 Oct 2022 12:31:20 +0200 (CEST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 94BD6B826D5;
-	Thu, 27 Oct 2022 15:19:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBCB8C433D6;
-	Thu, 27 Oct 2022 15:19:29 +0000 (UTC)
-Date: Thu, 27 Oct 2022 11:19:44 -0400
+	by ams.source.kernel.org (Postfix) with ESMTPS id 19DB3B80159;
+	Fri, 28 Oct 2022 10:24:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 423D9C433C1;
+	Fri, 28 Oct 2022 10:23:59 +0000 (UTC)
+Date: Fri, 28 Oct 2022 06:24:14 -0400
 From: Steven Rostedt <rostedt@goodmis.org>
-To: linux-kernel@vger.kernel.org
-Message-ID: <20221027111944.39b3a80c@gandalf.local.home>
-In-Reply-To: <20221027150925.819019339@goodmis.org>
+To: Christoph Hellwig <hch@infradead.org>
+Message-ID: <20221028062414.7859f787@gandalf.local.home>
+In-Reply-To: <Y1uSG/7VXWLNlxlt@infradead.org>
 References: <20221027150525.753064657@goodmis.org>
 	<20221027150925.819019339@goodmis.org>
+	<20221027111944.39b3a80c@gandalf.local.home>
+	<Y1uSG/7VXWLNlxlt@infradead.org>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 X-Mailman-Approved-At: Fri, 28 Oct 2022 16:35:18 +0200
-Cc: Lars@linbit.com, Jens Axboe <axboe@kernel.dk>,
-	Christoph@linbit.com, Stephen Boyd <sboyd@kernel.org>,
-	Philipp Reisner <philipp.reisner@linbit.com>,
+Cc: Jens Axboe <axboe@kernel.dk>, Stephen Boyd <sboyd@kernel.org>,
+	linux-kernel@vger.kernel.org, Philipp Reisner <philipp.reisner@linbit.com>,
 	linux-block@vger.kernel.org, Tejun Heo <tj@kernel.org>,
 	cgroups@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
 	Linus Torvalds <torvalds@linux-foundation.org>,
-	Ellenberg <lars.ellenberg@linbit.com>,
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
 	Guenter Roeck <linux@roeck-us.net>, drbd-dev@lists.linbit.com
 Subject: Re: [Drbd-dev] [RFC][PATCH v2 04/31] timers: block: Use
  del_timer_shutdown() before freeing timer
@@ -54,93 +55,28 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-WwogIHF1aWx0IG1haWwgLS1zZW5kIHN0aWxsIGNhbid0IGhhbmRsZSB1bmljb2RlIGNoYXJhY3Rl
-cnMuCiAgICBIZXJlJ3MgdGhlIHBhdGNoIGFnYWluCl0KCkZyb206ICJTdGV2ZW4gUm9zdGVkdCAo
-R29vZ2xlKSIgPHJvc3RlZHRAZ29vZG1pcy5vcmc+CgpCZWZvcmUgYSB0aW1lciBpcyBmcmVlZCwg
-ZGVsX3RpbWVyX3NodXRkb3duKCkgbXVzdCBiZSBjYWxsZWQuCgpMaW5rOiBodHRwczovL2xvcmUu
-a2VybmVsLm9yZy9hbGwvMjAyMjA0MDcxNjE3NDUuN2Q2NzU0YjNAZ2FuZGFsZi5sb2NhbC5ob21l
-LwoKQ2M6IFBoaWxpcHAgUmVpc25lciA8cGhpbGlwcC5yZWlzbmVyQGxpbmJpdC5jb20+CkNjOiBM
-YXJzIEVsbGVuYmVyZyA8bGFycy5lbGxlbmJlcmdAbGluYml0LmNvbT4KQ2M6ICJDaHJpc3RvcGgg
-QsO2aG13YWxkZXIiIDxjaHJpc3RvcGguYm9laG13YWxkZXJAbGluYml0LmNvbT4KQ2M6IEplbnMg
-QXhib2UgPGF4Ym9lQGtlcm5lbC5kaz4KQ2M6IGRyYmQtZGV2QGxpc3RzLmxpbmJpdC5jb20KQ2M6
-IFRlanVuIEhlbyA8dGpAa2VybmVsLm9yZz4KQ2M6IGNncm91cHNAdmdlci5rZXJuZWwub3JnCkNj
-OiBsaW51eC1ibG9ja0B2Z2VyLmtlcm5lbC5vcmcKU2lnbmVkLW9mZi1ieTogU3RldmVuIFJvc3Rl
-ZHQgKEdvb2dsZSkgPHJvc3RlZHRAZ29vZG1pcy5vcmc+Ci0tLQogYmxvY2svYmxrLWlvY29zdC5j
-ICAgICAgICAgICAgIHwgMiArLQogYmxvY2svYmxrLWlvbGF0ZW5jeS5jICAgICAgICAgIHwgMiAr
-LQogYmxvY2svYmxrLXN0YXQuYyAgICAgICAgICAgICAgIHwgMiArLQogYmxvY2svYmxrLXRocm90
-dGxlLmMgICAgICAgICAgIHwgMiArLQogYmxvY2sva3liZXItaW9zY2hlZC5jICAgICAgICAgIHwg
-MiArLQogZHJpdmVycy9ibG9jay9kcmJkL2RyYmRfbWFpbi5jIHwgMiArLQogZHJpdmVycy9ibG9j
-ay9sb29wLmMgICAgICAgICAgIHwgMiArLQogZHJpdmVycy9ibG9jay9zdW52ZGMuYyAgICAgICAg
-IHwgMiArLQogOCBmaWxlcyBjaGFuZ2VkLCA4IGluc2VydGlvbnMoKyksIDggZGVsZXRpb25zKC0p
-CgpkaWZmIC0tZ2l0IGEvYmxvY2svYmxrLWlvY29zdC5jIGIvYmxvY2svYmxrLWlvY29zdC5jCmlu
-ZGV4IDQ5NTM5NjQyNWJhZC4uZTJkNGJkZDNkMTM1IDEwMDY0NAotLS0gYS9ibG9jay9ibGstaW9j
-b3N0LmMKKysrIGIvYmxvY2svYmxrLWlvY29zdC5jCkBAIC0yODE0LDcgKzI4MTQsNyBAQCBzdGF0
-aWMgdm9pZCBpb2NfcnFvc19leGl0KHN0cnVjdCBycV9xb3MgKnJxb3MpCiAJaW9jLT5ydW5uaW5n
-ID0gSU9DX1NUT1A7CiAJc3Bpbl91bmxvY2tfaXJxKCZpb2MtPmxvY2spOwogCi0JZGVsX3RpbWVy
-X3N5bmMoJmlvYy0+dGltZXIpOworCWRlbF90aW1lcl9zaHV0ZG93bigmaW9jLT50aW1lcik7CiAJ
-ZnJlZV9wZXJjcHUoaW9jLT5wY3B1X3N0YXQpOwogCWtmcmVlKGlvYyk7CiB9CmRpZmYgLS1naXQg
-YS9ibG9jay9ibGstaW9sYXRlbmN5LmMgYi9ibG9jay9ibGstaW9sYXRlbmN5LmMKaW5kZXggNTcx
-ZmE5NWFhZmU5Li43YjYxZjA5YWZlZGQgMTAwNjQ0Ci0tLSBhL2Jsb2NrL2Jsay1pb2xhdGVuY3ku
-YworKysgYi9ibG9jay9ibGstaW9sYXRlbmN5LmMKQEAgLTY0NSw3ICs2NDUsNyBAQCBzdGF0aWMg
-dm9pZCBibGtjZ19pb2xhdGVuY3lfZXhpdChzdHJ1Y3QgcnFfcW9zICpycW9zKQogewogCXN0cnVj
-dCBibGtfaW9sYXRlbmN5ICpibGtpb2xhdCA9IEJMS0lPTEFURU5DWShycW9zKTsKIAotCWRlbF90
-aW1lcl9zeW5jKCZibGtpb2xhdC0+dGltZXIpOworCWRlbF90aW1lcl9zaHV0ZG93bigmYmxraW9s
-YXQtPnRpbWVyKTsKIAlmbHVzaF93b3JrKCZibGtpb2xhdC0+ZW5hYmxlX3dvcmspOwogCWJsa2Nn
-X2RlYWN0aXZhdGVfcG9saWN5KHJxb3MtPnEsICZibGtjZ19wb2xpY3lfaW9sYXRlbmN5KTsKIAlr
-ZnJlZShibGtpb2xhdCk7CmRpZmYgLS1naXQgYS9ibG9jay9ibGstc3RhdC5jIGIvYmxvY2svYmxr
-LXN0YXQuYwppbmRleCAyZWEwMWI1YzFhY2EuLmRlNTFkYjMwMmM0NCAxMDA2NDQKLS0tIGEvYmxv
-Y2svYmxrLXN0YXQuYworKysgYi9ibG9jay9ibGstc3RhdC5jCkBAIC0xNjUsNyArMTY1LDcgQEAg
-dm9pZCBibGtfc3RhdF9yZW1vdmVfY2FsbGJhY2soc3RydWN0IHJlcXVlc3RfcXVldWUgKnEsCiAJ
-CWJsa19xdWV1ZV9mbGFnX2NsZWFyKFFVRVVFX0ZMQUdfU1RBVFMsIHEpOwogCXNwaW5fdW5sb2Nr
-X2lycXJlc3RvcmUoJnEtPnN0YXRzLT5sb2NrLCBmbGFncyk7CiAKLQlkZWxfdGltZXJfc3luYygm
-Y2ItPnRpbWVyKTsKKwlkZWxfdGltZXJfc2h1dGRvd24oJmNiLT50aW1lcik7CiB9CiAKIHN0YXRp
-YyB2b2lkIGJsa19zdGF0X2ZyZWVfY2FsbGJhY2tfcmN1KHN0cnVjdCByY3VfaGVhZCAqaGVhZCkK
-ZGlmZiAtLWdpdCBhL2Jsb2NrL2Jsay10aHJvdHRsZS5jIGIvYmxvY2svYmxrLXRocm90dGxlLmMK
-aW5kZXggODQ3NzIxZGMyYjJiLi45NWFmOTlmMjQxMzcgMTAwNjQ0Ci0tLSBhL2Jsb2NrL2Jsay10
-aHJvdHRsZS5jCisrKyBiL2Jsb2NrL2Jsay10aHJvdHRsZS5jCkBAIC00OTAsNyArNDkwLDcgQEAg
-c3RhdGljIHZvaWQgdGhyb3RsX3BkX2ZyZWUoc3RydWN0IGJsa2dfcG9saWN5X2RhdGEgKnBkKQog
-ewogCXN0cnVjdCB0aHJvdGxfZ3JwICp0ZyA9IHBkX3RvX3RnKHBkKTsKIAotCWRlbF90aW1lcl9z
-eW5jKCZ0Zy0+c2VydmljZV9xdWV1ZS5wZW5kaW5nX3RpbWVyKTsKKwlkZWxfdGltZXJfc2h1dGRv
-d24oJnRnLT5zZXJ2aWNlX3F1ZXVlLnBlbmRpbmdfdGltZXIpOwogCWJsa2dfcndzdGF0X2V4aXQo
-JnRnLT5zdGF0X2J5dGVzKTsKIAlibGtnX3J3c3RhdF9leGl0KCZ0Zy0+c3RhdF9pb3MpOwogCWtm
-cmVlKHRnKTsKZGlmZiAtLWdpdCBhL2Jsb2NrL2t5YmVyLWlvc2NoZWQuYyBiL2Jsb2NrL2t5YmVy
-LWlvc2NoZWQuYwppbmRleCBiMDUzNTdiY2VkOTkuLjU5YTQ0NGE0N2JhMyAxMDA2NDQKLS0tIGEv
-YmxvY2sva3liZXItaW9zY2hlZC5jCisrKyBiL2Jsb2NrL2t5YmVyLWlvc2NoZWQuYwpAQCAtNDM0
-LDcgKzQzNCw3IEBAIHN0YXRpYyB2b2lkIGt5YmVyX2V4aXRfc2NoZWQoc3RydWN0IGVsZXZhdG9y
-X3F1ZXVlICplKQogCXN0cnVjdCBreWJlcl9xdWV1ZV9kYXRhICprcWQgPSBlLT5lbGV2YXRvcl9k
-YXRhOwogCWludCBpOwogCi0JZGVsX3RpbWVyX3N5bmMoJmtxZC0+dGltZXIpOworCWRlbF90aW1l
-cl9zaHV0ZG93bigma3FkLT50aW1lcik7CiAJYmxrX3N0YXRfZGlzYWJsZV9hY2NvdW50aW5nKGtx
-ZC0+cSk7CiAKIAlmb3IgKGkgPSAwOyBpIDwgS1lCRVJfTlVNX0RPTUFJTlM7IGkrKykKZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvYmxvY2svZHJiZC9kcmJkX21haW4uYyBiL2RyaXZlcnMvYmxvY2svZHJi
-ZC9kcmJkX21haW4uYwppbmRleCBmM2U0ZGIxNmZkMDcuLjNmNTc0ZjM3NjljMyAxMDA2NDQKLS0t
-IGEvZHJpdmVycy9ibG9jay9kcmJkL2RyYmRfbWFpbi5jCisrKyBiL2RyaXZlcnMvYmxvY2svZHJi
-ZC9kcmJkX21haW4uYwpAQCAtMjE4NCw3ICsyMTg0LDcgQEAgdm9pZCBkcmJkX2Rlc3Ryb3lfZGV2
-aWNlKHN0cnVjdCBrcmVmICprcmVmKQogCXN0cnVjdCBkcmJkX3Jlc291cmNlICpyZXNvdXJjZSA9
-IGRldmljZS0+cmVzb3VyY2U7CiAJc3RydWN0IGRyYmRfcGVlcl9kZXZpY2UgKnBlZXJfZGV2aWNl
-LCAqdG1wX3BlZXJfZGV2aWNlOwogCi0JZGVsX3RpbWVyX3N5bmMoJmRldmljZS0+cmVxdWVzdF90
-aW1lcik7CisJZGVsX3RpbWVyX3NodXRkb3duKCZkZXZpY2UtPnJlcXVlc3RfdGltZXIpOwogCiAJ
-LyogcGFyYW5vaWEgYXNzZXJ0cyAqLwogCURfQVNTRVJUKGRldmljZSwgZGV2aWNlLT5vcGVuX2Nu
-dCA9PSAwKTsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvYmxvY2svbG9vcC5jIGIvZHJpdmVycy9ibG9j
-ay9sb29wLmMKaW5kZXggYWQ5MjE5MmM3ZDYxLi5kMTM0YTVmZDRhZTcgMTAwNjQ0Ci0tLSBhL2Ry
-aXZlcnMvYmxvY2svbG9vcC5jCisrKyBiL2RyaXZlcnMvYmxvY2svbG9vcC5jCkBAIC0xNzU1LDcg
-KzE3NTUsNyBAQCBzdGF0aWMgdm9pZCBsb19mcmVlX2Rpc2soc3RydWN0IGdlbmRpc2sgKmRpc2sp
-CiAJaWYgKGxvLT53b3JrcXVldWUpCiAJCWRlc3Ryb3lfd29ya3F1ZXVlKGxvLT53b3JrcXVldWUp
-OwogCWxvb3BfZnJlZV9pZGxlX3dvcmtlcnMobG8sIHRydWUpOwotCWRlbF90aW1lcl9zeW5jKCZs
-by0+dGltZXIpOworCWRlbF90aW1lcl9zaHV0ZG93bigmbG8tPnRpbWVyKTsKIAltdXRleF9kZXN0
-cm95KCZsby0+bG9fbXV0ZXgpOwogCWtmcmVlKGxvKTsKIH0KZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-YmxvY2svc3VudmRjLmMgYi9kcml2ZXJzL2Jsb2NrL3N1bnZkYy5jCmluZGV4IGZiODU1ZGE5NzFl
-ZS4uOTg2ODkzN2E5NjAyIDEwMDY0NAotLS0gYS9kcml2ZXJzL2Jsb2NrL3N1bnZkYy5jCisrKyBi
-L2RyaXZlcnMvYmxvY2svc3VudmRjLmMKQEAgLTEwNjcsNyArMTA2Nyw3IEBAIHN0YXRpYyB2b2lk
-IHZkY19wb3J0X3JlbW92ZShzdHJ1Y3QgdmlvX2RldiAqdmRldikKIAogCQlmbHVzaF93b3JrKCZw
-b3J0LT5sZGNfcmVzZXRfd29yayk7CiAJCWNhbmNlbF9kZWxheWVkX3dvcmtfc3luYygmcG9ydC0+
-bGRjX3Jlc2V0X3RpbWVyX3dvcmspOwotCQlkZWxfdGltZXJfc3luYygmcG9ydC0+dmlvLnRpbWVy
-KTsKKwkJZGVsX3RpbWVyX3NodXRkb3duKCZwb3J0LT52aW8udGltZXIpOwogCiAJCWRlbF9nZW5k
-aXNrKHBvcnQtPmRpc2spOwogCQlwdXRfZGlzayhwb3J0LT5kaXNrKTsKLS0gCjIuMzUuMQpfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmJkLWRldiBtYWls
-aW5nIGxpc3QKZHJiZC1kZXZAbGlzdHMubGluYml0LmNvbQpodHRwczovL2xpc3RzLmxpbmJpdC5j
-b20vbWFpbG1hbi9saXN0aW5mby9kcmJkLWRldgo=
+On Fri, 28 Oct 2022 01:26:03 -0700
+Christoph Hellwig <hch@infradead.org> wrote:
+
+> This is just a single patch out of apparently 31, which claims that
+> something that doesn't even exist in mainline must be used without any
+> explanation.  How do you expect anyone to be able to review it?
+
+  https://lore.kernel.org/all/20221027150525.753064657@goodmis.org/
+
+Only the first patch is relevant to you. I guess the Cc list would have
+been too big to Cc everyone that was Cc'd in the series.
+
+It not being in mainline is the reason I marked it RFC. As it's more of an
+FYI than a pull it in request.
+
+-- Steve
+_______________________________________________
+drbd-dev mailing list
+drbd-dev@lists.linbit.com
+https://lists.linbit.com/mailman/listinfo/drbd-dev
