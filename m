@@ -2,35 +2,69 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 499C061A145
-	for <lists+drbd-dev@lfdr.de>; Fri,  4 Nov 2022 20:42:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1127A61A17C
+	for <lists+drbd-dev@lfdr.de>; Fri,  4 Nov 2022 20:51:04 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id CB70B4217B3;
-	Fri,  4 Nov 2022 20:42:16 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9A04742178D;
+	Fri,  4 Nov 2022 20:51:03 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B5320420237
-	for <drbd-dev@lists.linbit.com>; Fri,  4 Nov 2022 20:42:14 +0100 (CET)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 02FAFB82DCA;
-	Fri,  4 Nov 2022 19:42:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32A74C433D6;
-	Fri,  4 Nov 2022 19:42:11 +0000 (UTC)
-Date: Fri, 4 Nov 2022 15:42:09 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Guenter Roeck <linux@roeck-us.net>
-Message-ID: <20221104154209.21b26782@rorschach.local.home>
-In-Reply-To: <20221104192232.GA2520396@roeck-us.net>
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
+	[209.85.160.174])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C3EC7420237
+	for <drbd-dev@lists.linbit.com>; Fri,  4 Nov 2022 20:51:01 +0100 (CET)
+Received: by mail-qt1-f174.google.com with SMTP id a27so3652057qtw.10
+	for <drbd-dev@lists.linbit.com>; Fri, 04 Nov 2022 12:51:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=google;
+	h=cc:to:subject:message-id:date:from:in-reply-to:references
+	:mime-version:from:to:cc:subject:date:message-id:reply-to;
+	bh=x16jINQR4q6R4H/0ehn+NSarZW0ZiXtTfCfHHiaRLp4=;
+	b=bIdKEWgR5UZIy0TJaruQujMahMwynr4PVMnDcU4kBitHBNo7q073JbrYzG65FbHP7Y
+	mbM9hFjlLlwQAouSAl9oSuR5cXI0K/JQyyZwmKs1co0JGtwjHN72PIS9n6MKeTRWxT7Z
+	cCPuFkDzNQGR2KqOHNVW0/FBQA0CMharaPptg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20210112;
+	h=cc:to:subject:message-id:date:from:in-reply-to:references
+	:mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+	:reply-to;
+	bh=x16jINQR4q6R4H/0ehn+NSarZW0ZiXtTfCfHHiaRLp4=;
+	b=Ndlls2ky6l8pP+RxLs1Y6vE1r/VRfg3HW/cExo1rGmClKq9TC4oU0Bg2CfY3oiFAok
+	91Xs9L8Pk/F7RI0QtGTNXWMyqjjEtnk4ZGjdCLL6TDEgVWXWQ2gZ6fu9xL5sad89D8jB
+	jag5C9M+EjViAhCtoon24o23kEg4EK8WhXdWCrhuARdftudsvprzHZUvyJXB6rTn0tG7
+	osBnsbdcNQmhm+TYQEB+NjjkXtcyx8jejEHY88Bobz6Y3d1FoDwnxpiBSDnz722azId4
+	zu0607AgaSAi+VaCtNWXup8KEdpnmO71u+GjWnCt3R82AkK3r8PFYuyeIulYCC8h7sOq
+	HkAA==
+X-Gm-Message-State: ACrzQf2UGcFxUbixxO6rDfu9jrJKrnD4StcI5BQbryW1yfwPZlHQVoQL
+	pfR2shIK0bZsMh7VcH4HLGqCcIPjZl8+PQ==
+X-Google-Smtp-Source: AMsMyM7Z8TsS9uVIpsjK5z5nPf2JsCORbuBhxU1kLg6DmyYLHXnpOIS1kMfamZMhRs1w3Rh544rsUQ==
+X-Received: by 2002:a05:622a:903:b0:3a5:57f5:a772 with SMTP id
+	bx3-20020a05622a090300b003a557f5a772mr7441905qtb.506.1667591460435;
+	Fri, 04 Nov 2022 12:51:00 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com.
+	[209.85.128.170]) by smtp.gmail.com with ESMTPSA id
+	m13-20020a05620a290d00b006fa43e139b5sm55633qkp.59.2022.11.04.12.50.59
+	for <drbd-dev@lists.linbit.com>
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Fri, 04 Nov 2022 12:50:59 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id
+	00721157ae682-333a4a5d495so52882607b3.10
+	for <drbd-dev@lists.linbit.com>; Fri, 04 Nov 2022 12:50:59 -0700 (PDT)
+X-Received: by 2002:a0d:ef07:0:b0:373:5257:f897 with SMTP id
+	y7-20020a0def07000000b003735257f897mr16823922ywe.401.1667591459021;
+	Fri, 04 Nov 2022 12:50:59 -0700 (PDT)
+MIME-Version: 1.0
 References: <20221104054053.431922658@goodmis.org>
 	<20221104192232.GA2520396@roeck-us.net>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
+	<20221104154209.21b26782@rorschach.local.home>
+In-Reply-To: <20221104154209.21b26782@rorschach.local.home>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Fri, 4 Nov 2022 12:50:42 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wge9uWV2i9PR6x7va4ZbPdX5+rg7Ep1UNH_nYdd9rD-uw@mail.gmail.com>
+Message-ID: <CAHk-=wge9uWV2i9PR6x7va4ZbPdX5+rg7Ep1UNH_nYdd9rD-uw@mail.gmail.com>
+To: Steven Rostedt <rostedt@goodmis.org>
 Cc: alsa-devel@alsa-project.org, linux-staging@lists.linux.dev,
 	linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
 	Thomas Gleixner <tglx@linutronix.de>, linux-leds@vger.kernel.org,
 	drbd-dev@lists.linbit.com, linux-s390@vger.kernel.org,
 	linux-nilfs@vger.kernel.org, linux-scsi@vger.kernel.org,
@@ -39,10 +73,11 @@ Cc: alsa-devel@alsa-project.org, linux-staging@lists.linux.dev,
 	linux-acpi@vger.kernel.org, coreteam@netfilter.org,
 	intel-wired-lan@lists.osuosl.org, linux-input@vger.kernel.org,
 	tipc-discussion@lists.sourceforge.net,
-	linux-ext4@vger.kernel.org, linux-media@vger.kernel.org,
-	bridge@lists.linux-foundation.org, linux-pm@vger.kernel.org,
-	intel-gfx@lists.freedesktop.org, rcu@vger.kernel.org,
-	cgroups@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
+	linux-ext4@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
+	linux-media@vger.kernel.org, bridge@lists.linux-foundation.org,
+	linux-pm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+	rcu@vger.kernel.org, cgroups@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net,
 	Anna-Maria Gleixner <anna-maria@linutronix.de>,
 	linux-edac@vger.kernel.org, linux-block@vger.kernel.org,
 	linux-nfs@vger.kernel.org, linux-parisc@vger.kernel.org,
@@ -50,7 +85,7 @@ Cc: alsa-devel@alsa-project.org, linux-staging@lists.linux.dev,
 	linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-bluetooth@vger.kernel.org,
 	netfilter-devel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>
+	linaro-mm-sig@lists.linaro.org
 Subject: Re: [Drbd-dev] [RFC][PATCH v3 00/33] timers: Use timer_shutdown*()
  before freeing timers
 X-BeenThere: drbd-dev@lists.linbit.com
@@ -71,53 +106,15 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Fri, 4 Nov 2022 12:22:32 -0700
-Guenter Roeck <linux@roeck-us.net> wrote:
+On Fri, Nov 4, 2022 at 12:42 PM Steven Rostedt <rostedt@goodmis.org> wrote:
+>
+> Linus, should I also add any patches that has already been acked by the
+> respective maintainer?
 
-> Unfortunately the renaming caused some symbol conflicts.
-> 
-> Global definition: timer_shutdown
-> 
->   File             Line
-> 0 time.c            93 static inline void timer_shutdown(struct clock_event_device *evt)
-> 1 arm_arch_timer.c 690 static __always_inline int timer_shutdown(const int access,
-> 2 timer-fttmr010.c 105 int (*timer_shutdown)(struct clock_event_device *evt);
-> 3 timer-sp804.c    158 static inline void timer_shutdown(struct clock_event_device *evt)
-> 4 timer.h          239 static inline int timer_shutdown(struct timer_list *timer)
+No, I'd prefer to keep only the ones that are 100% unambiguously not
+changing any semantics.
 
-$ git grep '\btimer_shutdown'
-arch/arm/mach-spear/time.c:static inline void timer_shutdown(struct clock_event_device *evt)
-arch/arm/mach-spear/time.c:     timer_shutdown(evt);
-arch/arm/mach-spear/time.c:     timer_shutdown(evt);
-arch/arm/mach-spear/time.c:     timer_shutdown(evt);
-drivers/clocksource/arm_arch_timer.c:static __always_inline int timer_shutdown(const int access,
-drivers/clocksource/arm_arch_timer.c:   return timer_shutdown(ARCH_TIMER_VIRT_ACCESS, clk);
-drivers/clocksource/arm_arch_timer.c:   return timer_shutdown(ARCH_TIMER_PHYS_ACCESS, clk);
-drivers/clocksource/arm_arch_timer.c:   return timer_shutdown(ARCH_TIMER_MEM_VIRT_ACCESS, clk);
-drivers/clocksource/arm_arch_timer.c:   return timer_shutdown(ARCH_TIMER_MEM_PHYS_ACCESS, clk);
-drivers/clocksource/timer-fttmr010.c:   int (*timer_shutdown)(struct clock_event_device *evt);
-drivers/clocksource/timer-fttmr010.c:   fttmr010->timer_shutdown(evt);
-drivers/clocksource/timer-fttmr010.c:   fttmr010->timer_shutdown(evt);
-drivers/clocksource/timer-fttmr010.c:   fttmr010->timer_shutdown(evt);
-drivers/clocksource/timer-fttmr010.c:           fttmr010->timer_shutdown = ast2600_timer_shutdown;
-drivers/clocksource/timer-fttmr010.c:           fttmr010->timer_shutdown = fttmr010_timer_shutdown;
-drivers/clocksource/timer-fttmr010.c:   fttmr010->clkevt.set_state_shutdown = fttmr010->timer_shutdown;
-drivers/clocksource/timer-fttmr010.c:   fttmr010->clkevt.tick_resume = fttmr010->timer_shutdown;
-drivers/clocksource/timer-sp804.c:static inline void timer_shutdown(struct clock_event_device *evt)
-drivers/clocksource/timer-sp804.c:      timer_shutdown(evt);
-drivers/clocksource/timer-sp804.c:      timer_shutdown(evt);
-
-Honestly, I think these need to be renamed, as "timer_shutdown()"
-should be specific to the timer code, and not individual timers.
-
-I'll start making a patch set that starts by renaming these timers,
-then adds the timer_shutdown() API, and finished with the trivial
-updates, and that will be a real "PATCH" (non RFC).
-
-Linus, should I also add any patches that has already been acked by the
-respective maintainer?
-
--- Steve
+              Linus
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
