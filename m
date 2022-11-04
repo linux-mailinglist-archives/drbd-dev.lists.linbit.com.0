@@ -2,57 +2,45 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BFB7619027
-	for <lists+drbd-dev@lfdr.de>; Fri,  4 Nov 2022 06:48:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCE37619096
+	for <lists+drbd-dev@lfdr.de>; Fri,  4 Nov 2022 06:58:01 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C26604203D5;
-	Fri,  4 Nov 2022 06:48:50 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B50334203A1;
+	Fri,  4 Nov 2022 06:58:01 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id BC82042036A
-	for <drbd-dev@lists.linbit.com>; Fri,  4 Nov 2022 06:48:47 +0100 (CET)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id F2A3C420237
+	for <drbd-dev@lists.linbit.com>;
+	Fri,  4 Nov 2022 06:58:00 +0100 (CET)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 32B4AB82BE6;
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 11ADA620B8;
 	Fri,  4 Nov 2022 05:48:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4911C433D6;
-	Fri,  4 Nov 2022 05:48:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E0C8C43143;
+	Fri,  4 Nov 2022 05:48:46 +0000 (UTC)
 Received: from rostedt by gandalf.local.home with local (Exim 4.96)
-	(envelope-from <rostedt@goodmis.org>) id 1oqpZo-0070xm-08;
+	(envelope-from <rostedt@goodmis.org>) id 1oqpZo-007101-2W;
 	Fri, 04 Nov 2022 01:49:12 -0400
-Message-ID: <20221104054053.431922658@goodmis.org>
+Message-ID: <20221104054912.617055044@goodmis.org>
 User-Agent: quilt/0.66
-Date: Fri, 04 Nov 2022 01:40:53 -0400
+Date: Fri, 04 Nov 2022 01:40:57 -0400
 From: Steven Rostedt <rostedt@goodmis.org>
 To: linux-kernel@vger.kernel.org
-Cc: alsa-devel@alsa-project.org, linux-staging@lists.linux.dev,
-	linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	Thomas Gleixner <tglx@linutronix.de>, linux-leds@vger.kernel.org,
-	drbd-dev@lists.linbit.com, linux-s390@vger.kernel.org,
-	linux-nilfs@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-sh@vger.kernel.org, linux-atm-general@lists.sourceforge.net,
-	linux-afs@lists.infradead.org, lvs-devel@vger.kernel.org,
-	linux-acpi@vger.kernel.org, coreteam@netfilter.org,
-	intel-wired-lan@lists.osuosl.org, linux-input@vger.kernel.org,
-	tipc-discussion@lists.sourceforge.net,
-	linux-ext4@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
-	linux-media@vger.kernel.org, bridge@lists.linux-foundation.org,
-	linux-pm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-	rcu@vger.kernel.org, cgroups@vger.kernel.org,
-	openipmi-developer@lists.sourceforge.net,
+References: <20221104054053.431922658@goodmis.org>
+MIME-Version: 1.0
+Cc: Jens Axboe <axboe@kernel.dk>, Stephen Boyd <sboyd@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Philipp Reisner <philipp.reisner@linbit.com>, linux-block@vger.kernel.org,
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
+	Tejun Heo <tj@kernel.org>, cgroups@vger.kernel.org,
+	Thomas Gleixner <tglx@linutronix.de>,
 	Anna-Maria Gleixner <anna-maria@linutronix.de>,
-	linux-edac@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-nfs@vger.kernel.org, linux-parisc@vger.kernel.org,
-	Stephen Boyd <sboyd@kernel.org>, netdev@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-	netfilter-devel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>
-Subject: [Drbd-dev] [RFC][PATCH v3 00/33] timers: Use timer_shutdown*()
-	before freeing timers
+	Andrew Morton <akpm@linux-foundation.org>,
+	Guenter Roeck <linux@roeck-us.net>, drbd-dev@lists.linbit.com
+Subject: [Drbd-dev] [RFC][PATCH v3 04/33] timers: block: Use
+	timer_shutdown_sync() before freeing timer
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -66,204 +54,92 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-
-Back in April, I posted an RFC patch set to help mitigate a common issue
-where a timer gets armed just before it is freed, and when the timer
-goes off, it crashes in the timer code without any evidence of who the
-culprit was. I got side tracked and never finished up on that patch set.
-Since this type of crash is still our #1 crash we are seeing in the field,
-it has become a priority again to finish it.
-
-This is v3 of that patch set. Thomas Gleixner posted an untested version
-that makes timer->function NULL as the flag that it is shutdown. I took that
-code, tested it (fixed it up), added more comments, and changed the
-name to timer_shutdown_sync(). I also converted it to use WARN_ON_ONCE()
-instead of just WARN_ON() as Linus asked for.
-
-I then created a trivial coccinelle script to find where del_timer*()
-is called before being freed, and converted them all to timer_shutdown*()
-(There was a couple that still used del_timer() instead of del_timer_sync()).
-
-I also updated DEBUG_OBJECTS_TIMERS to check from where the timer is ever
-armed, to calling of timer_shutdown_sync(), and it will trigger if a timer
-is freed in between. The current way is to only check if the timer is armed,
-but that means it only triggers if the race condition is hit, and with
-experience, it's not run on enough machines to catch all of them. By triggering
-it from the time the timer is armed to the time it is shutdown, it catches
-all potential cases even if the race condition is not hit.
-
-I went though the result of the cocinelle script, and updated the locations.
-Some locations were caught by DEBUG_OBJECTS_TIMERS as the coccinelle script
-only checked for timers being freed in the same function as the del_timer*().
-
-Ideally, I would have the first patch go into this rc cycle, which is mostly
-non functional as it will allow the other patches to come in via the respective
-subsystems in the next merge window.
-
-Changes since v2: https://lore.kernel.org/all/20221027150525.753064657@goodmis.org/
-
- - Talking with Thomas Gleixner, he wanted a better name space and to remove
-   the "del_" portion of the API.
-
- - Since there's now a shutdown interface that does not synchronize, to keep
-   it closer to del_timer() and del_timer_sync(), the API is now:
-
-    timer_shutdown() - same as del_timer() but deactivates the timer.
-
-    timer_shutdown_sync() - same as del_timer_sync() but deactivates the timer.
-
- - Added a few more locations that got converted.
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace.git
-trace/timers
-
-Head SHA1: 25106f0bb7968b3e8c746a7853f44b51840746c3
-
-
-Steven Rostedt (Google) (33):
-      timers: Add timer_shutdown_sync() and timer_shutdown() to be called before freeing timers
-      timers: s390/cmm: Use timer_shutdown_sync() before freeing timer
-      timers: sh: Use timer_shutdown_sync() before freeing timer
-      timers: block: Use timer_shutdown_sync() before freeing timer
-      timers: ACPI: Use timer_shutdown_sync() before freeing timer
-      timers: atm: Use timer_shutdown_sync() before freeing timer
-      timers: PM: Use timer_shutdown_sync()
-      timers: Bluetooth: Use timer_shutdown_sync() before freeing timer
-      timers: hangcheck: Use timer_shutdown_sync() before freeing timer
-      timers: ipmi: Use timer_shutdown_sync() before freeing timer
-      random: use timer_shutdown_sync() before freeing timer
-      timers: dma-buf: Use timer_shutdown_sync() before freeing timer
-      timers: drm: Use timer_shutdown_sync() before freeing timer
-      timers: HID: Use timer_shutdown_sync() before freeing timer
-      timers: Input: Use timer_shutdown_sync() before freeing timer
-      timers: mISDN: Use timer_shutdown_sync() before freeing timer
-      timers: leds: Use timer_shutdown_sync() before freeing timer
-      timers: media: Use timer_shutdown_sync() before freeing timer
-      timers: net: Use timer_shutdown_sync() before freeing timer
-      timers: usb: Use timer_shutdown_sync() before freeing timer
-      timers: cgroup: Use timer_shutdown_sync() before freeing timer
-      timers: workqueue: Use timer_shutdown_sync() before freeing timer
-      timers: nfc: pn533: Use timer_shutdown_sync() before freeing timer
-      timers: pcmcia: Use timer_shutdown_sync() before freeing timer
-      timers: scsi: Use timer_shutdown_sync() and timer_shutdown() before freeing timer
-      timers: tty: Use timer_shutdown_sync() before freeing timer
-      timers: ext4: Use timer_shutdown_sync() before freeing timer
-      timers: fs/nilfs2: Use timer_shutdown_sync() before freeing timer
-      timers: ALSA: Use timer_shutdown_sync() before freeing timer
-      timers: jbd2: Use timer_shutdown() before freeing timer
-      timers: sched/psi: Use timer_shutdown_sync() before freeing timer
-      timers: x86/mce: Use __init_timer() for resetting timers
-      timers: Expand DEBUG_OBJECTS_TIMER to check if it ever was used
-
-----
- .../RCU/Design/Requirements/Requirements.rst       |   2 +-
- Documentation/core-api/local_ops.rst               |   2 +-
- Documentation/kernel-hacking/locking.rst           |   5 +
- arch/s390/mm/cmm.c                                 |   4 +-
- arch/sh/drivers/push-switch.c                      |   2 +-
- arch/x86/kernel/cpu/mce/core.c                     |  14 ++-
- block/blk-iocost.c                                 |   2 +-
- block/blk-iolatency.c                              |   2 +-
- block/blk-stat.c                                   |   2 +-
- block/blk-throttle.c                               |   2 +-
- block/kyber-iosched.c                              |   2 +-
- drivers/acpi/apei/ghes.c                           |   2 +-
- drivers/atm/idt77105.c                             |   4 +-
- drivers/atm/idt77252.c                             |   4 +-
- drivers/atm/iphase.c                               |   2 +-
- drivers/base/power/wakeup.c                        |   7 +-
- drivers/block/drbd/drbd_main.c                     |   2 +-
- drivers/block/loop.c                               |   2 +-
- drivers/block/sunvdc.c                             |   2 +-
- drivers/bluetooth/hci_bcsp.c                       |   2 +-
- drivers/bluetooth/hci_h5.c                         |   2 +-
- drivers/bluetooth/hci_qca.c                        |   4 +-
- drivers/char/hangcheck-timer.c                     |   4 +-
- drivers/char/ipmi/ipmi_msghandler.c                |   2 +-
- drivers/char/ipmi/ipmi_ssif.c                      |   4 +-
- drivers/char/random.c                              |   2 +-
- drivers/dma-buf/st-dma-fence.c                     |   2 +-
- drivers/gpu/drm/gud/gud_pipe.c                     |   2 +-
- drivers/gpu/drm/i915/i915_sw_fence.c               |   2 +-
- drivers/hid/hid-wiimote-core.c                     |   2 +-
- drivers/input/keyboard/locomokbd.c                 |   2 +-
- drivers/input/keyboard/omap-keypad.c               |   2 +-
- drivers/input/mouse/alps.c                         |   2 +-
- drivers/input/serio/hil_mlc.c                      |   2 +-
- drivers/input/serio/hp_sdc.c                       |   2 +-
- drivers/isdn/hardware/mISDN/hfcmulti.c             |   6 +-
- drivers/isdn/mISDN/l1oip_core.c                    |   4 +-
- drivers/isdn/mISDN/timerdev.c                      |   4 +-
- drivers/leds/trigger/ledtrig-activity.c            |   2 +-
- drivers/leds/trigger/ledtrig-heartbeat.c           |   2 +-
- drivers/leds/trigger/ledtrig-pattern.c             |   2 +-
- drivers/leds/trigger/ledtrig-transient.c           |   2 +-
- drivers/media/pci/ivtv/ivtv-driver.c               |   2 +-
- drivers/media/usb/pvrusb2/pvrusb2-hdw.c            |  18 ++--
- drivers/media/usb/s2255/s2255drv.c                 |   4 +-
- drivers/net/ethernet/intel/i40e/i40e_main.c        |   6 +-
- drivers/net/ethernet/marvell/sky2.c                |   2 +-
- drivers/net/ethernet/sun/sunvnet.c                 |   2 +-
- drivers/net/usb/sierra_net.c                       |   2 +-
- drivers/net/wireless/intel/iwlwifi/iwl-dbg-tlv.c   |   2 +-
- drivers/net/wireless/intersil/hostap/hostap_ap.c   |   2 +-
- drivers/net/wireless/marvell/mwifiex/main.c        |   2 +-
- drivers/net/wireless/microchip/wilc1000/hif.c      |   8 +-
- drivers/nfc/pn533/pn533.c                          |   2 +-
- drivers/nfc/pn533/uart.c                           |   2 +-
- drivers/pcmcia/bcm63xx_pcmcia.c                    |   2 +-
- drivers/pcmcia/electra_cf.c                        |   2 +-
- drivers/pcmcia/omap_cf.c                           |   2 +-
- drivers/pcmcia/pd6729.c                            |   4 +-
- drivers/pcmcia/yenta_socket.c                      |   4 +-
- drivers/scsi/qla2xxx/qla_edif.c                    |   4 +-
- drivers/scsi/scsi_lib.c                            |   1 +
- drivers/staging/media/atomisp/i2c/atomisp-lm3554.c |   2 +-
- drivers/tty/n_gsm.c                                |   2 +-
- drivers/tty/sysrq.c                                |   2 +-
- drivers/usb/gadget/udc/m66592-udc.c                |   2 +-
- drivers/usb/serial/garmin_gps.c                    |   2 +-
- drivers/usb/serial/mos7840.c                       |   2 +-
- fs/ext4/super.c                                    |   2 +-
- fs/jbd2/journal.c                                  |   2 +
- fs/nilfs2/segment.c                                |   2 +-
- include/linux/timer.h                              | 100 +++++++++++++++++--
- include/linux/workqueue.h                          |   4 +-
- kernel/cgroup/cgroup.c                             |   2 +-
- kernel/sched/psi.c                                 |   1 +
- kernel/time/timer.c                                | 106 ++++++++++++++-------
- kernel/workqueue.c                                 |   4 +-
- net/802/garp.c                                     |   2 +-
- net/802/mrp.c                                      |   2 +-
- net/bridge/br_multicast.c                          |   6 +-
- net/bridge/br_multicast_eht.c                      |   4 +-
- net/core/gen_estimator.c                           |   2 +-
- net/core/neighbour.c                               |   2 +
- net/ipv4/inet_connection_sock.c                    |   2 +-
- net/ipv4/inet_timewait_sock.c                      |   3 +-
- net/ipv4/ipmr.c                                    |   2 +-
- net/ipv6/ip6mr.c                                   |   2 +-
- net/mac80211/mesh_pathtbl.c                        |   2 +-
- net/netfilter/ipset/ip_set_list_set.c              |   2 +-
- net/netfilter/ipvs/ip_vs_lblc.c                    |   2 +-
- net/netfilter/ipvs/ip_vs_lblcr.c                   |   2 +-
- net/netfilter/xt_LED.c                             |   2 +-
- net/rxrpc/conn_object.c                            |   2 +-
- net/sched/cls_flow.c                               |   2 +-
- net/sunrpc/svc.c                                   |   2 +-
- net/sunrpc/xprt.c                                  |   2 +-
- net/tipc/discover.c                                |   2 +-
- net/tipc/monitor.c                                 |   2 +-
- sound/i2c/other/ak4117.c                           |   2 +-
- sound/synth/emux/emux.c                            |   2 +-
- 100 files changed, 310 insertions(+), 175 deletions(-)
-_______________________________________________
-drbd-dev mailing list
-drbd-dev@lists.linbit.com
-https://lists.linbit.com/mailman/listinfo/drbd-dev
+RnJvbTogIlN0ZXZlbiBSb3N0ZWR0IChHb29nbGUpIiA8cm9zdGVkdEBnb29kbWlzLm9yZz4KCkJl
+Zm9yZSBhIHRpbWVyIGlzIGZyZWVkLCB0aW1lcl9zaHV0ZG93bl9zeW5jKCkgbXVzdCBiZSBjYWxs
+ZWQuCgpMaW5rOiBodHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwvMjAyMjA0MDcxNjE3NDUuN2Q2
+NzU0YjNAZ2FuZGFsZi5sb2NhbC5ob21lLwoKQ2M6IFBoaWxpcHAgUmVpc25lciA8cGhpbGlwcC5y
+ZWlzbmVyQGxpbmJpdC5jb20+CkNjOiBMYXJzIEVsbGVuYmVyZyA8bGFycy5lbGxlbmJlcmdAbGlu
+Yml0LmNvbT4KQ2M6ICJDaHJpc3RvcGggQsO2aG13YWxkZXIiIDxjaHJpc3RvcGguYm9laG13YWxk
+ZXJAbGluYml0LmNvbT4KQ2M6IEplbnMgQXhib2UgPGF4Ym9lQGtlcm5lbC5kaz4KQ2M6IGRyYmQt
+ZGV2QGxpc3RzLmxpbmJpdC5jb20KQ2M6IFRlanVuIEhlbyA8dGpAa2VybmVsLm9yZz4KQ2M6IGNn
+cm91cHNAdmdlci5rZXJuZWwub3JnCkNjOiBsaW51eC1ibG9ja0B2Z2VyLmtlcm5lbC5vcmcKU2ln
+bmVkLW9mZi1ieTogU3RldmVuIFJvc3RlZHQgKEdvb2dsZSkgPHJvc3RlZHRAZ29vZG1pcy5vcmc+
+Ci0tLQogYmxvY2svYmxrLWlvY29zdC5jICAgICAgICAgICAgIHwgMiArLQogYmxvY2svYmxrLWlv
+bGF0ZW5jeS5jICAgICAgICAgIHwgMiArLQogYmxvY2svYmxrLXN0YXQuYyAgICAgICAgICAgICAg
+IHwgMiArLQogYmxvY2svYmxrLXRocm90dGxlLmMgICAgICAgICAgIHwgMiArLQogYmxvY2sva3li
+ZXItaW9zY2hlZC5jICAgICAgICAgIHwgMiArLQogZHJpdmVycy9ibG9jay9kcmJkL2RyYmRfbWFp
+bi5jIHwgMiArLQogZHJpdmVycy9ibG9jay9sb29wLmMgICAgICAgICAgIHwgMiArLQogZHJpdmVy
+cy9ibG9jay9zdW52ZGMuYyAgICAgICAgIHwgMiArLQogOCBmaWxlcyBjaGFuZ2VkLCA4IGluc2Vy
+dGlvbnMoKyksIDggZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvYmxvY2svYmxrLWlvY29zdC5j
+IGIvYmxvY2svYmxrLWlvY29zdC5jCmluZGV4IDQ5NTM5NjQyNWJhZC4uN2VkYzY5NWIzYTNkIDEw
+MDY0NAotLS0gYS9ibG9jay9ibGstaW9jb3N0LmMKKysrIGIvYmxvY2svYmxrLWlvY29zdC5jCkBA
+IC0yODE0LDcgKzI4MTQsNyBAQCBzdGF0aWMgdm9pZCBpb2NfcnFvc19leGl0KHN0cnVjdCBycV9x
+b3MgKnJxb3MpCiAJaW9jLT5ydW5uaW5nID0gSU9DX1NUT1A7CiAJc3Bpbl91bmxvY2tfaXJxKCZp
+b2MtPmxvY2spOwogCi0JZGVsX3RpbWVyX3N5bmMoJmlvYy0+dGltZXIpOworCXRpbWVyX3NodXRk
+b3duX3N5bmMoJmlvYy0+dGltZXIpOwogCWZyZWVfcGVyY3B1KGlvYy0+cGNwdV9zdGF0KTsKIAlr
+ZnJlZShpb2MpOwogfQpkaWZmIC0tZ2l0IGEvYmxvY2svYmxrLWlvbGF0ZW5jeS5jIGIvYmxvY2sv
+YmxrLWlvbGF0ZW5jeS5jCmluZGV4IDU3MWZhOTVhYWZlOS4uYzcwNDlhYjE4MzEyIDEwMDY0NAot
+LS0gYS9ibG9jay9ibGstaW9sYXRlbmN5LmMKKysrIGIvYmxvY2svYmxrLWlvbGF0ZW5jeS5jCkBA
+IC02NDUsNyArNjQ1LDcgQEAgc3RhdGljIHZvaWQgYmxrY2dfaW9sYXRlbmN5X2V4aXQoc3RydWN0
+IHJxX3FvcyAqcnFvcykKIHsKIAlzdHJ1Y3QgYmxrX2lvbGF0ZW5jeSAqYmxraW9sYXQgPSBCTEtJ
+T0xBVEVOQ1kocnFvcyk7CiAKLQlkZWxfdGltZXJfc3luYygmYmxraW9sYXQtPnRpbWVyKTsKKwl0
+aW1lcl9zaHV0ZG93bl9zeW5jKCZibGtpb2xhdC0+dGltZXIpOwogCWZsdXNoX3dvcmsoJmJsa2lv
+bGF0LT5lbmFibGVfd29yayk7CiAJYmxrY2dfZGVhY3RpdmF0ZV9wb2xpY3kocnFvcy0+cSwgJmJs
+a2NnX3BvbGljeV9pb2xhdGVuY3kpOwogCWtmcmVlKGJsa2lvbGF0KTsKZGlmZiAtLWdpdCBhL2Js
+b2NrL2Jsay1zdGF0LmMgYi9ibG9jay9ibGstc3RhdC5jCmluZGV4IDJlYTAxYjVjMWFjYS4uODU1
+ZGEyMWRlNWRjIDEwMDY0NAotLS0gYS9ibG9jay9ibGstc3RhdC5jCisrKyBiL2Jsb2NrL2Jsay1z
+dGF0LmMKQEAgLTE2NSw3ICsxNjUsNyBAQCB2b2lkIGJsa19zdGF0X3JlbW92ZV9jYWxsYmFjayhz
+dHJ1Y3QgcmVxdWVzdF9xdWV1ZSAqcSwKIAkJYmxrX3F1ZXVlX2ZsYWdfY2xlYXIoUVVFVUVfRkxB
+R19TVEFUUywgcSk7CiAJc3Bpbl91bmxvY2tfaXJxcmVzdG9yZSgmcS0+c3RhdHMtPmxvY2ssIGZs
+YWdzKTsKIAotCWRlbF90aW1lcl9zeW5jKCZjYi0+dGltZXIpOworCXRpbWVyX3NodXRkb3duX3N5
+bmMoJmNiLT50aW1lcik7CiB9CiAKIHN0YXRpYyB2b2lkIGJsa19zdGF0X2ZyZWVfY2FsbGJhY2tf
+cmN1KHN0cnVjdCByY3VfaGVhZCAqaGVhZCkKZGlmZiAtLWdpdCBhL2Jsb2NrL2Jsay10aHJvdHRs
+ZS5jIGIvYmxvY2svYmxrLXRocm90dGxlLmMKaW5kZXggODQ3NzIxZGMyYjJiLi4zODc0MGM0ZjUx
+N2EgMTAwNjQ0Ci0tLSBhL2Jsb2NrL2Jsay10aHJvdHRsZS5jCisrKyBiL2Jsb2NrL2Jsay10aHJv
+dHRsZS5jCkBAIC00OTAsNyArNDkwLDcgQEAgc3RhdGljIHZvaWQgdGhyb3RsX3BkX2ZyZWUoc3Ry
+dWN0IGJsa2dfcG9saWN5X2RhdGEgKnBkKQogewogCXN0cnVjdCB0aHJvdGxfZ3JwICp0ZyA9IHBk
+X3RvX3RnKHBkKTsKIAotCWRlbF90aW1lcl9zeW5jKCZ0Zy0+c2VydmljZV9xdWV1ZS5wZW5kaW5n
+X3RpbWVyKTsKKwl0aW1lcl9zaHV0ZG93bl9zeW5jKCZ0Zy0+c2VydmljZV9xdWV1ZS5wZW5kaW5n
+X3RpbWVyKTsKIAlibGtnX3J3c3RhdF9leGl0KCZ0Zy0+c3RhdF9ieXRlcyk7CiAJYmxrZ19yd3N0
+YXRfZXhpdCgmdGctPnN0YXRfaW9zKTsKIAlrZnJlZSh0Zyk7CmRpZmYgLS1naXQgYS9ibG9jay9r
+eWJlci1pb3NjaGVkLmMgYi9ibG9jay9reWJlci1pb3NjaGVkLmMKaW5kZXggYjA1MzU3YmNlZDk5
+Li4yMTQ2OTY5MjM3YmYgMTAwNjQ0Ci0tLSBhL2Jsb2NrL2t5YmVyLWlvc2NoZWQuYworKysgYi9i
+bG9jay9reWJlci1pb3NjaGVkLmMKQEAgLTQzNCw3ICs0MzQsNyBAQCBzdGF0aWMgdm9pZCBreWJl
+cl9leGl0X3NjaGVkKHN0cnVjdCBlbGV2YXRvcl9xdWV1ZSAqZSkKIAlzdHJ1Y3Qga3liZXJfcXVl
+dWVfZGF0YSAqa3FkID0gZS0+ZWxldmF0b3JfZGF0YTsKIAlpbnQgaTsKIAotCWRlbF90aW1lcl9z
+eW5jKCZrcWQtPnRpbWVyKTsKKwl0aW1lcl9zaHV0ZG93bl9zeW5jKCZrcWQtPnRpbWVyKTsKIAli
+bGtfc3RhdF9kaXNhYmxlX2FjY291bnRpbmcoa3FkLT5xKTsKIAogCWZvciAoaSA9IDA7IGkgPCBL
+WUJFUl9OVU1fRE9NQUlOUzsgaSsrKQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ibG9jay9kcmJkL2Ry
+YmRfbWFpbi5jIGIvZHJpdmVycy9ibG9jay9kcmJkL2RyYmRfbWFpbi5jCmluZGV4IGYzZTRkYjE2
+ZmQwNy4uMmRjNWJlODlhMDAxIDEwMDY0NAotLS0gYS9kcml2ZXJzL2Jsb2NrL2RyYmQvZHJiZF9t
+YWluLmMKKysrIGIvZHJpdmVycy9ibG9jay9kcmJkL2RyYmRfbWFpbi5jCkBAIC0yMTg0LDcgKzIx
+ODQsNyBAQCB2b2lkIGRyYmRfZGVzdHJveV9kZXZpY2Uoc3RydWN0IGtyZWYgKmtyZWYpCiAJc3Ry
+dWN0IGRyYmRfcmVzb3VyY2UgKnJlc291cmNlID0gZGV2aWNlLT5yZXNvdXJjZTsKIAlzdHJ1Y3Qg
+ZHJiZF9wZWVyX2RldmljZSAqcGVlcl9kZXZpY2UsICp0bXBfcGVlcl9kZXZpY2U7CiAKLQlkZWxf
+dGltZXJfc3luYygmZGV2aWNlLT5yZXF1ZXN0X3RpbWVyKTsKKwl0aW1lcl9zaHV0ZG93bl9zeW5j
+KCZkZXZpY2UtPnJlcXVlc3RfdGltZXIpOwogCiAJLyogcGFyYW5vaWEgYXNzZXJ0cyAqLwogCURf
+QVNTRVJUKGRldmljZSwgZGV2aWNlLT5vcGVuX2NudCA9PSAwKTsKZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvYmxvY2svbG9vcC5jIGIvZHJpdmVycy9ibG9jay9sb29wLmMKaW5kZXggYWQ5MjE5MmM3ZDYx
+Li4zZWEwODdjZDFmOTkgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvYmxvY2svbG9vcC5jCisrKyBiL2Ry
+aXZlcnMvYmxvY2svbG9vcC5jCkBAIC0xNzU1LDcgKzE3NTUsNyBAQCBzdGF0aWMgdm9pZCBsb19m
+cmVlX2Rpc2soc3RydWN0IGdlbmRpc2sgKmRpc2spCiAJaWYgKGxvLT53b3JrcXVldWUpCiAJCWRl
+c3Ryb3lfd29ya3F1ZXVlKGxvLT53b3JrcXVldWUpOwogCWxvb3BfZnJlZV9pZGxlX3dvcmtlcnMo
+bG8sIHRydWUpOwotCWRlbF90aW1lcl9zeW5jKCZsby0+dGltZXIpOworCXRpbWVyX3NodXRkb3du
+X3N5bmMoJmxvLT50aW1lcik7CiAJbXV0ZXhfZGVzdHJveSgmbG8tPmxvX211dGV4KTsKIAlrZnJl
+ZShsbyk7CiB9CmRpZmYgLS1naXQgYS9kcml2ZXJzL2Jsb2NrL3N1bnZkYy5jIGIvZHJpdmVycy9i
+bG9jay9zdW52ZGMuYwppbmRleCBmYjg1NWRhOTcxZWUuLmUxNGZlNWQ5NjhkOCAxMDA2NDQKLS0t
+IGEvZHJpdmVycy9ibG9jay9zdW52ZGMuYworKysgYi9kcml2ZXJzL2Jsb2NrL3N1bnZkYy5jCkBA
+IC0xMDY3LDcgKzEwNjcsNyBAQCBzdGF0aWMgdm9pZCB2ZGNfcG9ydF9yZW1vdmUoc3RydWN0IHZp
+b19kZXYgKnZkZXYpCiAKIAkJZmx1c2hfd29yaygmcG9ydC0+bGRjX3Jlc2V0X3dvcmspOwogCQlj
+YW5jZWxfZGVsYXllZF93b3JrX3N5bmMoJnBvcnQtPmxkY19yZXNldF90aW1lcl93b3JrKTsKLQkJ
+ZGVsX3RpbWVyX3N5bmMoJnBvcnQtPnZpby50aW1lcik7CisJCXRpbWVyX3NodXRkb3duX3N5bmMo
+JnBvcnQtPnZpby50aW1lcik7CiAKIAkJZGVsX2dlbmRpc2socG9ydC0+ZGlzayk7CiAJCXB1dF9k
+aXNrKHBvcnQtPmRpc2spOwotLSAKMi4zNS4xCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyYmQtZGV2IG1haWxpbmcgbGlzdApkcmJkLWRldkBsaXN0cy5s
+aW5iaXQuY29tCmh0dHBzOi8vbGlzdHMubGluYml0LmNvbS9tYWlsbWFuL2xpc3RpbmZvL2RyYmQt
+ZGV2Cg==
