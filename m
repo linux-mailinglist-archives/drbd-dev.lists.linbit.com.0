@@ -2,46 +2,90 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id F31D961908B
-	for <lists+drbd-dev@lfdr.de>; Fri,  4 Nov 2022 06:56:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 453AE619DE9
+	for <lists+drbd-dev@lfdr.de>; Fri,  4 Nov 2022 18:00:26 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7EBE84203A1;
-	Fri,  4 Nov 2022 06:56:40 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6D40C4217B3;
+	Fri,  4 Nov 2022 18:00:25 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 471 seconds by postgrey-1.31 at mail19;
-	Fri, 04 Nov 2022 06:56:39 CET
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9F83D420237
-	for <drbd-dev@lists.linbit.com>;
-	Fri,  4 Nov 2022 06:56:38 +0100 (CET)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 0CB6E62068;
-	Fri,  4 Nov 2022 05:56:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00F7FC433C1;
-	Fri,  4 Nov 2022 05:56:36 +0000 (UTC)
-Date: Fri, 4 Nov 2022 01:56:35 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: linux-kernel@vger.kernel.org
-Message-ID: <20221104015635.66243b5b@rorschach.local.home>
-In-Reply-To: <20221104054912.617055044@goodmis.org>
-References: <20221104054053.431922658@goodmis.org>
-	<20221104054912.617055044@goodmis.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com
+	[209.85.219.45])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id F00334210DE
+	for <drbd-dev@lists.linbit.com>; Fri,  4 Nov 2022 18:00:23 +0100 (CET)
+Received: by mail-qv1-f45.google.com with SMTP id w10so3600405qvr.3
+	for <drbd-dev@lists.linbit.com>; Fri, 04 Nov 2022 10:00:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=google;
+	h=cc:to:subject:message-id:date:from:in-reply-to:references
+	:mime-version:from:to:cc:subject:date:message-id:reply-to;
+	bh=/jNIi3NLp/0QE0eLEgGhnlZnXslRxZtVSsauwMnJ52A=;
+	b=TyCMiI4ARMPxd18RVlEv+qm2LWR7zC104Hlivn40qb5lZJslIeDFuCNMNvjneFE/Nj
+	LFwCX5vAwmEX/R8qjGO9x9K9/hgdwoRd2q59WUqMzWoiDvISQjer+tTT1jJ7UfSLA8Vn
+	fR3VeAjk206NeR5DC2lSXJH82ZME8JVM9jplc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20210112;
+	h=cc:to:subject:message-id:date:from:in-reply-to:references
+	:mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+	:reply-to;
+	bh=/jNIi3NLp/0QE0eLEgGhnlZnXslRxZtVSsauwMnJ52A=;
+	b=jPsh9XIywv/WZJkXNain+U5lcZe55seNJOr4D+3eXK3Qo+GrlsccRfPIFYRVPN0hNZ
+	YxITQlxF+13cpFlxh+JhH47mLMQlQ7ikuEdPdoxf0B3yf7alokveFE98aPtihAdWGptf
+	YtM8aMXr56C/Ad3Hek+XDFY2++ZrGdUe9iOGbpLS6WMbUA2MzKxKHhZyau5Z3pjB/kRS
+	1ZCE4OMzV+YQwhm/TuOefKEeHVMD40QMB8qSHACYo8NBtpjqpItmvXs4FV1vdfRiKVPv
+	npSlIa6Tp5umc98dAcKPEGsw1Eguq3eGzQLTy5gh20MLP/vcueumXqsx+gyswVDrKazc
+	wlcg==
+X-Gm-Message-State: ACrzQf1m0MdJbcQULAyR/2sgS6B9hvmhBx9Cpcp6chVuaQb6INQmSuAk
+	KK3cPgERXC8vQPX3cBfKiPgSFoW3D3XjgQ==
+X-Google-Smtp-Source: AMsMyM6wDr6cJWvvbxI9VZKPiFt7BW+cT5bwAf5sg4d2KBCsCXWE6E13zaG/TqadFNfoPRKd//JLQQ==
+X-Received: by 2002:a05:6214:258b:b0:4bc:246c:dd01 with SMTP id
+	fq11-20020a056214258b00b004bc246cdd01mr13436961qvb.64.1667581222649;
+	Fri, 04 Nov 2022 10:00:22 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com.
+	[209.85.128.170]) by smtp.gmail.com with ESMTPSA id
+	s8-20020a05620a16a800b006ed30a8fb21sm3145770qkj.76.2022.11.04.10.00.20
+	for <drbd-dev@lists.linbit.com>
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Fri, 04 Nov 2022 10:00:20 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id
+	00721157ae682-3701a0681daso49162977b3.4
+	for <drbd-dev@lists.linbit.com>; Fri, 04 Nov 2022 10:00:20 -0700 (PDT)
+X-Received: by 2002:a81:8241:0:b0:370:5fad:47f0 with SMTP id
+	s62-20020a818241000000b003705fad47f0mr27409344ywf.441.1667581219811;
+	Fri, 04 Nov 2022 10:00:19 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Jens Axboe <axboe@kernel.dk>, Stephen Boyd <sboyd@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Philipp Reisner <philipp.reisner@linbit.com>, linux-block@vger.kernel.org,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	Tejun Heo <tj@kernel.org>, cgroups@vger.kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>,
+References: <20221104054053.431922658@goodmis.org>
+In-Reply-To: <20221104054053.431922658@goodmis.org>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Fri, 4 Nov 2022 10:00:03 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whKE5UL+AuCC2wK8oq8D_ueSO_T7-9Acx4POouqVi8ZHg@mail.gmail.com>
+Message-ID: <CAHk-=whKE5UL+AuCC2wK8oq8D_ueSO_T7-9Acx4POouqVi8ZHg@mail.gmail.com>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: alsa-devel@alsa-project.org, linux-staging@lists.linux.dev,
+	linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Thomas Gleixner <tglx@linutronix.de>, linux-leds@vger.kernel.org,
+	drbd-dev@lists.linbit.com, linux-s390@vger.kernel.org,
+	linux-nilfs@vger.kernel.org, linux-scsi@vger.kernel.org,
+	linux-sh@vger.kernel.org, linux-atm-general@lists.sourceforge.net,
+	linux-afs@lists.infradead.org, lvs-devel@vger.kernel.org,
+	linux-acpi@vger.kernel.org, coreteam@netfilter.org,
+	intel-wired-lan@lists.osuosl.org, linux-input@vger.kernel.org,
+	tipc-discussion@lists.sourceforge.net,
+	linux-ext4@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
+	linux-media@vger.kernel.org, bridge@lists.linux-foundation.org,
+	linux-pm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+	rcu@vger.kernel.org, cgroups@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net,
 	Anna-Maria Gleixner <anna-maria@linutronix.de>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Guenter Roeck <linux@roeck-us.net>, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [RFC][PATCH v3 04/33] timers: block: Use
- timer_shutdown_sync() before freeing timer
+	linux-edac@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-nfs@vger.kernel.org, linux-parisc@vger.kernel.org,
+	Stephen Boyd <sboyd@kernel.org>, netdev@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+	netfilter-devel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+	linaro-mm-sig@lists.linaro.org
+Subject: Re: [Drbd-dev] [RFC][PATCH v3 00/33] timers: Use timer_shutdown*()
+ before freeing timers
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,92 +99,41 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-WyBPbmNlIGFnYWluLCBxdWlsdCBmYWlscyB0aGUgTUlNRSBjb2RpbmcgXQoKRnJvbTogIlN0ZXZl
-biBSb3N0ZWR0IChHb29nbGUpIiA8cm9zdGVkdEBnb29kbWlzLm9yZz4KCkJlZm9yZSBhIHRpbWVy
-IGlzIGZyZWVkLCB0aW1lcl9zaHV0ZG93bl9zeW5jKCkgbXVzdCBiZSBjYWxsZWQuCgpMaW5rOiBo
-dHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwvMjAyMjA0MDcxNjE3NDUuN2Q2NzU0YjNAZ2FuZGFs
-Zi5sb2NhbC5ob21lLwoKQ2M6IFBoaWxpcHAgUmVpc25lciA8cGhpbGlwcC5yZWlzbmVyQGxpbmJp
-dC5jb20+CkNjOiBMYXJzIEVsbGVuYmVyZyA8bGFycy5lbGxlbmJlcmdAbGluYml0LmNvbT4KQ2M6
-ICJDaHJpc3RvcGggQsO2aG13YWxkZXIiIDxjaHJpc3RvcGguYm9laG13YWxkZXJAbGluYml0LmNv
-bT4KQ2M6IEplbnMgQXhib2UgPGF4Ym9lQGtlcm5lbC5kaz4KQ2M6IGRyYmQtZGV2QGxpc3RzLmxp
-bmJpdC5jb20KQ2M6IFRlanVuIEhlbyA8dGpAa2VybmVsLm9yZz4KQ2M6IGNncm91cHNAdmdlci5r
-ZXJuZWwub3JnCkNjOiBsaW51eC1ibG9ja0B2Z2VyLmtlcm5lbC5vcmcKU2lnbmVkLW9mZi1ieTog
-U3RldmVuIFJvc3RlZHQgKEdvb2dsZSkgPHJvc3RlZHRAZ29vZG1pcy5vcmc+Ci0tLQogYmxvY2sv
-YmxrLWlvY29zdC5jICAgICAgICAgICAgIHwgMiArLQogYmxvY2svYmxrLWlvbGF0ZW5jeS5jICAg
-ICAgICAgIHwgMiArLQogYmxvY2svYmxrLXN0YXQuYyAgICAgICAgICAgICAgIHwgMiArLQogYmxv
-Y2svYmxrLXRocm90dGxlLmMgICAgICAgICAgIHwgMiArLQogYmxvY2sva3liZXItaW9zY2hlZC5j
-ICAgICAgICAgIHwgMiArLQogZHJpdmVycy9ibG9jay9kcmJkL2RyYmRfbWFpbi5jIHwgMiArLQog
-ZHJpdmVycy9ibG9jay9sb29wLmMgICAgICAgICAgIHwgMiArLQogZHJpdmVycy9ibG9jay9zdW52
-ZGMuYyAgICAgICAgIHwgMiArLQogOCBmaWxlcyBjaGFuZ2VkLCA4IGluc2VydGlvbnMoKyksIDgg
-ZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvYmxvY2svYmxrLWlvY29zdC5jIGIvYmxvY2svYmxr
-LWlvY29zdC5jCmluZGV4IDQ5NTM5NjQyNWJhZC4uN2VkYzY5NWIzYTNkIDEwMDY0NAotLS0gYS9i
-bG9jay9ibGstaW9jb3N0LmMKKysrIGIvYmxvY2svYmxrLWlvY29zdC5jCkBAIC0yODE0LDcgKzI4
-MTQsNyBAQCBzdGF0aWMgdm9pZCBpb2NfcnFvc19leGl0KHN0cnVjdCBycV9xb3MgKnJxb3MpCiAJ
-aW9jLT5ydW5uaW5nID0gSU9DX1NUT1A7CiAJc3Bpbl91bmxvY2tfaXJxKCZpb2MtPmxvY2spOwog
-Ci0JZGVsX3RpbWVyX3N5bmMoJmlvYy0+dGltZXIpOworCXRpbWVyX3NodXRkb3duX3N5bmMoJmlv
-Yy0+dGltZXIpOwogCWZyZWVfcGVyY3B1KGlvYy0+cGNwdV9zdGF0KTsKIAlrZnJlZShpb2MpOwog
-fQpkaWZmIC0tZ2l0IGEvYmxvY2svYmxrLWlvbGF0ZW5jeS5jIGIvYmxvY2svYmxrLWlvbGF0ZW5j
-eS5jCmluZGV4IDU3MWZhOTVhYWZlOS4uYzcwNDlhYjE4MzEyIDEwMDY0NAotLS0gYS9ibG9jay9i
-bGstaW9sYXRlbmN5LmMKKysrIGIvYmxvY2svYmxrLWlvbGF0ZW5jeS5jCkBAIC02NDUsNyArNjQ1
-LDcgQEAgc3RhdGljIHZvaWQgYmxrY2dfaW9sYXRlbmN5X2V4aXQoc3RydWN0IHJxX3FvcyAqcnFv
-cykKIHsKIAlzdHJ1Y3QgYmxrX2lvbGF0ZW5jeSAqYmxraW9sYXQgPSBCTEtJT0xBVEVOQ1kocnFv
-cyk7CiAKLQlkZWxfdGltZXJfc3luYygmYmxraW9sYXQtPnRpbWVyKTsKKwl0aW1lcl9zaHV0ZG93
-bl9zeW5jKCZibGtpb2xhdC0+dGltZXIpOwogCWZsdXNoX3dvcmsoJmJsa2lvbGF0LT5lbmFibGVf
-d29yayk7CiAJYmxrY2dfZGVhY3RpdmF0ZV9wb2xpY3kocnFvcy0+cSwgJmJsa2NnX3BvbGljeV9p
-b2xhdGVuY3kpOwogCWtmcmVlKGJsa2lvbGF0KTsKZGlmZiAtLWdpdCBhL2Jsb2NrL2Jsay1zdGF0
-LmMgYi9ibG9jay9ibGstc3RhdC5jCmluZGV4IDJlYTAxYjVjMWFjYS4uODU1ZGEyMWRlNWRjIDEw
-MDY0NAotLS0gYS9ibG9jay9ibGstc3RhdC5jCisrKyBiL2Jsb2NrL2Jsay1zdGF0LmMKQEAgLTE2
-NSw3ICsxNjUsNyBAQCB2b2lkIGJsa19zdGF0X3JlbW92ZV9jYWxsYmFjayhzdHJ1Y3QgcmVxdWVz
-dF9xdWV1ZSAqcSwKIAkJYmxrX3F1ZXVlX2ZsYWdfY2xlYXIoUVVFVUVfRkxBR19TVEFUUywgcSk7
-CiAJc3Bpbl91bmxvY2tfaXJxcmVzdG9yZSgmcS0+c3RhdHMtPmxvY2ssIGZsYWdzKTsKIAotCWRl
-bF90aW1lcl9zeW5jKCZjYi0+dGltZXIpOworCXRpbWVyX3NodXRkb3duX3N5bmMoJmNiLT50aW1l
-cik7CiB9CiAKIHN0YXRpYyB2b2lkIGJsa19zdGF0X2ZyZWVfY2FsbGJhY2tfcmN1KHN0cnVjdCBy
-Y3VfaGVhZCAqaGVhZCkKZGlmZiAtLWdpdCBhL2Jsb2NrL2Jsay10aHJvdHRsZS5jIGIvYmxvY2sv
-YmxrLXRocm90dGxlLmMKaW5kZXggODQ3NzIxZGMyYjJiLi4zODc0MGM0ZjUxN2EgMTAwNjQ0Ci0t
-LSBhL2Jsb2NrL2Jsay10aHJvdHRsZS5jCisrKyBiL2Jsb2NrL2Jsay10aHJvdHRsZS5jCkBAIC00
-OTAsNyArNDkwLDcgQEAgc3RhdGljIHZvaWQgdGhyb3RsX3BkX2ZyZWUoc3RydWN0IGJsa2dfcG9s
-aWN5X2RhdGEgKnBkKQogewogCXN0cnVjdCB0aHJvdGxfZ3JwICp0ZyA9IHBkX3RvX3RnKHBkKTsK
-IAotCWRlbF90aW1lcl9zeW5jKCZ0Zy0+c2VydmljZV9xdWV1ZS5wZW5kaW5nX3RpbWVyKTsKKwl0
-aW1lcl9zaHV0ZG93bl9zeW5jKCZ0Zy0+c2VydmljZV9xdWV1ZS5wZW5kaW5nX3RpbWVyKTsKIAli
-bGtnX3J3c3RhdF9leGl0KCZ0Zy0+c3RhdF9ieXRlcyk7CiAJYmxrZ19yd3N0YXRfZXhpdCgmdGct
-PnN0YXRfaW9zKTsKIAlrZnJlZSh0Zyk7CmRpZmYgLS1naXQgYS9ibG9jay9reWJlci1pb3NjaGVk
-LmMgYi9ibG9jay9reWJlci1pb3NjaGVkLmMKaW5kZXggYjA1MzU3YmNlZDk5Li4yMTQ2OTY5MjM3
-YmYgMTAwNjQ0Ci0tLSBhL2Jsb2NrL2t5YmVyLWlvc2NoZWQuYworKysgYi9ibG9jay9reWJlci1p
-b3NjaGVkLmMKQEAgLTQzNCw3ICs0MzQsNyBAQCBzdGF0aWMgdm9pZCBreWJlcl9leGl0X3NjaGVk
-KHN0cnVjdCBlbGV2YXRvcl9xdWV1ZSAqZSkKIAlzdHJ1Y3Qga3liZXJfcXVldWVfZGF0YSAqa3Fk
-ID0gZS0+ZWxldmF0b3JfZGF0YTsKIAlpbnQgaTsKIAotCWRlbF90aW1lcl9zeW5jKCZrcWQtPnRp
-bWVyKTsKKwl0aW1lcl9zaHV0ZG93bl9zeW5jKCZrcWQtPnRpbWVyKTsKIAlibGtfc3RhdF9kaXNh
-YmxlX2FjY291bnRpbmcoa3FkLT5xKTsKIAogCWZvciAoaSA9IDA7IGkgPCBLWUJFUl9OVU1fRE9N
-QUlOUzsgaSsrKQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ibG9jay9kcmJkL2RyYmRfbWFpbi5jIGIv
-ZHJpdmVycy9ibG9jay9kcmJkL2RyYmRfbWFpbi5jCmluZGV4IGYzZTRkYjE2ZmQwNy4uMmRjNWJl
-ODlhMDAxIDEwMDY0NAotLS0gYS9kcml2ZXJzL2Jsb2NrL2RyYmQvZHJiZF9tYWluLmMKKysrIGIv
-ZHJpdmVycy9ibG9jay9kcmJkL2RyYmRfbWFpbi5jCkBAIC0yMTg0LDcgKzIxODQsNyBAQCB2b2lk
-IGRyYmRfZGVzdHJveV9kZXZpY2Uoc3RydWN0IGtyZWYgKmtyZWYpCiAJc3RydWN0IGRyYmRfcmVz
-b3VyY2UgKnJlc291cmNlID0gZGV2aWNlLT5yZXNvdXJjZTsKIAlzdHJ1Y3QgZHJiZF9wZWVyX2Rl
-dmljZSAqcGVlcl9kZXZpY2UsICp0bXBfcGVlcl9kZXZpY2U7CiAKLQlkZWxfdGltZXJfc3luYygm
-ZGV2aWNlLT5yZXF1ZXN0X3RpbWVyKTsKKwl0aW1lcl9zaHV0ZG93bl9zeW5jKCZkZXZpY2UtPnJl
-cXVlc3RfdGltZXIpOwogCiAJLyogcGFyYW5vaWEgYXNzZXJ0cyAqLwogCURfQVNTRVJUKGRldmlj
-ZSwgZGV2aWNlLT5vcGVuX2NudCA9PSAwKTsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvYmxvY2svbG9v
-cC5jIGIvZHJpdmVycy9ibG9jay9sb29wLmMKaW5kZXggYWQ5MjE5MmM3ZDYxLi4zZWEwODdjZDFm
-OTkgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvYmxvY2svbG9vcC5jCisrKyBiL2RyaXZlcnMvYmxvY2sv
-bG9vcC5jCkBAIC0xNzU1LDcgKzE3NTUsNyBAQCBzdGF0aWMgdm9pZCBsb19mcmVlX2Rpc2soc3Ry
-dWN0IGdlbmRpc2sgKmRpc2spCiAJaWYgKGxvLT53b3JrcXVldWUpCiAJCWRlc3Ryb3lfd29ya3F1
-ZXVlKGxvLT53b3JrcXVldWUpOwogCWxvb3BfZnJlZV9pZGxlX3dvcmtlcnMobG8sIHRydWUpOwot
-CWRlbF90aW1lcl9zeW5jKCZsby0+dGltZXIpOworCXRpbWVyX3NodXRkb3duX3N5bmMoJmxvLT50
-aW1lcik7CiAJbXV0ZXhfZGVzdHJveSgmbG8tPmxvX211dGV4KTsKIAlrZnJlZShsbyk7CiB9CmRp
-ZmYgLS1naXQgYS9kcml2ZXJzL2Jsb2NrL3N1bnZkYy5jIGIvZHJpdmVycy9ibG9jay9zdW52ZGMu
-YwppbmRleCBmYjg1NWRhOTcxZWUuLmUxNGZlNWQ5NjhkOCAxMDA2NDQKLS0tIGEvZHJpdmVycy9i
-bG9jay9zdW52ZGMuYworKysgYi9kcml2ZXJzL2Jsb2NrL3N1bnZkYy5jCkBAIC0xMDY3LDcgKzEw
-NjcsNyBAQCBzdGF0aWMgdm9pZCB2ZGNfcG9ydF9yZW1vdmUoc3RydWN0IHZpb19kZXYgKnZkZXYp
-CiAKIAkJZmx1c2hfd29yaygmcG9ydC0+bGRjX3Jlc2V0X3dvcmspOwogCQljYW5jZWxfZGVsYXll
-ZF93b3JrX3N5bmMoJnBvcnQtPmxkY19yZXNldF90aW1lcl93b3JrKTsKLQkJZGVsX3RpbWVyX3N5
-bmMoJnBvcnQtPnZpby50aW1lcik7CisJCXRpbWVyX3NodXRkb3duX3N5bmMoJnBvcnQtPnZpby50
-aW1lcik7CiAKIAkJZGVsX2dlbmRpc2socG9ydC0+ZGlzayk7CiAJCXB1dF9kaXNrKHBvcnQtPmRp
-c2spOwotLSAKMi4zNS4xCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyYmQtZGV2IG1haWxpbmcgbGlzdApkcmJkLWRldkBsaXN0cy5saW5iaXQuY29tCmh0
-dHBzOi8vbGlzdHMubGluYml0LmNvbS9tYWlsbWFuL2xpc3RpbmZvL2RyYmQtZGV2Cg==
+On Thu, Nov 3, 2022 at 10:48 PM Steven Rostedt <rostedt@goodmis.org> wrote:
+>
+> Ideally, I would have the first patch go into this rc cycle, which is mostly
+> non functional as it will allow the other patches to come in via the respective
+> subsystems in the next merge window.
+
+Ack.
+
+I also wonder if we could do the completely trivially correct
+conversions immediately.
+
+I'm talking about the scripted ones where it's currently a
+"del_timer_sync()", and the very next action is freeing whatever data
+structure the timer is in (possibly with something like free_irq() in
+between - my point is that there's an unconditional free that is very
+clear and unambiguous), so that there is absolutely no question about
+whether they should use "timer_shutdown_sync()" or not.
+
+IOW, things like patches 03, 17 and 31, and at least parts others in
+this series.
+
+This series clearly has several much more complex cases that need
+actual real code review, and I think it would help to have the
+completely unambiguous cases out of the way, just to get rid of noise.
+
+So I'd take that first patch, and a scripted set of "this cannot
+change any semantics" patches early.
+
+                Linus
+_______________________________________________
+drbd-dev mailing list
+drbd-dev@lists.linbit.com
+https://lists.linbit.com/mailman/listinfo/drbd-dev
