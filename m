@@ -2,74 +2,57 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31D37611596
-	for <lists+drbd-dev@lfdr.de>; Fri, 28 Oct 2022 17:11:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BFB7619027
+	for <lists+drbd-dev@lfdr.de>; Fri,  4 Nov 2022 06:48:51 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A6F464252BE;
-	Fri, 28 Oct 2022 17:11:56 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C26604203D5;
+	Fri,  4 Nov 2022 06:48:50 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com
-	[209.85.167.171])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1859542037C
-	for <drbd-dev@lists.linbit.com>; Fri, 28 Oct 2022 17:11:54 +0200 (CEST)
-Received: by mail-oi1-f171.google.com with SMTP id l5so6434382oif.7
-	for <drbd-dev@lists.linbit.com>; Fri, 28 Oct 2022 08:11:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
-	h=content-transfer-encoding:in-reply-to:from:references:cc:to
-	:content-language:subject:user-agent:mime-version:date:message-id
-	:sender:from:to:cc:subject:date:message-id:reply-to;
-	bh=cu5lq0+6QCF+BQfiaiaRxPUIRB+CVrNKwv+C5DY2DeE=;
-	b=jrBrEVx/TWlLwC/EybmMjgT1gIVbiJljUHbETA5hqF92YxNbERFPM8SLV8vK+xyqHj
-	9jS6lbrYopAtUqlTWoxmEhrkvVuOVnKHs18xrfkN3sQdJWGdEM8ayfOV6/rcHN9MyDGS
-	idiwJN9NfCM2e8NN2NyJ75qSfH6Jw5L/noLRcBMacXiiXUYWcEoONMWesL4OC1T+SBSX
-	zRJEmoAlv5F1PTO0uNPS0M5lwoafv7bkttb/uiMKOTZ5pxkfWBm0uH+r/cEtQLtmdLZy
-	0aGvxyZT6rXQbiuz2oOdZEl+0+YjZU9rPHTO3PCCSEnn0aiYzAOnagzZG5lkxCKy6xOI
-	2NeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20210112;
-	h=content-transfer-encoding:in-reply-to:from:references:cc:to
-	:content-language:subject:user-agent:mime-version:date:message-id
-	:sender:x-gm-message-state:from:to:cc:subject:date:message-id
-	:reply-to;
-	bh=cu5lq0+6QCF+BQfiaiaRxPUIRB+CVrNKwv+C5DY2DeE=;
-	b=lA2aq7gct9SDyOxbXaGYgmRjby3b06fuqeKK+hX8Uc4vXuaSVtPmi5fMsfe4IOfn78
-	yOwAbZlFnLq5Xy1n+k3McSnmJRXcp8klTa+F9C/0SX9aY9NCzKRfHwFmbig4lvons3sI
-	8wZ/Po/QoIwLZDck8KRAJcyAevdjlR04YOfvMyahe50czQmP/Z046sbww426hCPZ1TZM
-	+ct6l8kNKCGaywtjYCHsqvncr/4oEyu6JsNI1o/lWbNOfvKNfM+5cxSue3iaVV1K0pnt
-	xJyoe3O8zJI7UqxLpzMUtLVAYJ6XCOFndYU1UQVc8qHBj0j+ER5DUd1MUTHdO+B7RNib
-	bsiQ==
-X-Gm-Message-State: ACrzQf2SVPj4xPmGmifWVDIrivDzZYeNaEGtS5HqLBTgx9VcUamlJlH4
-	CvfwB3UXtrhA/E5BnrKChnc=
-X-Google-Smtp-Source: AMsMyM5ueVBq7cyjALr6qHrZIqC5QSucVyONEpEUiPzqEpDhX0YcC10pHst5clJUzxGlqh+WW2rQcw==
-X-Received: by 2002:aca:b443:0:b0:359:a4dd:c0 with SMTP id
-	d64-20020acab443000000b00359a4dd00c0mr8575830oif.234.1666969914064;
-	Fri, 28 Oct 2022 08:11:54 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
-	([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-	by smtp.gmail.com with ESMTPSA id
-	z21-20020a9d62d5000000b00666fdab9da7sm1739449otk.78.2022.10.28.08.11.51
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Fri, 28 Oct 2022 08:11:52 -0700 (PDT)
-Message-ID: <6f04aec5-bbff-6154-a0b1-8ad0aec97ec5@roeck-us.net>
-Date: Fri, 28 Oct 2022 08:11:50 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
-	Thunderbird/102.2.2
-Content-Language: en-US
-To: Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org
-References: <20221027150525.753064657@goodmis.org>
-	<20221027150925.819019339@goodmis.org>
-From: Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <20221027150925.819019339@goodmis.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Stephen Boyd <sboyd@kernel.org>,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	linux-block@vger.kernel.org, Tejun Heo <tj@kernel.org>,
-	cgroups@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [RFC][PATCH v2 04/31] timers: block: Use
- del_timer_shutdown() before freeing timer
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id BC82042036A
+	for <drbd-dev@lists.linbit.com>; Fri,  4 Nov 2022 06:48:47 +0100 (CET)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 32B4AB82BE6;
+	Fri,  4 Nov 2022 05:48:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4911C433D6;
+	Fri,  4 Nov 2022 05:48:45 +0000 (UTC)
+Received: from rostedt by gandalf.local.home with local (Exim 4.96)
+	(envelope-from <rostedt@goodmis.org>) id 1oqpZo-0070xm-08;
+	Fri, 04 Nov 2022 01:49:12 -0400
+Message-ID: <20221104054053.431922658@goodmis.org>
+User-Agent: quilt/0.66
+Date: Fri, 04 Nov 2022 01:40:53 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: linux-kernel@vger.kernel.org
+Cc: alsa-devel@alsa-project.org, linux-staging@lists.linux.dev,
+	linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	Thomas Gleixner <tglx@linutronix.de>, linux-leds@vger.kernel.org,
+	drbd-dev@lists.linbit.com, linux-s390@vger.kernel.org,
+	linux-nilfs@vger.kernel.org, linux-scsi@vger.kernel.org,
+	linux-sh@vger.kernel.org, linux-atm-general@lists.sourceforge.net,
+	linux-afs@lists.infradead.org, lvs-devel@vger.kernel.org,
+	linux-acpi@vger.kernel.org, coreteam@netfilter.org,
+	intel-wired-lan@lists.osuosl.org, linux-input@vger.kernel.org,
+	tipc-discussion@lists.sourceforge.net,
+	linux-ext4@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
+	linux-media@vger.kernel.org, bridge@lists.linux-foundation.org,
+	linux-pm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+	rcu@vger.kernel.org, cgroups@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net,
+	Anna-Maria Gleixner <anna-maria@linutronix.de>,
+	linux-edac@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-nfs@vger.kernel.org, linux-parisc@vger.kernel.org,
+	Stephen Boyd <sboyd@kernel.org>, netdev@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+	netfilter-devel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>
+Subject: [Drbd-dev] [RFC][PATCH v3 00/33] timers: Use timer_shutdown*()
+	before freeing timers
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -83,53 +66,203 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On 10/27/22 08:05, Steven Rostedt wrote:
-> From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
-> 
-> Before a timer is freed, del_timer_shutdown() must be called.
-> 
 
-I also had to add the following, as you had already suggested.
+Back in April, I posted an RFC patch set to help mitigate a common issue
+where a timer gets armed just before it is freed, and when the timer
+goes off, it crashes in the timer code without any evidence of who the
+culprit was. I got side tracked and never finished up on that patch set.
+Since this type of crash is still our #1 crash we are seeing in the field,
+it has become a priority again to finish it.
 
-Just changing blk_sync_queue() was insufficient; I had to add the call from
-blk_release_queue() because otherwise blk_sync_queue() was not always called.
+This is v3 of that patch set. Thomas Gleixner posted an untested version
+that makes timer->function NULL as the flag that it is shutdown. I took that
+code, tested it (fixed it up), added more comments, and changed the
+name to timer_shutdown_sync(). I also converted it to use WARN_ON_ONCE()
+instead of just WARN_ON() as Linus asked for.
 
-Thanks,
-Guenter
+I then created a trivial coccinelle script to find where del_timer*()
+is called before being freed, and converted them all to timer_shutdown*()
+(There was a couple that still used del_timer() instead of del_timer_sync()).
 
----
-diff --git a/block/blk-core.c b/block/blk-core.c
-index 17667159482e..69b1daa2e91a 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -227,7 +227,7 @@ const char *blk_status_to_str(blk_status_t status)
-   */
-  void blk_sync_queue(struct request_queue *q)
-  {
--       del_timer_sync(&q->timeout);
-+       del_timer_shutdown(&q->timeout);
-         cancel_work_sync(&q->timeout_work);
-  }
-  EXPORT_SYMBOL(blk_sync_queue);
-diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
-index e71b3b43927c..12a1e46536ed 100644
---- a/block/blk-sysfs.c
-+++ b/block/blk-sysfs.c
-@@ -769,6 +769,8 @@ static void blk_release_queue(struct kobject *kobj)
+I also updated DEBUG_OBJECTS_TIMERS to check from where the timer is ever
+armed, to calling of timer_shutdown_sync(), and it will trigger if a timer
+is freed in between. The current way is to only check if the timer is armed,
+but that means it only triggers if the race condition is hit, and with
+experience, it's not run on enough machines to catch all of them. By triggering
+it from the time the timer is armed to the time it is shutdown, it catches
+all potential cases even if the race condition is not hit.
 
-         percpu_ref_exit(&q->q_usage_counter);
+I went though the result of the cocinelle script, and updated the locations.
+Some locations were caught by DEBUG_OBJECTS_TIMERS as the coccinelle script
+only checked for timers being freed in the same function as the del_timer*().
 
-+       blk_sync_queue(q);
-+
-         if (q->poll_stat)
-                 blk_stat_remove_callback(q, q->poll_cb);
-         blk_stat_free_callback(q->poll_cb);
+Ideally, I would have the first patch go into this rc cycle, which is mostly
+non functional as it will allow the other patches to come in via the respective
+subsystems in the next merge window.
 
+Changes since v2: https://lore.kernel.org/all/20221027150525.753064657@goodmis.org/
+
+ - Talking with Thomas Gleixner, he wanted a better name space and to remove
+   the "del_" portion of the API.
+
+ - Since there's now a shutdown interface that does not synchronize, to keep
+   it closer to del_timer() and del_timer_sync(), the API is now:
+
+    timer_shutdown() - same as del_timer() but deactivates the timer.
+
+    timer_shutdown_sync() - same as del_timer_sync() but deactivates the timer.
+
+ - Added a few more locations that got converted.
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace.git
+trace/timers
+
+Head SHA1: 25106f0bb7968b3e8c746a7853f44b51840746c3
+
+
+Steven Rostedt (Google) (33):
+      timers: Add timer_shutdown_sync() and timer_shutdown() to be called before freeing timers
+      timers: s390/cmm: Use timer_shutdown_sync() before freeing timer
+      timers: sh: Use timer_shutdown_sync() before freeing timer
+      timers: block: Use timer_shutdown_sync() before freeing timer
+      timers: ACPI: Use timer_shutdown_sync() before freeing timer
+      timers: atm: Use timer_shutdown_sync() before freeing timer
+      timers: PM: Use timer_shutdown_sync()
+      timers: Bluetooth: Use timer_shutdown_sync() before freeing timer
+      timers: hangcheck: Use timer_shutdown_sync() before freeing timer
+      timers: ipmi: Use timer_shutdown_sync() before freeing timer
+      random: use timer_shutdown_sync() before freeing timer
+      timers: dma-buf: Use timer_shutdown_sync() before freeing timer
+      timers: drm: Use timer_shutdown_sync() before freeing timer
+      timers: HID: Use timer_shutdown_sync() before freeing timer
+      timers: Input: Use timer_shutdown_sync() before freeing timer
+      timers: mISDN: Use timer_shutdown_sync() before freeing timer
+      timers: leds: Use timer_shutdown_sync() before freeing timer
+      timers: media: Use timer_shutdown_sync() before freeing timer
+      timers: net: Use timer_shutdown_sync() before freeing timer
+      timers: usb: Use timer_shutdown_sync() before freeing timer
+      timers: cgroup: Use timer_shutdown_sync() before freeing timer
+      timers: workqueue: Use timer_shutdown_sync() before freeing timer
+      timers: nfc: pn533: Use timer_shutdown_sync() before freeing timer
+      timers: pcmcia: Use timer_shutdown_sync() before freeing timer
+      timers: scsi: Use timer_shutdown_sync() and timer_shutdown() before freeing timer
+      timers: tty: Use timer_shutdown_sync() before freeing timer
+      timers: ext4: Use timer_shutdown_sync() before freeing timer
+      timers: fs/nilfs2: Use timer_shutdown_sync() before freeing timer
+      timers: ALSA: Use timer_shutdown_sync() before freeing timer
+      timers: jbd2: Use timer_shutdown() before freeing timer
+      timers: sched/psi: Use timer_shutdown_sync() before freeing timer
+      timers: x86/mce: Use __init_timer() for resetting timers
+      timers: Expand DEBUG_OBJECTS_TIMER to check if it ever was used
+
+----
+ .../RCU/Design/Requirements/Requirements.rst       |   2 +-
+ Documentation/core-api/local_ops.rst               |   2 +-
+ Documentation/kernel-hacking/locking.rst           |   5 +
+ arch/s390/mm/cmm.c                                 |   4 +-
+ arch/sh/drivers/push-switch.c                      |   2 +-
+ arch/x86/kernel/cpu/mce/core.c                     |  14 ++-
+ block/blk-iocost.c                                 |   2 +-
+ block/blk-iolatency.c                              |   2 +-
+ block/blk-stat.c                                   |   2 +-
+ block/blk-throttle.c                               |   2 +-
+ block/kyber-iosched.c                              |   2 +-
+ drivers/acpi/apei/ghes.c                           |   2 +-
+ drivers/atm/idt77105.c                             |   4 +-
+ drivers/atm/idt77252.c                             |   4 +-
+ drivers/atm/iphase.c                               |   2 +-
+ drivers/base/power/wakeup.c                        |   7 +-
+ drivers/block/drbd/drbd_main.c                     |   2 +-
+ drivers/block/loop.c                               |   2 +-
+ drivers/block/sunvdc.c                             |   2 +-
+ drivers/bluetooth/hci_bcsp.c                       |   2 +-
+ drivers/bluetooth/hci_h5.c                         |   2 +-
+ drivers/bluetooth/hci_qca.c                        |   4 +-
+ drivers/char/hangcheck-timer.c                     |   4 +-
+ drivers/char/ipmi/ipmi_msghandler.c                |   2 +-
+ drivers/char/ipmi/ipmi_ssif.c                      |   4 +-
+ drivers/char/random.c                              |   2 +-
+ drivers/dma-buf/st-dma-fence.c                     |   2 +-
+ drivers/gpu/drm/gud/gud_pipe.c                     |   2 +-
+ drivers/gpu/drm/i915/i915_sw_fence.c               |   2 +-
+ drivers/hid/hid-wiimote-core.c                     |   2 +-
+ drivers/input/keyboard/locomokbd.c                 |   2 +-
+ drivers/input/keyboard/omap-keypad.c               |   2 +-
+ drivers/input/mouse/alps.c                         |   2 +-
+ drivers/input/serio/hil_mlc.c                      |   2 +-
+ drivers/input/serio/hp_sdc.c                       |   2 +-
+ drivers/isdn/hardware/mISDN/hfcmulti.c             |   6 +-
+ drivers/isdn/mISDN/l1oip_core.c                    |   4 +-
+ drivers/isdn/mISDN/timerdev.c                      |   4 +-
+ drivers/leds/trigger/ledtrig-activity.c            |   2 +-
+ drivers/leds/trigger/ledtrig-heartbeat.c           |   2 +-
+ drivers/leds/trigger/ledtrig-pattern.c             |   2 +-
+ drivers/leds/trigger/ledtrig-transient.c           |   2 +-
+ drivers/media/pci/ivtv/ivtv-driver.c               |   2 +-
+ drivers/media/usb/pvrusb2/pvrusb2-hdw.c            |  18 ++--
+ drivers/media/usb/s2255/s2255drv.c                 |   4 +-
+ drivers/net/ethernet/intel/i40e/i40e_main.c        |   6 +-
+ drivers/net/ethernet/marvell/sky2.c                |   2 +-
+ drivers/net/ethernet/sun/sunvnet.c                 |   2 +-
+ drivers/net/usb/sierra_net.c                       |   2 +-
+ drivers/net/wireless/intel/iwlwifi/iwl-dbg-tlv.c   |   2 +-
+ drivers/net/wireless/intersil/hostap/hostap_ap.c   |   2 +-
+ drivers/net/wireless/marvell/mwifiex/main.c        |   2 +-
+ drivers/net/wireless/microchip/wilc1000/hif.c      |   8 +-
+ drivers/nfc/pn533/pn533.c                          |   2 +-
+ drivers/nfc/pn533/uart.c                           |   2 +-
+ drivers/pcmcia/bcm63xx_pcmcia.c                    |   2 +-
+ drivers/pcmcia/electra_cf.c                        |   2 +-
+ drivers/pcmcia/omap_cf.c                           |   2 +-
+ drivers/pcmcia/pd6729.c                            |   4 +-
+ drivers/pcmcia/yenta_socket.c                      |   4 +-
+ drivers/scsi/qla2xxx/qla_edif.c                    |   4 +-
+ drivers/scsi/scsi_lib.c                            |   1 +
+ drivers/staging/media/atomisp/i2c/atomisp-lm3554.c |   2 +-
+ drivers/tty/n_gsm.c                                |   2 +-
+ drivers/tty/sysrq.c                                |   2 +-
+ drivers/usb/gadget/udc/m66592-udc.c                |   2 +-
+ drivers/usb/serial/garmin_gps.c                    |   2 +-
+ drivers/usb/serial/mos7840.c                       |   2 +-
+ fs/ext4/super.c                                    |   2 +-
+ fs/jbd2/journal.c                                  |   2 +
+ fs/nilfs2/segment.c                                |   2 +-
+ include/linux/timer.h                              | 100 +++++++++++++++++--
+ include/linux/workqueue.h                          |   4 +-
+ kernel/cgroup/cgroup.c                             |   2 +-
+ kernel/sched/psi.c                                 |   1 +
+ kernel/time/timer.c                                | 106 ++++++++++++++-------
+ kernel/workqueue.c                                 |   4 +-
+ net/802/garp.c                                     |   2 +-
+ net/802/mrp.c                                      |   2 +-
+ net/bridge/br_multicast.c                          |   6 +-
+ net/bridge/br_multicast_eht.c                      |   4 +-
+ net/core/gen_estimator.c                           |   2 +-
+ net/core/neighbour.c                               |   2 +
+ net/ipv4/inet_connection_sock.c                    |   2 +-
+ net/ipv4/inet_timewait_sock.c                      |   3 +-
+ net/ipv4/ipmr.c                                    |   2 +-
+ net/ipv6/ip6mr.c                                   |   2 +-
+ net/mac80211/mesh_pathtbl.c                        |   2 +-
+ net/netfilter/ipset/ip_set_list_set.c              |   2 +-
+ net/netfilter/ipvs/ip_vs_lblc.c                    |   2 +-
+ net/netfilter/ipvs/ip_vs_lblcr.c                   |   2 +-
+ net/netfilter/xt_LED.c                             |   2 +-
+ net/rxrpc/conn_object.c                            |   2 +-
+ net/sched/cls_flow.c                               |   2 +-
+ net/sunrpc/svc.c                                   |   2 +-
+ net/sunrpc/xprt.c                                  |   2 +-
+ net/tipc/discover.c                                |   2 +-
+ net/tipc/monitor.c                                 |   2 +-
+ sound/i2c/other/ak4117.c                           |   2 +-
+ sound/synth/emux/emux.c                            |   2 +-
+ 100 files changed, 310 insertions(+), 175 deletions(-)
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
