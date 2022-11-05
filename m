@@ -2,60 +2,48 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 551E661DDB3
-	for <lists+drbd-dev@lfdr.de>; Sat,  5 Nov 2022 20:31:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71AD761DE1E
+	for <lists+drbd-dev@lfdr.de>; Sat,  5 Nov 2022 22:03:34 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E2C8842177E;
-	Sat,  5 Nov 2022 20:31:34 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E779B42177E;
+	Sat,  5 Nov 2022 22:03:33 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com
-	[209.85.167.175])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 929C84201E3
-	for <drbd-dev@lists.linbit.com>; Sat,  5 Nov 2022 20:31:33 +0100 (CET)
-Received: by mail-oi1-f175.google.com with SMTP id b124so8447340oia.4
-	for <drbd-dev@lists.linbit.com>; Sat, 05 Nov 2022 12:31:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
-	h=in-reply-to:content-disposition:mime-version:references:message-id
-	:subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-	:reply-to; bh=CTlAHc9k7qwIZyOhFoXagieaQq5pwRyAvyi0mAOE5RE=;
-	b=jURw19XL/xOvCrYwmv2aWUKdeAoWjP9YO+FTg9LO7kNLGP2qrxnNI/DeaM/hhYlqsP
-	YdQYptnzjKsYbbyAKOY5T5QWBhSSLuRj9tx/h3x3Iolz6OENad9xOgpnNTl3bQfF4abr
-	IGnRZ+gwoVhjhy8eDyzb76gdYWeTNG8HbYJzf+upnNf3q7GfCqhXHTbMnctQM+lT4ISN
-	LgN+zILvYp/x3cxyWSBN67VcIOLSthpIiMe3XVQLxJ5DNQbV3DpA0r2y4Xi6Om/6kI/T
-	+bTGJHJtUOpMMkvOkxDlr0Z5JMnZYu43sVpFgzYDCR/HFlqDOFJ8Z5bQFtUlln66Rbqg
-	ggdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20210112;
-	h=in-reply-to:content-disposition:mime-version:references:message-id
-	:subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-	:subject:date:message-id:reply-to;
-	bh=CTlAHc9k7qwIZyOhFoXagieaQq5pwRyAvyi0mAOE5RE=;
-	b=A+SVBWlaEx0DmohwiHpCWL5KQv1q9x/7xiXg3GZM63j1pvBMvJBR9HswOk8aerFr1G
-	BcLYyX6o4KbfNnSRNgayYGLn6JobjAAde/73t9gRinXiK77fjbBSKPMDDOp7GaJBVVLT
-	TEvVOu/p/Cm1FDAnGRoCZQjjFqFsbIca3sCrYfWDFNKZ2WzG4PeqUDutYZhTroIrbti3
-	xET3aQ4jkXmlQCMgjOU94opcCjsqLWIRZ3dTworh+C7jeI5JoV/DCV2VUS7VQNzz5yiv
-	vuEDeLumqeyR9u44kAs9iQDQ/+8iiPxtspgzo9nxPkdVj6BnMpt0zDIjBpwtRIk3dg/I
-	DEaw==
-X-Gm-Message-State: ACrzQf2nl1lJgxmEjPVHHWHNEHYFVynO77UaLQwQ/5ecTJEpU9eG9CPN
-	Ta75xGP8G3Jfgr7AMQy1qps=
-X-Google-Smtp-Source: AMsMyM7VRYR4ja1354r4nOb4sGsFC9SF+e+FSsFCXSIKNyBk3irIl03bXoaveyKZeBBPlTvKUXlEMQ==
-X-Received: by 2002:a05:6808:1708:b0:351:728b:3a03 with SMTP id
-	bc8-20020a056808170800b00351728b3a03mr22106906oib.275.1667676692450;
-	Sat, 05 Nov 2022 12:31:32 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-	by smtp.gmail.com with ESMTPSA id
-	l14-20020a4ac60e000000b00499499a8e18sm834040ooq.5.2022.11.05.12.31.31
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 05 Nov 2022 12:31:31 -0700 (PDT)
-Date: Sat, 5 Nov 2022 12:31:29 -0700
-From: Guenter Roeck <linux@roeck-us.net>
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 297794201E3
+	for <drbd-dev@lists.linbit.com>; Sat,  5 Nov 2022 22:03:31 +0100 (CET)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 5B12CB808C4;
+	Sat,  5 Nov 2022 21:03:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69FADC433D6;
+	Sat,  5 Nov 2022 21:03:26 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+	dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+	header.b="Ek158U/I"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+	t=1667682204;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	in-reply-to:in-reply-to:references:references;
+	bh=eqdLYS8BDcnZ1CTVSLTL2V9mpBrsInljjeWX569KabI=;
+	b=Ek158U/IwAdzp/7JgxH8/niYIDD2c7iDpM/q00frrsf+kptgL3uCiSQ7Xlb7SIQ9YvTtg5
+	hlBVvQrg9GahoQxIsHXxgh/CGzM4sTACdo/WX2PYJwuZbLx0SZ+njeVN3snq9LgpG5MQMr
+	EBxmnADIwq+lyFhZU+rPI7l5k3bHDuo=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id f7ca4808
+	(TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+	Sat, 5 Nov 2022 21:03:23 +0000 (UTC)
+Date: Sat, 5 Nov 2022 22:03:18 +0100
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
 To: Steven Rostedt <rostedt@goodmis.org>
-Message-ID: <20221105193129.GA1487775@roeck-us.net>
+Message-ID: <Y2bPlllkHo5DUmLY@zx2c4.com>
 References: <20221105060024.598488967@goodmis.org>
+	<CAHk-=wi95dGkg7DiuOZ27gGW+mxJipn9ykB6LHB-HrbbLG6OMQ@mail.gmail.com>
+	<20221105123642.596371c7@rorschach.local.home>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20221105060024.598488967@goodmis.org>
+In-Reply-To: <20221105123642.596371c7@rorschach.local.home>
 Cc: alsa-devel@alsa-project.org, linux-staging@lists.linux.dev,
 	linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
 	linaro-mm-sig@lists.linaro.org,
@@ -67,10 +55,11 @@ Cc: alsa-devel@alsa-project.org, linux-staging@lists.linux.dev,
 	linux-acpi@vger.kernel.org, coreteam@netfilter.org,
 	intel-wired-lan@lists.osuosl.org, linux-input@vger.kernel.org,
 	tipc-discussion@lists.sourceforge.net,
-	linux-ext4@vger.kernel.org, linux-media@vger.kernel.org,
-	bridge@lists.linux-foundation.org, linux-pm@vger.kernel.org,
-	intel-gfx@lists.freedesktop.org, rcu@vger.kernel.org,
-	cgroups@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
+	linux-ext4@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
+	linux-media@vger.kernel.org, bridge@lists.linux-foundation.org,
+	linux-pm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+	rcu@vger.kernel.org, cgroups@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net,
 	Anna-Maria Gleixner <anna-maria@linutronix.de>,
 	linux-edac@vger.kernel.org, linux-block@vger.kernel.org,
 	linux-nfs@vger.kernel.org, linux-parisc@vger.kernel.org,
@@ -99,38 +88,34 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Sat, Nov 05, 2022 at 02:00:24AM -0400, Steven Rostedt wrote:
-> 
-> Back in April, I posted an RFC patch set to help mitigate a common issue
-> where a timer gets armed just before it is freed, and when the timer
-> goes off, it crashes in the timer code without any evidence of who the
-> culprit was. I got side tracked and never finished up on that patch set.
-> Since this type of crash is still our #1 crash we are seeing in the field,
-> it has become a priority again to finish it.
-> 
-> The last version of that patch set is here:
-> 
->   https://lore.kernel.org/all/20221104054053.431922658@goodmis.org/
-> 
-> I'm calling this version 4a as it only has obvious changes were the timer that
-> is being shutdown is in the same function where it will be freed or released,
-> as this series should be "safe" for adding. I'll be calling the other patches
-> 4b for the next merge window.
-> 
+On Sat, Nov 05, 2022 at 12:36:42PM -0400, Steven Rostedt wrote:
+> ----------------------8<------------------------
+> @@
+> identifier ptr, timer, rfield, slab;
+> @@
+> (
+> -	del_timer(&ptr->timer);
+> +	timer_shutdown(&ptr->timer);
+> |
+> -	del_timer_sync(&ptr->timer);
+> +	timer_shutdown_sync(&ptr->timer);
+> )
+>     ...
+> (
+> 	kfree_rcu(ptr, rfield);
+> |
+> 	kmem_cache_free(slab, ptr);
+> |
+> 	kfree(ptr);
+> )
+> ---------------------->8------------------------
 
-For the series, as far as my testbed goes:
+Something that might help here is changing the `...` into
+`... when exists` or into `... when != ptr` or similar.
+See this section of the manual:
+https://coccinelle.gitlabpages.inria.fr/website/docs/main_grammar004.html
 
-Build results:
-	total: 152 pass: 152 fail: 0
-Qemu test results:
-	total: 500 pass: 500 fail: 0
-
-No runtime crashes or warnings observed.
-
-Tested-by: Guenter Roeck <linux@roeck-us.net>
-
-Guenter
-
+Jason
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
