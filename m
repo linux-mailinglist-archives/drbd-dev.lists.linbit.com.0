@@ -2,65 +2,31 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CAD861F135
-	for <lists+drbd-dev@lfdr.de>; Mon,  7 Nov 2022 11:54:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8847D621BC2
+	for <lists+drbd-dev@lfdr.de>; Tue,  8 Nov 2022 19:21:10 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A5A334204B5;
-	Mon,  7 Nov 2022 11:54:54 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1A12F42178C;
+	Tue,  8 Nov 2022 19:21:10 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 468 seconds by postgrey-1.31 at mail19;
-	Mon, 07 Nov 2022 11:54:53 CET
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5FEB24201F6
-	for <drbd-dev@lists.linbit.com>; Mon,  7 Nov 2022 11:54:53 +0100 (CET)
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1667818024;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	in-reply-to:in-reply-to:references:references;
-	bh=qnhu/C4/dTNGh+9YxTAUPF0AHXOgpdZiA4TofS1TDao=;
-	b=m8gFAB2FYV5B4BIkkbSCrPl5kngI1vwmC89wOqBJ/q73+RRLDUvN8153YBd0ancpYaUudU
-	+fTzmJoLwRrrXw9ulhVtc41yRIMLNrOmB9kVLUOAn2xwOs861TQYPTmwfVqoXOpGOLsPn5
-	hNBacxD9XN6Mi6tXS/NIbwjqzso2C6oqm6/L/mt2cpmfqfHELnCL8o8Pn38Ir7+eD8OVqk
-	Lj3kRr5Ls1MIF7+wsJc3Ym/BQIZf8UhWrd8aE7FpoY/qhjIfIvELeoa8/ZXUqY5eKhjinO
-	ZF4FT08X0F8jeyihKYji9kBCreFY8X9nEznXEcECfWmIcYVRm4zXH9JmYOmiiQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1667818024;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	in-reply-to:in-reply-to:references:references;
-	bh=qnhu/C4/dTNGh+9YxTAUPF0AHXOgpdZiA4TofS1TDao=;
-	b=bzVvnuX1mysTSSrkmkIGsLumN3FZV+biUwiIDeLZdScudMhEXojJ3c4U7ytkUdHNPdLCjD
-	NbhAMzPLE4OU4lBA==
-To: Steven Rostedt <rostedt@goodmis.org>, Linus Torvalds
-	<torvalds@linux-foundation.org>
-In-Reply-To: <20221106223256.4bbdb018@rorschach.local.home>
-References: <20221106223256.4bbdb018@rorschach.local.home>
-Date: Mon, 07 Nov 2022 11:47:04 +0100
-Message-ID: <87pmdzvy6v.ffs@tglx>
+X-Greylist: delayed 524 seconds by postgrey-1.31 at mail19;
+	Mon, 07 Nov 2022 13:17:01 CET
+Received: from fx.arvanta.net (static-213-198-238-194.adsl.eunet.rs
+	[213.198.238.194])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7FEF24202F3
+	for <drbd-dev@lists.linbit.com>; Mon,  7 Nov 2022 13:17:01 +0100 (CET)
+Received: from m1 (ab.arvanta.net [10.5.1.5])
+	by fx.arvanta.net (Postfix) with SMTP id 4D50227FE1
+	for <drbd-dev@lists.linbit.com>; Mon,  7 Nov 2022 13:08:16 +0100 (CET)
+Date: Mon, 7 Nov 2022 13:08:14 +0100
+From: Milan =?utf-8?Q?P=2E_Stani=C4=87?= <mps@arvanta.net>
+To: drbd-dev@lists.linbit.com
+Message-ID: <Y2j1Lmr2afaEYvBu@m1>
 MIME-Version: 1.0
-Cc: alsa-devel@alsa-project.org, linux-staging@lists.linux.dev,
-	linux-sh@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-afs@lists.infradead.org, linux-leds@vger.kernel.org,
-	drbd-dev@lists.linbit.com, lvs-devel@vger.kernel.org,
-	linux-nilfs@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-atm-general@lists.sourceforge.net,
-	Julia Lawall <Julia.Lawall@inria.fr>, linux-acpi@vger.kernel.org,
-	coreteam@netfilter.org, intel-wired-lan@lists.osuosl.org,
-	linux-input@vger.kernel.org, tipc-discussion@lists.sourceforge.net,
-	linux-ext4@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
-	linux-media@vger.kernel.org, bridge@lists.linux-foundation.org,
-	intel-gfx@lists.freedesktop.org, linux-block@vger.kernel.org,
-	cgroups@vger.kernel.org, Anna-Maria Gleixner <anna-maria@linutronix.de>,
-	linux-nfs@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
-	netdev@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org, netfilter-devel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [Drbd-dev] [GIT PULL] treewide: timers: Use timer_shutdown*()
- before freeing timers
+Content-Disposition: inline
+X-Mailman-Approved-At: Tue, 08 Nov 2022 19:21:09 +0100
+Subject: [Drbd-dev] [BUG] drbdadm_parser.c:1968:63: error: 'glob_t' has no
+ member named 'gl_flags'
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -79,19 +45,43 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Linus,
+Hi,
 
-On Sun, Nov 06 2022 at 22:32, Steven Rostedt wrote:
-> As discussed here:
->
->   https://lore.kernel.org/all/20221106212427.739928660@goodmis.org/
+[ Please Cc to me, I'm not subscribed to this mailing list ]
 
-Please hold off. It's only nits, but tip has documented rules and random
-pull requests are not making them go away.
+I'm trying to build drbd-tools 9.22.0 on Alpine Linux which is based on
+musl libc (and not glibc).
 
-Thanks,
+Build fail with this error:
+-----------------------------
+drbdadm_parser.c: In function 'include_stmt':
+drbdadm_parser.c:1968:63: error: 'glob_t' has no member named 'gl_flags'
+ 1968 |                         } else if (errno == ENOENT && glob_buf.gl_flags & GLOB_MAGCHAR) {
+      |                                                               ^
+drbdadm_parser.c:1968:75: error: 'GLOB_MAGCHAR' undeclared (first use in this function)
+ 1968 |                         } else if (errno == ENOENT && glob_buf.gl_flags & GLOB_MAGCHAR) {
+      |                                                                           ^~~~~~~~~~~~
+drbdadm_parser.c:1968:75: note: each undeclared identifier is reported only once for each function it appears in
+make[1]: *** [<builtin>: drbdadm_parser.o] Error 1
+make[1]: *** Waiting for unfinished jobs....
+make[1]: Leaving directory '/home/mps/aports/main/drbd-utils/src/drbd-utils-9.22.0/user/v9'
+make: *** [Makefile:90: tools] Error 2
+>>> ERROR: drbd-utils: build failed
+-----------------------------
 
-        tglx
+Musl libc glob.h doesn't have gl_flags nor GLOB_MAGCHAR because it is
+non standard glibc extension.
+
+I reverted https://github.com/LINBIT/drbd-utils/commit/4a1b590090bf676cdfb10c198505b95b9eeb3120
+commit and then drbd-tools builds fine.
+
+Not sure is this revert safe to push drbd-utils in next Alpine release
+(which planned for next week) or there is better fix.
+
+TIA
+
+-- 
+Kind regards
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
