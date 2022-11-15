@@ -2,32 +2,62 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id A727C6287B5
-	for <lists+drbd-dev@lfdr.de>; Mon, 14 Nov 2022 19:01:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87B14629B88
+	for <lists+drbd-dev@lfdr.de>; Tue, 15 Nov 2022 15:07:01 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 33BC842066F;
-	Mon, 14 Nov 2022 19:01:17 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6A422420968;
+	Tue, 15 Nov 2022 15:07:01 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from fx.arvanta.net (static-213-198-238-194.adsl.eunet.rs
-	[213.198.238.194])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id AC2BB4203B4
-	for <drbd-dev@lists.linbit.com>; Mon, 14 Nov 2022 19:01:14 +0100 (CET)
-Received: from m1 (ab.arvanta.net [10.5.1.5])
-	by fx.arvanta.net (Postfix) with ESMTP id 1674D283DC;
-	Mon, 14 Nov 2022 19:01:14 +0100 (CET)
-Date: Mon, 14 Nov 2022 19:01:12 +0100
-From: Milan =?utf-8?Q?P=2E_Stani=C4=87?= <mps@arvanta.net>
-To: Roland Kammerer <roland.kammerer@linbit.com>
-Message-ID: <Y3KCaAhsz9ViOKz9@m1>
-References: <Y2j1Lmr2afaEYvBu@m1>
- <Y3IB2V2TXOzNac1H@rck.sh>
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+	[209.85.221.48])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 02C6A4205B8
+	for <drbd-dev@lists.linbit.com>; Tue, 15 Nov 2022 14:16:47 +0100 (CET)
+Received: by mail-wr1-f48.google.com with SMTP id z14so24053194wrn.7
+	for <drbd-dev@lists.linbit.com>; Tue, 15 Nov 2022 05:16:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+	h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+	:from:to:cc:subject:date:message-id:reply-to;
+	bh=PBoJDQnhlmWZlV1VrcsZgizsnIm6qCYmmX9Ncnb4i4Y=;
+	b=dkckIW1PVglmNO6MtTydvtrSHdn8XftgrOE0/j3P3C0l90RJJG+MFkv5wPUKQVyCvL
+	ZqsdfvMEgw250jSUd7Yg89ETICa1EpJqkZgH/4lhiF34kqRmCHO76VhmZtIXHLg5jMZo
+	ttixW1zvox8Z+GdXVEPHQ9Fqy9HZAhnRT5NjO2elAb/2a+lHYAWvFKvK4XlVZFWKBGrM
+	VRlGlVyOgsDPrEzh/Wv4QEk2gR/5j4Z3MR8ZUZsU1C5AjAUWoFWZXvcYQRdC+Wrm2bvj
+	J4X6cslSnS7fTd89LOBpxInv/HP8H9xSs51/Zj9oAKaZK6gFTyUHeVVPaAjt+JeV8tiU
+	hUeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20210112;
+	h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+	:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+	bh=PBoJDQnhlmWZlV1VrcsZgizsnIm6qCYmmX9Ncnb4i4Y=;
+	b=SoFCQ+dLWsLlmuP7ang6zXRy/AKcDE5NSWc6aYeLCamPFB6p/3zmh5b+aV195dvwdF
+	nB+OiClXhKnLJFJp9or1HtkYyUfSu+HvOxFRfFl67eGBaYkTHl9Lcl08Hc3FFmwkQoQB
+	2Ba+n5nJ8QRwAugGi+jAZzS5AsWp2Kupp/XsssiQ9jSlIAXKgCwSEG2j8JjSFdK7NZDg
+	WXjcrKwWrAOEx3hwM1xAu+rFTt+s6KRFMsXwehfdzM8F40wuY1DcReOd3FUcxNdOO9hg
+	09PdJ7YhDIst7C6+4KD+mz05NeBO35oi3npjX3rDQlf2otRXWpyybWZM2z+IuwvYIJ19
+	traQ==
+X-Gm-Message-State: ANoB5pkO9E9C6dCDFQYM+WqLYAJaAduThlhltATzweMmO2GvmIbbcZ5b
+	ytL5Ti24JzeNFX9xnBcewbo=
+X-Google-Smtp-Source: AA0mqf4oQzxbBTQYDlzEXnGARcEIi7wxDyi7MBe1ZuPB1+4ZO4/fj69rdF4JEloD5NtpcD7tQQqBGg==
+X-Received: by 2002:adf:a3de:0:b0:236:5655:13a5 with SMTP id
+	m30-20020adfa3de000000b00236565513a5mr10625325wrb.477.1668518207324;
+	Tue, 15 Nov 2022 05:16:47 -0800 (PST)
+Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
+	n18-20020a7bcbd2000000b003cf9bf5208esm20580871wmi.19.2022.11.15.05.16.46
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 15 Nov 2022 05:16:47 -0800 (PST)
+Date: Tue, 15 Nov 2022 16:16:43 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Philipp Reisner <philipp.reisner@linbit.com>
+Message-ID: <Y3Jd5iZRbNQ9w6gm@kili>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <Y3IB2V2TXOzNac1H@rck.sh>
-Cc: drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [BUG] drbdadm_parser.c:1968:63: error: 'glob_t' has
- no member named 'gl_flags'
+X-Mailer: git-send-email haha only kidding
+X-Mailman-Approved-At: Tue, 15 Nov 2022 15:06:59 +0100
+Cc: Jens Axboe <axboe@kernel.dk>, kernel-janitors@vger.kernel.org,
+	Andreas Gruenbacher <agruen@linbit.com>, linux-block@vger.kernel.org,
+	Lars Ellenberg <lars.ellenberg@linbit.com>, drbd-dev@lists.linbit.com
+Subject: [Drbd-dev] [PATCH] drbd: use after free in drbd_create_device()
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,36 +71,65 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-SGksCgpbIFBsZWFzZSBDYyB0byBtZSwgSSdtIG5vdCBzdWJzY3JpYmVkIHRvIHRoaXMgbWFpbGlu
-ZyBsaXN0IF0KCk9uIE1vbiwgMjAyMi0xMS0xNCBhdCAwOTo1MiwgUm9sYW5kIEthbW1lcmVyIHdy
-b3RlOgo+IE9uIE1vbiwgTm92IDA3LCAyMDIyIGF0IDAxOjA4OjE0UE0gKzAxMDAsIE1pbGFuIFAu
-IFN0YW5pxIcgd3JvdGU6Cj4gPiBIaSwKPiA+IAo+ID4gWyBQbGVhc2UgQ2MgdG8gbWUsIEknbSBu
-b3Qgc3Vic2NyaWJlZCB0byB0aGlzIG1haWxpbmcgbGlzdCBdCj4gPiAKPiA+IEknbSB0cnlpbmcg
-dG8gYnVpbGQgZHJiZC10b29scyA5LjIyLjAgb24gQWxwaW5lIExpbnV4IHdoaWNoIGlzIGJhc2Vk
-IG9uCj4gPiBtdXNsIGxpYmMgKGFuZCBub3QgZ2xpYmMpLgo+ID4gCj4gPiBbLi4uXQo+ID4gCj4g
-PiBNdXNsIGxpYmMgZ2xvYi5oIGRvZXNuJ3QgaGF2ZSBnbF9mbGFncyBub3IgR0xPQl9NQUdDSEFS
-IGJlY2F1c2UgaXQgaXMKPiA+IG5vbiBzdGFuZGFyZCBnbGliYyBleHRlbnNpb24uCj4gCj4gdGhh
-bmtzIGZvciByZXBvcnRpbmcsIHRoaXMgc2hvdWxkIGJlIGZpeGVkIGluCj4gaHR0cHM6Ly9naXRo
-dWIuY29tL0xJTkJJVC9kcmJkLXV0aWxzL2NvbW1pdC8zM2Q1ZThmNzA2NjExNmJkMGE3MDZjN2Nk
-ZGE0OTUwODk1MTY0ZDM0Cj4gCj4gPiBJIHJldmVydGVkIGh0dHBzOi8vZ2l0aHViLmNvbS9MSU5C
-SVQvZHJiZC11dGlscy9jb21taXQvNGExYjU5MDA5MGJmNjc2Y2RmYjEwYzE5ODUwNWI5NWI5ZWVi
-MzEyMAo+ID4gY29tbWl0IGFuZCB0aGVuIGRyYmQtdG9vbHMgYnVpbGRzIGZpbmUuCj4gPiAKPiA+
-IE5vdCBzdXJlIGlzIHRoaXMgcmV2ZXJ0IHNhZmUgdG8gcHVzaCBkcmJkLXV0aWxzIGluIG5leHQg
-QWxwaW5lIHJlbGVhc2UKPiA+ICh3aGljaCBwbGFubmVkIGZvciBuZXh0IHdlZWspIG9yIHRoZXJl
-IGlzIGJldHRlciBmaXguCj4gCj4gSSB0aGluayByZXZlcnRpbmcgZm9yIG5vdyBpcyBwZXJmZWN0
-bHkgZmluZSwgdGhpcyBkZXNlcnZlZCBhIGZpeCwgYnV0IEkKPiBkb24ndCB0aGluayBpdCBhY3R1
-YWxseSBoYXBwZW5lZCBpbiB0aGUgd2lsZCB0aGF0IG9mdGVuLi4uIE9yIHlvdSBwaWNrCj4gdGhl
-IHByb3Bvc2VkIGZpeCwgd2hpY2ggd291bGQgYmUgYSBnb29kIHRlc3QgZm9yIHVzIGFzIHdlbGwu
-IEN1cnJlbnRseQoKSSBwaWNrZWQgYWJvdmUgY29tbWl0IGFuZCBidWlsZCB3aXRoIGl0IHBhc3Nl
-ZCBmaW5lLgpUaGFuayB5b3UgZm9yIGZpeC4KCj4gSSdtIG5vdCBzdXJlIHdoZW4gdGhlIG5leHQg
-b2ZmaWNpYWwgcmVsZWFzZSB3aWxsIGJlIGRvbmUsIGN1cnJlbnQgZ3V0Cj4gZmVlbGluZyBpcyBu
-b3QgZW5vdWdoIGludGVyZXN0aW5nIHRoaW5ncyBwZW9wbGUgd291bGQgd2FpdCBmb3IgaGFzIGhh
-dmUKPiBoYXBwZW5lZC4KCi0tIApLaW5kIHJlZ2FyZHMKCj4gCj4gUmVnYXJkcywgcmNrCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyYmQtZGV2IG1haWxp
-bmcgbGlzdApkcmJkLWRldkBsaXN0cy5saW5iaXQuY29tCmh0dHBzOi8vbGlzdHMubGluYml0LmNv
-bS9tYWlsbWFuL2xpc3RpbmZvL2RyYmQtZGV2Cg==
+The drbd_destroy_connection() frees the "connection" so use the _safe()
+iterator to prevent a use after free.
+
+Fixes: b6f85ef9538b ("drbd: Iterate over all connections")
+Signed-off-by: Dan Carpenter <error27@gmail.com>
+---
+Smatch assumes that kref_put() generally calls the free function so it
+gets very confused by drbd_delete_device() which calls:
+
+	kref_put(&device->kref, drbd_destroy_device);
+
+Four times in a row.  (Smatch has some checking for incremented
+reference counts but even there it assumes that people are going to hold
+one reference and not four).
+
+drivers/block/drbd/drbd_main.c:2831 drbd_delete_device() error: dereferencing freed memory 'device'
+drivers/block/drbd/drbd_main.c:2833 drbd_delete_device() warn: passing freed memory 'device'
+drivers/block/drbd/drbd_main.c:2835 drbd_delete_device() error: dereferencing freed memory 'device'
+
+The drbd_adm_get_status_all() function makes me itch as well.  It seems
+like we drop a reference and then take it again?
+
+drivers/block/drbd/drbd_nl.c:4019 drbd_adm_get_status_all() warn: 'resource' was already freed.
+drivers/block/drbd/drbd_nl.c:4021 drbd_adm_get_status_all() warn: 'resource' was already freed.
+
+ drivers/block/drbd/drbd_main.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
+index f3e4db16fd07..8532b839a343 100644
+--- a/drivers/block/drbd/drbd_main.c
++++ b/drivers/block/drbd/drbd_main.c
+@@ -2672,7 +2672,7 @@ static int init_submitter(struct drbd_device *device)
+ enum drbd_ret_code drbd_create_device(struct drbd_config_context *adm_ctx, unsigned int minor)
+ {
+ 	struct drbd_resource *resource = adm_ctx->resource;
+-	struct drbd_connection *connection;
++	struct drbd_connection *connection, *n;
+ 	struct drbd_device *device;
+ 	struct drbd_peer_device *peer_device, *tmp_peer_device;
+ 	struct gendisk *disk;
+@@ -2789,7 +2789,7 @@ enum drbd_ret_code drbd_create_device(struct drbd_config_context *adm_ctx, unsig
+ 	return NO_ERROR;
+ 
+ out_idr_remove_from_resource:
+-	for_each_connection(connection, resource) {
++	for_each_connection_safe(connection, n, resource) {
+ 		peer_device = idr_remove(&connection->peer_devices, vnr);
+ 		if (peer_device)
+ 			kref_put(&connection->kref, drbd_destroy_connection);
+-- 
+2.35.1
+
+_______________________________________________
+drbd-dev mailing list
+drbd-dev@lists.linbit.com
+https://lists.linbit.com/mailman/listinfo/drbd-dev
