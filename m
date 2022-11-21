@@ -2,66 +2,46 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FE12629CAC
-	for <lists+drbd-dev@lfdr.de>; Tue, 15 Nov 2022 15:53:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0075E632154
+	for <lists+drbd-dev@lfdr.de>; Mon, 21 Nov 2022 12:53:20 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id F0618420968;
-	Tue, 15 Nov 2022 15:53:47 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B4D8F421743;
+	Mon, 21 Nov 2022 12:53:20 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
-	[209.85.216.42])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5E5E542066F
-	for <drbd-dev@lists.linbit.com>; Tue, 15 Nov 2022 15:53:46 +0100 (CET)
-Received: by mail-pj1-f42.google.com with SMTP id b11so13543645pjp.2
-	for <drbd-dev@lists.linbit.com>; Tue, 15 Nov 2022 06:53:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-	h=content-transfer-encoding:mime-version:date:message-id:subject
-	:references:in-reply-to:cc:to:from:from:to:cc:subject:date
-	:message-id:reply-to;
-	bh=WqjcdjpLsoL1Sqz9oJDZoMzkh39Xnz2DBWZewDQM7Sc=;
-	b=7tIDnYTLtfv0L5ZjlthYlIwVOoHtVajWXmO9gHo+vkjmbCv1IREY3v2ZkBYi2slEBA
-	0KlALE7BNWXa5LRUXApTqtKE9fFKuN7iau0BkcIUN4I0JFdW7re69sC6E/3YYymbtAlL
-	bo3rwP4Oa43y7KGpUVxLN2edMbSsTO9U/fU6GLdP70tofJkjTdbKrhz1FacMS0vE99dp
-	Y0pLrOMApffiRVGGjUbG0FVjFZlbRVescHldzb7UUfsFrBLtbSKjkv1WoXDwrOYaFTdh
-	Sb2pRJMvsKXreySJaGv8QKGVgUi73htPvSqOBu6RPckeQrcnB/cXECcoOyfkZpS1SsRQ
-	y+2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20210112;
-	h=content-transfer-encoding:mime-version:date:message-id:subject
-	:references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-	:subject:date:message-id:reply-to;
-	bh=WqjcdjpLsoL1Sqz9oJDZoMzkh39Xnz2DBWZewDQM7Sc=;
-	b=gH/vQ5XoYyN1tKwjYIrdH74ltTKSOvumArHZqctF2I9mk4lHeWyM4H65Fs4BeRD6+3
-	UWFDIzGJ9HEMhZ/GekgKEogIC+obFCysIdfS8oLg5NCDFpaTvmS7xSSMQOPVeny+iutD
-	N5/0In8QUrjJI5IFTt+W/TB76eB50H3fiNpLtS/iNFVxV4fg+YTUkZ9phpHgk9/SUo/r
-	uj1b1B//ZRQ6vdgzBCHD74wWMXPTGxJ30Ny9WNbL1jMVaX0T+5UnxchznyDrW/Asw+sN
-	QlD4cWs/arlKSeDc5VhNACO03BdwW4sTeGgN1mpfGnA6xydvdTrsxFJn694XtGrc6gRV
-	BGxw==
-X-Gm-Message-State: ANoB5pl3csBt/QyvO0qCRt6Zg7+oJIv+FBpiUlet9Ko7KT7S63yh2DlL
-	mtaN48BRX0XIJ7XawD+8V0w3Iw==
-X-Google-Smtp-Source: AA0mqf7+NkyZyIW84lcZoHs630G1Ja5ItM2JG9NhebZZrHQ9N6P9XMR7R7WmU9LPsJy3Cii3kohVRQ==
-X-Received: by 2002:a17:902:74cc:b0:17c:5b01:f227 with SMTP id
-	f12-20020a17090274cc00b0017c5b01f227mr4463180plt.3.1668524025037;
-	Tue, 15 Nov 2022 06:53:45 -0800 (PST)
-Received: from [127.0.0.1] ([198.8.77.157]) by smtp.gmail.com with ESMTPSA id
-	q39-20020a17090a17aa00b0020d67a726easm11751158pja.10.2022.11.15.06.53.43
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 15 Nov 2022 06:53:44 -0800 (PST)
-From: Jens Axboe <axboe@kernel.dk>
-To: Philipp Reisner <philipp.reisner@linbit.com>,
-	Dan Carpenter <error27@gmail.com>
-In-Reply-To: <Y3Jd5iZRbNQ9w6gm@kili>
-References: <Y3Jd5iZRbNQ9w6gm@kili>
-Message-Id: <166852402392.12848.9236710140570124289.b4-ty@kernel.dk>
-Date: Tue, 15 Nov 2022 07:53:43 -0700
+X-Greylist: delayed 1041 seconds by postgrey-1.31 at mail19;
+	Mon, 21 Nov 2022 12:30:43 CET
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 461C34202EC
+	for <drbd-dev@lists.linbit.com>;
+	Mon, 21 Nov 2022 12:30:43 +0100 (CET)
+Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.53])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4NG4Vg2RCMzHw0v;
+	Mon, 21 Nov 2022 19:12:43 +0800 (CST)
+Received: from dggpemm500015.china.huawei.com (7.185.36.181) by
+	dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP
+	Server
+	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+	15.1.2375.31; Mon, 21 Nov 2022 19:13:18 +0800
+Received: from huawei.com (10.175.103.91) by dggpemm500015.china.huawei.com
+	(7.185.36.181) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31;
+	Mon, 21 Nov 2022 19:13:17 +0800
+From: Wang ShaoBo <bobo.shaobowang@huawei.com>
+To: 
+Date: Mon, 21 Nov 2022 19:11:38 +0800
+Message-ID: <20221121111138.3665586-1-bobo.shaobowang@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Mailer: b4 0.11.0-dev-d9ed3
-Cc: Andreas Gruenbacher <agruen@linbit.com>, kernel-janitors@vger.kernel.org,
-	linux-block@vger.kernel.org, Lars Ellenberg <lars.ellenberg@linbit.com>,
+X-Originating-IP: [10.175.103.91]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+	dggpemm500015.china.huawei.com (7.185.36.181)
+X-CFilter-Loop: Reflected
+X-Mailman-Approved-At: Mon, 21 Nov 2022 12:53:19 +0100
+Cc: linux-block@vger.kernel.org, axboe@kernel.dk, liwei391@huawei.com,
 	drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH] drbd: use after free in drbd_create_device()
+Subject: [Drbd-dev] [PATCH] drbd: destroy workqueue when drbd device was
+	freed
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -80,21 +60,41 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Tue, 15 Nov 2022 16:16:43 +0300, Dan Carpenter wrote:
-> The drbd_destroy_connection() frees the "connection" so use the _safe()
-> iterator to prevent a use after free.
-> 
-> 
+A submitter workqueue is dynamically allocated by init_submitter()
+called by drbd_create_device(), we should destroy it when this
+device was not needed or destroyed.
 
-Applied, thanks!
+Fixes: 113fef9e20e0 ("drbd: prepare to queue write requests on a submit worker")
+Signed-off-by: Wang ShaoBo <bobo.shaobowang@huawei.com>
+---
+ drivers/block/drbd/drbd_main.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-[1/1] drbd: use after free in drbd_create_device()
-      commit: a7a1598189228b5007369a9622ccdf587be0730f
-
-Best regards,
+diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
+index 8532b839a343..467c498e3add 100644
+--- a/drivers/block/drbd/drbd_main.c
++++ b/drivers/block/drbd/drbd_main.c
+@@ -2218,6 +2218,9 @@ void drbd_destroy_device(struct kref *kref)
+ 		kfree(peer_device);
+ 	}
+ 	memset(device, 0xfd, sizeof(*device));
++
++	if (device->submit.wq)
++		destroy_workqueue(device->submit.wq);
+ 	kfree(device);
+ 	kref_put(&resource->kref, drbd_destroy_resource);
+ }
+@@ -2810,6 +2813,8 @@ enum drbd_ret_code drbd_create_device(struct drbd_config_context *adm_ctx, unsig
+ 	put_disk(disk);
+ out_no_disk:
+ 	kref_put(&resource->kref, drbd_destroy_resource);
++	if (device->submit.wq)
++		destroy_workqueue(device->submit.wq);
+ 	kfree(device);
+ 	return err;
+ }
 -- 
-Jens Axboe
-
+2.25.1
 
 _______________________________________________
 drbd-dev mailing list
