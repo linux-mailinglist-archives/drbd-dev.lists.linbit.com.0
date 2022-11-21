@@ -2,49 +2,67 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A72D6321C5
-	for <lists+drbd-dev@lfdr.de>; Mon, 21 Nov 2022 13:19:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9B0A6325D3
+	for <lists+drbd-dev@lfdr.de>; Mon, 21 Nov 2022 15:30:51 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 15B40420FC2;
-	Mon, 21 Nov 2022 13:19:48 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0156242096D;
+	Mon, 21 Nov 2022 15:30:51 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4B1F14205C8
-	for <drbd-dev@lists.linbit.com>;
-	Mon, 21 Nov 2022 12:58:01 +0100 (CET)
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.56])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4NG5QQ5c87zqSYr;
-	Mon, 21 Nov 2022 19:54:06 +0800 (CST)
-Received: from dggpemm500015.china.huawei.com (7.185.36.181) by
-	dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP
-	Server
-	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
-	15.1.2375.31; Mon, 21 Nov 2022 19:58:00 +0800
-Received: from [10.174.177.133] (10.174.177.133) by
-	dggpemm500015.china.huawei.com (7.185.36.181) with Microsoft SMTP
-	Server
-	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
-	15.1.2375.31; Mon, 21 Nov 2022 19:57:59 +0800
-To: =?UTF-8?Q?Christoph_B=c3=b6hmwalder?= <christoph.boehmwalder@linbit.com>
-References: <20221121111138.3665586-1-bobo.shaobowang@huawei.com>
-	<3603e71c-cd9d-fd27-7c52-1eed263e8717@linbit.com>
-From: "Wangshaobo (bobo)" <bobo.shaobowang@huawei.com>
-Message-ID: <ff347eb2-d36a-480c-8de7-cb01a2ee35e0@huawei.com>
-Date: Mon, 21 Nov 2022 19:57:53 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
-	Thunderbird/68.1.0
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
+	[209.85.214.175])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 8C3F94203A1
+	for <drbd-dev@lists.linbit.com>; Mon, 21 Nov 2022 15:30:47 +0100 (CET)
+Received: by mail-pl1-f175.google.com with SMTP id 4so10776276pli.0
+	for <drbd-dev@lists.linbit.com>; Mon, 21 Nov 2022 06:30:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+	h=content-transfer-encoding:in-reply-to:from:references:cc:to
+	:content-language:subject:user-agent:mime-version:date:message-id
+	:from:to:cc:subject:date:message-id:reply-to;
+	bh=fKdPBgf4F1DbPho+543ze8p/JJM5iKRRHyH33ew0++Y=;
+	b=jrZpJYDRNZTvL91G/bFgw/1STzMW33rYKTqBLYy3vYffZlw43RahxhV6wxQRpWZIxX
+	x6HipJ6s1wVjbg2BH9m2MwYh8gKj0JTDaxUmGi1o5nakjAaUciEROc15usDK0vKqyhOl
+	9L7usg5AghzAPNpNNYrHDerJTUfeA1BB08UKuRUzfDCVZWX65+0/8j9Y54d4vjEVy8vJ
+	921jD7JwFe6auLnSeXFhtVGp8RvIuE0XdQmcpeaEyKdtvhjB40A7Ef/vjR69OgPMAtrt
+	HqjR+34LdHESiPMp+x6DE+vgGi2UGolxpohdnwzGLJ6mkV/cPANuyPR+RgqjiZKvK7Ll
+	MXmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20210112;
+	h=content-transfer-encoding:in-reply-to:from:references:cc:to
+	:content-language:subject:user-agent:mime-version:date:message-id
+	:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+	bh=fKdPBgf4F1DbPho+543ze8p/JJM5iKRRHyH33ew0++Y=;
+	b=MOvRsoEv4rp85nUQwukFI3LVJVeS3CPTL3WCnza8gOq/yC2KJXG407pDUNAUWjgA3T
+	EuIRZXNhhNEcm5AbhG1ao3zJEuGb7mPuy754mSyJcId23c4CtksG2Q+/HJwD5ZAD4u+n
+	nyQddJA8xMkpbR7eWT13m2dtstvHsHLNmhj0iwG07QG9mPIIraPXIeuyahejsibIGsEQ
+	BxuJ/VrzrTUmM9nWxpRr39ItmALJUP5Q603FElkBWrj/0FkYHiXAh5Iub/YZ3v10g5Zu
+	E4CbVCj/0NKTHK3kQaNYEdbW/oyBD7VUJdbIE4gUiupAWkxz9MjgMICl7y1fAFFH6H2E
+	rbvg==
+X-Gm-Message-State: ANoB5pmw2zNGBhby0dD3r+u4XY2Z5SuuDMnXLY5wThu+hCUURq2hR1BM
+	ZWSXTOMfx/GfwRNHHe9m0pGtCg==
+X-Google-Smtp-Source: AA0mqf6/+g7r5XsHDkk4PBUMLfIhfGYA2phFatP0/v3K1w6nUxS3oOR1xEvbfvt5d9rob8XbgwhAWw==
+X-Received: by 2002:a17:90a:8c96:b0:218:7e9d:8d0a with SMTP id
+	b22-20020a17090a8c9600b002187e9d8d0amr17088134pjo.41.1669041046463;
+	Mon, 21 Nov 2022 06:30:46 -0800 (PST)
+Received: from [192.168.1.136] ([198.8.77.157])
+	by smtp.gmail.com with ESMTPSA id
+	z2-20020a626502000000b0057255b7c8easm8776251pfb.33.2022.11.21.06.30.45
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Mon, 21 Nov 2022 06:30:46 -0800 (PST)
+Message-ID: <c0e639ea-caa0-f76c-c369-0d22a49047ca@kernel.dk>
+Date: Mon, 21 Nov 2022 07:30:44 -0700
 MIME-Version: 1.0
-In-Reply-To: <3603e71c-cd9d-fd27-7c52-1eed263e8717@linbit.com>
-X-Originating-IP: [10.174.177.133]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
-	dggpemm500015.china.huawei.com (7.185.36.181)
-X-CFilter-Loop: Reflected
-X-Mailman-Approved-At: Mon, 21 Nov 2022 13:19:46 +0100
-Cc: linux-block@vger.kernel.org, axboe@kernel.dk, liwei391@huawei.com,
-	drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH] drbd: destroy workqueue when drbd device was
-	freed
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+	Thunderbird/102.4.1
+Content-Language: en-US
+To: Wang ShaoBo <bobo.shaobowang@huawei.com>
+References: <20221121115047.3828385-1-bobo.shaobowang@huawei.com>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20221121115047.3828385-1-bobo.shaobowang@huawei.com>
+Cc: linux-block@vger.kernel.org, liwei391@huawei.com, drbd-dev@lists.linbit.com
+Subject: Re: [Drbd-dev] [RESEND PATCH] drbd: destroy workqueue when drbd
+	device was freed
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -58,41 +76,50 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-CuWcqCAyMDIyLzExLzIxIDE5OjUxLCBDaHJpc3RvcGggQsO2aG13YWxkZXIg5YaZ6YGTOgo+IEFt
-IDIxLjExLjIyIHVtIDEyOjExIHNjaHJpZWIgV2FuZyBTaGFvQm86Cj4+IEEgc3VibWl0dGVyIHdv
-cmtxdWV1ZSBpcyBkeW5hbWljYWxseSBhbGxvY2F0ZWQgYnkgaW5pdF9zdWJtaXR0ZXIoKQo+PiBj
-YWxsZWQgYnkgZHJiZF9jcmVhdGVfZGV2aWNlKCksIHdlIHNob3VsZCBkZXN0cm95IGl0IHdoZW4g
-dGhpcwo+PiBkZXZpY2Ugd2FzIG5vdCBuZWVkZWQgb3IgZGVzdHJveWVkLgo+Pgo+PiBGaXhlczog
-MTEzZmVmOWUyMGUwICgiZHJiZDogcHJlcGFyZSB0byBxdWV1ZSB3cml0ZSByZXF1ZXN0cyBvbiBh
-IHN1Ym1pdCB3b3JrZXIiKQo+PiBTaWduZWQtb2ZmLWJ5OiBXYW5nIFNoYW9CbyA8Ym9iby5zaGFv
-Ym93YW5nQGh1YXdlaS5jb20+Cj4+IC0tLQo+PiAgIGRyaXZlcnMvYmxvY2svZHJiZC9kcmJkX21h
-aW4uYyB8IDUgKysrKysKPj4gICAxIGZpbGUgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspCj4+Cj4+
-IGRpZmYgLS1naXQgYS9kcml2ZXJzL2Jsb2NrL2RyYmQvZHJiZF9tYWluLmMgYi9kcml2ZXJzL2Js
-b2NrL2RyYmQvZHJiZF9tYWluLmMKPj4gaW5kZXggODUzMmI4MzlhMzQzLi40NjdjNDk4ZTNhZGQg
-MTAwNjQ0Cj4+IC0tLSBhL2RyaXZlcnMvYmxvY2svZHJiZC9kcmJkX21haW4uYwo+PiArKysgYi9k
-cml2ZXJzL2Jsb2NrL2RyYmQvZHJiZF9tYWluLmMKPj4gQEAgLTIyMTgsNiArMjIxOCw5IEBAIHZv
-aWQgZHJiZF9kZXN0cm95X2RldmljZShzdHJ1Y3Qga3JlZiAqa3JlZikKPj4gICAJCWtmcmVlKHBl
-ZXJfZGV2aWNlKTsKPj4gICAJfQo+PiAgIAltZW1zZXQoZGV2aWNlLCAweGZkLCBzaXplb2YoKmRl
-dmljZSkpOwo+PiArCj4+ICsJaWYgKGRldmljZS0+c3VibWl0LndxKQo+PiArCQlkZXN0cm95X3dv
-cmtxdWV1ZShkZXZpY2UtPnN1Ym1pdC53cSk7Cj4+ICAgCWtmcmVlKGRldmljZSk7Cj4+ICAgCWty
-ZWZfcHV0KCZyZXNvdXJjZS0+a3JlZiwgZHJiZF9kZXN0cm95X3Jlc291cmNlKTsKPj4gICB9Cj4+
-IEBAIC0yODEwLDYgKzI4MTMsOCBAQCBlbnVtIGRyYmRfcmV0X2NvZGUgZHJiZF9jcmVhdGVfZGV2
-aWNlKHN0cnVjdCBkcmJkX2NvbmZpZ19jb250ZXh0ICphZG1fY3R4LCB1bnNpZwo+PiAgIAlwdXRf
-ZGlzayhkaXNrKTsKPj4gICBvdXRfbm9fZGlzazoKPj4gICAJa3JlZl9wdXQoJnJlc291cmNlLT5r
-cmVmLCBkcmJkX2Rlc3Ryb3lfcmVzb3VyY2UpOwo+PiArCWlmIChkZXZpY2UtPnN1Ym1pdC53cSkK
-Pj4gKwkJZGVzdHJveV93b3JrcXVldWUoZGV2aWNlLT5zdWJtaXQud3EpOwo+PiAgIAlrZnJlZShk
-ZXZpY2UpOwo+PiAgIAlyZXR1cm4gZXJyOwo+PiAgIH0KPiBUaGFua3MgZm9yIHRoZSBwYXRjaC4K
-Pgo+IFVuZm9ydHVuYXRlbHksIChhdCBsZWFzdCkgdGhlIGZpcnN0IGh1bmsgaXMgYnVnZ3k6IHdl
-IG1lbXNldCgpIHRoZQo+IGRldmljZSB0byBhbGwgMHhmZCwgYW5kIHRyeSB0byBhY2Nlc3MgaXQg
-aW1tZWRpYXRlbHkgYWZ0ZXJ3YXJkcy4KPgo+IFRoaXMgb2J2aW91c2x5IGxlYWRzIHRvIGludmFs
-aWQgbWVtb3J5IGFjY2Vzcy4KCkhpIENocmlzdG9waCwKCkkgZm91bmQgdGhhdCBlcnJvciwgc28g
-SSBoYXZlIHNlbnQgYSBSRVNFTkQgdmVyc2lvbiwgaSB3b3VsZCBiZSBhcHByZWNpYXRlZAoKaWYg
-eW91IGNvdWxkIGhlbHAgY2hlY2sgbXkgcGF0Y2guXi1eCgotLSBXYW5nIFNoYW9CbwoKPgpfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmJkLWRldiBtYWls
-aW5nIGxpc3QKZHJiZC1kZXZAbGlzdHMubGluYml0LmNvbQpodHRwczovL2xpc3RzLmxpbmJpdC5j
-b20vbWFpbG1hbi9saXN0aW5mby9kcmJkLWRldgo=
+On 11/21/22 4:50 AM, Wang ShaoBo wrote:
+> A submitter workqueue is dynamically allocated by init_submitter()
+> called by drbd_create_device(), we should destroy it when this
+> device is not needed or destroyed.
+> 
+> Fixes: 113fef9e20e0 ("drbd: prepare to queue write requests on a submit worker")
+> Signed-off-by: Wang ShaoBo <bobo.shaobowang@huawei.com>
+> ---
+> 
+> Changes in RESEND:
+>   put destroy_workqueue() before memset(device, ...)
+> 
+>  drivers/block/drbd/drbd_main.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
+> index 8532b839a343..082bc34cd317 100644
+> --- a/drivers/block/drbd/drbd_main.c
+> +++ b/drivers/block/drbd/drbd_main.c
+> @@ -2217,7 +2217,12 @@ void drbd_destroy_device(struct kref *kref)
+>  		kref_put(&peer_device->connection->kref, drbd_destroy_connection);
+>  		kfree(peer_device);
+>  	}
+> +
+> +	if (device->submit.wq)
+> +		destroy_workqueue(device->submit.wq);
+> +
+>  	memset(device, 0xfd, sizeof(*device));
+> +
+>  	kfree(device);
+
+Maybe you can send a separate patch killing that very odd (and useless)
+memset as well?
+
+-- 
+Jens Axboe
+
+
+_______________________________________________
+drbd-dev mailing list
+drbd-dev@lists.linbit.com
+https://lists.linbit.com/mailman/listinfo/drbd-dev
