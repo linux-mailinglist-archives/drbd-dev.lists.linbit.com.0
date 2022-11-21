@@ -2,72 +2,61 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2CC363353B
-	for <lists+drbd-dev@lfdr.de>; Tue, 22 Nov 2022 07:25:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D56963353C
+	for <lists+drbd-dev@lfdr.de>; Tue, 22 Nov 2022 07:25:29 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 400BC4252BF;
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6788C4252C8;
 	Tue, 22 Nov 2022 07:25:25 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com
-	[209.85.166.45])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7138B4204B5
-	for <drbd-dev@lists.linbit.com>; Mon, 21 Nov 2022 22:43:33 +0100 (CET)
-Received: by mail-io1-f45.google.com with SMTP id c7so9598498iof.13
-	for <drbd-dev@lists.linbit.com>; Mon, 21 Nov 2022 13:43:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=content-transfer-encoding:in-reply-to:from:references:cc:to
-	:content-language:subject:user-agent:mime-version:date:message-id
-	:from:to:cc:subject:date:message-id:reply-to;
-	bh=ImVe+g+b+10JJjRyFbVg3VQDLgN59Ue/Abv7vaFmseQ=;
-	b=OHO4FjaPJmimqdrzS/OkstIvhocxCz1emkoHfOdBnFW624ABdZXIGpUr2qg1Kuoid7
-	jQ3zRS/xznKzGtwvpkBw8YcBHanbAjUGKtSMJ92a5WUJdkI77H4tBot4cVhu32vyccdd
-	iMTMhCXmKhazzg9UmrMMNr5aOJxLl31QLMnEw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20210112;
-	h=content-transfer-encoding:in-reply-to:from:references:cc:to
-	:content-language:subject:user-agent:mime-version:date:message-id
-	:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-	bh=ImVe+g+b+10JJjRyFbVg3VQDLgN59Ue/Abv7vaFmseQ=;
-	b=yUKhte77Yk4dqIBs2N1FV0a1paYKd4z516ZHgAqZju4oMEKzmY17BDRcjKI0zygBKH
-	oy224MydrDJdvVVqHfkStA5BPvzKm90v+mS3kNmxVwI+5gp+5HNbiXtnq3/ft6PZhrlg
-	suajT6xOP3MNUxDUjg+KtXj5SsEC6CmUvBZ9I63uxmeTVkifGuthQAMNqw319tEJ9z7J
-	5Ng3IYvjlRkDtJU3BCsoRpzLcO83CIFvuvjdFezwldP4+EApJZ9CO2HelA9ornAJhtgO
-	PYTiZkjiBr5VMYFeLlrONy2LNrSWeUl1AEQvXHAEyX2Oxu16h9NlvXPMxnH8qw6nbr3y
-	XCWw==
-X-Gm-Message-State: ANoB5pmx5OYDd+eV25s2g4gkNyXJDCQNSyp2fP6DqElW2qCv+xu48nif
-	qagRz/q0gHBxUD/L+RZspKwBpA==
-X-Google-Smtp-Source: AA0mqf7f7poc1w7ewSMxS1++ciq574fA83Q7zTNUSYFoHm3cWPyzQwbrRSPhTjg/tqVe+6wU++ijsA==
-X-Received: by 2002:a5d:9c0d:0:b0:6de:e346:27d4 with SMTP id
-	13-20020a5d9c0d000000b006dee34627d4mr639526ioe.138.1669067012402;
-	Mon, 21 Nov 2022 13:43:32 -0800 (PST)
-Received: from [192.168.1.128] ([38.15.45.1]) by smtp.gmail.com with ESMTPSA id
-	p5-20020a92c105000000b00302a7165d9bsm3672008ile.53.2022.11.21.13.43.30
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Mon, 21 Nov 2022 13:43:31 -0800 (PST)
-Message-ID: <26d98c8f-372b-b9c8-c29f-096cddaff149@linuxfoundation.org>
-Date: Mon, 21 Nov 2022 14:43:29 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
-	Thunderbird/102.4.2
-Content-Language: en-US
-To: Benjamin Coddington <bcodding@redhat.com>,
-	David Howells <dhowells@redhat.com>
+Received: from us-smtp-delivery-124.mimecast.com
+	(us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E07F54204B5
+	for <drbd-dev@lists.linbit.com>; Mon, 21 Nov 2022 23:02:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1669068134;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	content-transfer-encoding:content-transfer-encoding:
+	in-reply-to:in-reply-to:references:references;
+	bh=YMKd/Bs7qgKxK3d2yDLuSvYLpTNEB6rexVneY8E6It8=;
+	b=J9UbiYc/SxnBN1Q4GYUNXqPoHIQoZz3s0CMMTfMeLrQpY46MEy+rvt5XkKYejLJGUQbubI
+	2/o0ezqglDL8pqHTdaQeIclsMB4sDG2+yOdwknNdkSz62YJ7V52069EInm+mwhICvqtctg
+	AYU2WoT5C99V18BEVJOlGZhogdJIjOQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+	[66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+	(version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	us-mta-97-BCJecrIfN9ORT1g62yEryw-1; Mon, 21 Nov 2022 17:02:12 -0500
+X-MC-Unique: BCJecrIfN9ORT1g62yEryw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.5])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B4575101A5C0;
+	Mon, 21 Nov 2022 22:02:03 +0000 (UTC)
+Received: from [172.16.176.1] (unknown [10.22.50.7])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B2304EA47;
+	Mon, 21 Nov 2022 22:01:46 +0000 (UTC)
+From: Benjamin Coddington <bcodding@redhat.com>
+To: Shuah Khan <skhan@linuxfoundation.org>
+Date: Mon, 21 Nov 2022 17:01:42 -0500
+Message-ID: <A860595D-5BAB-461B-B449-8975C0424311@redhat.com>
+In-Reply-To: <26d98c8f-372b-b9c8-c29f-096cddaff149@linuxfoundation.org>
 References: <c2ec184226acd21a191ccc1aa46a1d7e43ca7104.1669036433.git.bcodding@redhat.com>
 	<cover.1669036433.git.bcodding@redhat.com>
 	<382872.1669039019@warthog.procyon.org.uk>
 	<51B5418D-34FB-4E87-B87A-6C3FCDF8B21C@redhat.com>
 	<4585e331-03ad-959f-e715-29af15f63712@linuxfoundation.org>
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <4585e331-03ad-959f-e715-29af15f63712@linuxfoundation.org>
+	<26d98c8f-372b-b9c8-c29f-096cddaff149@linuxfoundation.org>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 X-Mailman-Approved-At: Tue, 22 Nov 2022 07:25:23 +0100
 Cc: Latchesar Ionkov <lucho@ionkov.net>, samba-technical@lists.samba.org,
 	Dominique Martinet <asmadeus@codewreck.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
 	Valentina Manea <valentina.manea.m@gmail.com>,
 	linux-nvme@lists.infradead.org,
 	Philipp Reisner <philipp.reisner@linbit.com>,
+	David Howells <dhowells@redhat.com>,
 	Joseph Qi <joseph.qi@linux.alibaba.com>,
 	Eric Dumazet <edumazet@google.com>, linux-nfs@vger.kernel.org,
 	Marc Dionne <marc.dionne@auristor.com>,
@@ -112,39 +101,44 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On 11/21/22 14:40, Shuah Khan wrote:
-> On 11/21/22 07:34, Benjamin Coddington wrote:
->> On 21 Nov 2022, at 8:56, David Howells wrote:
->>
->>> Benjamin Coddington <bcodding@redhat.com> wrote:
->>>
->>>> Since moving to memalloc_nofs_save/restore, SUNRPC has stopped setting the
->>>> GFP_NOIO flag on sk_allocation which the networking system uses to decide
->>>> when it is safe to use current->task_frag.
->>>
->>> Um, what's task_frag?
->>
->> Its a per-task page_frag used to coalesce small writes for networking -- see:
->>
->> 5640f7685831 net: use a per task frag allocator
->>
->> Ben
->>
->>
-> 
-> I am not seeing this in the mainline. Where can find this commit?
-> 
+On 21 Nov 2022, at 16:43, Shuah Khan wrote:
 
-Okay. I see this commit in the mainline. However, I don't see the
-sk_use_task_frag in mainline.
+> On 11/21/22 14:40, Shuah Khan wrote:
+>> On 11/21/22 07:34, Benjamin Coddington wrote:
+>>> On 21 Nov 2022, at 8:56, David Howells wrote:
+>>>
+>>>> Benjamin Coddington <bcodding@redhat.com> wrote:
+>>>>
+>>>>> Since moving to memalloc_nofs_save/restore, SUNRPC has stopped setting the
+>>>>> GFP_NOIO flag on sk_allocation which the networking system uses to decide
+>>>>> when it is safe to use current->task_frag.
+>>>>
+>>>> Um, what's task_frag?
+>>>
+>>> Its a per-task page_frag used to coalesce small writes for networking -- see:
+>>>
+>>> 5640f7685831 net: use a per task frag allocator
+>>>
+>>> Ben
+>>>
+>>>
+>>
+>> I am not seeing this in the mainline. Where can find this commit?
+>>
+>
+> Okay. I see this commit in the mainline. However, I don't see the
+> sk_use_task_frag in mainline.
 
-thanks,
--- Shuah
+sk_use_task_frag is in patch 1/3 in this posting.
+
+https://lore.kernel.org/netdev/26d98c8f-372b-b9c8-c29f-096cddaff149@linuxfoundation.org/T/#m3271959c4cf8dcff1c0c6ba023b2b3821d9e7e99
+
+Ben
 
 _______________________________________________
 drbd-dev mailing list
