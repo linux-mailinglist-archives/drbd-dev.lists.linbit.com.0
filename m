@@ -2,105 +2,69 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A85A63353D
-	for <lists+drbd-dev@lfdr.de>; Tue, 22 Nov 2022 07:25:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15CA2633BF9
+	for <lists+drbd-dev@lfdr.de>; Tue, 22 Nov 2022 13:02:00 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 8A5CC4252CE;
-	Tue, 22 Nov 2022 07:25:25 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 80555421743;
+	Tue, 22 Nov 2022 13:01:59 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com
-	[209.85.166.46])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A3B3A4203A1
-	for <drbd-dev@lists.linbit.com>; Mon, 21 Nov 2022 23:32:06 +0100 (CET)
-Received: by mail-io1-f46.google.com with SMTP id y6so9701291iof.9
-	for <drbd-dev@lists.linbit.com>; Mon, 21 Nov 2022 14:32:06 -0800 (PST)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+	[209.85.221.47])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 09507421743
+	for <drbd-dev@lists.linbit.com>; Tue, 22 Nov 2022 13:01:53 +0100 (CET)
+Received: by mail-wr1-f47.google.com with SMTP id s5so7166701wru.1
+	for <drbd-dev@lists.linbit.com>; Tue, 22 Nov 2022 04:01:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=content-transfer-encoding:in-reply-to:from:references:cc:to
-	:content-language:subject:user-agent:mime-version:date:message-id
+	d=linbit-com.20210112.gappssmtp.com; s=20210112;
+	h=content-transfer-encoding:in-reply-to:from:content-language
+	:references:cc:to:subject:user-agent:mime-version:date:message-id
 	:from:to:cc:subject:date:message-id:reply-to;
-	bh=C14m+5yBrv+u7QhAN78BFentZAFfnah8l0PUC4om7m8=;
-	b=Hffgzad5MotJq5EstTpwFVQ55zJ2m4sb3dYfhAhqq6QB33wEMcRLHmm2P2eeaxcyl7
-	AuWzz1/l9u/1PZyxMCWxsiA0Q6e5fRCsSvqJb8QkirXxS7f+WkWGHtcgrG5qSrXeSLS7
-	dJYa3L0ToHNG/CDOCknNOKSmu/izuTLa+EFwY=
+	bh=qb4RJR8ylDg3gto72YXsWpWWkJFXTlWFNAJNj7lhF2c=;
+	b=IlZaDJz1Pp3VXP8AR9lNUegK3XlNLzsrtowBNmH/uMteoUt3vouFTIWaD3E3SC2rjv
+	PJKWOE1QyHTH/Ue1stpp9ZhZUKiuGRmRg9AZntzUbbWjKzMvmz1cvAJUVshYtho7b6TN
+	mI2YKvpfZzvuZm4rCS7Q+5i2gnoMke7yqLm3vJ8XOlyiLpMbSKoOzN7sgUX9qo+lJjL3
+	+fwj8odyIqRSn9fAkAF+zoCZayjFLT3VNX/fp5+7jN1AuAfzy87lSW3CTTUiG0TmpZdo
+	zkK8nAAsvEui9nCbBNU6tm8eQ6FqQrJWs496XpbsvqM4eCg986k8M92YJsCTUM1qIC5g
+	rXXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20210112;
-	h=content-transfer-encoding:in-reply-to:from:references:cc:to
-	:content-language:subject:user-agent:mime-version:date:message-id
+	h=content-transfer-encoding:in-reply-to:from:content-language
+	:references:cc:to:subject:user-agent:mime-version:date:message-id
 	:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-	bh=C14m+5yBrv+u7QhAN78BFentZAFfnah8l0PUC4om7m8=;
-	b=MTA3ZQsiUMeAHhfPRUzWfsuYPdRFUxk4oKISdclj7jzr7XG2nnUeoD3ixCnWt/CWg+
-	UPdnCuBz65559lLFaXjW8fFruRJxF9ZmKTkTLsWqqF6jp3UnNnMSXHcctZ80uRi5HJT/
-	QCWR3pPJzsP6vHWZXdga+QkyhprAUy05US0BzQQADBjOLbhYwTj4+9kKUJ09KGvAoQl3
-	7DhmaaJYtkVcxUgGrdWaUgwHYIpUBzJ/n3NGbfUkFkN2rzsMNVhs34hAANkrrZsHFfkG
-	Lg6qnZ3ev3fR3K8MFP89JeIk7hu5PailyYG0KAW24CBLinokjp3sRPpSc0ski0FxpXxD
-	Sqmw==
-X-Gm-Message-State: ANoB5pkgw63mp5YPxv1yGXWo5qgbhtBv1/ZdPBTZUp3MOS50SJshCJ6a
-	3xrYP5sMCvPq5+Qgka0U+yi/TQ==
-X-Google-Smtp-Source: AA0mqf7LzJaZLZ7BN/ieedWyHJVfNYy1D/3fvJQ9uHDra09xLMDQnM+TgsskrmQ988UMBIXzYDc/Wg==
-X-Received: by 2002:a02:cba6:0:b0:375:a360:a130 with SMTP id
-	v6-20020a02cba6000000b00375a360a130mr9477313jap.307.1669069925449;
-	Mon, 21 Nov 2022 14:32:05 -0800 (PST)
-Received: from [192.168.1.128] ([38.15.45.1]) by smtp.gmail.com with ESMTPSA id
-	f15-20020a056638112f00b0037502ffac71sm4612316jar.18.2022.11.21.14.32.02
+	bh=qb4RJR8ylDg3gto72YXsWpWWkJFXTlWFNAJNj7lhF2c=;
+	b=on/izJcBW83rvZBqHyJYlbzwz89qE236hYK6ar0aeeJvXYH7cXOB5U/q8k+R48qJw8
+	2+reV9uHIZYQstETYnvF524dhPLRNjq9awZUkrZXHg25H3FUqATlZJ/Zvf81BQsM18NN
+	8utbI9XQV4//7g9/iIiTFC+Bxufk5Bj/XxoAaNYug3R6rPSX8PR6YTF/Gh1XzkJ/dbXG
+	83HTnuSyiJQRGSMRRwlIiM+/YMix9i2fm6aGqTVeyYXP3MQHqK+njKb1EQerVmOVna9t
+	I95x9Jv/tZcl5NTjPuklmSrtNGhpDsvDBbPvf2RSfNFLtAeKFmZFN1+8rmVfYdcu+7Fl
+	2maw==
+X-Gm-Message-State: ANoB5pkeH4Ds779ys958ZuRI1X7cPD62IUvoaL0fHiSMmCfLwKCm+hc8
+	yu3i8VILsYA16t9jl3ONXjY4maTY
+X-Google-Smtp-Source: AA0mqf6ia2nZqMM6cTVqXCaMyp+QcMibSrdd2TYim5/9fDE0JEnPYYH3KTsM1Fat2m3lXTlVzvGtGQ==
+X-Received: by 2002:a5d:430e:0:b0:241:bfb6:c6da with SMTP id
+	h14-20020a5d430e000000b00241bfb6c6damr3253870wrq.204.1669118513405;
+	Tue, 22 Nov 2022 04:01:53 -0800 (PST)
+Received: from [192.168.178.55] (h082218028181.host.wavenet.at.
+	[82.218.28.181]) by smtp.gmail.com with ESMTPSA id
+	m2-20020a1c2602000000b003cfd58409desm20448499wmm.13.2022.11.22.04.01.52
 	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Mon, 21 Nov 2022 14:32:04 -0800 (PST)
-Message-ID: <96114bec-1df7-0dcb-ec99-4f907587658d@linuxfoundation.org>
-Date: Mon, 21 Nov 2022 15:32:02 -0700
+	Tue, 22 Nov 2022 04:01:52 -0800 (PST)
+Message-ID: <feff21b0-e583-4df3-7c38-4990ee60c3e4@linbit.com>
+Date: Tue, 22 Nov 2022 13:01:52 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
-	Thunderbird/102.4.2
+	Thunderbird/102.4.1
+To: Wang ShaoBo <bobo.shaobowang@huawei.com>
+References: <20221122030427.731308-1-bobo.shaobowang@huawei.com>
+	<20221122030427.731308-3-bobo.shaobowang@huawei.com>
 Content-Language: en-US
-To: Benjamin Coddington <bcodding@redhat.com>
-References: <c2ec184226acd21a191ccc1aa46a1d7e43ca7104.1669036433.git.bcodding@redhat.com>
-	<cover.1669036433.git.bcodding@redhat.com>
-	<382872.1669039019@warthog.procyon.org.uk>
-	<51B5418D-34FB-4E87-B87A-6C3FCDF8B21C@redhat.com>
-	<4585e331-03ad-959f-e715-29af15f63712@linuxfoundation.org>
-	<26d98c8f-372b-b9c8-c29f-096cddaff149@linuxfoundation.org>
-	<A860595D-5BAB-461B-B449-8975C0424311@redhat.com>
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <A860595D-5BAB-461B-B449-8975C0424311@redhat.com>
-X-Mailman-Approved-At: Tue, 22 Nov 2022 07:25:23 +0100
-Cc: Latchesar Ionkov <lucho@ionkov.net>, samba-technical@lists.samba.org,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Valentina Manea <valentina.manea.m@gmail.com>,
-	linux-nvme@lists.infradead.org,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	David Howells <dhowells@redhat.com>,
-	Joseph Qi <joseph.qi@linux.alibaba.com>,
-	Eric Dumazet <edumazet@google.com>, linux-nfs@vger.kernel.org,
-	Marc Dionne <marc.dionne@auristor.com>,
-	Shuah Khan <shuah@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Mike Christie <michael.christie@oracle.com>,
-	drbd-dev@lists.linbit.com, linux-cifs@vger.kernel.org,
-	Sagi Grimberg <sagi@grimberg.me>, linux-scsi@vger.kernel.org,
-	Mark Fasheh <mark@fasheh.com>, linux-afs@lists.infradead.org,
-	cluster-devel@redhat.com, Christine Caulfield <ccaulfie@redhat.com>,
-	Jakub Kicinski <kuba@kernel.org>, Ilya Dryomov <idryomov@gmail.com>,
-	Paolo Abeni <pabeni@redhat.com>, Anna Schumaker <anna@kernel.org>,
-	Eric Van Hensbergen <ericvh@gmail.com>,
-	"James E.J. Bottomley" <jejb@linux.ibm.com>,
-	Josef Bacik <josef@toxicpanda.com>, nbd@other.debian.org,
-	linux-block@vger.kernel.org, David Teigland <teigland@redhat.com>,
-	Joel Becker <jlbec@evilplan.org>, v9fs-developer@lists.sourceforge.net,
-	Keith Busch <kbusch@kernel.org>, ceph-devel@vger.kernel.org,
-	Xiubo Li <xiubli@redhat.com>,
-	Trond Myklebust <trond.myklebust@hammerspace.com>,
-	Jens Axboe <axboe@kernel.dk>, Chris Leech <cleech@redhat.com>,
-	open-iscsi@googlegroups.com,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	netdev@vger.kernel.org, linux-usb@vger.kernel.org,
-	Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
-	Steve French <sfrench@samba.org>, Chuck Lever <chuck.lever@oracle.com>,
-	Lee Duncan <lduncan@suse.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	"David S. Miller" <davem@davemloft.net>, ocfs2-devel@oss.oracle.com
-Subject: Re: [Drbd-dev] [PATCH v1 2/3] Treewide: Stop corrupting socket's
-	task_frag
+From: =?UTF-8?Q?Christoph_B=c3=b6hmwalder?= <christoph.boehmwalder@linbit.com>
+In-Reply-To: <20221122030427.731308-3-bobo.shaobowang@huawei.com>
+Cc: linux-block@vger.kernel.org, axboe@kernel.dk, lars.ellenberg@linbit.com,
+	liwei391@huawei.com, drbd-dev@lists.linbit.com
+Subject: Re: [Drbd-dev] [PATCH v2 2/2] drbd: destroy workqueue when drbd
+	device was freed
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -114,54 +78,44 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On 11/21/22 15:01, Benjamin Coddington wrote:
-> On 21 Nov 2022, at 16:43, Shuah Khan wrote:
-> 
->> On 11/21/22 14:40, Shuah Khan wrote:
->>> On 11/21/22 07:34, Benjamin Coddington wrote:
->>>> On 21 Nov 2022, at 8:56, David Howells wrote:
->>>>
->>>>> Benjamin Coddington <bcodding@redhat.com> wrote:
->>>>>
->>>>>> Since moving to memalloc_nofs_save/restore, SUNRPC has stopped setting the
->>>>>> GFP_NOIO flag on sk_allocation which the networking system uses to decide
->>>>>> when it is safe to use current->task_frag.
->>>>>
->>>>> Um, what's task_frag?
->>>>
->>>> Its a per-task page_frag used to coalesce small writes for networking -- see:
->>>>
->>>> 5640f7685831 net: use a per task frag allocator
->>>>
->>>> Ben
->>>>
->>>>
->>>
->>> I am not seeing this in the mainline. Where can find this commit?
->>>
->>
->> Okay. I see this commit in the mainline. However, I don't see the
->> sk_use_task_frag in mainline.
-> 
-> sk_use_task_frag is in patch 1/3 in this posting.
-> 
-> https://lore.kernel.org/netdev/26d98c8f-372b-b9c8-c29f-096cddaff149@linuxfoundation.org/T/#m3271959c4cf8dcff1c0c6ba023b2b3821d9e7e99
-> 
-
-Aha. I don't have 1/3 in my Inbox - I think it would make
-sense to cc people on the first patch so we can understand
-the premise for the change.
-
-thanks,
--- Shuah
-  
-
-_______________________________________________
-drbd-dev mailing list
-drbd-dev@lists.linbit.com
-https://lists.linbit.com/mailman/listinfo/drbd-dev
+QW0gMjIuMTEuMjIgdW0gMDQ6MDQgc2NocmllYiBXYW5nIFNoYW9CbzoKPiBBIHN1Ym1pdHRlciB3
+b3JrcXVldWUgaXMgZHluYW1pY2FsbHkgYWxsb2NhdGVkIGJ5IGluaXRfc3VibWl0dGVyKCkKPiBj
+YWxsZWQgYnkgZHJiZF9jcmVhdGVfZGV2aWNlKCksIHdlIHNob3VsZCBkZXN0cm95IGl0IHdoZW4g
+dGhpcwo+IGRldmljZSBpcyBub3QgbmVlZGVkIG9yIGRlc3Ryb3llZC4KPiAKPiBGaXhlczogMTEz
+ZmVmOWUyMGUwICgiZHJiZDogcHJlcGFyZSB0byBxdWV1ZSB3cml0ZSByZXF1ZXN0cyBvbiBhIHN1
+Ym1pdCB3b3JrZXIiKQo+IFNpZ25lZC1vZmYtYnk6IFdhbmcgU2hhb0JvIDxib2JvLnNoYW9ib3dh
+bmdAaHVhd2VpLmNvbT4KPiAtLS0KPiAgZHJpdmVycy9ibG9jay9kcmJkL2RyYmRfbWFpbi5jIHwg
+NCArKysrCj4gIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKykKPiAKPiBkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9ibG9jay9kcmJkL2RyYmRfbWFpbi5jIGIvZHJpdmVycy9ibG9jay9kcmJkL2Ry
+YmRfbWFpbi5jCj4gaW5kZXggNzhjYWU0ZTc1YWYxLi4yZDZiNmQxYzVmZjQgMTAwNjQ0Cj4gLS0t
+IGEvZHJpdmVycy9ibG9jay9kcmJkL2RyYmRfbWFpbi5jCj4gKysrIGIvZHJpdmVycy9ibG9jay9k
+cmJkL2RyYmRfbWFpbi5jCj4gQEAgLTIyMTcsNiArMjIxNyw4IEBAIHZvaWQgZHJiZF9kZXN0cm95
+X2RldmljZShzdHJ1Y3Qga3JlZiAqa3JlZikKPiAgCQlrcmVmX3B1dCgmcGVlcl9kZXZpY2UtPmNv
+bm5lY3Rpb24tPmtyZWYsIGRyYmRfZGVzdHJveV9jb25uZWN0aW9uKTsKPiAgCQlrZnJlZShwZWVy
+X2RldmljZSk7Cj4gIAl9Cj4gKwlpZiAoZGV2aWNlLT5zdWJtaXQud3EpCj4gKwkJZGVzdHJveV93
+b3JrcXVldWUoZGV2aWNlLT5zdWJtaXQud3EpOwo+ICAJa2ZyZWUoZGV2aWNlKTsKPiAgCWtyZWZf
+cHV0KCZyZXNvdXJjZS0+a3JlZiwgZHJiZF9kZXN0cm95X3Jlc291cmNlKTsKPiAgfQo+IEBAIC0y
+ODA3LDYgKzI4MDksOCBAQCBlbnVtIGRyYmRfcmV0X2NvZGUgZHJiZF9jcmVhdGVfZGV2aWNlKHN0
+cnVjdCBkcmJkX2NvbmZpZ19jb250ZXh0ICphZG1fY3R4LCB1bnNpZwo+ICAJcHV0X2Rpc2soZGlz
+ayk7Cj4gIG91dF9ub19kaXNrOgo+ICAJa3JlZl9wdXQoJnJlc291cmNlLT5rcmVmLCBkcmJkX2Rl
+c3Ryb3lfcmVzb3VyY2UpOwo+ICsJaWYgKGRldmljZS0+c3VibWl0LndxKQo+ICsJCWRlc3Ryb3lf
+d29ya3F1ZXVlKGRldmljZS0+c3VibWl0LndxKTsKPiAgCWtmcmVlKGRldmljZSk7Cj4gIAlyZXR1
+cm4gZXJyOwo+ICB9CgpUaGFua3MsIHRoYXQgaXMgYmV0dGVyLgoKSnVzdCBvbmUgbW9yZSBuaXRw
+aWNrOiBpbiBkcmJkX2NyZWF0ZV9kZXZpY2UsIHdlIHVzdWFsbHkgb3JkZXIgdGhlCmFsbG9jYXRp
+b25zL2ZyZWVzIGluIGEgImxhc3QgaW4sIGZpcnN0IG91dCIgZmFzaGlvbi4gVGhhdCBpcywgZGF0
+YQpzaG91bGQgYmUgcmVsZWFzZWQgaW4gdGhlIHJldmVyc2Ugb3JkZXIgdGhhdCBpdCB3YXMgYWxs
+b2NhdGVkLiBUaGlzIGFsc28KaGVscHMgd2l0aCBlcnJvciBoYW5kbGluZywgd2hpY2ggaXMgd2hh
+dCB0aGUgb3V0XyogbGFiZWxzIGFyZSB1c2VkIGZvci4KClNvIG1heWJlIHdlIGNhbiBwdXQgdGhh
+dCBkZXN0cm95X3dvcmtxdWV1ZSgpIHVuZGVyIGl0cyBvd24gb3V0XyogbGFiZWwKYW5kIG1ha2Ug
+c3VyZSBpdCBnZXRzIGZyZWVkIGZpcnN0IGluIHRoZSBjbGVhbnVwIHNlY3Rpb24gKHNpbmNlIGl0
+IGdldHMKYWxsb2NhdGVkIGxhc3QpLgoKLS0gCkNocmlzdG9waCBCw7ZobXdhbGRlcgpMSU5CSVQg
+fCBLZWVwaW5nIHRoZSBEaWdpdGFsIFdvcmxkIFJ1bm5pbmcKRFJCRCBIQSDigJQgIERpc2FzdGVy
+IFJlY292ZXJ5IOKAlCBTb2Z0d2FyZSBkZWZpbmVkIFN0b3JhZ2UKX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJiZC1kZXYgbWFpbGluZyBsaXN0CmRyYmQt
+ZGV2QGxpc3RzLmxpbmJpdC5jb20KaHR0cHM6Ly9saXN0cy5saW5iaXQuY29tL21haWxtYW4vbGlz
+dGluZm8vZHJiZC1kZXYK
