@@ -2,113 +2,64 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D0D963D702
-	for <lists+drbd-dev@lfdr.de>; Wed, 30 Nov 2022 14:42:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EF7363EEB9
+	for <lists+drbd-dev@lfdr.de>; Thu,  1 Dec 2022 12:04:30 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A31C242177C;
-	Wed, 30 Nov 2022 14:42:54 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C17E542177C;
+	Thu,  1 Dec 2022 12:04:29 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from us-smtp-delivery-124.mimecast.com
-	(us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 55C4942096A
-	for <drbd-dev@lists.linbit.com>; Wed, 30 Nov 2022 13:07:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1669810058;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	in-reply-to:in-reply-to:references:references;
-	bh=jnVdlteFV26Z76cEF4gxE55CdPW4P3QACX8nQF2ZXTo=;
-	b=W/dSB4qs5hwMfYN4TjxxFnqFD4auu9K07/woj4RDIZunyWcd9qT2g9XoFZvOSjAqfTe4Ga
-	sPDuA5GKhAnz1PJtE0E805fwucXHtgi6wF0TyYucotzcJnBT4lkI2YNflsI6f5EEvixFEq
-	5X6WL3hpHvkVlHRo2bXgnkAdSZ4Yo+A=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
-	[209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
-	(version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
-	us-mta-32-zeXY2kl5Nhi--Lj2cQdtZw-1; Wed, 30 Nov 2022 07:07:37 -0500
-X-MC-Unique: zeXY2kl5Nhi--Lj2cQdtZw-1
-Received: by mail-wr1-f69.google.com with SMTP id
-	w11-20020adfbacb000000b002418a90da01so3490645wrg.16
-	for <drbd-dev@lists.linbit.com>; Wed, 30 Nov 2022 04:07:37 -0800 (PST)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
+	[209.85.218.41])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5F5074210DE
+	for <drbd-dev@lists.linbit.com>; Thu,  1 Dec 2022 12:04:27 +0100 (CET)
+Received: by mail-ej1-f41.google.com with SMTP id gu23so3282319ejb.10
+	for <drbd-dev@lists.linbit.com>; Thu, 01 Dec 2022 03:04:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linbit-com.20210112.gappssmtp.com; s=20210112;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+	:to:from:from:to:cc:subject:date:message-id:reply-to;
+	bh=bCSFONotMGlT5jcNSWA3wEw//+37lRPpQvu379eQdb4=;
+	b=mky/H4kqev/SBa6soq1k+oMgOaV2tJ6fff0Qn4zByh6t4++4mdmoeRtyyf3dT0AGXh
+	8qcdBXx/eU+yX2ubXovz++PON5OelriwP9No7rBn8afMyyq4glmQiIX/S4k8FEotVKNa
+	tm5Ta4VNNWwL2Di8riPg+0yKi3AJntfpfgWvpOprnbKahJ/NZpIqhIm20ggN6r0EuxmC
+	c0uM8xGx2bd7ZsNkzMYTihZTjhxs6FHLbzuzIFza+54tb64iXc/1ks7O2IfHtQ6zedtz
+	bjZcNpxzIuMAiGBZ/+cNhUThlzgMlYueD6SJic/P2fmG9VN7zurkQCVwTEoN4AZ87+gY
+	SvGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20210112;
-	h=in-reply-to:content-disposition:mime-version:references:message-id
-	:subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-	:message-id:reply-to;
-	bh=jnVdlteFV26Z76cEF4gxE55CdPW4P3QACX8nQF2ZXTo=;
-	b=1yPUDUF/FuMYnAI31nKjYX+sr/HIjN8f4yhLpeANutU7BQQW630/cT+zTRIh1gaquC
-	q1cJu+0Nt6HyyqbHSEFztbPElbk58XmXOkVDk7kn6v3sQ8mOTURLoAmmViu4mOXIHJI2
-	GZvTAcArDIWqPeO7yqy7hTshH3mqua5NMqRqiqBIW0H3tNEY46FDL01aub71cEITifMU
-	dMCrMAClYNWW/3JdvEYn4z4ZMlMGu5TfoB+6/Vi8yA7mt9EkOO8DJkNfFkNm8NK0UIOU
-	zZhiqwzQN55j1kpDmaLYn1qexrJ2qq75hVhq+Ta3GKoi8SA8gavLdUMz91FEAi2P1Cgw
-	OoRg==
-X-Gm-Message-State: ANoB5pm1jkrIu11tLkHN24eTPvRmQVMkmTxhe5/hDKQT4glpr4hljqhV
-	/2x07wdgupA+dciEOHErdDI4vKf9A8wWczLJmY3lCoIweNArf6AWX1PikYh3FzgQzilOEK7Wuny
-	YlZmSf8VSVu7ahwdPR3z4
-X-Received: by 2002:a05:600c:3c8e:b0:3d0:69f4:d3d0 with SMTP id
-	bg14-20020a05600c3c8e00b003d069f4d3d0mr4598092wmb.93.1669810056116;
-	Wed, 30 Nov 2022 04:07:36 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4PpVsPubG71ps8rgagttNzK50w8zECDxzJfF2enqQnAPQgsvcgKe3HBaErdsIeSxrgevrHjQ==
-X-Received: by 2002:a05:600c:3c8e:b0:3d0:69f4:d3d0 with SMTP id
-	bg14-20020a05600c3c8e00b003d069f4d3d0mr4598054wmb.93.1669810055886;
-	Wed, 30 Nov 2022 04:07:35 -0800 (PST)
-Received: from pc-4.home (2a01cb058918ce00dd1a5a4f9908f2d5.ipv6.abo.wanadoo.fr.
-	[2a01:cb05:8918:ce00:dd1a:5a4f:9908:f2d5])
-	by smtp.gmail.com with ESMTPSA id
-	j3-20020adfd203000000b002366c3eefccsm1368822wrh.109.2022.11.30.04.07.33
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+	:to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+	:reply-to;
+	bh=bCSFONotMGlT5jcNSWA3wEw//+37lRPpQvu379eQdb4=;
+	b=Z2RIz0VMKjp8eTtbIcSsOaMFhVvxBP4xZXWOYc9mKw9qnq5akZyYaboQqeN9WL6sni
+	nlT7y+9xMdMRBkg4iCYnOC48Ukdf8JzSNmRtsYNerMuHeUP9xbtkILaCF6cx0GccuK9F
+	AGJAGRIwPlHQP+y60gAIKEfDsya0Ga8adVqHDEWEqso6kk2lBIi61vRHIbV9Y04WCqBM
+	1Q5oNsbh5LBeyKpMlHqMGsFtRfZjqU6IOrtl16wVgnPOwdc+89Rlrr3k4J5wMMKCjEU9
+	mVYvIcOKP8rjfzPJEsWi1zPkAOePYdoOeFfZMNpmc/ODy/6OVIodoFVVYhoP5q2yL1CK
+	lZHw==
+X-Gm-Message-State: ANoB5pm8EkahcxJQH658N5fAwvP4CMByhfFzNhq0u18iy8nzqRK0A3yS
+	EPM/vYvyo8h5S7YIwclHSsrq3Neh
+X-Google-Smtp-Source: AA0mqf5D3lvSWXlbNVxaPnrYe5tMWRFbul2ScpxDzKf3ljJWGch6rkuPwy1XuKM1ffPLdoJA/bIXmA==
+X-Received: by 2002:a17:906:a198:b0:7b4:bc42:3b44 with SMTP id
+	s24-20020a170906a19800b007b4bc423b44mr48503029ejy.101.1669892666946;
+	Thu, 01 Dec 2022 03:04:26 -0800 (PST)
+Received: from localhost.localdomain (h082218028181.host.wavenet.at.
+	[82.218.28.181]) by smtp.gmail.com with ESMTPSA id
+	f26-20020a056402161a00b00463a83ce063sm1576424edv.96.2022.12.01.03.04.25
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 30 Nov 2022 04:07:35 -0800 (PST)
-Date: Wed, 30 Nov 2022 13:07:32 +0100
-From: Guillaume Nault <gnault@redhat.com>
-To: Benjamin Coddington <bcodding@redhat.com>
-Message-ID: <20221130120732.GB29316@pc-4.home>
-References: <cover.1669036433.git.bcodding@redhat.com>
-	<c2ec184226acd21a191ccc1aa46a1d7e43ca7104.1669036433.git.bcodding@redhat.com>
-	<20221129140242.GA15747@lst.de>
-	<794DBAB0-EDAF-4DA2-A837-C1F99916BC8E@redhat.com>
+	Thu, 01 Dec 2022 03:04:26 -0800 (PST)
+From: =?UTF-8?q?Christoph=20B=C3=B6hmwalder?=
+	<christoph.boehmwalder@linbit.com>
+To: Jens Axboe <axboe@kernel.dk>
+Date: Thu,  1 Dec 2022 12:03:45 +0100
+Message-Id: <20221201110349.1282687-1-christoph.boehmwalder@linbit.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-In-Reply-To: <794DBAB0-EDAF-4DA2-A837-C1F99916BC8E@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
-X-Mailman-Approved-At: Wed, 30 Nov 2022 14:42:53 +0100
-Cc: Latchesar Ionkov <lucho@ionkov.net>, samba-technical@lists.samba.org,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Valentina Manea <valentina.manea.m@gmail.com>,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	David Howells <dhowells@redhat.com>,
-	Joseph Qi <joseph.qi@linux.alibaba.com>,
-	Eric Dumazet <edumazet@google.com>, linux-nfs@vger.kernel.org,
-	Marc Dionne <marc.dionne@auristor.com>,
-	Shuah Khan <shuah@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Mike Christie <michael.christie@oracle.com>,
-	drbd-dev@lists.linbit.com, linux-cifs@vger.kernel.org,
-	Sagi Grimberg <sagi@grimberg.me>, linux-scsi@vger.kernel.org,
-	Mark Fasheh <mark@fasheh.com>, linux-afs@lists.infradead.org,
-	cluster-devel@redhat.com, Christine Caulfield <ccaulfie@redhat.com>,
-	Jakub Kicinski <kuba@kernel.org>, Ilya Dryomov <idryomov@gmail.com>,
-	Paolo Abeni <pabeni@redhat.com>, Anna Schumaker <anna@kernel.org>,
-	Eric Van Hensbergen <ericvh@gmail.com>,
-	"James E.J. Bottomley" <jejb@linux.ibm.com>,
-	Josef Bacik <josef@toxicpanda.com>, nbd@other.debian.org,
-	linux-block@vger.kernel.org, David Teigland <teigland@redhat.com>,
-	Joel Becker <jlbec@evilplan.org>, v9fs-developer@lists.sourceforge.net,
-	Keith Busch <kbusch@kernel.org>, ceph-devel@vger.kernel.org,
-	Xiubo Li <xiubli@redhat.com>,
-	Trond Myklebust <trond.myklebust@hammerspace.com>,
-	Jens Axboe <axboe@kernel.dk>, Chris Leech <cleech@redhat.com>,
-	open-iscsi@googlegroups.com,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	netdev@vger.kernel.org, linux-usb@vger.kernel.org,
-	Jeff Layton <jlayton@kernel.org>,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	Steve French <sfrench@samba.org>, Chuck Lever <chuck.lever@oracle.com>,
-	Lee Duncan <lduncan@suse.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	"David S. Miller" <davem@davemloft.net>, ocfs2-devel@oss.oracle.com
-Subject: Re: [Drbd-dev] [PATCH v1 2/3] Treewide: Stop corrupting socket's
-	task_frag
+Cc: Philipp Reisner <philipp.reisner@linbit.com>, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, Lars Ellenberg <lars.ellenberg@linbit.com>,
+	drbd-dev@lists.linbit.com
+Subject: [Drbd-dev] [PATCH 0/5] Backported DRBD printk/debug improvements
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -122,36 +73,33 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Tue, Nov 29, 2022 at 11:47:47AM -0500, Benjamin Coddington wrote:
-> On 29 Nov 2022, at 9:02, Christoph Hellwig wrote:
-> 
-> > Hmm.  Having to set a flag to not accidentally corrupt per-task
-> > state seems a bit fragile.  Wouldn't it make sense to find a way to opt
-> > into the feature only for sockets created from the syscall layer?
-> 
-> It's totally fragile, and that's why it's currently broken in production.
-> The fragile ship sailed when networking decided to depend on users setting
-> the socket's GFP_ flags correctly to avoid corruption.
-> 
-> Meantime, this problem needs fixing in a way that makes everyone happy.
-> This fix doesn't make it less fragile, but it may (hopefully) address the
-> previous criticisms enough that something gets done to fix it.
-
-Also, let's remember that while we're discussing how the kernel sould
-work in an ideal world, the reality is that production NFS systems
-crash randomly upon memory reclaim since commit a1231fda7e94 ("SUNRPC:
-Set memalloc_nofs_save() on all rpciod/xprtiod jobs"). Fixing that is
-just a matter of re-introducing GFP_NOFS on SUNRPC sockets (which has
-been proposed several times already). Then we'll have plenty of time
-to argue about how networking should use the per-task page_frag and
-how to remove GFP_NOFS in the long term.
-
-_______________________________________________
-drbd-dev mailing list
-drbd-dev@lists.linbit.com
-https://lists.linbit.com/mailman/listinfo/drbd-dev
+U29tZSBjaGFuZ2VzIHRvIERSQkQncyBsb2dnaW5nIGluZnJhc3RydWN0dXJlLCBiYWNrcG9ydGVk
+IGZyb20gdGhlCm91dC1vZi10cmVlIG1vZHVsZS4KClNpbmNlIHRoZSB0d28gY29kZSBiYXNlcyBo
+YXZlIGRpdmVyZ2VkIHNvIG11Y2gsIGl0IGlzIHRvdWdoIHRvIHByZXNlcnZlCmF1dGhvcnNoaXAg
+aW5mb3JtYXRpb24gd2l0aG91dCAicHV0dGluZyB3b3JkcyBpbnRvIHNvbWVvbmUncyBtb3V0aCIu
+IFNvCkkgZW5kZWQgdXAgdXNpbmcgT3JpZ2luYWxseS1mcm9tIHRhZ3MgdG8gdHJ5IGFuZCBlbmNv
+ZGUgdGhlIG9yaWdpbmFsCmF1dGhvcnMgb2YgdGhlc2UgcGF0Y2hlcy4KCkNocmlzdG9waCBCw7Zo
+bXdhbGRlciAoNSk6CiAgZHJiZDogdW5pZnkgaG93IGZhaWxlZCBhc3NlcnRpb25zIGFyZSBsb2dn
+ZWQKICBkcmJkOiBzcGxpdCBwb2x5bW9ycGggcHJpbnRrIHRvIGl0cyBvd24gZmlsZQogIGRyYmQ6
+IGludHJvZHVjZSBkeW5hbWljIGRlYnVnCiAgZHJiZDogaW50cm9kdWNlIGRyYmRfcmF0ZWxpbWl0
+KCkKICBkcmJkOiBhZGQgY29udGV4dCBwYXJhbWV0ZXIgdG8gZXhwZWN0KCkgbWFjcm8KCiBkcml2
+ZXJzL2Jsb2NrL2RyYmQvZHJiZF9hY3Rsb2cuYyAgICAgICAgICAgfCAgIDYgKy0KIGRyaXZlcnMv
+YmxvY2svZHJiZC9kcmJkX2JpdG1hcC5jICAgICAgICAgICB8ICA2MCArKysrLS0tLS0KIGRyaXZl
+cnMvYmxvY2svZHJiZC9kcmJkX2ludC5oICAgICAgICAgICAgICB8ICA2OCArLS0tLS0tLS0tCiBk
+cml2ZXJzL2Jsb2NrL2RyYmQvZHJiZF9tYWluLmMgICAgICAgICAgICAgfCAgMTAgKy0KIGRyaXZl
+cnMvYmxvY2svZHJiZC9kcmJkX25sLmMgICAgICAgICAgICAgICB8ICAgMiArLQogZHJpdmVycy9i
+bG9jay9kcmJkL2RyYmRfcG9seW1vcnBoX3ByaW50ay5oIHwgMTQxICsrKysrKysrKysrKysrKysr
+KysrKwogZHJpdmVycy9ibG9jay9kcmJkL2RyYmRfcmVjZWl2ZXIuYyAgICAgICAgIHwgIDE2ICst
+LQogZHJpdmVycy9ibG9jay9kcmJkL2RyYmRfcmVxLmMgICAgICAgICAgICAgIHwgICA2ICstCiBk
+cml2ZXJzL2Jsb2NrL2RyYmQvZHJiZF93b3JrZXIuYyAgICAgICAgICAgfCAgMTIgKy0KIDkgZmls
+ZXMgY2hhbmdlZCwgMTk5IGluc2VydGlvbnMoKyksIDEyMiBkZWxldGlvbnMoLSkKIGNyZWF0ZSBt
+b2RlIDEwMDY0NCBkcml2ZXJzL2Jsb2NrL2RyYmQvZHJiZF9wb2x5bW9ycGhfcHJpbnRrLmgKCgpi
+YXNlLWNvbW1pdDogYjRjMDQ4MmJmZTg5Y2Q2YzRmMDMwMzE0Yzg2YWFlMzU2NDJjNDRhNQotLSAK
+Mi4zOC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmJkLWRldiBtYWlsaW5nIGxpc3QKZHJiZC1kZXZAbGlzdHMubGluYml0LmNvbQpodHRwczovL2xp
+c3RzLmxpbmJpdC5jb20vbWFpbG1hbi9saXN0aW5mby9kcmJkLWRldgo=
