@@ -2,64 +2,67 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id B87CD64842C
-	for <lists+drbd-dev@lfdr.de>; Fri,  9 Dec 2022 15:53:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63B5564843C
+	for <lists+drbd-dev@lfdr.de>; Fri,  9 Dec 2022 15:54:04 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 20E9242095F;
-	Fri,  9 Dec 2022 15:53:34 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4B7A74210DE;
+	Fri,  9 Dec 2022 15:54:04 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
 	[209.85.208.49])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id CE6AC420372
-	for <drbd-dev@lists.linbit.com>; Fri,  9 Dec 2022 15:53:32 +0100 (CET)
-Received: by mail-ed1-f49.google.com with SMTP id e13so3394385edj.7
-	for <drbd-dev@lists.linbit.com>; Fri, 09 Dec 2022 06:53:32 -0800 (PST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 108A2420372
+	for <drbd-dev@lists.linbit.com>; Fri,  9 Dec 2022 15:53:33 +0100 (CET)
+Received: by mail-ed1-f49.google.com with SMTP id e13so3394440edj.7
+	for <drbd-dev@lists.linbit.com>; Fri, 09 Dec 2022 06:53:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linbit-com.20210112.gappssmtp.com; s=20210112;
-	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-	:to:from:from:to:cc:subject:date:message-id:reply-to;
-	bh=CtCs8GxpjiNUlKe9jLRTDXiumifJAjD1jl0L4CeLiMA=;
-	b=MHoLj/reYCEaCu2BZl791sUFMu9EsJFTpuGoSGhqpzPg1G2i0+rLOnXbsB74P9BAN9
-	nIpY0Gnji9Fvtm+3k4SGTzoM0pjpKrp58glH6ITl3OGiRQ4wKlxsE9B9MO3Ta6kSCCT2
-	FRjDRDKxtEPLDb/k49mnKJLE4k/GiOCWaPQdx5p1AmTeufBD40E2oASTNMZES01XTvDU
-	ob7QGOqAnUyVU485JtXEMbvjpSShmh7tyXcQ/pABd4lut+BrUnbtpdiECjQQjcELOV9s
-	ZKCVJhpPA+iSjzC1lop/aOkPvTKR9c3ijh4XvJeNOj9EW0nnSFcsgUUAmmnPFcmuOJa5
-	hZUg==
+	h=content-transfer-encoding:mime-version:references:in-reply-to
+	:message-id:date:subject:cc:to:from:from:to:cc:subject:date
+	:message-id:reply-to;
+	bh=sQNKuz5965naByKUS4y1VIo8yUx5dsUc2Lu+3dW2kE8=;
+	b=DULViScp0ZVXctPxlfv4qNn3cbilafSOKGMk8dRJw6i79Vudl6DOMfT79rpjRXPf0h
+	Cby/vdu1mbCSR5Pn1rz+wJ/UCZYjXWxxXHWINZiipWv4QJoPQadESG07ukq3PX2z1e2y
+	QaX76pV4y0QLJ8BAT8gHsy28rsADUqeOHOembmFs70/VOMQVVf6Ubt31LYagnvEc0GJa
+	p8KQ4d9Iw3OGQI2KTwoVqlFWfGfaJcfFe/egS5Kmqj2CN19y216WgrcyU94kOCDH7OOt
+	P+yF159+WVZEXSM6ECXkVUZ4IbilDRTHiXQ2/MLbb3HqoB3wSY2oZTo8gVb4MzO7CMJC
+	G1hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20210112;
-	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-	:to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-	:reply-to;
-	bh=CtCs8GxpjiNUlKe9jLRTDXiumifJAjD1jl0L4CeLiMA=;
-	b=LQlMjKS23xYx9lljxQc9i7rjS7xuhsG96ggeLNZKaKypbau04YR9xJyvnJeDG6SbPz
-	FUmQ+yYaOsApd/mxdfklDwXeTu1szqZFEx3DHkEpPZRErONc6dXVkj8c0hnVkZycYpbM
-	hjDRgf5s5S1dpaSbzco8f0lhpAvWe9OX+1ecCR53JuW7ETvZxP5rvJyEj3XQkwnaHy9q
-	FCly7Sk1d03YxZ5ogpQDPii/CHJKlceDG6mqSQ2jP1dDtSCFmHSg3Cwf+ZfdyWpHjtXQ
-	sNdXP3HFsfcB0j3pXNE8Vv/fvS5yId8HaUGfi7swlboq4L6CIZMtJTvjKfvlOykUqRg3
-	e7Pw==
-X-Gm-Message-State: ANoB5plvd8hi7aBewypfSNooAMTmrr4X65lAZaTr3eG5rInKmnEMIlR0
-	l5nrxMgYT9yrnyt4ytpUI/sQ1r5x
-X-Google-Smtp-Source: AA0mqf48psVfOczEhg6GzyTLj3NBiKg2BMDsqH01qlhK1pulUi4SHigJ39yDwhJazBez6TTHcD8srg==
-X-Received: by 2002:aa7:cac2:0:b0:461:608f:f3e0 with SMTP id
-	l2-20020aa7cac2000000b00461608ff3e0mr5102001edt.28.1670597612099;
+	h=content-transfer-encoding:mime-version:references:in-reply-to
+	:message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+	:subject:date:message-id:reply-to;
+	bh=sQNKuz5965naByKUS4y1VIo8yUx5dsUc2Lu+3dW2kE8=;
+	b=fT2Ddp3KbjQaVoJ762Z8b53XqxjT/6X32IA/S0oerr0z5BWMQc8FhTnCoq8KGK5biP
+	orWzVivdhNyPhAVXqrzBoxYmNMAkr/AG9hcT0e5eguJXgRDwXLlQNDoJnnY4JBUz4VGl
+	penV78H1l3i3/RO4MOXEJ+WaiuTBjlDGLBVcY4eV5lwReAQcS86znO4wv7oPtiPdkPHC
+	VLV9pJfeKXBN+hZ02JpuK+Pc4siqmQLs/wY6kGgyDc+6Al4Con4hXUoJqDgQQSEibVwn
+	aAVtHFwIuQmZh9/z2PRP8wO6NH9/sPXUx5vS4WD9i4s4tlIlKPSUq17zwgOdY3DD1p1m
+	WqfA==
+X-Gm-Message-State: ANoB5pl8xNPOlIhqcTe+06XGwSUyie6ftd2kemI9U+zh3S2J+5/vBQuk
+	ee11Z6yZQnsj+EutZuahWbYhpQ8h/GRiGVCAAQOuTg==
+X-Google-Smtp-Source: AA0mqf5/exKOQ2UtDww2W1sqkCHfaWxm6TJeIW8pBJLUQGIbDQbARma3JEOCV+NUeA1Xc09JANibUw==
+X-Received: by 2002:a05:6402:25c7:b0:461:c5b4:a7d0 with SMTP id
+	x7-20020a05640225c700b00461c5b4a7d0mr5638007edb.24.1670597612854;
 	Fri, 09 Dec 2022 06:53:32 -0800 (PST)
 Received: from localhost.localdomain (h082218028181.host.wavenet.at.
 	[82.218.28.181]) by smtp.gmail.com with ESMTPSA id
-	bd21-20020a056402207500b0046bb7503d9asm728424edb.24.2022.12.09.06.53.31
+	bd21-20020a056402207500b0046bb7503d9asm728424edb.24.2022.12.09.06.53.32
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 09 Dec 2022 06:53:31 -0800 (PST)
+	Fri, 09 Dec 2022 06:53:32 -0800 (PST)
 From: =?UTF-8?q?Christoph=20B=C3=B6hmwalder?=
 	<christoph.boehmwalder@linbit.com>
 To: Jens Axboe <axboe@kernel.dk>
-Date: Fri,  9 Dec 2022 15:53:19 +0100
-Message-Id: <20221209145327.2272271-1-christoph.boehmwalder@linbit.com>
+Date: Fri,  9 Dec 2022 15:53:20 +0100
+Message-Id: <20221209145327.2272271-2-christoph.boehmwalder@linbit.com>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221209145327.2272271-1-christoph.boehmwalder@linbit.com>
+References: <20221209145327.2272271-1-christoph.boehmwalder@linbit.com>
 MIME-Version: 1.0
 Cc: Philipp Reisner <philipp.reisner@linbit.com>, linux-kernel@vger.kernel.org,
 	linux-block@vger.kernel.org, Lars Ellenberg <lars.ellenberg@linbit.com>,
 	drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 0/8] Miscellaneous DRBD reorganization
+Subject: [Drbd-dev] [PATCH 1/8] drbd: adjust drbd_limits license header
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -78,24 +81,19 @@ Content-Transfer-Encoding: base64
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-U29tZSBtb3JlIG1vc3RseSB0cml2aWFsICJhbGlnbm1lbnQgcGF0Y2hlcyIgdG8gKHNsb3dseSBi
-dXQgc3VyZWx5KQptb3ZlIGZ1cnRoZXIgaW4gdGhlIGRpcmVjdGlvbiBvZiByZS11cHN0cmVhbWlu
-ZyBEUkJELgoKVGhlc2Ugc2hvdWxkIGJlIGZhaXJseSB1bmNvbnRyb3ZlcnNpYWwuCgpBbmRyZWFz
-IEdydWVuYmFjaGVyICgxKToKICBkcmJkOiBkcmJkX2luc2VydF9pbnRlcnZhbCgpOiBDbGFyaWZ5
-IGNvbW1lbnQKCkNocmlzdG9waCBCw7ZobXdhbGRlciAoNSk6CiAgZHJiZDogYWRqdXN0IGRyYmRf
-bGltaXRzIGxpY2Vuc2UgaGVhZGVyCiAgZHJiZDogbWFrZSBsaW1pdHMgdW5zaWduZWQKICBkcmJk
-OiByZW1vdmUgdW5uZWNlc3NhcnkgYXNzaWdubWVudCBpbiB2bGlfZW5jb2RlX2JpdHMKICBkcmJk
-OiByZW1vdmUgbWFjcm9zIHVzaW5nIHJlcXVpcmVfY29udGV4dAogIE1BSU5UQUlORVJTOiBhZGQg
-ZHJiZCBoZWFkZXJzCgpMYXJzIEVsbGVuYmVyZyAoMSk6CiAgZHJiZDogaW50ZXJ2YWwgdHJlZTog
-bWFrZSByZW1vdmluZyBhbiAiZW1wdHkiIGludGVydmFsIGEgbm8tb3AKClJvYmVydCBBbHRub2Vk
-ZXIgKDEpOgogIGRyYmQ6IGZpeCBEUkJEX1ZPTFVNRV9NQVggNjU1MzUgLT4gNjU1MzQKCiBNQUlO
-VEFJTkVSUyAgICAgICAgICAgICAgICAgICAgICAgIHwgICAxICsKIGRyaXZlcnMvYmxvY2svZHJi
-ZC9kcmJkX2ludC5oICAgICAgfCAgMTIgKy0KIGRyaXZlcnMvYmxvY2svZHJiZC9kcmJkX2ludGVy
-dmFsLmMgfCAgIDYgKy0KIGRyaXZlcnMvYmxvY2svZHJiZC9kcmJkX3ZsaS5oICAgICAgfCAgIDIg
-Ky0KIGluY2x1ZGUvbGludXgvZHJiZF9saW1pdHMuaCAgICAgICAgfCAyMDQgKysrKysrKysrKysr
-KystLS0tLS0tLS0tLS0tLS0KIDUgZmlsZXMgY2hhbmdlZCwgMTEwIGluc2VydGlvbnMoKyksIDEx
-NSBkZWxldGlvbnMoLSkKCgpiYXNlLWNvbW1pdDogZjU5NmRhM2VmYWY0MTMwZmY2MWNkMDI5NTU4
-ODQ1ODA4ZGY5YmY5OQotLSAKMi4zOC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpkcmJkLWRldiBtYWlsaW5nIGxpc3QKZHJiZC1kZXZAbGlzdHMubGlu
-Yml0LmNvbQpodHRwczovL2xpc3RzLmxpbmJpdC5jb20vbWFpbG1hbi9saXN0aW5mby9kcmJkLWRl
-dgo=
+U2VlIGFsc28gY29tbWl0IDkzYzY4Y2M0NmEwNyAoImRyYmQ6IHVzZSBjb25zaXN0ZW50IGxpY2Vu
+c2UiKS4gV2Ugb25seQp3YW50IHRvIGxpY2Vuc2UgZHJiZCB1bmRlciBHUEwtMi4wLCBzbyB1c2Ug
+dGhlIGNvcnJlc3BvbmRpbmcgU1BEWCBoZWFkZXIKY29uc2lzdGVudGx5LgoKU2lnbmVkLW9mZi1i
+eTogQ2hyaXN0b3BoIELDtmhtd2FsZGVyIDxjaHJpc3RvcGguYm9laG13YWxkZXJAbGluYml0LmNv
+bT4KUmV2aWV3ZWQtYnk6IEpvZWwgQ29sbGVkZ2UgPGpvZWwuY29sbGVkZ2VAbGluYml0LmNvbT4K
+LS0tCiBpbmNsdWRlL2xpbnV4L2RyYmRfbGltaXRzLmggfCAyICstCiAxIGZpbGUgY2hhbmdlZCwg
+MSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4
+L2RyYmRfbGltaXRzLmggYi9pbmNsdWRlL2xpbnV4L2RyYmRfbGltaXRzLmgKaW5kZXggOWUzM2Y3
+MDM4YmVhLi5kNjQyNzFjY2VjZTQgMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvbGludXgvZHJiZF9saW1p
+dHMuaAorKysgYi9pbmNsdWRlL2xpbnV4L2RyYmRfbGltaXRzLmgKQEAgLTEsNCArMSw0IEBACi0v
+KiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMCAqLworLyogU1BEWC1MaWNlbnNlLUlk
+ZW50aWZpZXI6IEdQTC0yLjAtb25seSAqLwogLyoKICAgZHJiZF9saW1pdHMuaAogICBUaGlzIGZp
+bGUgaXMgcGFydCBvZiBEUkJEIGJ5IFBoaWxpcHAgUmVpc25lciBhbmQgTGFycyBFbGxlbmJlcmcu
+Ci0tIAoyLjM4LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmRyYmQtZGV2IG1haWxpbmcgbGlzdApkcmJkLWRldkBsaXN0cy5saW5iaXQuY29tCmh0dHBz
+Oi8vbGlzdHMubGluYml0LmNvbS9tYWlsbWFuL2xpc3RpbmZvL2RyYmQtZGV2Cg==
