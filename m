@@ -2,68 +2,82 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB87F648470
-	for <lists+drbd-dev@lfdr.de>; Fri,  9 Dec 2022 15:59:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FA98648649
+	for <lists+drbd-dev@lfdr.de>; Fri,  9 Dec 2022 17:11:09 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B0A3D4252E9;
-	Fri,  9 Dec 2022 15:59:34 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 82DAA4252EE;
+	Fri,  9 Dec 2022 17:11:08 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
-	[209.85.208.44])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 79F4E42177E
-	for <drbd-dev@lists.linbit.com>; Fri,  9 Dec 2022 15:55:09 +0100 (CET)
-Received: by mail-ed1-f44.google.com with SMTP id a16so3391018edb.9
-	for <drbd-dev@lists.linbit.com>; Fri, 09 Dec 2022 06:55:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linbit-com.20210112.gappssmtp.com; s=20210112;
-	h=content-transfer-encoding:mime-version:references:in-reply-to
-	:message-id:date:subject:cc:to:from:from:to:cc:subject:date
-	:message-id:reply-to;
-	bh=Nr0DjBH1YEnasxrYesj7cvRVZfRH4rPEDs0TxXAHiSg=;
-	b=6BR4ftmEi4cwaY0Zq2EMADfCq7D3R7dRhGj565BcwcOdftO7DpLqU7m1Uq+/yJ+AGZ
-	jh/kM4TgyggxJ+OTIBjhyKG6SAj9vKbh98eNvUeU43HoQPObiR6Pz9b5QNHJ3vavH2k1
-	ZtqdFgFQq6/oMk76hY+leei80rWiI5ExUI3F5vd83sJCp4F/ZTicV1hH7KE6ocr2Kxbc
-	vIl+6NtxjPHuGXJE2mutZpRE0s5Mz54VT5WHCKvnLwDfs5udM6eQpLVXxJ2N+nbLSW9f
-	wqeE2ymttBeIpxn5/ahdOSnUceCLnfxZJcAzEMCvBIYv079KyzKGFg/I7JNLpD/SZZ9L
-	d6Cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20210112;
-	h=content-transfer-encoding:mime-version:references:in-reply-to
-	:message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-	:subject:date:message-id:reply-to;
-	bh=Nr0DjBH1YEnasxrYesj7cvRVZfRH4rPEDs0TxXAHiSg=;
-	b=3tBXS7oGOstaUnOJuugtoa2aoPp8HyOhWE93pbx+JUMvMgKaKIYDE9U73RS91WcGmv
-	TEkyByIyY7HpeidwP9RDeoHlSbS1bMRdf9AUhjBCFt9aINB5CjryTTYVEYBGqQJ+nSXH
-	4swGUpr6eUjdn4WeAqMVCBhwffz4eY7Etgy07FkxDnqZIML1lZLl6anQ/6slIKabzE9z
-	ctYrW61LY/T+bYuakoJUzKu1MuKW5q8gkvp3yLGZ5RxCaS8CL+dHjVOV5pJ6XGmB5uaO
-	zZ55i6hm+bEZHs3llrdDl7r5KtQmmwAityukpAXIrxAuZP3jtKsq7cXAUt5EvgTztHdy
-	MK5g==
-X-Gm-Message-State: ANoB5pk6ehNskpBh4kg8+ZNt9jdB9a02ENIGHLmIEQxCtBb3mTs3DqUO
-	7h8pvR4GRsRMnn0A6sYOu7m/Gotm
-X-Google-Smtp-Source: AA0mqf4Yb/BOvMLtH6r67H46I1phEPMg/pmN85YtjlgWU29uNdJPkmrZ6mICq1Tm5TiV5cKxNxgBlA==
-X-Received: by 2002:a05:6402:1004:b0:46b:c156:9965 with SMTP id
-	c4-20020a056402100400b0046bc1569965mr5266982edu.38.1670597708861;
-	Fri, 09 Dec 2022 06:55:08 -0800 (PST)
-Received: from localhost.localdomain (h082218028181.host.wavenet.at.
-	[82.218.28.181]) by smtp.gmail.com with ESMTPSA id
-	l4-20020aa7c304000000b0046b1d63cfc1sm716856edq.88.2022.12.09.06.55.08
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 09 Dec 2022 06:55:08 -0800 (PST)
-From: =?UTF-8?q?Christoph=20B=C3=B6hmwalder?=
-	<christoph.boehmwalder@linbit.com>
-To: Jens Axboe <axboe@kernel.dk>
-Date: Fri,  9 Dec 2022 15:55:04 +0100
-Message-Id: <20221209145504.2273072-4-christoph.boehmwalder@linbit.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221209145504.2273072-1-christoph.boehmwalder@linbit.com>
-References: <20221209145504.2273072-1-christoph.boehmwalder@linbit.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1D3294252E8
+	for <drbd-dev@lists.linbit.com>; Fri,  9 Dec 2022 17:11:06 +0100 (CET)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 45F48B8289C;
+	Fri,  9 Dec 2022 16:11:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B20FEC433EF;
+	Fri,  9 Dec 2022 16:11:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1670602264;
+	bh=OclmnU1jYcdMFqciE3c6RyUB6hgvanpdH2l220bFhz4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=lP5pQ24T3IT2YBfVVAYFE/vlA14kPUGpHI19DQSbfMFFqcLV6yfVQX2yzf3FWU9BJ
+	DEPOy15CleSzGVLHHvdVrCdctgS6AMOlWyxNMtd1UP4Jl6EFRe7WSmHsdwacu3KmIi
+	3gphHYn83fw+acEzH9vRCOj48wMtBY8ejFf/mJMd7kxsJCGH1dwZt2JHDO6M2WNy+F
+	RxYdcuexGpRtzv/r3df/M1OzYPk521V8CVwEXUXt0ZTCVSTYNw6OFG3RfFVHJS6f4s
+	Cy+bJUuWARFf6RP5DMfx0m0W7Y2ou/9vrV6yP2gJYTEe5AantjuQErI6+6QNzX5szc
+	v2qI3ygfSsAtw==
+Date: Fri, 9 Dec 2022 08:11:01 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Paolo Abeni <pabeni@redhat.com>
+Message-ID: <20221209081101.7500478c@kernel.org>
+In-Reply-To: <d220402a232e204676d9100d6fe4c2ae08f753ee.camel@redhat.com>
+References: <cover.1669036433.git.bcodding@redhat.com>
+	<c2ec184226acd21a191ccc1aa46a1d7e43ca7104.1669036433.git.bcodding@redhat.com>
+	<d220402a232e204676d9100d6fe4c2ae08f753ee.camel@redhat.com>
 MIME-Version: 1.0
-Cc: Philipp Reisner <philipp.reisner@linbit.com>, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, Lars Ellenberg <lars.ellenberg@linbit.com>,
-	drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH 3/3] drbd: split off drbd_config into separate
-	file
+Cc: Latchesar Ionkov <lucho@ionkov.net>,
+	samba-technical@lists.samba.org,
+	Dominique Martinet <asmadeus@codewreck.org>,
+	Valentina Manea <valentina.manea.m@gmail.com>,
+	linux-nvme@lists.infradead.org,
+	Philipp Reisner <philipp.reisner@linbit.com>,
+	David Howells <dhowells@redhat.com>,
+	Joseph Qi <joseph.qi@linux.alibaba.com>,
+	Eric Dumazet <edumazet@google.com>, linux-nfs@vger.kernel.org,
+	Marc Dionne <marc.dionne@auristor.com>,
+	Shuah Khan <shuah@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Mike Christie <michael.christie@oracle.com>,
+	drbd-dev@lists.linbit.com, linux-cifs@vger.kernel.org,
+	Sagi Grimberg <sagi@grimberg.me>, linux-scsi@vger.kernel.org,
+	Mark Fasheh <mark@fasheh.com>, linux-afs@lists.infradead.org,
+	cluster-devel@redhat.com, Christine Caulfield <ccaulfie@redhat.com>,
+	v9fs-developer@lists.sourceforge.net,
+	Ilya Dryomov <idryomov@gmail.com>, open-iscsi@googlegroups.com,
+	Anna Schumaker <anna@kernel.org>, Hensbergen <ericvh@gmail.com>,
+	"James  E.J. Bottomley" <jejb@linux.ibm.com>,
+	Josef Bacik <josef@toxicpanda.com>, David@linbit.com,
+	linux-block@vger.kernel.org, nbd@other.debian.org, Greg@linbit.com,
+	Teigland <teigland@redhat.com>, Joel Becker <jlbec@evilplan.org>,
+	Chuck@linbit.com, Keith Busch <kbusch@kernel.org>,
+	ceph-devel@vger.kernel.org, Xiubo Li <xiubli@redhat.com>,
+	Trond Myklebust <trond.myklebust@hammerspace.com>,
+	Jens Axboe <axboe@kernel.dk>, Chris Leech <cleech@redhat.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Christoph@linbit.com, netdev@vger.kernel.org,
+	linux-usb@vger.kernel.org, Jeff Layton <jlayton@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Steve French <sfrench@samba.org>,
+	Benjamin Coddington <bcodding@redhat.com>,
+	Lever <chuck.lever@oracle.com>, Lee Duncan <lduncan@suse.com>,
+	Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Lars Ellenberg <lars.ellenberg@linbit.com>, Eric@linbit.com,
+	ocfs2-devel@oss.oracle.com
+Subject: Re: [Drbd-dev] [PATCH v1 2/3] Treewide: Stop corrupting socket's
+	task_frag
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -77,50 +91,20 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-VG8gYmUgbW9yZSBzaW1pbGFyIHRvIHdoYXQgd2UgZG8gaW4gdGhlIG91dC1vZi10cmVlIG1vZHVs
-ZSBhbmQgZWFzZSB0aGUKdXBzdHJlYW1pbmcgcHJvY2Vzcy4KClNpZ25lZC1vZmYtYnk6IENocmlz
-dG9waCBCw7ZobXdhbGRlciA8Y2hyaXN0b3BoLmJvZWhtd2FsZGVyQGxpbmJpdC5jb20+ClJldmll
-d2VkLWJ5OiBKb2VsIENvbGxlZGdlIDxqb2VsLmNvbGxlZGdlQGxpbmJpdC5jb20+Ci0tLQogZHJp
-dmVycy9ibG9jay9kcmJkL2RyYmRfYnVpbGR0YWcuYyB8ICAyICstCiBkcml2ZXJzL2Jsb2NrL2Ry
-YmQvZHJiZF9pbnQuaCAgICAgIHwgIDEgKwogaW5jbHVkZS9saW51eC9kcmJkLmggICAgICAgICAg
-ICAgICB8ICA2IC0tLS0tLQogaW5jbHVkZS9saW51eC9kcmJkX2NvbmZpZy5oICAgICAgICB8IDE2
-ICsrKysrKysrKysrKysrKysKIDQgZmlsZXMgY2hhbmdlZCwgMTggaW5zZXJ0aW9ucygrKSwgNyBk
-ZWxldGlvbnMoLSkKIGNyZWF0ZSBtb2RlIDEwMDY0NCBpbmNsdWRlL2xpbnV4L2RyYmRfY29uZmln
-LmgKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2Jsb2NrL2RyYmQvZHJiZF9idWlsZHRhZy5jIGIvZHJp
-dmVycy9ibG9jay9kcmJkL2RyYmRfYnVpbGR0YWcuYwppbmRleCA5NTZhNGQ1YzMzOWIuLmNiMWFh
-NjZkN2Q1ZCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ibG9jay9kcmJkL2RyYmRfYnVpbGR0YWcuYwor
-KysgYi9kcml2ZXJzL2Jsb2NrL2RyYmQvZHJiZF9idWlsZHRhZy5jCkBAIC0xLDUgKzEsNSBAQAog
-Ly8gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAtb25seQotI2luY2x1ZGUgPGxpbnV4
-L2RyYmQuaD4KKyNpbmNsdWRlIDxsaW51eC9kcmJkX2NvbmZpZy5oPgogI2luY2x1ZGUgPGxpbnV4
-L21vZHVsZS5oPgogCiBjb25zdCBjaGFyICpkcmJkX2J1aWxkdGFnKHZvaWQpCmRpZmYgLS1naXQg
-YS9kcml2ZXJzL2Jsb2NrL2RyYmQvZHJiZF9pbnQuaCBiL2RyaXZlcnMvYmxvY2svZHJiZC9kcmJk
-X2ludC5oCmluZGV4IGVkY2UxZjdhYzJkYS4uZDg5YjdkMDNkNGM4IDEwMDY0NAotLS0gYS9kcml2
-ZXJzL2Jsb2NrL2RyYmQvZHJiZF9pbnQuaAorKysgYi9kcml2ZXJzL2Jsb2NrL2RyYmQvZHJiZF9p
-bnQuaApAQCAtMzQsNiArMzQsNyBAQAogI2luY2x1ZGUgPGxpbnV4L3ByZWZldGNoLmg+CiAjaW5j
-bHVkZSA8bGludXgvZHJiZF9nZW5sX2FwaS5oPgogI2luY2x1ZGUgPGxpbnV4L2RyYmQuaD4KKyNp
-bmNsdWRlIDxsaW51eC9kcmJkX2NvbmZpZy5oPgogI2luY2x1ZGUgImRyYmRfc3RyaW5ncy5oIgog
-I2luY2x1ZGUgImRyYmRfc3RhdGUuaCIKICNpbmNsdWRlICJkcmJkX3Byb3RvY29sLmgiCmRpZmYg
-LS1naXQgYS9pbmNsdWRlL2xpbnV4L2RyYmQuaCBiL2luY2x1ZGUvbGludXgvZHJiZC5oCmluZGV4
-IGRmNjVhOGY1MjI4YS4uNTQ2OGEyMzk5ZDQ4IDEwMDY0NAotLS0gYS9pbmNsdWRlL2xpbnV4L2Ry
-YmQuaAorKysgYi9pbmNsdWRlL2xpbnV4L2RyYmQuaApAQCAtMzgsMTIgKzM4LDYgQEAKIAogI2Vu
-ZGlmCiAKLWV4dGVybiBjb25zdCBjaGFyICpkcmJkX2J1aWxkdGFnKHZvaWQpOwotI2RlZmluZSBS
-RUxfVkVSU0lPTiAiOC40LjExIgotI2RlZmluZSBQUk9fVkVSU0lPTl9NSU4gODYKLSNkZWZpbmUg
-UFJPX1ZFUlNJT05fTUFYIDEwMQotCi0KIGVudW0gZHJiZF9pb19lcnJvcl9wIHsKIAlFUF9QQVNT
-X09OLCAvKiBGSVhNRSBzaG91bGQgdGhlIGJldHRlciBiZSBuYW1lZCAiSWdub3JlIj8gKi8KIAlF
-UF9DQUxMX0hFTFBFUiwKZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvZHJiZF9jb25maWcuaCBi
-L2luY2x1ZGUvbGludXgvZHJiZF9jb25maWcuaApuZXcgZmlsZSBtb2RlIDEwMDY0NAppbmRleCAw
-MDAwMDAwMDAwMDAuLmQyMTUzNjVjNmJiMQotLS0gL2Rldi9udWxsCisrKyBiL2luY2x1ZGUvbGlu
-dXgvZHJiZF9jb25maWcuaApAQCAtMCwwICsxLDE2IEBACisvKiBTUERYLUxpY2Vuc2UtSWRlbnRp
-ZmllcjogR1BMLTIuMC1vbmx5ICovCisvKgorICogZHJiZF9jb25maWcuaAorICogRFJCRCdzIGNv
-bXBpbGUgdGltZSBjb25maWd1cmF0aW9uLgorICovCisKKyNpZm5kZWYgRFJCRF9DT05GSUdfSAor
-I2RlZmluZSBEUkJEX0NPTkZJR19ICisKK2V4dGVybiBjb25zdCBjaGFyICpkcmJkX2J1aWxkdGFn
-KHZvaWQpOworCisjZGVmaW5lIFJFTF9WRVJTSU9OICI4LjQuMTEiCisjZGVmaW5lIFBST19WRVJT
-SU9OX01JTiA4NgorI2RlZmluZSBQUk9fVkVSU0lPTl9NQVggMTAxCisKKyNlbmRpZgotLSAKMi4z
-OC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmJk
-LWRldiBtYWlsaW5nIGxpc3QKZHJiZC1kZXZAbGlzdHMubGluYml0LmNvbQpodHRwczovL2xpc3Rz
-LmxpbmJpdC5jb20vbWFpbG1hbi9saXN0aW5mby9kcmJkLWRldgo=
+On Fri, 09 Dec 2022 13:37:08 +0100 Paolo Abeni wrote:
+> I think this is the most feasible way out of the existing issue, and I
+> think this patchset should go via the networking tree, targeting the
+> Linux 6.2.
+
+FWIW some fields had been moved so this will not longer apply cleanly,
+see b534dc46c8ae016. But I think we can apply it to net since the merge
+window is upon us? Just a heads up.
+_______________________________________________
+drbd-dev mailing list
+drbd-dev@lists.linbit.com
+https://lists.linbit.com/mailman/listinfo/drbd-dev
