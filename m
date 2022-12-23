@@ -2,95 +2,176 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF29A653DD1
-	for <lists+drbd-dev@lfdr.de>; Thu, 22 Dec 2022 11:02:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6878D65518C
+	for <lists+drbd-dev@lfdr.de>; Fri, 23 Dec 2022 15:47:21 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0FDDC421792;
-	Thu, 22 Dec 2022 11:02:19 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id CD27342211C;
+	Fri, 23 Dec 2022 15:47:20 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from us-smtp-delivery-124.mimecast.com
-	(us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 264E5421792
-	for <drbd-dev@lists.linbit.com>; Thu, 22 Dec 2022 11:02:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1671703335;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	content-transfer-encoding:content-transfer-encoding:
-	in-reply-to:in-reply-to:references:references;
-	bh=o6jO/LCV2IF2UxvEuH5GPFWr6SJ3JZsJjPnFQmLY128=;
-	b=J8KWvYrdRMUcYz7OnJvR3piSBL6vCgwTYe3bO3Dqtp49Sg6Y/qebYMpzuIEshDIJG8Qt3y
-	lS2qdgP1B3JZgpTOOj6uaU1Y9PF8OUSt5m6erW4AHvpyUR3x9R1GtjSpneZ2cHHuffH6kI
-	Zvnnxi2agB3WktngJWxi5AbDBdsHoCk=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
-	[209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
-	(version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
-	us-mta-104-ELTp7VjEPPug2MWai0xjYw-1; Thu, 22 Dec 2022 05:02:11 -0500
-X-MC-Unique: ELTp7VjEPPug2MWai0xjYw-1
-Received: by mail-qk1-f197.google.com with SMTP id
-	br6-20020a05620a460600b007021e1a5c48so909838qkb.6
-	for <drbd-dev@lists.linbit.com>; Thu, 22 Dec 2022 02:02:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20210112;
-	h=content-transfer-encoding:mime-version:user-agent:references
-	:in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-	:from:to:cc:subject:date:message-id:reply-to;
-	bh=o6jO/LCV2IF2UxvEuH5GPFWr6SJ3JZsJjPnFQmLY128=;
-	b=E9pOYBFHMn8e0WY4doo7A6AvMlEmNIPK1pu3V3UcW56W3SxfvT/Yq/0OsvTK/v+Lgx
-	aACBExB/pVV6vJUS8mVY0SHNSSDo722K8DprQ28JOq39bStV34jXlBNatKwipOWgqcMp
-	1qDgxEwfP1LBrGLZGvmTcYdjXVonTAwV0ZkHmV4TL9l8Ohg515/5hT0X6+R6ASlm5sEd
-	c7apVoHckj2TE8Ar6BqBXGH9EAGjiutNjINavPewbF8hhU8ZmBqV+HcMCblV/UKZ5OLM
-	G5toUwRxi5lTvNfOVDr2ezXXsyF9ZQltk0GAXQmvVoDgADT+GP5UoU9ClAA4ulMsnpre
-	oghA==
-X-Gm-Message-State: AFqh2kpRSEEmloaszz9LYHVsSqTb/ifgx73KjIQ2wS5t0A5TwJkIGCuz
-	LCeMGqnrcK2DIE5TOSc4nkgi/+zz6HnyanCefM9NAHLTjWGsApgkp0G68EmNrzqDSaPZU25oIkH
-	bCOg+wSEoMhmCS1xhYUEg
-X-Received: by 2002:a0c:c508:0:b0:4e5:a127:382f with SMTP id
-	x8-20020a0cc508000000b004e5a127382fmr6466208qvi.48.1671703331053;
-	Thu, 22 Dec 2022 02:02:11 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtZnBvcAi4VqZ0nAfseRa5ZZncJObkgh59kN1yODkWBS5WICo+kLsdO+KK5pqcbrrZqdW1DHQ==
-X-Received: by 2002:a0c:c508:0:b0:4e5:a127:382f with SMTP id
-	x8-20020a0cc508000000b004e5a127382fmr6466171qvi.48.1671703330733;
-	Thu, 22 Dec 2022 02:02:10 -0800 (PST)
-Received: from gerbillo.redhat.com (146-241-101-173.dyn.eolo.it.
-	[146.241.101.173]) by smtp.gmail.com with ESMTPSA id
-	f1-20020a05620a408100b006cfc9846594sm4269qko.93.2022.12.22.02.02.03
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 22 Dec 2022 02:02:10 -0800 (PST)
-Message-ID: <8d91ab13f56e88af0f6133130808f9623b3adb2e.camel@redhat.com>
-From: Paolo Abeni <pabeni@redhat.com>
-To: Steven Rostedt <rostedt@goodmis.org>, Linus Torvalds
-	<torvalds@linux-foundation.org>, Thomas Gleixner <tglx@linutronix.de>
-Date: Thu, 22 Dec 2022 11:02:01 +0100
-In-Reply-To: <20221220134519.3dd1318b@gandalf.local.home>
-References: <20221220134519.3dd1318b@gandalf.local.home>
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
+	[205.220.165.32])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7CFFA421792
+	for <drbd-dev@lists.linbit.com>; Fri, 23 Dec 2022 15:47:19 +0100 (CET)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+	2BNEEKqk003391; Fri, 23 Dec 2022 14:47:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+	h=from : to : cc :
+	subject : date : message-id : references : in-reply-to : content-type :
+	content-transfer-encoding : mime-version; s=corp-2022-7-12;
+	bh=5S33GhZHubXjfDJTVXKvkxA3NZnSC4ePBQDDWEBhk/A=;
+	b=AdYHjK2zg3bhMfKf0WZZKm2wQoV4pgZBiFtyAQwqavjPBPku6zNfTp7nqiL3q4gP43dx
+	b4sa0SLvaK9KXhifx537LVuRgEH84sSNdqWCEqJhfL0wT4NFGoRKh9gHLkGomP/16zeW
+	+8xkz5EmcWhqAixoO3pSFD9k74I+DiR+qeuFJAxJWMjkEsF4Yn9JgyOY6b5RPPRfq1nI
+	hriAjZmj7jIYKDKvJY461Tg85wHfPhdZDBl6O3lQrUm+Mvni+0AIhHv6+OPqb8EJW3E1
+	7TrM7/3kjg07asJRM1iNqr+uwVupf+SrAtJn9vc/PJSt23S5q44k9r84GYbuChXsjrf1
+	Ag== 
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
+	(iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3mh6tr67ub-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 23 Dec 2022 14:47:11 +0000
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
+	[127.0.0.1]) by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
+	(8.17.1.5/8.17.1.5) with ESMTP id 2BNDFEuK007699; 
+	Fri, 23 Dec 2022 14:47:10 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com
+	(mail-mw2nam10lp2101.outbound.protection.outlook.com [104.47.55.101])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with
+	ESMTPS id 3mh47fnpfd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 23 Dec 2022 14:47:10 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+	b=ddJMhFQA+8XXgwsUT8FX/tSO39IPN2/C4Sbm06+w4Sj6kC1hLmQ5BOKS60Fgsto4tEUDLEl6C69Zvrzi+NyiyAAUdeax9lf8lmJM+DcMoHXvupNoBbATmPHtlSkuxgl1uRRnAtJQ9nyQSvPReVgmQ0QJ7CaRbXL9SX8lccBhh/bglYQlO+F+HtngTa0DzEVUwmlDOivMV396fBSuKsl7oVe+Ezj9qToH/FnFHKG/0iMFiwL61Zf+Px0203AxpYFu4PrI5Rf/W34AyHb27JQ7uaAUq+q3wrogJkZH9WsM5npCeA4I7ciwMwZr7xOpL1ulgcfMFXaaJpSnC3f4kX2t3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+	s=arcselector9901;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+	bh=5S33GhZHubXjfDJTVXKvkxA3NZnSC4ePBQDDWEBhk/A=;
+	b=GwkRYXOXMcfjJbSjwWMHG0P+zge0eB3YZ/mTvTpxBPG1EhIZwtZ1FRHyjZeJKmDrm0TIqVMf9pWLHvf1rHI74nz1wJA9CTJOEl1Q7w8Mg7m+XOqDC8EpuH64gF+khncSaCgp3pATcTRirxY5tugD7vIknZnBrhlQjI1n5qCWht7y6cttWwkJX1TYBvJJe+O6Mxnq7SFYhsvkA+DXGaBeFhUJQxDt0XK22Bz3Xd+9mL7HzT3o9jaaeAkxnBerDn/CgsfJkzQJHnyyD/FT6U/Vy/BeRZTkSEjI7h5NAPIjw+zCKPniv+g1++VOcA2O3MAQKqB3kmQN2qwrighlIDy3PQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+	smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+	dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=5S33GhZHubXjfDJTVXKvkxA3NZnSC4ePBQDDWEBhk/A=;
+	b=Lyuy1ZkSRmHNoDEp03t3cCyCCKI8YmJTdtYZNLca50J6W+l3j26D6XMMkkT9qerWIGvuPPgbf9IYMWW07E6Y8zs6ycpvodpVTzcax3ZFOKbJLjgyU9upfCEzDp3qk6SiNxR9Dbcr2NIij/EjnOfYJoBC0rQwHGvDCAFNyJoE3sk=
+Received: from CO1PR10MB4563.namprd10.prod.outlook.com (2603:10b6:303:92::6)
+	by PH0PR10MB5795.namprd10.prod.outlook.com (2603:10b6:510:ff::15) with
+	Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5944.13;
+	Fri, 23 Dec 2022 14:47:07 +0000
+Received: from CO1PR10MB4563.namprd10.prod.outlook.com
+	([fe80::f79c:e911:4586:9371]) by
+	CO1PR10MB4563.namprd10.prod.outlook.com
+	([fe80::f79c:e911:4586:9371%2]) with mapi id 15.20.5944.012;
+	Fri, 23 Dec 2022 14:47:06 +0000
+From: Gulam Mohamed <gulam.mohamed@oracle.com>
+To: Keith Busch <kbusch@kernel.org>
+Thread-Topic: [PATCH for-6.2/block V3 2/2] block: Change the granularity of io
+	ticks from ms to ns
+Thread-Index: AQHZFPFuNnmU8fHcpkiSBSHlMBjHga54k/MAgAL7k+A=
+Date: Fri, 23 Dec 2022 14:47:06 +0000
+Message-ID: <CO1PR10MB4563F566452B9D3035A82EE298E99@CO1PR10MB4563.namprd10.prod.outlook.com>
+References: <20221221040506.1174644-1-gulam.mohamed@oracle.com>
+	<20221221040506.1174644-2-gulam.mohamed@oracle.com>
+	<Y6M9rJbw3ZMvOeDr@kbusch-mbp.dhcp.thefacebook.com>
+In-Reply-To: <Y6M9rJbw3ZMvOeDr@kbusch-mbp.dhcp.thefacebook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CO1PR10MB4563:EE_|PH0PR10MB5795:EE_
+x-ms-office365-filtering-correlation-id: c3ebebc7-35b1-4a4d-12ec-08dae4f49030
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: MR5rLI74UzT/b97umAQylBquKoEFyBi1UiaC6J9zbGLM02pWtaPIJ9Cf5Mqcz/905+qd1UL4TE0E3TmBd52oG5tUxbobvUx+YcevU1Hr9YT2jFiiBxSluO+Quzk/5R+R4aaLg2GGdqFFt8ZTNStdAF2yST5gf+3FR9Gh2HgmCBfiT8wLbl0l2iD+WFYGKRM9Lk7hor1bXZ/rzMeU3nIvtTFcdRqvlMagOWF9k97H1JdD9YoJWoTpBAI2IfukMIedx8ZcZ/IhFDLNV9JDRyLHkMmR6Q31gGq/bSfWE4A+gYRBAPZ9oquK8eDISe2lHt6Jx+drQBsXtFtgKeg0m0OvpEkrJcLNyn+J+21TCfqv2FlYPnI8rKG5nCh9ye+1i8faAe12sUVwxFT+fry6uRl3MKCEPwl2gBT6dCiWhuRsFGpnDcbvxkkOcbz6VcMhRabDDro68Hh5WCI2SEk4+/yZIcwjm7bdIfEoTR0jCuqISNq+7/R1b5yjwYMBbg7WqSctSpheCu2YOuNXY/3Kj/XwYoidMoCZVQzOZ7AVOOYJUYNDFSU71oc468K3Kthg8qitdKsT2zH6A3v+zvklVDfmZK8AW5/7cPlb/JpLHx1UMBOV7k2kTCZ6bbELhRnM7xmxEFmLI/hyJ9aqMXNjkJN9W3ktNef/dWkQIuCISuqJ7Tnb//VpAVIBB2h2z2Ls68oJ1rVi4pjHlg9eG4OB5QjG9Q==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:; IPV:NLI; SFV:NSPM;
+	H:CO1PR10MB4563.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+	SFS:(13230022)(366004)(376002)(346002)(396003)(39860400002)(136003)(451199015)(316002)(38070700005)(2906002)(54906003)(6916009)(44832011)(83380400001)(478600001)(53546011)(7696005)(6506007)(86362001)(55016003)(107886003)(9686003)(71200400001)(186003)(26005)(33656002)(52536014)(8936002)(38100700002)(41300700001)(5660300002)(76116006)(122000001)(66476007)(64756008)(66946007)(66556008)(7416002)(66446008)(4326008)(8676002);
+	DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?EW5Uo8B53+tpfuETDtluY5h7lhLKksJdv4OKn/KdEn31sEKnSHzCaOliZJ5z?=
+	=?us-ascii?Q?GDaf+cxQbgbRKW0P4+YDTL2YO4RnBNBdnqqlLez54r8shU/MEfKVtJGwBhWv?=
+	=?us-ascii?Q?SyZnWR1jlPNdwFpdeOs5HRii7n/eKiosLyKZMM2bGVytnkde22WjLpT7d2cw?=
+	=?us-ascii?Q?IEdv3slZm/vHiB8bvcjBXFpUuuIhFmpKJiHgiIrCkW+NfIoNJOdKOdZ2DVgD?=
+	=?us-ascii?Q?YqCGu7IHxNJ5zTUjtTUcFoRQrh/OwmMov/HpvECbahPuQU3poRpxauAa5uLr?=
+	=?us-ascii?Q?9MDZ6neMMMo5RvpZlurNMImG3ZpMJEoxovY+w8kwtk67C/0b2AeP140R8t2n?=
+	=?us-ascii?Q?ibvO54TRLnqD55Ih1GAZykwvQb23/XoA6t68PbOVfitUuGDFq1Gp58Wsmwjq?=
+	=?us-ascii?Q?uC2ZIf1BC76uKWyqJvZoe7O0Yj2CMHJcDmwOhfhTO79GNT00uPda9or5Bxan?=
+	=?us-ascii?Q?enTyCcUzfUwUC13/xkS6t2P44RD2snGV4+YKwgLVjA/DaubEgQq348/F8Jm6?=
+	=?us-ascii?Q?N73OyYcKD9mEt/FGJRmgmrp3mGylN78FY6obG1/NE5FZOkdkJLubeMQkv4pF?=
+	=?us-ascii?Q?+z+K6Q52TfEvRzP5fO4K2m2uOTz/jrplV7t0PlOqpt/CRU+EpN382XiqpBT9?=
+	=?us-ascii?Q?Xl0lOSPqGzMQL2U+9XPBeUi7fcHh00szN4UcOfHbxCxhYGvOpMxPWMlFw4rh?=
+	=?us-ascii?Q?zTGVh+OkffCb8UHrXxdsFQA8RsBwl2D++/KKB4V+kjJM+G6f0TPuArmIyeu+?=
+	=?us-ascii?Q?pmIgQPCYwc4EANqrSo6VohlxDx0CSuj/Lxwr6wFd6G8oaNHGJkIdT7vVLRHg?=
+	=?us-ascii?Q?KItKFjmgl3tekBbj/Ro3zsRrTijaFCuBcwB8tWEWugLjg6xiPZZbu34tGmvX?=
+	=?us-ascii?Q?eAjtkiEk4nm8S+NbaKv0qtptfKLb9j6+ZdiOyh0UmdBV47N8ARvQF/0A3roa?=
+	=?us-ascii?Q?i+tGYt6hmZ0UH8SCH26pyII4ErCmhkT1j/U4iyn8XC6FoW5mkwYo20MEtb23?=
+	=?us-ascii?Q?Ld8sib2aD3Z4tKju41WAy/VYfC+lG0vtGr9mCDXCXnAyYWCyFP+Sci1Of+ji?=
+	=?us-ascii?Q?T1yD43JkVIUFRQKEyaixTZnGJERAHx1PR5tGF3p+u8Oj1oGNzsjBAmmVZ0uS?=
+	=?us-ascii?Q?lbR5LjBOWRQTRocZP1aVydF+18Q0RwDt/P9g45cMXZ1ehXtFUvx7PkihhJW7?=
+	=?us-ascii?Q?FjW4neXn75fqG+jqZTj0PBJTEDIMD5cVar7lD/tbhwbpBoo/hX9CSFFd8A5H?=
+	=?us-ascii?Q?u5REeZQmlSLavxm6LKEGaliXhWksUmN9ynJWoeYDdoJIyMcYDq3kjLHmgDR2?=
+	=?us-ascii?Q?tzFKcpQpOsMk3INi58lDPD59JzUi9boGcKBxjh/QtDfWEiWUy+aaO2BA8AmM?=
+	=?us-ascii?Q?i8D68HqKJx72yhM5Y9s322zflFY+IB1HC1WiPKI9e5AghTMIH6bXsmynXVON?=
+	=?us-ascii?Q?smmZ7Wb9ySeWT6rJxHpb2PMZwZ/Dtg0nEMEJQVf/8yPjfxVe+KsWeUoRp4jp?=
+	=?us-ascii?Q?L1LvAgEGOfzm9aKWlDXQxKj6Sep8RibMNVti6dHdV6B98eOpK6j1aEDArrrU?=
+	=?us-ascii?Q?9mBmEWXmTtFF2P3oc8MeSnAYxRlwHnaMa0OwH5pY?=
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Cc: alsa-devel@alsa-project.org, linux-staging@lists.linux.dev,
-	linux-sh@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	SHA-cyfmac-dev-list@infineon.com, linux-leds@vger.kernel.org,
-	drbd-dev@lists.linbit.com, lvs-devel@vger.kernel.org,
-	linux-nilfs@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-atm-general@lists.sourceforge.net,
-	Julia Lawall <Julia.Lawall@inria.fr>, linux-acpi@vger.kernel.org,
-	coreteam@netfilter.org, intel-wired-lan@lists.osuosl.org,
-	linux-input@vger.kernel.org, tipc-discussion@lists.sourceforge.net,
-	linux-ext4@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
-	linux-media@vger.kernel.org, bridge@lists.linux-foundation.org,
-	intel-gfx@lists.freedesktop.org, linux-nfs@vger.kernel.org,
-	linux-block@vger.kernel.org, cgroups@vger.kernel.org,
-	Anna-Maria Gleixner <anna-maria@linutronix.de>,
-	brcm80211-dev-list.pdl@broadcom.com,
-	Stephen Boyd <sboyd@kernel.org>, netdev@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
-	LKML <linux-kernel@vger.kernel.org>,
-	linux-bluetooth@vger.kernel.org, netfilter-devel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [Drbd-dev] [PATCH] treewide: Convert del_timer*() to
-	timer_shutdown*()
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4563.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c3ebebc7-35b1-4a4d-12ec-08dae4f49030
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Dec 2022 14:47:06.8413 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: cubjR2yZnnjMVb3TlKXHaQlyLPbKgL8H5kHLjCl0RUo9JnGqp62srFlYb2rx/fK+2WPxRg1tRJlwLOGe5WFsSWiFWSP5t3TosrIlMnA+61U=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB5795
+X-Proofpoint-Virus-Version: vendor=baseguard
+	engine=ICAP:2.0.205,Aquarius:18.0.923,Hydra:6.0.545,FMLib:17.11.122.1
+	definitions=2022-12-23_06,2022-12-23_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+	mlxlogscore=999
+	phishscore=0 bulkscore=0 malwarescore=0 spamscore=0 adultscore=0
+	mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+	engine=8.12.0-2212070000 definitions=main-2212230124
+X-Proofpoint-GUID: ezNCfCW5MSRLe2i75-RAc-Yvrd9fkFj-
+X-Proofpoint-ORIG-GUID: ezNCfCW5MSRLe2i75-RAc-Yvrd9fkFj-
+Cc: "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+	Shminderjit Singh <shminderjit.singh@oracle.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"song@kernel.org" <song@kernel.org>,
+	"dm-devel@redhat.com" <dm-devel@redhat.com>,
+	"ira.weiny@intel.com" <ira.weiny@intel.com>,
+	"agk@redhat.com" <agk@redhat.com>,
+	"drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
+	"dave.jiang@intel.com" <dave.jiang@intel.com>,
+	"minchan@kernel.org" <minchan@kernel.org>,
+	"vishal.l.verma@intel.com" <vishal.l.verma@intel.com>,
+	Konrad Wilk <konrad.wilk@oracle.com>, Joe Jin <joe.jin@oracle.com>,
+	"kent.overstreet@gmail.com" <kent.overstreet@gmail.com>,
+	"ngupta@vflare.org" <ngupta@vflare.org>,
+	"kch@nvidia.com" <kch@nvidia.com>,
+	"senozhatsky@chromium.org" <senozhatsky@chromium.org>,
+	"snitzer@kernel.org" <snitzer@kernel.org>,
+	"colyli@suse.de" <colyli@suse.de>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-bcache@vger.kernel.org" <linux-bcache@vger.kernel.org>,
+	"dan.j.williams@intel.com" <dan.j.williams@intel.com>,
+	"axboe@kernel.dk" <axboe@kernel.dk>, Junxiao@linbit.com,
+	"linux-raid@vger.kernel.org" <linux-raid@vger.kernel.org>,
+	Martin Petersen <martin.petersen@oracle.com>,
+	Rajesh Sivaramasubramaniom <rajesh.sivaramasubramaniom@oracle.com>,
+	"philipp.reisner@linbit.com" <philipp.reisner@linbit.com>,
+	Bi <junxiao.bi@oracle.com>,
+	"lars.ellenberg@linbit.com" <lars.ellenberg@linbit.com>
+Subject: Re: [Drbd-dev] [PATCH for-6.2/block V3 2/2] block: Change the
+ granularity of io ticks from ms to ns
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -109,92 +190,79 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Tue, 2022-12-20 at 13:45 -0500, Steven Rostedt wrote:
-> [
->   Linus,
-> 
->     I ran the script against your latest master branch:
->     commit b6bb9676f2165d518b35ba3bea5f1fcfc0d969bf
-> 
->     As the timer_shutdown*() code is now in your tree, I figured
->     we can start doing the conversions. At least add the trivial ones
->     now as Thomas suggested that this gets applied at the end of the
->     merge window, to avoid conflicts with linux-next during the
->     development cycle. I can wait to Friday to run it again, and
->     resubmit.
-> 
->     What is the best way to handle this?
-> ]
-> 
-> From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
-> 
-> Due to several bugs caused by timers being re-armed after they are
-> shutdown and just before they are freed, a new state of timers was added
-> called "shutdown". After a timer is set to this state, then it can no
-> longer be re-armed.
-> 
-> The following script was run to find all the trivial locations where
-> del_timer() or del_timer_sync() is called in the same function that the
-> object holding the timer is freed. It also ignores any locations where the
-> timer->function is modified between the del_timer*() and the free(), as
-> that is not considered a "trivial" case.
-> 
-> This was created by using a coccinelle script and the following commands:
-> 
->  $ cat timer.cocci
-> @@
-> expression ptr, slab;
-> identifier timer, rfield;
-> @@
-> (
-> -       del_timer(&ptr->timer);
-> +       timer_shutdown(&ptr->timer);
-> > 
-> -       del_timer_sync(&ptr->timer);
-> +       timer_shutdown_sync(&ptr->timer);
-> )
->   ... when strict
->       when != ptr->timer
-> (
->         kfree_rcu(ptr, rfield);
-> > 
->         kmem_cache_free(slab, ptr);
-> > 
->         kfree(ptr);
-> )
-> 
->  $ spatch timer.cocci . > /tmp/t.patch
->  $ patch -p1 < /tmp/t.patch
-> 
-> Link: https://lore.kernel.org/lkml/20221123201306.823305113@linutronix.de/
-> 
-> Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+Hi Keith,
 
-For the networking bits:
+   Thanks for reviewing this request. Can you please see my inline comments?
 
->  drivers/net/ethernet/intel/i40e/i40e_main.c      |  6 +++---
->  drivers/net/ethernet/marvell/sky2.c              |  2 +-
->  drivers/net/ethernet/sun/sunvnet.c               |  2 +-
->  drivers/net/usb/sierra_net.c                     |  2 +-
->  net/802/garp.c                                   |  2 +-
->  net/802/mrp.c                                    |  4 ++--
->  net/bridge/br_multicast.c                        |  8 ++++----
->  net/bridge/br_multicast_eht.c                    |  4 ++--
->  net/core/gen_estimator.c                         |  2 +-
->  net/ipv4/ipmr.c                                  |  2 +-
->  net/ipv6/ip6mr.c                                 |  2 +-
->  net/mac80211/mesh_pathtbl.c                      |  2 +-
->  net/netfilter/ipset/ip_set_list_set.c            |  2 +-
->  net/netfilter/ipvs/ip_vs_lblc.c                  |  2 +-
->  net/netfilter/ipvs/ip_vs_lblcr.c                 |  2 +-
->  net/netfilter/xt_IDLETIMER.c                     |  4 ++--
->  net/netfilter/xt_LED.c                           |  2 +-
->  net/sched/cls_flow.c                             |  2 +-
->  net/sunrpc/svc.c                                 |  2 +-
->  net/tipc/discover.c                              |  2 +-
->  net/tipc/monitor.c                               |  2 +-
+Regards,
+Gulam Mohamed.
 
-Acked-by: Paolo Abeni <pabeni@redhat.com>
+-----Original Message-----
+From: Keith Busch <kbusch@kernel.org> 
+Sent: Wednesday, December 21, 2022 10:39 PM
+To: Gulam Mohamed <gulam.mohamed@oracle.com>
+Cc: linux-block@vger.kernel.org; axboe@kernel.dk; philipp.reisner@linbit.com; lars.ellenberg@linbit.com; christoph.boehmwalder@linbit.com; minchan@kernel.org; ngupta@vflare.org; senozhatsky@chromium.org; colyli@suse.de; kent.overstreet@gmail.com; agk@redhat.com; snitzer@kernel.org; dm-devel@redhat.com; song@kernel.org; dan.j.williams@intel.com; vishal.l.verma@intel.com; dave.jiang@intel.com; ira.weiny@intel.com; Junxiao Bi <junxiao.bi@oracle.com>; Martin Petersen <martin.petersen@oracle.com>; kch@nvidia.com; drbd-dev@lists.linbit.com; linux-kernel@vger.kernel.org; linux-bcache@vger.kernel.org; linux-raid@vger.kernel.org; nvdimm@lists.linux.dev; Konrad Wilk <konrad.wilk@oracle.com>; Joe Jin <joe.jin@oracle.com>; Rajesh Sivaramasubramaniom <rajesh.sivaramasubramaniom@oracle.com>; Shminderjit Singh <shminderjit.singh@oracle.com>
+Subject: Re: [PATCH for-6.2/block V3 2/2] block: Change the granularity of io ticks from ms to ns
+
+On Wed, Dec 21, 2022 at 04:05:06AM +0000, Gulam Mohamed wrote:
+> +u64  blk_get_iostat_ticks(struct request_queue *q) {
+> +       return (blk_queue_precise_io_stat(q) ? ktime_get_ns() : 
+> +jiffies); } EXPORT_SYMBOL_GPL(blk_get_iostat_ticks);
+> +
+>  void update_io_ticks(struct block_device *part, u64 now, bool end)  {
+>  	u64 stamp;
+> @@ -968,20 +980,26 @@ EXPORT_SYMBOL(bdev_start_io_acct);
+>  u64 bio_start_io_acct(struct bio *bio)  {
+>  	return bdev_start_io_acct(bio->bi_bdev, bio_sectors(bio),
+> -				  bio_op(bio), jiffies);
+> +				  bio_op(bio),
+> +				  blk_get_iostat_ticks(bio->bi_bdev->bd_queue));
+>  }
+>  EXPORT_SYMBOL_GPL(bio_start_io_acct);
+>  
+>  void bdev_end_io_acct(struct block_device *bdev, enum req_op op,
+>  		      u64 start_time)
+>  {
+> +	u64 now;
+> +	u64 duration;
+> +	struct request_queue *q = bdev_get_queue(bdev);
+>  	const int sgrp = op_stat_group(op);
+> -	u64 now = READ_ONCE(jiffies);
+> -	u64 duration = (unsigned long)now -(unsigned long) start_time;
+> +	now = blk_get_iostat_ticks(q);;
+
+I don't think you can rely on the blk_queue_precise_io_stat() flag in the completion side. The user can toggle this with data in flight, which means the completion may use different tick units than the start. I think you'll need to add a flag to the request in the start accounting side to know which method to use for the completion.
+
+[GULAM]: As per my understanding, this may work for a single request_queue implemetation. But this request based accounting, as per my understanding, may be an issue with the Multi-QUEUE as there is a separate queue for each CPU and the time-stamp being recorded for the block device is a global one. Also, the issue you mentioned about the start and end accounting may update the ticks in different 
+units for the inflight IOs, may be just for a while. So, even if it works for MQ, I am trying to understand how much is it feasible to do this request-based change for an issue which may be there for just a moment?
+So, can you please correct me if I am wrong and explore more on your suggestion so that I can understand properly?
+
+> @@ -951,6 +951,7 @@ ssize_t part_stat_show(struct device *dev,
+>  	struct request_queue *q = bdev_get_queue(bdev);
+>  	struct disk_stats stat;
+>  	unsigned int inflight;
+> +	u64 stat_ioticks;
+>  
+>  	if (queue_is_mq(q))
+>  		inflight = blk_mq_in_flight(q, bdev); @@ -959,10 +960,13 @@ ssize_t 
+> part_stat_show(struct device *dev,
+>  
+>  	if (inflight) {
+>  		part_stat_lock();
+> -		update_io_ticks(bdev, jiffies, true);
+> +		update_io_ticks(bdev, blk_get_iostat_ticks(q), true);
+>  		part_stat_unlock();
+>  	}
+>  	part_stat_read_all(bdev, &stat);
+> +	stat_ioticks = (blk_queue_precise_io_stat(q) ?
+> +				div_u64(stat.io_ticks, NSEC_PER_MSEC) :
+> +				jiffies_to_msecs(stat.io_ticks));
+
+
+With the user able to change the precision at will, I think these io_ticks need to have a consistent unit size. Mixing jiffies and nsecs is going to create garbage stats output. Could existing io_ticks using jiffies be converted to jiffies_to_nsecs() so that you only have one unit to consider?
+[GULAM]: I am not sure if this will work as we just multiply with 1000000 to convert jiffies to nano-seconds.
+
+
 
 _______________________________________________
 drbd-dev mailing list
