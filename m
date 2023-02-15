@@ -2,48 +2,46 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36E6B6983DA
-	for <lists+drbd-dev@lfdr.de>; Wed, 15 Feb 2023 19:54:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADCDB6985B5
+	for <lists+drbd-dev@lfdr.de>; Wed, 15 Feb 2023 21:39:17 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7CCF2420962;
-	Wed, 15 Feb 2023 19:54:15 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 097DB421742;
+	Wed, 15 Feb 2023 21:39:17 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 426 seconds by postgrey-1.31 at mail19;
-	Wed, 15 Feb 2023 19:54:13 CET
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B884E420962
-	for <drbd-dev@lists.linbit.com>; Wed, 15 Feb 2023 19:54:13 +0100 (CET)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0F98B420FC2
+	for <drbd-dev@lists.linbit.com>; Wed, 15 Feb 2023 21:39:13 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
 	d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-	t=1676487253; x=1708023253;
+	t=1676493555; x=1708029555;
 	h=date:from:to:cc:subject:message-id:references:
 	mime-version:in-reply-to;
-	bh=PWGqVG8PeyF/5CRQAJRpAqDx2RNRCbxSXI/MwuBhgGE=;
-	b=SJG4acoOW7WjnpN7DZ9M2+mpqrWd0mqkeCjiha5MXx5qOt+EV9SFsq7r
-	WxKypjC3FGL0NxPj2nuyxcJmEGGR1S9zuY7rodogq/apUagOSbXHy/8LC
-	maUpnd+7vjfpaDnxPYuxH1sC/EixoYpVnFKJPlspwFq7ykzXyxLetplPq
-	8GVJzbSJieeJ7jBbqe6no+6Yxq85k6wEOUQxWhJSlTGCHVLGW1/75Gugw
-	t48/uv1QYN2QYU0gvb0emmJudJ0FOhIcGcOSwt9O33GgTGy6blvJu8/ix
-	xnYPDBWYDUcgIu5aG3M94u2DTo6SsHofeaHVLhVPOIeZ0itLRzP5Yu0fx g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="311875962"
-X-IronPort-AV: E=Sophos;i="5.97,300,1669104000"; d="scan'208";a="311875962"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
-	15 Feb 2023 10:47:04 -0800
+	bh=dKk5YIYfLfZwhe2c6BAgxkOXzw6JptB/O7GNtet6fz4=;
+	b=W6l0+0KeifQESQ5z9zgZIm0198XEbnR8EEaAR/MVtnMibYRDOeOGzkbI
+	XRShxkEbL5vlO3wGAHej1H6Jeb8t3Or0O35nLoTX2/AcIQmggkl7+XNiO
+	TBkWqiEVDaF7YVRucfQYe09VbRhohBLJ+aQ6pcO1qr+ZuQykccLfEJzF4
+	fyPy44RxJ93fNHh3rkJ05tUWPyDIJ2rc4n4F9MUK5tQusbo0ijtmbfysh
+	PwLXsexBG2j6QqBPXjTTCSs/6siJzeToU10MLZbvegN/iHccVptPcweUq
+	+VHG3v2UL/t7rfkipeU+Xz2MW5FK1cBLOb3W2d/oMVzLXx/XDOWORpkyR w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="358964679"
+X-IronPort-AV: E=Sophos;i="5.97,300,1669104000"; d="scan'208";a="358964679"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+	15 Feb 2023 12:39:12 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="619649467"
-X-IronPort-AV: E=Sophos;i="5.97,300,1669104000"; d="scan'208";a="619649467"
+X-IronPort-AV: E=McAfee;i="6500,9779,10622"; a="812672832"
+X-IronPort-AV: E=Sophos;i="5.97,300,1669104000"; d="scan'208";a="812672832"
 Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-	by orsmga003.jf.intel.com with ESMTP; 15 Feb 2023 10:47:00 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 15 Feb 2023 12:39:05 -0800
 Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>) id 1pSMnz-0009gD-2P;
-	Wed, 15 Feb 2023 18:46:59 +0000
-Date: Thu, 16 Feb 2023 02:46:54 +0800
+	(envelope-from <lkp@intel.com>) id 1pSOYS-0009m9-0r;
+	Wed, 15 Feb 2023 20:39:04 +0000
+Date: Thu, 16 Feb 2023 04:38:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>,
 	Jens Axboe <axboe@kernel.dk>
-Message-ID: <202302160243.r4vaCKlw-lkp@intel.com>
+Message-ID: <202302160440.lpWjbVR5-lkp@intel.com>
 References: <20230215163204.2856631-3-christoph.boehmwalder@linbit.com>
 MIME-Version: 1.0
 Content-Disposition: inline
@@ -74,15 +72,15 @@ Errors-To: drbd-dev-bounces@lists.linbit.com
 
 Hi Christoph,
 
-I love your patch! Perhaps something to improve:
+I love your patch! Yet something to improve:
 
-[auto build test WARNING on a06377c5d01eeeaa52ad979b62c3c72efcc3eff0]
+[auto build test ERROR on a06377c5d01eeeaa52ad979b62c3c72efcc3eff0]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Christoph-B-hmwalder/drbd-Rip-out-the-ERR_IF_CNT_IS_NEGATIVE-macro/20230216-003454
 base:   a06377c5d01eeeaa52ad979b62c3c72efcc3eff0
 patch link:    https://lore.kernel.org/r/20230215163204.2856631-3-christoph.boehmwalder%40linbit.com
 patch subject: [PATCH 2/7] drbd: Add peer device parameter to whole-bitmap I/O handlers
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230216/202302160243.r4vaCKlw-lkp@intel.com/config)
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230216/202302160440.lpWjbVR5-lkp@intel.com/config)
 compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
@@ -94,14 +92,87 @@ reproduce (this is a W=1 build):
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/block/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202302160243.r4vaCKlw-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202302160440.lpWjbVR5-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
+   drivers/block/drbd/drbd_receiver.c: In function 'drbd_sync_handshake':
+>> drivers/block/drbd/drbd_receiver.c:3593:21: error: too many arguments to function 'drbd_bitmap_io'
+    3593 |                 if (drbd_bitmap_io(device, &drbd_bmio_set_n_write, "set_n_write from sync_handshake",
+         |                     ^~~~~~~~~~~~~~
+   In file included from drivers/block/drbd/drbd_receiver.c:37:
+   drivers/block/drbd/drbd_int.h:1072:12: note: declared here
+    1072 | extern int drbd_bitmap_io(struct drbd_device *device,
+         |            ^~~~~~~~~~~~~~
+   drivers/block/drbd/drbd_receiver.c: In function 'receive_uuids':
+   drivers/block/drbd/drbd_receiver.c:4271:25: error: too many arguments to function 'drbd_bitmap_io'
+    4271 |                         drbd_bitmap_io(device, &drbd_bmio_clear_n_write,
+         |                         ^~~~~~~~~~~~~~
+   drivers/block/drbd/drbd_int.h:1072:12: note: declared here
+    1072 | extern int drbd_bitmap_io(struct drbd_device *device,
+         |            ^~~~~~~~~~~~~~
+   drivers/block/drbd/drbd_receiver.c: In function 'receive_bitmap':
+>> drivers/block/drbd/drbd_receiver.c:4880:23: error: too few arguments to function 'drbd_send_bitmap'
+    4880 |                 err = drbd_send_bitmap(device);
+         |                       ^~~~~~~~~~~~~~~~
+   drivers/block/drbd/drbd_int.h:1045:12: note: declared here
+    1045 | extern int drbd_send_bitmap(struct drbd_device *device, struct drbd_peer_device *peer_device);
+         |            ^~~~~~~~~~~~~~~~
+   drivers/block/drbd/drbd_receiver.c: In function 'drbd_disconnected':
+>> drivers/block/drbd/drbd_receiver.c:5216:40: error: passing argument 2 of 'drbd_bitmap_io' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    5216 |                 drbd_bitmap_io(device, &drbd_bm_write_copy_pages,
+         |                                        ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                        |
+         |                                        int (*)(struct drbd_device *)
+   drivers/block/drbd/drbd_int.h:1073:23: note: expected 'int (*)(struct drbd_device *, struct drbd_peer_device *)' but argument is of type 'int (*)(struct drbd_device *)'
+    1073 |                 int (*io_fn)(struct drbd_device *, struct drbd_peer_device *),
+         |                 ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/block/drbd/drbd_receiver.c:5216:17: error: too many arguments to function 'drbd_bitmap_io'
+    5216 |                 drbd_bitmap_io(device, &drbd_bm_write_copy_pages,
+         |                 ^~~~~~~~~~~~~~
+   drivers/block/drbd/drbd_int.h:1072:12: note: declared here
+    1072 | extern int drbd_bitmap_io(struct drbd_device *device,
+         |            ^~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   drivers/block/drbd/drbd_main.c: In function 'send_bitmap_rle_or_plain':
+>> drivers/block/drbd/drbd_main.c:1203:29: error: 'device' redeclared as different kind of symbol
+    1203 |         struct drbd_device *device = peer_device->device;
+         |                             ^~~~~~
+   drivers/block/drbd/drbd_main.c:1201:51: note: previous definition of 'device' with type 'struct drbd_peer_device *'
+    1201 | send_bitmap_rle_or_plain(struct drbd_peer_device *device, struct bm_xfer_ctx *c)
+         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+>> drivers/block/drbd/drbd_main.c:1203:38: error: 'peer_device' undeclared (first use in this function); did you mean 'phy_device'?
+    1203 |         struct drbd_device *device = peer_device->device;
+         |                                      ^~~~~~~~~~~
+         |                                      phy_device
+   drivers/block/drbd/drbd_main.c:1203:38: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/block/drbd/drbd_main.c: In function '_drbd_send_bitmap':
+>> drivers/block/drbd/drbd_main.c:1272:29: error: too few arguments to function 'drbd_bm_write'
+    1272 |                         if (drbd_bm_write(device)) {
+         |                             ^~~~~~~~~~~~~
+   In file included from drivers/block/drbd/drbd_main.c:46:
+   drivers/block/drbd/drbd_int.h:1293:13: note: declared here
+    1293 | extern int  drbd_bm_write(struct drbd_device *device,
+         |             ^~~~~~~~~~~~~
+   drivers/block/drbd/drbd_main.c: At top level:
+>> drivers/block/drbd/drbd_main.c:3497:6: error: conflicting types for 'drbd_queue_bitmap_io'; have 'void(struct drbd_device *, int (*)(struct drbd_device *, struct drbd_peer_device *), void (*)(struct drbd_device *, int), char *, enum bm_flag,  struct drbd_peer_device *)'
+    3497 | void drbd_queue_bitmap_io(struct drbd_device *device,
+         |      ^~~~~~~~~~~~~~~~~~~~
+   drivers/block/drbd/drbd_int.h:1068:13: note: previous declaration of 'drbd_queue_bitmap_io' with type 'void(struct drbd_device *, int (*)(struct drbd_device *, struct drbd_peer_device *), void (*)(struct drbd_device *, int), char *, enum bm_flag)'
+    1068 | extern void drbd_queue_bitmap_io(struct drbd_device *device,
+         |             ^~~~~~~~~~~~~~~~~~~~
+>> drivers/block/drbd/drbd_main.c:3540:5: error: conflicting types for 'drbd_bitmap_io'; have 'int(struct drbd_device *, int (*)(struct drbd_device *, struct drbd_peer_device *), char *, enum bm_flag,  struct drbd_peer_device *)'
+    3540 | int drbd_bitmap_io(struct drbd_device *device,
+         |     ^~~~~~~~~~~~~~
+   drivers/block/drbd/drbd_int.h:1072:12: note: previous declaration of 'drbd_bitmap_io' with type 'int(struct drbd_device *, int (*)(struct drbd_device *, struct drbd_peer_device *), char *, enum bm_flag)'
+    1072 | extern int drbd_bitmap_io(struct drbd_device *device,
+         |            ^~~~~~~~~~~~~~
+--
    In file included from include/linux/drbd_genl_api.h:54,
                     from drivers/block/drbd/drbd_int.h:35,
                     from drivers/block/drbd/drbd_nl.c:24:
@@ -118,10 +189,10 @@ All warnings (new ones prefixed by >>):
      212 | const char *CONCAT_(GENL_MAGIC_FAMILY, _genl_cmd_to_str)(__u8 cmd)
          |                     ^~~~~~~~~~~~~~~~~
    drivers/block/drbd/drbd_nl.c: In function 'drbd_determine_dev_size':
->> drivers/block/drbd/drbd_nl.c:1055:70: warning: pointer type mismatch in conditional expression
+   drivers/block/drbd/drbd_nl.c:1055:70: warning: pointer type mismatch in conditional expression
     1055 |                 drbd_bitmap_io(device, md_moved ? &drbd_bm_write_all : &drbd_bm_write,
          |                                                                      ^
-   drivers/block/drbd/drbd_nl.c:1055:17: error: too many arguments to function 'drbd_bitmap_io'
+>> drivers/block/drbd/drbd_nl.c:1055:17: error: too many arguments to function 'drbd_bitmap_io'
     1055 |                 drbd_bitmap_io(device, md_moved ? &drbd_bm_write_all : &drbd_bm_write,
          |                 ^~~~~~~~~~~~~~
    drivers/block/drbd/drbd_int.h:1072:12: note: declared here
@@ -148,14 +219,14 @@ All warnings (new ones prefixed by >>):
     1072 | extern int drbd_bitmap_io(struct drbd_device *device,
          |            ^~~~~~~~~~~~~~
    drivers/block/drbd/drbd_nl.c: In function 'drbd_bmio_set_susp_al':
-   drivers/block/drbd/drbd_nl.c:3014:14: error: too few arguments to function 'drbd_bmio_set_n_write'
+>> drivers/block/drbd/drbd_nl.c:3014:14: error: too few arguments to function 'drbd_bmio_set_n_write'
     3014 |         rv = drbd_bmio_set_n_write(device);
          |              ^~~~~~~~~~~~~~~~~~~~~
    drivers/block/drbd/drbd_int.h:1078:12: note: declared here
     1078 | extern int drbd_bmio_set_n_write(struct drbd_device *device,
          |            ^~~~~~~~~~~~~~~~~~~~~
    drivers/block/drbd/drbd_nl.c: In function 'drbd_adm_invalidate_peer':
-   drivers/block/drbd/drbd_nl.c:3055:52: error: passing argument 2 of 'drbd_bitmap_io' from incompatible pointer type [-Werror=incompatible-pointer-types]
+>> drivers/block/drbd/drbd_nl.c:3055:52: error: passing argument 2 of 'drbd_bitmap_io' from incompatible pointer type [-Werror=incompatible-pointer-types]
     3055 |                         if (drbd_bitmap_io(device, &drbd_bmio_set_susp_al,
          |                                                    ^~~~~~~~~~~~~~~~~~~~~~
          |                                                    |
@@ -177,182 +248,210 @@ All warnings (new ones prefixed by >>):
     1072 | extern int drbd_bitmap_io(struct drbd_device *device,
          |            ^~~~~~~~~~~~~~
    cc1: some warnings being treated as errors
+--
+>> drivers/block/drbd/drbd_state.c:1520:5: error: conflicting types for 'drbd_bitmap_io_from_worker'; have 'int(struct drbd_device *, int (*)(struct drbd_device *, struct drbd_peer_device *), char *, enum bm_flag,  struct drbd_peer_device *)'
+    1520 | int drbd_bitmap_io_from_worker(struct drbd_device *device,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/block/drbd/drbd_state.c:17:
+   drivers/block/drbd/drbd_int.h:1075:12: note: previous declaration of 'drbd_bitmap_io_from_worker' with type 'int(struct drbd_device *, int (*)(struct drbd_device *, struct drbd_peer_device *), char *, enum bm_flag)'
+    1075 | extern int drbd_bitmap_io_from_worker(struct drbd_device *device,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/block/drbd/drbd_state.c: In function 'after_state_ch':
+>> drivers/block/drbd/drbd_state.c:1842:25: error: too few arguments to function 'drbd_bitmap_io_from_worker'
+    1842 |                         drbd_bitmap_io_from_worker(device, &drbd_bm_write,
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/block/drbd/drbd_state.c:1520:5: note: declared here
+    1520 | int drbd_bitmap_io_from_worker(struct drbd_device *device,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/block/drbd/drbd_state.c:1854:17: error: too few arguments to function 'drbd_bitmap_io_from_worker'
+    1854 |                 drbd_bitmap_io_from_worker(device, &drbd_bm_write,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/block/drbd/drbd_state.c:1520:5: note: declared here
+    1520 | int drbd_bitmap_io_from_worker(struct drbd_device *device,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/block/drbd/drbd_state.c:2014:46: error: passing argument 2 of 'drbd_queue_bitmap_io' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    2014 |                 drbd_queue_bitmap_io(device, &drbd_bm_write_copy_pages, NULL,
+         |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                              |
+         |                                              int (*)(struct drbd_device *)
+   drivers/block/drbd/drbd_int.h:1069:40: note: expected 'int (*)(struct drbd_device *, struct drbd_peer_device *)' but argument is of type 'int (*)(struct drbd_device *)'
+    1069 |                                  int (*io_fn)(struct drbd_device *, struct drbd_peer_device *),
+         |                                  ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +1055 drivers/block/drbd/drbd_nl.c
+vim +/drbd_bitmap_io +3593 drivers/block/drbd/drbd_receiver.c
 
-b411b3637fa71f Philipp Reisner     2009-09-25   921  
-a425711c6c9c85 Lee Jones           2021-03-12   922  /*
-b411b3637fa71f Philipp Reisner     2009-09-25   923   * drbd_determine_dev_size() -  Sets the right device size obeying all constraints
-b30ab7913b0a7b Andreas Gruenbacher 2011-07-03   924   * @device:	DRBD device.
-b411b3637fa71f Philipp Reisner     2009-09-25   925   *
-b411b3637fa71f Philipp Reisner     2009-09-25   926   * Returns 0 on success, negative return values indicate errors.
-b411b3637fa71f Philipp Reisner     2009-09-25   927   * You should call drbd_md_sync() after calling this function.
-b411b3637fa71f Philipp Reisner     2009-09-25   928   */
-d752b2696072ed Philipp Reisner     2013-06-25   929  enum determine_dev_size
-b30ab7913b0a7b Andreas Gruenbacher 2011-07-03   930  drbd_determine_dev_size(struct drbd_device *device, enum dds_flags flags, struct resize_parms *rs) __must_hold(local)
-b411b3637fa71f Philipp Reisner     2009-09-25   931  {
-8011e2490907c2 Lars Ellenberg      2015-06-08   932  	struct md_offsets_and_sizes {
-8011e2490907c2 Lars Ellenberg      2015-06-08   933  		u64 last_agreed_sect;
-8011e2490907c2 Lars Ellenberg      2015-06-08   934  		u64 md_offset;
-8011e2490907c2 Lars Ellenberg      2015-06-08   935  		s32 al_offset;
-8011e2490907c2 Lars Ellenberg      2015-06-08   936  		s32 bm_offset;
-8011e2490907c2 Lars Ellenberg      2015-06-08   937  		u32 md_size_sect;
-8011e2490907c2 Lars Ellenberg      2015-06-08   938  
-8011e2490907c2 Lars Ellenberg      2015-06-08   939  		u32 al_stripes;
-8011e2490907c2 Lars Ellenberg      2015-06-08   940  		u32 al_stripe_size_4k;
-8011e2490907c2 Lars Ellenberg      2015-06-08   941  	} prev;
-8011e2490907c2 Lars Ellenberg      2015-06-08   942  	sector_t u_size, size;
-b30ab7913b0a7b Andreas Gruenbacher 2011-07-03   943  	struct drbd_md *md = &device->ldev->md;
-d752b2696072ed Philipp Reisner     2013-06-25   944  	void *buffer;
-b411b3637fa71f Philipp Reisner     2009-09-25   945  
-b411b3637fa71f Philipp Reisner     2009-09-25   946  	int md_moved, la_size_changed;
-e96c96333fe5a4 Philipp Reisner     2013-06-25   947  	enum determine_dev_size rv = DS_UNCHANGED;
-b411b3637fa71f Philipp Reisner     2009-09-25   948  
-5f7c01249bea67 Lars Ellenberg      2015-06-08   949  	/* We may change the on-disk offsets of our meta data below.  Lock out
-5f7c01249bea67 Lars Ellenberg      2015-06-08   950  	 * anything that may cause meta data IO, to avoid acting on incomplete
-5f7c01249bea67 Lars Ellenberg      2015-06-08   951  	 * layout changes or scribbling over meta data that is in the process
-5f7c01249bea67 Lars Ellenberg      2015-06-08   952  	 * of being moved.
-b411b3637fa71f Philipp Reisner     2009-09-25   953  	 *
-5f7c01249bea67 Lars Ellenberg      2015-06-08   954  	 * Move is not exactly correct, btw, currently we have all our meta
-5f7c01249bea67 Lars Ellenberg      2015-06-08   955  	 * data in core memory, to "move" it we just write it all out, there
-5f7c01249bea67 Lars Ellenberg      2015-06-08   956  	 * are no reads. */
-b30ab7913b0a7b Andreas Gruenbacher 2011-07-03   957  	drbd_suspend_io(device);
-e37d2438d8e5e4 Lars Ellenberg      2014-04-01   958  	buffer = drbd_md_get_buffer(device, __func__); /* Lock meta-data IO */
-d752b2696072ed Philipp Reisner     2013-06-25   959  	if (!buffer) {
-b30ab7913b0a7b Andreas Gruenbacher 2011-07-03   960  		drbd_resume_io(device);
-d752b2696072ed Philipp Reisner     2013-06-25   961  		return DS_ERROR;
-d752b2696072ed Philipp Reisner     2013-06-25   962  	}
-b411b3637fa71f Philipp Reisner     2009-09-25   963  
-8011e2490907c2 Lars Ellenberg      2015-06-08   964  	/* remember current offset and sizes */
-8011e2490907c2 Lars Ellenberg      2015-06-08   965  	prev.last_agreed_sect = md->la_size_sect;
-8011e2490907c2 Lars Ellenberg      2015-06-08   966  	prev.md_offset = md->md_offset;
-8011e2490907c2 Lars Ellenberg      2015-06-08   967  	prev.al_offset = md->al_offset;
-8011e2490907c2 Lars Ellenberg      2015-06-08   968  	prev.bm_offset = md->bm_offset;
-8011e2490907c2 Lars Ellenberg      2015-06-08   969  	prev.md_size_sect = md->md_size_sect;
-8011e2490907c2 Lars Ellenberg      2015-06-08   970  	prev.al_stripes = md->al_stripes;
-8011e2490907c2 Lars Ellenberg      2015-06-08   971  	prev.al_stripe_size_4k = md->al_stripe_size_4k;
-b411b3637fa71f Philipp Reisner     2009-09-25   972  
-d752b2696072ed Philipp Reisner     2013-06-25   973  	if (rs) {
-d752b2696072ed Philipp Reisner     2013-06-25   974  		/* rs is non NULL if we should change the AL layout only */
-d752b2696072ed Philipp Reisner     2013-06-25   975  		md->al_stripes = rs->al_stripes;
-d752b2696072ed Philipp Reisner     2013-06-25   976  		md->al_stripe_size_4k = rs->al_stripe_size / 4;
-d752b2696072ed Philipp Reisner     2013-06-25   977  		md->al_size_4k = (u64)rs->al_stripes * rs->al_stripe_size / 4;
-d752b2696072ed Philipp Reisner     2013-06-25   978  	}
-d752b2696072ed Philipp Reisner     2013-06-25   979  
-b30ab7913b0a7b Andreas Gruenbacher 2011-07-03   980  	drbd_md_set_sector_offsets(device, device->ldev);
-b411b3637fa71f Philipp Reisner     2009-09-25   981  
-daeda1cca91d58 Philipp Reisner     2011-05-03   982  	rcu_read_lock();
-b30ab7913b0a7b Andreas Gruenbacher 2011-07-03   983  	u_size = rcu_dereference(device->ldev->disk_conf)->disk_size;
-daeda1cca91d58 Philipp Reisner     2011-05-03   984  	rcu_read_unlock();
-b30ab7913b0a7b Andreas Gruenbacher 2011-07-03   985  	size = drbd_new_dev_size(device, device->ldev, u_size, flags & DDSF_FORCED);
-b411b3637fa71f Philipp Reisner     2009-09-25   986  
-8011e2490907c2 Lars Ellenberg      2015-06-08   987  	if (size < prev.last_agreed_sect) {
-d752b2696072ed Philipp Reisner     2013-06-25   988  		if (rs && u_size == 0) {
-d752b2696072ed Philipp Reisner     2013-06-25   989  			/* Remove "rs &&" later. This check should always be active, but
-d752b2696072ed Philipp Reisner     2013-06-25   990  			   right now the receiver expects the permissive behavior */
-d01801710265cf Andreas Gruenbacher 2011-07-03   991  			drbd_warn(device, "Implicit shrink not allowed. "
-d752b2696072ed Philipp Reisner     2013-06-25   992  				 "Use --size=%llus for explicit shrink.\n",
-d752b2696072ed Philipp Reisner     2013-06-25   993  				 (unsigned long long)size);
-d752b2696072ed Philipp Reisner     2013-06-25   994  			rv = DS_ERROR_SHRINK;
-d752b2696072ed Philipp Reisner     2013-06-25   995  		}
-d752b2696072ed Philipp Reisner     2013-06-25   996  		if (u_size > size)
-d752b2696072ed Philipp Reisner     2013-06-25   997  			rv = DS_ERROR_SPACE_MD;
-d752b2696072ed Philipp Reisner     2013-06-25   998  		if (rv != DS_UNCHANGED)
-d752b2696072ed Philipp Reisner     2013-06-25   999  			goto err_out;
-d752b2696072ed Philipp Reisner     2013-06-25  1000  	}
-d752b2696072ed Philipp Reisner     2013-06-25  1001  
-155bd9d1abd604 Christoph Hellwig   2020-09-25  1002  	if (get_capacity(device->vdisk) != size ||
-b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  1003  	    drbd_bm_capacity(device) != size) {
-b411b3637fa71f Philipp Reisner     2009-09-25  1004  		int err;
-b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  1005  		err = drbd_bm_resize(device, size, !(flags & DDSF_NO_RESYNC));
-b411b3637fa71f Philipp Reisner     2009-09-25  1006  		if (unlikely(err)) {
-b411b3637fa71f Philipp Reisner     2009-09-25  1007  			/* currently there is only one error: ENOMEM! */
-8011e2490907c2 Lars Ellenberg      2015-06-08  1008  			size = drbd_bm_capacity(device);
-b411b3637fa71f Philipp Reisner     2009-09-25  1009  			if (size == 0) {
-d01801710265cf Andreas Gruenbacher 2011-07-03  1010  				drbd_err(device, "OUT OF MEMORY! "
-b411b3637fa71f Philipp Reisner     2009-09-25  1011  				    "Could not allocate bitmap!\n");
-b411b3637fa71f Philipp Reisner     2009-09-25  1012  			} else {
-d01801710265cf Andreas Gruenbacher 2011-07-03  1013  				drbd_err(device, "BM resizing failed. "
-8011e2490907c2 Lars Ellenberg      2015-06-08  1014  				    "Leaving size unchanged\n");
-b411b3637fa71f Philipp Reisner     2009-09-25  1015  			}
-e96c96333fe5a4 Philipp Reisner     2013-06-25  1016  			rv = DS_ERROR;
-b411b3637fa71f Philipp Reisner     2009-09-25  1017  		}
-b411b3637fa71f Philipp Reisner     2009-09-25  1018  		/* racy, see comments above. */
-b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  1019  		drbd_set_my_capacity(device, size);
-8011e2490907c2 Lars Ellenberg      2015-06-08  1020  		md->la_size_sect = size;
-b411b3637fa71f Philipp Reisner     2009-09-25  1021  	}
-d752b2696072ed Philipp Reisner     2013-06-25  1022  	if (rv <= DS_ERROR)
-d752b2696072ed Philipp Reisner     2013-06-25  1023  		goto err_out;
-b411b3637fa71f Philipp Reisner     2009-09-25  1024  
-8011e2490907c2 Lars Ellenberg      2015-06-08  1025  	la_size_changed = (prev.last_agreed_sect != md->la_size_sect);
-b411b3637fa71f Philipp Reisner     2009-09-25  1026  
-8011e2490907c2 Lars Ellenberg      2015-06-08  1027  	md_moved = prev.md_offset    != md->md_offset
-8011e2490907c2 Lars Ellenberg      2015-06-08  1028  		|| prev.md_size_sect != md->md_size_sect;
-b411b3637fa71f Philipp Reisner     2009-09-25  1029  
-d752b2696072ed Philipp Reisner     2013-06-25  1030  	if (la_size_changed || md_moved || rs) {
-d752b2696072ed Philipp Reisner     2013-06-25  1031  		u32 prev_flags;
-24dccabb390412 Andreas Gruenbacher 2010-12-12  1032  
-fcb096740a13c8 Lars Ellenberg      2014-01-27  1033  		/* We do some synchronous IO below, which may take some time.
-fcb096740a13c8 Lars Ellenberg      2014-01-27  1034  		 * Clear the timer, to avoid scary "timer expired!" messages,
-fcb096740a13c8 Lars Ellenberg      2014-01-27  1035  		 * "Superblock" is written out at least twice below, anyways. */
-fcb096740a13c8 Lars Ellenberg      2014-01-27  1036  		del_timer(&device->md_sync_timer);
-d752b2696072ed Philipp Reisner     2013-06-25  1037  
-5f7c01249bea67 Lars Ellenberg      2015-06-08  1038  		/* We won't change the "al-extents" setting, we just may need
-5f7c01249bea67 Lars Ellenberg      2015-06-08  1039  		 * to move the on-disk location of the activity log ringbuffer.
-5f7c01249bea67 Lars Ellenberg      2015-06-08  1040  		 * Lock for transaction is good enough, it may well be "dirty"
-5f7c01249bea67 Lars Ellenberg      2015-06-08  1041  		 * or even "starving". */
-5f7c01249bea67 Lars Ellenberg      2015-06-08  1042  		wait_event(device->al_wait, lc_try_lock_for_transaction(device->act_log));
-5f7c01249bea67 Lars Ellenberg      2015-06-08  1043  
-5f7c01249bea67 Lars Ellenberg      2015-06-08  1044  		/* mark current on-disk bitmap and activity log as unreliable */
-d752b2696072ed Philipp Reisner     2013-06-25  1045  		prev_flags = md->flags;
-5f7c01249bea67 Lars Ellenberg      2015-06-08  1046  		md->flags |= MDF_FULL_SYNC | MDF_AL_DISABLED;
-b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  1047  		drbd_md_write(device, buffer);
-d752b2696072ed Philipp Reisner     2013-06-25  1048  
-5f7c01249bea67 Lars Ellenberg      2015-06-08  1049  		drbd_al_initialize(device, buffer);
-5f7c01249bea67 Lars Ellenberg      2015-06-08  1050  
-d01801710265cf Andreas Gruenbacher 2011-07-03  1051  		drbd_info(device, "Writing the whole bitmap, %s\n",
-b411b3637fa71f Philipp Reisner     2009-09-25  1052  			 la_size_changed && md_moved ? "size changed and md moved" :
-b411b3637fa71f Philipp Reisner     2009-09-25  1053  			 la_size_changed ? "size changed" : "md moved");
-20ceb2b22edaf5 Lars Ellenberg      2011-01-21  1054  		/* next line implicitly does drbd_suspend_io()+drbd_resume_io() */
-b30ab7913b0a7b Andreas Gruenbacher 2011-07-03 @1055  		drbd_bitmap_io(device, md_moved ? &drbd_bm_write_all : &drbd_bm_write,
-e55221e8a69f80 Andreas Gruenbacher 2023-02-15  1056  			       "size changed", BM_LOCKED_MASK, NULL);
-d752b2696072ed Philipp Reisner     2013-06-25  1057  
-5f7c01249bea67 Lars Ellenberg      2015-06-08  1058  		/* on-disk bitmap and activity log is authoritative again
-5f7c01249bea67 Lars Ellenberg      2015-06-08  1059  		 * (unless there was an IO error meanwhile...) */
-d752b2696072ed Philipp Reisner     2013-06-25  1060  		md->flags = prev_flags;
-b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  1061  		drbd_md_write(device, buffer);
-d752b2696072ed Philipp Reisner     2013-06-25  1062  
-d752b2696072ed Philipp Reisner     2013-06-25  1063  		if (rs)
-d01801710265cf Andreas Gruenbacher 2011-07-03  1064  			drbd_info(device, "Changed AL layout to al-stripes = %d, al-stripe-size-kB = %d\n",
-d752b2696072ed Philipp Reisner     2013-06-25  1065  				  md->al_stripes, md->al_stripe_size_4k * 4);
-b411b3637fa71f Philipp Reisner     2009-09-25  1066  	}
-b411b3637fa71f Philipp Reisner     2009-09-25  1067  
-8011e2490907c2 Lars Ellenberg      2015-06-08  1068  	if (size > prev.last_agreed_sect)
-8011e2490907c2 Lars Ellenberg      2015-06-08  1069  		rv = prev.last_agreed_sect ? DS_GREW : DS_GREW_FROM_ZERO;
-8011e2490907c2 Lars Ellenberg      2015-06-08  1070  	if (size < prev.last_agreed_sect)
-e96c96333fe5a4 Philipp Reisner     2013-06-25  1071  		rv = DS_SHRUNK;
-d752b2696072ed Philipp Reisner     2013-06-25  1072  
-d752b2696072ed Philipp Reisner     2013-06-25  1073  	if (0) {
-d752b2696072ed Philipp Reisner     2013-06-25  1074  	err_out:
-8011e2490907c2 Lars Ellenberg      2015-06-08  1075  		/* restore previous offset and sizes */
-8011e2490907c2 Lars Ellenberg      2015-06-08  1076  		md->la_size_sect = prev.last_agreed_sect;
-8011e2490907c2 Lars Ellenberg      2015-06-08  1077  		md->md_offset = prev.md_offset;
-8011e2490907c2 Lars Ellenberg      2015-06-08  1078  		md->al_offset = prev.al_offset;
-8011e2490907c2 Lars Ellenberg      2015-06-08  1079  		md->bm_offset = prev.bm_offset;
-8011e2490907c2 Lars Ellenberg      2015-06-08  1080  		md->md_size_sect = prev.md_size_sect;
-8011e2490907c2 Lars Ellenberg      2015-06-08  1081  		md->al_stripes = prev.al_stripes;
-8011e2490907c2 Lars Ellenberg      2015-06-08  1082  		md->al_stripe_size_4k = prev.al_stripe_size_4k;
-8011e2490907c2 Lars Ellenberg      2015-06-08  1083  		md->al_size_4k = (u64)prev.al_stripes * prev.al_stripe_size_4k;
-d752b2696072ed Philipp Reisner     2013-06-25  1084  	}
-b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  1085  	lc_unlock(device->act_log);
-b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  1086  	wake_up(&device->al_wait);
-b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  1087  	drbd_md_put_buffer(device);
-b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  1088  	drbd_resume_io(device);
-b411b3637fa71f Philipp Reisner     2009-09-25  1089  
-b411b3637fa71f Philipp Reisner     2009-09-25  1090  	return rv;
-b411b3637fa71f Philipp Reisner     2009-09-25  1091  }
-b411b3637fa71f Philipp Reisner     2009-09-25  1092  
+b411b3637fa71f Philipp Reisner     2009-09-25  3443  
+b411b3637fa71f Philipp Reisner     2009-09-25  3444  /* drbd_sync_handshake() returns the new conn state on success, or
+b411b3637fa71f Philipp Reisner     2009-09-25  3445     CONN_MASK (-1) on failure.
+b411b3637fa71f Philipp Reisner     2009-09-25  3446   */
+69a227731a378f Andreas Gruenbacher 2011-08-09  3447  static enum drbd_conns drbd_sync_handshake(struct drbd_peer_device *peer_device,
+69a227731a378f Andreas Gruenbacher 2011-08-09  3448  					   enum drbd_role peer_role,
+b411b3637fa71f Philipp Reisner     2009-09-25  3449  					   enum drbd_disk_state peer_disk) __must_hold(local)
+b411b3637fa71f Philipp Reisner     2009-09-25  3450  {
+69a227731a378f Andreas Gruenbacher 2011-08-09  3451  	struct drbd_device *device = peer_device->device;
+b411b3637fa71f Philipp Reisner     2009-09-25  3452  	enum drbd_conns rv = C_MASK;
+b411b3637fa71f Philipp Reisner     2009-09-25  3453  	enum drbd_disk_state mydisk;
+44ed167da74825 Philipp Reisner     2011-04-19  3454  	struct net_conf *nc;
+d29e89e34952a9 Roland Kammerer     2018-12-20  3455  	int hg, rule_nr, rr_conflict, tentative, always_asbp;
+b411b3637fa71f Philipp Reisner     2009-09-25  3456  
+b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  3457  	mydisk = device->state.disk;
+b411b3637fa71f Philipp Reisner     2009-09-25  3458  	if (mydisk == D_NEGOTIATING)
+b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  3459  		mydisk = device->new_state_tmp.disk;
+b411b3637fa71f Philipp Reisner     2009-09-25  3460  
+d01801710265cf Andreas Gruenbacher 2011-07-03  3461  	drbd_info(device, "drbd_sync_handshake:\n");
+9f2247bb9b75b2 Philipp Reisner     2012-08-16  3462  
+b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  3463  	spin_lock_irq(&device->ldev->md.uuid_lock);
+b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  3464  	drbd_uuid_dump(device, "self", device->ldev->md.uuid, device->comm_bm_set, 0);
+b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  3465  	drbd_uuid_dump(device, "peer", device->p_uuid,
+b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  3466  		       device->p_uuid[UI_SIZE], device->p_uuid[UI_FLAGS]);
+b411b3637fa71f Philipp Reisner     2009-09-25  3467  
+f2d3d75b66fc80 Lars Ellenberg      2016-06-14  3468  	hg = drbd_uuid_compare(device, peer_role, &rule_nr);
+b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  3469  	spin_unlock_irq(&device->ldev->md.uuid_lock);
+b411b3637fa71f Philipp Reisner     2009-09-25  3470  
+d01801710265cf Andreas Gruenbacher 2011-07-03  3471  	drbd_info(device, "uuid_compare()=%d by rule %d\n", hg, rule_nr);
+b411b3637fa71f Philipp Reisner     2009-09-25  3472  
+b411b3637fa71f Philipp Reisner     2009-09-25  3473  	if (hg == -1000) {
+d01801710265cf Andreas Gruenbacher 2011-07-03  3474  		drbd_alert(device, "Unrelated data, aborting!\n");
+b411b3637fa71f Philipp Reisner     2009-09-25  3475  		return C_MASK;
+b411b3637fa71f Philipp Reisner     2009-09-25  3476  	}
+f2d3d75b66fc80 Lars Ellenberg      2016-06-14  3477  	if (hg < -0x10000) {
+f2d3d75b66fc80 Lars Ellenberg      2016-06-14  3478  		int proto, fflags;
+f2d3d75b66fc80 Lars Ellenberg      2016-06-14  3479  		hg = -hg;
+f2d3d75b66fc80 Lars Ellenberg      2016-06-14  3480  		proto = hg & 0xff;
+f2d3d75b66fc80 Lars Ellenberg      2016-06-14  3481  		fflags = (hg >> 8) & 0xff;
+f2d3d75b66fc80 Lars Ellenberg      2016-06-14  3482  		drbd_alert(device, "To resolve this both sides have to support at least protocol %d and feature flags 0x%x\n",
+f2d3d75b66fc80 Lars Ellenberg      2016-06-14  3483  					proto, fflags);
+f2d3d75b66fc80 Lars Ellenberg      2016-06-14  3484  		return C_MASK;
+f2d3d75b66fc80 Lars Ellenberg      2016-06-14  3485  	}
+4a23f264969827 Philipp Reisner     2011-01-11  3486  	if (hg < -1000) {
+d01801710265cf Andreas Gruenbacher 2011-07-03  3487  		drbd_alert(device, "To resolve this both sides have to support at least protocol %d\n", -hg - 1000);
+b411b3637fa71f Philipp Reisner     2009-09-25  3488  		return C_MASK;
+b411b3637fa71f Philipp Reisner     2009-09-25  3489  	}
+b411b3637fa71f Philipp Reisner     2009-09-25  3490  
+b411b3637fa71f Philipp Reisner     2009-09-25  3491  	if    ((mydisk == D_INCONSISTENT && peer_disk > D_INCONSISTENT) ||
+b411b3637fa71f Philipp Reisner     2009-09-25  3492  	    (peer_disk == D_INCONSISTENT && mydisk    > D_INCONSISTENT)) {
+b411b3637fa71f Philipp Reisner     2009-09-25  3493  		int f = (hg == -100) || abs(hg) == 2;
+b411b3637fa71f Philipp Reisner     2009-09-25  3494  		hg = mydisk > D_INCONSISTENT ? 1 : -1;
+b411b3637fa71f Philipp Reisner     2009-09-25  3495  		if (f)
+b411b3637fa71f Philipp Reisner     2009-09-25  3496  			hg = hg*2;
+d01801710265cf Andreas Gruenbacher 2011-07-03  3497  		drbd_info(device, "Becoming sync %s due to disk states.\n",
+b411b3637fa71f Philipp Reisner     2009-09-25  3498  		     hg > 0 ? "source" : "target");
+b411b3637fa71f Philipp Reisner     2009-09-25  3499  	}
+b411b3637fa71f Philipp Reisner     2009-09-25  3500  
+3a11a4878939e0 Adam Gandelman      2010-04-08  3501  	if (abs(hg) == 100)
+b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  3502  		drbd_khelper(device, "initial-split-brain");
+3a11a4878939e0 Adam Gandelman      2010-04-08  3503  
+44ed167da74825 Philipp Reisner     2011-04-19  3504  	rcu_read_lock();
+69a227731a378f Andreas Gruenbacher 2011-08-09  3505  	nc = rcu_dereference(peer_device->connection->net_conf);
+d29e89e34952a9 Roland Kammerer     2018-12-20  3506  	always_asbp = nc->always_asbp;
+d29e89e34952a9 Roland Kammerer     2018-12-20  3507  	rr_conflict = nc->rr_conflict;
+d29e89e34952a9 Roland Kammerer     2018-12-20  3508  	tentative = nc->tentative;
+d29e89e34952a9 Roland Kammerer     2018-12-20  3509  	rcu_read_unlock();
+44ed167da74825 Philipp Reisner     2011-04-19  3510  
+d29e89e34952a9 Roland Kammerer     2018-12-20  3511  	if (hg == 100 || (hg == -100 && always_asbp)) {
+b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  3512  		int pcount = (device->state.role == R_PRIMARY)
+b411b3637fa71f Philipp Reisner     2009-09-25  3513  			   + (peer_role == R_PRIMARY);
+b411b3637fa71f Philipp Reisner     2009-09-25  3514  		int forced = (hg == -100);
+b411b3637fa71f Philipp Reisner     2009-09-25  3515  
+b411b3637fa71f Philipp Reisner     2009-09-25  3516  		switch (pcount) {
+b411b3637fa71f Philipp Reisner     2009-09-25  3517  		case 0:
+69a227731a378f Andreas Gruenbacher 2011-08-09  3518  			hg = drbd_asb_recover_0p(peer_device);
+b411b3637fa71f Philipp Reisner     2009-09-25  3519  			break;
+b411b3637fa71f Philipp Reisner     2009-09-25  3520  		case 1:
+69a227731a378f Andreas Gruenbacher 2011-08-09  3521  			hg = drbd_asb_recover_1p(peer_device);
+b411b3637fa71f Philipp Reisner     2009-09-25  3522  			break;
+b411b3637fa71f Philipp Reisner     2009-09-25  3523  		case 2:
+69a227731a378f Andreas Gruenbacher 2011-08-09  3524  			hg = drbd_asb_recover_2p(peer_device);
+b411b3637fa71f Philipp Reisner     2009-09-25  3525  			break;
+b411b3637fa71f Philipp Reisner     2009-09-25  3526  		}
+b411b3637fa71f Philipp Reisner     2009-09-25  3527  		if (abs(hg) < 100) {
+d01801710265cf Andreas Gruenbacher 2011-07-03  3528  			drbd_warn(device, "Split-Brain detected, %d primaries, "
+b411b3637fa71f Philipp Reisner     2009-09-25  3529  			     "automatically solved. Sync from %s node\n",
+b411b3637fa71f Philipp Reisner     2009-09-25  3530  			     pcount, (hg < 0) ? "peer" : "this");
+b411b3637fa71f Philipp Reisner     2009-09-25  3531  			if (forced) {
+d01801710265cf Andreas Gruenbacher 2011-07-03  3532  				drbd_warn(device, "Doing a full sync, since"
+b411b3637fa71f Philipp Reisner     2009-09-25  3533  				     " UUIDs where ambiguous.\n");
+b411b3637fa71f Philipp Reisner     2009-09-25  3534  				hg = hg*2;
+b411b3637fa71f Philipp Reisner     2009-09-25  3535  			}
+b411b3637fa71f Philipp Reisner     2009-09-25  3536  		}
+b411b3637fa71f Philipp Reisner     2009-09-25  3537  	}
+b411b3637fa71f Philipp Reisner     2009-09-25  3538  
+b411b3637fa71f Philipp Reisner     2009-09-25  3539  	if (hg == -100) {
+b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  3540  		if (test_bit(DISCARD_MY_DATA, &device->flags) && !(device->p_uuid[UI_FLAGS]&1))
+b411b3637fa71f Philipp Reisner     2009-09-25  3541  			hg = -1;
+b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  3542  		if (!test_bit(DISCARD_MY_DATA, &device->flags) && (device->p_uuid[UI_FLAGS]&1))
+b411b3637fa71f Philipp Reisner     2009-09-25  3543  			hg = 1;
+b411b3637fa71f Philipp Reisner     2009-09-25  3544  
+b411b3637fa71f Philipp Reisner     2009-09-25  3545  		if (abs(hg) < 100)
+d01801710265cf Andreas Gruenbacher 2011-07-03  3546  			drbd_warn(device, "Split-Brain detected, manually solved. "
+b411b3637fa71f Philipp Reisner     2009-09-25  3547  			     "Sync from %s node\n",
+b411b3637fa71f Philipp Reisner     2009-09-25  3548  			     (hg < 0) ? "peer" : "this");
+b411b3637fa71f Philipp Reisner     2009-09-25  3549  	}
+b411b3637fa71f Philipp Reisner     2009-09-25  3550  
+b411b3637fa71f Philipp Reisner     2009-09-25  3551  	if (hg == -100) {
+580b9767dbdf2c Lars Ellenberg      2010-02-26  3552  		/* FIXME this log message is not correct if we end up here
+580b9767dbdf2c Lars Ellenberg      2010-02-26  3553  		 * after an attempted attach on a diskless node.
+580b9767dbdf2c Lars Ellenberg      2010-02-26  3554  		 * We just refuse to attach -- well, we drop the "connection"
+580b9767dbdf2c Lars Ellenberg      2010-02-26  3555  		 * to that disk, in a way... */
+d01801710265cf Andreas Gruenbacher 2011-07-03  3556  		drbd_alert(device, "Split-Brain detected but unresolved, dropping connection!\n");
+b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  3557  		drbd_khelper(device, "split-brain");
+b411b3637fa71f Philipp Reisner     2009-09-25  3558  		return C_MASK;
+b411b3637fa71f Philipp Reisner     2009-09-25  3559  	}
+b411b3637fa71f Philipp Reisner     2009-09-25  3560  
+b411b3637fa71f Philipp Reisner     2009-09-25  3561  	if (hg > 0 && mydisk <= D_INCONSISTENT) {
+d01801710265cf Andreas Gruenbacher 2011-07-03  3562  		drbd_err(device, "I shall become SyncSource, but I am inconsistent!\n");
+b411b3637fa71f Philipp Reisner     2009-09-25  3563  		return C_MASK;
+b411b3637fa71f Philipp Reisner     2009-09-25  3564  	}
+b411b3637fa71f Philipp Reisner     2009-09-25  3565  
+b411b3637fa71f Philipp Reisner     2009-09-25  3566  	if (hg < 0 && /* by intention we do not use mydisk here. */
+b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  3567  	    device->state.role == R_PRIMARY && device->state.disk >= D_CONSISTENT) {
+44ed167da74825 Philipp Reisner     2011-04-19  3568  		switch (rr_conflict) {
+b411b3637fa71f Philipp Reisner     2009-09-25  3569  		case ASB_CALL_HELPER:
+b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  3570  			drbd_khelper(device, "pri-lost");
+df561f6688fef7 Gustavo A. R. Silva 2020-08-23  3571  			fallthrough;
+b411b3637fa71f Philipp Reisner     2009-09-25  3572  		case ASB_DISCONNECT:
+d01801710265cf Andreas Gruenbacher 2011-07-03  3573  			drbd_err(device, "I shall become SyncTarget, but I am primary!\n");
+b411b3637fa71f Philipp Reisner     2009-09-25  3574  			return C_MASK;
+b411b3637fa71f Philipp Reisner     2009-09-25  3575  		case ASB_VIOLENTLY:
+d01801710265cf Andreas Gruenbacher 2011-07-03  3576  			drbd_warn(device, "Becoming SyncTarget, violating the stable-data"
+b411b3637fa71f Philipp Reisner     2009-09-25  3577  			     "assumption\n");
+b411b3637fa71f Philipp Reisner     2009-09-25  3578  		}
+b411b3637fa71f Philipp Reisner     2009-09-25  3579  	}
+b411b3637fa71f Philipp Reisner     2009-09-25  3580  
+69a227731a378f Andreas Gruenbacher 2011-08-09  3581  	if (tentative || test_bit(CONN_DRY_RUN, &peer_device->connection->flags)) {
+cf14c2e987ba0a Philipp Reisner     2010-02-02  3582  		if (hg == 0)
+d01801710265cf Andreas Gruenbacher 2011-07-03  3583  			drbd_info(device, "dry-run connect: No resync, would become Connected immediately.\n");
+cf14c2e987ba0a Philipp Reisner     2010-02-02  3584  		else
+d01801710265cf Andreas Gruenbacher 2011-07-03  3585  			drbd_info(device, "dry-run connect: Would become %s, doing a %s resync.",
+cf14c2e987ba0a Philipp Reisner     2010-02-02  3586  				 drbd_conn_str(hg > 0 ? C_SYNC_SOURCE : C_SYNC_TARGET),
+cf14c2e987ba0a Philipp Reisner     2010-02-02  3587  				 abs(hg) >= 2 ? "full" : "bit-map based");
+cf14c2e987ba0a Philipp Reisner     2010-02-02  3588  		return C_MASK;
+cf14c2e987ba0a Philipp Reisner     2010-02-02  3589  	}
+cf14c2e987ba0a Philipp Reisner     2010-02-02  3590  
+b411b3637fa71f Philipp Reisner     2009-09-25  3591  	if (abs(hg) >= 2) {
+d01801710265cf Andreas Gruenbacher 2011-07-03  3592  		drbd_info(device, "Writing the whole bitmap, full sync required after drbd_sync_handshake.\n");
+b30ab7913b0a7b Andreas Gruenbacher 2011-07-03 @3593  		if (drbd_bitmap_io(device, &drbd_bmio_set_n_write, "set_n_write from sync_handshake",
+e55221e8a69f80 Andreas Gruenbacher 2023-02-15  3594  					BM_LOCKED_SET_ALLOWED, NULL))
+b411b3637fa71f Philipp Reisner     2009-09-25  3595  			return C_MASK;
+b411b3637fa71f Philipp Reisner     2009-09-25  3596  	}
+b411b3637fa71f Philipp Reisner     2009-09-25  3597  
+b411b3637fa71f Philipp Reisner     2009-09-25  3598  	if (hg > 0) { /* become sync source. */
+b411b3637fa71f Philipp Reisner     2009-09-25  3599  		rv = C_WF_BITMAP_S;
+b411b3637fa71f Philipp Reisner     2009-09-25  3600  	} else if (hg < 0) { /* become sync target */
+b411b3637fa71f Philipp Reisner     2009-09-25  3601  		rv = C_WF_BITMAP_T;
+b411b3637fa71f Philipp Reisner     2009-09-25  3602  	} else {
+b411b3637fa71f Philipp Reisner     2009-09-25  3603  		rv = C_CONNECTED;
+b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  3604  		if (drbd_bm_total_weight(device)) {
+d01801710265cf Andreas Gruenbacher 2011-07-03  3605  			drbd_info(device, "No resync, but %lu bits in bitmap!\n",
+b30ab7913b0a7b Andreas Gruenbacher 2011-07-03  3606  			     drbd_bm_total_weight(device));
+b411b3637fa71f Philipp Reisner     2009-09-25  3607  		}
+b411b3637fa71f Philipp Reisner     2009-09-25  3608  	}
+b411b3637fa71f Philipp Reisner     2009-09-25  3609  
+b411b3637fa71f Philipp Reisner     2009-09-25  3610  	return rv;
+b411b3637fa71f Philipp Reisner     2009-09-25  3611  }
+b411b3637fa71f Philipp Reisner     2009-09-25  3612  
 
 -- 
 0-DAY CI Kernel Test Service
