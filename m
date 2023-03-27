@@ -2,71 +2,73 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7640A6CABF7
-	for <lists+drbd-dev@lfdr.de>; Mon, 27 Mar 2023 19:39:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13DE76CAE89
+	for <lists+drbd-dev@lfdr.de>; Mon, 27 Mar 2023 21:26:44 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E3EF8420966;
-	Mon, 27 Mar 2023 19:39:18 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6AABB420966;
+	Mon, 27 Mar 2023 21:26:43 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 455 seconds by postgrey-1.31 at mail19;
-	Mon, 27 Mar 2023 19:39:18 CEST
-Received: from mout.web.de (mout.web.de [212.227.17.12])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 66352420312
-	for <drbd-dev@lists.linbit.com>; Mon, 27 Mar 2023 19:39:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
-	t=1679938757; i=markus.elfring@web.de;
-	bh=H1MPxHXviBTm9+1/MMmwrhPapFh7IkMuatxpI0kIQSY=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=s4SGUM8uJUY/k12Prj7zbP93JgNFZvzJIedJErY+nX2w9O3IJSPKrHyQNHG6HBfKx
-	dDuc0aKi/HMqERQwsn4H9NkKIzCHrKNAlLBhUdGIF8CYvUQYhjOig7bAug6J8aBU8g
-	GRb9FBuji/Blk5YNv+7nVAITKfILt2nY5FmLlnzO5e8gu7ozugKUf+O51lOwYWSUjF
-	q8pAkIfNN5anevMZyqsW4YOSeJBleX7M1V1s36J5r6iENfyqZ/wXq9XW3KXmfR1lkP
-	ADOmCTSHcrov/8VpV/9tXZ/rig3Pv78QkSQ0E90WvU3Pg+NW5GEd1Zs7fZg1ARXTdF
-	7zrxmyWeQcmuQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.88.83]) by smtp.web.de (mrweb105
-	[213.165.67.124]) with ESMTPSA (Nemesis) id 1MMY1N-1pzl2j3D8x-00JXit;
-	Mon, 27 Mar 2023 19:26:34 +0200
-Message-ID: <7a6c195f-42df-eef2-e2b7-9f7510dbdf06@web.de>
-Date: Mon, 27 Mar 2023 19:26:22 +0200
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com
+	[209.85.166.179])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7C3C14202E9
+	for <drbd-dev@lists.linbit.com>; Mon, 27 Mar 2023 21:26:41 +0200 (CEST)
+Received: by mail-il1-f179.google.com with SMTP id e6so5167512ilu.9
+	for <drbd-dev@lists.linbit.com>; Mon, 27 Mar 2023 12:26:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kernel-dk.20210112.gappssmtp.com; s=20210112; t=1679945200;
+	x=1682537200; 
+	h=content-transfer-encoding:in-reply-to:from:references:cc:to
+	:content-language:subject:user-agent:mime-version:date:message-id
+	:from:to:cc:subject:date:message-id:reply-to;
+	bh=m22IOmYO648upgKA8FIcZBXwHFb4PsyxR8+W0WlIGww=;
+	b=RiknIdyiWcZWnkIIkiOglicslJMzjPhVeGaVim1BrZZ9d94WZXBVfsGXQz9TdsbEuq
+	CxZ9Cy1ubRrPrJ9L/7y1gRC745EoV/0T9SFNum1USDjTb60fcq1bEV+4RGHHXPRImVYO
+	qt5aElyt2L35i0rsTOKSDWMsKLH9jmTyrp6xMr03bzCTXIHfayggLIzCsphA06j3Qe47
+	EteAjoDfpaiJUvCUV1WXOb04nsv4Rsmdmx9T77DQaxXJ71WBjqjejCkFlrYQwCG3xpcM
+	6VKIBuO6HMstop/bVFTJw6q/qWTYgx1H6BD6m9DKHibR3nph0YJE0vijbGP1rvHNVIpr
+	E+Sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20210112; t=1679945200; x=1682537200;
+	h=content-transfer-encoding:in-reply-to:from:references:cc:to
+	:content-language:subject:user-agent:mime-version:date:message-id
+	:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+	bh=m22IOmYO648upgKA8FIcZBXwHFb4PsyxR8+W0WlIGww=;
+	b=uv6ZQin9D5Q+gPLVntQ0p5yieks+APO0Ay5toVWqb+o50C5Ma1r3ZOe/dSleRgLdA2
+	TxogbRauivWJ0/36E+BrPtkWABPfMR+eh+ds75f/ztXzKnsGJpsYYpfFQKvI0hHxSwAe
+	T3Uw76vhlEhhn9syBK9uaYPLSP5CswMg1jotScYeZZLeascoqTnOEe9A2S/gxDy73Yhh
+	jvQkYWee4wKFyofAT3NaQ9cOYI8pUkGK+HuRBuRpiyYeUCMU1twzUs889TiLKcGRzKvk
+	qqJ88e3phDTeWbb1QkG+4QOLfdXMdKTg5/Xgu4US4JwnrsLDRPf7CD9/QKw98DwMRkCx
+	6VRw==
+X-Gm-Message-State: AAQBX9cV3KvZhEOkQ4MRP74M75Y546jOnW8/rDVGqcrXlismLwYBzFZq
+	URE/JDH9v5woQ3Iamn9F9jfiJA==
+X-Google-Smtp-Source: AKy350bKFm46lxLr131DpMPhTEYIe8HyBOaDLSJqY/PpHTB+bEeW1OC5kYpFgf6NM+wBY+QyLHyKsQ==
+X-Received: by 2002:a05:6e02:b43:b0:317:94ad:a724 with SMTP id
+	f3-20020a056e020b4300b0031794ada724mr7897223ilu.2.1679945200604;
+	Mon, 27 Mar 2023 12:26:40 -0700 (PDT)
+Received: from [192.168.1.94] ([96.43.243.2]) by smtp.gmail.com with ESMTPSA id
+	w4-20020a056e021c8400b003230864f757sm7846593ill.68.2023.03.27.12.26.39
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Mon, 27 Mar 2023 12:26:40 -0700 (PDT)
+Message-ID: <e5b78f91-122a-0b0d-8d3f-922d462ba44d@kernel.dk>
+Date: Mon, 27 Mar 2023 13:26:39 -0600
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
 	Thunderbird/102.9.0
-To: =?UTF-8?Q?Christoph_B=c3=b6hmwalder?= <christoph.boehmwalder@linbit.com>, 
-	kernel-janitors@vger.kernel.org, drbd-dev@lists.linbit.com,
-	linux-block@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+Content-Language: en-US
+To: Joel Fernandes <joel@joelfernandes.org>,
+	Philipp Reisner <philipp.reisner@linbit.com>,
 	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	Philipp Reisner <philipp.reisner@linbit.com>
-References: <f9303bdc-b1a7-be5e-56c6-dfa8232b8b55@web.de>
-	<8d193937-532f-959f-9b84-d911984508aa@web.de>
-	<941709b5-d940-42c9-5f31-7ed56e3e6151@web.de>
-	<a989f01e-79a9-44a4-3603-ba4eeeb86dea@linbit.com>
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <a989f01e-79a9-44a4-3603-ba4eeeb86dea@linbit.com>
-X-Provags-ID: V03:K1:HvVD7nrmswxX08XbtKylMJjqi0QvPqsyuGw6/cRRS/7oMNVDGtv
-	COamcrycoTnxMHCk9HIdloLK5aXXOIswv9ji2D+iIHZ2wfdijqZk/fYf81nJyIbaRL1WSLV
-	HqX+uvFSBZ3xXOurC+BXiKxt0ivwwcLDQh3k6lGHuA70GV/iwt/7yZxYxrjpdWe/stFpFn5
-	HvZAkevNMkFb29re19ZUQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:lee87RI8Bzc=;UVIroq5DDGwwt5flenKzg5yguii
-	pL6Xxqep09EDHZeuPDmqOkg1nBEIpiQCLXR8VW+dnI8oIpxDBFow0ryo+dMNvqq3hX+r54Uas
-	A/dTD36AB/orF7/tghrNBkoqwbW7eze7TuHnRHL3E8Gfyk02AYOqazOmtPfOO/euJ1kf/nq60
-	a/Wy9wAqje3pnOUbgr1SQ3bVtoYqp7o2K5Kdfn82sWyeTpbFxlVjgLXdsFUQu9TbLWCqKBmrE
-	Ica1i1WLTYvMgIl14AFheLsjmJD4ueMZYwMRLhVhThmu4YpLfQ/S7O5JVpR2dcRE1vlKGBHEg
-	dAsBOBdcvf2Wfzv5JIB747F7FYCJuu+h5NUzouUyVCqQmZSBdCHmNwpMMecPk8MNavh9Pt2YE
-	mnPgswpz0SfCJWO63hLxO1jUh8M9WQqbaEsGo6yZ1q+wCBlKQxsFgRLQU+shTaehESsR8OXwp
-	84E2HCoX3meuWPP0/lU1eEj0he1lWBjJTM+2WUNdPbIvfd5qqOisAnzz1iL9sD/0ipw0/9MNJ
-	M9iD9lDrgzrewkXZD/kDRmnytap8BM04sydbYGvtXA4ki/UxnHZUR/VcqW87Tgnt+NlZk2ks0
-	Pti5LN3ZIywQfVH8pbfJFIidDtVhPDouRxnweO0GcbqPUJLeRedCnHGkorECl6eHX2891vFAB
-	rhnYV9i3Of9/qBWGlfqrC/otcb/mTvr/0LcYo9/3G69zr5vUg6YHGsUOMVeXYDRvLUX+TMXl4
-	j/bc1EIzxR+BXcwZREV2dIhuVJ+4TXfom6fgWI5CoFFyoL9K/VjmTw/71NnNl0ol2bwpdbxmt
-	z4HesHDQQM7VxFwLR5qSujaSyZKgk8OzdUELUNsGkvMoPP5ZDzF0X9BqexkbZyeE9SL5+sUZ/
-	NCAmBi65DISDabc1xmyCmYT/V6RGJpfrEFOhWtXJNDP92+Tn+MKiYPv1g
-Cc: LKML <linux-kernel@vger.kernel.org>, cocci@inria.fr
-Subject: Re: [Drbd-dev] drbd: Fix exception handling in
-	nla_put_drbd_cfg_context()
+	=?UTF-8?Q?Christoph_B=c3=b6hmwalder?= <christoph.boehmwalder@linbit.com>
+References: <20230315181902.4177819-1-joel@joelfernandes.org>
+	<CAEXW_YQehT7Zj0G4nBj-0b+Ndq_FTxFzxQ-WYnBGJ=87wPBHYw@mail.gmail.com>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <CAEXW_YQehT7Zj0G4nBj-0b+Ndq_FTxFzxQ-WYnBGJ=87wPBHYw@mail.gmail.com>
+Cc: linux-block@vger.kernel.org, "Uladzislau Rezki \(Sony\)" <urezki@gmail.com>,
+	linux-kernel@vger.kernel.org, "Paul E . McKenney" <paulmck@kernel.org>,
+	drbd-dev@lists.linbit.com
+Subject: Re: [Drbd-dev] [PATCH v2 01/14] drbd: Rename kvfree_rcu() to
+ kvfree_rcu_mightsleep()
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -80,20 +82,24 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-> Can you identify the issue with the current code and can you explain how
-> your patch makes it better?
-
-I propose to avoid a duplicate pointer check also in this function implementation.
-
-Regards,
-Markus
-
-_______________________________________________
-drbd-dev mailing list
-drbd-dev@lists.linbit.com
-https://lists.linbit.com/mailman/listinfo/drbd-dev
+T24gMy8yNi8yMyA2OjI34oCvQU0sIEpvZWwgRmVybmFuZGVzIHdyb3RlOgo+IE9uIFdlZCwgTWFy
+IDE1LCAyMDIzIGF0IDI6MTnigK9QTSBKb2VsIEZlcm5hbmRlcyAoR29vZ2xlKQo+IDxqb2VsQGpv
+ZWxmZXJuYW5kZXMub3JnPiB3cm90ZToKPj4KPj4gRnJvbTogIlVsYWR6aXNsYXUgUmV6a2kgKFNv
+bnkpIiA8dXJlemtpQGdtYWlsLmNvbT4KPj4KPj4gVGhlIGt2ZnJlZV9yY3UoKSBtYWNybydzIHNp
+bmdsZS1hcmd1bWVudCBmb3JtIGlzIGRlcHJlY2F0ZWQuICBUaGVyZWZvcmUKPj4gc3dpdGNoIHRv
+IHRoZSBuZXcga3ZmcmVlX3JjdV9taWdodHNsZWVwKCkgdmFyaWFudC4gVGhlIGdvYWwgaXMgdG8K
+Pj4gYXZvaWQgYWNjaWRlbnRhbCB1c2Ugb2YgdGhlIHNpbmdsZS1hcmd1bWVudCBmb3Jtcywgd2hp
+Y2ggY2FuIGludHJvZHVjZQo+PiBmdW5jdGlvbmFsaXR5IGJ1Z3MgaW4gYXRvbWljIGNvbnRleHRz
+IGFuZCBsYXRlbmN5IGJ1Z3MgaW4gbm9uLWF0b21pYwo+PiBjb250ZXh0cy4KPj4KPj4gQ2M6IEpl
+bnMgQXhib2UgPGF4Ym9lQGtlcm5lbC5kaz4KPj4gQ2M6IFBoaWxpcHAgUmVpc25lciA8cGhpbGlw
+cC5yZWlzbmVyQGxpbmJpdC5jb20+Cj4+IENjOiBMYXJzIEVsbGVuYmVyZyA8bGFycy5lbGxlbmJl
+cmdAbGluYml0LmNvbT4KPiAKPiBKZW5zL090aGVycywgYW55IGNoYW5jZSBmb3IgYW4gQWNrIGhl
+cmU/CgpCZWdydWRnaW5nbHktYWNrZWQtYnk6IEplbnMgQXhib2UgPGF4Ym9lQGtlcm5lbC5kaz4K
+Ci0tIApKZW5zIEF4Ym9lCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJiZC1kZXYgbWFpbGluZyBsaXN0CmRyYmQtZGV2QGxpc3RzLmxpbmJpdC5jb20K
+aHR0cHM6Ly9saXN0cy5saW5iaXQuY29tL21haWxtYW4vbGlzdGluZm8vZHJiZC1kZXYK
