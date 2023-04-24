@@ -2,72 +2,59 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E71C6EC61D
-	for <lists+drbd-dev@lfdr.de>; Mon, 24 Apr 2023 08:20:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2696A6EC622
+	for <lists+drbd-dev@lfdr.de>; Mon, 24 Apr 2023 08:22:27 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 70312420546;
-	Mon, 24 Apr 2023 08:20:38 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B6C944203CE;
+	Mon, 24 Apr 2023 08:22:26 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
-	[209.85.210.181])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C45144202F5
-	for <drbd-dev@lists.linbit.com>; Mon, 24 Apr 2023 04:36:31 +0200 (CEST)
-Received: by mail-pf1-f181.google.com with SMTP id
-	d2e1a72fcca58-63b4e5fdb1eso4965573b3a.1
-	for <drbd-dev@lists.linbit.com>; Sun, 23 Apr 2023 19:36:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=chromium.org; s=google; t=1682303790; x=1684895790;
-	h=in-reply-to:content-disposition:mime-version:references:message-id
-	:subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-	bh=Er9IodKAhu5Xy/24MmuM3ISnj8SFsqKhcDcV85YYtd4=;
-	b=Myis4J2Z9lmx+G/UGHQV666UFM6OJ8EKtdAre2rvRUUjU2E+rQLKwJ+D0eYgmT72Z9
-	5SaX6H/C77vylvdgFXO4tn7m7ArVvZvZSOxiW6NiLDX5h8w4cEfp1YoxEuHlyRXPz09e
-	5JgUmEmUJwM1H8XEmuezqPmJ+lzP8zXU2UJcc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20221208; t=1682303790; x=1684895790;
-	h=in-reply-to:content-disposition:mime-version:references:message-id
-	:subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-	:message-id:reply-to;
-	bh=Er9IodKAhu5Xy/24MmuM3ISnj8SFsqKhcDcV85YYtd4=;
-	b=AhJFBUIKn3OWZ2479NsRDIp2FviwTz09rKRjgTenC51A8Pm4uswuUGm5l74AfTVdFn
-	7t+YfRCdLvyJipoTDzDfAhaczXY067TqTqDVBERcQpA0y9l9H6hDzg8wfEWHxqqOOkPw
-	YTXk167LAbpb0ZkMgcT0nvFe4pWt5fTkQqDOG5PCkvTG9H99Ke96qYvgIIbdbbrzXR1A
-	VAecbTVsCOJiZnaz6B4uHV5NGHR28PC9i7I+v5w6Jz3/6Ys+27UZaFykbv2C0sj7Vabb
-	RN5Eb673hdFv2W3cspp32426P3uCFXUxl7CFrlnw8p3cPIlPDBCs91nHOdcCGjmhy3VN
-	SF4w==
-X-Gm-Message-State: AAQBX9dQKuxCpAKfgrd1fAD7LfjUk2cc1n5b4TRxIf3WydniC/81NTLd
-	VL+KSMbK40xNLM6/a/8T+jO1kw==
-X-Google-Smtp-Source: AKy350a438RODTsIQbvbOZb4mhoGqhZ1pvzPivBPJ5Ra5hjJQnsR6/IRQqkIVQmM+kaUu2d3rd1IMA==
-X-Received: by 2002:a05:6a00:2406:b0:63d:38aa:5617 with SMTP id
-	z6-20020a056a00240600b0063d38aa5617mr12656579pfh.6.1682303790512;
-	Sun, 23 Apr 2023 19:36:30 -0700 (PDT)
-Received: from google.com (KD124209188001.ppp-bb.dion.ne.jp. [124.209.188.1])
-	by smtp.gmail.com with ESMTPSA id
-	h8-20020aa786c8000000b0063b8279d3aasm6183422pfo.159.2023.04.23.19.36.25
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 23 Apr 2023 19:36:29 -0700 (PDT)
-Date: Mon, 24 Apr 2023 11:36:23 +0900
-From: Sergey Senozhatsky <senozhatsky@chromium.org>
-To: Luis Chamberlain <mcgrof@kernel.org>
-Message-ID: <20230424023623.GC1496740@google.com>
+X-Greylist: delayed 1570 seconds by postgrey-1.31 at mail19;
+	Mon, 24 Apr 2023 08:22:25 CEST
+Received: from bombadil.infradead.org (bombadil.infradead.org
+	[198.137.202.133])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9E69C4202BE
+	for <drbd-dev@lists.linbit.com>; Mon, 24 Apr 2023 08:22:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309;
+	h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=edf2YE6tOjy5o639pmoNCDDnqNTZQ8NPmup4HBvbC60=;
+	b=qBKmlBP0RbumDgdRWERGFEVbSD
+	kDf8Kr5lk5aB2+nWak9xt17TfHD2PupAuPb1mUJmwaPm/dURvhYPVWSPaaOFCU9vr679O7rjTbCXX
+	FY14jwJ6foFME5jmhn6hiaV5cvLy3w+4wiA9HOCqY9FKPUwzVOJnoZoumJfKXe+j3dCSf+I4DhyyN
+	meS9IcfszZYuw8bakpryb8WeNnXvLqGFAShnlXlum+ZdAx1uWAgWfJ88JFAJBehhF7KCT0OC/pGsx
+	saWH2fGCCZFbpsAwVDoLKGMeyxz9Qo8euhIsqOiC8WZE42QMSALorud5SvHI394LQ9T2HdWzjtMUM
+	uj/muRvg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat
+	Linux)) id 1pqpAv-00FPys-1e; Mon, 24 Apr 2023 05:55:45 +0000
+Date: Sun, 23 Apr 2023 22:55:45 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Dave Chinner <david@fromorbit.com>
+Message-ID: <ZEYZ4ScVDXviFJ/J@infradead.org>
 References: <20230421195807.2804512-1-mcgrof@kernel.org>
-	<20230421195807.2804512-6-mcgrof@kernel.org>
+	<20230421195807.2804512-4-mcgrof@kernel.org>
+	<ZELuiBNNHTk4EdxH@casper.infradead.org>
+	<ZEMH9h/cd9Cp1t+X@bombadil.infradead.org>
+	<20230421223420.GH3223426@dread.disaster.area>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20230421195807.2804512-6-mcgrof@kernel.org>
-X-Mailman-Approved-At: Mon, 24 Apr 2023 08:20:37 +0200
+In-Reply-To: <20230421223420.GH3223426@dread.disaster.area>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+	bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Cc: djwong@kernel.org, philipp.reisner@linbit.com, linux-mm@kvack.org,
 	dm-devel@redhat.com, agk@redhat.com, drbd-dev@lists.linbit.com,
-	willy@infradead.org, hch@infradead.org, p.raghav@samsung.com,
-	senozhatsky@chromium.org, snitzer@kernel.org,
-	linux-block@vger.kernel.org, hare@suse.de, kbusch@kernel.org,
-	axboe@kernel.dk, da.gomez@samsung.com,
+	Matthew Wilcox <willy@infradead.org>, hch@infradead.org,
+	p.raghav@samsung.com, senozhatsky@chromium.org,
+	snitzer@kernel.org, linux-block@vger.kernel.org, hare@suse.de,
+	kbusch@kernel.org, axboe@kernel.dk, da.gomez@samsung.com,
 	linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
-	minchan@kernel.org, patches@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, lars.ellenberg@linbit.com
-Subject: Re: [Drbd-dev] [PATCH 5/5] zram: use generic PAGE_SECTORS and
-	PAGE_SECTORS_SHIFT
+	minchan@kernel.org, Luis Chamberlain <mcgrof@kernel.org>,
+	patches@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	lars.ellenberg@linbit.com
+Subject: Re: [Drbd-dev] [PATCH 3/5] iomap: simplify iomap_init() with
+	PAGE_SECTORS
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -86,20 +73,29 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On (23/04/21 12:58), Luis Chamberlain wrote:
+On Sat, Apr 22, 2023 at 08:34:20AM +1000, Dave Chinner wrote:
+> > 
+> > -	return bioset_init(&iomap_ioend_bioset, 4 * (PAGE_SIZE / SECTOR_SIZE),
+> > +	return bioset_init(&iomap_ioend_bioset, 4 * PAGE_SECTORS,
 > 
-> Instead of re-defining the already existing constants use the provided ones:
+> Yes, please.
 > 
-> So replace:
+> > The shift just seemed optimal if we're just going to change it.
 > 
->  o SECTORS_PER_PAGE_SHIFT with PAGE_SECTORS_SHIFT
->  o SECTORS_PER_PAGE       with PAGE_SECTORS
-> 
-> This produces no functional changes.
-> 
-> Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
+> Nope, it's just premature optimisation at the expense of
+> maintainability. The compiler will optimise the multiplication into
+> shifts if that is the fastest way to do it for the given
+> architecture the code is being compiled to.
 
-Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+We still had cases of the compiler not doing obvious
+multiplication/division to shift conversion lately.  That being said:
+
+ 1) this is an initialization path, no one actually cares
+ 2) we're dealing with constants here, and compilers are really good
+    at constant folding
+
+so yes, this should be using the much more readable version.
+
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
