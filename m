@@ -2,82 +2,72 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE2886EB4FC
-	for <lists+drbd-dev@lfdr.de>; Sat, 22 Apr 2023 00:36:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E71C6EC61D
+	for <lists+drbd-dev@lfdr.de>; Mon, 24 Apr 2023 08:20:39 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 43C5D4252CB;
-	Sat, 22 Apr 2023 00:36:20 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 70312420546;
+	Mon, 24 Apr 2023 08:20:38 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
-	[209.85.216.53])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id CB4EC4252C1
-	for <drbd-dev@lists.linbit.com>; Sat, 22 Apr 2023 00:36:19 +0200 (CEST)
-Received: by mail-pj1-f53.google.com with SMTP id
-	98e67ed59e1d1-2497d8066c9so497171a91.0
-	for <drbd-dev@lists.linbit.com>; Fri, 21 Apr 2023 15:36:19 -0700 (PDT)
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
+	[209.85.210.181])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C45144202F5
+	for <drbd-dev@lists.linbit.com>; Mon, 24 Apr 2023 04:36:31 +0200 (CEST)
+Received: by mail-pf1-f181.google.com with SMTP id
+	d2e1a72fcca58-63b4e5fdb1eso4965573b3a.1
+	for <drbd-dev@lists.linbit.com>; Sun, 23 Apr 2023 19:36:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kernel-dk.20221208.gappssmtp.com; s=20221208; t=1682116578;
-	x=1684708578; 
-	h=content-transfer-encoding:in-reply-to:from:content-language
-	:references:cc:to:subject:user-agent:mime-version:date:message-id
-	:from:to:cc:subject:date:message-id:reply-to;
-	bh=15RShbsbHafAtkHP7bE1KcywW8eNaWBCC5WwysBd87o=;
-	b=X268rOQmAauSwpFpkoX8A+VMI3nbTHDxHe03vObHL12UvaNQ9OZDDghjH9vFasft+g
-	PYxDZ2ddlEnrBvSZCCswbGQjuj0a4dR+kh2mJ0z22UZa2NwQu3fbel/NVm1GcQyaY2D+
-	O50k+TmBf4HHRjAIC8Ls3kC3p1dwuD7vfBIye6nZ4HPWbaqWdHXW444BirS8nDiLAtUU
-	iCsGJUjimDoRzGfcImcCPFqeDTmyul4Bzysh1Fcv0SrV/e/frNSAMaHCrzc2xVjC/QHk
-	wid15bGQMFWU0GREAmCPjVoJuZjI3Ed7vrEJlHnKEii0hoXezMgBGw0KFsqu2RUatHhR
-	JkiA==
+	d=chromium.org; s=google; t=1682303790; x=1684895790;
+	h=in-reply-to:content-disposition:mime-version:references:message-id
+	:subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+	bh=Er9IodKAhu5Xy/24MmuM3ISnj8SFsqKhcDcV85YYtd4=;
+	b=Myis4J2Z9lmx+G/UGHQV666UFM6OJ8EKtdAre2rvRUUjU2E+rQLKwJ+D0eYgmT72Z9
+	5SaX6H/C77vylvdgFXO4tn7m7ArVvZvZSOxiW6NiLDX5h8w4cEfp1YoxEuHlyRXPz09e
+	5JgUmEmUJwM1H8XEmuezqPmJ+lzP8zXU2UJcc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20221208; t=1682116578; x=1684708578;
-	h=content-transfer-encoding:in-reply-to:from:content-language
-	:references:cc:to:subject:user-agent:mime-version:date:message-id
-	:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-	bh=15RShbsbHafAtkHP7bE1KcywW8eNaWBCC5WwysBd87o=;
-	b=DenZGUdWhWpuANGv7MzabUhLdgyPyK59jgN5EX+EV61kDnfZqirEIbdXgObXS2Xxc2
-	89NBKr4MtFmnNQSshWKn0GlzJsrMXhE0eV3Q0FUSxNjtsmBWrLimAgIV0d7uuhuyfvv4
-	O6pq/LCfyaJuS0BWTYtn8T49IOIGnlRXkdjIRzu6oTIOytv4xYUSjWltd+RMZK6MqlVk
-	Aw1Qjz6Fyi1g0P/pKyvOp/0GN7fBTt23cQB5Z3kZw9Zgbmx/uXTCu6czrAw/RsO/OvS+
-	iMkiw1I9mixSfvYfRiuCUrnScngLDDzo3F6p09bUf4uj7j3YVgVrTg64YKLl0/Mdb/lB
-	8shQ==
-X-Gm-Message-State: AAQBX9cJZ9ZWTHtsKDvdlOiDsSPmeMt+vc25Ttfg2kET9beEJnyi7rBm
-	0TLGT+5JL2sHqlYQLZdkvGIzrQ==
-X-Google-Smtp-Source: AKy350Y1d3Fo78/V0SBbMlTnA/KEzF4Q+15jV06Q1VNcWOt1KOIozBpCp75pUHwmvH01uVtRJ4USXg==
-X-Received: by 2002:a17:90a:195d:b0:247:446f:7d05 with SMTP id
-	29-20020a17090a195d00b00247446f7d05mr6076988pjh.0.1682116578148;
-	Fri, 21 Apr 2023 15:36:18 -0700 (PDT)
-Received: from [192.168.1.136] ([198.8.77.157])
+	d=1e100.net; s=20221208; t=1682303790; x=1684895790;
+	h=in-reply-to:content-disposition:mime-version:references:message-id
+	:subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+	:message-id:reply-to;
+	bh=Er9IodKAhu5Xy/24MmuM3ISnj8SFsqKhcDcV85YYtd4=;
+	b=AhJFBUIKn3OWZ2479NsRDIp2FviwTz09rKRjgTenC51A8Pm4uswuUGm5l74AfTVdFn
+	7t+YfRCdLvyJipoTDzDfAhaczXY067TqTqDVBERcQpA0y9l9H6hDzg8wfEWHxqqOOkPw
+	YTXk167LAbpb0ZkMgcT0nvFe4pWt5fTkQqDOG5PCkvTG9H99Ke96qYvgIIbdbbrzXR1A
+	VAecbTVsCOJiZnaz6B4uHV5NGHR28PC9i7I+v5w6Jz3/6Ys+27UZaFykbv2C0sj7Vabb
+	RN5Eb673hdFv2W3cspp32426P3uCFXUxl7CFrlnw8p3cPIlPDBCs91nHOdcCGjmhy3VN
+	SF4w==
+X-Gm-Message-State: AAQBX9dQKuxCpAKfgrd1fAD7LfjUk2cc1n5b4TRxIf3WydniC/81NTLd
+	VL+KSMbK40xNLM6/a/8T+jO1kw==
+X-Google-Smtp-Source: AKy350a438RODTsIQbvbOZb4mhoGqhZ1pvzPivBPJ5Ra5hjJQnsR6/IRQqkIVQmM+kaUu2d3rd1IMA==
+X-Received: by 2002:a05:6a00:2406:b0:63d:38aa:5617 with SMTP id
+	z6-20020a056a00240600b0063d38aa5617mr12656579pfh.6.1682303790512;
+	Sun, 23 Apr 2023 19:36:30 -0700 (PDT)
+Received: from google.com (KD124209188001.ppp-bb.dion.ne.jp. [124.209.188.1])
 	by smtp.gmail.com with ESMTPSA id
-	il7-20020a17090b164700b00247150f2091sm5021149pjb.8.2023.04.21.15.36.15
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Fri, 21 Apr 2023 15:36:17 -0700 (PDT)
-Message-ID: <e032f210-f8cc-6441-2481-3c5341f8e72f@kernel.dk>
-Date: Fri, 21 Apr 2023 16:36:13 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
-	Thunderbird/102.9.0
+	h8-20020aa786c8000000b0063b8279d3aasm6183422pfo.159.2023.04.23.19.36.25
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Sun, 23 Apr 2023 19:36:29 -0700 (PDT)
+Date: Mon, 24 Apr 2023 11:36:23 +0900
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
 To: Luis Chamberlain <mcgrof@kernel.org>
+Message-ID: <20230424023623.GC1496740@google.com>
 References: <20230421195807.2804512-1-mcgrof@kernel.org>
-	<20230421195807.2804512-4-mcgrof@kernel.org>
-	<ZELuiBNNHTk4EdxH@casper.infradead.org>
-	<ZEMH9h/cd9Cp1t+X@bombadil.infradead.org>
-	<47688c1d-9cf1-3e08-1f1d-a051b25d010e@kernel.dk>
-	<ZEMOeb9Bt60jxV+d@bombadil.infradead.org>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <ZEMOeb9Bt60jxV+d@bombadil.infradead.org>
+	<20230421195807.2804512-6-mcgrof@kernel.org>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20230421195807.2804512-6-mcgrof@kernel.org>
+X-Mailman-Approved-At: Mon, 24 Apr 2023 08:20:37 +0200
 Cc: djwong@kernel.org, philipp.reisner@linbit.com, linux-mm@kvack.org,
 	dm-devel@redhat.com, agk@redhat.com, drbd-dev@lists.linbit.com,
-	Matthew Wilcox <willy@infradead.org>, hch@infradead.org,
-	p.raghav@samsung.com, senozhatsky@chromium.org,
-	snitzer@kernel.org, linux-block@vger.kernel.org, hare@suse.de,
-	kbusch@kernel.org, da.gomez@samsung.com,
+	willy@infradead.org, hch@infradead.org, p.raghav@samsung.com,
+	senozhatsky@chromium.org, snitzer@kernel.org,
+	linux-block@vger.kernel.org, hare@suse.de, kbusch@kernel.org,
+	axboe@kernel.dk, da.gomez@samsung.com,
 	linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
 	minchan@kernel.org, patches@lists.linux.dev,
 	linux-fsdevel@vger.kernel.org, lars.ellenberg@linbit.com
-Subject: Re: [Drbd-dev] [PATCH 3/5] iomap: simplify iomap_init() with
-	PAGE_SECTORS
+Subject: Re: [Drbd-dev] [PATCH 5/5] zram: use generic PAGE_SECTORS and
+	PAGE_SECTORS_SHIFT
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -96,43 +86,20 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On 4/21/23 4:30?PM, Luis Chamberlain wrote:
-> On Fri, Apr 21, 2023 at 04:24:57PM -0600, Jens Axboe wrote:
->> On 4/21/23 4:02?PM, Luis Chamberlain wrote:
->>> On Fri, Apr 21, 2023 at 09:14:00PM +0100, Matthew Wilcox wrote:
->>>> On Fri, Apr 21, 2023 at 12:58:05PM -0700, Luis Chamberlain wrote:
->>>>> Just use the PAGE_SECTORS generic define. This produces no functional
->>>>> changes. While at it use left shift to simplify this even further.
->>>>
->>>> How is FOO << 2 simpler than FOO * 4?
->>>>
->>>>> -	return bioset_init(&iomap_ioend_bioset, 4 * (PAGE_SIZE / SECTOR_SIZE),
->>>>> +	return bioset_init(&iomap_ioend_bioset, PAGE_SECTORS << 2,
->>>
->>> We could just do:
->>>
->>>
->>> -	return bioset_init(&iomap_ioend_bioset, 4 * (PAGE_SIZE / SECTOR_SIZE),
->>> +	return bioset_init(&iomap_ioend_bioset, 4 * PAGE_SECTORS,
->>>
->>> The shift just seemed optimal if we're just going to change it.
->>
->> It's going to generate the same code, but the multiplication is arguably
->> easier to read (or harder to misread).
+On (23/04/21 12:58), Luis Chamberlain wrote:
 > 
-> Then let's stick with the 4 * PAGE_SECTORS. Let me know if you need another
-> patch.
+> Instead of re-defining the already existing constants use the provided ones:
+> 
+> So replace:
+> 
+>  o SECTORS_PER_PAGE_SHIFT with PAGE_SECTORS_SHIFT
+>  o SECTORS_PER_PAGE       with PAGE_SECTORS
+> 
+> This produces no functional changes.
+> 
+> Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
 
-Just send out a v2 at some point, you've also got a number of cases
-where there are superfluous parenthesis, at least in patch 4, and Willy
-pointed one out in an earlier patch too. Didn't check the last one.
-
-This will be 6.5 anyway I think, I already sent out the changes for the
-6.4 merge window.
-
--- 
-Jens Axboe
-
+Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
