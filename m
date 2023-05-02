@@ -2,77 +2,67 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D14C6EC7DA
-	for <lists+drbd-dev@lfdr.de>; Mon, 24 Apr 2023 10:26:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A1DB6F4027
+	for <lists+drbd-dev@lfdr.de>; Tue,  2 May 2023 11:29:40 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 828484203CE;
-	Mon, 24 Apr 2023 10:26:39 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B2F1C42066F;
+	Tue,  2 May 2023 11:29:39 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
-	[209.85.128.48])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id BE1E1420358
-	for <drbd-dev@lists.linbit.com>; Mon, 24 Apr 2023 10:26:32 +0200 (CEST)
-Received: by mail-wm1-f48.google.com with SMTP id
-	5b1f17b1804b1-3f195b164c4so15950965e9.1
-	for <drbd-dev@lists.linbit.com>; Mon, 24 Apr 2023 01:26:32 -0700 (PDT)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+	[209.85.128.43])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id CA8FA420372
+	for <drbd-dev@lists.linbit.com>; Tue,  2 May 2023 11:29:37 +0200 (CEST)
+Received: by mail-wm1-f43.google.com with SMTP id
+	5b1f17b1804b1-3f1cfed93e2so34678455e9.3
+	for <drbd-dev@lists.linbit.com>; Tue, 02 May 2023 02:29:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linbit-com.20221208.gappssmtp.com; s=20221208; t=1682324792;
-	x=1684916792; 
-	h=content-transfer-encoding:in-reply-to:from:content-language
-	:references:cc:to:subject:user-agent:mime-version:date:message-id
-	:from:to:cc:subject:date:message-id:reply-to;
-	bh=3pxlWKD7dnb+hgIonOTuPgqaiGVvQd+hXe0K6IdPi2M=;
-	b=BCLvweSQah01sJW9SBAyC5wgM9gcCgmoD6eVt1pixm6TIMPKSMsfDJ/G6pQ7WifY+a
-	jCWSatlOFJoGBGRyqNjpnC83+YZxWwidqcfJV7qrZVFpoOQQ5qGdcpNUfD/1uI304Bsr
-	n5t0aKbFfDOlYu2sfU/KiJsKG+tbC5Q3pej1LUOiQjmwv12srCYdM4fwvJqfC1vIGgHG
-	i7xM2mHs1udxBgFRdzJGUIySnuCvM4rCCc4KxRtFlArnjXACALMboZpw/c8XanndS9Ts
-	WTUnWIGWHkbm7Rk6Wg/mlO7SJDa+qk0PwimjElI9r8oOeFo6sLYUJveYcdOozE2aiQA6
-	piSQ==
+	d=linbit-com.20221208.gappssmtp.com; s=20221208; t=1683019777;
+	x=1685611777; 
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+	:to:from:from:to:cc:subject:date:message-id:reply-to;
+	bh=r+KWoq0ZrMb5+AWkT4Fb5UOL/QpDrPZJUKENZjHUHx8=;
+	b=C2p+Yz00KsTo+nI4wF0SRGz2RcT7vAedjVPyzEzLIkLHIJRDmYu16UNqY6917P2lNs
+	UjlYzDt1CXTFRoKCOsQLHemBW2QPi9eDfWGzUYmMwCnr4SjSYxo4hvCR923/ZNjz8S5d
+	QJ7DPNil9kuPtPFpvGvWzSaj/u/69OHljxcXcLc9KP4UZ4kpyQqvAJMtWRPXu0VtYLGn
+	nCS+0ygFwTmvszZzt6Ucz1FlKoaHAi6+X1I3azrRjKoYTzUVvtnmMWmNC+CjWoSjAZcJ
+	2CofMomdKGhSLdr8iJLylMktriVqY+VM7yyt/A/6MohiBVbO/XBHzLq7RvVw39ec1ta5
+	Uozg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20221208; t=1682324792; x=1684916792;
-	h=content-transfer-encoding:in-reply-to:from:content-language
-	:references:cc:to:subject:user-agent:mime-version:date:message-id
-	:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-	bh=3pxlWKD7dnb+hgIonOTuPgqaiGVvQd+hXe0K6IdPi2M=;
-	b=GFKRvrZJZHbHJbQt1BwUFjnv/kuqc76Pq9tUEbeS/1p6uORXb4wr8+BTho5f0CzE88
-	jStlBwLbY93av3JXjaRBx5kNBlOV/G9TSYyICXYF9ciN7HCVuJJw425CwMDRnKS9bfrb
-	W5lRjgerp1yngdBcNiFu5/oj4mX1HVNu57wiGVXBKaaxQjRtENNJBUjtQE9/Wz7SqM9R
-	5etHn3YTd7z8MGMYOsUp3TfWlBOERgUCVc+/SPPIVqd6015VOnAirxAU16bnYKPyG/EZ
-	G6TZxOiKAYmB+MEZip2BuurhyPInD3WE9H/ACZhi4UX0hATX/acqliWDjBDVpKGiwtju
-	bTQw==
-X-Gm-Message-State: AAQBX9e3PM3m6Fgz4G2HcYeuGFdOM4/0RlaTKRhdd+C1KOnlDyv+L+Lv
-	HAGnK5zPzX5fNdTPoY2vXxKvQzkA
-X-Google-Smtp-Source: AKy350byXoD5GzDBK8BfQEyK98TvcOHuQxalfYGEuCyUBUv+0C+wGb7Sf32jhfdSzffUY8tfHfxXdw==
-X-Received: by 2002:a05:600c:259:b0:3f1:662a:93d0 with SMTP id
-	25-20020a05600c025900b003f1662a93d0mr7829493wmj.15.1682324791970;
-	Mon, 24 Apr 2023 01:26:31 -0700 (PDT)
-Received: from [192.168.178.55] (h082218028181.host.wavenet.at.
+	d=1e100.net; s=20221208; t=1683019777; x=1685611777;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+	:to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+	:reply-to;
+	bh=r+KWoq0ZrMb5+AWkT4Fb5UOL/QpDrPZJUKENZjHUHx8=;
+	b=Psc6jY6aiFEAKr4G7c/bqQBQ/LDozEM9I7U9Bd98kjWNYHKbWogF2ae87hl/OoG4Bl
+	kX/ZiZCZfkuY/v3ypVDJced1BQ1/ZEAL08CNoa81OJ80nSmhqcWKy7zAwwpf85GZFp+M
+	a2+VUDplvn97kNE+axI8mGt382PT6OmtZ2KXICAGGvIiOi672E655sM+p4QWWlQIn2BO
+	SJH6f1WduYU9/oOc5bMLZeJYdVktUBhZTeEMe+eSIC7tzoUoAZtXjCkzpAarWrkxAZNz
+	oeWKVkRWe+Zj4kNeiVGHRGmAb81GDzh/aaJzDg+ej8tqmmrHarcITmFjYRR/SNYnqfqL
+	hJxA==
+X-Gm-Message-State: AC+VfDxmM8nQKjbOgBaGYox71bJVZE4G6WE0kq06Js09fnOCzVVnDlUV
+	6TNWZuJ/Gf936ZI5KHzUX2qusSDp
+X-Google-Smtp-Source: ACHHUZ7SuacCVSmCD9PvjtcPmUjV2mI9SUWTFnUsRGGmGxW/Nfhw+xvmfP0amNQIS8V/TJpEGEhyXA==
+X-Received: by 2002:adf:f58a:0:b0:2f9:cee4:b7d with SMTP id
+	f10-20020adff58a000000b002f9cee40b7dmr10637377wro.70.1683019777365;
+	Tue, 02 May 2023 02:29:37 -0700 (PDT)
+Received: from localhost.localdomain (h082218028181.host.wavenet.at.
 	[82.218.28.181]) by smtp.gmail.com with ESMTPSA id
-	l20-20020a05600c16d400b003f19bca8f03sm4904838wmn.43.2023.04.24.01.26.30
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Mon, 24 Apr 2023 01:26:31 -0700 (PDT)
-Message-ID: <42c89d18-b68f-a7d0-921a-6f45b54da356@linbit.com>
-Date: Mon, 24 Apr 2023 10:26:30 +0200
+	d14-20020a5d538e000000b002efac42ff35sm30481138wrv.37.2023.05.02.02.29.36
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 02 May 2023 02:29:36 -0700 (PDT)
+From: =?UTF-8?q?Christoph=20B=C3=B6hmwalder?=
+	<christoph.boehmwalder@linbit.com>
+To: Jens Axboe <axboe@kernel.dk>
+Date: Tue,  2 May 2023 11:29:22 +0200
+Message-Id: <20230502092922.175857-1-christoph.boehmwalder@linbit.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
-	Thunderbird/102.9.1
-To: Luis Chamberlain <mcgrof@kernel.org>, axboe@kernel.dk, agk@redhat.com,
-	snitzer@kernel.org, philipp.reisner@linbit.com, lars.ellenberg@linbit.com, 
-	hch@infradead.org, djwong@kernel.org, minchan@kernel.org,
-	senozhatsky@chromium.org
-References: <20230421195807.2804512-1-mcgrof@kernel.org>
-	<20230421195807.2804512-3-mcgrof@kernel.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Christoph_B=c3=b6hmwalder?= <christoph.boehmwalder@linbit.com>
-In-Reply-To: <20230421195807.2804512-3-mcgrof@kernel.org>
-Cc: p.raghav@samsung.com, linux-xfs@vger.kernel.org, da.gomez@samsung.com,
-	patches@lists.linux.dev, willy@infradead.org,
+Cc: Thomas Voegtle <tv@lio96.de>, Philipp Reisner <philipp.reisner@linbit.com>,
 	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-mm@kvack.org, dm-devel@redhat.com, hare@suse.de,
-	linux-fsdevel@vger.kernel.org, kbusch@kernel.org, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH 2/5] drbd: use PAGE_SECTORS_SHIFT and
-	PAGE_SECTORS
+	Lars Ellenberg <lars.ellenberg@linbit.com>, drbd-dev@lists.linbit.com
+Subject: [Drbd-dev] [PATCH] drbd: do not set REQ_PREFLUSH when submitting
+	barrier
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -91,35 +81,31 @@ Content-Transfer-Encoding: base64
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-QW0gMjEuMDQuMjMgdW0gMjE6NTggc2NocmllYiBMdWlzIENoYW1iZXJsYWluOgo+IFJlcGxhY2Ug
-Y29tbW9uIGNvbnN0YW50cyB3aXRoIGdlbmVyaWMgdmVyc2lvbnMuCj4gVGhpcyBwcm9kdWNlcyBu
-byBmdW5jdGlvbmFsIGNoYW5nZXMuCj4gCj4gU2lnbmVkLW9mZi1ieTogTHVpcyBDaGFtYmVybGFp
-biA8bWNncm9mQGtlcm5lbC5vcmc+Cj4gLS0tCj4gIGRyaXZlcnMvYmxvY2svZHJiZC9kcmJkX2Jp
-dG1hcC5jIHwgNCArKy0tCj4gIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVs
-ZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvYmxvY2svZHJiZC9kcmJkX2JpdG1h
-cC5jIGIvZHJpdmVycy9ibG9jay9kcmJkL2RyYmRfYml0bWFwLmMKPiBpbmRleCA2YWM4YzU0YjQ0
-YzcuLmI1NTZlNjYzNGYxMyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2Jsb2NrL2RyYmQvZHJiZF9i
-aXRtYXAuYwo+ICsrKyBiL2RyaXZlcnMvYmxvY2svZHJiZC9kcmJkX2JpdG1hcC5jCj4gQEAgLTEw
-MDAsNyArMTAwMCw3IEBAIHN0YXRpYyB2b2lkIGJtX3BhZ2VfaW9fYXN5bmMoc3RydWN0IGRyYmRf
-Ym1fYWlvX2N0eCAqY3R4LCBpbnQgcGFnZV9ucikgX19tdXN0X2hvCj4gIAl1bnNpZ25lZCBpbnQg
-bGVuOwo+ICAKPiAgCWZpcnN0X2JtX3NlY3QgPSBkZXZpY2UtPmxkZXYtPm1kLm1kX29mZnNldCAr
-IGRldmljZS0+bGRldi0+bWQuYm1fb2Zmc2V0Owo+IC0Jb25fZGlza19zZWN0b3IgPSBmaXJzdF9i
-bV9zZWN0ICsgKCgoc2VjdG9yX3QpcGFnZV9ucikgPDwgKFBBR0VfU0hJRlQtU0VDVE9SX1NISUZU
-KSk7Cj4gKwlvbl9kaXNrX3NlY3RvciA9IGZpcnN0X2JtX3NlY3QgKyAoKChzZWN0b3JfdClwYWdl
-X25yKSA8PCBQQUdFX1NFQ1RPUlNfU0hJRlQpOwo+ICAKPiAgCS8qIHRoaXMgbWlnaHQgaGFwcGVu
-IHdpdGggdmVyeSBzbWFsbAo+ICAJICogZmxleGlibGUgZXh0ZXJuYWwgbWV0YSBkYXRhIGRldmlj
-ZSwKPiBAQCAtMTAwOCw3ICsxMDA4LDcgQEAgc3RhdGljIHZvaWQgYm1fcGFnZV9pb19hc3luYyhz
-dHJ1Y3QgZHJiZF9ibV9haW9fY3R4ICpjdHgsIGludCBwYWdlX25yKSBfX211c3RfaG8KPiAgCWxh
-c3RfYm1fc2VjdCA9IGRyYmRfbWRfbGFzdF9iaXRtYXBfc2VjdG9yKGRldmljZS0+bGRldik7Cj4g
-IAlpZiAoZmlyc3RfYm1fc2VjdCA8PSBvbl9kaXNrX3NlY3RvciAmJiBsYXN0X2JtX3NlY3QgPj0g
-b25fZGlza19zZWN0b3IpIHsKPiAgCQlzZWN0b3JfdCBsZW5fc2VjdCA9IGxhc3RfYm1fc2VjdCAt
-IG9uX2Rpc2tfc2VjdG9yICsgMTsKPiAtCQlpZiAobGVuX3NlY3QgPCBQQUdFX1NJWkUvU0VDVE9S
-X1NJWkUpCj4gKwkJaWYgKGxlbl9zZWN0IDwgUEFHRV9TRUNUT1JTKQo+ICAJCQlsZW4gPSAodW5z
-aWduZWQgaW50KWxlbl9zZWN0KlNFQ1RPUl9TSVpFOwo+ICAJCWVsc2UKPiAgCQkJbGVuID0gUEFH
-RV9TSVpFOwoKQWNrZWQtYnk6IENocmlzdG9waCBCw7ZobXdhbGRlciA8Y2hyaXN0b3BoLmJvZWht
-d2FsZGVyQGxpbmJpdC5jb20+CgotLSAKQ2hyaXN0b3BoIELDtmhtd2FsZGVyCkxJTkJJVCB8IEtl
-ZXBpbmcgdGhlIERpZ2l0YWwgV29ybGQgUnVubmluZwpEUkJEIEhBIOKAlCAgRGlzYXN0ZXIgUmVj
-b3Zlcnkg4oCUIFNvZnR3YXJlIGRlZmluZWQgU3RvcmFnZQpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmJkLWRldiBtYWlsaW5nIGxpc3QKZHJiZC1kZXZA
-bGlzdHMubGluYml0LmNvbQpodHRwczovL2xpc3RzLmxpbmJpdC5jb20vbWFpbG1hbi9saXN0aW5m
-by9kcmJkLWRldgo=
+V2hlbiB3ZSByZWNlaXZlIGEgZmx1c2ggY29tbWFuZCAob3IgImJhcnJpZXIiIGluIERSQkQpLCB3
+ZSBjdXJyZW50bHkgdXNlCmEgUkVRX09QX0ZMVVNIIHdpdGggdGhlIFJFUV9QUkVGTFVTSCBmbGFn
+IHNldC4KClJFUV9PUF9GTFVTSCBpcyBzdXBwb3NlZCB0byBiZSBhbiBlbXB0eSBiaW8gd2l0aCB0
+aGUgc29sZSBwdXJwb3NlIG9mCmZsdXNoaW5nIHRoZSBkaXNrLiBSRVFfUFJFRkxVU0ggaXMgdXNl
+ZCBmb3IgUkVRX09QX1dSSVRFIGJpb3MgdG8KYWRkaXRpb25hbGx5IHNpZ25hbCB0aGF0IGEgZmx1
+c2ggc2hvdWxkIGJlIGlzc3VlZCwgc28gaXQgaXMgcmVkdW5kYW50CmhlcmUuCgpTaW5jZSBjb21t
+aXQgYjRhNmJiM2E2N2FhICgiYmxvY2s6IGFkZCBhIHNhbml0eSBjaGVjayBmb3Igbm9uLXdyaXRl
+CmZsdXNoL2Z1YSBiaW9zIiksIHRoaXMgdHJpZ2dlcnMgYSB3YXJuaW5nIGluIHRoZSBibG9jayBs
+YXllci4KU28gcmVtb3ZlIHRoZSBSRVFfUFJFRkxVU0ggZmxhZyB3aGVuIGFsbG9jYXRpbmcgdGhl
+IGJpby4KCkZpeGVzOiBmOWZmMGRhNTY0MzcgKCJkcmJkOiBhbGxvdyBwYXJhbGxlbCBmbHVzaGVz
+IGZvciBtdWx0aS12b2x1bWUgcmVzb3VyY2VzIikKUmVwb3J0ZWQtYnk6IFRob21hcyBWb2VndGxl
+IDx0dkBsaW85Ni5kZT4KU2lnbmVkLW9mZi1ieTogQ2hyaXN0b3BoIELDtmhtd2FsZGVyIDxjaHJp
+c3RvcGguYm9laG13YWxkZXJAbGluYml0LmNvbT4KLS0tCiBkcml2ZXJzL2Jsb2NrL2RyYmQvZHJi
+ZF9yZWNlaXZlci5jIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRl
+bGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ibG9jay9kcmJkL2RyYmRfcmVjZWl2ZXIu
+YyBiL2RyaXZlcnMvYmxvY2svZHJiZC9kcmJkX3JlY2VpdmVyLmMKaW5kZXggZTU0NDA0YzYzMmU3
+Li5mMjQ3OWMyOTE5N2EgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvYmxvY2svZHJiZC9kcmJkX3JlY2Vp
+dmVyLmMKKysrIGIvZHJpdmVycy9ibG9jay9kcmJkL2RyYmRfcmVjZWl2ZXIuYwpAQCAtMTI4Myw3
+ICsxMjgzLDcgQEAgc3RhdGljIHZvaWQgb25lX2ZsdXNoX2VuZGlvKHN0cnVjdCBiaW8gKmJpbykK
+IHN0YXRpYyB2b2lkIHN1Ym1pdF9vbmVfZmx1c2goc3RydWN0IGRyYmRfZGV2aWNlICpkZXZpY2Us
+IHN0cnVjdCBpc3N1ZV9mbHVzaF9jb250ZXh0ICpjdHgpCiB7CiAJc3RydWN0IGJpbyAqYmlvID0g
+YmlvX2FsbG9jKGRldmljZS0+bGRldi0+YmFja2luZ19iZGV2LCAwLAotCQkJCSAgICBSRVFfT1Bf
+RkxVU0ggfCBSRVFfUFJFRkxVU0gsIEdGUF9OT0lPKTsKKwkJCQkgICAgUkVRX09QX0ZMVVNILCBH
+RlBfTk9JTyk7CiAJc3RydWN0IG9uZV9mbHVzaF9jb250ZXh0ICpvY3R4ID0ga21hbGxvYyhzaXpl
+b2YoKm9jdHgpLCBHRlBfTk9JTyk7CiAKIAlpZiAoIW9jdHgpIHsKLS0gCjIuMzkuMgoKX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJiZC1kZXYgbWFpbGlu
+ZyBsaXN0CmRyYmQtZGV2QGxpc3RzLmxpbmJpdC5jb20KaHR0cHM6Ly9saXN0cy5saW5iaXQuY29t
+L21haWxtYW4vbGlzdGluZm8vZHJiZC1kZXYK
