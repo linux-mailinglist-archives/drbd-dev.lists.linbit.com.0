@@ -2,73 +2,68 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id F04056F56EC
-	for <lists+drbd-dev@lfdr.de>; Wed,  3 May 2023 13:07:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF37A6F57D0
+	for <lists+drbd-dev@lfdr.de>; Wed,  3 May 2023 14:20:27 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6BD1742066F;
-	Wed,  3 May 2023 13:07:01 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 493CF420FB8;
+	Wed,  3 May 2023 14:20:27 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
-	[209.85.128.44])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3A1F04202E9
-	for <drbd-dev@lists.linbit.com>; Wed,  3 May 2023 13:06:59 +0200 (CEST)
-Received: by mail-wm1-f44.google.com with SMTP id
-	5b1f17b1804b1-3f4000ec71dso1972555e9.2
-	for <drbd-dev@lists.linbit.com>; Wed, 03 May 2023 04:06:59 -0700 (PDT)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+	[209.85.128.43])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 87AAD420668
+	for <drbd-dev@lists.linbit.com>; Wed,  3 May 2023 14:20:25 +0200 (CEST)
+Received: by mail-wm1-f43.google.com with SMTP id
+	5b1f17b1804b1-3f19afc4fbfso50879175e9.2
+	for <drbd-dev@lists.linbit.com>; Wed, 03 May 2023 05:20:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linbit-com.20221208.gappssmtp.com; s=20221208; t=1683111959;
-	x=1685703959; 
-	h=content-transfer-encoding:in-reply-to:from:content-language
-	:references:cc:to:subject:user-agent:mime-version:date:message-id
-	:from:to:cc:subject:date:message-id:reply-to;
-	bh=zC1Gta3a1KlJpbjr0dHCub5GbkSXMMiO3N0auJSFEi4=;
-	b=5WhYU1zjMzb3TRHB1ZMk7kLTS0gKNrQH6Y+bzmvOp+q02IjV9kk6xvjBSHRbTeiBU8
-	9C9b40A8nGaZpu2kkWZINs88/ff/9yp228wkRX/6hdH3/mwpUMV10573pUulpY5gv7FA
-	Xngnq88/iEOCk/UJA/wG0paP+7OyXCfo6DnTpibkGHznrTuCvdpgd1pOuDxkT8KkmOgq
-	wK1Jxilbjc7JXsXzsTMDBAxC/SAG0N5epLX/RGX+H9VnewcAQiusg7zsjvxTN8o//g9s
-	JTGRX2Hv0PF2oN5CkRkOyFGt95YQw0e96Gi5jnY7FQzfRE+iG1P4csBYqMzx1kqubBWe
-	2kgg==
+	d=linbit-com.20221208.gappssmtp.com; s=20221208; t=1683116424;
+	x=1685708424; 
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+	:to:from:from:to:cc:subject:date:message-id:reply-to;
+	bh=HbIHW3WFJjCSlSmcogKsdyCdUd7ycb8fmjWMREeXjCw=;
+	b=zm+0MHgI8YyjZvCVYCL/QFDiqrw357GfINXK71fw/0AwoNi4xZmbOshugboG9853+R
+	LMpLqMeF77seN4g464PWWTnF+Pe21tgYZATz/nt/9KKkzpyl2rlZmipc6OgV9ASGhvDJ
+	9UIJksnpNv3xYoqBz7bRAX7b2nRZksmJJLNtcrJhDiYCAhkPHPizhl357QAQZHzj/Roh
+	/MPx0MMrofRRHdaSC4SdgM/8KduspCsmE6ssnfei5qeida9JCHvt/V0zPwnpilvmDRFG
+	yuK3ySJ9GX6+nL4tTbFSYkLcIeC9prqfDrkX43lQ/LVvxusEpEKRbEbGAZunCYsGJQzt
+	2eZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20221208; t=1683111959; x=1685703959;
-	h=content-transfer-encoding:in-reply-to:from:content-language
-	:references:cc:to:subject:user-agent:mime-version:date:message-id
-	:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-	bh=zC1Gta3a1KlJpbjr0dHCub5GbkSXMMiO3N0auJSFEi4=;
-	b=UaHdBxPHm6KzuviXZ6c9nmk+mLb6JOFWWJwZlVWUHkjkr1akoz6CedCihHkNGDfn7M
-	PDJek7l3O5zttNDFhbUhvjB4CE8k7vsYlINIW9hDhzdf0qQCKHI2m7tKP28HMzQIpbe/
-	6D3GZN2LIkvyt7jtoUfMyHyiyWk5WwqUzXsY+aLNW3IbZ+rIJZIjiedgTb9j0GUW1+m3
-	Dq6kyCl5kpNVxcQYtkBfW3hHdhuzakLTNLgySb9FhX22nN+5+WuNVeKIJSWBFl2ejZqF
-	y9GctFaOI48MVXNnEVufVzL0sqrS9DNYsEkIhKKJzfTUrti7FosFxDAYTqx2k0iI0/mI
-	rPkA==
-X-Gm-Message-State: AC+VfDw2190UJralr5v4AHY2pWxSOCXQ3Mg16rg34HogbuPSeY9kb4pa
-	SQBAeZwEXFajEv4F33wqjxdsPkNl
-X-Google-Smtp-Source: ACHHUZ7zkhTIpzWubzYVvlBwUFu5dNo6evewdVN6u2chVe57/nTRHxWkzD+fPR2/AIMcjUnNBk+8cQ==
-X-Received: by 2002:adf:e2cc:0:b0:305:ed26:8576 with SMTP id
-	d12-20020adfe2cc000000b00305ed268576mr9968284wrj.9.1683111959225;
-	Wed, 03 May 2023 04:05:59 -0700 (PDT)
-Received: from [192.168.178.55] (h082218028181.host.wavenet.at.
+	d=1e100.net; s=20221208; t=1683116424; x=1685708424;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+	:to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+	:reply-to;
+	bh=HbIHW3WFJjCSlSmcogKsdyCdUd7ycb8fmjWMREeXjCw=;
+	b=BsXHge9hZ8X1EA9JJQfkaCyuRgKkwY93zU8Z4FRiSKr5d6bZTMtPJw1xLxKZi28r/C
+	yvFSNa23X0TCPdFIBPhUXykR5FlEXK8Q/Ao2z+z/bMiZi+K6xSikGsE2UTvx3uikRcYz
+	FltePLAqaqNft7bal0Se+hyaRhgMCD62qwgWvw/bKmVQ4YTHswRPN6EP8tVP2+PW876B
+	gmLzDSgaDQ8kQBzrC8UEyS1feW9TJAJWDkNQTLqinASvQbeluWI0DCSS/P23veixC89z
+	0vDhUM7yILUfXTCTgFlbgYtssf3BZ89doWfEv4yvAqD5cgis6AoBST+ZlE0F4uXur7wQ
+	Lgnw==
+X-Gm-Message-State: AC+VfDyDtVN9O5CdrGYGUySQb2s7eZAyNJqzqSpZ4aU3S7KBpBzq3VAP
+	eMWA7HX0e44rlXY21OAWOU1duyZD
+X-Google-Smtp-Source: ACHHUZ4vVAbqI84nqD7SfKcPc/YM/bQUCMMrNM47k+DsevZb0DiO+zbCK2U2kzTlyFRPoxZOz/BdbA==
+X-Received: by 2002:a7b:c047:0:b0:3f1:979f:a734 with SMTP id
+	u7-20020a7bc047000000b003f1979fa734mr14560520wmc.11.1683116424668;
+	Wed, 03 May 2023 05:20:24 -0700 (PDT)
+Received: from localhost.localdomain (h082218028181.host.wavenet.at.
 	[82.218.28.181]) by smtp.gmail.com with ESMTPSA id
-	o2-20020a5d58c2000000b002fe522117fdsm33440960wrf.36.2023.05.03.04.05.58
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Wed, 03 May 2023 04:05:58 -0700 (PDT)
-Message-ID: <b1568ca5-4daf-f6b5-7861-4881aa46e578@linbit.com>
-Date: Wed, 3 May 2023 13:05:57 +0200
+	q7-20020a1ce907000000b003f180d5b145sm1748027wmc.40.2023.05.03.05.20.23
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 03 May 2023 05:20:24 -0700 (PDT)
+From: =?UTF-8?q?Christoph=20B=C3=B6hmwalder?=
+	<christoph.boehmwalder@linbit.com>
+To: Jens Axboe <axboe@kernel.dk>
+Date: Wed,  3 May 2023 14:19:37 +0200
+Message-Id: <20230503121937.17232-1-christoph.boehmwalder@linbit.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
-	Thunderbird/102.9.1
-To: Christoph Hellwig <hch@infradead.org>
-References: <20230502092922.175857-1-christoph.boehmwalder@linbit.com>
-	<ZFHgefWofVt24tRl@infradead.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Christoph_B=c3=b6hmwalder?= <christoph.boehmwalder@linbit.com>
-In-Reply-To: <ZFHgefWofVt24tRl@infradead.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Thomas Voegtle <tv@lio96.de>,
+Cc: Christoph Hellwig <hch@infradead.org>, Thomas Voegtle <tv@lio96.de>,
 	Philipp Reisner <philipp.reisner@linbit.com>,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	Lars Ellenberg <lars.ellenberg@linbit.com>, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH] drbd: do not set REQ_PREFLUSH when
-	submitting barrier
+	stable@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, Lars Ellenberg <lars.ellenberg@linbit.com>,
+	drbd-dev@lists.linbit.com
+Subject: [Drbd-dev] [PATCH] drbd: correctly submit flush bio on barrier
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -87,19 +82,34 @@ Content-Transfer-Encoding: base64
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-QW0gMDMuMDUuMjMgdW0gMDY6MTggc2NocmllYiBDaHJpc3RvcGggSGVsbHdpZzoKPiBPbiBUdWUs
-IE1heSAwMiwgMjAyMyBhdCAxMToyOToyMkFNICswMjAwLCBDaHJpc3RvcGggQsO2aG13YWxkZXIg
-d3JvdGU6Cj4+ICAJc3RydWN0IGJpbyAqYmlvID0gYmlvX2FsbG9jKGRldmljZS0+bGRldi0+YmFj
-a2luZ19iZGV2LCAwLAo+PiAtCQkJCSAgICBSRVFfT1BfRkxVU0ggfCBSRVFfUFJFRkxVU0gsIEdG
-UF9OT0lPKTsKPj4gKwkJCQkgICAgUkVRX09QX0ZMVVNILCBHRlBfTk9JTyk7Cj4gCj4gVGhpcyBp
-c24ndCBnb2luZyB0byB3b3JrLiAgZmx1c2ggYmlvcyBhcmUgKHNvbWV3aGF0IGNvbmZ1c2luZ2x5
-KQoKSW5kZWVkLi4uCgo+IGltcGxlbWVudGVkIGFzIHdyaXRlcyB3aXRoIG5vIGRhdGEgYW5kIHRo
-ZSBwcmVmbHVzaCBmbGFnLiAgU28gdGhpcwo+IHNob3VsZCBiZToKPiAKPiAJUkVRX09QX1dSSVRF
-IHwgUkVRX1BSRUZMVVNILgo+IAo+IGFuZCBpdCBsb29rcyBsaWtlIHdoYXRldmVyIGZsdXNoaW5n
-IHRoaXMgZG9lcyBoYXNuJ3Qgd3Jva2VkIGZvciBhIGxvbmcKPiB0aW1lLgoKVGhhbmtzIGZvciB0
-aGUgaGludC4gSSdsbCBwcmVwYXJlIGEgdjIgdG9kYXkuCgotLSAKQ2hyaXN0b3BoIELDtmhtd2Fs
-ZGVyCkxJTkJJVCB8IEtlZXBpbmcgdGhlIERpZ2l0YWwgV29ybGQgUnVubmluZwpEUkJEIEhBIOKA
-lCAgRGlzYXN0ZXIgUmVjb3Zlcnkg4oCUIFNvZnR3YXJlIGRlZmluZWQgU3RvcmFnZQpfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmJkLWRldiBtYWlsaW5n
-IGxpc3QKZHJiZC1kZXZAbGlzdHMubGluYml0LmNvbQpodHRwczovL2xpc3RzLmxpbmJpdC5jb20v
-bWFpbG1hbi9saXN0aW5mby9kcmJkLWRldgo=
+V2hlbiB3ZSByZWNlaXZlIGEgZmx1c2ggY29tbWFuZCAob3IgImJhcnJpZXIiIGluIERSQkQpLCB3
+ZSBjdXJyZW50bHkgdXNlCmEgUkVRX09QX0ZMVVNIIHdpdGggdGhlIFJFUV9QUkVGTFVTSCBmbGFn
+IHNldC4KClRoZSBjb3JyZWN0IHdheSB0byBzdWJtaXQgYSBmbHVzaCBiaW8gaXMgYnkgdXNpbmcg
+YSBSRVFfT1BfV1JJVEUgd2l0aG91dAphbnkgZGF0YSwgYW5kIHNldCB0aGUgUkVRX1BSRUZMVVNI
+IGZsYWcuCgpTaW5jZSBjb21taXQgYjRhNmJiM2E2N2FhICgiYmxvY2s6IGFkZCBhIHNhbml0eSBj
+aGVjayBmb3Igbm9uLXdyaXRlCmZsdXNoL2Z1YSBiaW9zIiksIHRoaXMgdHJpZ2dlcnMgYSB3YXJu
+aW5nIGluIHRoZSBibG9jayBsYXllciwgYnV0IHRoaXMKaGFzIGJlZW4gYnJva2VuIGZvciBxdWl0
+ZSBzb21lIHRpbWUgYmVmb3JlIHRoYXQuCgpTbyB1c2UgdGhlIGNvcnJlY3Qgc2V0IG9mIGZsYWdz
+IHRvIGFjdHVhbGx5IG1ha2UgdGhlIGZsdXNoIGhhcHBlbi4KCkNjOiBDaHJpc3RvcGggSGVsbHdp
+ZyA8aGNoQGluZnJhZGVhZC5vcmc+CkNjOiBzdGFibGVAdmdlci5rZXJuZWwub3JnCkZpeGVzOiBm
+OWZmMGRhNTY0MzcgKCJkcmJkOiBhbGxvdyBwYXJhbGxlbCBmbHVzaGVzIGZvciBtdWx0aS12b2x1
+bWUgcmVzb3VyY2VzIikKUmVwb3J0ZWQtYnk6IFRob21hcyBWb2VndGxlIDx0dkBsaW85Ni5kZT4K
+U2lnbmVkLW9mZi1ieTogQ2hyaXN0b3BoIELDtmhtd2FsZGVyIDxjaHJpc3RvcGguYm9laG13YWxk
+ZXJAbGluYml0LmNvbT4KLS0tClByZXZpb3VzLCBpbmNvcnJlY3QgdmVyc2lvbiBvZiB0aGlzIHBh
+dGNoOgpodHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwvMjAyMzA1MDIwOTI5MjIuMTc1ODU3LTEt
+Y2hyaXN0b3BoLmJvZWhtd2FsZGVyQGxpbmJpdC5jb20vCgogZHJpdmVycy9ibG9jay9kcmJkL2Ry
+YmRfcmVjZWl2ZXIuYyB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBk
+ZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvYmxvY2svZHJiZC9kcmJkX3JlY2VpdmVy
+LmMgYi9kcml2ZXJzL2Jsb2NrL2RyYmQvZHJiZF9yZWNlaXZlci5jCmluZGV4IGU1NDQwNGM2MzJl
+Ny4uMzRiMTEyNzUyYWIxIDEwMDY0NAotLS0gYS9kcml2ZXJzL2Jsb2NrL2RyYmQvZHJiZF9yZWNl
+aXZlci5jCisrKyBiL2RyaXZlcnMvYmxvY2svZHJiZC9kcmJkX3JlY2VpdmVyLmMKQEAgLTEyODMs
+NyArMTI4Myw3IEBAIHN0YXRpYyB2b2lkIG9uZV9mbHVzaF9lbmRpbyhzdHJ1Y3QgYmlvICpiaW8p
+CiBzdGF0aWMgdm9pZCBzdWJtaXRfb25lX2ZsdXNoKHN0cnVjdCBkcmJkX2RldmljZSAqZGV2aWNl
+LCBzdHJ1Y3QgaXNzdWVfZmx1c2hfY29udGV4dCAqY3R4KQogewogCXN0cnVjdCBiaW8gKmJpbyA9
+IGJpb19hbGxvYyhkZXZpY2UtPmxkZXYtPmJhY2tpbmdfYmRldiwgMCwKLQkJCQkgICAgUkVRX09Q
+X0ZMVVNIIHwgUkVRX1BSRUZMVVNILCBHRlBfTk9JTyk7CisJCQkJICAgIFJFUV9PUF9XUklURSB8
+IFJFUV9QUkVGTFVTSCwgR0ZQX05PSU8pOwogCXN0cnVjdCBvbmVfZmx1c2hfY29udGV4dCAqb2N0
+eCA9IGttYWxsb2Moc2l6ZW9mKCpvY3R4KSwgR0ZQX05PSU8pOwogCiAJaWYgKCFvY3R4KSB7Ci0t
+IAoyLjM5LjIKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyYmQtZGV2IG1haWxpbmcgbGlzdApkcmJkLWRldkBsaXN0cy5saW5iaXQuY29tCmh0dHBzOi8v
+bGlzdHMubGluYml0LmNvbS9tYWlsbWFuL2xpc3RpbmZvL2RyYmQtZGV2Cg==
