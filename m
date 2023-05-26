@@ -2,40 +2,40 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 322547121F6
-	for <lists+drbd-dev@lfdr.de>; Fri, 26 May 2023 10:15:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B8A97121EF
+	for <lists+drbd-dev@lfdr.de>; Fri, 26 May 2023 10:14:08 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0C00D4252EF;
-	Fri, 26 May 2023 10:15:48 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B53194252EB;
+	Fri, 26 May 2023 10:14:07 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from bombadil.infradead.org (bombadil.infradead.org
 	[198.137.202.133])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id DFFD54252E9
-	for <drbd-dev@lists.linbit.com>; Fri, 26 May 2023 10:15:39 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 530E64252DD
+	for <drbd-dev@lists.linbit.com>; Fri, 26 May 2023 10:14:04 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309;
 	h=In-Reply-To:Content-Type:MIME-Version
 	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=DgTgBMZWINXOuoCZBI2L8FK+k2n3IGa7ukNMwg/DhYc=;
-	b=L1M/wOjEJS+hbGb0Ek6blzw3yA
-	nabgFkkkKy+DTSss8/1GulWyfdXqHHVYNAzFWT5mbVwZAjUGHZXHuEQfl0e+6/OtF12MpNy4YLP80
-	VEIFzvlb4aVe0P7pRCuYc3yIdqxzO6y1Zsavs8rcRkdM9/4mz4siRmfuqn+sIDoKXdA46+bkVCwm5
-	aiixFMuyKgI/5ocaWt6B9ZqX+HUkoXOZlXs8Z6gefmi2wlMxbafMZW818soeWjD1oBROq9uXous9u
-	y1HEaBkTCpK3nsAM9uz9T5N1fw3+CMx5JirbVy1uboijoXvhGmyTqNkB3f7GvUjESGORDZCBAgPdX
-	NkZvUbmg==;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=;
+	b=LD/oWd/+mUj05u7ro37NQInoFL
+	QzOw/tkYA8cVHDX+8VYtqDDKsM8OF05TnEUZx6NkzwaoN6OKUQAZJV8bkH41SMqO8dkQiogL53on9
+	oGdLGmmKwtwfXwxOgpUBRjTOSi7VN2TtkHQI5QOFNgLJsKY70Td+PpxZPdYun+JdJPmInaFuVTou+
+	cxx2GDaEkVUCw6GgAS+3fCiOb4NrG7orVCeA4t1x7IE24+c2eoYcddQeqDJmjo0iQjOcgFWaQCbqq
+	6qSd+rSBRbQ8QJPvXdLtfoQC1oVaNYbInTaTaPEVhKwja5Gzbn10nhYW9T1C1gWHoZn5YHKTC+iiv
+	bWNDgIlg==;
 Received: from hch by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat
-	Linux)) id 1q2SZW-001Z7f-3C; Fri, 26 May 2023 08:13:14 +0000
-Date: Fri, 26 May 2023 01:13:14 -0700
+	Linux)) id 1q2Sa5-001ZC5-2F; Fri, 26 May 2023 08:13:49 +0000
+Date: Fri, 26 May 2023 01:13:49 -0700
 From: Christoph Hellwig <hch@infradead.org>
 To: Luis Chamberlain <mcgrof@kernel.org>
-Message-ID: <ZHBqGosY0tWkNdIR@infradead.org>
+Message-ID: <ZHBqPbMCsNHVRvkt@infradead.org>
 References: <20230526073336.344543-1-mcgrof@kernel.org>
-	<20230526073336.344543-2-mcgrof@kernel.org>
+	<20230526073336.344543-4-mcgrof@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20230526073336.344543-2-mcgrof@kernel.org>
+In-Reply-To: <20230526073336.344543-4-mcgrof@kernel.org>
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
 	bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Cc: djwong@kernel.org, philipp.reisner@linbit.com, linux-mm@kvack.org,
@@ -48,8 +48,8 @@ Cc: djwong@kernel.org, philipp.reisner@linbit.com, linux-mm@kvack.org,
 	linux-xfs@vger.kernel.org, minchan@kernel.org,
 	patches@lists.linux.dev, linux-fsdevel@vger.kernel.org,
 	lars.ellenberg@linbit.com
-Subject: Re: [Drbd-dev] [PATCH v2 1/5] block: annotate bdev_disk_changed()
- deprecation with a symbol namespace
+Subject: Re: [Drbd-dev] [PATCH v2 3/5] iomap: simplify iomap_init() with
+	PAGE_SECTORS
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -68,21 +68,9 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Fri, May 26, 2023 at 12:33:32AM -0700, Luis Chamberlain wrote:
-> This ensures no other users pop up by mistake easily and provides
-> us a with an easy vehicle to do the same with other routines should
-> we need it later.
+Looks good:
 
-I don't see how this is related to the rest of the seris.  I also don't
-think it's a good idea.  The APIs isn't deprecated per se.  It just
-should not be called by drivers.  The right thing would be an interface
-like
-
-EXPORT_SYMBOL_GPL_FOR(bdev_disk_changed, loop.ko, CONFIG_BLK_DEV_LOOP);
-EXPORT_SYMBOL_GPL_FOR(bdev_disk_changed, dasd_mod.ko, CONFIG_DASD);
-
-with the modulo code enforcing that no one but the module this is
-explicitly exorted for can use the symbol.
+Reviewed-by: Christoph Hellwig <hch@lst.de>
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
