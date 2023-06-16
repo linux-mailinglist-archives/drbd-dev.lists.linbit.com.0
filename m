@@ -2,62 +2,68 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 301157340BF
-	for <lists+drbd-dev@lfdr.de>; Sat, 17 Jun 2023 14:14:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EFBA734B54
+	for <lists+drbd-dev@lfdr.de>; Mon, 19 Jun 2023 07:25:15 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1012A4205F5;
-	Sat, 17 Jun 2023 14:14:22 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7FCA7420632;
+	Mon, 19 Jun 2023 07:25:14 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from us-smtp-delivery-124.mimecast.com
-	(us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9F3114205F5
-	for <drbd-dev@lists.linbit.com>; Sat, 17 Jun 2023 14:14:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1687004044;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	content-transfer-encoding:content-transfer-encoding:
-	in-reply-to:in-reply-to:references:references;
-	bh=XKse4vF5Frqs4bdWsYMKttBmqWRsH1PFiAHwvjH79qA=;
-	b=aqLHMXwdAj52xOf1tk8SyaB8Wj66W3Rv1IbYRIYKmdr03mdIIYOWJqgL9vO61mksDCzpZy
-	B2cg0xY8POQUU5WpcgCLYIh8jnEKk1AcGNDewjRK+MtwseGr5GLhngfidSw2SkONYSpzIc
-	D/k0fI948hatDA3N43VchfjxEp8f+T4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
-	[66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
-	(version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	us-mta-2-7XIMq-mIPQOIc8pmfQb5Cg-1; Sat, 17 Jun 2023 08:12:51 -0400
-X-MC-Unique: 7XIMq-mIPQOIc8pmfQb5Cg-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.9])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EC560101A56C;
-	Sat, 17 Jun 2023 12:12:50 +0000 (UTC)
-Received: from warthog.procyon.org.com (unknown [10.42.28.51])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id E891B48FB01;
-	Sat, 17 Jun 2023 12:12:48 +0000 (UTC)
-From: David Howells <dhowells@redhat.com>
-To: netdev@vger.kernel.org
-Date: Sat, 17 Jun 2023 13:11:43 +0100
-Message-ID: <20230617121146.716077-15-dhowells@redhat.com>
-In-Reply-To: <20230617121146.716077-1-dhowells@redhat.com>
-References: <20230617121146.716077-1-dhowells@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	David Ahern <dsahern@kernel.org>, linux-kernel@vger.kernel.org,
-	Alexander Duyck <alexander.duyck@gmail.com>,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	David Howells <dhowells@redhat.com>, linux-mm@kvack.org,
-	Eric Dumazet <edumazet@google.com>, Matthew Wilcox <willy@infradead.org>,
-	Jakub Kicinski <kuba@kernel.org>,
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+	[209.85.128.54])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1D23F4203B3
+	for <drbd-dev@lists.linbit.com>; Fri, 16 Jun 2023 18:45:30 +0200 (CEST)
+Received: by mail-wm1-f54.google.com with SMTP id
+	5b1f17b1804b1-3f8d258f203so7592845e9.1
+	for <drbd-dev@lists.linbit.com>; Fri, 16 Jun 2023 09:45:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=gmail.com; s=20221208; t=1686933930; x=1689525930;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+	:to:from:from:to:cc:subject:date:message-id:reply-to;
+	bh=8V8q96OOXdGau1TedNc2n90X++sVPNRGGXHlrWVRBEc=;
+	b=i3YMB8s2sNQ/jSgkkXlqbo+NkETRLlYYZq8OJPUg/h6JEYLiHckfl+M5nU05AA2FP1
+	TxtgdKZFXZCunRpwjNko8IUzbadarz/MJ3c4G708uD+fCH9FSFs8vzIQxLlnUK5Ms2cy
+	wKO3A5nUaIsLqZ9ngVRW7CBjH9wcNaFJZS5yOQIp+A7djGgdbQywRdGodzqSz5PtZlvM
+	wz5b05QrhLY4gSTRRmqPbe/3+d7k1t07arE2z/IDDao/Fy83b6ongXoT3IpP19QRuaqG
+	6tg3rvtYbImek8pFfA1WZRyQ6Yv0V3d23594qpbGUomRV9Hn0tBg+a8d7ayNOZQYM+Zz
+	pMSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20221208; t=1686933930; x=1689525930;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+	:to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+	:reply-to;
+	bh=8V8q96OOXdGau1TedNc2n90X++sVPNRGGXHlrWVRBEc=;
+	b=Jo9Hd0s621IlhFedYtYc5FJ8EGT3c+xJTueneEcK3NUTTiqi6LNJ99yg9LReHAFeA7
+	umozdGvOjhDOW+CgRv0ZCgyqOqiHbwegCHUQGx+/x5FRfpFgurKPn4SdpltoJ/mkLCQc
+	J0OQsZht9fdDHwVmUQ/Fq2FthEI5tZZl1vC2hblHEOHwd9aircYB7Y0QcWBynnikd+5+
+	geuuWT+q/RSFcNALWKs3VKUHDi20jfkJZkVlYK5B0l8VP4xcajIYoUTEgMi79yQu7DB2
+	3TZ0mWxTwKTcAeL19zc77V+MrISK5MbdkK82C4X6Pjt8dOWsJMRltA9KTnj9oC7ZGwgL
+	LbJg==
+X-Gm-Message-State: AC+VfDysRgkq4+kPRGplCUGcyLOFk3DOZDqSglba2viQf13WUvqf7T6m
+	SXlm1f4qtIWlw1zzhZNGYBY=
+X-Google-Smtp-Source: ACHHUZ64k1pdHed8InLXt7Gttw1k3psGS3dQa/8W2hpx8V25//2s5Z4b05o/W2he1wB3HtDeJYgqeQ==
+X-Received: by 2002:a05:600c:290:b0:3f7:33da:f218 with SMTP id
+	16-20020a05600c029000b003f733daf218mr2068916wmk.35.1686933929885;
+	Fri, 16 Jun 2023 09:45:29 -0700 (PDT)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
+	[80.193.200.194]) by smtp.gmail.com with ESMTPSA id
+	q13-20020a1ce90d000000b003f8e4b22bc2sm2630817wmc.44.2023.06.16.09.45.29
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 16 Jun 2023 09:45:29 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Philipp Reisner <philipp.reisner@linbit.com>,
 	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	Paolo Abeni <pabeni@redhat.com>, "David S. Miller" <davem@davemloft.net>,
-	drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH net-next v2 14/17] drdb: Send an entire bio in a
-	single sendmsg
+	=?UTF-8?q?Christoph=20B=C3=B6hmwalder?=
+	<christoph.boehmwalder@linbit.com>, Jens Axboe <axboe@kernel.dk>,
+	drbd-dev@lists.linbit.com, linux-block@vger.kernel.org
+Date: Fri, 16 Jun 2023 17:45:28 +0100
+Message-Id: <20230616164528.2342460-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
+X-Mailman-Approved-At: Mon, 19 Jun 2023 07:25:13 +0200
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [Drbd-dev] [PATCH][next] drbd: remove redundant assignment to
+	variable owords
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -71,99 +77,39 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-U2luY2UgX2RyZGJfc2VuZHBhZ2UoKSBpcyBub3cgdXNpbmcgc2VuZG1zZyB0byBzZW5kIHRoZSBw
-YWdlcyByYXRoZXIKc2VuZHBhZ2UsIHBhc3MgdGhlIGVudGlyZSBiaW8gaW4gb25lIGdvIHVzaW5n
-IGEgYnZlYyBpdGVyYXRvciBpbnN0ZWFkIG9mCmRvaW5nIGl0IHBpZWNlbWVhbC4KClNpZ25lZC1v
-ZmYtYnk6IERhdmlkIEhvd2VsbHMgPGRob3dlbGxzQHJlZGhhdC5jb20+CmNjOiBQaGlsaXBwIFJl
-aXNuZXIgPHBoaWxpcHAucmVpc25lckBsaW5iaXQuY29tPgpjYzogTGFycyBFbGxlbmJlcmcgPGxh
-cnMuZWxsZW5iZXJnQGxpbmJpdC5jb20+CmNjOiAiQ2hyaXN0b3BoIELDtmhtd2FsZGVyIiA8Y2hy
-aXN0b3BoLmJvZWhtd2FsZGVyQGxpbmJpdC5jb20+CmNjOiBKZW5zIEF4Ym9lIDxheGJvZUBrZXJu
-ZWwuZGs+CmNjOiAiRGF2aWQgUy4gTWlsbGVyIiA8ZGF2ZW1AZGF2ZW1sb2Z0Lm5ldD4KY2M6IEVy
-aWMgRHVtYXpldCA8ZWR1bWF6ZXRAZ29vZ2xlLmNvbT4KY2M6IEpha3ViIEtpY2luc2tpIDxrdWJh
-QGtlcm5lbC5vcmc+CmNjOiBQYW9sbyBBYmVuaSA8cGFiZW5pQHJlZGhhdC5jb20+CmNjOiBkcmJk
-LWRldkBsaXN0cy5saW5iaXQuY29tCmNjOiBsaW51eC1ibG9ja0B2Z2VyLmtlcm5lbC5vcmcKY2M6
-IG5ldGRldkB2Z2VyLmtlcm5lbC5vcmcKLS0tCgpOb3RlczoKICAgIHZlciAjMikKICAgICAtIFVz
-ZSAidW5zaWduZWQgaW50IiByYXRoZXIgdGhhbiAidW5zaWduZWQiLgoKIGRyaXZlcnMvYmxvY2sv
-ZHJiZC9kcmJkX21haW4uYyB8IDc3ICsrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0K
-IDEgZmlsZSBjaGFuZ2VkLCAyNSBpbnNlcnRpb25zKCspLCA1MiBkZWxldGlvbnMoLSkKCmRpZmYg
-LS1naXQgYS9kcml2ZXJzL2Jsb2NrL2RyYmQvZHJiZF9tYWluLmMgYi9kcml2ZXJzL2Jsb2NrL2Ry
-YmQvZHJiZF9tYWluLmMKaW5kZXggOGEwMWExOGEyNTUwLi5iZWJhNzRhZTA5M2IgMTAwNjQ0Ci0t
-LSBhL2RyaXZlcnMvYmxvY2svZHJiZC9kcmJkX21haW4uYworKysgYi9kcml2ZXJzL2Jsb2NrL2Ry
-YmQvZHJiZF9tYWluLmMKQEAgLTE1MjAsMjggKzE1MjAsMTUgQEAgc3RhdGljIHZvaWQgZHJiZF91
-cGRhdGVfY29uZ2VzdGVkKHN0cnVjdCBkcmJkX2Nvbm5lY3Rpb24gKmNvbm5lY3Rpb24pCiAgKiBB
-cyBhIHdvcmthcm91bmQsIHdlIGRpc2FibGUgc2VuZHBhZ2Ugb24gcGFnZXMKICAqIHdpdGggcGFn
-ZV9jb3VudCA9PSAwIG9yIFBhZ2VTbGFiLgogICovCi1zdGF0aWMgaW50IF9kcmJkX25vX3NlbmRf
-cGFnZShzdHJ1Y3QgZHJiZF9wZWVyX2RldmljZSAqcGVlcl9kZXZpY2UsIHN0cnVjdCBwYWdlICpw
-YWdlLAotCQkJICAgICAgaW50IG9mZnNldCwgc2l6ZV90IHNpemUsIHVuc2lnbmVkIG1zZ19mbGFn
-cykKLXsKLQlzdHJ1Y3Qgc29ja2V0ICpzb2NrZXQ7Ci0Jdm9pZCAqYWRkcjsKLQlpbnQgZXJyOwot
-Ci0Jc29ja2V0ID0gcGVlcl9kZXZpY2UtPmNvbm5lY3Rpb24tPmRhdGEuc29ja2V0OwotCWFkZHIg
-PSBrbWFwKHBhZ2UpICsgb2Zmc2V0OwotCWVyciA9IGRyYmRfc2VuZF9hbGwocGVlcl9kZXZpY2Ut
-PmNvbm5lY3Rpb24sIHNvY2tldCwgYWRkciwgc2l6ZSwgbXNnX2ZsYWdzKTsKLQlrdW5tYXAocGFn
-ZSk7Ci0JaWYgKCFlcnIpCi0JCXBlZXJfZGV2aWNlLT5kZXZpY2UtPnNlbmRfY250ICs9IHNpemUg
-Pj4gOTsKLQlyZXR1cm4gZXJyOwotfQotCi1zdGF0aWMgaW50IF9kcmJkX3NlbmRfcGFnZShzdHJ1
-Y3QgZHJiZF9wZWVyX2RldmljZSAqcGVlcl9kZXZpY2UsIHN0cnVjdCBwYWdlICpwYWdlLAotCQkg
-ICAgaW50IG9mZnNldCwgc2l6ZV90IHNpemUsIHVuc2lnbmVkIG1zZ19mbGFncykKK3N0YXRpYyBp
-bnQgX2RyYmRfc2VuZF9wYWdlcyhzdHJ1Y3QgZHJiZF9wZWVyX2RldmljZSAqcGVlcl9kZXZpY2Us
-CisJCQkgICAgc3RydWN0IGlvdl9pdGVyICppdGVyLCB1bnNpZ25lZCBpbnQgbXNnX2ZsYWdzKQog
-ewogCXN0cnVjdCBzb2NrZXQgKnNvY2tldCA9IHBlZXJfZGV2aWNlLT5jb25uZWN0aW9uLT5kYXRh
-LnNvY2tldDsKLQlzdHJ1Y3QgYmlvX3ZlYyBidmVjOwotCXN0cnVjdCBtc2doZHIgbXNnID0geyAu
-bXNnX2ZsYWdzID0gbXNnX2ZsYWdzLCB9OworCXN0cnVjdCBtc2doZHIgbXNnID0geworCQkubXNn
-X2ZsYWdzCT0gbXNnX2ZsYWdzIHwgTVNHX05PU0lHTkFMLAorCQkubXNnX2l0ZXIJPSAqaXRlciwK
-Kwl9OworCXNpemVfdCBzaXplID0gaW92X2l0ZXJfY291bnQoaXRlcik7CiAJaW50IGVyciA9IC1F
-SU87CiAKIAkvKiBlLmcuIFhGUyBtZXRhLSAmIGxvZy1kYXRhIGlzIGluIHNsYWIgcGFnZXMsIHdo
-aWNoIGhhdmUgYQpAQCAtMTU1MCwxMSArMTUzNyw4IEBAIHN0YXRpYyBpbnQgX2RyYmRfc2VuZF9w
-YWdlKHN0cnVjdCBkcmJkX3BlZXJfZGV2aWNlICpwZWVyX2RldmljZSwgc3RydWN0IHBhZ2UgKnBh
-CiAJICogcHV0X3BhZ2UoKTsgYW5kIHdvdWxkIGNhdXNlIGVpdGhlciBhIFZNX0JVRyBkaXJlY3Rs
-eSwgb3IKIAkgKiBfX3BhZ2VfY2FjaGVfcmVsZWFzZSBhIHBhZ2UgdGhhdCB3b3VsZCBhY3R1YWxs
-eSBzdGlsbCBiZSByZWZlcmVuY2VkCiAJICogYnkgc29tZW9uZSwgbGVhZGluZyB0byBzb21lIG9i
-c2N1cmUgZGVsYXllZCBPb3BzIHNvbWV3aGVyZSBlbHNlLiAqLwotCWlmICghZHJiZF9kaXNhYmxl
-X3NlbmRwYWdlICYmIHNlbmRwYWdlX29rKHBhZ2UpKQotCQltc2cubXNnX2ZsYWdzIHw9IE1TR19O
-T1NJR05BTCB8IE1TR19TUExJQ0VfUEFHRVM7Ci0KLQlidmVjX3NldF9wYWdlKCZidmVjLCBwYWdl
-LCBvZmZzZXQsIHNpemUpOwotCWlvdl9pdGVyX2J2ZWMoJm1zZy5tc2dfaXRlciwgSVRFUl9TT1VS
-Q0UsICZidmVjLCAxLCBzaXplKTsKKwlpZiAoZHJiZF9kaXNhYmxlX3NlbmRwYWdlKQorCQltc2cu
-bXNnX2ZsYWdzICY9IH4oTVNHX05PU0lHTkFMIHwgTVNHX1NQTElDRV9QQUdFUyk7CiAKIAlkcmJk
-X3VwZGF0ZV9jb25nZXN0ZWQocGVlcl9kZXZpY2UtPmNvbm5lY3Rpb24pOwogCWRvIHsKQEAgLTE1
-ODcsMzkgKzE1NzEsMjIgQEAgc3RhdGljIGludCBfZHJiZF9zZW5kX3BhZ2Uoc3RydWN0IGRyYmRf
-cGVlcl9kZXZpY2UgKnBlZXJfZGV2aWNlLCBzdHJ1Y3QgcGFnZSAqcGEKIAogc3RhdGljIGludCBf
-ZHJiZF9zZW5kX2JpbyhzdHJ1Y3QgZHJiZF9wZWVyX2RldmljZSAqcGVlcl9kZXZpY2UsIHN0cnVj
-dCBiaW8gKmJpbykKIHsKLQlzdHJ1Y3QgYmlvX3ZlYyBidmVjOwotCXN0cnVjdCBidmVjX2l0ZXIg
-aXRlcjsKKwlzdHJ1Y3QgaW92X2l0ZXIgaXRlcjsKIAotCS8qIGhpbnQgYWxsIGJ1dCBsYXN0IHBh
-Z2Ugd2l0aCBNU0dfTU9SRSAqLwotCWJpb19mb3JfZWFjaF9zZWdtZW50KGJ2ZWMsIGJpbywgaXRl
-cikgewotCQlpbnQgZXJyOworCWlvdl9pdGVyX2J2ZWMoJml0ZXIsIElURVJfU09VUkNFLCBiaW8t
-PmJpX2lvX3ZlYywgYmlvLT5iaV92Y250LAorCQkgICAgICBiaW8tPmJpX2l0ZXIuYmlfc2l6ZSk7
-CiAKLQkJZXJyID0gX2RyYmRfbm9fc2VuZF9wYWdlKHBlZXJfZGV2aWNlLCBidmVjLmJ2X3BhZ2Us
-Ci0JCQkJCSBidmVjLmJ2X29mZnNldCwgYnZlYy5idl9sZW4sCi0JCQkJCSBiaW9faXRlcl9sYXN0
-KGJ2ZWMsIGl0ZXIpCi0JCQkJCSA/IDAgOiBNU0dfTU9SRSk7Ci0JCWlmIChlcnIpCi0JCQlyZXR1
-cm4gZXJyOwotCX0KLQlyZXR1cm4gMDsKKwlyZXR1cm4gX2RyYmRfc2VuZF9wYWdlcyhwZWVyX2Rl
-dmljZSwgJml0ZXIsIDApOwogfQogCiBzdGF0aWMgaW50IF9kcmJkX3NlbmRfemNfYmlvKHN0cnVj
-dCBkcmJkX3BlZXJfZGV2aWNlICpwZWVyX2RldmljZSwgc3RydWN0IGJpbyAqYmlvKQogewotCXN0
-cnVjdCBiaW9fdmVjIGJ2ZWM7Ci0Jc3RydWN0IGJ2ZWNfaXRlciBpdGVyOworCXN0cnVjdCBpb3Zf
-aXRlciBpdGVyOwogCi0JLyogaGludCBhbGwgYnV0IGxhc3QgcGFnZSB3aXRoIE1TR19NT1JFICov
-Ci0JYmlvX2Zvcl9lYWNoX3NlZ21lbnQoYnZlYywgYmlvLCBpdGVyKSB7Ci0JCWludCBlcnI7CisJ
-aW92X2l0ZXJfYnZlYygmaXRlciwgSVRFUl9TT1VSQ0UsIGJpby0+YmlfaW9fdmVjLCBiaW8tPmJp
-X3ZjbnQsCisJCSAgICAgIGJpby0+YmlfaXRlci5iaV9zaXplKTsKIAotCQllcnIgPSBfZHJiZF9z
-ZW5kX3BhZ2UocGVlcl9kZXZpY2UsIGJ2ZWMuYnZfcGFnZSwKLQkJCQkgICAgICBidmVjLmJ2X29m
-ZnNldCwgYnZlYy5idl9sZW4sCi0JCQkJICAgICAgYmlvX2l0ZXJfbGFzdChidmVjLCBpdGVyKSA/
-IDAgOiBNU0dfTU9SRSk7Ci0JCWlmIChlcnIpCi0JCQlyZXR1cm4gZXJyOwotCX0KLQlyZXR1cm4g
-MDsKKwlyZXR1cm4gX2RyYmRfc2VuZF9wYWdlcyhwZWVyX2RldmljZSwgJml0ZXIsIE1TR19TUExJ
-Q0VfUEFHRVMpOwogfQogCiBzdGF0aWMgaW50IF9kcmJkX3NlbmRfemNfZWUoc3RydWN0IGRyYmRf
-cGVlcl9kZXZpY2UgKnBlZXJfZGV2aWNlLApAQCAtMTYzMSwxMCArMTU5OCwxNiBAQCBzdGF0aWMg
-aW50IF9kcmJkX3NlbmRfemNfZWUoc3RydWN0IGRyYmRfcGVlcl9kZXZpY2UgKnBlZXJfZGV2aWNl
-LAogCiAJLyogaGludCBhbGwgYnV0IGxhc3QgcGFnZSB3aXRoIE1TR19NT1JFICovCiAJcGFnZV9j
-aGFpbl9mb3JfZWFjaChwYWdlKSB7CisJCXN0cnVjdCBpb3ZfaXRlciBpdGVyOworCQlzdHJ1Y3Qg
-YmlvX3ZlYyBidmVjOwogCQl1bnNpZ25lZCBsID0gbWluX3QodW5zaWduZWQsIGxlbiwgUEFHRV9T
-SVpFKTsKIAotCQllcnIgPSBfZHJiZF9zZW5kX3BhZ2UocGVlcl9kZXZpY2UsIHBhZ2UsIDAsIGws
-Ci0JCQkJICAgICAgcGFnZV9jaGFpbl9uZXh0KHBhZ2UpID8gTVNHX01PUkUgOiAwKTsKKwkJYnZl
-Y19zZXRfcGFnZSgmYnZlYywgcGFnZSwgMCwgbCk7CisJCWlvdl9pdGVyX2J2ZWMoJml0ZXIsIElU
-RVJfU09VUkNFLCAmYnZlYywgMSwgbCk7CisKKwkJZXJyID0gX2RyYmRfc2VuZF9wYWdlcyhwZWVy
-X2RldmljZSwgJml0ZXIsCisJCQkJICAgICAgIE1TR19TUExJQ0VfUEFHRVMgfAorCQkJCSAgICAg
-ICAocGFnZV9jaGFpbl9uZXh0KHBhZ2UpID8gTVNHX01PUkUgOiAwKSk7CiAJCWlmIChlcnIpCiAJ
-CQlyZXR1cm4gZXJyOwogCQlsZW4gLT0gbDsKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyYmQtZGV2IG1haWxpbmcgbGlzdApkcmJkLWRldkBsaXN0cy5s
-aW5iaXQuY29tCmh0dHBzOi8vbGlzdHMubGluYml0LmNvbS9tYWlsbWFuL2xpc3RpbmZvL2RyYmQt
-ZGV2Cg==
+The variable owords is being assigned a value that is never
+read, the exit path via label out returns before owords is ever
+used again. The assignment is redundant and can be removed.
+
+Cleans up clang scan build warning:
+drivers/block/drbd/drbd_bitmap.c:654:3: warning: Value stored to 'owords' is never read [deadcode.DeadStores]
+
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/block/drbd/drbd_bitmap.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/block/drbd/drbd_bitmap.c b/drivers/block/drbd/drbd_bitmap.c
+index 85ca000a0564..897bf211e985 100644
+--- a/drivers/block/drbd/drbd_bitmap.c
++++ b/drivers/block/drbd/drbd_bitmap.c
+@@ -651,7 +651,6 @@ int drbd_bm_resize(struct drbd_device *device, sector_t capacity, int set_new_bi
+ 		spin_lock_irq(&b->bm_lock);
+ 		opages = b->bm_pages;
+ 		onpages = b->bm_number_of_pages;
+-		owords = b->bm_words;
+ 		b->bm_pages = NULL;
+ 		b->bm_number_of_pages =
+ 		b->bm_set   =
+-- 
+2.39.2
+
+_______________________________________________
+drbd-dev mailing list
+drbd-dev@lists.linbit.com
+https://lists.linbit.com/mailman/listinfo/drbd-dev
