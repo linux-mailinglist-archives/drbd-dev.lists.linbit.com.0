@@ -2,49 +2,49 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0074373B67A
-	for <lists+drbd-dev@lfdr.de>; Fri, 23 Jun 2023 13:45:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69CC273C44B
+	for <lists+drbd-dev@lfdr.de>; Sat, 24 Jun 2023 00:55:54 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 52B45420356;
-	Fri, 23 Jun 2023 13:45:20 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 66888420358;
+	Sat, 24 Jun 2023 00:55:53 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from us-smtp-delivery-124.mimecast.com
-	(us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2765A420171
-	for <drbd-dev@lists.linbit.com>; Fri, 23 Jun 2023 13:45:17 +0200 (CEST)
+	(us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 62B3B42017A
+	for <drbd-dev@lists.linbit.com>; Sat, 24 Jun 2023 00:55:49 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1687520717;
+	s=mimecast20190719; t=1687560949;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
 	bh=WiURs0vKXpYUCqXgawYZgqdOEVHMSUaWINzZV5vrdeY=;
-	b=QsPBgRzm5xSZZ2Xo7zEc8La7+WlHLWY77kk5aDf5Lo3FBxDvXWgC1Xpifg6fcY2evXfOEZ
-	mCP5BDTjjNJMOELRD8/nRdshCXAYpNVdyeiYjoY+UdcjaooYfT8dkluBLrR7bUrL33ntCs
-	T5mxeOMuPNzJIBW9HxwQEIjkTlWQaw0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
-	[66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+	b=NnzBFSsD21LmvjXJ5eNMokofQtHixWWBtMamiA4tJsRNqta7191Tnpp6cktmkWhsmaLwkQ
+	poBJBttsrZVL5cSxaID5VVty9cTCLgracSW1AZlTU19oBe/F5L6VQNj3Xh5TUTD7cUNvwJ
+	IYMgPkpWno0rdqNLj5o9aTiGe2PdnPM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+	[66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
 	(version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	us-mta-556-X_gMScNrP0Wfu8HM0-rlVQ-1; Fri, 23 Jun 2023 07:45:12 -0400
-X-MC-Unique: X_gMScNrP0Wfu8HM0-rlVQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.4])
+	us-mta-195--BFW1w5BP0WNexEK9_ZAZQ-1; Fri, 23 Jun 2023 18:55:46 -0400
+X-MC-Unique: -BFW1w5BP0WNexEK9_ZAZQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+	[10.11.54.2])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3D9733C15FC2;
-	Fri, 23 Jun 2023 11:45:08 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 43846810BB2;
+	Fri, 23 Jun 2023 22:55:45 +0000 (UTC)
 Received: from warthog.procyon.org.com (unknown [10.42.28.4])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 8B4EB200B402;
-	Fri, 23 Jun 2023 11:44:53 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 56CA84087C6D;
+	Fri, 23 Jun 2023 22:55:43 +0000 (UTC)
 From: David Howells <dhowells@redhat.com>
 To: netdev@vger.kernel.org
-Date: Fri, 23 Jun 2023 12:44:20 +0100
-Message-ID: <20230623114425.2150536-11-dhowells@redhat.com>
-In-Reply-To: <20230623114425.2150536-1-dhowells@redhat.com>
-References: <20230623114425.2150536-1-dhowells@redhat.com>
+Date: Fri, 23 Jun 2023 23:55:07 +0100
+Message-ID: <20230623225513.2732256-11-dhowells@redhat.com>
+In-Reply-To: <20230623225513.2732256-1-dhowells@redhat.com>
+References: <20230623225513.2732256-1-dhowells@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
 	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
 	David Ahern <dsahern@kernel.org>, linux-kernel@vger.kernel.org,
@@ -56,7 +56,7 @@ Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
 	Lars Ellenberg <lars.ellenberg@linbit.com>,
 	Paolo Abeni <pabeni@redhat.com>, "David S. Miller" <davem@davemloft.net>,
 	drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH net-next v4 10/15] drbd: Use
+Subject: [Drbd-dev] [PATCH net-next v5 10/16] drbd: Use
 	sendmsg(MSG_SPLICE_PAGES) rather than sendpage()
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
