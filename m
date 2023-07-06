@@ -2,39 +2,40 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id A496374A001
-	for <lists+drbd-dev@lfdr.de>; Thu,  6 Jul 2023 16:55:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36CC174A12D
+	for <lists+drbd-dev@lfdr.de>; Thu,  6 Jul 2023 17:38:53 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id EF23742019D;
-	Thu,  6 Jul 2023 16:55:18 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9BAC042019D;
+	Thu,  6 Jul 2023 17:38:52 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from bombadil.infradead.org (bombadil.infradead.org
 	[198.137.202.133])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C75FC42019D
-	for <drbd-dev@lists.linbit.com>; Thu,  6 Jul 2023 16:55:15 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id F3E9842019D
+	for <drbd-dev@lists.linbit.com>; Thu,  6 Jul 2023 17:38:48 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309;
 	h=In-Reply-To:Content-Type:MIME-Version
 	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=fhykVYOZkzlXT4yh75rGeCVJ3cPkDr5sjhaxZXHjD+c=;
-	b=zbagyQChudyQPE2bMPZfTnWPir
-	xEx+mIn+jmhXiSkClrK6vyYVxVucLdM5bush+XAhi1L8+RYYMWbrfI/PXNLKjNrWkvX1JuFMBGnvz
-	hobfOtgzfc30tNgXDTW5f735BiGierSS2sw4A5BsLsjO+NIDmCJaoqnJvjB6GpO63lTBhPw1Ktdzv
-	09/JTSE1nHQ4VXLt2IEwE6yDDWWPLCfOggEtJrOTiDfYzQXVq9m9NhYrAKw8aQvc7GPBw2+8hQS8A
-	80c0RawRFeosEEQrvmZs9gRIzWZlEHNQkGLdtR04aftBqsNeChaMLjpw0CwixmzDs5mdRTNLsZohR
-	2STEGtcw==;
+	bh=YwAEpZO7Vu5hoax5tz5QpnX5k8pjtsK6yDO/dOzPntw=;
+	b=LJt1aHPpR1VtNNU97F662mFcBQ
+	04pv5pjmhELPxcfY8IU2J9oyhfgQvItd1fUo/P+Wom3ADKBICTxeaU2ubravoUlJ9bJKThqcbtmZO
+	YHZ6Bq5JNF5Oy1kZk0vGrojv9a9LNU4bL+WXTD5k/gljEqzdXg69aNBObe/lnHCHtRlMc6Ppc7Hqe
+	+NefvxaKjDH4eBZ/aYpgK8N4uyEQGVFSG36iqC/zjMjHjPuCdtgFFvp4F+STCUxI3HsTMMx8Jecfh
+	X5dQPxytEjbEWkMaTy11b/rkROV7wOirXDfTif06nI996QOXUgedgb0owSphnlvJb3u4X61SBTklq
+	DymCsIxA==;
 Received: from hch by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat
-	Linux)) id 1qHQNf-001vuf-2T; Thu, 06 Jul 2023 14:54:51 +0000
-Date: Thu, 6 Jul 2023 07:54:51 -0700
+	Linux)) id 1qHR44-0021w3-0C; Thu, 06 Jul 2023 15:38:40 +0000
+Date: Thu, 6 Jul 2023 08:38:40 -0700
 From: Christoph Hellwig <hch@infradead.org>
 To: Jan Kara <jack@suse.cz>
-Message-ID: <ZKbVuyn0jELh8UDM@infradead.org>
+Message-ID: <ZKbgAG5OoHVyUKOG@infradead.org>
 References: <20230629165206.383-1-jack@suse.cz>
+	<20230704122224.16257-1-jack@suse.cz>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20230629165206.383-1-jack@suse.cz>
+In-Reply-To: <20230704122224.16257-1-jack@suse.cz>
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
 	bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Cc: Dave Kleikamp <shaggy@kernel.org>, jfs-discussion@lists.sourceforge.net,
@@ -65,8 +66,8 @@ Cc: Dave Kleikamp <shaggy@kernel.org>, jfs-discussion@lists.sourceforge.net,
 	linux-fsdevel@vger.kernel.org, "Md. Haris Iqbal" <haris.iqbal@ionos.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	linux-erofs@lists.ozlabs.org, linux-btrfs@vger.kernel.org
-Subject: Re: [Drbd-dev] [PATCH RFC 0/32] block: Make blkdev_get_by_*()
-	return handle
+Subject: Re: [Drbd-dev] [PATCH 01/32] block: Provide blkdev_get_handle_*
+	functions
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -85,24 +86,26 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Tue, Jul 04, 2023 at 02:21:27PM +0200, Jan Kara wrote:
-> Hello,
-> 
-> this patch series implements the idea of blkdev_get_by_*() calls returning
-> bdev_handle which is then passed to blkdev_put() [1]. This makes the get
-> and put calls for bdevs more obviously matching and allows us to propagate
-> context from get to put without having to modify all the users (again!).
-> In particular I need to propagate used open flags to blkdev_put() to be able
-> count writeable opens and add support for blocking writes to mounted block
-> devices. I'll send that series separately.
-> 
-> The series is based on Linus' tree as of yesterday + two bcache fixes which are
-> in the block tree. Patches have passed some basic testing, I plan to test more
-> users once we agree this is the right way to go.
+On Tue, Jul 04, 2023 at 02:21:28PM +0200, Jan Kara wrote:
+> Create struct bdev_handle that contains all parameters that need to be
+> passed to blkdev_put() and provide blkdev_get_handle_* functions that
+> return this structure instead of plain bdev pointer. This will
+> eventually allow us to pass one more argument to blkdev_put() without
+> too much hassle.
 
-Can you post a link to a git branch for this and the follow up series?
-Especially with a fairly unstable base it's kinda hard to look at the
-result otherwise.
+Can we use the opportunity to come up with better names?  blkdev_get_*
+was always a rather horrible naming convention for something that
+ends up calling into ->open.
+
+What about:
+
+struct bdev_handle *bdev_open_by_dev(dev_t dev, blk_mode_t mode, void *holder,
+		const struct blk_holder_ops *hops);
+struct bdev_handle *bdev_open_by_path(dev_t dev, blk_mode_t mode,
+		void *holder, const struct blk_holder_ops *hops);
+void bdev_release(struct bdev_handle *handle);
+
+?
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
