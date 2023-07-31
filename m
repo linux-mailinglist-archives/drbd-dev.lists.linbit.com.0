@@ -2,75 +2,62 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2212B76945F
-	for <lists+drbd-dev@lfdr.de>; Mon, 31 Jul 2023 13:13:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE92F76CACB
+	for <lists+drbd-dev@lfdr.de>; Wed,  2 Aug 2023 12:24:46 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A6C5C420AFD;
-	Mon, 31 Jul 2023 13:13:41 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3DB674252BC;
+	Wed,  2 Aug 2023 12:24:46 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from bombadil.infradead.org (bombadil.infradead.org
-	[198.137.202.133])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 62C22420202
-	for <drbd-dev@lists.linbit.com>; Mon, 31 Jul 2023 13:13:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309;
-	h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=0eXexdRtzvf9o3AbbzOynMU9Oogrhvp6ybx0nEPZW1E=;
-	b=vK1v9C4DYLEBKbiWf/PpEfbUOr
-	ea0tKbtUfw+UjBx/HoPf26wPnlNR3k7A4MsVaVkdar3OIBATfQ3zHFcbH8P9ZuG4qU9LC9N5j1WXI
-	1jFOwZPN5LFjM5C6XYSxyg6PIhoZ/4h6jEiKtDOt40sVd4EspDmE/0Bc3dDQT8tEqCoRhRKLz9maX
-	raBlJVeHQO4UUZTV20wa+PJqkvDnQQ8hd7GU+O68QfUa/DM2K0gl+HVXCe6+FZ5xjes5Du5sz8UQy
-	x/J/fQpupjKK/pfw7RVGPayWpw0xq+T79S7uS7ZMWJxaSbk7Su09Zyo3FaLXxQsJmvK1X6hzoRb5N
-	/XYneCLA==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat
-	Linux)) id 1qQQpx-00FIz8-1F; Mon, 31 Jul 2023 11:13:17 +0000
-Date: Mon, 31 Jul 2023 04:13:17 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Jan Kara <jack@suse.cz>
-Message-ID: <ZMeXTUUyrOnaxGNG@infradead.org>
-References: <20230629165206.383-1-jack@suse.cz>
-	<20230704122224.16257-1-jack@suse.cz>
-	<ZKbgAG5OoHVyUKOG@infradead.org>
-	<CAJpMwyiUcw+mH0sZa8f8UJsaSZ7NSE65s2gZDEia+pASyP_gJQ@mail.gmail.com>
-	<20230731105034.43skhi5ubze563c3@quack3>
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+	[209.85.128.50])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E1985420202
+	for <drbd-dev@lists.linbit.com>; Mon, 31 Jul 2023 16:04:14 +0200 (CEST)
+Received: by mail-wm1-f50.google.com with SMTP id
+	5b1f17b1804b1-3fc0aecf15bso50908095e9.1
+	for <drbd-dev@lists.linbit.com>; Mon, 31 Jul 2023 07:04:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linaro.org; s=google; t=1690812254; x=1691417054;
+	h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+	:from:to:cc:subject:date:message-id:reply-to;
+	bh=2Dg6GxnQYenoFQ48YVr7SFR4s+ne8OKFkCXkmjfOMIg=;
+	b=TsY65fqUbZUlmb5EhUxQYFCf0lmVpefQz4wpKctytwu4qRr7UxEqYYsGCIJK6NdW+/
+	rHiIXgJ/26JOl7z5EKxZxnyjLh6LDUvy/RWyZiHZw1BOUD/jTKtKnA2AyBPjS9vcSAZF
+	yp4HeeZtoYnWSHS2ddOXTC93hfbXl0IQXfLlss8hfhzQInV8hUT0hfTO+vt5SLDDUdxN
+	V6wIs1nrymFg6XTmHwBygJQ0fvI98hWeYzEOtQKw9CLwDvA1dWq6oGmMFTKQ8/k/TtQh
+	BpWFX28fdyVNDs5ysGG9ldydBQnO8YLlYJa5pvGAAS0FS8UG+QbOQdihqPUhpF/E7qMu
+	F1tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20221208; t=1690812254; x=1691417054;
+	h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+	:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+	bh=2Dg6GxnQYenoFQ48YVr7SFR4s+ne8OKFkCXkmjfOMIg=;
+	b=ZX8yeA1eV4swLtZZ3PNds7v25VvesJ/yDSq0gAB3m+p2f8/KHOAtSWd0YcSDRFI66z
+	55ds39AjSQeLY9DGE/sz2QwEcChJ3EgzVJzO0qCZF8bQYraeeAlSinNcWLvEdPOozze3
+	chkdzVPl/vALLtNRQyxgJ1Qcy5bFxn9TnP1S0efisk7V8WQweX6naXazkRYKVayCVx0f
+	/4+Rx+NJc7TYno24AQiHM5IEnIQocdUV59u/FcvhkhBRLPhimXaBZJPs7Hy/FB7htvBu
+	/+MFw1ogUpSfTjjCrOcT0alnkLFdBV81u3ctpoAcFPwVMdXXbL/EwwzuLcC4BgMKTCIs
+	qHjQ==
+X-Gm-Message-State: ABy/qLawtbPQPQXPIUprjaP6crwKLpeib/XKllTdiyAV5KSBadD9415A
+	p5f50AjDxS/8bZd2lcuGMy5HHQ==
+X-Google-Smtp-Source: APBJJlFj4qE/HhhfShAcS7Nvk1JF8QONgnoHs947CsrSAz8+0a3pJosKdPGolu4I5XShwGzIHl9LuA==
+X-Received: by 2002:a5d:4649:0:b0:313:e8bf:a6e with SMTP id
+	j9-20020a5d4649000000b00313e8bf0a6emr8397468wrs.21.1690812253972;
+	Mon, 31 Jul 2023 07:04:13 -0700 (PDT)
+Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
+	h16-20020adffa90000000b0031423a8f4f7sm13193500wrr.56.2023.07.31.07.04.13
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 31 Jul 2023 07:04:13 -0700 (PDT)
+Date: Mon, 31 Jul 2023 11:15:02 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: bobo.shaobowang@huawei.com
+Message-ID: <ca0093ef-ccb0-4e2e-b845-7b8930579783@moroto.mountain>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20230731105034.43skhi5ubze563c3@quack3>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
-	bombadil.infradead.org. See http://www.infradead.org/rpr.html
-Cc: Dave Kleikamp <shaggy@kernel.org>, jfs-discussion@lists.sourceforge.net,
-	"Darrick J. Wong" <djwong@kernel.org>, linux-nvme@lists.infradead.org,
-	Joseph Qi <joseph.qi@linux.alibaba.com>, dm-devel@redhat.com,
-	target-devel@vger.kernel.org, Haris Iqbal <haris.iqbal@ionos.com>,
-	Jack Wang <jinpu.wang@ionos.com>,
-	Alasdair Kergon <agk@redhat.com>, drbd-dev@lists.linbit.com,
-	linux-s390@vger.kernel.org, linux-nilfs@vger.kernel.org,
-	linux-scsi@vger.kernel.org, Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Christoph Hellwig <hch@infradead.org>,
-	xen-devel@lists.xenproject.org, Gao Xiang <xiang@kernel.org>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Kent Overstreet <kent.overstreet@gmail.com>,
-	Sven Schnelle <svens@linux.ibm.com>, linux-pm@vger.kernel.org,
-	Mike Snitzer <snitzer@kernel.org>, Chao Yu <chao@kernel.org>,
-	Joern Engel <joern@lazybastard.org>,
-	reiserfs-devel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-bcache@vger.kernel.org, David Sterba <dsterba@suse.com>,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	Trond Myklebust <trond.myklebust@hammerspace.com>,
-	Jens Axboe <axboe@kernel.dk>, linux-raid@vger.kernel.org,
-	linux-nfs@vger.kernel.org, linux-ext4@vger.kernel.org,
-	Ted Tso <tytso@mit.edu>, linux-mm@kvack.org, Song Liu <song@kernel.org>,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-xfs@vger.kernel.org, Minchan Kim <minchan@kernel.org>,
-	ocfs2-devel@oss.oracle.com, Anna Schumaker <anna@kernel.org>,
-	linux-fsdevel@vger.kernel.org, linux-mtd@lists.infradead.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-erofs@lists.ozlabs.org, linux-btrfs@vger.kernel.org
-Subject: Re: [Drbd-dev] [PATCH 01/32] block: Provide blkdev_get_handle_*
-	functions
+X-Mailman-Approved-At: Wed, 02 Aug 2023 12:24:45 +0200
+Cc: drbd-dev@lists.linbit.com
+Subject: [Drbd-dev] [bug report] drbd: destroy workqueue when drbd device
+	was freed
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -89,12 +76,72 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Mon, Jul 31, 2023 at 12:50:34PM +0200, Jan Kara wrote:
-> I think the bdev_handle name is fine for the struct. After all it is
-> equivalent of an open handle for the block device so IMHO bdev_handle
-> captures that better than bdev_ctx.
+Hello Wang ShaoBo,
 
-Agreed.
+The patch 8692814b77ca: "drbd: destroy workqueue when drbd device was
+freed" from Nov 24, 2022 (linux-next), leads to the following Smatch
+static checker warning:
+
+	drivers/block/drbd/drbd_main.c:2233 drbd_destroy_device()
+	warn: sleeping in atomic context
+
+drivers/block/drbd/drbd_main.c
+    2193 void drbd_destroy_device(struct kref *kref)
+    2194 {
+    2195         struct drbd_device *device = container_of(kref, struct drbd_device, kref);
+    2196         struct drbd_resource *resource = device->resource;
+    2197         struct drbd_peer_device *peer_device, *tmp_peer_device;
+    2198 
+    2199         timer_shutdown_sync(&device->request_timer);
+    2200 
+    2201         /* paranoia asserts */
+    2202         D_ASSERT(device, device->open_cnt == 0);
+    2203         /* end paranoia asserts */
+    2204 
+    2205         /* cleanup stuff that may have been allocated during
+    2206          * device (re-)configuration or state changes */
+    2207 
+    2208         drbd_backing_dev_free(device, device->ldev);
+    2209         device->ldev = NULL;
+    2210 
+    2211         drbd_release_all_peer_reqs(device);
+    2212 
+    2213         lc_destroy(device->act_log);
+    2214         lc_destroy(device->resync);
+    2215 
+    2216         kfree(device->p_uuid);
+    2217         /* device->p_uuid = NULL; */
+    2218 
+    2219         if (device->bitmap) /* should no longer be there. */
+    2220                 drbd_bm_cleanup(device);
+    2221         __free_page(device->md_io.page);
+    2222         put_disk(device->vdisk);
+    2223         kfree(device->rs_plan_s);
+    2224 
+    2225         /* not for_each_connection(connection, resource):
+    2226          * those may have been cleaned up and disassociated already.
+    2227          */
+    2228         for_each_peer_device_safe(peer_device, tmp_peer_device, device) {
+    2229                 kref_put(&peer_device->connection->kref, drbd_destroy_connection);
+    2230                 kfree(peer_device);
+    2231         }
+    2232         if (device->submit.wq)
+--> 2233                 destroy_workqueue(device->submit.wq);
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The patch introduces this call to destroy_workqueue() which is a
+sleeping function (mutex_lock etc).
+
+    2234         kfree(device);
+    2235         kref_put(&resource->kref, drbd_destroy_resource);
+
+It's the drbd_endio_write_sec_final() function which calls
+drbd_destroy_device() with preempt disabled.
+
+drbd_endio_write_sec_final() <- disables preempt
+-> drbd_destroy_device()
+
+regards,
+dan carpenter
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
