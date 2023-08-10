@@ -2,71 +2,73 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id C500B778F7D
-	for <lists+drbd-dev@lfdr.de>; Fri, 11 Aug 2023 14:27:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6764377B2B3
+	for <lists+drbd-dev@lfdr.de>; Mon, 14 Aug 2023 09:40:39 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2D1624252EA;
-	Fri, 11 Aug 2023 14:27:45 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3CACC4252EC;
+	Mon, 14 Aug 2023 09:40:39 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from bombadil.infradead.org (bombadil.infradead.org
-	[198.137.202.133])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A10A6420AFD
-	for <drbd-dev@lists.linbit.com>; Fri, 11 Aug 2023 14:27:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309;
-	h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=96Jyxa0hgrG24aZgu2ilDmsPaDJbIFT8CvAcqFGq7ak=;
-	b=Lt8QMt/qiwPklQXJKNxAAayl50
-	ejm5z3TauQQgWXDYeiy6ev7CoxuktCUjLml+tQTXB0FrmwYo9bGjhm2G8bwiVtr2qWkYfM3c8FNl1
-	cPDaz7ayPa6vktH3ev1ZeHUse0hr9sV3dSKzn62142iTuA8TTM4tDaiYAHOFhJAm7nP3aQxRbODoe
-	cl8s2GHmVFeXScu6jrXcZHGDTmN2udO8XZ0pPwfpsd5QoOiRLOiFHXD6KYR9f2MEyvA/KeT9RzHmF
-	DIvDgADu/AxqynsuMYC3hcwdLyXOsBeZQBLnrFNVOoRqDCMnS+8kcWICKZ1ml8I/4TT3bYAOcmKWy
-	N15IsxAA==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat
-	Linux)) id 1qUREm-00Abyw-17; Fri, 11 Aug 2023 12:27:28 +0000
-Date: Fri, 11 Aug 2023 05:27:28 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Jan Kara <jack@suse.cz>
-Message-ID: <ZNYpMPM5o4q1xcIt@infradead.org>
-References: <20230810171429.31759-1-jack@suse.cz>
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+	[209.85.128.51])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 83E7C420AFF
+	for <drbd-dev@lists.linbit.com>; Thu, 10 Aug 2023 10:26:25 +0200 (CEST)
+Received: by mail-wm1-f51.google.com with SMTP id
+	5b1f17b1804b1-3fe12baec61so5173765e9.2
+	for <drbd-dev@lists.linbit.com>; Thu, 10 Aug 2023 01:26:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=resnulli-us.20221208.gappssmtp.com; s=20221208; t=1691655984;
+	x=1692260784; 
+	h=in-reply-to:content-disposition:mime-version:references:message-id
+	:subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+	bh=5MR+5PFugPovCt/ZI4txJmfCVwmNkCdr2Q2Ayqtgi6o=;
+	b=WdVTRiGcf7KWGdovrZhaYzLlwUVf9l8MODnlO7thvaEU+sC0Cza6ueuUU76mU8Yg74
+	0Rfo3A/G1LS/Qpxbw/kebtdiDnffZ1PK1Mx5ni/vhp3Ox7JYgNyro81tJz49qyjI1pOK
+	nXuUDwV0PAqZUQNv4nlVTSbu3x2EUPBXuiF4vH/71+DABd10ENZekJgw0hYnm8/PwMEF
+	i5p1L6KLu2lJzaH3F6JrSSNIBk9oWL7DxAe5ybu6qlCzdOL0mloNb9GsVjRy3Bnos7vy
+	72nD56tdS3xUOhovArpb5gjat/Vw/j1shREx+OLuLKoXGr320YfTYLqIq7zmUj50GZX1
+	N8Rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20221208; t=1691655984; x=1692260784;
+	h=in-reply-to:content-disposition:mime-version:references:message-id
+	:subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+	:message-id:reply-to;
+	bh=5MR+5PFugPovCt/ZI4txJmfCVwmNkCdr2Q2Ayqtgi6o=;
+	b=eaxI35esEvmOuC0DigtCOctv104uniUnqIDmQcySgi+EvQVWrJQ99Kdez8f6C/amzq
+	y7wbA0BJl7gaWnysytAG/73csfdl/RDrC4T4mhNXPhwaDSIddRNvRi2Z0aPl4e10moVG
+	z73n9huGf8aVZNlDBWJf3p4iPRG14DevWMJtzD6j3o/492gvga9XA97GdZnojXfobWYV
+	zly8h44UzXRZ0vlItpsf7FbzXRf5u709PzH0JCypt6NiopMFVZ0Yfm+8OwJnFWYQHdg2
+	ocZHHNrccjfvbXoWiAHgfdilz30SVo+hc5B/w/Q+M18Zm1DCoHVvYntPkEmcjpZmc9/3
+	fjRg==
+X-Gm-Message-State: AOJu0Yxn7mhmfmpJOUBxv6d/+pwl+xBWTuWQCoSZl9mIfJgpbxqZfPfm
+	Jrgm8ZpOOmwIdAUFO3b41jdy1w==
+X-Google-Smtp-Source: AGHT+IED5EvUAbIPy9tMLOguRqy1DoclqnEEVwX479WbGpTt1LpbY1tJy4NuoGcxJzNG8xckTlf9Gw==
+X-Received: by 2002:a7b:cd0d:0:b0:3fa:98c3:7dbd with SMTP id
+	f13-20020a7bcd0d000000b003fa98c37dbdmr1240929wmj.41.1691655984457;
+	Thu, 10 Aug 2023 01:26:24 -0700 (PDT)
+Received: from localhost ([212.23.236.67]) by smtp.gmail.com with ESMTPSA id
+	o10-20020a1c750a000000b003fe2b6d64c8sm4321899wmc.21.2023.08.10.01.26.23
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 10 Aug 2023 01:26:23 -0700 (PDT)
+Date: Thu, 10 Aug 2023 10:26:22 +0200
+From: Jiri Pirko <jiri@resnulli.us>
+To: Jakub Kicinski <kuba@kernel.org>
+Message-ID: <ZNSfLomTSZy/4b8W@nanopsycho>
+References: <20230809182648.1816537-1-kuba@kernel.org>
+	<20230809182648.1816537-4-kuba@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20230810171429.31759-1-jack@suse.cz>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
-	bombadil.infradead.org. See http://www.infradead.org/rpr.html
-Cc: Dave Kleikamp <shaggy@kernel.org>, jfs-discussion@lists.sourceforge.net,
-	"Darrick J. Wong" <djwong@kernel.org>, linux-nvme@lists.infradead.org,
-	Joseph Qi <joseph.qi@linux.alibaba.com>, dm-devel@redhat.com,
-	target-devel@vger.kernel.org, linux-mtd@lists.infradead.org,
-	Jack Wang <jinpu.wang@ionos.com>,
-	Alasdair Kergon <agk@redhat.com>, drbd-dev@lists.linbit.com,
-	linux-s390@vger.kernel.org, linux-nilfs@vger.kernel.org,
-	linux-scsi@vger.kernel.org, Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Christoph Hellwig <hch@infradead.org>,
-	xen-devel@lists.xenproject.org, Gao Xiang <xiang@kernel.org>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Kent Overstreet <kent.overstreet@gmail.com>,
-	Sven Schnelle <svens@linux.ibm.com>, linux-pm@vger.kernel.org,
-	Mike Snitzer <snitzer@kernel.org>, Chao Yu <chao@kernel.org>,
-	Joern Engel <joern@lazybastard.org>,
-	reiserfs-devel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-bcache@vger.kernel.org, David Sterba <dsterba@suse.com>,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	Trond Myklebust <trond.myklebust@hammerspace.com>,
-	linux-raid@vger.kernel.org, linux-nfs@vger.kernel.org,
-	linux-ext4@vger.kernel.org, Ted Tso <tytso@mit.edu>,
-	linux-mm@kvack.org, Song Liu <song@kernel.org>,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-xfs@vger.kernel.org, Minchan Kim <minchan@kernel.org>,
-	ocfs2-devel@oss.oracle.com, Anna Schumaker <anna@kernel.org>,
-	linux-fsdevel@vger.kernel.org, "Md. Haris Iqbal" <haris.iqbal@ionos.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-erofs@lists.ozlabs.org, linux-btrfs@vger.kernel.org
-Subject: Re: [Drbd-dev] [PATCH v2 0/29] block: Make blkdev_get_by_*() return
-	handle
+In-Reply-To: <20230809182648.1816537-4-kuba@kernel.org>
+X-Mailman-Approved-At: Mon, 14 Aug 2023 09:40:36 +0200
+Cc: axboe@kernel.dk, linux-block@vger.kernel.org, netdev@vger.kernel.org,
+	philipp.reisner@linbit.com, pshelar@ovn.org, jmaloy@redhat.com,
+	edumazet@google.com, tipc-discussion@lists.sourceforge.net,
+	lars.ellenberg@linbit.com, ying.xue@windriver.com,
+	dev@openvswitch.org, johannes@sipsolutions.net,
+	pabeni@redhat.com, drbd-dev@lists.linbit.com,
+	davem@davemloft.net, jacob.e.keller@intel.com
+Subject: Re: [Drbd-dev] [PATCH net-next 03/10] genetlink: remove userhdr
+ from struct genl_info
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -85,12 +87,19 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Except for a mostly cosmetic nitpick this looks good to me:
+Wed, Aug 09, 2023 at 08:26:41PM CEST, kuba@kernel.org wrote:
+>Only three families use info->userhdr and fixed headers
+>are discouraged for new families. So remove the pointer
+>from struct genl_info to save some space. Compute
+>the header pointer at runtime. Saved space will be used
+>for a family pointer in later patches.
+>
+>Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 
-Acked-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Jiri Pirko <jiri@nvidia.com>
 
-That's not eactly the deep review I'd like to do, but as I'm about to
-head out for vacation that's probably as good as it gets.
+I'm fine with the existing message, but what Johannes suggests is also
+ok.
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
