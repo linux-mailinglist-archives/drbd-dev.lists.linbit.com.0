@@ -2,64 +2,97 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DCF277DD84
-	for <lists+drbd-dev@lfdr.de>; Wed, 16 Aug 2023 11:44:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D9247855DF
+	for <lists+drbd-dev@lfdr.de>; Wed, 23 Aug 2023 12:49:30 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5A38E42066F;
-	Wed, 16 Aug 2023 11:44:07 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E261D422110;
+	Wed, 23 Aug 2023 12:49:29 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 305 seconds by postgrey-1.31 at mail19;
-	Tue, 15 Aug 2023 14:56:07 CEST
-Received: from us-smtp-delivery-124.mimecast.com
-	(us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4B61142018E
-	for <drbd-dev@lists.linbit.com>; Tue, 15 Aug 2023 14:56:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1692104166;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	in-reply-to:in-reply-to:references:references;
-	bh=y+l55HTddVYwEg/eLFK4VwzVELui+1PXrZDBowROvDQ=;
-	b=Hak0HuMIwl8Vftl0T1rag4vm/uIHV8o7FpLc9BebvKiocQdLwoz8GuLSiVa04TlDpuK/HS
-	f3387CMosSmdQ1RbfSsInYdYB7medp0X6IeAkI3MgjWYkCoiO67e+FruNbvazwl86mLkFx
-	LpcO+XyzD//fsGbhNM4B3JL3aWl1ens=
-Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
-	relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	us-mta-622-ll15gl-GO-y5SNsQYGgXKQ-1; Tue, 15 Aug 2023 08:49:11 -0400
-X-MC-Unique: ll15gl-GO-y5SNsQYGgXKQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
-	[10.11.54.8])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4D42F1C07588;
-	Tue, 15 Aug 2023 12:49:10 +0000 (UTC)
-Received: from RHTPC1VM0NT (unknown [10.22.9.48])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 19F70C15BAD;
-	Tue, 15 Aug 2023 12:49:09 +0000 (UTC)
-From: Aaron Conole <aconole@redhat.com>
-To: Jakub Kicinski <kuba@kernel.org>
-References: <20230814214723.2924989-1-kuba@kernel.org>
-	<20230814214723.2924989-4-kuba@kernel.org>
-Date: Tue, 15 Aug 2023 08:49:08 -0400
-In-Reply-To: <20230814214723.2924989-4-kuba@kernel.org> (Jakub Kicinski's
-	message of "Mon, 14 Aug 2023 14:47:16 -0700")
-Message-ID: <f7twmxwxygr.fsf@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 899004202F6
+	for <drbd-dev@lists.linbit.com>; Wed, 23 Aug 2023 12:48:58 +0200 (CEST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	key-exchange X25519 server-signature ECDSA (P-521) server-digest
+	SHA512) (No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1F89B21EDA;
+	Wed, 23 Aug 2023 10:48:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1692787738;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+	bh=czbolVCNdiRIhtzRMydBVuDGtNoMVf0uK7rI8VUw4Wg=;
+	b=cea+STFByaV36NWMjg8zifEKP9bUJaVFrhrdsQ1BHrDjc+6YKTyOk0XUYe/aGcn7z1GdBW
+	Sp5Xg8/PcrR30C9G8GkmtNgleVHgoFT9VpO4HmYAD81nOJQ/2ts6Z2GJ97FCPouubZqTfM
+	7Ki5cRwEgj/8O3iByHVAhCDVhrdgZS0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1692787738;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+	bh=czbolVCNdiRIhtzRMydBVuDGtNoMVf0uK7rI8VUw4Wg=;
+	b=ccloVX/Tox8MPvEstSnU1swyihs7KV2puBqol0j3M4wpbT7Z67JF74RuKmYp8i9zsSQ2aK
+	Q/J06H24OiSZjOBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	key-exchange X25519 server-signature ECDSA (P-521) server-digest
+	SHA512) (No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0486813592;
+	Wed, 23 Aug 2023 10:48:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA id hdjcABrk5WQsIAAAMHmgww
+	(envelope-from <jack@suse.cz>); Wed, 23 Aug 2023 10:48:58 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 0E216A0774; Wed, 23 Aug 2023 12:48:57 +0200 (CEST)
+From: Jan Kara <jack@suse.cz>
+To: Christian Brauner <brauner@kernel.org>
+Date: Wed, 23 Aug 2023 12:48:11 +0200
+Message-Id: <20230818123232.2269-1-jack@suse.cz>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-X-Mailman-Approved-At: Wed, 16 Aug 2023 11:44:06 +0200
-Cc: axboe@kernel.dk, dev@openvswitch.org, jiri@resnulli.us,
-	netdev@vger.kernel.org, jacob.e.keller@intel.com,
-	philipp.reisner@linbit.com, jmaloy@redhat.com,
-	linux-block@vger.kernel.org, edumazet@google.com,
-	tipc-discussion@lists.sourceforge.net, lars.ellenberg@linbit.com,
-	Jiri Pirko <jiri@nvidia.com>, ying.xue@windriver.com,
-	johannes@sipsolutions.net, pabeni@redhat.com,
-	davem@davemloft.net, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [ovs-dev] [PATCH net-next v3 03/10] genetlink:
- remove userhdr from struct genl_info
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3781; i=jack@suse.cz;
+	h=from:subject:message-id;
+	bh=cMBb8bZk7tVGWo+BW5D78pH+ebOvNFFLsxdd3Uvzd/w=;
+	b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBk5ePhrEMij+4xGF6e8K//xuADex0OXIFxlpO0VT6g
+	42vu5BeJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCZOXj4QAKCRCcnaoHP2RA2RqoB/
+	91nt6Qs4NSStbt9M1WXY1akBbAqu+Bv3ZXdZ6WMy9kKyYwY7zCnyQziikP60M2MjCrud4NP9os4YAr
+	4uXdyOyVcdJ9TjbciDgTyoYdfkFl7g+rZhj1pyPeep1xmvDMn3QtNJ28EbhLegdC+nkmL6+bxPGEwd
+	IdsuBKGrdIIEryWwhBq0+BWowL3nzmQjs5GoDtXLoHADfHYhgC8RKYK/4FaML1/SsAZRvGJ/C8wFB4
+	JUGsDGFE4CJx9XgiRx407CSIGNSoCciqBpMaMA7x/dbq9Tu76xcqN4/DZrtT2qyG4I7GZYetndEl3F
+	vWMZMQFPauZmB2S1r30HY+nn2IOCrM
+X-Developer-Key: i=jack@suse.cz; a=openpgp;
+	fpr=93C6099A142276A28BBE35D815BC833443038D8C
+Cc: Dave Kleikamp <shaggy@kernel.org>, jfs-discussion@lists.sourceforge.net,
+	Jan Kara <jack@suse.cz>, "Darrick J. Wong" <djwong@kernel.org>,
+	linux-nvme@lists.infradead.org,
+	Joseph Qi <joseph.qi@linux.alibaba.com>, dm-devel@redhat.com,
+	target-devel@vger.kernel.org, linux-mtd@lists.infradead.org,
+	Jack Wang <jinpu.wang@ionos.com>,
+	Alasdair Kergon <agk@redhat.com>, drbd-dev@lists.linbit.com,
+	linux-s390@vger.kernel.org, linux-nilfs@vger.kernel.org,
+	linux-scsi@vger.kernel.org, Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Christoph Hellwig <hch@infradead.org>,
+	xen-devel@lists.xenproject.org, Gao Xiang <xiang@kernel.org>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Kent Overstreet <kent.overstreet@gmail.com>,
+	Sven Schnelle <svens@linux.ibm.com>, linux-pm@vger.kernel.org,
+	Mike Snitzer <snitzer@kernel.org>, Chao Yu <chao@kernel.org>,
+	Joern Engel <joern@lazybastard.org>,
+	reiserfs-devel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-bcache@vger.kernel.org, David Sterba <dsterba@suse.com>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	Trond Myklebust <trond.myklebust@hammerspace.com>,
+	Jens Axboe <axboe@kernel.dk>, linux-raid@vger.kernel.org,
+	linux-nfs@vger.kernel.org, linux-ext4@vger.kernel.org,
+	Ted Tso <tytso@mit.edu>, linux-mm@kvack.org, Song Liu <song@kernel.org>,
+	linux-f2fs-devel@lists.sourceforge.net,
+	linux-xfs@vger.kernel.org, Minchan Kim <minchan@kernel.org>,
+	ocfs2-devel@oss.oracle.com, Anna Schumaker <anna@kernel.org>,
+	linux-fsdevel@vger.kernel.org, "Md. Haris Iqbal" <haris.iqbal@ionos.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-erofs@lists.ozlabs.org, linux-btrfs@vger.kernel.org
+Subject: [Drbd-dev] [PATCH v3 0/29] block: Make blkdev_get_by_*() return
+	handle
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -78,22 +111,97 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Jakub Kicinski <kuba@kernel.org> writes:
+Hello,
 
-> Only three families use info->userhdr today and going forward
-> we discourage using fixed headers in new families.
-> So having the pointer to user header in struct genl_info
-> is an overkill. Compute the header pointer at runtime.
->
-> Reviewed-by: Johannes Berg <johannes@sipsolutions.net>
-> Reviewed-by: Jiri Pirko <jiri@nvidia.com>
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> ---
+this is a v3 of the patch series which implements the idea of blkdev_get_by_*()
+calls returning bdev_handle which is then passed to blkdev_put() [1]. This
+makes the get and put calls for bdevs more obviously matching and allows us to
+propagate context from get to put without having to modify all the users
+(again!). In particular I need to propagate used open flags to blkdev_put() to
+be able count writeable opens and add support for blocking writes to mounted
+block devices. I'll send that series separately.
 
-Seems the OVS side didn't change from v2 so still:
+The series is based on Christian's vfs tree as of today as there is quite
+some overlap. Patches have passed some reasonable testing - I've tested block
+changes, md, dm, bcache, xfs, btrfs, ext4, swap. More testing or review is
+always welcome. Thanks! I've pushed out the full branch to:
 
-Reviewed-by: Aaron Conole <aconole@redhat.com>
+git://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git bdev_handle
 
+to ease review / testing. Since there were not many comments for v2 and
+Christoph has acked the series I think we should start discussing how to merge
+the series. Most collisions with this series seem to happen in the filesystems
+area so VFS tree would seem as the least painful way to merge this. Jens,
+are you OK with that?
+
+Changes since v2:
+* Rebased on top of current vfs tree
+* Added some acks
+* Reflected minor nits from Christoph
+* Added missing conversion of blkdev_put() calls in cramfs and erofs
+* Fixed possible leak of bdev handle in xfs if logdev is the same as fs dev
+
+Changes since v1:
+* Rebased on top of current vfs tree
+* Renamed final functions to bdev_open_by_*() and bdev_release()
+* Fixed detection of exclusive open in blkdev_ioctl() and blkdev_fallocate()
+* Fixed swap conversion to properly reinitialize swap_info->bdev_handle
+* Fixed xfs conversion to not oops with rtdev without logdev
+* Couple other minor fixups
+
+								Honza
+
+[1] https://lore.kernel.org/all/ZJGNsVDhZx0Xgs2H@infradead.org
+
+CC: Alasdair Kergon <agk@redhat.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Anna Schumaker <anna@kernel.org>
+CC: Chao Yu <chao@kernel.org>
+CC: Christian Borntraeger <borntraeger@linux.ibm.com>
+CC: Coly Li <colyli@suse.de
+CC: "Darrick J. Wong" <djwong@kernel.org>
+CC: Dave Kleikamp <shaggy@kernel.org>
+CC: David Sterba <dsterba@suse.com>
+CC: dm-devel@redhat.com
+CC: drbd-dev@lists.linbit.com
+CC: Gao Xiang <xiang@kernel.org>
+CC: Jack Wang <jinpu.wang@ionos.com>
+CC: Jaegeuk Kim <jaegeuk@kernel.org>
+CC: jfs-discussion@lists.sourceforge.net
+CC: Joern Engel <joern@lazybastard.org>
+CC: Joseph Qi <joseph.qi@linux.alibaba.com>
+CC: Kent Overstreet <kent.overstreet@gmail.com>
+CC: linux-bcache@vger.kernel.org
+CC: linux-btrfs@vger.kernel.org
+CC: linux-erofs@lists.ozlabs.org
+CC: <linux-ext4@vger.kernel.org>
+CC: linux-f2fs-devel@lists.sourceforge.net
+CC: linux-mm@kvack.org
+CC: linux-mtd@lists.infradead.org
+CC: linux-nfs@vger.kernel.org
+CC: linux-nilfs@vger.kernel.org
+CC: linux-nvme@lists.infradead.org
+CC: linux-pm@vger.kernel.org
+CC: linux-raid@vger.kernel.org
+CC: linux-s390@vger.kernel.org
+CC: linux-scsi@vger.kernel.org
+CC: linux-xfs@vger.kernel.org
+CC: "Md. Haris Iqbal" <haris.iqbal@ionos.com>
+CC: Mike Snitzer <snitzer@kernel.org>
+CC: Minchan Kim <minchan@kernel.org>
+CC: ocfs2-devel@oss.oracle.com
+CC: reiserfs-devel@vger.kernel.org
+CC: Sergey Senozhatsky <senozhatsky@chromium.org>
+CC: Song Liu <song@kernel.org>
+CC: Sven Schnelle <svens@linux.ibm.com>
+CC: target-devel@vger.kernel.org
+CC: Ted Tso <tytso@mit.edu>
+CC: Trond Myklebust <trond.myklebust@hammerspace.com>
+CC: xen-devel@lists.xenproject.org
+
+Previous versions:
+Link: http://lore.kernel.org/r/20230629165206.383-1-jack@suse.cz # v1
+Link: http://lore.kernel.org/r/20230810171429.31759-1-jack@suse.cz # v2
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
