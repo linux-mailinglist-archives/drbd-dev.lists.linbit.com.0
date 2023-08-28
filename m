@@ -2,44 +2,45 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id E96B8789404
-	for <lists+drbd-dev@lfdr.de>; Sat, 26 Aug 2023 08:28:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98C4B78B17B
+	for <lists+drbd-dev@lfdr.de>; Mon, 28 Aug 2023 15:21:10 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id AD681426843;
-	Sat, 26 Aug 2023 08:28:34 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A610E420620;
+	Mon, 28 Aug 2023 15:21:09 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2C1074267EF
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C7964420216
 	for <drbd-dev@lists.linbit.com>;
-	Fri, 25 Aug 2023 15:33:00 +0200 (CEST)
+	Mon, 28 Aug 2023 15:21:05 +0200 (CEST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 16F38673FF;
-	Fri, 25 Aug 2023 13:33:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E70AEC433C8;
-	Fri, 25 Aug 2023 13:32:49 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 1E9A96187E;
+	Mon, 28 Aug 2023 13:21:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6569C433C8;
+	Mon, 28 Aug 2023 13:20:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1692970379;
-	bh=T3WCgKJR+2I3SNciRzSe5NGE9AO6KZcdR6qXwGAgd9M=;
+	s=k20201202; t=1693228864;
+	bh=QtirhpZ6M4wRBs0PcZuQKaZInNnIQCord7zI9oR3eYc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BOzM2QQ1MZDAriB3IMOamPdHV+2S3m2FC6tyT1pwI/9DF+WhlbPxDXE6fFDwe1gQn
-	nTHB+ewwdyxJVq1cwfq3lRDi07qJcCHvh+nPPtQwtyRFhMG1ktBk1+a5CxpNbFHlMo
-	Es+8l14bPK+nfmT+9Vs7IvZUfkPWFzk8wOkU0sT7FJdKR3BT4c1FwZN9woHNBuu5tc
-	jHLMCNsuGW/YHncoWpwLVgQ93zfRJ93+ghRIza8tLelTozCObl43Fv+mmuqvzrkB+C
-	SdJZ6/x4IFa4j6NBHHUKQ0uLY4RqtzEgYesuRGMfUi0q6xmwPRpi/3TpKuwt6YF2IT
-	8BYUF/YAoocgw==
-Date: Fri, 25 Aug 2023 15:32:47 +0200
+	b=dGzUUvJG87+eWzsz6xzROYCBNDl7W5LTOJNZSdrdj6kC4UZhu/D9tYCBTY1kzrQPe
+	x7WILXB1VLYusnI7i57xbkDNp7AlezoIITxDEYtPZbpKeaRaDjmpnSpx19pqxTzCO1
+	eHWv5jG6Kk405k0HzfGlQ5FnGrphH6RQF/qbsChQZpHtUi1E5k/RJY2W8E0veW1Pw4
+	WmlHIAC8kSpEcFeEGWLjHX2ee4G742ubGUZGwha6A7RHD325wN5SUYbEQ3omUMFDG/
+	CM1aA/cNlMXqkEYlHa/Phek8pvPKy4SQPmUA3IhuobWAQwG6yFUbEhG6jgGYrQO+H2
+	J9dq9/E4F2ZeQ==
+Date: Mon, 28 Aug 2023 15:20:47 +0200
 From: Christian Brauner <brauner@kernel.org>
 To: Jan Kara <jack@suse.cz>
-Message-ID: <20230825-hubraum-gedreht-8c5c4db9330a@brauner>
-References: <20230818123232.2269-1-jack@suse.cz>
+Message-ID: <20230828-durften-hauswand-67319ee0c17c@brauner>
+References: <20230810171429.31759-1-jack@suse.cz>
+	<20230825015843.GB95084@ZenIV>
+	<20230825134756.o3wpq6bogndukn53@quack3>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20230818123232.2269-1-jack@suse.cz>
-X-Mailman-Approved-At: Sat, 26 Aug 2023 08:28:33 +0200
+In-Reply-To: <20230825134756.o3wpq6bogndukn53@quack3>
 Cc: Dave Kleikamp <shaggy@kernel.org>, jfs-discussion@lists.sourceforge.net,
 	"Darrick J. Wong" <djwong@kernel.org>, linux-nvme@lists.infradead.org,
 	Joseph Qi <joseph.qi@linux.alibaba.com>, dm-devel@redhat.com,
@@ -56,8 +57,8 @@ Cc: Dave Kleikamp <shaggy@kernel.org>, jfs-discussion@lists.sourceforge.net,
 	Mike Snitzer <snitzer@kernel.org>, Chao Yu <chao@kernel.org>,
 	Joern Engel <joern@lazybastard.org>,
 	reiserfs-devel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-bcache@vger.kernel.org, David Sterba <dsterba@suse.com>,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
+	linux-bcache@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
+	David Sterba <dsterba@suse.com>, Jaegeuk Kim <jaegeuk@kernel.org>,
 	Trond Myklebust <trond.myklebust@hammerspace.com>,
 	Jens Axboe <axboe@kernel.dk>, linux-raid@vger.kernel.org,
 	linux-nfs@vger.kernel.org, linux-ext4@vger.kernel.org,
@@ -68,7 +69,7 @@ Cc: Dave Kleikamp <shaggy@kernel.org>, jfs-discussion@lists.sourceforge.net,
 	linux-fsdevel@vger.kernel.org, "Md. Haris Iqbal" <haris.iqbal@ionos.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	linux-erofs@lists.ozlabs.org, linux-btrfs@vger.kernel.org
-Subject: Re: [Drbd-dev] [PATCH v3 0/29] block: Make blkdev_get_by_*() return
+Subject: Re: [Drbd-dev] [PATCH v2 0/29] block: Make blkdev_get_by_*() return
 	handle
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
@@ -88,32 +89,15 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Wed, Aug 23, 2023 at 12:48:11PM +0200, Jan Kara wrote:
-> Hello,
-> 
-> this is a v3 of the patch series which implements the idea of blkdev_get_by_*()
-> calls returning bdev_handle which is then passed to blkdev_put() [1]. This
-> makes the get and put calls for bdevs more obviously matching and allows us to
-> propagate context from get to put without having to modify all the users
-> (again!). In particular I need to propagate used open flags to blkdev_put() to
-> be able count writeable opens and add support for blocking writes to mounted
-> block devices. I'll send that series separately.
-> 
-> The series is based on Christian's vfs tree as of today as there is quite
-> some overlap. Patches have passed some reasonable testing - I've tested block
-> changes, md, dm, bcache, xfs, btrfs, ext4, swap. More testing or review is
-> always welcome. Thanks! I've pushed out the full branch to:
-> 
-> git://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git bdev_handle
-> 
-> to ease review / testing. Since there were not many comments for v2 and
-> Christoph has acked the series I think we should start discussing how to merge
-> the series. Most collisions with this series seem to happen in the filesystems
-> area so VFS tree would seem as the least painful way to merge this. Jens,
+> So besides my last fput() worry about I think this could work and would be
+> probably a bit nicer than what I have. But before going and redoing the whole
+> series let me gather some more feedback so that we don't go back and forth.
+> Christoph, Christian, Jens, any opinion?
 
-I really do like this series especially struct bdev_handle and moving
-the mode bits in there. I'll happily take this. So far there have only
-been minor things that can easily be fixed.
+I'll be a bit under water for the next few days, I expect but I'll get
+back to this. I think not making you redo this whole thing from scratch
+is what I'd prefer unless there's really clear advantages. But I don't
+want to offer a haphazard opinion in the middle of the merge window.
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
