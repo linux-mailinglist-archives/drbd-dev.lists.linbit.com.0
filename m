@@ -2,62 +2,47 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id F301F78B5FB
-	for <lists+drbd-dev@lfdr.de>; Mon, 28 Aug 2023 19:07:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC7FD78C2F0
+	for <lists+drbd-dev@lfdr.de>; Tue, 29 Aug 2023 13:03:03 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 675454201C8;
-	Mon, 28 Aug 2023 19:07:48 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 30F364267ED;
+	Tue, 29 Aug 2023 13:03:03 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C77164201C8
-	for <drbd-dev@lists.linbit.com>; Mon, 28 Aug 2023 19:07:45 +0200 (CEST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E49BF4203B3
+	for <drbd-dev@lists.linbit.com>;
+	Tue, 29 Aug 2023 13:03:00 +0200 (CEST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	key-exchange X25519 server-signature ECDSA (P-521) server-digest
-	SHA512) (No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 873FB1F37E;
-	Mon, 28 Aug 2023 17:07:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1693242465;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	mime-version:mime-version:content-type:content-type:
-	in-reply-to:in-reply-to:references:references;
-	bh=gY+yGRa61TK2BR8Nw1XPStAseZID7tr6EzNodmZtwGI=;
-	b=qVtknFwaytxobpauxbbKFuuIVi6tPH4Iq6U6De70imbcWuGOxhftHNb/4FbPSlc5GK5oK7
-	GshsV6S1hXqpxSKPutaEa7H9BjX/0wslT8a/D4qnl6I13zhL54OxmZm3biLLUgjj3B0284
-	RPao+ZPH1kv8DfDq9EfFHRPOBMpXacI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1693242465;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	mime-version:mime-version:content-type:content-type:
-	in-reply-to:in-reply-to:references:references;
-	bh=gY+yGRa61TK2BR8Nw1XPStAseZID7tr6EzNodmZtwGI=;
-	b=R3UkEJ5CJtN+ADS2q+nxkKoBRTSfFifpdVN9hgBj3Kx2evg21jSoeC6uq7LeWXoMGsRfiN
-	pZDyCc1pRe5jtEDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	key-exchange X25519 server-signature ECDSA (P-521) server-digest
-	SHA512) (No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6A42A139CC;
-	Mon, 28 Aug 2023 17:07:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA id scxcGWHU7GQMNQAAMHmgww
-	(envelope-from <jack@suse.cz>); Mon, 28 Aug 2023 17:07:45 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id CE101A0774; Mon, 28 Aug 2023 19:07:44 +0200 (CEST)
-Date: Mon, 28 Aug 2023 19:07:44 +0200
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Message-ID: <20230828170744.iifdmaw732cfiauf@quack3>
+	key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 4E2B2653BA;
+	Tue, 29 Aug 2023 11:03:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A91DC433C8;
+	Tue, 29 Aug 2023 11:02:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1693306979;
+	bh=U8tO0dLFljDnktuq80r4afitP93wv2ZaRihVU0Qyu2I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Zpf44oWH5Z2L6QhPNIGp7PeBhJpnP4KfVurKgcL9DEj/BIRmEq8ijJzbb6q5k8Ovs
+	9bWmbNzBkJw5MyDAxRy27lwjHGda6NbScABpEWJtXeah3765gQ9TUqIkk0ScRRsr4B
+	pgJc/+HtIStX4e0zZcs6Mgm/y0cAQCiR+vX0i9HUCQ2jW21Dvj1m5KvDe2xJG8sZD9
+	7J/ySnM4IatjDikdEeiDLegDHPGVAKFz5CZJOY4FIoLRlouJhKb12RDwuxVPSp/21Q
+	Im6ZTKLVuSh6T0hvwNEhJP5WmzsfCpgy49EfIICESoo8yOH/FPp5HVYEAtlfB2KJ19
+	jLNduaFs+ry8A==
+Date: Tue, 29 Aug 2023 13:02:47 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Jan Kara <jack@suse.cz>
+Message-ID: <20230829-stark-trapez-2251bf78c6a9@brauner>
 References: <20230818123232.2269-1-jack@suse.cz>
 	<20230825-hubraum-gedreht-8c5c4db9330a@brauner>
+	<20230828170744.iifdmaw732cfiauf@quack3>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20230825-hubraum-gedreht-8c5c4db9330a@brauner>
+In-Reply-To: <20230828170744.iifdmaw732cfiauf@quack3>
 Cc: Dave Kleikamp <shaggy@kernel.org>, jfs-discussion@lists.sourceforge.net,
-	Jan Kara <jack@suse.cz>, "Darrick J. Wong" <djwong@kernel.org>,
-	linux-nvme@lists.infradead.org,
+	"Darrick J. Wong" <djwong@kernel.org>, linux-nvme@lists.infradead.org,
 	Joseph Qi <joseph.qi@linux.alibaba.com>, dm-devel@redhat.com,
 	target-devel@vger.kernel.org, linux-mtd@lists.infradead.org,
 	Jack Wang <jinpu.wang@ionos.com>,
@@ -104,45 +89,12 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Fri 25-08-23 15:32:47, Christian Brauner wrote:
-> On Wed, Aug 23, 2023 at 12:48:11PM +0200, Jan Kara wrote:
-> > Hello,
-> > 
-> > this is a v3 of the patch series which implements the idea of blkdev_get_by_*()
-> > calls returning bdev_handle which is then passed to blkdev_put() [1]. This
-> > makes the get and put calls for bdevs more obviously matching and allows us to
-> > propagate context from get to put without having to modify all the users
-> > (again!). In particular I need to propagate used open flags to blkdev_put() to
-> > be able count writeable opens and add support for blocking writes to mounted
-> > block devices. I'll send that series separately.
-> > 
-> > The series is based on Christian's vfs tree as of today as there is quite
-> > some overlap. Patches have passed some reasonable testing - I've tested block
-> > changes, md, dm, bcache, xfs, btrfs, ext4, swap. More testing or review is
-> > always welcome. Thanks! I've pushed out the full branch to:
-> > 
-> > git://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git bdev_handle
-> > 
-> > to ease review / testing. Since there were not many comments for v2 and
-> > Christoph has acked the series I think we should start discussing how to merge
-> > the series. Most collisions with this series seem to happen in the filesystems
-> > area so VFS tree would seem as the least painful way to merge this. Jens,
-> 
-> I really do like this series especially struct bdev_handle and moving
-> the mode bits in there. I'll happily take this. So far there have only
-> been minor things that can easily be fixed.
+> replacement) I think we can go ahead with the series as is. As you said
+> there will be some conflicts in btrfs and I've learned about f2fs conflicts
+> as well so I can rebase & repost the series on top of rc1 to make life
+> easier for you.
 
-Thanks. Since Al is fine with just doing a potential conversion to 'struct
-file' as a handle on top of this series (it will be dumb Coccinelle
-replacement) I think we can go ahead with the series as is. As you said
-there will be some conflicts in btrfs and I've learned about f2fs conflicts
-as well so I can rebase & repost the series on top of rc1 to make life
-easier for you.
-
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+That is be much appreciated. Thank you!
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
