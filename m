@@ -2,82 +2,90 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CAB17A278E
-	for <lists+drbd-dev@lfdr.de>; Fri, 15 Sep 2023 22:03:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 907387A2817
+	for <lists+drbd-dev@lfdr.de>; Fri, 15 Sep 2023 22:31:02 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B53CE425C97;
-	Fri, 15 Sep 2023 22:03:20 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0AA86425C97;
+	Fri, 15 Sep 2023 22:31:02 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
-	[209.85.210.170])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D0451420168
-	for <drbd-dev@lists.linbit.com>; Fri, 15 Sep 2023 22:03:19 +0200 (CEST)
-Received: by mail-pf1-f170.google.com with SMTP id
-	d2e1a72fcca58-68fbd31d9deso2447699b3a.3
-	for <drbd-dev@lists.linbit.com>; Fri, 15 Sep 2023 13:03:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=chromium.org; s=google; t=1694808198; x=1695412998;
-	darn=lists.linbit.com; 
-	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-	:to:from:from:to:cc:subject:date:message-id:reply-to;
-	bh=vqU6w0o7wis7lXYiV/PtYRUS9jkyqSgo8jH+nv7z2lQ=;
-	b=FzTvIZl/uSr1783+3X07BMpP7jt5e84lVYjHJvYBUYCLetXQhDCqftVZzEQibVVMO5
-	XR5dg24IlwbqPn5/jLRHZnq1eiUV7cYBIWlDGT+5c0DAAqfp8XCKS0YbxkFEqDEIuvgz
-	ZXO1WKoDScyyDA9X/CIwP7xssb5SqhLjXntUY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20230601; t=1694808198; x=1695412998;
-	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-	:to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-	:reply-to;
-	bh=vqU6w0o7wis7lXYiV/PtYRUS9jkyqSgo8jH+nv7z2lQ=;
-	b=gv//cUpwWPBS3r/f6kFQgCswQruHSBgZ9QC6uoKarCNK5UKJANlROx9JWSBclbv8nv
-	sF0TxWdcTkY9XZPAHDaPWLjnrwprBowEa3XH9hRWUf+vcXCQg5hgPSE3M9ntNeCmhduv
-	4DuybJuK8NRaC8D+mX4U4A0QaWtvX0cCqf6bxU5lbLAZxW+joGEsf1pra8s7iquKSoLc
-	dvjqKgmwriZo/eY4PEmYx2t7Yq3ntx6Kj1ARQ6+9eMkgDGP4nFSVWuYRL8JiBJfTm2eQ
-	VBBmgRSyOmnGQvALqKbVIIlOLg5wwnlPh5c6GCWOhOJA0PcxYj/RTlpktalSHndtUCwz
-	erSw==
-X-Gm-Message-State: AOJu0YxVmOnCyZU4VrEyNr2mDgl2lYfF40JoMM2sHuPEmnwOzpNb/6TW
-	Nt29YtASshxTXPz6qz02Y6oZjQ==
-X-Google-Smtp-Source: AGHT+IH3OWyboutDfOfAciFvlgHKuWSpCyEFwnnry4+ZcBINS25y0aQgfc+F80nwPUf47he0MSKCZg==
-X-Received: by 2002:a05:6a21:3d82:b0:155:bff3:ea1d with SMTP id
-	bj2-20020a056a213d8200b00155bff3ea1dmr2858114pzc.58.1694808198682;
-	Fri, 15 Sep 2023 13:03:18 -0700 (PDT)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net.
-	[198.0.35.241]) by smtp.gmail.com with ESMTPSA id
-	s24-20020aa78298000000b0068be348e35fsm3327629pfm.166.2023.09.15.13.03.17
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 15 Sep 2023 13:03:18 -0700 (PDT)
-From: Kees Cook <keescook@chromium.org>
-To: Philipp Reisner <philipp.reisner@linbit.com>
-Date: Fri, 15 Sep 2023 13:03:16 -0700
-Message-Id: <20230915200316.never.707-kees@kernel.org>
-X-Mailer: git-send-email 2.34.1
+X-Greylist: delayed 429 seconds by postgrey-1.31 at mail19;
+	Fri, 15 Sep 2023 22:30:59 CEST
+Received: from omta36.uswest2.a.cloudfilter.net
+	(omta36.uswest2.a.cloudfilter.net [35.89.44.35])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D82AD4203B2
+	for <drbd-dev@lists.linbit.com>; Fri, 15 Sep 2023 22:30:59 +0200 (CEST)
+Received: from eig-obgw-6006a.ext.cloudfilter.net ([10.0.30.182])
+	by cmsmtp with ESMTP
+	id hCX9qLRyvEoVshFLwqHo3L; Fri, 15 Sep 2023 20:23:48 +0000
+Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with ESMTPS
+	id hFLwqZHU3nxNghFLwq35YK; Fri, 15 Sep 2023 20:23:48 +0000
+X-Authority-Analysis: v=2.4 cv=PrSA0iA3 c=1 sm=1 tr=0 ts=6504bd54
+	a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=WzbPXH4gqzPVN0x6HrNMNA==:17
+	a=OWjo9vPv0XrRhIrVQ50Ab3nP57M=:19 a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19
+	a=IkcTkHD0fZMA:10 a=zNV7Rl7Rt7sA:10 a=wYkD_t78qR0A:10 a=NEAV23lmAAAA:8
+	a=MRXkqwc6AAAA:8 a=VwQbUJbxAAAA:8 a=cm27Pg_UAAAA:8
+	a=Mw5oN-FQwNtlLNIY7psA:9
+	a=QEXdDO2ut3YA:10 a=tmQuKXRa9JHWtioalwAU:22 a=AjGcO6oz07-iQ99wixmX:22
+	a=xmb-EsYY8bH0VWELuYED:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=dRKiLGohBO+l2o2LcNabfrL4Za7Tt/SCkLsJLXnqc/s=;
+	b=XoYtOhMDah9gcug71RnUEpxyGR
+	37eNPy3kq5IFwpQbDJz4MgcSY//yxuoGzx2mxtZ4Y7md7RgTSmdpidy25q2CVTDo0V31M3C+ep5+l
+	sIgRWv83wwXabhWaDa1i+uwqPOEbBKyd63eqVnplD+wVRHcIKC76rF0Q/iHjODGpWPubcRPvXLACu
+	MeisaMFzEI2aNaNDeA5hz7LdTkPayrNw02CyXNHkCDCkZhJGCXw5HdgTv0GenubQ2ZkiCDAIDmtkb
+	Xm5CwnNuJdtN00tFCmrfHbVS6SqYFSEcZbVP+UUKzv4EPDA0t7s1gXsGmvjGXg1udhvWnW9dzIsp3
+	m02ryiPA==;
+Received: from 187-162-21-192.static.axtel.net ([187.162.21.192]:34976
+	helo=[192.168.15.8])
+	by gator4166.hostgator.com with esmtpsa (TLS1.2) tls
+	TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.96)
+	(envelope-from <gustavo@embeddedor.com>) id 1qhFLu-002GXj-10;
+	Fri, 15 Sep 2023 15:23:47 -0500
+Message-ID: <c2c552ff-c650-1e69-b552-f6f872605526@embeddedor.com>
+Date: Fri, 15 Sep 2023 14:24:35 -0600
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1342; i=keescook@chromium.org; 
-	h=from:subject:message-id;
-	bh=ZUSAvLi9vR+UNAa6nUlqpsYdl2ki5xpNFUW+QWpv+Gs=; 
-	b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBlBLiE6lCzis0gsISR4JNPawG7ZHd60KeU/nnbd
-	V8maTMUfi2JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZQS4hAAKCRCJcvTf3G3A
-	JkJlD/9l0pF1aFUgbVK4svrSUi+5O9iGRCXOXyoA8gV9689PopMTI0ye6wlfzm8Md0iYuPfhPXN
-	PiDaHZayfKusmZu960KmvoYn86R3PC7vusckxDFxIgZLKpHbUlrnIEvHyffN6rhQz/U0x3f3FOZ
-	Zo/+lHw5TwwltaJ0UuG4XxTzBmorhPU5VRUUvs8vN9MbJh+Zemw3EIECqisOwSLvIb44xn2EhsQ
-	ik9K5alDkuinwcoxqirtInCYXfVkatpA9hycu0y4BxSbpaHfeLZ8bD7qFGFWPWuSPEkoRqag+5a
-	I/lOP+ADDanjP1tHpdyL++/bWKhxpdzJQ/V4i6+OwO4240bpcoULvIZat0qzQ/Kc4O6E6V2FYEQ
-	If+FqC7XhZfU4OxTEaOECJUi4i1ziEZcD2gyrR4ZOLOD6WhZr7lqtDXhRDtGvCD1vl+/3u/frmE
-	5DpKvhGaM0oE+x4HjT7CKuptyzLPaNpdjfbLBI26/9nHIWMorznDsuAigef1YyWMjfRg7mDsWyv
-	Wyf2UTzCBZPa4ezkhWjsFB9DAllI18T+IPzhY3S0g70qdnZvZDlJ3fDhraSbUyCE/e2jVgPbvJW
-	6Tc6rXSm54n7WhP2cU6JIa/9pPv2J0rVcbUYyOqICMjEek0DhJ2EUyUa2umQjR49gGfT1cnVha9
-	e44QrY/ OHYIMW1Q==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp;
-	fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Cc: Jens Axboe <axboe@kernel.dk>, Nathan Chancellor <nathan@kernel.org>,
-	Kees Cook <keescook@chromium.org>, Tom Rix <trix@redhat.com>,
-	llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+	Thunderbird/102.13.0
+Content-Language: en-US
+To: Kees Cook <keescook@chromium.org>,
+	Philipp Reisner <philipp.reisner@linbit.com>
+References: <20230915200316.never.707-kees@kernel.org>
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+In-Reply-To: <20230915200316.never.707-kees@kernel.org>
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - lists.linbit.com
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 187.162.21.192
+X-Source-L: No
+X-Exim-ID: 1qhFLu-002GXj-10
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 187-162-21-192.static.axtel.net ([192.168.15.8])
+	[187.162.21.192]:34976
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 60
+X-Org: HG=hgshared;ORG=hostgator;
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfJPyn4NFmIn0TrzBlTojtNSYwmWQgPwFIT5DO8E+wXWyht3IcdL22wGTMnhYH0YJmaj7oYLdzW9Tzgvt6MMg4l1bJACKe5oncpDxUwwlJuKh4Y+z31Tr
+	/i5bnTZsBPbHOsRNlXzjz1iKHt8xSrz/rW3QcH9hdVEgFECeH9E+ebZ7iMszWgaGmGXVKQYJzT5PFUDdpRG1Yq5Lz09rT7lYf4U=
+Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
+	Tom Rix <trix@redhat.com>, llvm@lists.linux.dev,
+	Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+	Nathan Chancellor <nathan@kernel.org>, linux-hardening@vger.kernel.org,
 	Lars Ellenberg <lars.ellenberg@linbit.com>, drbd-dev@lists.linbit.com
-Subject: [Drbd-dev] [PATCH] drbd: Annotate struct fifo_buffer with
+Subject: Re: [Drbd-dev] [PATCH] drbd: Annotate struct fifo_buffer with
 	__counted_by
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
@@ -92,34 +100,37 @@ List-Post: <mailto:drbd-dev@lists.linbit.com>
 List-Help: <mailto:drbd-dev-request@lists.linbit.com?subject=help>
 List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-UHJlcGFyZSBmb3IgdGhlIGNvbWluZyBpbXBsZW1lbnRhdGlvbiBieSBHQ0MgYW5kIENsYW5nIG9m
-IHRoZSBfX2NvdW50ZWRfYnkKYXR0cmlidXRlLiBGbGV4aWJsZSBhcnJheSBtZW1iZXJzIGFubm90
-YXRlZCB3aXRoIF9fY291bnRlZF9ieSBjYW4gaGF2ZQp0aGVpciBhY2Nlc3NlcyBib3VuZHMtY2hl
-Y2tlZCBhdCBydW4tdGltZSBjaGVja2luZyB2aWEgQ09ORklHX1VCU0FOX0JPVU5EUwooZm9yIGFy
-cmF5IGluZGV4aW5nKSBhbmQgQ09ORklHX0ZPUlRJRllfU09VUkNFIChmb3Igc3RyY3B5L21lbWNw
-eS1mYW1pbHkKZnVuY3Rpb25zKS4KCkFzIGZvdW5kIHdpdGggQ29jY2luZWxsZVsxXSwgYWRkIF9f
-Y291bnRlZF9ieSBmb3Igc3RydWN0IGZpZm9fYnVmZmVyLgoKWzFdIGh0dHBzOi8vZ2l0aHViLmNv
-bS9rZWVzL2tlcm5lbC10b29scy9ibG9iL3RydW5rL2NvY2NpbmVsbGUvZXhhbXBsZXMvY291bnRl
-ZF9ieS5jb2NjaQoKQ2M6IFBoaWxpcHAgUmVpc25lciA8cGhpbGlwcC5yZWlzbmVyQGxpbmJpdC5j
-b20+CkNjOiBMYXJzIEVsbGVuYmVyZyA8bGFycy5lbGxlbmJlcmdAbGluYml0LmNvbT4KQ2M6ICJD
-aHJpc3RvcGggQsO2aG13YWxkZXIiIDxjaHJpc3RvcGguYm9laG13YWxkZXJAbGluYml0LmNvbT4K
-Q2M6IEplbnMgQXhib2UgPGF4Ym9lQGtlcm5lbC5kaz4KQ2M6IGRyYmQtZGV2QGxpc3RzLmxpbmJp
-dC5jb20KQ2M6IGxpbnV4LWJsb2NrQHZnZXIua2VybmVsLm9yZwpTaWduZWQtb2ZmLWJ5OiBLZWVz
-IENvb2sgPGtlZXNjb29rQGNocm9taXVtLm9yZz4KLS0tCiBkcml2ZXJzL2Jsb2NrL2RyYmQvZHJi
-ZF9pbnQuaCB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlv
-bigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvYmxvY2svZHJiZC9kcmJkX2ludC5oIGIvZHJpdmVy
-cy9ibG9jay9kcmJkL2RyYmRfaW50LmgKaW5kZXggYTMwYTVlZDgxMWJlLi43ZWVjYzUzZmFlM2Qg
-MTAwNjQ0Ci0tLSBhL2RyaXZlcnMvYmxvY2svZHJiZC9kcmJkX2ludC5oCisrKyBiL2RyaXZlcnMv
-YmxvY2svZHJiZC9kcmJkX2ludC5oCkBAIC01NTMsNyArNTUzLDcgQEAgc3RydWN0IGZpZm9fYnVm
-ZmVyIHsKIAl1bnNpZ25lZCBpbnQgaGVhZF9pbmRleDsKIAl1bnNpZ25lZCBpbnQgc2l6ZTsKIAlp
-bnQgdG90YWw7IC8qIHN1bSBvZiBhbGwgdmFsdWVzICovCi0JaW50IHZhbHVlc1tdOworCWludCB2
-YWx1ZXNbXSBfX2NvdW50ZWRfYnkoc2l6ZSk7CiB9OwogZXh0ZXJuIHN0cnVjdCBmaWZvX2J1ZmZl
-ciAqZmlmb19hbGxvYyh1bnNpZ25lZCBpbnQgZmlmb19zaXplKTsKIAotLSAKMi4zNC4xCgpfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmJkLWRldiBtYWls
-aW5nIGxpc3QKZHJiZC1kZXZAbGlzdHMubGluYml0LmNvbQpodHRwczovL2xpc3RzLmxpbmJpdC5j
-b20vbWFpbG1hbi9saXN0aW5mby9kcmJkLWRldgo=
+CgpPbiA5LzE1LzIzIDE0OjAzLCBLZWVzIENvb2sgd3JvdGU6Cj4gUHJlcGFyZSBmb3IgdGhlIGNv
+bWluZyBpbXBsZW1lbnRhdGlvbiBieSBHQ0MgYW5kIENsYW5nIG9mIHRoZSBfX2NvdW50ZWRfYnkK
+PiBhdHRyaWJ1dGUuIEZsZXhpYmxlIGFycmF5IG1lbWJlcnMgYW5ub3RhdGVkIHdpdGggX19jb3Vu
+dGVkX2J5IGNhbiBoYXZlCj4gdGhlaXIgYWNjZXNzZXMgYm91bmRzLWNoZWNrZWQgYXQgcnVuLXRp
+bWUgY2hlY2tpbmcgdmlhIENPTkZJR19VQlNBTl9CT1VORFMKPiAoZm9yIGFycmF5IGluZGV4aW5n
+KSBhbmQgQ09ORklHX0ZPUlRJRllfU09VUkNFIChmb3Igc3RyY3B5L21lbWNweS1mYW1pbHkKPiBm
+dW5jdGlvbnMpLgo+IAo+IEFzIGZvdW5kIHdpdGggQ29jY2luZWxsZVsxXSwgYWRkIF9fY291bnRl
+ZF9ieSBmb3Igc3RydWN0IGZpZm9fYnVmZmVyLgo+IAo+IFsxXSBodHRwczovL2dpdGh1Yi5jb20v
+a2Vlcy9rZXJuZWwtdG9vbHMvYmxvYi90cnVuay9jb2NjaW5lbGxlL2V4YW1wbGVzL2NvdW50ZWRf
+YnkuY29jY2kKPiAKPiBDYzogUGhpbGlwcCBSZWlzbmVyIDxwaGlsaXBwLnJlaXNuZXJAbGluYml0
+LmNvbT4KPiBDYzogTGFycyBFbGxlbmJlcmcgPGxhcnMuZWxsZW5iZXJnQGxpbmJpdC5jb20+Cj4g
+Q2M6ICJDaHJpc3RvcGggQsO2aG13YWxkZXIiIDxjaHJpc3RvcGguYm9laG13YWxkZXJAbGluYml0
+LmNvbT4KPiBDYzogSmVucyBBeGJvZSA8YXhib2VAa2VybmVsLmRrPgo+IENjOiBkcmJkLWRldkBs
+aXN0cy5saW5iaXQuY29tCj4gQ2M6IGxpbnV4LWJsb2NrQHZnZXIua2VybmVsLm9yZwo+IFNpZ25l
+ZC1vZmYtYnk6IEtlZXMgQ29vayA8a2Vlc2Nvb2tAY2hyb21pdW0ub3JnPgoKUmV2aWV3ZWQtYnk6
+IEd1c3Rhdm8gQS4gUi4gU2lsdmEgPGd1c3Rhdm9hcnNAa2VybmVsLm9yZz4KClRoYW5rcwotLSAK
+R3VzdGF2bwoKPiAtLS0KPiAgIGRyaXZlcnMvYmxvY2svZHJiZC9kcmJkX2ludC5oIHwgMiArLQo+
+ICAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCj4gCj4gZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvYmxvY2svZHJiZC9kcmJkX2ludC5oIGIvZHJpdmVycy9ibG9jay9k
+cmJkL2RyYmRfaW50LmgKPiBpbmRleCBhMzBhNWVkODExYmUuLjdlZWNjNTNmYWUzZCAxMDA2NDQK
+PiAtLS0gYS9kcml2ZXJzL2Jsb2NrL2RyYmQvZHJiZF9pbnQuaAo+ICsrKyBiL2RyaXZlcnMvYmxv
+Y2svZHJiZC9kcmJkX2ludC5oCj4gQEAgLTU1Myw3ICs1NTMsNyBAQCBzdHJ1Y3QgZmlmb19idWZm
+ZXIgewo+ICAgCXVuc2lnbmVkIGludCBoZWFkX2luZGV4Owo+ICAgCXVuc2lnbmVkIGludCBzaXpl
+Owo+ICAgCWludCB0b3RhbDsgLyogc3VtIG9mIGFsbCB2YWx1ZXMgKi8KPiAtCWludCB2YWx1ZXNb
+XTsKPiArCWludCB2YWx1ZXNbXSBfX2NvdW50ZWRfYnkoc2l6ZSk7Cj4gICB9Owo+ICAgZXh0ZXJu
+IHN0cnVjdCBmaWZvX2J1ZmZlciAqZmlmb19hbGxvYyh1bnNpZ25lZCBpbnQgZmlmb19zaXplKTsK
+PiAgIApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmJk
+LWRldiBtYWlsaW5nIGxpc3QKZHJiZC1kZXZAbGlzdHMubGluYml0LmNvbQpodHRwczovL2xpc3Rz
+LmxpbmJpdC5jb20vbWFpbG1hbi9saXN0aW5mby9kcmJkLWRldgo=
