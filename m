@@ -2,68 +2,43 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 136BB7B0683
-	for <lists+drbd-dev@lfdr.de>; Wed, 27 Sep 2023 16:19:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E250A7B0A1B
+	for <lists+drbd-dev@lfdr.de>; Wed, 27 Sep 2023 18:28:50 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 184A542683C;
-	Wed, 27 Sep 2023 16:19:41 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5BF9A42683F;
+	Wed, 27 Sep 2023 18:28:50 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
-	[209.85.208.170])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D70D8426837
-	for <drbd-dev@lists.linbit.com>; Wed, 27 Sep 2023 16:19:39 +0200 (CEST)
-Received: by mail-lj1-f170.google.com with SMTP id
-	38308e7fff4ca-2bfe9447645so40486431fa.0
-	for <drbd-dev@lists.linbit.com>; Wed, 27 Sep 2023 07:19:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1695824379;
-	x=1696429179; darn=lists.linbit.com; 
-	h=content-transfer-encoding:in-reply-to:content-language:references
-	:cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
-	:cc:subject:date:message-id:reply-to;
-	bh=Wwk46okUDVQfnnelgDDAXJI2PyNHcNwKe3ka13udWbU=;
-	b=a1si7fPns95bpiUo9XfsJtEbETggjkQ7yp94gQuYfBwml/OwxDYlogbSHjoh0v6f9A
-	GRMZzaTtFg1pyWvMLY0OG/Xo1G84F7wyXipsdc9wI7i8vTww064XVcczd+VdD/HX/Sdb
-	OWeR2Y2+cGHCUGhRyqjcyaPQX9T9hRdhtWXUdTIskndf7Ts/OjJtvox5sbSE6mZP1L9F
-	JgE+DoL8TaZT9WYvxZf4NU7TWTzcNRX2cn/L8arKQSQkelkxjZp2L3Wz1Qir0IPJ9xaF
-	v12rg6PfDw5LtTXg0LHif2NBTy60MO+m0Z7xzNs2aIvGfRgDBtHcJFkrROBcrJHCl5S7
-	8r6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20230601; t=1695824379; x=1696429179;
-	h=content-transfer-encoding:in-reply-to:content-language:references
-	:cc:to:subject:from:user-agent:mime-version:date:message-id
-	:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-	bh=Wwk46okUDVQfnnelgDDAXJI2PyNHcNwKe3ka13udWbU=;
-	b=n3GKIVHa/pmX/A71A6KVZUfhc9Bjr6WwQ7j++dN7lxvN3tKVH357QOManM875/eu3c
-	ydz4gOD4isXa/Jv9E+fVdChc21ENGNdFw9WMNH3rFCKDiyxZ9tAIO9jDyGuMI7gfrzAi
-	y6N4M9xI9qPJV/h+CXP8cW4YAglwHaPDeIaEx/jUBkkDvcpp0oun2FBerev9dEWK/gyW
-	TeNRRcOlIKtnP5gO0FvLICxd/WonXtaN4XWQ2Q2GKZBZ+ePuopdqZoaTUb+flrgtLegE
-	l4BtvKSnAexqVxGpJ9gW3BQd477ZAY7OD7s9ajEHvyGYsKCx5Ngm1h+/tbxn5/PJYW63
-	qw/A==
-X-Gm-Message-State: AOJu0YxSM8NT82KFx9W5ma1/gUYJdaBcUu/OTDYbz+eaPNBwdJNQR0lx
-	edl02mvyXHwLU/T9JGf+h56MOA==
-X-Google-Smtp-Source: AGHT+IExVCqrFIxKzo43T8FMa/9T5rz6/xdccYRyI4cqxFk27k3RqgKqbk6x0v1Y5TMyg8NtKFdEkg==
-X-Received: by 2002:a05:651c:3cf:b0:2b6:cd7f:5ea8 with SMTP id
-	f15-20020a05651c03cf00b002b6cd7f5ea8mr1801740ljp.1.1695824378667;
-	Wed, 27 Sep 2023 07:19:38 -0700 (PDT)
-Received: from [172.20.13.88] ([45.147.210.162])
-	by smtp.gmail.com with ESMTPSA id
-	mh2-20020a170906eb8200b00992b2c55c67sm9370253ejb.156.2023.09.27.07.19.36
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Wed, 27 Sep 2023 07:19:37 -0700 (PDT)
-Message-ID: <9cc59d88-4b77-4e56-ae54-737baca1d435@kernel.dk>
-Date: Wed, 27 Sep 2023 08:19:36 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Jens Axboe <axboe@kernel.dk>
+X-Greylist: delayed 434 seconds by postgrey-1.31 at mail19;
+	Wed, 27 Sep 2023 18:28:48 CEST
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2C9D8426837
+	for <drbd-dev@lists.linbit.com>; Wed, 27 Sep 2023 18:28:48 +0200 (CEST)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 89EFFCE1A9C;
+	Wed, 27 Sep 2023 16:21:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF3E3C433C7;
+	Wed, 27 Sep 2023 16:21:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1695831690;
+	bh=5fVqTod0fsU3D85/NgpH5eX11yWtVW2s8jme29QI3SA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=K+SdxwDZhx8uxbb5abeHgPolVgmwSiIBL6/AzX/eEpmg7s5Jd1TwEPpueT17Z+y1i
+	r/3aJFhGZoIRaqB+ADboLRaAQZpJm6SMvyfu5jpdUX9fmjLLqHrtdJHSnoHaBHBoNB
+	1Ras0NDOeGzjZ5rjoNJ7hj3RFSgjPFHQeOCu0doiR1ZFlmc7Dtn7+Tg4yFYE5HRxY7
+	FflbgLOEB1zCas3wjtrhbqXfzlZd6DZqKcBXDoRDLeETsNHRLxD2cXgjOH7guvx0ma
+	AufPlRnLwdi+pMqoWiBGk6SGa+Snjtz53w/pXkwTjOc2fDnSaUxFN105snuKm+T14u
+	FBsBAdYo6oMFA==
+Date: Wed, 27 Sep 2023 18:21:19 +0200
+From: Christian Brauner <brauner@kernel.org>
 To: Jan Kara <jack@suse.cz>
+Message-ID: <20230927-prahlen-reintreten-93706074e58d@brauner>
 References: <20230818123232.2269-1-jack@suse.cz>
-Content-Language: en-US
+MIME-Version: 1.0
+Content-Disposition: inline
 In-Reply-To: <20230818123232.2269-1-jack@suse.cz>
 Cc: Dave Kleikamp <shaggy@kernel.org>, jfs-discussion@lists.sourceforge.net,
-	Jan Kara <jack@suse.cz>, "Darrick J. Wong" <djwong@kernel.org>,
-	linux-nvme@lists.infradead.org,
+	"Darrick J. Wong" <djwong@kernel.org>, linux-nvme@lists.infradead.org,
 	Joseph Qi <joseph.qi@linux.alibaba.com>, dm-devel@redhat.com,
 	target-devel@vger.kernel.org, linux-mtd@lists.infradead.org,
 	Jack Wang <jinpu.wang@ionos.com>,
@@ -76,12 +51,12 @@ Cc: Dave Kleikamp <shaggy@kernel.org>, jfs-discussion@lists.sourceforge.net,
 	Kent Overstreet <kent.overstreet@gmail.com>,
 	Sven Schnelle <svens@linux.ibm.com>, linux-pm@vger.kernel.org,
 	Mike Snitzer <snitzer@kernel.org>, Chao Yu <chao@kernel.org>,
-	Joern Engel <joern@lazybastard.org>, linux-nfs@vger.kernel.org,
+	Joern Engel <joern@lazybastard.org>,
 	reiserfs-devel@vger.kernel.org, linux-block@vger.kernel.org,
 	linux-bcache@vger.kernel.org, David Sterba <dsterba@suse.com>,
 	Jaegeuk Kim <jaegeuk@kernel.org>,
 	Trond Myklebust <trond.myklebust@hammerspace.com>,
-	linux-raid@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
+	linux-raid@vger.kernel.org, linux-nfs@vger.kernel.org,
 	linux-ext4@vger.kernel.org, Ted Tso <tytso@mit.edu>,
 	linux-mm@kvack.org, Song Liu <song@kernel.org>,
 	linux-f2fs-devel@lists.sourceforge.net,
@@ -110,39 +85,98 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Wed, Sep 27, 2023 at 3:34?AM Jan Kara <jack@suse.cz> wrote:
->
-> Hello,
->
-> this is a v3 of the patch series which implements the idea of blkdev_get_by_*()
+On Wed, 27 Sep 2023 11:34:07 +0200, Jan Kara wrote:
+> Create struct bdev_handle that contains all parameters that need to be
+> passed to blkdev_put() and provide bdev_open_* functions that return
+> this structure instead of plain bdev pointer. This will eventually allow
+> us to pass one more argument to blkdev_put() (renamed to bdev_release())
+> without too much hassle.
+> 
+> 
+> [...]
 
-v4?
-
-> calls returning bdev_handle which is then passed to blkdev_put() [1]. This
-> makes the get and put calls for bdevs more obviously matching and allows us to
-> propagate context from get to put without having to modify all the users
-> (again!). In particular I need to propagate used open flags to blkdev_put() to
-> be able count writeable opens and add support for blocking writes to mounted
-> block devices. I'll send that series separately.
->
-> The series is based on Btrfs tree's for-next branch [2] as of today as the
-> series depends on Christoph's changes to btrfs device handling.  Patches have
-> passed some reasonable testing - I've tested block changes, md, dm, bcache,
-> xfs, btrfs, ext4, swap. More testing or review is always welcome. Thanks! I've
-> pushed out the full branch to:
->
-> git://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git bdev_handle
->
 > to ease review / testing. Christian, can you pull the patches to your tree
 > to get some exposure in linux-next as well? Thanks!
 
-For the block bits:
+Yep. So I did it slighly differently. I pulled in the btrfs prereqs and
+then applied your series on top of it so we get all the Link: tags right.
+I'm running tests right now. Please double-check.
 
-Acked-by: Jens Axboe <axboe@kernel.dk>
+---
 
--- 
-Jens Axboe
+Applied to the vfs.super branch of the vfs/vfs.git tree.
+Patches in the vfs.super branch should appear in linux-next soon.
 
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.super
+
+[01/29] block: Provide bdev_open_* functions
+       https://git.kernel.org/vfs/vfs/c/b7c828aa0b3c
+[02/29] block: Use bdev_open_by_dev() in blkdev_open()
+        https://git.kernel.org/vfs/vfs/c/d4e36f27b45a
+[03/29] block: Use bdev_open_by_dev() in disk_scan_partitions() and blkdev_bszset()
+        https://git.kernel.org/vfs/vfs/c/5f9bd6764c7a
+[04/29] drdb: Convert to use bdev_open_by_path()
+        https://git.kernel.org/vfs/vfs/c/0220ca8e443d
+[05/29] pktcdvd: Convert to bdev_open_by_dev()
+        https://git.kernel.org/vfs/vfs/c/7af10b889789
+[06/29] rnbd-srv: Convert to use bdev_open_by_path()
+        https://git.kernel.org/vfs/vfs/c/3d27892a4be7
+[07/29] xen/blkback: Convert to bdev_open_by_dev()
+        https://git.kernel.org/vfs/vfs/c/26afb0ed10b3
+[08/29] zram: Convert to use bdev_open_by_dev()
+        https://git.kernel.org/vfs/vfs/c/efc8e3f4c6dc
+[09/29] bcache: Convert to bdev_open_by_path()
+        https://git.kernel.org/vfs/vfs/c/dc893f51d24a
+[10/29] dm: Convert to bdev_open_by_dev()
+        https://git.kernel.org/vfs/vfs/c/80c2267c6d07
+[11/29] md: Convert to bdev_open_by_dev()
+        https://git.kernel.org/vfs/vfs/c/15db36126ca6
+[12/29] mtd: block2mtd: Convert to bdev_open_by_dev/path()
+        https://git.kernel.org/vfs/vfs/c/4c27234bf3ce
+[13/29] nvmet: Convert to bdev_open_by_path()
+        https://git.kernel.org/vfs/vfs/c/70cffddcc300
+[14/29] s390/dasd: Convert to bdev_open_by_path()
+        https://git.kernel.org/vfs/vfs/c/5581d03457f8
+[15/29] scsi: target: Convert to bdev_open_by_path()
+        https://git.kernel.org/vfs/vfs/c/43de7d844d47
+[16/29] PM: hibernate: Convert to bdev_open_by_dev()
+        https://git.kernel.org/vfs/vfs/c/105ea4a2fd18
+[17/29] PM: hibernate: Drop unused snapshot_test argument
+        https://git.kernel.org/vfs/vfs/c/b589a66e3688
+[18/29] mm/swap: Convert to use bdev_open_by_dev()
+        https://git.kernel.org/vfs/vfs/c/615af8e29233
+[19/29] fs: Convert to bdev_open_by_dev()
+        https://git.kernel.org/vfs/vfs/c/5173192bcfe6
+[20/29] btrfs: Convert to bdev_open_by_path()
+        https://git.kernel.org/vfs/vfs/c/8cf64782764f
+[21/29] erofs: Convert to use bdev_open_by_path()
+        https://git.kernel.org/vfs/vfs/c/4d41880bf249
+[22/29] ext4: Convert to bdev_open_by_dev()
+        https://git.kernel.org/vfs/vfs/c/f7507612395e
+[23/29] f2fs: Convert to bdev_open_by_dev/path()
+        https://git.kernel.org/vfs/vfs/c/d9ff8e3b6498
+[24/29] jfs: Convert to bdev_open_by_dev()
+        https://git.kernel.org/vfs/vfs/c/459dc6376338
+[25/29] nfs/blocklayout: Convert to use bdev_open_by_dev/path()
+        https://git.kernel.org/vfs/vfs/c/5b1df9a40929
+[26/29] ocfs2: Convert to use bdev_open_by_dev()
+        https://git.kernel.org/vfs/vfs/c/b6b95acbd943
+[27/29] reiserfs: Convert to bdev_open_by_dev/path()
+        https://git.kernel.org/vfs/vfs/c/7e3615ff6119
+[28/29] xfs: Convert to bdev_open_by_path()
+        https://git.kernel.org/vfs/vfs/c/176ccb99e207
+[29/29] block: Remove blkdev_get_by_*() functions
+        https://git.kernel.org/vfs/vfs/c/953863a5a2ff
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
