@@ -2,67 +2,68 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6E6081CB37
-	for <lists+drbd-dev@lfdr.de>; Fri, 22 Dec 2023 15:18:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 641BE829987
+	for <lists+drbd-dev@lfdr.de>; Wed, 10 Jan 2024 12:45:45 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C896F42035C;
-	Fri, 22 Dec 2023 15:18:48 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2FAEB420139;
+	Wed, 10 Jan 2024 12:45:43 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
-	[209.85.215.173])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A1D83420150
-	for <drbd-dev@lists.linbit.com>; Fri, 22 Dec 2023 15:18:44 +0100 (CET)
-Received: by mail-pg1-f173.google.com with SMTP id
-	41be03b00d2f7-5cdf90e5cdeso108766a12.1
-	for <drbd-dev@lists.linbit.com>; Fri, 22 Dec 2023 06:18:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1703254723;
-	x=1703859523; darn=lists.linbit.com; 
-	h=content-transfer-encoding:mime-version:date:message-id:subject
-	:references:in-reply-to:cc:to:from:from:to:cc:subject:date
-	:message-id:reply-to;
-	bh=8A1glk9zKLbiBtT4KFCCjRYLUlE9xUXR3enmqVpuLXQ=;
-	b=uuLoHUIgRE4Hb42qZDe6B4GNC18VCz7yyIglaIW1pmZ+xTYcEMz2/3WnZ3U7wgmiLU
-	+IJ1NjW5GbCtDMfLSkXsRqrdWwaM4xYaIYdxN4/4GSm1PVOOd24YNJ1QXgPbgnGnvkKL
-	TS6sRZXnRotF55Rmi0tOn5eHcM5zI2sMXb9HtedkeKrABHLXtgntDU11JadDA9+eS9pu
-	KUzK7LLUrZFM17WT1CaCi1nBkcQUmt2RvbtCRz2DocWPk7b30iR9qUpbissSDcSgnBVv
-	43Kiq0dEu55QDcPb5NQ+7BkxexHgjEG7UcfcvHfwKERlYrpBmn+ExrUct72EhqwB1E7q
-	BENg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20230601; t=1703254723; x=1703859523;
-	h=content-transfer-encoding:mime-version:date:message-id:subject
-	:references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-	:subject:date:message-id:reply-to;
-	bh=8A1glk9zKLbiBtT4KFCCjRYLUlE9xUXR3enmqVpuLXQ=;
-	b=rFIDc8vSuDM+S2u2MwkkOf49n8PCx1ntlPX6tFon2l4f3MUumWBg104R+ECWAbuVGG
-	d8pWR5wIYkinMAefXbRJCbRVdNE8qr911bVtF7vKJ2+99tl7OrlAXYiIaxWlJccofh9+
-	M0kDr9s0WCrmld0q0Rn4axqu4Ztq9OhxkaY1QxeIiFx0eTZegcqyIMqZvDkBcn1Wj9Xn
-	fH8G9vxqEYhOHb0jRIWf3qYcSwDn2Gxv0F5o3DTOEUQHPBEnVhG+1z8EETc/uWV0tyoh
-	9ZXSQQtFxbJOFQUlo7UomK1hf3xhp85mO1mK0O3crz/UyIiIoqPEGbyvoG3ZYnpX0HKg
-	Bzfw==
-X-Gm-Message-State: AOJu0YwKQScOGonKw3MZ7e3RDW3XEFeqI745mTO+pL6ljwUGX1iEPTSd
-	XjeXuphX8rh7sgUlPaesxaRcn4TwG1VrkQ==
-X-Google-Smtp-Source: AGHT+IEXHhpBdYu7BG4iQynwg6T9KXzttfdwH9ZhmEUK/VNC9mBrZ2I1QMoe3R581uVguT4YpbBIhA==
-X-Received: by 2002:a05:6a21:99a6:b0:195:3ad3:b6c3 with SMTP id
-	ve38-20020a056a2199a600b001953ad3b6c3mr1632140pzb.5.1703254723215;
-	Fri, 22 Dec 2023 06:18:43 -0800 (PST)
-Received: from [127.0.0.1] ([198.8.77.194]) by smtp.gmail.com with ESMTPSA id
-	e16-20020aa78c50000000b006d9345189b1sm3498980pfd.36.2023.12.22.06.18.42
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 22 Dec 2023 06:18:42 -0800 (PST)
-From: Jens Axboe <axboe@kernel.dk>
-To: linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20231222061909.8791-1-rdunlap@infradead.org>
-References: <20231222061909.8791-1-rdunlap@infradead.org>
-Message-Id: <170325472218.1024948.10134238740797741096.b4-ty@kernel.dk>
-Date: Fri, 22 Dec 2023 07:18:42 -0700
+X-Greylist: delayed 311 seconds by postgrey-1.31 at mail19;
+	Wed, 10 Jan 2024 12:45:37 CET
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4F3EE420139
+	for <drbd-dev@lists.linbit.com>; Wed, 10 Jan 2024 12:45:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
+	t=1704887137; x=1705491937; i=markus.elfring@web.de;
+	bh=P0anna4JWOhnimdjUk13w2sXj1/SrIEjxwjDEaNWyfs=;
+	h=X-UI-Sender-Class:Date:Subject:From:To:Cc:References:
+	In-Reply-To;
+	b=wx76Tz9aciyFKAwjaadousxWfnjr59kfoFanC7NIZkwLPEZQQ6uPKghlJXi+yMDQ
+	1o9ijLild9wL8THbJx7kr5Smv8f7rM4+Dgwd1Jl40emUa7BIrEJUnEAdtMKJiwvlD
+	4w+lz3ZNjMwBNHpeiWQuDH/dyrQYIuxHY1xnGPzWS/RtyVfbAPW+bvJ87nlVT1vZ9
+	HuRAE6+3kAosP0gkZYurHaaAcfTvuavKfvBfoZF9PpC/Zg2LpYfXnNPUfhBTrq9Za
+	jOv1Ey0rURW1G9ZaVw/KGEl5L2qHMLvIsu6XevsDia/kJkcVChfVhq919nWCaLWyL
+	PsHHqE/1rJCbuEjvRA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.86.95]) by smtp.web.de (mrweb105
+	[213.165.67.124]) with ESMTPSA (Nemesis) id 1McZnj-1qlBWG2STd-00cvO5;
+	Wed, 10 Jan 2024 12:40:25 +0100
+Message-ID: <71cd2c67-99a4-4173-8f0f-065fd864f8ba@web.de>
+Date: Wed, 10 Jan 2024 12:40:24 +0100
 MIME-Version: 1.0
-X-Mailer: b4 0.13-dev-7edf1
-Cc: linux-block@vger.kernel.org, Lars Ellenberg <lars.ellenberg@linbit.com>,
-	Philipp Reisner <philipp.reisner@linbit.com>, drbd-dev@lists.linbit.com
-Subject: Re: [Drbd-dev] [PATCH] drbd: actlog: fix kernel-doc warnings and
-	spelling
+User-Agent: Mozilla Thunderbird
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+To: kernel-janitors@vger.kernel.org, drbd-dev@lists.linbit.com,
+	=?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>, 
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
+	Philipp Reisner <philipp.reisner@linbit.com>
+References: <6cbcf640-55e5-2f11-4a09-716fe681c0d2@web.de>
+	<33226beb-4fe2-3da5-5d69-a33e683dec57@web.de>
+In-Reply-To: <33226beb-4fe2-3da5-5d69-a33e683dec57@web.de>
+X-Provags-ID: V03:K1:FvN7dPgcDHXfSNpzcQS0P6dIUa4iuJ1O5Ux14a/Vy6slkXstFSm
+	i2fGgA9VGN+mDIJF7soCccsr07aCTRytpI+mT+ILc4ZFWP5nL0tdRHb3Ul2KW2Zd+hfjOtH
+	IpDqfB15AUfmtd/igJQglrWxLmNEQLvnSGUJqJHzWA7Mfb24Rbio61GqZpatuYycuhXdXSA
+	XTbqo72jfhnC/+4BCZppQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:9om2NkfPBe0=;v8+P5IJo5d2mxKwHdhhAlskGVIL
+	6PElHEpKyV1e+fjYhaZr5UGyZlZjwe676xFdIcbc/N0Ut8ebYltSv5tL3PZAnoS34ogA62Q3w
+	LIl2xOEfgLYNu0qYM+JDBlsxg7dlsb+9PnWMLJ7r7FcznQPJvzXLpBWPOPMkVs1GAlEciPiY7
+	pMBr2O+FuSydUpqKJ8cUeQ2OGPVb6qDlx/W4qJxzn1uQhUTfBQqgLGGDLsngDnysWkPg/Nh5j
+	fUOAgTrm/YV7NsCNhkD3FzBknu1eytbD1oEY/JTHSgYeJZ0FfWMLhOEQSH61XVPUy4Poxbfv5
+	fAdE+mHPiJme+52HoI+O6gRicGuc1VY9+965o8PlyNwWVFgQd4BsZxVdRfBzgzf13uNORfYO/
+	7WCAx6bqMLADZN4hPPGQJYXADaM7CvUrXQjryac3Mz7XXg22Ayn8PvXBY+L5bleCGHhXjUi25
+	GK+FjRJWZSJ2BVSkisxbWsbUFMjEwVyjqgdSuk5Vj9FVwH3n1PzdkVsEkrdB0Y4BiA2sgmUHm
+	TMBjOiksGkbwwLNW/sKHAuiOFyBBNJLRkLOaiTZU/4904z0TJnrYBqIjNdSXOFdfWqBYFseYr
+	Fur9+ov6nX7hCENtdYeY89ejBRP86WMrtrWUjYtQcdfnypWKsuHuqfrV5ADb4JwL8TeAWRbXj
+	hlR77ganHe9/MxNcw4EpcwvZT3GNbToLgv9B+rnjkx2NXeKMAC23qq6xeFgAIyLBZMCzdKjHt
+	rlVY8QZmacXoR16e1M991dDgVHSTJ+Whk7HZYCqWoRKt6RZGDj3FW16Wuu5Ei3ISM0k6btMPy
+	V08gYyIH9LKdLhECnNlH+Ej8rnB2zaxJOqY1alNlwR9KY5GhjCV6huEuziDs/ZgC8CS9coi3X
+	AK1DIHT2smE/WXzNy/iNENLRMIUSYMziAl0soPmbAATG1PkKUSRRHyRTeFGYCD7wsIigCOytW
+	Z9mNUA==
+Cc: LKML <linux-kernel@vger.kernel.org>, cocci@inria.fr
+Subject: Re: [Drbd-dev] [PATCH 0/3] lru_cache: Adjustments for lc_create()
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -81,29 +82,28 @@ Content-Transfer-Encoding: 7bit
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-
-On Thu, 21 Dec 2023 22:19:08 -0800, Randy Dunlap wrote:
-> Fix all kernel-doc warnings in drbd_actlog.c:
-> 
-> drbd_actlog.c:963: warning: No description found for return value of 'drbd_rs_begin_io'
-> drbd_actlog.c:1015: warning: Function parameter or member 'peer_device' not described in 'drbd_try_rs_begin_io'
-> drbd_actlog.c:1015: warning: Excess function parameter 'device' description in 'drbd_try_rs_begin_io'
-> drbd_actlog.c:1015: warning: No description found for return value of 'drbd_try_rs_begin_io'
-> drbd_actlog.c:1197: warning: No description found for return value of 'drbd_rs_del_all'
-> 
-> [...]
-
-Applied, thanks!
-
-[1/1] drbd: actlog: fix kernel-doc warnings and spelling
-      commit: 8aabc11c8f4e0a57661a07f985ddc8a626ef9148
-
-Best regards,
--- 
-Jens Axboe
+> Date: Wed, 29 Mar 2023 15:30:23 +0200
+>
+> Some update suggestions were taken into account
+> from static source code analysis.
+>
+> Markus Elfring (3):
+>   Return directly after a failed kzalloc()
+>   Improve two size determinations
+>   Improve exception handling
+>
+>  lib/lru_cache.c | 18 ++++++++++--------
+>  1 file changed, 10 insertions(+), 8 deletions(-)
 
 
+Is this patch series still in review queues?
 
+See also:
+https://lore.kernel.org/cocci/33226beb-4fe2-3da5-5d69-a33e683dec57@web.de/
+https://sympa.inria.fr/sympa/arc/cocci/2023-03/msg00110.html
+
+Regards,
+Markus
 _______________________________________________
 drbd-dev mailing list
 drbd-dev@lists.linbit.com
