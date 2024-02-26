@@ -2,79 +2,48 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id 163D285355A
-	for <lists+drbd-dev@lfdr.de>; Tue, 13 Feb 2024 16:56:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 144A3867338
+	for <lists+drbd-dev@lfdr.de>; Mon, 26 Feb 2024 12:35:27 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E3B3B4203BF;
-	Tue, 13 Feb 2024 16:56:05 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 8A5F7420639;
+	Mon, 26 Feb 2024 12:35:26 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com
-	[209.85.166.51])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 94062420230
-	for <drbd-dev@lists.linbit.com>; Tue, 13 Feb 2024 16:56:00 +0100 (CET)
-Received: by mail-io1-f51.google.com with SMTP id
-	ca18e2360f4ac-7bff2f6080aso19520339f.1
-	for <drbd-dev@lists.linbit.com>; Tue, 13 Feb 2024 07:56:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1707839759;
-	x=1708444559; darn=lists.linbit.com; 
-	h=content-transfer-encoding:mime-version:date:message-id:subject
-	:references:in-reply-to:cc:to:from:from:to:cc:subject:date
-	:message-id:reply-to;
-	bh=ZPsZ61/B147XeUCItHAVNy9atLHaMQ7vWuQvVfNBe/E=;
-	b=s6+TY3wZGJgIT9E0tb0fI3hpj1oAJ0ZPjCHtIKNoG86u+b5ZRylSOAXvRq5t3NywZV
-	yBXwM2VsnTDybjXe63f/274z9K5Z00T3Mvt62ZKFx8knK9Tl1/WsB8gd64n6LwrzF95p
-	VO+F+hrsJf997Vcjuh50f8kCdrzlJqO7nxuM6xy5dSBI4/xHmxkAG5iwcTfjaBvTNYYR
-	rygfxjAq7Lj7pL1x5f0A2pmEuUrxEl3FFnOt3vtotVuZcMuTvaRMKm21MHZdWoI4e6aU
-	TA11ylViuH0OEqMPp0kLhwndg48nlV6tXdH+SitQvxLNXmkmc7a2q+ThEIJG6FVZMQq7
-	surw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20230601; t=1707839759; x=1708444559;
-	h=content-transfer-encoding:mime-version:date:message-id:subject
-	:references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-	:subject:date:message-id:reply-to;
-	bh=ZPsZ61/B147XeUCItHAVNy9atLHaMQ7vWuQvVfNBe/E=;
-	b=LWT6n12VetbnnJgoD1IZ6rtA1lwvSj0CeezD6oQhJXbtQ6ao5Rrik8vsmQlSKiN3yZ
-	DaMVvHZC+3tbM6WB8rWh7pIGx7YKnRYnCm1z9QKZrUf3FGVBNSi+4F6I0E+qAcaRCvNN
-	scUSz+lSPpY9b8Lu4TQU9fL6IyfAf5kqdV7xES9E4tknytpq8sp87Wmh+ivVjd/b6bDz
-	N5fwtbBu5LVZxstJwX4r4MpkOdxtw0ixFkqFBDQHhMo1Wa4qEeMEQNU0cBFCGK1qDDk6
-	A0Hca++exo5Tz+hUo/tZ2+3YcaMXKHsXU0huGUlbRmNcwHCcYIA9TM4/JY6icN37/7z8
-	SBtw==
-X-Forwarded-Encrypted: i=1;
-	AJvYcCVzgBbjnb5N2nxBwe2NY73VowzlFPPRUXXFMzBIiS9DmUNEidwWXpR1ybziVt7YwHbLvNlsv9JDVLreg1O9752vTze68W/JDYkX
-X-Gm-Message-State: AOJu0YxQspYSQtZ2+h7jjahpCelwobBxidIatiAoQt4MalmzbjaXT1bl
-	E2E80mMNoYaQGUMgazwQuXELaXAvebszSDLHFvMiTsYjzsh5rxpHFBCZuLQgcxY=
-X-Google-Smtp-Source: AGHT+IEslLXJyHXnsj51AumuBlOy6N0oP+uPR/PHnApNPg2IYUR26OYsdB25n355+SMmGoWI5yZEXQ==
-X-Received: by 2002:a5e:9411:0:b0:7c4:4f32:8311 with SMTP id
-	q17-20020a5e9411000000b007c44f328311mr44941ioj.2.1707839759646; 
-	Tue, 13 Feb 2024 07:55:59 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
-	AJvYcCU/S1UrM7pG0AjHa4py/2k7FGa1SDtErFeE4Lc7xt6L3BDoPYiSiEH8JVbfCLyHDMUwZX01txjBWgNqXC64Iu9aqLcJfFHHI7xpcYPORy8iC7EDl3VY+S2Lqywgj5yDCpGsRu4GV7OnCVgiqP9bcCOe2UmDctiD76nULVMnih/Uyj4QlWnvDk4EaMDWm+8H1/wOI4CnL6t24O5IYvTiykt8dQDIoaeH/C1J/feEnXtVKKsf+hM8qmhcEDs75hQS5J7jN3WCoqYt5uj7vFEN7/vCqXoOPJeBr4p3P/O9L80ITraOIB60kfgD9qqndGwK0Be6h0BLEFUHkBAXfmTLwCMyaUVOBCOzfyoSf11lrQjKfQRRk35dCwwSpqWKrhBynySDIqvRLcY2MDTlZemxzBVCcssGSPxAEBpgZovxz9kqglYJ47RCIK1NgDeiWXAa1FY=
-Received: from [127.0.0.1] ([96.43.243.2]) by smtp.gmail.com with ESMTPSA id
-	ay31-20020a056638411f00b00473ca57bfefsm403153jab.124.2024.02.13.07.55.58
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 13 Feb 2024 07:55:58 -0800 (PST)
-From: Jens Axboe <axboe@kernel.dk>
-To: Philipp Reisner <philipp.reisner@linbit.com>, 
-	Lars Ellenberg <lars.ellenberg@linbit.com>, 
-	=?utf-8?q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>, 
-	Arnd Bergmann <arnd@kernel.org>
-In-Reply-To: <20240213100354.457128-1-arnd@kernel.org>
-References: <20240213100354.457128-1-arnd@kernel.org>
-Subject: Re: [PATCH] drbd: fix function cast warnings in state machine
-Message-Id: <170783975824.2331975.17734171438051214868.b4-ty@kernel.dk>
-Date: Tue, 13 Feb 2024 08:55:58 -0700
+Received: from bombadil.infradead.org (bombadil.infradead.org
+	[198.137.202.133])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A1D4B4205E3
+	for <drbd-dev@lists.linbit.com>; Mon, 26 Feb 2024 12:34:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=UGOSCCyPj/BmRrHF9CnihwGu6XS72OjDXvKcF03cHYA=;
+	b=PVY5zDhQgnDSI3xSU6JaYDl3yV
+	DI+C56e+8os7t3dK8OC8gGlQMnO6B1Nf5dsaqNKizXuShwPEAfCqW6NEI9wrzKg/tX70chdIPPUsW
+	AV7KihXFeQpy9VwQRd8rNmFKm6KBpfwgv37P2mlUz2ih5C0wC7LRIYrSyXYrriLDQEYYmt5FDMLwI
+	B3wpoIKggevVlZ+30j0svvtMdwN0KMSrsP37jyLCZwmoKIN+FlFn7FQSXgwsbUobSjRWDT4tAMsUC
+	2lE4G1uSQEBameQtvWHf0bpn4xAibws088GAdTVLnpWSKThCGSU3LqsCnaCGOMzURH23XOcuAVhN+
+	SS3AJNVQ==;
+Received: from 213-147-167-65.nat.highway.webapn.at ([213.147.167.65]
+	helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1reYFM-000000004WJ-2FR6; Mon, 26 Feb 2024 10:30:09 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Jens Axboe <axboe@kernel.dk>, Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>, Song Liu <song@kernel.org>,
+	Yu Kuai <yukuai3@huawei.com>, Philipp Reisner <philipp.reisner@linbit.com>,
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
+	=?UTF-8?q?Christoph=20B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>
+Subject: atomic queue limit updates for stackable devices v2
+Date: Mon, 26 Feb 2024 11:29:48 +0100
+Message-Id: <20240226103004.281412-1-hch@lst.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.5-dev-2aabd
-Cc: linux-block@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-	llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
-	linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
-	"Uladzislau Rezki \(Sony\)" <urezki@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, drbd-dev@lists.linbit.com
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+	bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Cc: dm-devel@lists.linux.dev, linux-block@vger.kernel.org,
+	linux-raid@vger.kernel.org, drbd-dev@lists.linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -91,36 +60,36 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
+Hi all,
 
-On Tue, 13 Feb 2024 11:03:01 +0100, Arnd Bergmann wrote:
-> There are four state machines in drbd that use a common infrastructure, with
-> a cast to an incompatible function type in REMEMBER_STATE_CHANGE that clang-16
-> now warns about:
-> 
-> drivers/block/drbd/drbd_state.c:1632:3: error: cast from 'int (*)(struct sk_buff *, unsigned int, struct drbd_resource_state_change *, enum drbd_notification_type)' to 'typeof (last_func)' (aka 'int (*)(struct sk_buff *, unsigned int, void *, enum drbd_notification_type)') converts to incompatible function type [-Werror,-Wcast-function-type-strict]
->  1632 |                 REMEMBER_STATE_CHANGE(notify_resource_state_change,
->       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->  1633 |                                       resource_state_change, NOTIFY_CHANGE);
->       |                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> drivers/block/drbd/drbd_state.c:1619:17: note: expanded from macro 'REMEMBER_STATE_CHANGE'
->  1619 |            last_func = (typeof(last_func))func; \
->       |                        ^~~~~~~~~~~~~~~~~~~~~~~
-> drivers/block/drbd/drbd_state.c:1641:4: error: cast from 'int (*)(struct sk_buff *, unsigned int, struct drbd_connection_state_change *, enum drbd_notification_type)' to 'typeof (last_func)' (aka 'int (*)(struct sk_buff *, unsigned int, void *, enum drbd_notification_type)') converts to incompatible function type [-Werror,-Wcast-function-type-strict]
->  1641 |                         REMEMBER_STATE_CHANGE(notify_connection_state_change,
->       |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->  1642 |                                               connection_state_change, NOTIFY_CHANGE);
->       |                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
-> [...]
+this series adds new helpers for the atomic queue limit update
+functionality and then switches dm and md over to it.  The dm switch is
+pretty trivial as it was basically implementing the model by hand
+already, md is a bit more work.
 
-Applied, thanks!
+I've run the mdadm testsuite, and it has the same (rather large) number
+of failures as the baseline.  I've still not managed to get the dm
+testuite running unfortunately, but it survives xfstests which exercises
+quite a few dm targets and blktests.
 
-[1/1] drbd: fix function cast warnings in state machine
-      commit: fe0b1e9a73d60f01fdc391925be74e823af7c91d
+nvme-multipath will be handled separately as it is too tightly integrated
+with the rest of nvme.
 
-Best regards,
--- 
-Jens Axboe
+Changes since v1:
+ - a few kerneldoc fixes
+ - fix a line remove after testing in raid0
+ - also add drbd
 
-
-
+Diffstat:
+ block/blk-settings.c           |   47 ++++++---
+ drivers/block/drbd/drbd_main.c |   13 +-
+ drivers/block/drbd/drbd_nl.c   |  210 +++++++++++++++++++----------------------
+ drivers/md/dm-table.c          |   27 ++---
+ drivers/md/md.c                |   37 +++++++
+ drivers/md/md.h                |    3 
+ drivers/md/raid0.c             |   37 +++----
+ drivers/md/raid1.c             |   24 +---
+ drivers/md/raid10.c            |   52 ++++------
+ drivers/md/raid5.c             |  123 ++++++++++--------------
+ include/linux/blkdev.h         |    5 
+ 11 files changed, 305 insertions(+), 273 deletions(-)
