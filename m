@@ -2,41 +2,43 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CC6F867305
-	for <lists+drbd-dev@lfdr.de>; Mon, 26 Feb 2024 12:27:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 106188672FC
+	for <lists+drbd-dev@lfdr.de>; Mon, 26 Feb 2024 12:26:14 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id AF69F420618;
-	Mon, 26 Feb 2024 12:27:39 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0ECD6420221;
+	Mon, 26 Feb 2024 12:26:11 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
+X-Greylist: delayed 3348 seconds by postgrey-1.31 at mail19;
+	Mon, 26 Feb 2024 12:26:06 CET
 Received: from bombadil.infradead.org (bombadil.infradead.org
 	[198.137.202.133])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 88BE6420605
-	for <drbd-dev@lists.linbit.com>; Mon, 26 Feb 2024 12:27:25 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 8076842010D
+	for <drbd-dev@lists.linbit.com>; Mon, 26 Feb 2024 12:26:06 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=r3ThMUbXihPrvcBcOHkCf9OCUiYRxiuGjTc7JZwm/9g=;
-	b=N+7rBBMmM5a0PB2joJRIyFlX16
-	JLg0/hMBVcEeQIp1b8+8JSZJPrGhqQNl/WErFu++TfYhCclPTbIr//9rSAcv7WUVk4cMn5mDwK32P
-	qgTgfB9DTwa1dJtMey/jDERvHts9GHuuqKDeqYXeiImK782b6WhrrCXE4kv9Ua/J8RsQxpaLxU8nI
-	o1B84kgjrTQ46vcs3OjxyKupMMsb3UdQE9zjlmLl+KSzkFRy0XOsvpaMDd1BZD2gHcj0DUhA94VdC
-	ApCba11ze/JV6QjUvZlRA80hBP1KX8pu040scRn2QhoGj14YB4qGPh62XBA6+2r7p8pScq5X4xluq
-	r0ctmohQ==;
+	bh=58hQxzCOBh09HYswQ4p4ZVLnJZqyofksZjan/0dqSg4=;
+	b=aGlUIGI+A60ujJC00FlheS2EJM
+	3Q5lRJ1gs46mcAW771vCLA0jCcjBFqdJwpOMNtJ/OcKlJxk1NTlg9DXwyqLRAiAv8cu7+P1jn+tW6
+	618kRbozhUwQi8XTiyW7Lcf8QhLOPU8JunLuqDegmYa5NcpBOVXqQSSSU/MalH2YVRSCjbcUpb4F3
+	Pc1yBa0ktz3xBkNFNeLILR1Fhu1mdsPxoxad5m9uPLzT2a7MTD4HtK4T5/31cTc27CXL5/Qzz5Pzt
+	5aKtfx9HAJUsL/C9QICWiZL+SQ4OvuGJmqsgUJGOVaeSe4SeBBPSgwRGmBEcPPu0w9HLSEGPYtX5W
+	o3slJx2A==;
 Received: from 213-147-167-65.nat.highway.webapn.at ([213.147.167.65]
 	helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1reYFc-000000004bp-27l0; Mon, 26 Feb 2024 10:30:25 +0000
+	id 1reYFi-000000004ep-11yj; Mon, 26 Feb 2024 10:30:31 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>, Mike Snitzer <snitzer@kernel.org>,
 	Mikulas Patocka <mpatocka@redhat.com>, Song Liu <song@kernel.org>,
 	Yu Kuai <yukuai3@huawei.com>, Philipp Reisner <philipp.reisner@linbit.com>,
 	Lars Ellenberg <lars.ellenberg@linbit.com>,
 	=?UTF-8?q?Christoph=20B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>
-Subject: [PATCH 03/16] dm: use queue_limits_set
-Date: Mon, 26 Feb 2024 11:29:51 +0100
-Message-Id: <20240226103004.281412-4-hch@lst.de>
+Subject: [PATCH 04/16] md: add queue limit helpers
+Date: Mon, 26 Feb 2024 11:29:52 +0100
+Message-Id: <20240226103004.281412-5-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240226103004.281412-1-hch@lst.de>
 References: <20240226103004.281412-1-hch@lst.de>
@@ -62,91 +64,76 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Use queue_limits_set which validates the limits and takes care of
-updating the readahead settings instead of directly assigning them to
-the queue.  For that make sure all limits are actually updated before
-the assignment.
+Add a few helpers that wrap the block queue limits API for use in MD.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- block/blk-settings.c  |  2 +-
- drivers/md/dm-table.c | 27 ++++++++++++---------------
- 2 files changed, 13 insertions(+), 16 deletions(-)
+ drivers/md/md.c | 37 +++++++++++++++++++++++++++++++++++++
+ drivers/md/md.h |  3 +++
+ 2 files changed, 40 insertions(+)
 
-diff --git a/block/blk-settings.c b/block/blk-settings.c
-index 865fe4ebbf9b83..13865a9f89726c 100644
---- a/block/blk-settings.c
-+++ b/block/blk-settings.c
-@@ -267,7 +267,7 @@ int queue_limits_commit_update(struct request_queue *q,
- EXPORT_SYMBOL_GPL(queue_limits_commit_update);
+diff --git a/drivers/md/md.c b/drivers/md/md.c
+index 75266c34b1f99b..23823823f80c6b 100644
+--- a/drivers/md/md.c
++++ b/drivers/md/md.c
+@@ -5699,6 +5699,43 @@ static const struct kobj_type md_ktype = {
  
- /**
-- * queue_limits_commit_set - apply queue limits to queue
-+ * queue_limits_set - apply queue limits to queue
-  * @q:		queue to update
-  * @lim:	limits to apply
-  *
-diff --git a/drivers/md/dm-table.c b/drivers/md/dm-table.c
-index 41f1d731ae5ac2..88114719fe187a 100644
---- a/drivers/md/dm-table.c
-+++ b/drivers/md/dm-table.c
-@@ -1963,26 +1963,27 @@ int dm_table_set_restrictions(struct dm_table *t, struct request_queue *q,
- 	bool wc = false, fua = false;
- 	int r;
+ int mdp_major = 0;
  
--	/*
--	 * Copy table's limits to the DM device's request_queue
--	 */
--	q->limits = *limits;
--
- 	if (dm_table_supports_nowait(t))
- 		blk_queue_flag_set(QUEUE_FLAG_NOWAIT, q);
- 	else
- 		blk_queue_flag_clear(QUEUE_FLAG_NOWAIT, q);
- 
- 	if (!dm_table_supports_discards(t)) {
--		q->limits.max_discard_sectors = 0;
--		q->limits.max_hw_discard_sectors = 0;
--		q->limits.discard_granularity = 0;
--		q->limits.discard_alignment = 0;
--		q->limits.discard_misaligned = 0;
-+		limits->max_hw_discard_sectors = 0;
-+		limits->discard_granularity = 0;
-+		limits->discard_alignment = 0;
-+		limits->discard_misaligned = 0;
- 	}
- 
-+	if (!dm_table_supports_write_zeroes(t))
-+		limits->max_write_zeroes_sectors = 0;
++/* stack the limit for all rdevs into lim */
++void mddev_stack_rdev_limits(struct mddev *mddev, struct queue_limits *lim)
++{
++	struct md_rdev *rdev;
 +
- 	if (!dm_table_supports_secure_erase(t))
--		q->limits.max_secure_erase_sectors = 0;
-+		limits->max_secure_erase_sectors = 0;
++	rdev_for_each(rdev, mddev) {
++		queue_limits_stack_bdev(lim, rdev->bdev, rdev->data_offset,
++					mddev->gendisk->disk_name);
++	}
++}
++EXPORT_SYMBOL_GPL(mddev_stack_rdev_limits);
 +
-+	r = queue_limits_set(q, limits);
-+	if (r)
-+		return r;
++/* apply the extra stacking limits from a new rdev into mddev */
++int mddev_stack_new_rdev(struct mddev *mddev, struct md_rdev *rdev)
++{
++	struct queue_limits lim = queue_limits_start_update(mddev->queue);
++
++	queue_limits_stack_bdev(&lim, rdev->bdev, rdev->data_offset,
++				mddev->gendisk->disk_name);
++	return queue_limits_commit_update(mddev->queue, &lim);
++}
++EXPORT_SYMBOL_GPL(mddev_stack_new_rdev);
++
++/* update the optimal I/O size after a reshape */
++void mddev_update_io_opt(struct mddev *mddev, unsigned int nr_stripes)
++{
++	struct queue_limits lim;
++	int ret;
++
++	blk_mq_freeze_queue(mddev->queue);
++	lim = queue_limits_start_update(mddev->queue);
++	lim.io_opt = lim.io_min * nr_stripes;
++	ret = queue_limits_commit_update(mddev->queue, &lim);
++	blk_mq_unfreeze_queue(mddev->queue);
++}
++EXPORT_SYMBOL_GPL(mddev_update_io_opt);
++
+ static void mddev_delayed_delete(struct work_struct *ws)
+ {
+ 	struct mddev *mddev = container_of(ws, struct mddev, del_work);
+diff --git a/drivers/md/md.h b/drivers/md/md.h
+index 8d881cc597992f..25b19614aa3239 100644
+--- a/drivers/md/md.h
++++ b/drivers/md/md.h
+@@ -860,6 +860,9 @@ void md_autostart_arrays(int part);
+ int md_set_array_info(struct mddev *mddev, struct mdu_array_info_s *info);
+ int md_add_new_disk(struct mddev *mddev, struct mdu_disk_info_s *info);
+ int do_md_run(struct mddev *mddev);
++void mddev_stack_rdev_limits(struct mddev *mddev, struct queue_limits *lim);
++int mddev_stack_new_rdev(struct mddev *mddev, struct md_rdev *rdev);
++void mddev_update_io_opt(struct mddev *mddev, unsigned int nr_stripes);
  
- 	if (dm_table_supports_flush(t, (1UL << QUEUE_FLAG_WC))) {
- 		wc = true;
-@@ -2007,9 +2008,6 @@ int dm_table_set_restrictions(struct dm_table *t, struct request_queue *q,
- 	else
- 		blk_queue_flag_set(QUEUE_FLAG_NONROT, q);
+ extern const struct block_device_operations md_fops;
  
--	if (!dm_table_supports_write_zeroes(t))
--		q->limits.max_write_zeroes_sectors = 0;
--
- 	dm_table_verify_integrity(t);
- 
- 	/*
-@@ -2047,7 +2045,6 @@ int dm_table_set_restrictions(struct dm_table *t, struct request_queue *q,
- 	}
- 
- 	dm_update_crypto_profile(q, t);
--	disk_update_readahead(t->md->disk);
- 
- 	/*
- 	 * Check for request-based device is left to
 -- 
 2.39.2
 
