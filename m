@@ -2,41 +2,41 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3820B867304
-	for <lists+drbd-dev@lfdr.de>; Mon, 26 Feb 2024 12:27:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F35B2867333
+	for <lists+drbd-dev@lfdr.de>; Mon, 26 Feb 2024 12:34:56 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 61A074205F6;
-	Mon, 26 Feb 2024 12:27:08 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7DEA14205FB;
+	Mon, 26 Feb 2024 12:34:56 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from bombadil.infradead.org (bombadil.infradead.org
 	[198.137.202.133])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id AF60A4205E3
-	for <drbd-dev@lists.linbit.com>; Mon, 26 Feb 2024 12:26:50 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E45D34205D4
+	for <drbd-dev@lists.linbit.com>; Mon, 26 Feb 2024 12:34:37 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=dO1UJbN98oc0DXmJGPgP9/w6HQlV/cBVJ10XT4uDjII=;
-	b=YtY3XhXvCXLU+Wnt4wgKysGF8m
-	/9agg8Gy8eEQkndLE+MAGAu/ruO2rA/7NWhmHFaYHaAJAqu6CIvpUGyYauEDyuGtNNJRxBNG0jql9
-	qrfxm5VaIBA8E3kYASWhwDNM9MWBAuuPbOi0/LTeWUAf+3cuhRlWPBudAFvl5lz7T2AuNDkCtZLw3
-	uZ65qKiNJQCtzlGyJF06kVT6FrfGeg64lt54uzUDNf5TVbeIMFIrlmpfOWZfnVAvx2KmxI5G66q6O
-	XJCuu+cWBHO7ddhjSrg8Wh4tIt0a2BlP+wq3zYkY1hNRliDymGNZkaqpj+MUfBEeq0B2gQM0h64T5
-	hWG5w2TA==;
+	bh=9RW0iy9EfWCoucmumjZAUDfk0pG1Ea5omDHUf2NvGls=;
+	b=UTW8N0GRE7d/41D9krPkY70yTt
+	X3vgXYoSl8fNWinul+O7DP4M/gz+SR1awZsPhpsg76gcKH7+i94ArAYRVI2+SZK/vCZ9A58y32La3
+	Hku3267vFi7NdDPGH7rZNWNzLqM1e8eQGJack16TLVpHdXAWXb1Z0IIXiAkB+wadURKurh6xm64i+
+	9XVCbBQ2U7Kw1t5axkTXjOam5y72GmDraS90mB4PKt45oOniguVolgIBjUv157A4PUK/TFLz/DXIa
+	ob9mcDs3avRjGQx1yWkw3FLOJRX+dlNacUgmIs2VV6M29N+q5XtfSXy9VAKeFkMMjYLzYcDyG8pjU
+	iTnuO9kw==;
 Received: from 213-147-167-65.nat.highway.webapn.at ([213.147.167.65]
 	helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1reYG3-000000004nK-2IZl; Mon, 26 Feb 2024 10:30:52 +0000
+	id 1reYG8-000000004qz-3ddE; Mon, 26 Feb 2024 10:30:57 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>, Mike Snitzer <snitzer@kernel.org>,
 	Mikulas Patocka <mpatocka@redhat.com>, Song Liu <song@kernel.org>,
 	Yu Kuai <yukuai3@huawei.com>, Philipp Reisner <philipp.reisner@linbit.com>,
 	Lars Ellenberg <lars.ellenberg@linbit.com>,
 	=?UTF-8?q?Christoph=20B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>
-Subject: [PATCH 07/16] md/raid10: use the atomic queue limit update APIs
-Date: Mon, 26 Feb 2024 11:29:55 +0100
-Message-Id: <20240226103004.281412-8-hch@lst.de>
+Subject: [PATCH 08/16] md/raid5: use the atomic queue limit update APIs
+Date: Mon, 26 Feb 2024 11:29:56 +0100
+Message-Id: <20240226103004.281412-9-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240226103004.281412-1-hch@lst.de>
 References: <20240226103004.281412-1-hch@lst.de>
@@ -68,129 +68,175 @@ checks in the are while touching it.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/md/raid10.c | 52 +++++++++++++++++++++------------------------
- 1 file changed, 24 insertions(+), 28 deletions(-)
+ drivers/md/raid5.c | 123 +++++++++++++++++++++------------------------
+ 1 file changed, 56 insertions(+), 67 deletions(-)
 
-diff --git a/drivers/md/raid10.c b/drivers/md/raid10.c
-index 7412066ea22c7a..21d0aced9a0725 100644
---- a/drivers/md/raid10.c
-+++ b/drivers/md/raid10.c
-@@ -2130,11 +2130,9 @@ static int raid10_add_disk(struct mddev *mddev, struct md_rdev *rdev)
- 				repl_slot = mirror;
- 			continue;
- 		}
--
--		if (mddev->gendisk)
--			disk_stack_limits(mddev->gendisk, rdev->bdev,
--					  rdev->data_offset << 9);
--
-+		err = mddev_stack_new_rdev(mddev, rdev);
-+		if (err)
-+			return err;
- 		p->head_position = 0;
- 		p->recovery_disabled = mddev->recovery_disabled - 1;
- 		rdev->raid_disk = mirror;
-@@ -2150,10 +2148,9 @@ static int raid10_add_disk(struct mddev *mddev, struct md_rdev *rdev)
- 		clear_bit(In_sync, &rdev->flags);
- 		set_bit(Replacement, &rdev->flags);
- 		rdev->raid_disk = repl_slot;
--		err = 0;
--		if (mddev->gendisk)
--			disk_stack_limits(mddev->gendisk, rdev->bdev,
--					  rdev->data_offset << 9);
-+		err = mddev_stack_new_rdev(mddev, rdev);
-+		if (err)
-+			return err;
- 		conf->fullsync = 1;
- 		WRITE_ONCE(p->replacement, rdev);
- 	}
-@@ -4002,18 +3999,18 @@ static struct r10conf *setup_conf(struct mddev *mddev)
- 	return ERR_PTR(err);
+diff --git a/drivers/md/raid5.c b/drivers/md/raid5.c
+index 14f2cf75abbd72..3dd7c05d3ba2ab 100644
+--- a/drivers/md/raid5.c
++++ b/drivers/md/raid5.c
+@@ -7682,12 +7682,6 @@ static int only_parity(int raid_disk, int algo, int raid_disks, int max_degraded
+ 	return 0;
  }
  
--static void raid10_set_io_opt(struct r10conf *conf)
-+static unsigned int raid10_nr_stripes(struct r10conf *conf)
+-static void raid5_set_io_opt(struct r5conf *conf)
+-{
+-	blk_queue_io_opt(conf->mddev->queue, (conf->chunk_sectors << 9) *
+-			 (conf->raid_disks - conf->max_degraded));
+-}
+-
+ static int raid5_run(struct mddev *mddev)
  {
--	int raid_disks = conf->geo.raid_disks;
-+	unsigned int raid_disks = conf->geo.raid_disks;
- 
--	if (!(conf->geo.raid_disks % conf->geo.near_copies))
--		raid_disks /= conf->geo.near_copies;
--	blk_queue_io_opt(conf->mddev->queue, (conf->mddev->chunk_sectors << 9) *
--			 raid_disks);
-+	if (conf->geo.raid_disks % conf->geo.near_copies)
-+		return raid_disks;
-+	return raid_disks / conf->geo.near_copies;
- }
- 
- static int raid10_run(struct mddev *mddev)
- {
+ 	struct r5conf *conf;
+@@ -7695,9 +7689,12 @@ static int raid5_run(struct mddev *mddev)
+ 	struct md_rdev *rdev;
+ 	struct md_rdev *journal_dev = NULL;
+ 	sector_t reshape_offset = 0;
 +	struct queue_limits lim;
- 	struct r10conf *conf;
- 	int i, disk_idx;
- 	struct raid10_info *disk;
-@@ -4021,6 +4018,7 @@ static int raid10_run(struct mddev *mddev)
- 	sector_t size;
- 	sector_t min_offset_diff = 0;
+ 	int i;
+ 	long long min_offset_diff = 0;
  	int first = 1;
++	int data_disks, stripe;
 +	int ret = -EIO;
  
- 	if (mddev->private == NULL) {
- 		conf = setup_conf(mddev);
-@@ -4047,12 +4045,6 @@ static int raid10_run(struct mddev *mddev)
- 		}
- 	}
+ 	if (mddev->recovery_cp != MaxSector)
+ 		pr_notice("md/raid:%s: not clean -- starting background reconstruction\n",
+@@ -7950,67 +7947,59 @@ static int raid5_run(struct mddev *mddev)
+ 			mdname(mddev));
+ 	md_set_array_sectors(mddev, raid5_size(mddev, 0, 0));
  
 -	if (mddev->queue) {
--		blk_queue_max_write_zeroes_sectors(mddev->queue, 0);
--		blk_queue_io_min(mddev->queue, mddev->chunk_sectors << 9);
--		raid10_set_io_opt(conf);
--	}
+-		int chunk_size;
+-		/* read-ahead size must cover two whole stripes, which
+-		 * is 2 * (datadisks) * chunksize where 'n' is the
+-		 * number of raid devices
+-		 */
+-		int data_disks = conf->previous_raid_disks - conf->max_degraded;
+-		int stripe = data_disks *
+-			((mddev->chunk_sectors << 9) / PAGE_SIZE);
 -
- 	rdev_for_each(rdev, mddev) {
- 		long long diff;
- 
-@@ -4081,14 +4073,19 @@ static int raid10_run(struct mddev *mddev)
- 		if (first || diff < min_offset_diff)
- 			min_offset_diff = diff;
- 
--		if (mddev->gendisk)
+-		chunk_size = mddev->chunk_sectors << 9;
+-		blk_queue_io_min(mddev->queue, chunk_size);
+-		raid5_set_io_opt(conf);
+-		mddev->queue->limits.raid_partial_stripes_expensive = 1;
+-		/*
+-		 * We can only discard a whole stripe. It doesn't make sense to
+-		 * discard data disk but write parity disk
+-		 */
+-		stripe = stripe * PAGE_SIZE;
+-		stripe = roundup_pow_of_two(stripe);
+-		mddev->queue->limits.discard_granularity = stripe;
+-
+-		blk_queue_max_write_zeroes_sectors(mddev->queue, 0);
+-
+-		rdev_for_each(rdev, mddev) {
 -			disk_stack_limits(mddev->gendisk, rdev->bdev,
 -					  rdev->data_offset << 9);
--
- 		disk->head_position = 0;
- 		first = 0;
- 	}
- 
+-			disk_stack_limits(mddev->gendisk, rdev->bdev,
+-					  rdev->new_data_offset << 9);
+-		}
++	/*
++	 * The read-ahead size must cover two whole stripes, which is
++	 * 2 * (datadisks) * chunksize where 'n' is the number of raid devices.
++	 */
++	data_disks = conf->previous_raid_disks - conf->max_degraded;
++	/*
++	 * We can only discard a whole stripe. It doesn't make sense to
++	 * discard data disk but write parity disk
++	 */
++	stripe = roundup_pow_of_two(data_disks * (mddev->chunk_sectors << 9));
++
 +	blk_set_stacking_limits(&lim);
-+	lim.max_write_zeroes_sectors = 0;
 +	lim.io_min = mddev->chunk_sectors << 9;
-+	lim.io_opt = lim.io_min * raid10_nr_stripes(conf);
++	lim.io_opt = lim.io_min * (conf->raid_disks - conf->max_degraded);
++	lim.raid_partial_stripes_expensive = 1;
++	lim.discard_granularity = stripe;
++	lim.max_write_zeroes_sectors = 0;
 +	mddev_stack_rdev_limits(mddev, &lim);
++	rdev_for_each(rdev, mddev) {
++		queue_limits_stack_bdev(&lim, rdev->bdev, rdev->new_data_offset,
++	                         mddev->gendisk->disk_name);
++	}
+ 
+-		/*
+-		 * zeroing is required, otherwise data
+-		 * could be lost. Consider a scenario: discard a stripe
+-		 * (the stripe could be inconsistent if
+-		 * discard_zeroes_data is 0); write one disk of the
+-		 * stripe (the stripe could be inconsistent again
+-		 * depending on which disks are used to calculate
+-		 * parity); the disk is broken; The stripe data of this
+-		 * disk is lost.
+-		 *
+-		 * We only allow DISCARD if the sysadmin has confirmed that
+-		 * only safe devices are in use by setting a module parameter.
+-		 * A better idea might be to turn DISCARD into WRITE_ZEROES
+-		 * requests, as that is required to be safe.
+-		 */
+-		if (!devices_handle_discard_safely ||
+-		    mddev->queue->limits.max_discard_sectors < (stripe >> 9) ||
+-		    mddev->queue->limits.discard_granularity < stripe)
+-			blk_queue_max_discard_sectors(mddev->queue, 0);
++	/*
++	 * Zeroing is required for discard, otherwise data could be lost.
++	 *
++	 * Consider a scenario: discard a stripe (the stripe could be
++	 * inconsistent if discard_zeroes_data is 0); write one disk of the
++	 * stripe (the stripe could be inconsistent again depending on which
++	 * disks are used to calculate parity); the disk is broken; The stripe
++	 * data of this disk is lost.
++	 *
++	 * We only allow DISCARD if the sysadmin has confirmed that only safe
++	 * devices are in use by setting a module parameter.  A better idea
++	 * might be to turn DISCARD into WRITE_ZEROES requests, as that is
++	 * required to be safe.
++	 */
++	if (!devices_handle_discard_safely ||
++	    lim.max_discard_sectors < (stripe >> 9) ||
++	    lim.discard_granularity < stripe)
++		lim.max_hw_discard_sectors = 0;
+ 
+-		/*
+-		 * Requests require having a bitmap for each stripe.
+-		 * Limit the max sectors based on this.
+-		 */
+-		blk_queue_max_hw_sectors(mddev->queue,
+-			RAID5_MAX_REQ_STRIPES << RAID5_STRIPE_SHIFT(conf));
++	/*
++	 * Requests require having a bitmap for each stripe.
++	 * Limit the max sectors based on this.
++	 */
++	lim.max_hw_sectors = RAID5_MAX_REQ_STRIPES << RAID5_STRIPE_SHIFT(conf);
+ 
+-		/* No restrictions on the number of segments in the request */
+-		blk_queue_max_segments(mddev->queue, USHRT_MAX);
+-	}
++	/* No restrictions on the number of segments in the request */
++	lim.max_segments = USHRT_MAX;
 +	ret = queue_limits_set(mddev->queue, &lim);
 +	if (ret)
-+		goto out_free_conf;
-+
- 	/* need to check that every block has at least one working mirror */
- 	if (!enough(conf, -1)) {
- 		pr_err("md/raid10:%s: not enough operational mirrors.\n",
-@@ -4189,7 +4186,7 @@ static int raid10_run(struct mddev *mddev)
- 	raid10_free_conf(conf);
++		goto abort;
+ 
+ 	if (log_init(conf, journal_dev, raid5_has_ppl(conf)))
+ 		goto abort;
+@@ -8022,7 +8011,7 @@ static int raid5_run(struct mddev *mddev)
+ 	free_conf(conf);
  	mddev->private = NULL;
- out:
+ 	pr_warn("md/raid:%s: failed to run raid set.\n", mdname(mddev));
 -	return -EIO;
 +	return ret;
  }
  
- static void raid10_free(struct mddev *mddev, void *priv)
-@@ -4966,8 +4963,7 @@ static void end_reshape(struct r10conf *conf)
- 	conf->reshape_safe = MaxSector;
- 	spin_unlock_irq(&conf->device_lock);
+ static void raid5_free(struct mddev *mddev, void *priv)
+@@ -8554,8 +8543,8 @@ static void end_reshape(struct r5conf *conf)
+ 		spin_unlock_irq(&conf->device_lock);
+ 		wake_up(&conf->wait_for_overlap);
  
--	if (conf->mddev->queue)
--		raid10_set_io_opt(conf);
-+	mddev_update_io_opt(conf->mddev, raid10_nr_stripes(conf));
- 	conf->fullsync = 0;
+-		if (conf->mddev->queue)
+-			raid5_set_io_opt(conf);
++		mddev_update_io_opt(conf->mddev,
++			conf->raid_disks - conf->max_degraded);
+ 	}
  }
  
 -- 
