@@ -2,66 +2,67 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ABDA86FA12
-	for <lists+drbd-dev@lfdr.de>; Mon,  4 Mar 2024 07:32:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8F0086FA13
+	for <lists+drbd-dev@lfdr.de>; Mon,  4 Mar 2024 07:32:24 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4149B420364;
-	Mon,  4 Mar 2024 07:32:18 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 87E9E42062A;
+	Mon,  4 Mar 2024 07:32:23 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
-	[209.85.128.54])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3BBD2420641
-	for <drbd-dev@lists.linbit.com>; Sat,  2 Mar 2024 16:47:14 +0100 (CET)
-Received: by mail-wm1-f54.google.com with SMTP id
-	5b1f17b1804b1-412d503f34dso3664595e9.3
-	for <drbd-dev@lists.linbit.com>; Sat, 02 Mar 2024 07:47:14 -0800 (PST)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+	[209.85.167.54])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E70FD42062A
+	for <drbd-dev@lists.linbit.com>; Sun,  3 Mar 2024 10:13:13 +0100 (CET)
+Received: by mail-lf1-f54.google.com with SMTP id
+	2adb3069b0e04-512e39226efso3313011e87.0
+	for <drbd-dev@lists.linbit.com>; Sun, 03 Mar 2024 01:13:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1709394433;
-	x=1709999233; darn=lists.linbit.com; 
+	d=suse.com; s=google; t=1709457192; x=1710061992; darn=lists.linbit.com;
 	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
 	:to:from:from:to:cc:subject:date:message-id:reply-to;
-	bh=AyqILGj8LozUO6lNz7jPIDUHki71aFKUXOIGpIu7ChE=;
-	b=jmtJONU1zsa4k42Ov69qM2/4+Ee3FE/wFmnYIYJb7Rdmn8JFcGkqbRJarjIzeEj/90
-	pvHnH8Slu/1V39kEq58d3JPtrbR7KfvZ/NBxFWyJFI/TgstaNpyv6w5106jlO4Iw+4+J
-	U67n3I9/YqqeIVMm+pvlXBzF9F3HAbmop4KBnBMfb7wChk4EZmqlvs6QkTZehjOTrS4H
-	OR4RxDsWqEi61kAcPfty/HoW6Br3LA3d88RjjAxlInsiFsltPYyIzROnBx91F0rqgntm
-	iuyxCpsv2+IQLyBVbZZCkTpam0XprUtGpkN5FMMe5kpQD8JAwSbLGU8A3fClcDKHoO/7
-	5RrA==
+	bh=PRF2l+Gw3LD+/v4EZqqlKqbcscuB8dHk0ghtaLYEkj8=;
+	b=Wb3Rs222Lfv1TZNesKukpJRCl/u5jFHdbPU3LLFXWDqsrlgvMkZprPI5eFH+SRCRvX
+	hIyGcfQFya70ihbn41um+LZrX9aOLtUWrN1kCOblAz6ggFWtgwuVaM3bv4HjbH6hKPia
+	6PPHPJ546c3CGtIBdgbCkLv9QexoPziC7+VaNhFR6FXqdGB200pSXdqSdGJbS3+fQRzw
+	vb65al6JBMGV7cRvNsXuQUxqSwlOXPOyOcKNxYLBaz8cHCG/Bv5nPzywsXyjSoFAoNBM
+	fwozFjpXwD11XWwMqytZ2IUuv/yVrAK3LJ/Jb7NQ9FDZYLhQ+WZ/ke08yJOxfXKrGpLN
+	9OYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20230601; t=1709394433; x=1709999233;
+	d=1e100.net; s=20230601; t=1709457192; x=1710061992;
 	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
 	:to:from:x-gm-message-state:from:to:cc:subject:date:message-id
 	:reply-to;
-	bh=AyqILGj8LozUO6lNz7jPIDUHki71aFKUXOIGpIu7ChE=;
-	b=PVEzlkSN4u6Cg1DICcPfpqK3+AWb4ddoQ+0EXxoQyvPdnt8/8nBfGeUghWri3skSPU
-	+cpFye7m6nJ5qqF6ittrABj146i5DAz1hWEekQqwcniIualgbAUxLppgW8j9ibkZ/eUu
-	hHrmiIqbqbApStwLA+AFUgDpps598ZUemu9A04Gw72nYPhPU+BWQY3oK5IBCbqy6csK9
-	siqWTWGSz4yzGf5odDTuUjpxCxh8gMcAgnnIKvoHI9fSK26rB8wzPCUVt94oqcZv3kyu
-	d2oRZeXjPGKMtMIWQ5I1o/F/wMXc7kmGvpGikwjbO+fYVJ7UmY++ASDQNbOIMGmVBsls
-	aPuA==
-X-Gm-Message-State: AOJu0YzSpVDkf9opRWF4ohGLH3OD/+wTJCM2msKUWQ/WP6dQfOCijZo+
-	qsE4EJ2sAoDvefipKNxSmCHEeY7yGniBGBGkZrwzhjxmxrvJF5VMbPF7s/i9tN4RTmF9BYQ/uoR
-	OyYE=
-X-Google-Smtp-Source: AGHT+IF+sfABwZZ3c88+wPt/RoLTL7SYF0YRkbuRpqwWiu8UIYXt5PkZ1lPwvHV0Fp2qW9x7dKe1YQ==
-X-Received: by 2002:a05:600c:4446:b0:412:8d27:b757 with SMTP id
-	v6-20020a05600c444600b004128d27b757mr3457342wmn.37.1709394433076;
-	Sat, 02 Mar 2024 07:47:13 -0800 (PST)
-Received: from P-ASN-ECS-830T8C3.local ([89.159.1.53])
+	bh=PRF2l+Gw3LD+/v4EZqqlKqbcscuB8dHk0ghtaLYEkj8=;
+	b=WrM2JCI+0ao9TqqgZ8lsaSpskxwvDzC+5gnY8pow+P1owR2S9tjloPLNLdSJCPm/ME
+	quYMCwekDNWfgxsrZzpJLFZmUQi231E10/AY4QMNnN9DZYzmO5eb6falQoi48LYakxCs
+	v6YULJOAFC3zEIWZ5RLzEUWy7+Y+NbMF3XdXVgIADWRmAaH+1O20eiV3eBi+6bomuZ2F
+	Rj8Chlfiho5uu0tOePx+bUAMz7EjSM4xBq5848ZdwbCl+0a9rjePB3ar9l/QSc3Y+EFB
+	FQTwwem1un7ugojCxh1Tk+TfuwQUKQ7BiLNx1EGLW0hb5S2bPOqVAGW2IXU+/KQ5gOhT
+	ahNw==
+X-Gm-Message-State: AOJu0YzgOEoiOC/lwZaUuC8T7x4z6wUeKq1cLs8aCCC8MO/vjVncQfJX
+	iioEXWY2tqb2D4Seu7mAgOICX9NZDnLhOEt4/IZG//CIotuQoT6KSyYp0AzocLjc5AXmuvtsZMl
+	H
+X-Google-Smtp-Source: AGHT+IGP9OR7ONWwwvGvgurwMhspyZ7h/pyEGmrIaJtJkjsqdbScdgzKNne9Ivd5JSduyrgvHw+9eg==
+X-Received: by 2002:a05:6512:ea3:b0:513:2858:6a67 with SMTP id
+	bi35-20020a0565120ea300b0051328586a67mr4633860lfb.63.1709457192534;
+	Sun, 03 Mar 2024 01:13:12 -0800 (PST)
+Received: from localhost.localdomain ([23.247.139.60])
 	by smtp.gmail.com with ESMTPSA id
-	l33-20020a05600c1d2100b00412ca88537dsm4560258wms.0.2024.03.02.07.47.12
+	rs11-20020a17090b2b8b00b0029af7dfd49asm7699989pjb.50.2024.03.03.01.13.10
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 02 Mar 2024 07:47:12 -0800 (PST)
-From: Yoann Congal <yoann.congal@smile.fr>
+	Sun, 03 Mar 2024 01:13:12 -0800 (PST)
+From: Su Yue <glass.su@suse.com>
+X-Google-Original-From: Su Yue <l@damenly.org>
 To: drbd-dev@lists.linbit.com
-Subject: [PATCH] configure.ac: Add an option to disable host udev version
-	checks
-Date: Sat,  2 Mar 2024 16:41:30 +0100
-Message-Id: <20240302154129.683863-1-yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.39.2
+Subject: [PATCH 1/2] crm-fence-peer.9.sh: fix parsing in_ccm crmd fields of
+	node_state with Pacemaker 2.1.7
+Date: Sun,  3 Mar 2024 17:12:58 +0800
+Message-ID: <20240303091259.5045-1-l@damenly.org>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Mon, 04 Mar 2024 07:32:11 +0100
+Cc: lars.ellenberg@linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -78,60 +79,63 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-In cross-compilation environment, the build host might have an outdated
-udev or no udev at all. But the user may still want to build with the
-enabled udev rule (for its udev-enabled target).
+From: Su Yue <glass.su@suse.com>
 
-This patch adds a "--disable-udevchecks" option the disable build host
-udev version check at configure-time and unconditionally install the
-enabled udev rule. Without this new option, the behavior stays the same
-(checks enabled).
+If pacemaker version < 2.1.7, in_ccm of node_state is "true" or "false"
+and crmd is "online" or "offline".
 
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+pacemaker 2.1.7 changed the two fields into timestamps.
+For in_ccm, the value is timestamp since when node has been a cluster
+member("true"). A value 0 of means the node is not a cluster member("false").
+For crmd, the value is timestamp since when peer has been online in
+CPG("online"). A value 0 means the peer is offline in CPG("offline").
+
+The original code doesn't handle these fields in timestamp format.
+Since there are many comprare of strings in context, converting in_ccm and crmd
+from timestamps/0 to old strings is simpler and clearer.
+
+Link: https://github.com/ClusterLabs/pacemaker/blob/Pacemaker-2.1.7/lib/pengine/unpack.c#L1581
+Signed-off-by: Su Yue <glass.su@suse.com>
 ---
-As a side note, this host udev check triggered a non-reproducility
-noticed by the Openembedded/Yocto project[0]. The first build may have been done
-on a udev-incompatible host, the second on a compatible one resulting in
-a disabled then enabled udev rule.
-[0]: https://autobuilder.yocto.io/pub/repro-fail-openembedded/meta-networking/oe-reproducible-20240224-_r8qnlae/packages/diff-html/#reproducibleA-tmp---reproducibleA-tmp-deploy---reproducibleA-tmp-deploy-ipk---reproducibleA-tmp-deploy-ipk-core-------reproducibleA-tmp-deploy-ipk-core-----drbd-utils_-.--.--r-_core----.ipk---data.tar.zst---data.tar---file-list
----
- configure.ac | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ scripts/crm-fence-peer.9.sh | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-diff --git a/configure.ac b/configure.ac
-index f1d69ea3..4c56d33b 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -71,6 +71,11 @@ AC_ARG_WITH([udev],
- 	[AS_HELP_STRING([--with-udev],
- 			[Enable udev integration])],
- 	[WITH_UDEV=$withval])
-+AC_ARG_ENABLE([udevchecks],
-+	[AS_HELP_STRING([--disable-udevchecks],
-+			[Disable host udev version checks])],
-+	[],
-+	[enable_udevchecks=yes])
- AC_ARG_WITH([xen],
- 	[AS_HELP_STRING([--with-xen],
- 			[Enable Xen integration])],
-@@ -315,7 +320,7 @@ if test -z $GIT; then
-    AC_MSG_WARN(Cannot update buildtag without git. You may safely ignore this warning when building from a tarball.)
- fi
+diff --git a/scripts/crm-fence-peer.9.sh b/scripts/crm-fence-peer.9.sh
+index 44da6516bf3f..a3353a7354a6 100755
+--- a/scripts/crm-fence-peer.9.sh
++++ b/scripts/crm-fence-peer.9.sh
+@@ -888,6 +888,31 @@ guess_if_pacemaker_will_fence()
+ 		esac
+ 	done
  
--if test $UDEVADM = false && test $UDEVINFO = false; then
-+if test "x$enable_udevchecks" != "xno" && test $UDEVADM = false && test $UDEVINFO = false; then
-    if test "$WITH_UDEV" = "yes"; then
-      AC_MSG_WARN([udev support enabled, but neither udevadm nor udevinfo found on this system.])
-    fi
-@@ -423,7 +428,7 @@ else
-     test -z $INITDIR && INITDIR="$sysconfdir/init.d"
- 
-     dnl Our udev rules file is known to work only with udev >= 85
--    if test "$WITH_UDEV" = "yes"; then
-+    if test "x$enable_udevchecks" != "xno" && test "$WITH_UDEV" = "yes"; then
-        udev_version=$( set -- $($UDEVADM version); echo $1 )
-        if test -z "$udev_version"; then
- 	    udev_version=$( set -- $($UDEVINFO -V); echo $3 )
++	# Copied from pacemaker-2.1.7:lib/pengine/unpack.c:
++	# Since crm_feature_set 3.18.0 (pacemaker-2.1.7):
++	#
++	# - in_ccm		::= <timestamp>|0
++	# Since when node has been a cluster member. A value 0 of means the
++	# node is not a cluster member.
++	# - crmd		::= <timestamp>|0
++	# Since when peer has been online in CPG. A value 0 means the peer
++	# is offline in CPG.
++	if [[ $in_ccm =~ ^[0-9]+$ ]]; then
++		if [[ $in_ccm = "0" ]]; then
++			in_ccm="false"
++		else
++			in_ccm="true"
++		fi
++	fi
++
++	if [[ $crmd =~ ^[0-9]+$ ]]; then
++		if [[ $crmd = "0" ]]; then
++			crmd="offline"
++		else
++			crmd="online"
++		fi
++	fi
++
+ 	# if it is not enabled, no point in waiting for it.
+ 	if ! $stonith_enabled ; then
+ 		# "normalize" the rest of the logic
 -- 
-2.39.2
+2.44.0
 
