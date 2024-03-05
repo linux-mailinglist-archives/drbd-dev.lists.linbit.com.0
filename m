@@ -2,35 +2,45 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6641587205F
-	for <lists+drbd-dev@lfdr.de>; Tue,  5 Mar 2024 14:38:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B4E3872085
+	for <lists+drbd-dev@lfdr.de>; Tue,  5 Mar 2024 14:42:21 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 00D8D420319;
-	Tue,  5 Mar 2024 14:38:19 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5F0DE42032F;
+	Tue,  5 Mar 2024 14:42:20 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5D8024201A7
-	for <drbd-dev@lists.linbit.com>; Tue,  5 Mar 2024 14:38:15 +0100 (CET)
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 546B468D07; Tue,  5 Mar 2024 14:38:13 +0100 (CET)
-Date: Tue, 5 Mar 2024 14:38:12 +0100
+Received: from bombadil.infradead.org (bombadil.infradead.org
+	[198.137.202.133])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7FDA54201A7
+	for <drbd-dev@lists.linbit.com>; Tue,  5 Mar 2024 14:40:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=3uqF7GWkhm4u4EkLAwWWCLj3aw8Q/TDdp2iKlr/k3VQ=;
+	b=nlYItw/ARjQD0Ym3tunsAtR0PQ
+	0BtKSt9D5OWcmpvNr5Vy24a/UAyXSraCzj1LRc8qUoOUNyo+MVdux/4Oua9M3i//ZkXZCke8X4opY
+	v7ZatTUJ+DMNUYojvD51x13beGRuB5bgpfiwiijrFJw16NH3hPI0xNYOzMlQuIBCMlIvpYkbK2xGP
+	7Ei9RoahcVIwPD7zRj67szOdlmFhE0YPPS7/gLmC/yEKOmrdrLwgXKTI8qGtO5IOdY7pnLRsCHZ8p
+	zMskxIZjO5RXPmdWlTt+psw9PxqAnqChUL3ogtkhTHdVV8DQkIld7Af6F8JQq9t3WO1JKgKAlGtOV
+	8aeLW9QA==;
+Received: from [50.219.53.154] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rhV2A-0000000DqwQ-0gqD; Tue, 05 Mar 2024 13:40:42 +0000
 From: Christoph Hellwig <hch@lst.de>
-To: Philipp Reisner <philipp.reisner@linbit.com>
-Subject: Re: drbd queue limits conversion ping
-Message-ID: <20240305133812.GA1345@lst.de>
-References: <20240226103004.281412-1-hch@lst.de>
-	<20240226103004.281412-11-hch@lst.de>
-	<20240303151438.GB27512@lst.de>
-	<CADGDV=XqJ_3biGx-rX0jMMue4-dTg=J8NjyHOU-Ufonv4QiJ-A@mail.gmail.com>
-	<CADGDV=WJWZHj89rebvNJ2BOhuqG=_Nr5S3+QXp6LTEGGKyzuKQ@mail.gmail.com>
+To: Philipp Reisner <philipp.reisner@linbit.com>,
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
+	=?UTF-8?q?Christoph=20B=C3=B6hmwalder?=
+	<christoph.boehmwalder@linbit.com>, Jens Axboe <axboe@kernel.dk>
+Subject: drbd atomic queue limits conversion
+Date: Tue,  5 Mar 2024 06:40:34 -0700
+Message-Id: <20240305134041.137006-1-hch@lst.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CADGDV=WJWZHj89rebvNJ2BOhuqG=_Nr5S3+QXp6LTEGGKyzuKQ@mail.gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: linux-block@vger.kernel.org, Lars Ellenberg <lars.ellenberg@linbit.com>,
-	Christoph Hellwig <hch@lst.de>, drbd-dev@lists.linbit.com
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+	bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Cc: linux-block@vger.kernel.org, drbd-dev@lists.linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,12 +57,13 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Tue, Mar 05, 2024 at 10:39:55AM +0100, Philipp Reisner wrote:
-> Christoph,
-> 
-> we are fine with the queue limit conversion as you did it. Lars and I
-> reviewed it, and Christoph ran the tests. All fine.
+Hi Jens,
 
-Can you provide formal Reviewed-by and Tested-by tags?  I'll resend the
-patches standalone, maybe reply to those.
+this is a standalone resend of the drbd queue limits conversion.
+Philipp said Linbit has reviewed and tested it, and they'll hopefully
+provide the formal tags for that in a bit.
 
+Diffstat:
+ drbd_main.c |   13 ++-
+ drbd_nl.c   |  210 ++++++++++++++++++++++++++++--------------------------------
+ 2 files changed, 110 insertions(+), 113 deletions(-)
