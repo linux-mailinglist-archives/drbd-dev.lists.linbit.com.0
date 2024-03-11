@@ -2,72 +2,68 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD74487489C
-	for <lists+drbd-dev@lfdr.de>; Thu,  7 Mar 2024 08:23:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 552F9877B20
+	for <lists+drbd-dev@lfdr.de>; Mon, 11 Mar 2024 08:04:03 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D1C8E420301;
-	Thu,  7 Mar 2024 08:23:31 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9DEDB4202BF;
+	Mon, 11 Mar 2024 08:04:02 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
-	[209.85.208.181])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6CFF9420319
-	for <drbd-dev@lists.linbit.com>; Thu,  7 Mar 2024 03:54:43 +0100 (CET)
-Received: by mail-lj1-f181.google.com with SMTP id
-	38308e7fff4ca-2d228a132acso4833761fa.0
-	for <drbd-dev@lists.linbit.com>; Wed, 06 Mar 2024 18:54:43 -0800 (PST)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
+	[209.85.214.176])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A8195420178
+	for <drbd-dev@lists.linbit.com>; Mon, 11 Mar 2024 04:08:00 +0100 (CET)
+Received: by mail-pl1-f176.google.com with SMTP id
+	d9443c01a7336-1dcf0d7dc8bso3171245ad.0
+	for <drbd-dev@lists.linbit.com>; Sun, 10 Mar 2024 20:08:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=suse.com; s=google; t=1709780083; x=1710384883; darn=lists.linbit.com;
-	h=to:references:message-id:content-transfer-encoding:cc:date
-	:in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-	:message-id:reply-to;
-	bh=VzWs2u1fk0vDoigeNKo7oEEO87WIJ7cBKTPk4kvL4Vc=;
-	b=OIbfh12yYMCqyEoEUa1R3KsCfZh9bgG7pxHxPoQnM7Oy0/hsDaXgvVgFI/AamoPpNy
-	I37ev7VypYleerskbY6Wj4WufnzC1zG3ZeIMdkQ4yjc9c+un2Mq/7PKYxxi1NXigwj2a
-	NTH6+jtWUDWsR9BshMq98upMuFECfbCqsYSKHmqOMSjnBqLLMUuRyXvnDOS5ASFPNCRu
-	ULpimjJhtIuiFw8Zh0uodBo0uQOi9L0hm3pVohjPoKbQ65AmGGG+LgmmtgJZHipLqywG
-	Ubvmt1vDavzxRaQdWp08na58CAz2XoEM/BZwXKSdh2RaAIpNCCYX2Hky/b1H6CEawa/g
-	EfxA==
+	d=gmail.com; s=20230601; t=1710126479; x=1710731279;
+	darn=lists.linbit.com; 
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+	:to:from:from:to:cc:subject:date:message-id:reply-to;
+	bh=DcGqr5CIuEqHVlI4/PROdr6v9f2SLyEhz6wyKlzGBoQ=;
+	b=D5FzUaF/hO2cod4a6Qi+xgPyv1nfMLJXiVASCSFLDhS7VDBDKTJu9jiEtXt5VXtFhF
+	J3sXT573etW7DKX1VxiaA6tr0L6AgwQye/j9dvEvZYs+W/57WHa2ISC3by0SkoVq/Oi2
+	4a6VEfhBu4KW7I1Ra2bNwk6BbSKXPc8WSTPKfERreV9Uv7ym+1/FaHiL9J0mXqysTxcv
+	OEsh55GHe1KZQ2ODZpOtp1rpO4m06Pv9iBkfP/SRtm3Ci37Hf4hbt1Ue1kxw8scfdFg9
+	HzDI/dnj10C4bRPdod1BIr4VmZ4IJHd1myoV7Lb1ufQwVh2EkAipQammY6o4NLwAXOEv
+	KSQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20230601; t=1709780083; x=1710384883;
-	h=to:references:message-id:content-transfer-encoding:cc:date
-	:in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-	:subject:date:message-id:reply-to;
-	bh=VzWs2u1fk0vDoigeNKo7oEEO87WIJ7cBKTPk4kvL4Vc=;
-	b=FCEZkxi0+iHcHZSoJEkvUqViFuDEtFrXihDJTtgj9jownzJKnfivUpTcUnwkjDYk39
-	FElzCF/tfocWuDCUW0bS8qlY1g8Mr7WB6IEwLvVEg+JiDiXWov9NnZlEMMZIzBf09PWN
-	Vxul2UAu5qNWM5NveTYereuwJ6kGpz8RYihik9ViY71OJZ/Ey8rpPGfYUaApXhV9myrv
-	wyYuCsEZu2qD6AP6oZs4DftqHmjIkOZjFX1CEvMxQH1aSE9Ub+2VkhC3rfEYzxLAAqne
-	euFDOsKDKYzgEfN39gCnEvnRAWwqedTPxsnuCuLhBBiyTulphPBd9y5ySLq5HBE7q7j0
-	LzRw==
-X-Gm-Message-State: AOJu0Yw0oQYzeAU1ALcix2lQrOk99u1myle5dqLntx9c+eSyU1778jJs
-	4rbOVd32qHFJaJsZbIlJviGaUW0JL+7WgEZFtmEMEDRo/1y1Om9ZL/J6Ml2LZffbzz5QjaSlYIs
-	rV24=
-X-Google-Smtp-Source: AGHT+IG+gYEE8aiiY7XDCukcwE5qtrTlhnJpUWVrWLjiM7OhrfxbjWALl1sV2iDDgBI8lVoC/h1BxQ==
-X-Received: by 2002:a2e:6806:0:b0:2d3:2b86:e5f1 with SMTP id
-	c6-20020a2e6806000000b002d32b86e5f1mr508608lja.18.1709780083155;
-	Wed, 06 Mar 2024 18:54:43 -0800 (PST)
-Received: from smtpclient.apple ([23.247.139.60])
+	d=1e100.net; s=20230601; t=1710126479; x=1710731279;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+	:to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+	:reply-to;
+	bh=DcGqr5CIuEqHVlI4/PROdr6v9f2SLyEhz6wyKlzGBoQ=;
+	b=AIc6DXuTx94lDfEL7ET8s66x5XP0ZUlTt8hj5bxuEFsGYZcBEUIIf/C3mCdQNS/vNn
+	d5wXyjY/+YaplFHjnVcc7DUWWXquFPGfmL+Yrio7prCXxhq1GqA6TF3/5pk48g8AQp+U
+	qxi/gqvWpxEeoeQIR9S6klTrGqXvbxm4zbKc8avTkGaMKGi/YF/uPGQwbtWnxwQPJK87
+	4HJNLHG1CaZaZW3UGE3H0Hp5dRdltVHVJ2qIf2Qm891Ne5fjFQ2VjRBK6tXNPcqwmBlK
+	xbCx55oyvE++FZNkQw4TNkMneT4nADtJSCqQKRPqPugfIBNetSDLCcKB9OXYRWqWB9zv
+	M//g==
+X-Forwarded-Encrypted: i=1;
+	AJvYcCXvrSOzpjA5vhetWMUDV7WXjY9EKwgRKc8/pDSX3hc2OSLvN3uKhvmzFKPwitD3kSiJSGrSsYpxFFJi9ATLCg/HZro6wj/l+Gin
+X-Gm-Message-State: AOJu0YyePN5VPgTAF/vxGzqDyhXS/BUlIrginLLS6iQS64p1ri3mOznY
+	JYpKPLKUF/+tV1Rf4vqMpbZUMNVZ0u1S+RhDm6t4oQLFRlc4mMgu
+X-Google-Smtp-Source: AGHT+IFPLoe8prsZnH/IcoheBux0DDIfZMnWJLPR2QtXvxdPGYwSYwOHsyS4BA4UTnwXv3vSOk45Yg==
+X-Received: by 2002:a17:902:7b91:b0:1db:94a9:f9f0 with SMTP id
+	w17-20020a1709027b9100b001db94a9f9f0mr6247911pll.2.1710126479574;
+	Sun, 10 Mar 2024 20:07:59 -0700 (PDT)
+Received: from vaxr-BM6660-BM6360.. ([2001:288:7001:2703:b289:6f57:682e:c7f1])
 	by smtp.gmail.com with ESMTPSA id
-	s13-20020a17090a440d00b002961a383303sm439843pjg.14.2024.03.06.18.54.41
-	(version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 06 Mar 2024 18:54:42 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.200.91.1.1\))
-Subject: Re: [PATCH 2/2] crm-fence-peer.9.sh: use join of node_state to judge
-	whether node is banned
-From: Su Yue <glass.su@suse.com>
-In-Reply-To: <20240303091259.5045-2-l@damenly.org>
-Date: Thu, 7 Mar 2024 10:54:29 +0800
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <C2F581E6-5D15-49E7-B944-B79B3C08F252@suse.com>
-References: <20240303091259.5045-1-l@damenly.org>
-	<20240303091259.5045-2-l@damenly.org>
-To: drbd-dev@lists.linbit.com
-X-Mailer: Apple Mail (2.3774.200.91.1.1)
-X-Mailman-Approved-At: Thu, 07 Mar 2024 08:23:27 +0100
-Cc: lars.ellenberg@linbit.com
+	c8-20020a170902d48800b001dd8cf4170bsm1879641plg.230.2024.03.10.20.07.57
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Sun, 10 Mar 2024 20:07:58 -0700 (PDT)
+From: I-HSIN CHENG <richard120310@gmail.com>
+To: philipp.reisner@linbit.com
+Subject: [PATCH] lru_cache: Initialize hlist_head in lc_create
+Date: Mon, 11 Mar 2024 11:07:35 +0800
+Message-Id: <20240311030735.233470-1-richard120310@gmail.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Mon, 11 Mar 2024 08:03:57 +0100
+Cc: lars.ellenberg@linbit.com, I-HSIN CHENG <richard120310@gmail.com>,
+	linux-kernel@vger.kernel.org, drbd-dev@lists.linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -84,40 +80,29 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Hi, dear drbd folks
-  Would you help review the patches for drbd-utils? Many thanks!
+Use INIT_HLIST_HEAD to perform the initialization for each pointer to
+struct list_head in the variable "slot" to provide more safety and
+prevent possible bugs from uninitialized behavior.
 
-=E2=80=94=20
-Su
+Signed-off-by: I-HSIN CHENG <richard120310@gmail.com>
+---
+ lib/lru_cache.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-> On Mar 3, 2024, at 17:12, Su Yue <glass.su@suse.com> wrote:
->=20
-> From: Su Yue <glass.su@suse.com>
->=20
-> crmd in node_state can't be "banned". join should be used instead
-> of crmd.
->=20
-> Signed-off-by: Su Yue <glass.su@suse.com>
-> ---
-> scripts/crm-fence-peer.9.sh | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/scripts/crm-fence-peer.9.sh b/scripts/crm-fence-peer.9.sh
-> index a3353a7354a6..b326a1656c15 100755
-> --- a/scripts/crm-fence-peer.9.sh
-> +++ b/scripts/crm-fence-peer.9.sh
-> @@ -934,7 +934,7 @@ guess_if_pacemaker_will_fence()
->=20
-> # for further inspiration, see pacemaker:lib/pengine/unpack.c, =
-determine_online_status_fencing()
-> [[ -z $in_ccm ]] && will_fence=3Dtrue
-> - [[ $crmd =3D "banned" ]] && will_fence=3Dtrue
-> + [[ $join =3D "banned" ]] && will_fence=3Dtrue
-> if [[ ${expected-down} =3D "down" && $in_ccm =3D "false"  && $crmd !=3D =
-"online" ]]; then
-> : "pacemaker considers this as clean down"
-> elif [[ $in_ccm =3D false ]] || [[ $crmd !=3D "online" ]]; then
-> --=20
-> 2.44.0
->=20
+diff --git a/lib/lru_cache.c b/lib/lru_cache.c
+index b3d918761..f2197aae1 100644
+--- a/lib/lru_cache.c
++++ b/lib/lru_cache.c
+@@ -105,6 +105,9 @@ struct lru_cache *lc_create(const char *name, struct kmem_cache *cache,
+ 	if (!lc)
+ 		goto out_fail;
+ 
++	for (int i = 0; i < e_count; i++)
++		INIT_HLIST_HEAD(slot + (i * sizeof(struct hlist_head)));
++
+ 	INIT_LIST_HEAD(&lc->in_use);
+ 	INIT_LIST_HEAD(&lc->lru);
+ 	INIT_LIST_HEAD(&lc->free);
+-- 
+2.34.1
 
