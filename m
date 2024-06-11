@@ -2,62 +2,46 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40959903560
-	for <lists+drbd-dev@lfdr.de>; Tue, 11 Jun 2024 10:17:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F230E90356E
+	for <lists+drbd-dev@lfdr.de>; Tue, 11 Jun 2024 10:17:45 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A85FE420912;
-	Tue, 11 Jun 2024 10:17:14 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 644E9420918;
+	Tue, 11 Jun 2024 10:17:45 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 334 seconds by postgrey-1.31 at mail19;
-	Tue, 11 Jun 2024 10:16:58 CEST
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 57A6D4208A2
-	for <drbd-dev@lists.linbit.com>; Tue, 11 Jun 2024 10:16:58 +0200 (CEST)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
-	[IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest
-	SHA256) (No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2899F22D2F;
-	Tue, 11 Jun 2024 08:16:58 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest
-	SHA256) (No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BFD26137DF;
-	Tue, 11 Jun 2024 08:16:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA id 2a1qLvkHaGY8WwAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 11 Jun 2024 08:16:57 +0000
-Message-ID: <e25047ab-2c01-4704-b554-df85a8d34cd7@suse.de>
-Date: Tue, 11 Jun 2024 10:16:57 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2CAB942089E
+	for <drbd-dev@lists.linbit.com>;
+	Tue, 11 Jun 2024 10:17:40 +0200 (CEST)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 964F460C99;
+	Tue, 11 Jun 2024 08:17:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 001E2C2BD10;
+	Tue, 11 Jun 2024 08:17:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718093859;
+	bh=8hoK2gKDaRsBvhpNjKWXz1NiL4R/W55wPg0pcyUnTg8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=vRlCqU6kXmdmYokXUm2SdAVQKVkuohc6QD634jV5YaAQTtPSpRt6l4PYnhfTViNDw
+	sbGdXs6SfI8gJDA08QAexH1JSxVl9S/Par06DxrUB4GI0tIhYG/yn58Ww6l/0QCu56
+	WseAAZIp7UfGEfNQUZDJH/9CKtHnu/6zi6luI2GQJ1poRNm+fPzSuf2EsNdvmJ7qNi
+	nJSmsZ8E48CIwWwRJgt5yxhenbvusswprhVLBGGicCH3/2nSpxzVzmGUhEFnCcducJ
+	jqZanUchjNsStFy5gRtuzoGaUYgOY6jNc667Bvz8/tDlqfTuQVB8PXPIosnj3IAUtu
+	ilukga62R9dEQ==
+Message-ID: <c52f1553-21a2-415b-a9a6-02bc5cde1ac7@kernel.org>
+Date: Tue, 11 Jun 2024 17:17:32 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/26] loop: regularize upgrading the lock size for direct
-	I/O
+Subject: Re: [PATCH 20/26] block: move the dax flag to queue_limits
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
 References: <20240611051929.513387-1-hch@lst.de>
-	<20240611051929.513387-6-hch@lst.de>
+	<20240611051929.513387-21-hch@lst.de>
 Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20240611051929.513387-6-hch@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action; module=replies;
-	Message is reply to one we originated
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
-X-Spam-Flag: NO
-X-Spam-Score: -4.00
-X-Rspamd-Queue-Id: 2899F22D2F
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Pre-Result: action=no action; module=replies;
-	Message is reply to one we originated
-X-Rspamd-Action: no action
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <20240611051929.513387-21-hch@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Cc: nvdimm@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>,
 	Jason Wang <jasowang@redhat.com>, linux-nvme@lists.infradead.org,
 	Song Liu <song@kernel.org>, linux-mtd@lists.infradead.org,
@@ -95,25 +79,17 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On 6/11/24 07:19, Christoph Hellwig wrote:
-> The LOOP_CONFIGURE path automatically upgrades the block size to that
-> of the underlying file for O_DIRECT file descriptors, but the
-> LOOP_SET_BLOCK_SIZE path does not.  Fix this by lifting the code to
-> pick the block size into common code.
+On 6/11/24 2:19 PM, Christoph Hellwig wrote:
+> Move the dax flag into the queue_limits feature field so that it
+> can be set atomically and all I/O is frozen when changing the flag.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->   drivers/block/loop.c | 25 +++++++++++++++----------
->   1 file changed, 15 insertions(+), 10 deletions(-)
-> 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
 
-Cheers,
+Looks good.
 
-Hannes
+Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
+
 -- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+Damien Le Moal
+Western Digital Research
 
