@@ -2,44 +2,44 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7538890364C
-	for <lists+drbd-dev@lfdr.de>; Tue, 11 Jun 2024 10:26:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE73C903652
+	for <lists+drbd-dev@lfdr.de>; Tue, 11 Jun 2024 10:26:59 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 18E41420A54;
-	Tue, 11 Jun 2024 10:26:30 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 60ACA420A86;
+	Tue, 11 Jun 2024 10:26:59 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3FB754208FB
-	for <drbd-dev@lists.linbit.com>; Tue, 11 Jun 2024 10:25:46 +0200 (CEST)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 443A84205D7
+	for <drbd-dev@lists.linbit.com>;
+	Tue, 11 Jun 2024 10:26:56 +0200 (CEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 142C8CE1A1B;
-	Tue, 11 Jun 2024 08:25:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 617E6C2BD10;
-	Tue, 11 Jun 2024 08:25:40 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id A868E60D2E;
+	Tue, 11 Jun 2024 08:26:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C91B8C2BD10;
+	Tue, 11 Jun 2024 08:26:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718094344;
-	bh=SsjtIxdZTv9alxTM6s+eXXe/b4WXYQcjMfNg5CfEKdc=;
+	s=k20201202; t=1718094415;
+	bh=zPCa8xPO5T29Ue6m/rGvsIVSedmfYpv71DR4OREdVBQ=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ZQZg1j5YVztWgVvkxKyPKd72qqKRNzGYuDroL0hLwlP4ltRHp2mvUzylgapCjo/QX
-	/9JUYHtH9lVcV7U8Irn9NtQ6Tf4T6BlUFQm06rRyckQkTNr9Kms7oXAKJzeYMkpiMK
-	Ybljnp8uYPvlerlZvfIK+8/5AdyU/rT7kIsgR7AlzPHmM2fE435z6Gjn2Vvlo55KVu
-	JYmLy8lPunL3Cs67SCKuZOcNFm3ArkP7Bsy0nS3RPixSC4k7DYJ0IbBTowTxu4OiQO
-	q7okcClLynGKcjyF6P0660uu2Ke9bJiS/94AvjFYJ69OKCMBI3EL8IsbNDCkR/OILW
-	7cbHkjEZuN7bA==
-Message-ID: <f4497895-93ce-4d96-bcaa-6ad77be83c83@kernel.org>
-Date: Tue, 11 Jun 2024 17:25:39 +0900
+	b=ez17pQw3y3AnnRAsbp/TeB/EKjEe7TyilW2EVLSJJrew7wwyol5eLtQF972oIfLpG
+	oYcDa9ge7GLmbENS0nP9E6ta6tD7CQef1VnquDAuNjK/vmtFTMl8qc2CWkRZn6DFMS
+	raKMjYT80FmXY5BCGp2iWYpN2mIcXyE1s1Z58hYCCGi8z4FHsqMGJz+kXo4P2Nk278
+	r+zW/RpHA3mNDdc41rCNeksvCw0askxtETJGNAUBwkUPNPgC4kqE5kupqRA+Iycdzy
+	jj5qMbPiZljguvK2fsauAxET3ATsJgfsyWMl0BAtw4WiWIzM56ISDOgnDaaVGyV3zf
+	MkLh4tzLpuL/g==
+Message-ID: <b5db88d4-5639-47a9-9611-2628235f4244@kernel.org>
+Date: Tue, 11 Jun 2024 17:26:49 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 25/26] block: move the skip_tagset_quiesce flag to
-	queue_limits
+Subject: Re: [PATCH 26/26] block: move the bounce flag into the feature field
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
 References: <20240611051929.513387-1-hch@lst.de>
-	<20240611051929.513387-26-hch@lst.de>
+	<20240611051929.513387-27-hch@lst.de>
 Content-Language: en-US
 From: Damien Le Moal <dlemoal@kernel.org>
 Organization: Western Digital Research
-In-Reply-To: <20240611051929.513387-26-hch@lst.de>
+In-Reply-To: <20240611051929.513387-27-hch@lst.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Cc: nvdimm@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>,
@@ -80,9 +80,11 @@ Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
 On 6/11/24 2:19 PM, Christoph Hellwig wrote:
-> Move the skip_tagset_quiesce flag into the queue_limits feature field so
-> that it can be set atomically and all I/O is frozen when changing the
-> flag.
+> Move the bounce field into the flags field to reclaim a little bit of
+
+s/flags/feature
+
+> space.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 
