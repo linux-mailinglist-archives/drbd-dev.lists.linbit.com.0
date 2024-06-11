@@ -2,53 +2,68 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id D182E9031FF
-	for <lists+drbd-dev@lfdr.de>; Tue, 11 Jun 2024 08:00:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B51E8903217
+	for <lists+drbd-dev@lfdr.de>; Tue, 11 Jun 2024 08:01:57 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 751AA4205CB;
-	Tue, 11 Jun 2024 08:00:07 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3B8A5420656;
+	Tue, 11 Jun 2024 08:01:57 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7E62842039E
-	for <drbd-dev@lists.linbit.com>; Tue, 11 Jun 2024 07:59:48 +0200 (CEST)
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id B1AFB68C4E; Tue, 11 Jun 2024 07:59:46 +0200 (CEST)
-Date: Tue, 11 Jun 2024 07:59:46 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Damien Le Moal <dlemoal@kernel.org>
-Subject: Re: [PATCH 06/26] loop: also use the default block size from an
-	underlying block device
-Message-ID: <20240611055946.GA3777@lst.de>
-References: <20240611051929.513387-1-hch@lst.de>
-	<20240611051929.513387-7-hch@lst.de>
-	<27e76310-1831-473e-803a-e0294b91463c@kernel.org>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id CA6AD42035E
+	for <drbd-dev@lists.linbit.com>;
+	Tue, 11 Jun 2024 08:01:05 +0200 (CEST)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 4355B60C78;
+	Tue, 11 Jun 2024 06:01:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61916C2BD10;
+	Tue, 11 Jun 2024 06:01:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718085665;
+	bh=SwdezD+VbbCE5IbMCIb8XIlsQn00OdtPFM8sRr4ztZk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Zr2vvzA/p7vYbT1k0uSBle8fVBLgAMu7Z8G2rZTtwcHwZJBLkdKFIjTMoJNCzigg7
+	HTTeNcLNiD8mOl1bIMJSt8wupoDF5SVZaTY0NG2Ov76mIgZZigWXzzY7XVXH2QtfH1
+	x8KGc2pS1U1PRUpHUWYyhzSKqD5PI1im3Hi8m7vBLaJJJ9qEpljyUtR6RhIgyapNwR
+	oXmNiibgRDzuOY4ziojjhBQyINExkUL4KDOxUOXHRojL4EJXnDtsoUuvYOOl28n8tz
+	mMTtS5NPXLxyTGNL4ivwnqnaNnzfQN6jrGtKZFwmi4ccqOatSNqZrVoj3XSteIqnUe
+	tMfkIjYNQxDVw==
+Message-ID: <89258309-c77a-4b82-a5a1-a4f08f4e119e@kernel.org>
+Date: Tue, 11 Jun 2024 15:00:59 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <27e76310-1831-473e-803a-e0294b91463c@kernel.org>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 07/26] loop: fold loop_update_rotational into
+	loop_reconfigure_limits
+To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
+References: <20240611051929.513387-1-hch@lst.de>
+	<20240611051929.513387-8-hch@lst.de>
+Content-Language: en-US
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <20240611051929.513387-8-hch@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Cc: nvdimm@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>,
 	Jason Wang <jasowang@redhat.com>, linux-nvme@lists.infradead.org,
 	Song Liu <song@kernel.org>, linux-mtd@lists.infradead.org,
 	Vineeth Vijayan <vneethv@linux.ibm.com>,
-	linux-bcache@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
 	Alasdair Kergon <agk@redhat.com>, drbd-dev@lists.linbit.com,
 	linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
 	Richard Weinberger <richard@nod.at>,
 	Geert Uytterhoeven <geert@linux-m68k.org>,
 	Yu Kuai <yukuai3@huawei.com>, dm-devel@lists.linux.dev,
 	linux-um@lists.infradead.org, Mike Snitzer <snitzer@kernel.org>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Ming Lei <ming.lei@redhat.com>, linux-raid@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org, Mikulas Patocka <mpatocka@redhat.com>,
+	Josef Bacik <josef@toxicpanda.com>, nbd@other.debian.org,
+	linux-raid@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+	Mikulas Patocka <mpatocka@redhat.com>,
 	xen-devel@lists.xenproject.org, ceph-devel@vger.kernel.org,
-	nbd@other.debian.org, Jens Axboe <axboe@kernel.dk>,
+	Ming Lei <ming.lei@redhat.com>, linux-bcache@vger.kernel.org,
 	linux-block@vger.kernel.org,
 	"Martin K. Petersen" <martin.petersen@oracle.com>,
 	linux-mmc@vger.kernel.org, Philipp Reisner <philipp.reisner@linbit.com>,
 	virtualization@lists.linux.dev, Lars Ellenberg <lars.ellenberg@linbit.com>,
-	linuxppc-dev@lists.ozlabs.org, Roger Pau Monn?? <roger.pau@citrix.com>
+	linuxppc-dev@lists.ozlabs.org,
+	=?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -65,15 +80,18 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Tue, Jun 11, 2024 at 02:58:56PM +0900, Damien Le Moal wrote:
-> > +	if (S_ISBLK(inode->i_mode))
-> > +		backing_bdev = I_BDEV(inode);
-> > +	else if (inode->i_sb->s_bdev)
-> > +		backing_bdev = inode->i_sb->s_bdev;
-> > +
+On 6/11/24 2:19 PM, Christoph Hellwig wrote:
+> This prepares for moving the rotational flag into the queue_limits and
+> also fixes it for the case where the loop device is backed by a block
+> device.
 > 
-> Why not move this hunk inside the below "if" ? (backing_dev declaration can go
-> there too).
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-Because another use will pop up a bit later :)
+Looks good to me.
+
+Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
+
+-- 
+Damien Le Moal
+Western Digital Research
 
