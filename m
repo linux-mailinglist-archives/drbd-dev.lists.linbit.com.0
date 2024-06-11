@@ -2,39 +2,39 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id 480919032C3
-	for <lists+drbd-dev@lfdr.de>; Tue, 11 Jun 2024 08:35:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78900903295
+	for <lists+drbd-dev@lfdr.de>; Tue, 11 Jun 2024 08:28:04 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D5D4C4208A7;
-	Tue, 11 Jun 2024 08:35:05 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 022BC42065D;
+	Tue, 11 Jun 2024 08:28:03 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from bombadil.infradead.org (bombadil.infradead.org
 	[198.137.202.133])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 51762420640
-	for <drbd-dev@lists.linbit.com>; Tue, 11 Jun 2024 08:32:38 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6B2264205E5
+	for <drbd-dev@lists.linbit.com>; Tue, 11 Jun 2024 08:26:39 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=QZOtfSoQAA02jj5gA5gptGlEH50imtUdZkhUebJgjrY=;
-	b=UXmi+XkXDTmhUIFmQ+lCw4UloG
-	14qIavWEJ+8aZIyq6Y+DxHB0S+SOdr/Qm7RnBCGVrQ6ORBr+Hqf8WMeKLVA1Ap/HXQFtuZp9XeHwE
-	mLWCp4AAXKrG1/s2Fd8LRv78JletbtIZkPhtpE7wERgDDf281dTYOKtaadOkC4olXUszQKCGm5yP1
-	BpkgDcxJ6TrEqCdmFlqaO5NBmiBg3C6wPCtwYpOHue5QOYvKPnHjae3lNtfzFW81dHNN4ZfSiAMBf
-	4uq0nk+3pDzVezm1sl4pM5+/+sE3FR5B72qqnqHf1v7fD0uNQAYqOZPwF/oW5OjnMH5uLvQLA7tKb
-	NcAQXwJw==;
+	bh=/rZOEnnB7Ck+WcvkswrD5CLavDNj5FzzjxdVzwDte5o=;
+	b=WiVjV03MdppIPPUHNpSsnAOswF
+	ZzMT4QsJKrqeWjtewh91sTq17Q4mo/C/OnhzWIHeo3L6EpP/u5Gsw2y5ZNZfc7s43LyqK4sDE1FpG
+	n1CGW9hR1hsCjP39wbq7dK7SQZcyfIub4k/1gShQl6ug5pyEmBvaRSdlHDbKv6EQUFXWG9X2Kzvcy
+	zRMbflEfBG9QqO9Hao0c27BB16ZyEsohd1SqZIqSoJ2Ac8A6Z5CwEpmzXHO5aP1ywzKVK6Fios+k2
+	5kTJ0aXnUDA7DWdvI+0EcSX4K7nERHV9k7gUQZmoCHBh5G3C3UOTx9SpD50hTrGhUjyYp0My1+kjg
+	Nmuwb5EA==;
 Received: from
 	2a02-8389-2341-5b80-cdb4-8e7d-405d-6b77.cable.dynamic.v6.surfer.at
 	([2a02:8389:2341:5b80:cdb4:8e7d:405d:6b77] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sGtv2-00000007QpR-0wAa; Tue, 11 Jun 2024 05:19:40 +0000
+	id 1sGtv4-00000007QqN-2LdZ; Tue, 11 Jun 2024 05:19:42 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH 03/26] loop: stop using loop_reconfigure_limits in
-	__loop_clr_fd
-Date: Tue, 11 Jun 2024 07:19:03 +0200
-Message-ID: <20240611051929.513387-4-hch@lst.de>
+Subject: [PATCH 04/26] loop: always update discard settings in
+	loop_reconfigure_limits
+Date: Tue, 11 Jun 2024 07:19:04 +0200
+Message-ID: <20240611051929.513387-5-hch@lst.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240611051929.513387-1-hch@lst.de>
 References: <20240611051929.513387-1-hch@lst.de>
@@ -79,43 +79,57 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-__loop_clr_fd wants to clear all settings on the device.  Prepare for
-moving more settings into the block limits by open coding
-loop_reconfigure_limits.
+Simplify loop_reconfigure_limits by always updating the discard limits.
+This adds a little more work to loop_set_block_size, but doesn't change
+the outcome as the discard flag won't change.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/block/loop.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ drivers/block/loop.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/block/loop.c b/drivers/block/loop.c
-index 93780f41646b75..93a49c40a31a71 100644
+index 93a49c40a31a71..c658282454af1b 100644
 --- a/drivers/block/loop.c
 +++ b/drivers/block/loop.c
-@@ -1133,6 +1133,7 @@ static int loop_configure(struct loop_device *lo, blk_mode_t mode,
+@@ -975,8 +975,7 @@ loop_set_status_from_info(struct loop_device *lo,
+ 	return 0;
+ }
  
- static void __loop_clr_fd(struct loop_device *lo, bool release)
+-static int loop_reconfigure_limits(struct loop_device *lo, unsigned short bsize,
+-		bool update_discard_settings)
++static int loop_reconfigure_limits(struct loop_device *lo, unsigned short bsize)
  {
-+	struct queue_limits lim;
- 	struct file *filp;
- 	gfp_t gfp = lo->old_gfp_mask;
+ 	struct queue_limits lim;
  
-@@ -1156,7 +1157,14 @@ static void __loop_clr_fd(struct loop_device *lo, bool release)
- 	lo->lo_offset = 0;
- 	lo->lo_sizelimit = 0;
- 	memset(lo->lo_file_name, 0, LO_NAME_SIZE);
--	loop_reconfigure_limits(lo, 512, false);
-+
-+	/* reset the block size to the default */
-+	lim = queue_limits_start_update(lo->lo_queue);
-+	lim.logical_block_size = 512;
-+	lim.physical_block_size = 512;
-+	lim.io_min = 512;
-+	queue_limits_commit_update(lo->lo_queue, &lim);
-+
- 	invalidate_disk(lo->lo_disk);
- 	loop_sysfs_exit(lo);
- 	/* let user-space know about this change */
+@@ -984,8 +983,7 @@ static int loop_reconfigure_limits(struct loop_device *lo, unsigned short bsize,
+ 	lim.logical_block_size = bsize;
+ 	lim.physical_block_size = bsize;
+ 	lim.io_min = bsize;
+-	if (update_discard_settings)
+-		loop_config_discard(lo, &lim);
++	loop_config_discard(lo, &lim);
+ 	return queue_limits_commit_update(lo->lo_queue, &lim);
+ }
+ 
+@@ -1086,7 +1084,7 @@ static int loop_configure(struct loop_device *lo, blk_mode_t mode,
+ 	else
+ 		bsize = 512;
+ 
+-	error = loop_reconfigure_limits(lo, bsize, true);
++	error = loop_reconfigure_limits(lo, bsize);
+ 	if (WARN_ON_ONCE(error))
+ 		goto out_unlock;
+ 
+@@ -1496,7 +1494,7 @@ static int loop_set_block_size(struct loop_device *lo, unsigned long arg)
+ 	invalidate_bdev(lo->lo_device);
+ 
+ 	blk_mq_freeze_queue(lo->lo_queue);
+-	err = loop_reconfigure_limits(lo, arg, false);
++	err = loop_reconfigure_limits(lo, arg);
+ 	loop_update_dio(lo);
+ 	blk_mq_unfreeze_queue(lo->lo_queue);
+ 
 -- 
 2.43.0
 
