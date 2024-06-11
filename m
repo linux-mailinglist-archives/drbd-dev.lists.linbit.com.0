@@ -2,33 +2,31 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35B429031EB
-	for <lists+drbd-dev@lfdr.de>; Tue, 11 Jun 2024 07:59:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D182E9031FF
+	for <lists+drbd-dev@lfdr.de>; Tue, 11 Jun 2024 08:00:10 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 53A9A4203CE;
-	Tue, 11 Jun 2024 07:59:15 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 751AA4205CB;
+	Tue, 11 Jun 2024 08:00:07 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 388 seconds by postgrey-1.31 at mail19;
-	Tue, 11 Jun 2024 07:59:10 CEST
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9E16042039E
-	for <drbd-dev@lists.linbit.com>; Tue, 11 Jun 2024 07:59:10 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7E62842039E
+	for <drbd-dev@lists.linbit.com>; Tue, 11 Jun 2024 07:59:48 +0200 (CEST)
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id B7C0F68CFE; Tue, 11 Jun 2024 07:59:06 +0200 (CEST)
-Date: Tue, 11 Jun 2024 07:59:06 +0200
+	id B1AFB68C4E; Tue, 11 Jun 2024 07:59:46 +0200 (CEST)
+Date: Tue, 11 Jun 2024 07:59:46 +0200
 From: Christoph Hellwig <hch@lst.de>
 To: Damien Le Moal <dlemoal@kernel.org>
-Subject: Re: [PATCH 05/26] loop: regularize upgrading the lock size for
-	direct I/O
-Message-ID: <20240611055906.GA3640@lst.de>
+Subject: Re: [PATCH 06/26] loop: also use the default block size from an
+	underlying block device
+Message-ID: <20240611055946.GA3777@lst.de>
 References: <20240611051929.513387-1-hch@lst.de>
-	<20240611051929.513387-6-hch@lst.de>
-	<dabc33cd-feb9-4263-8f6e-4d2ab3d71430@kernel.org>
+	<20240611051929.513387-7-hch@lst.de>
+	<27e76310-1831-473e-803a-e0294b91463c@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <dabc33cd-feb9-4263-8f6e-4d2ab3d71430@kernel.org>
+In-Reply-To: <27e76310-1831-473e-803a-e0294b91463c@kernel.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 Cc: nvdimm@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>,
 	Jason Wang <jasowang@redhat.com>, linux-nvme@lists.infradead.org,
@@ -67,14 +65,15 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Tue, Jun 11, 2024 at 02:56:59PM +0900, Damien Le Moal wrote:
-> > +	if (!bsize)
-> > +		bsize = loop_default_blocksize(lo, inode->i_sb->s_bdev);
+On Tue, Jun 11, 2024 at 02:58:56PM +0900, Damien Le Moal wrote:
+> > +	if (S_ISBLK(inode->i_mode))
+> > +		backing_bdev = I_BDEV(inode);
+> > +	else if (inode->i_sb->s_bdev)
+> > +		backing_bdev = inode->i_sb->s_bdev;
+> > +
 > 
-> If bsize is specified and there is a backing dev used with direct IO, should it
-> be checked that bsize is a multiple of bdev_logical_block_size(backing_bdev) ?
+> Why not move this hunk inside the below "if" ? (backing_dev declaration can go
+> there too).
 
-For direct I/O that check would be useful.  For buffered I/O we can do
-read-modify-write cycles.  However this series is already huge and not
-primarily about improving the loop driver parameter validation, so
-I'll defer this for now.
+Because another use will pop up a bit later :)
+
