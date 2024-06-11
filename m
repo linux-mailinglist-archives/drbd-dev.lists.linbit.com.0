@@ -2,44 +2,44 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99BEB90322F
-	for <lists+drbd-dev@lfdr.de>; Tue, 11 Jun 2024 08:07:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69285903245
+	for <lists+drbd-dev@lfdr.de>; Tue, 11 Jun 2024 08:12:17 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E8B9242066E;
-	Tue, 11 Jun 2024 08:07:13 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 65ABA420621;
+	Tue, 11 Jun 2024 08:12:15 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C3FF242035E
-	for <drbd-dev@lists.linbit.com>; Tue, 11 Jun 2024 08:07:11 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D8BEB4205F6
+	for <drbd-dev@lists.linbit.com>; Tue, 11 Jun 2024 08:12:11 +0200 (CEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id CA4B3CE0B9B;
-	Tue, 11 Jun 2024 05:57:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C4CBC2BD10;
-	Tue, 11 Jun 2024 05:57:00 +0000 (UTC)
+	by sin.source.kernel.org (Postfix) with ESMTP id 591E8CE19AB;
+	Tue, 11 Jun 2024 05:59:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F39B0C2BD10;
+	Tue, 11 Jun 2024 05:58:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718085426;
-	bh=xFN1h7CLNOVeSD1DVq7Y6t3Bb5KlL582IrHJpAfOI+I=;
+	s=k20201202; t=1718085543;
+	bh=ytNiiCLVFE28gHr4h5G30TNqYehF/KogG4pSKSbNQ2E=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=fv21i4LDKBohOjAMc7pIwhaiiTsAlafv5K+jqxJasBRtlliGgCtTrXsT0H8yV5+9T
-	njwksi1EuST41csRG3Vqsp2L+QlP+t8YOn8e3W08JXRiXRq8hhVj8Dagc3+6nbt30R
-	F+mIQhqmSwNPdFOouK0TdZvzzsTWzz1Lqs4jPTNbQ0Jw2LrEoRIpZD54zKPNaLm1HA
-	t4c032+2B98Y3f+oLMEONdKDXJVupqzzbghc2EZK18tDOe6HzPnnhx/GWgADRWFlM4
-	oxYC9o2lrFo6wnGlsgbujf5T6gsAVdypUTxeMWDRMSrvLMxkDZnNQFg5hAvDm4J/fA
-	kYvXmValPXY/Q==
-Message-ID: <dabc33cd-feb9-4263-8f6e-4d2ab3d71430@kernel.org>
-Date: Tue, 11 Jun 2024 14:56:59 +0900
+	b=juelLKuku0LFbgtXG9OzRzRWb3ooPaRYkdEGYbxCY/l/EREHcpsd6y+kWaUp4iBKj
+	Cs53RLnIaSbrZccm/GN9QVCVAOcAI/+By8TM/0/LFmq4RPTUmj+axscKmxzzB5coCx
+	TPpMXPmrdbBJt790n7mZ2SG7cnazZrwM4LN+e2wDErlp27GY0Q5cW5+prp1xuTs+nr
+	t3wCoIWjpcxWO+rGzFp9IqhsxvwTy7jx2vG3FMgsOx4qNL4tLOJuL4SBWR9Le8e1Gu
+	FbIAW9jk7NKo8gZzoXSm3zjx5aS60f2RIO1ZIKWZDZVw79ebRnV6Cm+DP9ptNCmDsn
+	briDJeVws9DJA==
+Message-ID: <27e76310-1831-473e-803a-e0294b91463c@kernel.org>
+Date: Tue, 11 Jun 2024 14:58:56 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/26] loop: regularize upgrading the lock size for direct
-	I/O
+Subject: Re: [PATCH 06/26] loop: also use the default block size from an
+	underlying block device
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
 References: <20240611051929.513387-1-hch@lst.de>
-	<20240611051929.513387-6-hch@lst.de>
+	<20240611051929.513387-7-hch@lst.de>
 Content-Language: en-US
 From: Damien Le Moal <dlemoal@kernel.org>
 Organization: Western Digital Research
-In-Reply-To: <20240611051929.513387-6-hch@lst.de>
+In-Reply-To: <20240611051929.513387-7-hch@lst.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Cc: nvdimm@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>,
@@ -80,80 +80,42 @@ Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
 On 6/11/24 2:19 PM, Christoph Hellwig wrote:
-> The LOOP_CONFIGURE path automatically upgrades the block size to that
-> of the underlying file for O_DIRECT file descriptors, but the
-> LOOP_SET_BLOCK_SIZE path does not.  Fix this by lifting the code to
-> pick the block size into common code.
-
-s/lock/block in the commit title.
-
+> Fix the code in loop_reconfigure_limits to pick a default block size for
+> O_DIRECT file descriptors to also work when the loop device sits on top
+> of a block device and not just on a regular file on a block device based
+> file system.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->  drivers/block/loop.c | 25 +++++++++++++++----------
->  1 file changed, 15 insertions(+), 10 deletions(-)
+>  drivers/block/loop.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/block/loop.c b/drivers/block/loop.c
-> index c658282454af1b..4f6d8514d19bd6 100644
+> index 4f6d8514d19bd6..d7cf6bbbfb1b86 100644
 > --- a/drivers/block/loop.c
 > +++ b/drivers/block/loop.c
-> @@ -975,10 +975,24 @@ loop_set_status_from_info(struct loop_device *lo,
->  	return 0;
->  }
->  
-> +static unsigned short loop_default_blocksize(struct loop_device *lo,
-> +		struct block_device *backing_bdev)
-> +{
-> +	/* In case of direct I/O, match underlying block size */
-> +	if ((lo->lo_backing_file->f_flags & O_DIRECT) && backing_bdev)
-> +		return bdev_logical_block_size(backing_bdev);
-> +	return 512;
-
-Nit: SECTOR_SIZE ?
-
-> +}
-> +
->  static int loop_reconfigure_limits(struct loop_device *lo, unsigned short bsize)
+> @@ -988,10 +988,16 @@ static int loop_reconfigure_limits(struct loop_device *lo, unsigned short bsize)
 >  {
-> +	struct file *file = lo->lo_backing_file;
-> +	struct inode *inode = file->f_mapping->host;
+>  	struct file *file = lo->lo_backing_file;
+>  	struct inode *inode = file->f_mapping->host;
+> +	struct block_device *backing_bdev = NULL;
 >  	struct queue_limits lim;
 >  
-> +	if (!bsize)
-> +		bsize = loop_default_blocksize(lo, inode->i_sb->s_bdev);
-
-If bsize is specified and there is a backing dev used with direct IO, should it
-be checked that bsize is a multiple of bdev_logical_block_size(backing_bdev) ?
-
+> +	if (S_ISBLK(inode->i_mode))
+> +		backing_bdev = I_BDEV(inode);
+> +	else if (inode->i_sb->s_bdev)
+> +		backing_bdev = inode->i_sb->s_bdev;
 > +
+
+Why not move this hunk inside the below "if" ? (backing_dev declaration can go
+there too).
+
+>  	if (!bsize)
+> -		bsize = loop_default_blocksize(lo, inode->i_sb->s_bdev);
+> +		bsize = loop_default_blocksize(lo, backing_bdev);
+>  
 >  	lim = queue_limits_start_update(lo->lo_queue);
 >  	lim.logical_block_size = bsize;
->  	lim.physical_block_size = bsize;
-> @@ -997,7 +1011,6 @@ static int loop_configure(struct loop_device *lo, blk_mode_t mode,
->  	int error;
->  	loff_t size;
->  	bool partscan;
-> -	unsigned short bsize;
->  	bool is_loop;
->  
->  	if (!file)
-> @@ -1076,15 +1089,7 @@ static int loop_configure(struct loop_device *lo, blk_mode_t mode,
->  	if (!(lo->lo_flags & LO_FLAGS_READ_ONLY) && file->f_op->fsync)
->  		blk_queue_write_cache(lo->lo_queue, true, false);
->  
-> -	if (config->block_size)
-> -		bsize = config->block_size;
-> -	else if ((lo->lo_backing_file->f_flags & O_DIRECT) && inode->i_sb->s_bdev)
-> -		/* In case of direct I/O, match underlying block size */
-> -		bsize = bdev_logical_block_size(inode->i_sb->s_bdev);
-> -	else
-> -		bsize = 512;
-> -
-> -	error = loop_reconfigure_limits(lo, bsize);
-> +	error = loop_reconfigure_limits(lo, config->block_size);
->  	if (WARN_ON_ONCE(error))
->  		goto out_unlock;
->  
 
 -- 
 Damien Le Moal
