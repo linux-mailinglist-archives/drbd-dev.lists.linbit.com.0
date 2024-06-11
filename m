@@ -2,82 +2,83 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C6A69035AF
-	for <lists+drbd-dev@lfdr.de>; Tue, 11 Jun 2024 10:20:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A17AE9035BE
+	for <lists+drbd-dev@lfdr.de>; Tue, 11 Jun 2024 10:20:45 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id EB607420948;
-	Tue, 11 Jun 2024 10:20:14 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3D89342095B;
+	Tue, 11 Jun 2024 10:20:45 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9907F420928
-	for <drbd-dev@lists.linbit.com>; Tue, 11 Jun 2024 10:19:27 +0200 (CEST)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4D9F2420914
+	for <drbd-dev@lists.linbit.com>; Tue, 11 Jun 2024 10:20:26 +0200 (CEST)
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest
 	SHA256) (No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4AADB22D13;
-	Tue, 11 Jun 2024 08:19:27 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E4DDB2056A;
+	Tue, 11 Jun 2024 08:20:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718093967;
+	t=1718094026;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	mime-version:mime-version:content-type:content-type:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
-	bh=GGJw6dDkRs6k2mZvFIE+UpGETGYtBieUVHqbMn2Gy0w=;
-	b=Mz5UZyRupBOC5OyhaduIbHV4wlYjNn2j7sCWgFf6vyQPQnjkDPAfZ6Q/JsN5Cmj6BSiYUF
-	xwezQUEPyxhygG9mxrG/r7jSoy12gHEp2VD+DxfzLjw84R1R+ikRm3duxRjgQt2dRc+rR/
-	zySz8BDz3RCb9rOF3+/OqcxNzULWgh8=
+	bh=jGomuCAp2pz/1uNBu4SRDVlzjHuYKTuVW/cC7GVoJ+s=;
+	b=CeZPcfC1tei4Yoyik+tGn3KMUx0tYad+9QT86YWgmWIoMwD8SG6Olr8/OpQgGmSlpFOFrV
+	1QMhq17GV3KTHtbekRcFjW6L+u5akZQinRuMUbw96XHeekDnFkAcnzJHDSMFcVSc1JTgCf
+	PIvex34kEKn8lkXWIw8YlQLqvIZdM4k=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718093967;
+	s=susede2_ed25519; t=1718094026;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	mime-version:mime-version:content-type:content-type:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
-	bh=GGJw6dDkRs6k2mZvFIE+UpGETGYtBieUVHqbMn2Gy0w=;
-	b=q1OceNt62q6MVmBZro11IIzTmhALV7YjKRa+RmhhyhFm32XqJpB3kE67x0ShtykE6k333v
-	IXaAxWMTn07ACfBQ==
-Authentication-Results: smtp-out1.suse.de;
+	bh=jGomuCAp2pz/1uNBu4SRDVlzjHuYKTuVW/cC7GVoJ+s=;
+	b=rbO1KscBBDGwI875BWEKNiUKvkGWpIHf7GXnAoTtDPKgnWXQVIXWhgCl2vWo6uzLSeZXs1
+	kBnIZBFi8VbrEHDg==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1718093967;
+	t=1718094025;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	mime-version:mime-version:content-type:content-type:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
-	bh=GGJw6dDkRs6k2mZvFIE+UpGETGYtBieUVHqbMn2Gy0w=;
-	b=Mz5UZyRupBOC5OyhaduIbHV4wlYjNn2j7sCWgFf6vyQPQnjkDPAfZ6Q/JsN5Cmj6BSiYUF
-	xwezQUEPyxhygG9mxrG/r7jSoy12gHEp2VD+DxfzLjw84R1R+ikRm3duxRjgQt2dRc+rR/
-	zySz8BDz3RCb9rOF3+/OqcxNzULWgh8=
+	bh=jGomuCAp2pz/1uNBu4SRDVlzjHuYKTuVW/cC7GVoJ+s=;
+	b=ru97uNsYchlahhQRdCUMGWhruNOUhzwEthEA7N1gdGL1zKHNbQZPYXDbsm29DX8BaibMfU
+	TpmRKmq6nzdpHbPVCOGOBsSVgCWvYVMacGcYa+dNJn5XRlpn58CiIVsix1vUeqAKLDkIDY
+	khUgAadqtH4P4RSYCuTBRHzcjnQ3m7o=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1718093967;
+	s=susede2_ed25519; t=1718094025;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	mime-version:mime-version:content-type:content-type:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
-	bh=GGJw6dDkRs6k2mZvFIE+UpGETGYtBieUVHqbMn2Gy0w=;
-	b=q1OceNt62q6MVmBZro11IIzTmhALV7YjKRa+RmhhyhFm32XqJpB3kE67x0ShtykE6k333v
-	IXaAxWMTn07ACfBQ==
+	bh=jGomuCAp2pz/1uNBu4SRDVlzjHuYKTuVW/cC7GVoJ+s=;
+	b=JCo1uwRLDQmHCULWVwq4uscwDUMV84vAByFfE7YcJRHJ+TMx+QhsTnZckChZRP2tohL5Do
+	JYyX/2Jy2/atV/DQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest
 	SHA256) (No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 20BA0137DF;
-	Tue, 11 Jun 2024 08:19:26 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 812E7137DF;
+	Tue, 11 Jun 2024 08:20:25 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA id 8CuOB44IaGZWXAAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 11 Jun 2024 08:19:26 +0000
-Message-ID: <1208a68f-bac4-4f10-8f67-58eabf5ba89e@suse.de>
-Date: Tue, 11 Jun 2024 10:19:25 +0200
+	by imap1.dmz-prg2.suse.org with ESMTPSA id io/THskIaGa0XAAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 11 Jun 2024 08:20:25 +0000
+Message-ID: <161db500-6d5e-4dcc-8e44-f75c0f777a0c@suse.de>
+Date: Tue, 11 Jun 2024 10:20:25 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/26] virtio_blk: remove virtblk_update_cache_mode
+Subject: Re: [PATCH 09/26] nbd: move setting the cache control flags to
+	__nbd_set_size
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
 References: <20240611051929.513387-1-hch@lst.de>
-	<20240611051929.513387-9-hch@lst.de>
+	<20240611051929.513387-10-hch@lst.de>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20240611051929.513387-9-hch@lst.de>
+In-Reply-To: <20240611051929.513387-10-hch@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spam-Level: 
@@ -135,14 +136,13 @@ Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
 On 6/11/24 07:19, Christoph Hellwig wrote:
-> virtblk_update_cache_mode boils down to a single call to
-> blk_queue_write_cache.  Remove it in preparation for moving the cache
-> control flags into the queue_limits.
+> Move setting the cache control flags in nbd in preparation for moving
+> these flags into the queue_limits structure.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->   drivers/block/virtio_blk.c | 13 +++----------
->   1 file changed, 3 insertions(+), 10 deletions(-)
+>   drivers/block/nbd.c | 17 +++++++----------
+>   1 file changed, 7 insertions(+), 10 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 
