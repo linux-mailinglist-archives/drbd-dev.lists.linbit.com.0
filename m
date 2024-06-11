@@ -2,44 +2,44 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id 776AF9033B4
-	for <lists+drbd-dev@lfdr.de>; Tue, 11 Jun 2024 09:32:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 954AE9033C1
+	for <lists+drbd-dev@lfdr.de>; Tue, 11 Jun 2024 09:33:44 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C50344208E5;
-	Tue, 11 Jun 2024 09:32:35 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E67814208EE;
+	Tue, 11 Jun 2024 09:33:43 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 22FA64208DB
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 78EEB4208DB
 	for <drbd-dev@lists.linbit.com>;
-	Tue, 11 Jun 2024 09:32:32 +0200 (CEST)
+	Tue, 11 Jun 2024 09:33:40 +0200 (CEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 32D5260C47;
-	Tue, 11 Jun 2024 07:32:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F0F2C2BD10;
-	Tue, 11 Jun 2024 07:32:27 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id D4C1760C25;
+	Tue, 11 Jun 2024 07:33:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD458C2BD10;
+	Tue, 11 Jun 2024 07:33:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718091151;
-	bh=AF+zG6ZFufj7ktoeAMS7+47wp+ON6l7hR24Gr5fCwt0=;
+	s=k20201202; t=1718091219;
+	bh=oHlrsHMGSP+TFKBHBiaHuNGPDyXYV0yztvtK1Y/4xoA=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=SPZjzavtcTKyCdC4WGEmHFxtV9LSffVVHpZkghrgh94KIDRkU8Rgia29Z6gttxoe9
-	zOX7C6t8muRYmEJZDxtGZLcKQdFby+uhJ+qwHFKzMHofsRuUcCtmhO2REjHrW7IVjC
-	7C0j0tRe+awY6OwUGv767JT4KMLbYhYrBxC1MF4vQdaDAWH1YkqCVa5cS1IpTDl7jQ
-	DwpBzOgI8vuLSRr2nP+6MuC1MYxBAnJs8yxlw2hav/xabgNZGi1G1i8tZ6aqMjzXS4
-	h+CSlB5tmAFTFG1Iuv9NHsTDXLnN731DIz3tGAdH8iuIjAV/89MvaPrp5ZojK8LhAf
-	PBu9mWf+fZU2w==
-Message-ID: <77ea357f-f73f-4524-8995-ed204d5f3431@kernel.org>
-Date: Tue, 11 Jun 2024 16:32:26 +0900
+	b=NK69Ca5T+un738Cht9WHCgDsDCtG+gx8LYD6gWuaN5n85S7Yoy0xxNUkFXn4cHxHv
+	Wlv+wGcdYIf+EVH9ZUhb5I5VG8NRhQniAqY8z0Q49SoQKDz4xicGpKlJi87Afp005I
+	EtH89giKv6HAFkHTX4qfxqAZNfqbbdEoL02qUnKFAY7p5J0TI+KJ8srSwUMmzd4BcU
+	hfvqIdBP7X08PHZVdAv1hTm1A4VlEuGPTd2au2zULBAaTxZxCjrUn/VKKe7PVNMklX
+	962B+4yOZjBDU8ZEfAUGNkCr9yE5Pg/u5zYNHenczAAetVmyH+GxTRZJ9JSnWhGfdr
+	S8dGvnoNweUXw==
+Message-ID: <57a98863-e1ca-4ef8-aa7c-5012daa22808@kernel.org>
+Date: Tue, 11 Jun 2024 16:33:32 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/26] block: freeze the queue in queue_attr_store
+Subject: Re: [PATCH 12/26] block: remove blk_flush_policy
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
 References: <20240611051929.513387-1-hch@lst.de>
-	<20240611051929.513387-12-hch@lst.de>
+	<20240611051929.513387-13-hch@lst.de>
 Content-Language: en-US
 From: Damien Le Moal <dlemoal@kernel.org>
 Organization: Western Digital Research
-In-Reply-To: <20240611051929.513387-12-hch@lst.de>
+In-Reply-To: <20240611051929.513387-13-hch@lst.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Cc: nvdimm@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>,
@@ -80,9 +80,8 @@ Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
 On 6/11/24 2:19 PM, Christoph Hellwig wrote:
-> queue_attr_store updates attributes used to control generating I/O, and
-> can cause malformed bios if changed with I/O in flight.  Freeze the queue
-> in common code instead of adding it to almost every attribute.
+> Fold blk_flush_policy into the only caller to prepare for pending changes
+> to it.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 
