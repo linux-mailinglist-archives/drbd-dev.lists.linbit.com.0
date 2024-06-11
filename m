@@ -2,60 +2,60 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6E1F90357F
-	for <lists+drbd-dev@lfdr.de>; Tue, 11 Jun 2024 10:18:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E91B9035A3
+	for <lists+drbd-dev@lfdr.de>; Tue, 11 Jun 2024 10:19:47 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7E4AC42091A;
-	Tue, 11 Jun 2024 10:18:16 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 79F05420945;
+	Tue, 11 Jun 2024 10:19:46 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 004F4420892
-	for <drbd-dev@lists.linbit.com>; Tue, 11 Jun 2024 10:17:55 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6E45D420889
+	for <drbd-dev@lists.linbit.com>; Tue, 11 Jun 2024 10:18:41 +0200 (CEST)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
 	[IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest
 	SHA256) (No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D69B422D35;
-	Tue, 11 Jun 2024 08:17:55 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 532A822151;
+	Tue, 11 Jun 2024 08:18:41 +0000 (UTC)
 Authentication-Results: smtp-out1.suse.de;
 	none
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest
 	SHA256) (No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1F239137DF;
-	Tue, 11 Jun 2024 08:17:55 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AF5F2137DF;
+	Tue, 11 Jun 2024 08:18:40 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA id hDAwBzMIaGbQWwAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 11 Jun 2024 08:17:55 +0000
-Message-ID: <fc162d48-de62-437e-b2a7-bbf56a507c4d@suse.de>
-Date: Tue, 11 Jun 2024 10:17:54 +0200
+	by imap1.dmz-prg2.suse.org with ESMTPSA id VlsQJmAIaGYaXAAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 11 Jun 2024 08:18:40 +0000
+Message-ID: <6a785fab-f2b4-4238-bb3b-c5bb54e38c59@suse.de>
+Date: Tue, 11 Jun 2024 10:18:40 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 06/26] loop: also use the default block size from an
-	underlying block device
+Subject: Re: [PATCH 07/26] loop: fold loop_update_rotational into
+	loop_reconfigure_limits
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
 References: <20240611051929.513387-1-hch@lst.de>
-	<20240611051929.513387-7-hch@lst.de>
+	<20240611051929.513387-8-hch@lst.de>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20240611051929.513387-7-hch@lst.de>
+In-Reply-To: <20240611051929.513387-8-hch@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Pre-Result: action=no action; module=replies;
 	Message is reply to one we originated
-X-Rspamd-Pre-Result: action=no action; module=replies;
-	Message is reply to one we originated
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Level: 
 X-Spamd-Result: default: False [-4.00 / 50.00];
 	REPLY(-4.00)[]
 X-Spam-Flag: NO
 X-Spam-Score: -4.00
-X-Rspamd-Queue-Id: D69B422D35
+X-Rspamd-Queue-Id: 532A822151
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Pre-Result: action=no action; module=replies;
+	Message is reply to one we originated
+X-Rspamd-Action: no action
 Cc: nvdimm@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>,
 	Jason Wang <jasowang@redhat.com>, linux-nvme@lists.infradead.org,
 	Song Liu <song@kernel.org>, linux-mtd@lists.infradead.org,
@@ -94,15 +94,14 @@ Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
 On 6/11/24 07:19, Christoph Hellwig wrote:
-> Fix the code in loop_reconfigure_limits to pick a default block size for
-> O_DIRECT file descriptors to also work when the loop device sits on top
-> of a block device and not just on a regular file on a block device based
-> file system.
+> This prepares for moving the rotational flag into the queue_limits and
+> also fixes it for the case where the loop device is backed by a block
+> device.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->   drivers/block/loop.c | 8 +++++++-
->   1 file changed, 7 insertions(+), 1 deletion(-)
+>   drivers/block/loop.c | 23 ++++-------------------
+>   1 file changed, 4 insertions(+), 19 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 
