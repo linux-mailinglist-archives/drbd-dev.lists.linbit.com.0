@@ -2,46 +2,45 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6830790AB31
-	for <lists+drbd-dev@lfdr.de>; Mon, 17 Jun 2024 12:36:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12E1A90AB3F
+	for <lists+drbd-dev@lfdr.de>; Mon, 17 Jun 2024 12:36:51 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 25EC84203BF;
-	Mon, 17 Jun 2024 12:36:08 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 95165420621;
+	Mon, 17 Jun 2024 12:36:50 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 29E984203BF
-	for <drbd-dev@lists.linbit.com>; Mon, 17 Jun 2024 12:36:03 +0200 (CEST)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 745594203BF
+	for <drbd-dev@lists.linbit.com>; Mon, 17 Jun 2024 12:36:48 +0200 (CEST)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
 	[IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest
 	SHA256) (No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 75F3B5FECC;
-	Mon, 17 Jun 2024 10:36:03 +0000 (UTC)
-Authentication-Results: smtp-out2.suse.de;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id CE20A38037;
+	Mon, 17 Jun 2024 10:36:47 +0000 (UTC)
+Authentication-Results: smtp-out1.suse.de;
 	none
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest
 	SHA256) (No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D6842139AB;
-	Mon, 17 Jun 2024 10:36:02 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 34E77139AB;
+	Mon, 17 Jun 2024 10:36:47 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA id AHKOMJIRcGYTDAAAD6G6ig
-	(envelope-from <hare@suse.de>); Mon, 17 Jun 2024 10:36:02 +0000
-Message-ID: <c91d77a0-eec5-4af0-b3dd-bc2724108fc9@suse.de>
-Date: Mon, 17 Jun 2024 12:36:02 +0200
+	by imap1.dmz-prg2.suse.org with ESMTPSA id oblHDL8RcGZPDAAAD6G6ig
+	(envelope-from <hare@suse.de>); Mon, 17 Jun 2024 10:36:47 +0000
+Message-ID: <0f819ed5-9549-4edf-98b3-19eed8558dfe@suse.de>
+Date: Mon, 17 Jun 2024 12:36:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 13/26] block: move cache control settings out of
-	queue->flags
+Subject: Re: [PATCH 14/26] block: move the nonrot flag to queue_limits
 To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
 References: <20240617060532.127975-1-hch@lst.de>
-	<20240617060532.127975-14-hch@lst.de>
+	<20240617060532.127975-15-hch@lst.de>
 Content-Language: en-US
 From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20240617060532.127975-14-hch@lst.de>
+In-Reply-To: <20240617060532.127975-15-hch@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Pre-Result: action=no action; module=replies;
@@ -51,13 +50,12 @@ X-Spam-Score: -4.00
 X-Spam-Level: 
 X-Rspamd-Pre-Result: action=no action; module=replies;
 	Message is reply to one we originated
-X-Rspamd-Queue-Id: 75F3B5FECC
+X-Rspamd-Queue-Id: CE20A38037
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-4.00 / 50.00];
 	REPLY(-4.00)[]
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-Cc: nvdimm@lists.linux.dev, Ulf Hansson <ulf.hansson@linaro.org>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
+Cc: nvdimm@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>,
 	Jason Wang <jasowang@redhat.com>, linux-nvme@lists.infradead.org,
 	Song Liu <song@kernel.org>, linux-mtd@lists.infradead.org,
 	Vineeth Vijayan <vneethv@linux.ibm.com>,
@@ -69,7 +67,7 @@ Cc: nvdimm@lists.linux.dev, Ulf Hansson <ulf.hansson@linaro.org>,
 	linux-um@lists.infradead.org, Mike Snitzer <snitzer@kernel.org>,
 	Josef Bacik <josef@toxicpanda.com>, nbd@other.debian.org,
 	linux-raid@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-	Mikulas Patocka <mpatocka@redhat.com>,
+	Damien Le Moal <dlemoal@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
 	xen-devel@lists.xenproject.org, ceph-devel@vger.kernel.org,
 	Ming Lei <ming.lei@redhat.com>, linux-bcache@vger.kernel.org,
 	linux-block@vger.kernel.org,
@@ -95,29 +93,25 @@ Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
 On 6/17/24 08:04, Christoph Hellwig wrote:
-> Move the cache control settings into the queue_limits so that the flags
-> can be set atomically with the device queue frozen.
+> Move the nonrot flag into the queue_limits feature field so that it can
+> be set atomically with the queue frozen.
 > 
-> Add new features and flags field for the driver set flags, and internal
-> (usually sysfs-controlled) flags in the block layer.  Note that we'll
-> eventually remove enough field from queue_limits to bring it back to the
-> previous size.
+> Use the chance to switch to defaulting to non-rotational and require
+> the driver to opt into rotational, which matches the polarity of the
+> sysfs interface.
 > 
-> The disable flag is inverted compared to the previous meaning, which
-> means it now survives a rescan, similar to the max_sectors and
-> max_discard_sectors user limits.
+> For the z2ram, ps3vram, 2x memstick, ubiblock and dcssblk the new
+> rotational flag is not set as they clearly are not rotational despite
+> this being a behavior change.  There are some other drivers that
+> unconditionally set the rotational flag to keep the existing behavior
+> as they arguably can be used on rotational devices even if that is
+> probably not their main use today (e.g. virtio_blk and drbd).
 > 
-> The FLUSH and FUA flags are now inherited by blk_stack_limits, which
-> simplified the code in dm a lot, but also causes a slight behavior
-> change in that dm-switch and dm-unstripe now advertise a write cache
-> despite setting num_flush_bios to 0.  The I/O path will handle this
-> gracefully, but as far as I can tell the lack of num_flush_bios
-> and thus flush support is a pre-existing data integrity bug in those
-> targets that really needs fixing, after which a non-zero num_flush_bios
-> should be required in dm for targets that map to underlying devices.
+> The flag is automatically inherited in blk_stack_limits matching the
+> existing behavior in dm and md.
 > 
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> Acked-by: Ulf Hansson <ulf.hansson@linaro.org> [mmc]
+> Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
 > ---
 
 Reviewed-by: Hannes Reinecke <hare@suse.de>
