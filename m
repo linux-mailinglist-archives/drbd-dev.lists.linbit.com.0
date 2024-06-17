@@ -2,43 +2,46 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FD9890A6F3
-	for <lists+drbd-dev@lfdr.de>; Mon, 17 Jun 2024 09:24:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A86690A4B5
+	for <lists+drbd-dev@lfdr.de>; Mon, 17 Jun 2024 08:12:42 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id EBA47420910;
-	Mon, 17 Jun 2024 09:24:49 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B789E420655;
+	Mon, 17 Jun 2024 08:12:41 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from bombadil.infradead.org (bombadil.infradead.org
-	[198.137.202.133])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3A199420900
-	for <drbd-dev@lists.linbit.com>; Mon, 17 Jun 2024 09:23:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=PjgmwXiuV7FK2oQNFsskA59bpZQJKHy+bIXVC2fbd1Q=;
-	b=HmokhAbNsUwq3jroNUoAcMYSzq
-	1cRhouiA75QpEX4Y0Dohtt+ivS+0KLmBEm4FmWj9AfwENORhjsIGXQ6hlJgQhEWyjOok5tgvx/tX1
-	EURIY70h6RrJf+AWaj16GxivXHK/cjqhTaVfyngD0w8g58/BZ+hLOqf3H1HL10dnJNN+V7kLntlgl
-	yC1dVGPbGVOx7q7y2xwIwq8WuH46RFqrMZFZFx2+uHSL+X46iOqfjxlB6RH/oqzEqYr354u18u/w2
-	XDF2ZMyCP3VNUY7KheadJdNP5wJfg1ZIP+A4py4zEiAweFI6VH+k0GIge/QIa/enI9VYvltd84q17
-	H414Zy+w==;
-Received: from [91.187.204.140] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJ5W6-00000009JIp-3zn2; Mon, 17 Jun 2024 06:06:59 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH 26/26] block: move the bounce flag into the features field
-Date: Mon, 17 Jun 2024 08:04:53 +0200
-Message-ID: <20240617060532.127975-27-hch@lst.de>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240617060532.127975-1-hch@lst.de>
-References: <20240617060532.127975-1-hch@lst.de>
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4E58242062A
+	for <drbd-dev@lists.linbit.com>; Mon, 17 Jun 2024 08:12:39 +0200 (CEST)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id C4E92CE0FD5;
+	Mon, 17 Jun 2024 06:12:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 722E5C2BD10;
+	Mon, 17 Jun 2024 06:12:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718604757;
+	bh=LrLZKWXkRakpWI4/ueXizJXAwKTR991d/slvg583xhg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=nFz/S8PqJ0x5s3Ny5I2evBmJDaO2EaUIuiWjAdtRmCQ/A6QpvJbLmjC0Fw7IXR1VT
+	uSNeYADsaTVxJipaBcqAsdKPSVVmorISGDB8ghzkIoBVgWELX0vnHVqN5Xf3bgHIW/
+	Jd7IHk4xFBOBn5HxiZsiAifRO0y8cGSStiGE0NqqwYZj3htvKjZ9JxGjZyZWwJADfE
+	WIUuoyvXMEqafkiqyCnfGPuXY7GxfWhCoyjXAFv1xdeTp+IRRcD16/M5uHMReQAzrM
+	yLcLncP795V2wNVqCHkdUBLru1ejkUmD3WFgvqGfKNm1zjEea2esQdxNT2nTdM/0yi
+	xUG82No+arhQQ==
+Message-ID: <e4ce83ca-160f-4dd9-984a-842b6cd2b5c0@kernel.org>
+Date: Mon, 17 Jun 2024 15:12:31 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
-	bombadil.infradead.org. See http://www.infradead.org/rpr.html
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 03/26] sd: move zone limits setup out of
+	sd_read_block_characteristics
+To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>
+References: <20240617060532.127975-1-hch@lst.de>
+	<20240617060532.127975-4-hch@lst.de>
+From: Damien Le Moal <dlemoal@kernel.org>
+Content-Language: en-US
+Organization: Western Digital Research
+In-Reply-To: <20240617060532.127975-4-hch@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Cc: nvdimm@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>,
 	Jason Wang <jasowang@redhat.com>, linux-nvme@lists.infradead.org,
 	Song Liu <song@kernel.org>, linux-mtd@lists.infradead.org,
@@ -51,7 +54,7 @@ Cc: nvdimm@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>,
 	linux-um@lists.infradead.org, Mike Snitzer <snitzer@kernel.org>,
 	Josef Bacik <josef@toxicpanda.com>, nbd@other.debian.org,
 	linux-raid@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-	Damien Le Moal <dlemoal@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
+	Mikulas Patocka <mpatocka@redhat.com>,
 	xen-devel@lists.xenproject.org, ceph-devel@vger.kernel.org,
 	Ming Lei <ming.lei@redhat.com>, linux-bcache@vger.kernel.org,
 	linux-block@vger.kernel.org,
@@ -59,7 +62,7 @@ Cc: nvdimm@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>,
 	linux-mmc@vger.kernel.org, Philipp Reisner <philipp.reisner@linbit.com>,
 	virtualization@lists.linux.dev, Lars Ellenberg <lars.ellenberg@linbit.com>,
 	linuxppc-dev@lists.ozlabs.org,
-	=?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.com>
+	=?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -76,87 +79,17 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Move the bounce flag into the features field to reclaim a little bit of
-space.
+On 6/17/24 15:04, Christoph Hellwig wrote:
+> Move a bit of code that sets up the zone flag and the write granularity
+> into sd_zbc_read_zones to be with the rest of the zoned limits.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
+Looks good.
+
 Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
----
- block/blk-settings.c    | 1 -
- block/blk.h             | 2 +-
- drivers/scsi/scsi_lib.c | 2 +-
- include/linux/blkdev.h  | 6 ++++--
- 4 files changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/block/blk-settings.c b/block/blk-settings.c
-index 96e07f24bd9aa1..d0e9096f93ca8a 100644
---- a/block/blk-settings.c
-+++ b/block/blk-settings.c
-@@ -479,7 +479,6 @@ int blk_stack_limits(struct queue_limits *t, struct queue_limits *b,
- 					b->max_write_zeroes_sectors);
- 	t->max_zone_append_sectors = min(queue_limits_max_zone_append_sectors(t),
- 					 queue_limits_max_zone_append_sectors(b));
--	t->bounce = max(t->bounce, b->bounce);
- 
- 	t->seg_boundary_mask = min_not_zero(t->seg_boundary_mask,
- 					    b->seg_boundary_mask);
-diff --git a/block/blk.h b/block/blk.h
-index 79e8d5d4fe0caf..fa32f7fad5d7e6 100644
---- a/block/blk.h
-+++ b/block/blk.h
-@@ -394,7 +394,7 @@ struct bio *__blk_queue_bounce(struct bio *bio, struct request_queue *q);
- static inline bool blk_queue_may_bounce(struct request_queue *q)
- {
- 	return IS_ENABLED(CONFIG_BOUNCE) &&
--		q->limits.bounce == BLK_BOUNCE_HIGH &&
-+		(q->limits.features & BLK_FEAT_BOUNCE_HIGH) &&
- 		max_low_pfn >= max_pfn;
- }
- 
-diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
-index 54f771ec8cfb5e..e2f7bfb2b9e450 100644
---- a/drivers/scsi/scsi_lib.c
-+++ b/drivers/scsi/scsi_lib.c
-@@ -1986,7 +1986,7 @@ void scsi_init_limits(struct Scsi_Host *shost, struct queue_limits *lim)
- 		shost->dma_alignment, dma_get_cache_alignment() - 1);
- 
- 	if (shost->no_highmem)
--		lim->bounce = BLK_BOUNCE_HIGH;
-+		lim->features |= BLK_FEAT_BOUNCE_HIGH;
- 
- 	dma_set_seg_boundary(dev, shost->dma_boundary);
- 	dma_set_max_seg_size(dev, shost->max_segment_size);
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 2c433ebf6f2030..e96ba7b97288d2 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -325,6 +325,9 @@ enum {
- 
- 	/* skip this queue in blk_mq_(un)quiesce_tagset */
- 	BLK_FEAT_SKIP_TAGSET_QUIESCE		= (1u << 13),
-+
-+	/* bounce all highmem pages */
-+	BLK_FEAT_BOUNCE_HIGH			= (1u << 14),
- };
- 
- /*
-@@ -332,7 +335,7 @@ enum {
-  */
- #define BLK_FEAT_INHERIT_MASK \
- 	(BLK_FEAT_WRITE_CACHE | BLK_FEAT_FUA | BLK_FEAT_ROTATIONAL | \
--	 BLK_FEAT_STABLE_WRITES | BLK_FEAT_ZONED)
-+	 BLK_FEAT_STABLE_WRITES | BLK_FEAT_ZONED | BLK_FEAT_BOUNCE_HIGH)
- 
- /* internal flags in queue_limits.flags */
- enum {
-@@ -352,7 +355,6 @@ enum blk_bounce {
- struct queue_limits {
- 	unsigned int		features;
- 	unsigned int		flags;
--	enum blk_bounce		bounce;
- 	unsigned long		seg_boundary_mask;
- 	unsigned long		virt_boundary_mask;
- 
 -- 
-2.43.0
+Damien Le Moal
+Western Digital Research
 
