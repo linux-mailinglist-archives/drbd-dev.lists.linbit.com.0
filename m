@@ -2,84 +2,58 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BE76915E26
-	for <lists+drbd-dev@lfdr.de>; Tue, 25 Jun 2024 07:30:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93F379161BF
+	for <lists+drbd-dev@lfdr.de>; Tue, 25 Jun 2024 10:57:53 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4F5BE4205A5;
-	Tue, 25 Jun 2024 07:30:20 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A941D4203CE;
+	Tue, 25 Jun 2024 10:57:51 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com
-	[209.85.222.175])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6D8FE420324
-	for <drbd-dev@lists.linbit.com>; Mon, 24 Jun 2024 16:21:26 +0200 (CEST)
-Received: by mail-qk1-f175.google.com with SMTP id
-	af79cd13be357-7961fb2d1cfso341312885a.0
-	for <drbd-dev@lists.linbit.com>; Mon, 24 Jun 2024 07:21:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=dreamsnake-net.20230601.gappssmtp.com; s=20230601; t=1719238885;
-	x=1719843685; darn=lists.linbit.com; 
-	h=references:to:cc:in-reply-to:date:subject:mime-version:message-id
-	:from:from:to:cc:subject:date:message-id:reply-to;
-	bh=vyM7SpnmS6E42kucj9mVuoblNwWj8XmJP/H7ZZM8ROY=;
-	b=oBDSiiDJG81izLXIjmRldvuRSZ65ggBldIpfEXb+DbdX01XZceXdHtBAXHUOsk7oJX
-	0qQLCbHAAgUnp427Sh06h3Hh/Yt7e/SQRbk2CLhH7IsMqiSvOdKu5QtaW9ZHOg4zkkOB
-	ExBl6pQBDCU1Ty/okwUk7nx1RsGruvsvas7sETYM7z3Y4lSPOjG6DnvFAK05+1G3GiwB
-	SXEet1i6oKeRVWd/M6R7JqAjOCwYw9jFMNUn1sFj2HCBbqTZwBKn4N7Y4mgP9rMU1TK9
-	/HPoacK8viw0PMMDMYBB6ddY7rKtEQvgRH9XUxTHM56PuOKReeXtNtnwpd+3CWFQbuPf
-	e9TQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20230601; t=1719238885; x=1719843685;
-	h=references:to:cc:in-reply-to:date:subject:mime-version:message-id
-	:from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-	bh=vyM7SpnmS6E42kucj9mVuoblNwWj8XmJP/H7ZZM8ROY=;
-	b=iZX84G78IEfrl97uE+SyWJgMWIz9xynlWuo/LwBYIl9IaRHwObFuIXRZCC5/AB0kk1
-	sMjMiScOU8Yv9n3Tu+a32vZGWTInx1jBziv3oFQFIeHbBrb2BC16Kxt4DLfMTkC0UovN
-	757AAFSnw4MteiFLsUUYw0VDTyRpAjLJ1E+xgLCY1BXv6sUbl/0Z7IsIVVOwdpM9qH4Q
-	phtfCKBsuSiK9xrNKLuaulEiIIjBkRBxa0BuetTPPSjyiZVPYHoSl+V5ZmW3CTvcDchA
-	Z8HMu9++uKsLX6yhldserc0c9Dr2T6RZyX8DKp5Yq6MTLSSpTs1feySjDCusyi6x4s5U
-	xi7w==
-X-Forwarded-Encrypted: i=1;
-	AJvYcCWD91GpCe74eJc4baw7nZj7wVJEivO50DeJqnUtTncB6sljCpId7nlu/p8Yv2wbFG/P5Y01M6q/TJHzG1NLfZBTvoA83kPKIdVZ
-X-Gm-Message-State: AOJu0YyzVLDGoc1N4o7n2HrLDBkt+dY2AlK5wWgCXDsrL8FRCxULIA0t
-	TQhCGvVHukfJhG3e9l0huqHXSPOQtOBlhpXqzbYqh/aLt6w7khdnE8sULXZt
-X-Google-Smtp-Source: AGHT+IHXYJoHqe+lVWeHEvpL31lPzpeMHrumwGR4d2Z3MDIXugyalKxqFS2lKuqDdFuxVAxlh+r7+g==
-X-Received: by 2002:a0c:f594:0:b0:6b5:50ba:42c3 with SMTP id
-	6a1803df08f44-6b550ba45a4mr31114516d6.43.1719238885298; 
-	Mon, 24 Jun 2024 07:21:25 -0700 (PDT)
-Received: from smtpclient.apple (pool-100-6-75-225.pitbpa.fios.verizon.net.
-	[100.6.75.225]) by smtp.gmail.com with ESMTPSA id
-	6a1803df08f44-6b51ef30ef9sm34454366d6.76.2024.06.24.07.21.24
-	(version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 24 Jun 2024 07:21:24 -0700 (PDT)
-From: Anthony D'Atri <aad@dreamsnake.net>
-Message-Id: <1E6AF1FD-5E2B-49D6-B42E-1BEA85BA7E93@dreamsnake.net>
-Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_C8799745-5BE2-4755-A5E5-5C731F6565EF"
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.600.62\))
-Subject: Re: [axboe-block:for-next] [block] bd4a633b6f: fsmark.files_per_sec
-	-64.5% regression
-Date: Mon, 24 Jun 2024 10:21:13 -0400
-In-Reply-To: <Znl4lXRmK2ukDB7r@ryzen.lan>
-To: Niklas Cassel <cassel@kernel.org>
-References: <202406241546.6bbd44a7-oliver.sang@intel.com>
-	<20240624083537.GA19941@lst.de> <Znl4lXRmK2ukDB7r@ryzen.lan>
-X-Mailer: Apple Mail (2.3774.600.62)
-X-Mailman-Approved-At: Tue, 25 Jun 2024 07:30:12 +0200
-Cc: nvdimm@lists.linux.dev, feng.tang@intel.com, linux-nvme@lists.infradead.org,
-	fengwei.yin@intel.com, linux-mtd@lists.infradead.org,
-	linux-bcache@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
-	drbd-dev@lists.linbit.com, linux-s390@vger.kernel.org,
-	lkp@intel.com, linux-scsi@vger.kernel.org, ying.huang@intel.com,
+Received: from bombadil.infradead.org (bombadil.infradead.org
+	[198.137.202.133])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 933F34200BE
+	for <drbd-dev@lists.linbit.com>; Tue, 25 Jun 2024 10:57:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309;
+	h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=THcdDm0A+7qsrmlgD/s5mbaI1bo21sJBUVFRJUuckjU=;
+	b=iT2Kf8Ts7SV0ZMpN1tnhXxPtMH
+	Ffv8ZJFKB4PVB/IdNXjk7V0C/EqzT+g2n4rI1ZqlvQji9lJIwZfjHfG1Y7Cb5TXIeVGCM4nTH9crp
+	4zyWvlsKZ4WoJ7XDaIrgLwNl3YRoXD5zh+VKywveOkw7i38S3zZmoxTmQHKWk7riwSg6VmFiReOf7
+	0vMD17gabcLDjQNIftPl8VaQ0ZrC/qk7EH/0G/IiWcIA8u56veyp3C42DoJVrtu8OAb3RerYCYvx8
+	kxEfDPsLLm6uiPifVX8Lcu0WzNjdMGJQI+mys12zLdW5z+VY7pu7ChDIbK8PMhXWCu88C5Voy7C5+
+	gU8eTZWA==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red
+	Hat Linux)) id 1sM1zb-00000002Btq-1pcn;
+	Tue, 25 Jun 2024 08:57:35 +0000
+Date: Tue, 25 Jun 2024 01:57:35 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: kernel test robot <oliver.sang@intel.com>
+Subject: Re: [axboe-block:for-next] [block]  1122c0c1cc:  aim7.jobs-per-min
+	22.6% improvement
+Message-ID: <ZnqGf49cvy6W-xWf@infradead.org>
+References: <202406250948.e0044f1d-oliver.sang@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202406250948.e0044f1d-oliver.sang@intel.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+	bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Cc: nvdimm@lists.linux.dev, Ulf Hansson <ulf.hansson@linaro.org>,
+	feng.tang@intel.com, linux-nvme@lists.infradead.org,
+	linux-mtd@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
+	drbd-dev@lists.linbit.com, lkp@intel.com,
+	linux-scsi@vger.kernel.org, ying.huang@intel.com,
 	xen-devel@lists.xenproject.org, dm-devel@lists.linux.dev,
 	linux-um@lists.infradead.org, virtualization@lists.linux.dev,
 	nbd@other.debian.org, linux-raid@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org, Damien Le Moal <dlemoal@kernel.org>,
-	Hannes Reinecke <hare@suse.de>, ceph-devel@vger.kernel.org,
-	Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
-	linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel test robot <oliver.sang@intel.com>,
-	oe-lkp@lists.linux.dev, linuxppc-dev@lists.ozlabs.org
+	linux-bcache@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>,
+	Hannes Reinecke <hare@suse.de>, Jens Axboe <axboe@kernel.dk>,
+	linux-block@vger.kernel.org, linux-mmc@vger.kernel.org,
+	fengwei.yin@intel.com, oe-lkp@lists.linux.dev,
+	linuxppc-dev@lists.ozlabs.org
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -96,40 +70,141 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
+Hi Oliver,
 
---Apple-Mail=_C8799745-5BE2-4755-A5E5-5C731F6565EF
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+can you test the patch below?  It restores the previous behavior if
+the device did not have a volatile write cache.  I think at least
+for raid0 and raid1 without bitmap the new behavior actually is correct
+and better, but it will need fixes for other modes.  If the underlying
+devices did have a volatile write cache I'm a bit lost what the problem
+was and this probably won't fix the issue.
 
-S3610 I think.  Be sure to use sst or the chassis vendor=E2=80=99s tool =
-to update the firmware.
+---
+From 81c816827197f811e14add7a79220ed9eef6af02 Mon Sep 17 00:00:00 2001
+From: Christoph Hellwig <hch@lst.de>
+Date: Tue, 25 Jun 2024 08:48:18 +0200
+Subject: md: set md-specific flags for all queue limits
 
-> On Jun 24, 2024, at 9:45=E2=80=AFAM, Niklas Cassel <cassel@kernel.org> =
-wrote:
->=20
-> SSDSC2BG012T4
+The md driver wants to enforce a number of flags to an all devices, even
+when not inheriting them from the underlying devices.  To make sure these
+flags survive the queue_limits_set calls that md uses to update the
+queue limits without deriving them form the previous limits add a new
+md_init_stacking_limits helper that calls blk_set_stacking_limits and sets
+these flags.
 
+Fixes: 1122c0c1cc71 ("block: move cache control settings out of queue->flags")
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/md/md.c     | 13 ++++++++-----
+ drivers/md/md.h     |  1 +
+ drivers/md/raid0.c  |  2 +-
+ drivers/md/raid1.c  |  2 +-
+ drivers/md/raid10.c |  2 +-
+ drivers/md/raid5.c  |  2 +-
+ 6 files changed, 13 insertions(+), 9 deletions(-)
 
---Apple-Mail=_C8799745-5BE2-4755-A5E5-5C731F6565EF
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=utf-8
+diff --git a/drivers/md/md.c b/drivers/md/md.c
+index 69ea54aedd99a1..8368438e58e989 100644
+--- a/drivers/md/md.c
++++ b/drivers/md/md.c
+@@ -5853,6 +5853,13 @@ static void mddev_delayed_delete(struct work_struct *ws)
+ 	kobject_put(&mddev->kobj);
+ }
+ 
++void md_init_stacking_limits(struct queue_limits *lim)
++{
++	blk_set_stacking_limits(lim);
++	lim->features = BLK_FEAT_WRITE_CACHE | BLK_FEAT_FUA |
++			BLK_FEAT_IO_STAT | BLK_FEAT_NOWAIT;
++}
++
+ struct mddev *md_alloc(dev_t dev, char *name)
+ {
+ 	/*
+@@ -5871,10 +5878,6 @@ struct mddev *md_alloc(dev_t dev, char *name)
+ 	int shift;
+ 	int unit;
+ 	int error;
+-	struct queue_limits lim = {
+-		.features		= BLK_FEAT_WRITE_CACHE | BLK_FEAT_FUA |
+-					  BLK_FEAT_IO_STAT | BLK_FEAT_NOWAIT,
+-	};
+ 
+ 	/*
+ 	 * Wait for any previous instance of this device to be completely
+@@ -5914,7 +5917,7 @@ struct mddev *md_alloc(dev_t dev, char *name)
+ 		 */
+ 		mddev->hold_active = UNTIL_STOP;
+ 
+-	disk = blk_alloc_disk(&lim, NUMA_NO_NODE);
++	disk = blk_alloc_disk(NULL, NUMA_NO_NODE);
+ 	if (IS_ERR(disk)) {
+ 		error = PTR_ERR(disk);
+ 		goto out_free_mddev;
+diff --git a/drivers/md/md.h b/drivers/md/md.h
+index c4d7ebf9587d07..28cb4b0b6c1740 100644
+--- a/drivers/md/md.h
++++ b/drivers/md/md.h
+@@ -893,6 +893,7 @@ extern int strict_strtoul_scaled(const char *cp, unsigned long *res, int scale);
+ 
+ extern int mddev_init(struct mddev *mddev);
+ extern void mddev_destroy(struct mddev *mddev);
++void md_init_stacking_limits(struct queue_limits *lim);
+ struct mddev *md_alloc(dev_t dev, char *name);
+ void mddev_put(struct mddev *mddev);
+ extern int md_run(struct mddev *mddev);
+diff --git a/drivers/md/raid0.c b/drivers/md/raid0.c
+index 62634e2a33bd0f..32d58752477847 100644
+--- a/drivers/md/raid0.c
++++ b/drivers/md/raid0.c
+@@ -379,7 +379,7 @@ static int raid0_set_limits(struct mddev *mddev)
+ 	struct queue_limits lim;
+ 	int err;
+ 
+-	blk_set_stacking_limits(&lim);
++	md_init_stacking_limits(&lim);
+ 	lim.max_hw_sectors = mddev->chunk_sectors;
+ 	lim.max_write_zeroes_sectors = mddev->chunk_sectors;
+ 	lim.io_min = mddev->chunk_sectors << 9;
+diff --git a/drivers/md/raid1.c b/drivers/md/raid1.c
+index 1a0eba65b8a92b..04a0c2ca173245 100644
+--- a/drivers/md/raid1.c
++++ b/drivers/md/raid1.c
+@@ -3194,7 +3194,7 @@ static int raid1_set_limits(struct mddev *mddev)
+ 	struct queue_limits lim;
+ 	int err;
+ 
+-	blk_set_stacking_limits(&lim);
++	md_init_stacking_limits(&lim);
+ 	lim.max_write_zeroes_sectors = 0;
+ 	err = mddev_stack_rdev_limits(mddev, &lim, MDDEV_STACK_INTEGRITY);
+ 	if (err) {
+diff --git a/drivers/md/raid10.c b/drivers/md/raid10.c
+index 3334aa803c8380..2a9c4ee982e023 100644
+--- a/drivers/md/raid10.c
++++ b/drivers/md/raid10.c
+@@ -3974,7 +3974,7 @@ static int raid10_set_queue_limits(struct mddev *mddev)
+ 	struct queue_limits lim;
+ 	int err;
+ 
+-	blk_set_stacking_limits(&lim);
++	md_init_stacking_limits(&lim);
+ 	lim.max_write_zeroes_sectors = 0;
+ 	lim.io_min = mddev->chunk_sectors << 9;
+ 	lim.io_opt = lim.io_min * raid10_nr_stripes(conf);
+diff --git a/drivers/md/raid5.c b/drivers/md/raid5.c
+index 0192a6323f09ba..10219205160bbf 100644
+--- a/drivers/md/raid5.c
++++ b/drivers/md/raid5.c
+@@ -7708,7 +7708,7 @@ static int raid5_set_limits(struct mddev *mddev)
+ 	 */
+ 	stripe = roundup_pow_of_two(data_disks * (mddev->chunk_sectors << 9));
+ 
+-	blk_set_stacking_limits(&lim);
++	md_init_stacking_limits(&lim);
+ 	lim.io_min = mddev->chunk_sectors << 9;
+ 	lim.io_opt = lim.io_min * (conf->raid_disks - conf->max_degraded);
+ 	lim.features |= BLK_FEAT_RAID_PARTIAL_STRIPES_EXPENSIVE;
+-- 
+2.43.0
 
-<html><head><meta http-equiv=3D"content-type" content=3D"text/html; =
-charset=3Dutf-8"></head><body style=3D"overflow-wrap: break-word; =
--webkit-nbsp-mode: space; line-break: after-white-space;">S3610 I think. =
-&nbsp;Be sure to use sst or the chassis vendor=E2=80=99s tool to update =
-the firmware.<br id=3D"lineBreakAtBeginningOfMessage"><div><br><blockquote=
- type=3D"cite"><div>On Jun 24, 2024, at 9:45=E2=80=AFAM, Niklas Cassel =
-&lt;cassel@kernel.org&gt; wrote:</div><br =
-class=3D"Apple-interchange-newline"><div><span style=3D"caret-color: =
-rgb(0, 0, 0); font-family: Helvetica; font-size: 18px; font-style: =
-normal; font-variant-caps: normal; font-weight: 400; letter-spacing: =
-normal; text-align: start; text-indent: 0px; text-transform: none; =
-white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration: none; float: none; display: inline =
-!important;">SSDSC2BG012T4</span></div></blockquote></div><br></body></htm=
-l>=
-
---Apple-Mail=_C8799745-5BE2-4755-A5E5-5C731F6565EF--
