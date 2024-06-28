@@ -2,61 +2,61 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id A48E091BDDC
-	for <lists+drbd-dev@lfdr.de>; Fri, 28 Jun 2024 13:51:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DC8B91BE2D
+	for <lists+drbd-dev@lfdr.de>; Fri, 28 Jun 2024 14:07:42 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D588B4202BA;
-	Fri, 28 Jun 2024 13:51:57 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1D1D74202BA;
+	Fri, 28 Jun 2024 14:07:41 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
 Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com
 	[209.85.219.179])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D66254202BA
-	for <drbd-dev@lists.linbit.com>; Fri, 28 Jun 2024 13:51:50 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 600564202BA
+	for <drbd-dev@lists.linbit.com>; Fri, 28 Jun 2024 14:07:35 +0200 (CEST)
 Received: by mail-yb1-f179.google.com with SMTP id
-	3f1490d57ef6-dfab4779d95so429381276.0
-	for <drbd-dev@lists.linbit.com>; Fri, 28 Jun 2024 04:51:50 -0700 (PDT)
+	3f1490d57ef6-dff0712ede2so493279276.2
+	for <drbd-dev@lists.linbit.com>; Fri, 28 Jun 2024 05:07:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linbit-com.20230601.gappssmtp.com; s=20230601; t=1719575510;
-	x=1720180310; darn=lists.linbit.com; 
+	d=linbit-com.20230601.gappssmtp.com; s=20230601; t=1719576455;
+	x=1720181255; darn=lists.linbit.com; 
 	h=content-transfer-encoding:cc:to:subject:message-id:date:from
 	:in-reply-to:references:mime-version:from:to:cc:subject:date
 	:message-id:reply-to;
-	bh=zKZiZlC/mut0DabxxjhznoYTQCsB0xoj9q2Alx+iV6w=;
-	b=JkCP+VAbbwYYCiQWeHgfpnMdM6DDNwVY/IIDHwKED/soLNNb/jLjXBlKHSmGmSxolh
-	okGW0cn3FGQ1bSeD66TXPkvMLdfrQut0o0AWIfwVeu2bPQjuK4coupmEQZdnj8aNcF2J
-	M/5jIrhv1xQ4mL8wRWzLhRoENJ2hmYeGNFZM5UuSs3JOencQ9dq1yN3Dp4Jei1g9yrOC
-	4EtDazxrcxrXSRHwL344CjXz2AUBz81ZL6OStW+28EwTzT1aTcGkOEjTyo3WsNs2LvVr
-	msoaE/VvoaQyyamSET9voonAPKeTi+aa0BRoL3EruzGqh5bXMsLHgAFSFi1JlkyIyLDW
-	81FQ==
+	bh=pnVKLWXdJDOmGF59HkVX+Rp1HPjo8Cy+BwsPa2lnLGo=;
+	b=R/sDJMagvATcYls4ztb7y4Z0jpNI7cetcnpgSudD5qcT8BUvcpr6D5M2P1F+/1MEOW
+	w9966tMGo/ZEhfXQFMoSiViEPIyTBhFqGxDKKDVC1zwwcl/TQW27Z2XhVPXHR61/yjfJ
+	wdFEl4DQ5/gutrKHHfWe+mNK7zHPBHLo5JVNqTCv19axT5WR4iIJkfSu81Pdz2Q1kfht
+	ROHxCvEamxgRSpT5OaLW1ljtQDSRNO+N49rVb/6YRB7Tp9tXcnHiBl1V2dgkpaxRU2Z1
+	MuAKRuBMQkJp9fDf0Vpi3HoLSf+cBEzppybMkru+DyCBg8yB2jQKzqQ9ejihF91XuUuo
+	/BBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20230601; t=1719575510; x=1720180310;
+	d=1e100.net; s=20230601; t=1719576455; x=1720181255;
 	h=content-transfer-encoding:cc:to:subject:message-id:date:from
 	:in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
 	:subject:date:message-id:reply-to;
-	bh=zKZiZlC/mut0DabxxjhznoYTQCsB0xoj9q2Alx+iV6w=;
-	b=CrhexLutqwvwHjCwaNTnB5kFKp+KG1JrxRA12qJXJaGVedpgQ/V7kcefrovnPk+xPG
-	lZDN0pI1Toh1coFamXJ18izoI8hgBqAbhxM70GNPEXr5EAAgfwReMhMX3CzcqT7Ym+nA
-	9VBvcC37Vy0GHiqgyTYdBlj4zJViBIRjIRHYkZum7/nyZOLuvOWokxg/YuMczGYhX1vj
-	4Jp8JAG9sxxLtPsbS6afwLOtNruF6bQj6pdqcxA+rWCgX9PPhV5mA6iOpJH/DUrx5WNH
-	qc4kgA2CGVRP5sz/6lu4aBa4w5mkQlRAFgSnC3CQCCFy1NhAjXzf9HxNjK44JMgfY6Pm
-	bE4w==
-X-Gm-Message-State: AOJu0YzDJie8PIUiCGmCIXEjdjf7vGWrolT+bvhfL2L8jQY/DWZbZYXz
-	XcXg0sLQe/dYjRSB6GqRMF9fd92RoOaRHanTm04AdHMxYPFrWWuDSK3jaU3YjgYLJi4ThF0V+vA
-	Nz2lyz1KyvQPd8TOhATm0HQL5aunk8liAwyiDvK2qB/157I/R2+Qi6w==
-X-Google-Smtp-Source: AGHT+IGOWRGc+NEbfgJ0UtidVd2ChuE7Y9WPZNcJs+/44GHOmmfdZOz4fVkQ4r6sUJ7z0xv+2k7bsswQdPtfGr6oHSc=
-X-Received: by 2002:a25:ae4a:0:b0:df7:6030:bb4e with SMTP id
-	3f1490d57ef6-e034559de7emr5434572276.61.1719575509963; Fri, 28 Jun 2024
-	04:51:49 -0700 (PDT)
+	bh=pnVKLWXdJDOmGF59HkVX+Rp1HPjo8Cy+BwsPa2lnLGo=;
+	b=d4XCzKTwjtgp5cg5jQaDmzSDKwX6I/zDecfG9l0v2eYHCxx7EVf6Uz/fcL0qIyGuco
+	OAZx+Hk9EpyHBl1IoXa2h12I1txYx6ozzHjpr34bSroAOeg2dFerPQZnqsWcQBe3tMkj
+	ezwbk3FVm5TejIMsWzqHRMzwDBE06ZQ9rRfp10jeOjEQWlU4wZixBUH0cn2FiRGhvXfv
+	O/TWq1Mj6BcnQxXQjo0m0fBXVbCV2h0kfkSNqeudqrT78kDO2fQip9ZIdcZ5/jTVkqg1
+	vfpoyjjLa3ADSYHUJI1pzm7wSGmQwe/RTz9GLkzDzj27iA+hUJd9qJy5iuwjkXRphC33
+	qsfA==
+X-Gm-Message-State: AOJu0YxXiC9YMNDqhPzt2BPcb0igfknhEN3m0Q3Nl11tqds2NCbzbpqw
+	JDdgb6d8hZy+ywt2X2WEHGN8Tt0NxDoVytwT7DLjZG06elgn3zdUXuqVhvYA28yCOnKxbUl6hm8
+	C/RNRMpJd08zgLhkHvWpZhNA4igYwk73CiziL3Y5grGYNK0nEU7HhbA==
+X-Google-Smtp-Source: AGHT+IFbB9qmiUWlg8QIsw1l+hQDQMOx+pdxRIpjEKwMTxlLHQtuNwcAUnqxCm16CbPDIz/Jqcb/sR4DfXCl1gGcDUQ=
+X-Received: by 2002:a25:57:0:b0:e03:6442:cb7c with SMTP id
+	3f1490d57ef6-e036442ccdcmr334226276.16.1719576455176; 
+	Fri, 28 Jun 2024 05:07:35 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240624054619.23212-1-zhengbing.huang@easystack.cn>
-	<20240624054619.23212-4-zhengbing.huang@easystack.cn>
-In-Reply-To: <20240624054619.23212-4-zhengbing.huang@easystack.cn>
+	<20240624054619.23212-5-zhengbing.huang@easystack.cn>
+In-Reply-To: <20240624054619.23212-5-zhengbing.huang@easystack.cn>
 From: Philipp Reisner <philipp.reisner@linbit.com>
-Date: Fri, 28 Jun 2024 13:51:38 +0200
-Message-ID: <CADGDV=XEoNE6r_Q+R3agyytF-AhqduKdwM87FRsRC9axF8P5PQ@mail.gmail.com>
-Subject: Re: [PATCH 04/11] drbd_transport_rdma: dont schedule
-	retry_connect_work in active is false
+Date: Fri, 28 Jun 2024 14:07:24 +0200
+Message-ID: <CADGDV=XCh8QLqYZ0-zddu6nwdJJor9UGb960K-CmN5yLB58XzA@mail.gmail.com>
+Subject: Re: [PATCH 05/11] drbd_transport_rdma: dont break in
+	dtr_tx_cq_event_handler if (cm->state != DSM_CONNECTED)
 To: "zhengbing.huang" <zhengbing.huang@easystack.cn>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -79,72 +79,48 @@ Errors-To: drbd-dev-bounces@lists.linbit.com
 
 Hello Dongsheng,
 
-Please explain what problem you are fixing with this change. Do you
-have a log that shows a problem in this area? Please describe why your
-proposed change improves DRBD's behavior.
+It appears that you are trying to fix a leak of cm structures. Is that corr=
+ect?
+Do you the reference on cm that is held because of the timer?
+Please describe what the problem is, and how you are improving the situatio=
+n.
+
+In case this approach is the right solution, the patch should also change t=
+he
+dtr_handle_tx_cq_event() function to type void.
 
 best regards,
  Philipp
 
-On Mon, Jun 24, 2024 at 9:28=E2=80=AFAM zhengbing.huang
+On Mon, Jun 24, 2024 at 8:22=E2=80=AFAM zhengbing.huang
 <zhengbing.huang@easystack.cn> wrote:
 >
 > From: Dongsheng Yang <dongsheng.yang@easystack.cn>
 >
+> We need to drain all tx in disconnect to put all kref for cm
+>
 > Signed-off-by: Dongsheng Yang <dongsheng.yang@easystack.cn>
 > ---
->  drbd/drbd_transport_rdma.c | 12 ++++++++++--
->  1 file changed, 10 insertions(+), 2 deletions(-)
+>  drbd/drbd_transport_rdma.c | 3 ---
+>  1 file changed, 3 deletions(-)
 >
 > diff --git a/drbd/drbd_transport_rdma.c b/drbd/drbd_transport_rdma.c
-> index eccd0c6ce..b7ccb15d4 100644
+> index b7ccb15d4..9a6d15b78 100644
 > --- a/drbd/drbd_transport_rdma.c
 > +++ b/drbd/drbd_transport_rdma.c
-> @@ -1089,9 +1089,13 @@ static void dtr_cma_retry_connect_work_fn(struct w=
-ork_struct *work)
->         if (err) {
->                 struct dtr_path *path =3D container_of(cs, struct dtr_pat=
-h, cs);
->                 struct drbd_transport *transport =3D path->path.transport=
-;
-> +               struct dtr_transport *rdma_transport =3D
-> +                       container_of(transport, struct dtr_transport, tra=
-nsport);
+> @@ -1956,9 +1956,6 @@ static void dtr_tx_cq_event_handler(struct ib_cq *c=
+q, void *ctx)
+>                         err =3D dtr_handle_tx_cq_event(cq, cm);
+>                 } while (!err);
 >
->                 tr_err(transport, "dtr_start_try_connect failed  %d\n", e=
-rr);
-> -               schedule_delayed_work(&cs->retry_connect_work, HZ);
-> +               if (rdma_transport->active) {
-> +                       schedule_delayed_work(&cs->retry_connect_work, HZ=
-);
-> +               }
->         }
->  }
->
-> @@ -1116,6 +1120,8 @@ static void dtr_remove_cm_from_path(struct dtr_path=
- *path, struct dtr_cm *failed
->  static void dtr_cma_retry_connect(struct dtr_path *path, struct dtr_cm *=
-failed_cm)
->  {
->         struct drbd_transport *transport =3D path->path.transport;
-> +       struct dtr_transport *rdma_transport =3D
-> +               container_of(transport, struct dtr_transport, transport);
->         struct dtr_connect_state *cs =3D &path->cs;
->         long connect_int =3D 10 * HZ;
->         struct net_conf *nc;
-> @@ -1128,7 +1134,9 @@ static void dtr_cma_retry_connect(struct dtr_path *=
-path, struct dtr_cm *failed_c
->                 connect_int =3D nc->connect_int * HZ;
->         rcu_read_unlock();
->
-> -       schedule_delayed_work(&cs->retry_connect_work, connect_int);
-> +       if (rdma_transport->active) {
-> +               schedule_delayed_work(&cs->retry_connect_work, connect_in=
-t);
-> +       }
->  }
->
->  static void dtr_cma_connect_work_fn(struct work_struct *work)
+> -               if (cm->state !=3D DSM_CONNECTED)
+> -                       break;
+> -
+>                 rc =3D ib_req_notify_cq(cq, IB_CQ_NEXT_COMP | IB_CQ_REPOR=
+T_MISSED_EVENTS);
+>                 if (unlikely(rc < 0)) {
+>                         struct drbd_transport *transport =3D cm->path->pa=
+th.transport;
 > --
 > 2.27.0
 >
