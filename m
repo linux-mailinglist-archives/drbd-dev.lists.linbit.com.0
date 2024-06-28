@@ -2,62 +2,64 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE6A5919E63
-	for <lists+drbd-dev@lfdr.de>; Thu, 27 Jun 2024 06:54:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67AF891BB2A
+	for <lists+drbd-dev@lfdr.de>; Fri, 28 Jun 2024 11:11:13 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id AF7E14203CE;
-	Thu, 27 Jun 2024 06:54:19 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 77EF04203C1;
+	Fri, 28 Jun 2024 11:11:11 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from bombadil.infradead.org (bombadil.infradead.org
-	[198.137.202.133])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id AEC314200BE
-	for <drbd-dev@lists.linbit.com>; Thu, 27 Jun 2024 06:54:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309;
-	h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=/fzE2yWElnzU7XRficmyE9tfka6WnF3hLS24PJakxl4=;
-	b=uzcGPgconVlUhJahqA4o0y4rP2
-	YDkQfdW0m0w2u8N8BRaxbwBTF1twTy53aPn4xBPj/AfBrb0WxTzWJH8wD6oR43WzK3V70db4qXtWY
-	0IIZI+2mDcUbXHX9Anl5SaO8PZqQtBzUCFGUjAdJ7ExnkxJgGk1kclJpDyt1NPlhJH6k1SD2KJv1r
-	Y/aWT38dOOUqqw6WO2aC6zoYnYWj+859j2ETzBrnZoTEbtU0f3blIKoRcb5DyUh8Hm74KMCv5zkZg
-	gzrN7RVyue7JLzZcBns6ISX0k4yPom7ZauQBJlbkxj+mZ51Z3qG2KMut3g2uFWJoxlvZFyPWvc2cp
-	37dKQmlg==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red
-	Hat Linux)) id 1sMh93-00000009D8d-4Br2;
-	Thu, 27 Jun 2024 04:54:06 +0000
-Date: Wed, 26 Jun 2024 21:54:05 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Oliver Sang <oliver.sang@intel.com>
-Subject: Re: [axboe-block:for-next] [block]  1122c0c1cc:  aim7.jobs-per-min
-	22.6% improvement
-Message-ID: <ZnzwbYSaIlT0SIEy@infradead.org>
-References: <202406250948.e0044f1d-oliver.sang@intel.com>
-	<ZnqGf49cvy6W-xWf@infradead.org>
-	<Znt4qTr/NdeIPyNp@xsang-OptiPlex-9020>
-	<ZnuNhkH26nZi8fz6@infradead.org>
-	<ZnzP+nUrk8+9bANK@xsang-OptiPlex-9020>
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com
+	[209.85.219.179])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D9F6E420167
+	for <drbd-dev@lists.linbit.com>; Fri, 28 Jun 2024 11:11:04 +0200 (CEST)
+Received: by mail-yb1-f179.google.com with SMTP id
+	3f1490d57ef6-dfdb6122992so307276276.3
+	for <drbd-dev@lists.linbit.com>; Fri, 28 Jun 2024 02:11:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linbit-com.20230601.gappssmtp.com; s=20230601; t=1719565864;
+	x=1720170664; darn=lists.linbit.com; 
+	h=content-transfer-encoding:cc:to:subject:message-id:date:from
+	:in-reply-to:references:mime-version:from:to:cc:subject:date
+	:message-id:reply-to;
+	bh=RaXZWXFZvPD8Y48T6qvfUw0tQZv1JZnkPv5i1zZJki0=;
+	b=oyt6Q39iE5PSZGgoBi594/uIYLviI1lI6jmMrd1Sl1tDALGATgzPP0cKnX02qs1yfY
+	yu8gGGcuxZeK5xfyA1mIaqWTNZaWJ+RKrouaqOFZguBCiGThIlZrzwVIJ8zy/Z6eIJxK
+	dDepbezhC4Spep3bfif1LWHtE7wK9LqfVrnkJ/P2D2bIKjbxhRB8B45Kts8eZu9MZXYW
+	/iHND5B3n1ick7YsJCZTgYx26zQvwdgImREv5qRqk1csHNbbqkMlDEZUa8nETpCkZ7Gy
+	JBHbpUPIV5ojBxnBPkTTF4o6o/FipC2gW8+aU+uAqa8+wEquK7Sj8LN+9RNznhlfywsj
+	ENtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20230601; t=1719565864; x=1720170664;
+	h=content-transfer-encoding:cc:to:subject:message-id:date:from
+	:in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+	:subject:date:message-id:reply-to;
+	bh=RaXZWXFZvPD8Y48T6qvfUw0tQZv1JZnkPv5i1zZJki0=;
+	b=LdCFC6MQ/7uJpspYFtC1LsqxexXbmk05+BjdggBYhSruZioeQTDu46vjDOkpLhx3tL
+	2H0aMDwTLIrZDB0LBxLp7k49iJRotEcKpOl0ZYGbUm4guDEbp3kDjnKN9lI7cVS5oOaM
+	Qn3cAYxJgzxwRy3E8ovehk6IPqXhhu45x6aosKyhxAhOsgECJit7xOD5EoMVdLFSi/v4
+	2D7OaoYF/yEvNRKIhGcZNptljU9gWTSAu5Mks+I45WnXq2aXqlcR7ExOFnPiXi+fF2eB
+	pAYKNEqNwyWVO3C1FevSTyu/OXQnay2Hsiatmpiah0AwBQQ+KCaPyOqXKjHFzERcI0MF
+	+p5A==
+X-Gm-Message-State: AOJu0YxivBxW6aEKxLL9zObVJijNqCWp0jek2dZmER8o4jti81OAjjKA
+	+Vmf7X2DpJNTTpzWuygLZpinJ6Yp/aJuWq3Pcmfn1KkpILtdHcxlY2XCSx1u7NJALlaVqXVItRJ
+	7Vw2PkYJGBhJvo3OjPiZGqy6pvfamOm0X8PsA6fWhNwRtAZqF3bo=
+X-Google-Smtp-Source: AGHT+IGf4rq2HZWiccm0z1Yc9M5ZixIj3Bv9yJlRx8QclvDjqJ6O0oHBq7wEkZ/irMHQ2VnlYTzajeL5PF6xA8MdkAw=
+X-Received: by 2002:a5b:78a:0:b0:dff:320f:edca with SMTP id
+	3f1490d57ef6-e0300f8828cmr15643508276.18.1719565863937; Fri, 28 Jun 2024
+	02:11:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZnzP+nUrk8+9bANK@xsang-OptiPlex-9020>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
-	bombadil.infradead.org. See http://www.infradead.org/rpr.html
-Cc: nvdimm@lists.linux.dev, Ulf Hansson <ulf.hansson@linaro.org>,
-	feng.tang@intel.com, linux-nvme@lists.infradead.org,
-	linux-mtd@lists.infradead.org, drbd-dev@lists.linbit.com,
-	lkp@intel.com, linux-scsi@vger.kernel.org,
-	Christoph Hellwig <hch@infradead.org>, ying.huang@intel.com,
-	xen-devel@lists.xenproject.org, dm-devel@lists.linux.dev,
-	linux-um@lists.infradead.org, virtualization@lists.linux.dev,
-	nbd@other.debian.org, linux-block@vger.kernel.org,
-	linux-bcache@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>,
-	Hannes Reinecke <hare@suse.de>, Jens Axboe <axboe@kernel.dk>,
-	linux-raid@vger.kernel.org, linux-mmc@vger.kernel.org,
-	fengwei.yin@intel.com, oe-lkp@lists.linux.dev,
-	linuxppc-dev@lists.ozlabs.org
+References: <20240624054619.23212-1-zhengbing.huang@easystack.cn>
+In-Reply-To: <20240624054619.23212-1-zhengbing.huang@easystack.cn>
+From: Philipp Reisner <philipp.reisner@linbit.com>
+Date: Fri, 28 Jun 2024 11:10:52 +0200
+Message-ID: <CADGDV=Xo6Z_K2R8vB7+7_jf0U_im0Nmy-xQ36AYh59qi45EvAQ@mail.gmail.com>
+Subject: Re: [PATCH 01/11] drbd_nl: dont allow detating to be inttrupted in
+	waiting D_DETACHING to DISKLESS
+To: "zhengbing.huang" <zhengbing.huang@easystack.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Cc: Dongsheng Yang <dongsheng.yang@easystack.cn>, drbd-dev@lists.linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -74,24 +76,36 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Thu, Jun 27, 2024 at 10:35:38AM +0800, Oliver Sang wrote:
-> 
-> I failed to apply patch in your previous reply to 1122c0c1cc or current tip
-> of axboe-block/for-next:
-> c1440ed442a58 (axboe-block/for-next) Merge branch 'for-6.11/block' into for-next
+Hello Dongsheng,
 
-That already includes it.
+First of all, thanks for contributing patches to us.
+Please find my reply on the patch below the quote:
 
-> 
-> but it's ok to apply upon next:
-> * 0fc4bfab2cd45 (tag: next-20240625) Add linux-next specific files for 20240625
-> 
-> I've already started the test based on this applyment.
-> is the expectation that patch should not introduce performance change comparing
-> to 0fc4bfab2cd45?
-> 
-> or if this applyment is not ok, please just give me guidance. Thanks!
+On Mon, Jun 24, 2024 at 7:52=E2=80=AFAM zhengbing.huang
+<zhengbing.huang@easystack.cn> wrote:
+>
+> From: Dongsheng Yang <dongsheng.yang@easystack.cn>
+>
+> In our network failure and drbd down testing, we found warning in dmesg a=
+nd drbd down process into D state:
+>
+> "kernel: drbd /unregistered/ramtest3/0 drbd103: ASSERTION device->disk_st=
+ate[NOW] =3D=3D D_FAILED || device->disk_state[NOW] =3D=3D D_DETACHING FAIL=
+ED in go_diskless"
+>
+> the problem is the wait_event is inttruptable, it could be intrupted by s=
+ignal and call drbd_cleanup_device before go_diskless()
+>
 
-The expectation is that the latest block branch (and thus linux-next)
-doesn't see this performance change.
+In this case, I suggest improving the expression in the assertion.
+Improving an assertion can also mean removing that assertion.
 
+The wait_event_interruptible() is there for a reason. Think of a
+backing disk that behaves like a tar pit=E2=80=94a backing device that no
+longer finishes IO requests. You want a way to interrupt the drbdsetup
+waiting in detach.
+
+PS: A bit more elaborative commit messages are welcome.
+
+best regards,
+ Philipp
