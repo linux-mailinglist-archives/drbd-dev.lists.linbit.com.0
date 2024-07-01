@@ -2,65 +2,48 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92A6291BEB3
-	for <lists+drbd-dev@lfdr.de>; Fri, 28 Jun 2024 14:36:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 240C891D6EF
+	for <lists+drbd-dev@lfdr.de>; Mon,  1 Jul 2024 06:19:46 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 75E364203D5;
-	Fri, 28 Jun 2024 14:36:20 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7035B4205C7;
+	Mon,  1 Jul 2024 06:19:42 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com
-	[209.85.219.171])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E1D104202BA
-	for <drbd-dev@lists.linbit.com>; Fri, 28 Jun 2024 14:36:16 +0200 (CEST)
-Received: by mail-yb1-f171.google.com with SMTP id
-	3f1490d57ef6-e0361c767ddso298397276.1
-	for <drbd-dev@lists.linbit.com>; Fri, 28 Jun 2024 05:36:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linbit-com.20230601.gappssmtp.com; s=20230601; t=1719578176;
-	x=1720182976; darn=lists.linbit.com; 
-	h=content-transfer-encoding:cc:to:subject:message-id:date:from
-	:in-reply-to:references:mime-version:from:to:cc:subject:date
-	:message-id:reply-to;
-	bh=dnPcUKh+16VS08ZpDtMzk7n6vuFr9EDfg1nxbk5amW4=;
-	b=yPQG6keiQkzvNXw6o7o+BNJwPgEbJb5gocfq2guzW9BiTpbjeMtIvQovXDkLkHQsIe
-	Ybmo+JfmKb8u0KWnGhx8tDbpBV/+9ZjmLnq+csPfwWD8p0VuRnVKrQpxyqI22HeeLDDe
-	UNNGN/NibBCCq5032gXnksDRkDT8628l/ZRh04Cv3l/0thvlZujLC30OQl0aGOY8ukhd
-	vE5enBsNikA8X2AViq3gof6j6fD+8wRiMUot02oI4QuLhr0FBCDreiB2LDggxCyeMPzx
-	B66YgyLjGR408JMrIh2fc/Niz8c4+BG8KJkmD/Wxe+cDDKrMHVlo7O2bf4MqI925wKew
-	EtEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20230601; t=1719578176; x=1720182976;
-	h=content-transfer-encoding:cc:to:subject:message-id:date:from
-	:in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-	:subject:date:message-id:reply-to;
-	bh=dnPcUKh+16VS08ZpDtMzk7n6vuFr9EDfg1nxbk5amW4=;
-	b=Mpnk4Nz4io2OzL4ux2pXGimhlvMufipdenD4myO4B67aYYzcs0DlvhQr72HvKC3uEn
-	8beoWS9KRfJ70oV5iVYllr0RBdaz/GcukcaIBaKTufIGGb5Rmu8q8OQqDpCIlHiZK4jE
-	TMrpe0u2LzkMXcFyBEdhWVr3/a5P4xQhMWMNWw4PqmmutatZNjtpDtFsi4PQ3P6QfaR5
-	J8BRd5AYP5FGrk+qLTiSIjqDLyNWV8pELZWCxy6bQfahNixLdfWHRHOtEs5g4Hcic9JB
-	jBlx9hpRKw9RB9IAbnv5aOikGHlPyRYKF5m9TKpyJHaHle1YcRo1QFyfcQhKQjcTUrrO
-	KdFA==
-X-Gm-Message-State: AOJu0YzPnvgrNywcnWjSPcrwxxVsMab3GPCCPM+iaBAdHK/o/rAB/hp9
-	sQ3uPgzAZCpq+lh87BZepj1UfksEISHhUUyoogLTLIye8HW4ZOgBifY+nEQ+zpb62hFpEIHL8ZK
-	ShLOlYkfKV6mtMydid7/xPSoFM2C/SKozg18MNZswOERF8Wg7u6fJaw==
-X-Google-Smtp-Source: AGHT+IEQ+3yaEzxxZ6uOrg3S9ZDFRraEHKXJpo/f7teLRsyLud8+tfGjB+d343KrEB+hGnJkf5qVfhds7drBRnVjIis=
-X-Received: by 2002:a25:d60d:0:b0:e03:5101:31ce with SMTP id
-	3f1490d57ef6-e03510133cfmr3591904276.18.1719578175707; Fri, 28 Jun 2024
-	05:36:15 -0700 (PDT)
-MIME-Version: 1.0
+X-Greylist: delayed 598 seconds by postgrey-1.31 at mail19;
+	Mon, 01 Jul 2024 04:19:02 CEST
+Received: from mail-m127105.qiye.163.com (mail-m127105.qiye.163.com
+	[115.236.127.105])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B4757420304
+	for <drbd-dev@lists.linbit.com>; Mon,  1 Jul 2024 04:19:02 +0200 (CEST)
+Received: from [192.168.122.189] (unknown [218.94.118.90])
+	by smtp.qiye.163.com (Hmail) with ESMTPA id CC63E4C01D4;
+	Mon,  1 Jul 2024 10:02:05 +0800 (CST)
+Subject: Re: [PATCH 01/11] drbd_nl: dont allow detating to be inttrupted in
+	waiting D_DETACHING to DISKLESS
+To: Philipp Reisner <philipp.reisner@linbit.com>,
+	"zhengbing.huang" <zhengbing.huang@easystack.cn>
 References: <20240624054619.23212-1-zhengbing.huang@easystack.cn>
-	<20240624054619.23212-8-zhengbing.huang@easystack.cn>
-In-Reply-To: <20240624054619.23212-8-zhengbing.huang@easystack.cn>
-From: Philipp Reisner <philipp.reisner@linbit.com>
-Date: Fri, 28 Jun 2024 14:36:04 +0200
-Message-ID: <CADGDV=X9Ev4Z6x-FnE2J6zdLe5DyVsEwX4Zg3E8=XR=CP+synw@mail.gmail.com>
-Subject: Re: [PATCH 08/11] drbd_transport_rdma: fix a race between dtr_connect
-	and drbd_thread_stop
-To: "zhengbing.huang" <zhengbing.huang@easystack.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Cc: Dongsheng Yang <dongsheng.yang@easystack.cn>, drbd-dev@lists.linbit.com
+	<CADGDV=Xo6Z_K2R8vB7+7_jf0U_im0Nmy-xQ36AYh59qi45EvAQ@mail.gmail.com>
+From: Dongsheng Yang <dongsheng.yang@easystack.cn>
+Message-ID: <f0faab82-9113-d34b-fbd2-9f817c4166e0@easystack.cn>
+Date: Mon, 1 Jul 2024 10:02:03 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:78.0) Gecko/20100101
+	Thunderbird/78.4.0
+MIME-Version: 1.0
+In-Reply-To: <CADGDV=Xo6Z_K2R8vB7+7_jf0U_im0Nmy-xQ36AYh59qi45EvAQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFJQjdXWS1ZQUlXWQ8JGhUIEh9ZQVkZHk0ZVh4dTUkYQktCGEoaTlYVFAkWGhdVGRETFh
+	oSFyQUDg9ZV1kYEgtZQVlJSkNVQk9VSkpDVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0lPT09IVUpLS1
+	VKQktLWQY+
+X-HM-Tid: 0a906c07252f022ekunmcc63e4c01d4
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6ODI6Hzo4TjciSU0RITwoIkko
+	Dh0KC0tVSlVKTEpCTEJCSElNT0lCVTMWGhIXVR8UFRwIEx4VHFUCGhUcOx4aCAIIDxoYEFUYFUVZ
+	V1kSC1lBWUlKQ1VCT1VKSkNVQktZV1kIAVlBTkhKSjcG
+X-Mailman-Approved-At: Mon, 01 Jul 2024 06:19:37 +0200
+Cc: drbd-dev@lists.linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -77,77 +60,129 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Hello Dongsheng,
 
-I am repeating your description in my own words so that you can verify
-I got it right:
 
-CPU 0 executes dtr_connect() and is still before the
-wait_for_completion_interruptible().
-CPU 1 executes send_sig() in drbd_thread_stop().
+在 2024/6/28 星期五 下午 5:10, Philipp Reisner 写道:
+> Hello Dongsheng,
+> 
+> First of all, thanks for contributing patches to us.
+> Please find my reply on the patch below the quote:
+> 
+> On Mon, Jun 24, 2024 at 7:52 AM zhengbing.huang
+> <zhengbing.huang@easystack.cn> wrote:
+>>
+>> From: Dongsheng Yang <dongsheng.yang@easystack.cn>
+>>
+>> In our network failure and drbd down testing, we found warning in dmesg and drbd down process into D state:
+>>
+>> "kernel: drbd /unregistered/ramtest3/0 drbd103: ASSERTION device->disk_state[NOW] == D_FAILED || device->disk_state[NOW] == D_DETACHING FAILED in go_diskless"
+>>
+>> the problem is the wait_event is inttruptable, it could be intrupted by signal and call drbd_cleanup_device before go_diskless()
+>>
+> 
+> In this case, I suggest improving the expression in the assertion.
+> Improving an assertion can also mean removing that assertion.
 
-Then you conclude that wait_for_completion_interruptible() will not
-abort, because the signal
-was raised before CPU 0 reached wait_for_completion_interruptible().
+Hi Philipp,
+	This patchset is fixing the problems found by a network failure test 
+script[1].
+	The [1/11] is not about just a WARNING, it will result a process with D 
+state in wait_event(device->misc_wait, !test_bit(GOING_DISKLESS, 
+&device->flags)); in adm_del_minor().
 
-If that is your description, then it is wrong.
-This is not how signals and the wait_event() macros work.
+let's think about this sequence:
 
-best regards,
- Philipp
+a) drbd_adm_down -> adm_detach -> change_disk_state(device, D_DETACHING...
 
-On Mon, Jun 24, 2024 at 9:27=E2=80=AFAM zhengbing.huang
-<zhengbing.huang@easystack.cn> wrote:
->
-> From: Dongsheng Yang <dongsheng.yang@easystack.cn>
->
-> If the send_sig() in drbd_thread_stop before wait_for_completion_interrup=
-tible() in dtr_connect(),
-> it can't return from dtr_connect in network failure.
->
-> So replace wait_for_completion_interruptible with wait_for_completion_int=
-erruptible_timeout, and
-> check status by dtr_connect() itself.
->
-> This behavior is similar with tcp transport
->
-> Signed-off-by: Dongsheng Yang <dongsheng.yang@easystack.cn>
-> ---
->  drbd/drbd_transport_rdma.c | 15 ++++++++++++---
->  1 file changed, 12 insertions(+), 3 deletions(-)
->
-> diff --git a/drbd/drbd_transport_rdma.c b/drbd/drbd_transport_rdma.c
-> index 77ff0055e..c47b344f8 100644
-> --- a/drbd/drbd_transport_rdma.c
-> +++ b/drbd/drbd_transport_rdma.c
-> @@ -2996,12 +2996,21 @@ static int dtr_connect(struct drbd_transport *tra=
-nsport)
->  {
->         struct dtr_transport *rdma_transport =3D
->                 container_of(transport, struct dtr_transport, transport);
-> -       int i, err =3D -ENOMEM;
-> +       int i, err;
->
-> -       err =3D wait_for_completion_interruptible(&rdma_transport->connec=
-ted);
-> -       if (err) {
-> +again:
-> +       if (drbd_should_abort_listening(transport)) {
-> +               err =3D -EAGAIN;
-> +               goto abort;
-> +       }
-> +
-> +       err =3D wait_for_completion_interruptible_timeout(&rdma_transport=
-->connected, HZ);
-> +       if (err < 0) {
->                 flush_signals(current);
->                 goto abort;
-> +       } else if (err =3D=3D 0) {
-> +               /* timed out */
-> +               goto again;
->         }
->
->         err =3D atomic_read(&rdma_transport->first_path_connect_err);
-> --
-> 2.27.0
->
+b) it will call put_ldev(), set GOING_DISKLESS and post a work for 
+GO_DISKLESS
+
+c) adm_detach() start wait_event_interruptible(device->misc_wait,
+			get_disk_state(device) != D_DETACHING);
+but it can be intrrupted, then call drbd_cleanup_device() to set 
+device->disk_state[NOW] = D_DISKLESS;
+
+after that, it will go to adm_del_minor() and 
+wait_event(device->misc_wait, !test_bit(GOING_DISKLESS, 
+&device->flags)); which expects drbd_ldev_destroy to clear GOING_DISKLESS.
+
+d) on the other hand, go_diskless work start and warn on the message in 
+commit message. it will do change_disk_state(device, D_DISKLESS, 
+CS_HARD, "go-diskless", NULL); But the disk_state[NOW] is already 
+D_DISKLESS. So it will not schedule &device->ldev_destroy_work.
+
+As a result, the wait_event in c) will never return.
+
+
+[1]:
+check_drbd_process() {
+     ps aux | grep " D"|grep drbd
+}
+
+check_node_2_drbd_process() {
+     ssh node-2 'ps aux' | grep " D"|grep drbd
+}
+
+wait_for_no_drbd_d_state() {
+     count=0
+     while true; do
+         if check_drbd_process; then
+             echo "Found drbd process in D state, sleeping for ${count} 
+second..."
+             sleep 1
+             count=$((count + 1))
+         else
+             echo "No drbd process in D state."
+             break
+         fi
+     done
+     while true; do
+         if check_node_2_drbd_process; then
+             echo "Found drbd process in D state, sleeping for ${count} 
+second..."
+             sleep 1
+             count=$((count + 1))
+         else
+             echo "No drbd process in D state."
+             break
+         fi
+     done
+}
+
+random_sleep=$((RANDOM % 100))
+
+ssh node-2 "ifup Bond2-roce.1469"
+ifup Bond2-roce.1469
+
+sleep 5
+
+for i in `seq 0 9`; do
+         drbdadm up ramtest${i}
+         ssh node-2 "drbdadm up ramtest${i}"
+done
+
+sleep ${random_sleep}
+
+ssh node-2 "ifdown Bond2-roce.1469"
+
+random_sleep=$((RANDOM % 10))
+
+for i in `seq 0 9`; do
+         drbdsetup fail-io ramtest${i} &
+         drbdadm down ramtest${i} &
+done
+
+sleep 10
+
+wait_for_no_drbd_d_state
+> 
+> The wait_event_interruptible() is there for a reason. Think of a
+> backing disk that behaves like a tar pit—a backing device that no
+> longer finishes IO requests. You want a way to interrupt the drbdsetup
+> waiting in detach.
+> 
+> PS: A bit more elaborative commit messages are welcome.
+> 
+> best regards,
+>   Philipp
+> 
