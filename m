@@ -2,94 +2,71 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E63292749B
-	for <lists+drbd-dev@lfdr.de>; Thu,  4 Jul 2024 13:11:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B8A593A17F
+	for <lists+drbd-dev@lfdr.de>; Tue, 23 Jul 2024 15:32:01 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 93634420653;
-	Thu,  4 Jul 2024 13:11:24 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A133B42082D;
+	Tue, 23 Jul 2024 15:31:58 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
-	[209.85.221.45])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 885A54205C7
-	for <drbd-dev@lists.linbit.com>; Thu,  4 Jul 2024 13:11:20 +0200 (CEST)
-Received: by mail-wr1-f45.google.com with SMTP id
-	ffacd0b85a97d-3626c29d3f0so329821f8f.1
-	for <drbd-dev@lists.linbit.com>; Thu, 04 Jul 2024 04:11:20 -0700 (PDT)
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
+	[209.85.215.176])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 99EED420657
+	for <drbd-dev@lists.linbit.com>; Tue, 23 Jul 2024 15:31:54 +0200 (CEST)
+Received: by mail-pg1-f176.google.com with SMTP id
+	41be03b00d2f7-6c386a3ac43so70051a12.0
+	for <drbd-dev@lists.linbit.com>; Tue, 23 Jul 2024 06:31:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=gmail.com; s=20230601; t=1720091479; x=1720696279;
-	darn=lists.linbit.com; 
-	h=to:references:message-id:content-transfer-encoding:cc:date
-	:in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+	d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1721741513;
+	x=1722346313; darn=lists.linbit.com; 
+	h=content-transfer-encoding:mime-version:date:message-id:subject
+	:references:in-reply-to:cc:to:from:from:to:cc:subject:date
 	:message-id:reply-to;
-	bh=qwBmB9TZGFjcG5R2+2N2tz93DvezoEGxh6PsIk8IO/w=;
-	b=QcRPW8uqsNukmJdY/oXkvDt1K1SyzZUI/U1vsyMMYrpDas/u14fiYC/irYOS2IPkDG
-	k0gDDXkj2c/Yqe09c26WlodAYgmYuHwhGZjWFywEKb1Nw0/XHdizVq2yNMmdUly/Tk3w
-	3IXcWDX5TIc5NbmpiW94ZkT0HYGJVrlz3xmR+EFXMnEirmgeu7TtX5+698ihj+csVxeU
-	jgroFu5JTRntABOIYkby+cebqynSTj+kCWqAPu0wjJNaLciQW21aXhWIZGmUqGN+UWE6
-	g6j0HLbjKYiE6+Ss9KxxWHg1ZJD+99Zmw+pCYaFMmTqBis64rODgQz9AevuXQU9TbHpP
-	W6OQ==
+	bh=3TZ5ldNvpgl0zGwq9TUJinN2tshm4DZksOkaoK0Hc9Y=;
+	b=Js1NK5WH1dD+yhrYBFIkVl6aFczuyod57QL1/R7QTY5as6GRVXKLaVi+nVZHJ/htY3
+	UiwG1yn/ruB1yTVutpZPjZZHLd1N4XNp3Y6P0T/POMewVt6i11KxNj2JktSKCrdJbQXN
+	fYAA+xFBpyFMFLJxXFtSR182I6PWJVG8QECp3QfVV1hJjk+g2+9Km5yixNGVbde+tZa3
+	OXLtUSJJ6eL2cAKoNEPRz05liHYqnRuMRCXXPt52o9So7bCVMmy4CJVyugIadroBNF3J
+	EwPymywnvKfy0swqGAOnkHmu24+QAcum3WYICOtfW6o6jkHonLTXLkRZWL52nF5x7GvR
+	LoUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20230601; t=1720091479; x=1720696279;
-	h=to:references:message-id:content-transfer-encoding:cc:date
-	:in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+	d=1e100.net; s=20230601; t=1721741513; x=1722346313;
+	h=content-transfer-encoding:mime-version:date:message-id:subject
+	:references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
 	:subject:date:message-id:reply-to;
-	bh=qwBmB9TZGFjcG5R2+2N2tz93DvezoEGxh6PsIk8IO/w=;
-	b=F/KpIn0pkbQGd28yNza40APV8f2ckrGBz7+eXkzFx02/keCBaE8Y4I3uxXnvMRq75q
-	zo0VrQR+5Lbf+0N+6MBctoTi6uwSI9rvK8BlJVcSAPmpQ+S4IDR2BrTOu+Z9mVVBtOY5
-	/yGA02Wv07I95DkZHGrJBRiQyeYqyOmBqePG8hHNw0pcFNX+nIWdRgx7YChuZ5RaVuz7
-	4zrFdkCSfSw3yIiNJ5G62g/di6VIqMz4CW4pZ6D1EamySxw96L05yLBnloWkrKyr+sfL
-	0YZnIuzg5H+YC5HaWlzg0Y+RzASSzP9ZWyccJi17MqW4LWz25eaHLBKiCFujGs4DmLH+
-	VmEg==
+	bh=3TZ5ldNvpgl0zGwq9TUJinN2tshm4DZksOkaoK0Hc9Y=;
+	b=kF/83FiyZaZPnyY/L+aYJf2TDLmlqZ15OiDy1WeLz2Cr9yJS0+31YGiiPmKTdaF4oG
+	e3RwJqtq6TQnMr47aitsN+FWro8U+hUK+XI02qX8FqOMsihCocnfoLw4FbshTJmRPArn
+	0xVCWjT8j3fjfeRgZ8IP36KUM9gYlqmYpFONAJ+XxaZNo2RAGLWb+3Y7HuvrFoKEqAWA
+	2Qszd2f4sEWc/l99K9v7RcWikgtuktpaw7MfWVTKOQFw7RUVm1rU53ZKdacLEf0qvru8
+	DvwxnvyRJFiZF6Efh7/Dl5MfwJA2dKO6/fsjXy5znRq4gaPXMujXKn6iR2pEqHH2CvOq
+	2Qug==
 X-Forwarded-Encrypted: i=1;
-	AJvYcCVi2NiAL//wW1DPMQHjNSTMUQ8XqPnvhqUNEgqHzyKbtCeJNRyedP2cxDf4BVm78n2nPoaSfOVw2/NGs6dU4tHocDZqqCqB9r0w
-X-Gm-Message-State: AOJu0Ywkc2+izoaDy+1CM2DcU8Q1X5QvaPSdNdoKTT4IsvpXhv5S6ENZ
-	UGCL0E+Hu4xcnJPryESaDNodNK4HWeUAarv4m5VDMlMq5V3fEERy
-X-Google-Smtp-Source: AGHT+IFEzvL2jC2faLe/uaMvaq/UCJ26KrH1XFm9Ol6h8w0Rebt6hjx4X+gdY7pIVUfbtqQYexMuPw==
-X-Received: by 2002:a5d:5712:0:b0:367:94e7:958a with SMTP id
-	ffacd0b85a97d-3679dd17ec1mr1153338f8f.6.1720091479417; 
-	Thu, 04 Jul 2024 04:11:19 -0700 (PDT)
-Received: from [10.14.0.2] ([139.28.176.164]) by smtp.gmail.com with ESMTPSA id
-	ffacd0b85a97d-36787db4d12sm6821051f8f.110.2024.07.04.04.11.17
-	(version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 04 Jul 2024 04:11:18 -0700 (PDT)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.7\))
-Subject: Re: [PATCH 14/26] block: move the nonrot flag to queue_limits
-From: Simon Fernandez <fernandez.simon@gmail.com>
-In-Reply-To: <ZnmoANp0TgpxWuF-@kbusch-mbp.dhcp.thefacebook.com>
-Date: Thu, 4 Jul 2024 12:11:16 +0100
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <78BDDF6A-1FC7-4DD7-AABF-E0B055772CBF@gmail.com>
-References: <20240617060532.127975-1-hch@lst.de>
-	<20240617060532.127975-15-hch@lst.de>
-	<ZnmoANp0TgpxWuF-@kbusch-mbp.dhcp.thefacebook.com>
-To: Keith Busch <kbusch@kernel.org>
-X-Mailer: Apple Mail (2.3608.120.23.2.7)
-Cc: nvdimm@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>, linux-nvme@lists.infradead.org,
-	Song Liu <song@kernel.org>, linux-mtd@lists.infradead.org,
-	Vineeth Vijayan <vneethv@linux.ibm.com>,
-	linux-bcache@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
-	Alasdair Kergon <agk@redhat.com>, drbd-dev@lists.linbit.com,
-	linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
-	Richard Weinberger <richard@nod.at>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Yu Kuai <yukuai3@huawei.com>, dm-devel@lists.linux.dev,
-	linux-um@lists.infradead.org, Mike Snitzer <snitzer@kernel.org>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Ming Lei <ming.lei@redhat.com>, linux-raid@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org, Damien Le Moal <dlemoal@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	xen-devel@lists.xenproject.org, ceph-devel@vger.kernel.org,
-	nbd@other.debian.org, Jens Axboe <axboe@kernel.dk>,
-	linux-block@vger.kernel.org,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	linux-mmc@vger.kernel.org, Philipp Reisner <philipp.reisner@linbit.com>,
-	virtualization@lists.linux.dev, Lars Ellenberg <lars.ellenberg@linbit.com>,
-	linuxppc-dev@lists.ozlabs.org,
-	=?utf-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>
+	AJvYcCXtpWGrowVIPRhKCtTfJAmmjcroXtehOkwYXrxfZsmGaYbheWZUCkfNz9buEpJ2WaUexDIgiUjNRWu9QAP340YRpFhIQcIJTXoC
+X-Gm-Message-State: AOJu0YyMoRFXcAPyg5tBoAWRVTiuQxdkqlD8GM5REybW7O9be3UBKuHp
+	MysvP35V8TFs7i6fS9NjvneQ6LDNW1BlRp9ITg9ZFedOXK9MLwxbosKVUkRnVDE=
+X-Google-Smtp-Source: AGHT+IHxt3qJcNFhOgTmuTSf/6MAoBV2NfVh2JCWLOLA/lZ1dp8b1Zzvb8z66ap7Hc0lElinVA352w==
+X-Received: by 2002:a05:6a00:391b:b0:704:173c:5111 with SMTP id
+	d2e1a72fcca58-70d08635b76mr7749852b3a.3.1721741512980; 
+	Tue, 23 Jul 2024 06:31:52 -0700 (PDT)
+Received: from [127.0.0.1] ([198.8.77.157]) by smtp.gmail.com with ESMTPSA id
+	d2e1a72fcca58-70d14aa33f6sm4867744b3a.65.2024.07.23.06.31.51
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 23 Jul 2024 06:31:52 -0700 (PDT)
+From: Jens Axboe <axboe@kernel.dk>
+To: Philipp Reisner <philipp.reisner@linbit.com>, 
+	Lars Ellenberg <lars.ellenberg@linbit.com>, Simon Horman <horms@kernel.org>
+In-Reply-To: <20240723-drbd-doc-v1-1-a04d9b7a9688@kernel.org>
+References: <20240723-drbd-doc-v1-1-a04d9b7a9688@kernel.org>
+Subject: Re: [PATCH] drbd: Add peer_device to Kernel doc
+Message-Id: <172174151190.171540.3359811072031639762.b4-ty@kernel.dk>
+Date: Tue, 23 Jul 2024 07:31:51 -0600
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.0
+Cc: linux-block@vger.kernel.org, Andreas Gruenbacher <agruen@kernel.org>,
+	linux-kernel@vger.kernel.org, drbd-dev@lists.linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -106,21 +83,25 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Hi folks, how can I unsubscribe from this group.?
-Thanks in advance.
-S
 
-> On 24 Jun 2024, at 18:08, Keith Busch <kbusch@kernel.org> wrote:
->=20
-> On Mon, Jun 17, 2024 at 08:04:41AM +0200, Christoph Hellwig wrote:
->> -#define blk_queue_nonrot(q)	test_bit(QUEUE_FLAG_NONROT, =
-&(q)->queue_flags)
->> +#define blk_queue_nonrot(q)	((q)->limits.features & =
-BLK_FEAT_ROTATIONAL)
->=20
-> This is inverted. Should be:
->=20
-> #define blk_queue_nonrot(q)	(!((q)->limits.features & =
-BLK_FEAT_ROTATIONAL))
->=20
+On Tue, 23 Jul 2024 10:41:52 +0100, Simon Horman wrote:
+> Add missing documentation of peer_device parameter to Kernel doc.
+> 
+> These parameters were added in commit 8164dd6c8ae1 ("drbd: Add peer
+> device parameter to whole-bitmap I/O handlers")
+> 
+> Flagged by W=1 builds.
+> 
+> [...]
+
+Applied, thanks!
+
+[1/1] drbd: Add peer_device to Kernel doc
+      commit: b8a4518b5c2d1164f9bb2e586733a658c5239adf
+
+Best regards,
+-- 
+Jens Axboe
+
+
 
