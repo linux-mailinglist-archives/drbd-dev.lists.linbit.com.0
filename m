@@ -2,54 +2,64 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25BBA93C297
-	for <lists+drbd-dev@lfdr.de>; Thu, 25 Jul 2024 15:00:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64EFC93F6C1
+	for <lists+drbd-dev@lfdr.de>; Mon, 29 Jul 2024 15:34:34 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A00344203BF;
-	Thu, 25 Jul 2024 15:00:23 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 464BC4204B5;
+	Mon, 29 Jul 2024 15:34:31 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 720264202FB
-	for <drbd-dev@lists.linbit.com>; Thu, 25 Jul 2024 15:00:18 +0200 (CEST)
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id C4CD1227A8E; Thu, 25 Jul 2024 15:00:09 +0200 (CEST)
-Date: Thu, 25 Jul 2024 15:00:08 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Wouter Verhelst <w@uter.be>
-Subject: Re: [PATCH 14/26] block: move the nonrot flag to queue_limits
-Message-ID: <20240725130008.GA22625@lst.de>
-References: <20240617060532.127975-1-hch@lst.de>
-	<20240617060532.127975-15-hch@lst.de>
-	<ZqI4kosy20WkLC2P@pc220518.home.grep.be>
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
+	[209.85.208.181])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 758B042030C
+	for <drbd-dev@lists.linbit.com>; Mon, 29 Jul 2024 15:34:26 +0200 (CEST)
+Received: by mail-lj1-f181.google.com with SMTP id
+	38308e7fff4ca-2ef2fccca2cso43116421fa.1
+	for <drbd-dev@lists.linbit.com>; Mon, 29 Jul 2024 06:34:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=suse.com; s=google; t=1722260066; x=1722864866; darn=lists.linbit.com;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+	:to:from:from:to:cc:subject:date:message-id:reply-to;
+	bh=XrfGcNac9J5y7SedVMOmkgIRNTomm1DD8h4AzlUUmg8=;
+	b=hBAteLiG6yS4/Gtq/CzNiKF9yEfMRKR5r9QuW6SCAlx8J9YwYx2vmH7HvJTiceE9S2
+	Xj8HPV+lsnJ58rPs6utjsddkqNaFQndbFskesXwAsEp+t3EOsz/WJFPHi6zzukedEzwr
+	GdqsXZbkE70v5trnLMeZc4ggqCduPiOojydensSRBaXr3AOl5nz1KVrYS/zx6afzgTKt
+	8LTGMXNx4P+vFHNjoQqarPwRb0glSYWD8PKX+0eY8YwR8rP9/6Krn7ME3AXwSr+Nd+oc
+	RCc/I/uUX1BlXpoGWqBp+ctrFvxWlefteKZLO/nnskqJLKy2OSnusbIHGGTSOZPR/AjU
+	Rqyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20230601; t=1722260066; x=1722864866;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+	:to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+	:reply-to;
+	bh=XrfGcNac9J5y7SedVMOmkgIRNTomm1DD8h4AzlUUmg8=;
+	b=RlM5TcLn0u+fpNvpyww9lJ6Dad+vdXf0xoDBIs0+ExKAJc1yaky8B/UKtt79RFpvbf
+	zhFjY4JNZ0zvYZlnU7zuRN2XzFd7vz5kx61NXw936lhv8GvN7eU1xN7zh8j9gIxMCiL5
+	cjlvw3w/ieb484+c+Xv3iX1HgRbyxplXdLE7qpPYYfbwMah424GhMaJClQ7AWyky/Zv6
+	YDguQLPUQuc+gTxE3FJp3qu0+gJqU0eykiLvkTQ/SNyWMgNy3EtMvUg4q/BFBQ0FB+Ne
+	4djIlMbBtq0byPqElrGP+w3JDQQfEZAtLXb5nIKcURexbZPfXYPV6tbahGrJKscTiZnc
+	akaQ==
+X-Gm-Message-State: AOJu0Yy9NtCmndeUrUBG5uTh6EayKTwk1Row9KdjihWgLJ78Fk1zaSBS
+	EuyuGsp67yiQyfwul4QxDe36pZjfiKiQGf7NnQNls3sCl5E4+g4hbfkLwAMFHlMN1rblMFbYOdV
+	n
+X-Google-Smtp-Source: AGHT+IE7xPT+UjaZBapQKKIZ4djFrYtgrO466gma6bHJI4+NjpLzAP8TXj6er2aUqbM07HS8sy42tA==
+X-Received: by 2002:a2e:a412:0:b0:2ef:2d3a:e70a with SMTP id
+	38308e7fff4ca-2f12ee05a17mr47331191fa.18.1722260065879; 
+	Mon, 29 Jul 2024 06:34:25 -0700 (PDT)
+Received: from localhost.localdomain ([23.247.139.60])
+	by smtp.gmail.com with ESMTPSA id
+	d2e1a72fcca58-70ead71832csm6802427b3a.72.2024.07.29.06.34.24
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 29 Jul 2024 06:34:25 -0700 (PDT)
+From: Su Yue <glass.su@suse.com>
+To: drbd-dev@lists.linbit.com
+Subject: [RFC PATCH 0/3] drbd.ocf support for OCF 1.1 standard
+Date: Mon, 29 Jul 2024 21:34:07 +0800
+Message-ID: <20240729133410.8332-1-glass.su@suse.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZqI4kosy20WkLC2P@pc220518.home.grep.be>
-User-Agent: Mutt/1.5.17 (2007-11-01)
-Cc: nvdimm@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>, linux-nvme@lists.infradead.org,
-	Song Liu <song@kernel.org>, linux-mtd@lists.infradead.org,
-	Vineeth Vijayan <vneethv@linux.ibm.com>,
-	linux-bcache@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
-	Alasdair Kergon <agk@redhat.com>, drbd-dev@lists.linbit.com,
-	linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
-	Richard Weinberger <richard@nod.at>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Yu Kuai <yukuai3@huawei.com>, dm-devel@lists.linux.dev,
-	linux-um@lists.infradead.org, Mike Snitzer <snitzer@kernel.org>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Ming Lei <ming.lei@redhat.com>, linux-raid@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org, Damien Le Moal <dlemoal@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	xen-devel@lists.xenproject.org, ceph-devel@vger.kernel.org,
-	nbd@other.debian.org, Jens Axboe <axboe@kernel.dk>,
-	linux-block@vger.kernel.org,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	linux-mmc@vger.kernel.org, Philipp Reisner <philipp.reisner@linbit.com>,
-	virtualization@lists.linux.dev, Lars Ellenberg <lars.ellenberg@linbit.com>,
-	linuxppc-dev@lists.ozlabs.org,
-	Roger Pau =?iso-8859-1?Q?Monn=E9?= <roger.pau@citrix.com>
+Content-Transfer-Encoding: 8bit
+Cc: lars.ellenberg@linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -66,17 +76,29 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Thu, Jul 25, 2024 at 01:35:46PM +0200, Wouter Verhelst wrote:
-> NBD actually exports a flag for rotational devices; it's defined in
-> nbd.h in the NBD userland source as
-> 
-> #define NBD_FLAG_ROTATIONAL     (1 << 4)        /* Use elevator algorithm - rotational media */
-> 
-> which is passed in the same flags field which also contains the
-> NBD_FLAG_SEND_FLUSH and NBD_FLAG_SEND_FUA flags.
-> 
-> Perhaps we might want to look at that flag and set the device to
-> rotational if it is specified?
+Hi, drbd maintainers
+Here is a patchset which adds supports of drbd.ocf for OCF 1.1 standard.
+The motivation is that SUSE's SLE16 will bring corosync3 and pacemaker
+built without option '--enable-compat-2.0'. So drbd.ocf needs some
+adaptations.
 
-Yes, that sounds good.  Can you send a patch?
+The first two patches are compatible with pacemaker even without option
+"--enable-compat-2.0".
+NOTE: The third patch changes roles "Master" "Slave" to "Promoted" "Unpromoted".
+It breaks the compatibility of Pacemaker < 2.1.0.
+
+The patchset was tested in my testbox only, non SUSE QE. I want to get your
+suggestions first so make it RFC. Many thanks.
+
+
+Su Yue (3):
+  drbd.ocf: replace crm_master with ocf_promotion_score
+  drbd.ocf: update regex of sed for new output from crm_resource
+  drbd.ocf: update for OCF 1.1
+
+ scripts/drbd.ocf | 38 +++++++++++++++++++++++++-------------
+ 1 file changed, 25 insertions(+), 13 deletions(-)
+
+-- 
+2.45.2
 
