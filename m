@@ -2,43 +2,68 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60BB1945BDD
-	for <lists+drbd-dev@lfdr.de>; Fri,  2 Aug 2024 12:14:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC4919463FC
+	for <lists+drbd-dev@lfdr.de>; Fri,  2 Aug 2024 21:37:47 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 34F364204B5;
-	Fri,  2 Aug 2024 12:14:48 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id AC6E3420643;
+	Fri,  2 Aug 2024 21:37:46 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 1213 seconds by postgrey-1.31 at mail19;
-	Fri, 02 Aug 2024 12:14:41 CEST
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7CB3C4204B5
-	for <drbd-dev@lists.linbit.com>;
-	Fri,  2 Aug 2024 12:14:41 +0200 (CEST)
-Received: from mail.maildlp.com (unknown [172.19.162.112])
-	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Wb1KB0j6vz20l2V;
-	Fri,  2 Aug 2024 17:50:06 +0800 (CST)
-Received: from dggpemf500002.china.huawei.com (unknown [7.185.36.57])
-	by mail.maildlp.com (Postfix) with ESMTPS id CAFB91402CF;
-	Fri,  2 Aug 2024 17:54:26 +0800 (CST)
-Received: from huawei.com (10.175.101.6) by dggpemf500002.china.huawei.com
-	(7.185.36.57) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11;
-	Fri, 2 Aug 2024 17:54:26 +0800
-From: Yue Haibing <yuehaibing@huawei.com>
-To: <philipp.reisner@linbit.com>, <lars.ellenberg@linbit.com>,
-	<christoph.boehmwalder@linbit.com>, <axboe@kernel.dk>,
-	<brauner@kernel.org>, <yuehaibing@huawei.com>
-Subject: [PATCH -next] drbd: Remove unused extern declarations
-Date: Fri, 2 Aug 2024 17:51:47 +0800
-Message-ID: <20240802095147.2788218-1-yuehaibing@huawei.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mail-il1-f177.google.com (mail-il1-f177.google.com
+	[209.85.166.177])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 633DD420639
+	for <drbd-dev@lists.linbit.com>; Fri,  2 Aug 2024 21:37:41 +0200 (CEST)
+Received: by mail-il1-f177.google.com with SMTP id
+	e9e14a558f8ab-39aeccc64e8so3306575ab.2
+	for <drbd-dev@lists.linbit.com>; Fri, 02 Aug 2024 12:37:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1722627460;
+	x=1723232260; darn=lists.linbit.com; 
+	h=content-transfer-encoding:mime-version:date:message-id:subject
+	:references:in-reply-to:cc:to:from:from:to:cc:subject:date
+	:message-id:reply-to;
+	bh=Aq0OPmiAfzDwBhbEkdc5d+5HiIl+Llio3iq8YdlnX14=;
+	b=YDJa9GxJfVojbsWLo6uYT3oyZhxDlo/HQjT1UNXTur3YBK+6/d9XGYZi5d3U48cJzG
+	WTmDzCb0hfH14SYtHILa7sMWDUkpmHutQivNHPHmBjceEmwK/O1R99KTvos6ze9iYEo4
+	9yNOI5isubsofr/XmVIPxa58A9PYVYMSe+QpxwBrSuOr7swBqMklUJSuBS4dCngBsM2U
+	TVgRBu0zoAUekyDk7IcSaZqUpbUz7iXTO2JmyFvG8mvlDWsBPltVMMrWEHxm09QTrxWb
+	JgvbWDwjVgh/I/tn9v0AeGBsh4j+wPb1y6FnmRlt8WhNo31nZRG12Cekn4XCkpQpUMZ6
+	hJaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20230601; t=1722627460; x=1723232260;
+	h=content-transfer-encoding:mime-version:date:message-id:subject
+	:references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+	:subject:date:message-id:reply-to;
+	bh=Aq0OPmiAfzDwBhbEkdc5d+5HiIl+Llio3iq8YdlnX14=;
+	b=FZkA9wW1WglNauwR9PiBryJYWlmub3gvZjoWTcz+hPKDmPsoWTq6oMHHmHYkowfvQ7
+	jMsXqNJhPh980FB6L0RXw1lnpe5Pe33MyZ9Cb2VwpQ/DCvNkmhoacYdDizhyM4ppvTzh
+	oExJe3RSI3FDjO2oJkqBMsBXldL3cukwi9FvEt/Q3favtwfY3RjP55xcmrmHbeYtEi0t
+	BqJQwLTsj+0jAPMIi8igcdga4O6iZOlFnEukIfla4Mq3AewvWZVqXjtBy/I1TNqd3yCr
+	UAv8JlaQOX4XhgUTJhb08SlUbrs6aZ8/bKb4H5yEPaCEDya6QstolYweR4Yp2I8lcEDG
+	c1dg==
+X-Gm-Message-State: AOJu0YwfVhSUtMqyEoT6pfSrkvhcUVqH4066Rd3m/hsaPdoxZQZszppQ
+	d/ZQrv8YUuAewkda0s9uTuBvvHdZbVqAV1cYHy5AYITB+6HvniXuCf3oYG2+gbM=
+X-Google-Smtp-Source: AGHT+IF38B2WBsg1Z9PGLO03sa2FOioYxYdCZ030WghdBOYn5rYnHGGG2VBaYVKz14EzsjdIgN7zTA==
+X-Received: by 2002:a05:6e02:1c21:b0:383:297a:bdfb with SMTP id
+	e9e14a558f8ab-39b1fb736eemr34987515ab.2.1722627460233; 
+	Fri, 02 Aug 2024 12:37:40 -0700 (PDT)
+Received: from [127.0.0.1] ([96.43.243.2]) by smtp.gmail.com with ESMTPSA id
+	e9e14a558f8ab-39b209d833esm9710825ab.0.2024.08.02.12.37.39
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 02 Aug 2024 12:37:39 -0700 (PDT)
+From: Jens Axboe <axboe@kernel.dk>
+To: philipp.reisner@linbit.com, lars.ellenberg@linbit.com, 
+	christoph.boehmwalder@linbit.com, brauner@kernel.org, 
+	Yue Haibing <yuehaibing@huawei.com>
+In-Reply-To: <20240802095147.2788218-1-yuehaibing@huawei.com>
+References: <20240802095147.2788218-1-yuehaibing@huawei.com>
+Subject: Re: [PATCH -next] drbd: Remove unused extern declarations
+Message-Id: <172262745942.170878.5478919565358638351.b4-ty@kernel.dk>
+Date: Fri, 02 Aug 2024 13:37:39 -0600
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.101.6]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
-	dggpemf500002.china.huawei.com (7.185.36.57)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.1
 Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
 	drbd-dev@lists.linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
@@ -57,74 +82,26 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-From: YueHaibing <yuehaibing@huawei.com>
 
-Commit b411b3637fa7 ("The DRBD driver") declared but never implemented
-drbd_read_remote(), is_valid_ar_handle() and drbd_set_recv_tcq().
-And commit 668700b40a7c ("drbd: Create a dedicated workqueue for sending acks on the control connection")
-never implemented drbd_send_ping_wf().
+On Fri, 02 Aug 2024 17:51:47 +0800, Yue Haibing wrote:
+> Commit b411b3637fa7 ("The DRBD driver") declared but never implemented
+> drbd_read_remote(), is_valid_ar_handle() and drbd_set_recv_tcq().
+> And commit 668700b40a7c ("drbd: Create a dedicated workqueue for sending acks on the control connection")
+> never implemented drbd_send_ping_wf().
+> 
+> Commit 2451fc3b2bd3 ("drbd: Removed the BIO_RW_BARRIER support form the receiver/epoch code")
+> leave w_e_reissue() declaration unused.
+> 
+> [...]
 
-Commit 2451fc3b2bd3 ("drbd: Removed the BIO_RW_BARRIER support form the receiver/epoch code")
-leave w_e_reissue() declaration unused.
+Applied, thanks!
 
-Commit 8fe605513ab4 ("drbd: Rename drbdd_init() -> drbd_receiver()")
-rename drbdd_init() and leave unsued declaration. Also drbd_asender() is removed in
-commit 1c03e52083c8 ("drbd: Rename asender to ack_receiver").
+[1/1] drbd: Remove unused extern declarations
+      commit: f48ada402d2f1e46fa241bcc6725bdde70725e15
 
-Signed-off-by: YueHaibing <yuehaibing@huawei.com>
----
- drivers/block/drbd/drbd_int.h | 10 ----------
- 1 file changed, 10 deletions(-)
-
-diff --git a/drivers/block/drbd/drbd_int.h b/drivers/block/drbd/drbd_int.h
-index 94dc0a235919..d2937bca1fe4 100644
---- a/drivers/block/drbd/drbd_int.h
-+++ b/drivers/block/drbd/drbd_int.h
-@@ -297,10 +297,6 @@ struct drbd_epoch {
- 	unsigned long flags;
- };
- 
--/* Prototype declaration of function defined in drbd_receiver.c */
--int drbdd_init(struct drbd_thread *);
--int drbd_asender(struct drbd_thread *);
--
- /* drbd_epoch flag bits */
- enum {
- 	DE_HAVE_BARRIER_NUMBER,
-@@ -1390,9 +1386,6 @@ extern void conn_free_crypto(struct drbd_connection *connection);
- extern void do_submit(struct work_struct *ws);
- extern void __drbd_make_request(struct drbd_device *, struct bio *);
- void drbd_submit_bio(struct bio *bio);
--extern int drbd_read_remote(struct drbd_device *device, struct drbd_request *req);
--extern int is_valid_ar_handle(struct drbd_request *, sector_t);
--
- 
- /* drbd_nl.c */
- 
-@@ -1474,7 +1467,6 @@ extern int w_resync_timer(struct drbd_work *, int);
- extern int w_send_write_hint(struct drbd_work *, int);
- extern int w_send_dblock(struct drbd_work *, int);
- extern int w_send_read_req(struct drbd_work *, int);
--extern int w_e_reissue(struct drbd_work *, int);
- extern int w_restart_disk_io(struct drbd_work *, int);
- extern int w_send_out_of_sync(struct drbd_work *, int);
- 
-@@ -1488,7 +1480,6 @@ extern int drbd_issue_discard_or_zero_out(struct drbd_device *device,
- 		sector_t start, unsigned int nr_sectors, int flags);
- extern int drbd_receiver(struct drbd_thread *thi);
- extern int drbd_ack_receiver(struct drbd_thread *thi);
--extern void drbd_send_ping_wf(struct work_struct *ws);
- extern void drbd_send_acks_wf(struct work_struct *ws);
- extern bool drbd_rs_c_min_rate_throttle(struct drbd_device *device);
- extern bool drbd_rs_should_slow_down(struct drbd_peer_device *peer_device, sector_t sector,
-@@ -1504,7 +1495,6 @@ extern void __drbd_free_peer_req(struct drbd_device *, struct drbd_peer_request
- #define drbd_free_peer_req(m,e) __drbd_free_peer_req(m, e, 0)
- #define drbd_free_net_peer_req(m,e) __drbd_free_peer_req(m, e, 1)
- extern struct page *drbd_alloc_pages(struct drbd_peer_device *, unsigned int, bool);
--extern void drbd_set_recv_tcq(struct drbd_device *device, int tcq_enabled);
- extern void _drbd_clear_done_ee(struct drbd_device *device, struct list_head *to_be_freed);
- extern int drbd_connected(struct drbd_peer_device *);
- 
+Best regards,
 -- 
-2.34.1
+Jens Axboe
+
+
 
