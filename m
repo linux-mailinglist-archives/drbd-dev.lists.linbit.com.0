@@ -2,72 +2,58 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B170972694
-	for <lists+drbd-dev@lfdr.de>; Tue, 10 Sep 2024 03:21:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E9C0972970
+	for <lists+drbd-dev@lfdr.de>; Tue, 10 Sep 2024 08:21:35 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3148842090B;
-	Tue, 10 Sep 2024 03:21:40 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 01DDF4208FD;
+	Tue, 10 Sep 2024 08:21:32 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
-	[209.85.214.172])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 85C3F420239
-	for <drbd-dev@lists.linbit.com>; Tue, 10 Sep 2024 03:21:34 +0200 (CEST)
-Received: by mail-pl1-f172.google.com with SMTP id
-	d9443c01a7336-2054e22ce3fso1932205ad.2
-	for <drbd-dev@lists.linbit.com>; Mon, 09 Sep 2024 18:21:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1725931294;
-	x=1726536094; darn=lists.linbit.com; 
-	h=content-transfer-encoding:mime-version:date:message-id:subject
-	:references:in-reply-to:cc:to:from:from:to:cc:subject:date
-	:message-id:reply-to;
-	bh=FbHezFl/yia2I+g8JEPGnuA0HdRe8qPShzuc/dAam7o=;
-	b=sTDCwkqjyoGDgwnrivUUi4JkY4rUx3QOJUN2YtLN9jHGbMnlT6ckQM2dbsZZhLPjTr
-	TyP7sx91FRUe5bxa9MaJ1ZWnz97CuvICAoVLVChDXTxpcwDnSAyw144UxdCOZx2EvWRs
-	pOIIOhmltBRUZdxBB5obynxdBtnRfFptn+6VJ0m2EL0dIs+7NLMuxh00mTnO2eselgrH
-	3alGE7poNkOtNvuzR3LvSY0O4LQD9t10tg42Ft0ObUUeMwOB7RNJ+OeUcOhZTIG/AdaA
-	IULyS4QIpcoVQivspXc9XHklLTMe6sXokpKuEIwXCVIJFZ20t/8rNi9J7/QPv4etVNZO
-	5xhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20230601; t=1725931294; x=1726536094;
-	h=content-transfer-encoding:mime-version:date:message-id:subject
-	:references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-	:subject:date:message-id:reply-to;
-	bh=FbHezFl/yia2I+g8JEPGnuA0HdRe8qPShzuc/dAam7o=;
-	b=h9EVfVOqTtkZaJdyTpj9KefdqtAyx2SDVycD561pGC0qq39WuFZZcOtAu44vkNX95r
-	4pWIvjZPGSMCV4+a+kpj8AShPIz400N+l4I/WK1JMjcuc2AB5uP5Kw7SPSTssArhx6w9
-	atV8ebj2q6NnyDeTw1lWKF/0MK5PZG7fvtCt2ajowQejNQVCgTCX/93iMNzIh0n4AUFI
-	185Xh59YorwwMeIUEnuku+XAhWAmEESZDdfsWFpdc/6VU0XhJDbtmwP5OU879v0X82va
-	b/DTRK075UcTjT+qGaMd20F/L2EsKfPgMULDYrLcSN+MvymfrKTN47ikr9hPMSJ0HcC2
-	NQlg==
-X-Forwarded-Encrypted: i=1;
-	AJvYcCV+Gl3wGcTPf7A+du8lmrEO0ZxERGyXvnl4VHtS29/6EJGJEmpmD6Lj/WL3IkAVApv+T5GKO51phg==@lists.linbit.com
-X-Gm-Message-State: AOJu0YxBqVM5D1oWB7nR6MmsCbLPPsf1paYpzYu8fPzmoed2sgKhpAHo
-	mViapOlmhd/odaySFRrM2cjH7A1zuzA0it1GD17oP9GqKLoba1oARp8OokkUV14=
-X-Google-Smtp-Source: AGHT+IFa+VZ81ocWMaBa2mFn46xb84Mt6PsKyBjpAI0MI3gvqZzTycK0AEdo/AX/35uwZXb4OrHhvg==
-X-Received: by 2002:a17:902:dacc:b0:205:7c76:4b2c with SMTP id
-	d9443c01a7336-206f05f6924mr132506985ad.48.1725931293861; 
-	Mon, 09 Sep 2024 18:21:33 -0700 (PDT)
-Received: from [127.0.0.1] ([198.8.77.157]) by smtp.gmail.com with ESMTPSA id
-	d9443c01a7336-20710e1b09bsm39335845ad.56.2024.09.09.18.21.32
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 09 Sep 2024 18:21:33 -0700 (PDT)
-From: Jens Axboe <axboe@kernel.dk>
-To: Philipp Reisner <philipp.reisner@linbit.com>, 
-	Mikhail Lobanov <m.lobanov@rosalinux.ru>
-In-Reply-To: <20240909133740.84297-1-m.lobanov@rosalinux.ru>
-References: <20240909133740.84297-1-m.lobanov@rosalinux.ru>
-Subject: Re: [PATCH] drbd: Add NULL check for net_conf to prevent
-	dereference in state validation
-Message-Id: <172593129267.13781.9847171739560045999.b4-ty@kernel.dk>
-Date: Mon, 09 Sep 2024 19:21:32 -0600
+X-Greylist: delayed 587 seconds by postgrey-1.31 at mail19;
+	Mon, 09 Sep 2024 15:50:30 CEST
+Received: from mail.rosalinux.ru (mail.rosalinux.ru [195.19.76.54])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E6B374201EE
+	for <drbd-dev@lists.linbit.com>; Mon,  9 Sep 2024 15:50:30 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.rosalinux.ru (Postfix) with ESMTP id 8F129F90A07EC;
+	Mon,  9 Sep 2024 16:40:41 +0300 (MSK)
+Received: from mail.rosalinux.ru ([127.0.0.1])
+	by localhost (mail.rosalinux.ru [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id UKXrqmmBMBf4; Mon,  9 Sep 2024 16:40:41 +0300 (MSK)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.rosalinux.ru (Postfix) with ESMTP id 65003F90A07ED;
+	Mon,  9 Sep 2024 16:40:41 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.rosalinux.ru 65003F90A07ED
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosalinux.ru;
+	s=1D4BB666-A0F1-11EB-A1A2-F53579C7F503; t=1725889241;
+	bh=j0w10pqKqsCrw9p4jGmOYSKGwJAYnt8q1qKqtK5tU14=;
+	h=From:To:Date:Message-ID:MIME-Version;
+	b=IMmCe9UOVK5OEKqqUmeRavJNTsDhR3XSBn+T95wfSCkAxcIEbX1Qxz8IrqscPG1QW
+	UBjvN4VeQ3Rp2xMIa0EO7LVnxxjDc5+yh2tgu+brpqpe6Du4bg/94KvgyBtFpFxXBY
+	OHrFn9bNsqrrarPwPtO6S/qBzFtMYJMB/AOhMd8RvCSYVfzb2uH1/t9zgL/L9U/2ZX
+	OCuic9PS9C+SWviPQqWBWN5Szhg5bf2F1Kbcv3+Yua3HFG6eEtLV495RynplbYh1o/
+	WujCae8+G0v39cGT9ey43xxd4U+aDa6Rz9nLeDHgvF01ejZ3MlW+iHalYSEZ7p7VLt
+	0f3mbo8+yYfjw==
+X-Virus-Scanned: amavisd-new at rosalinux.ru
+Received: from mail.rosalinux.ru ([127.0.0.1])
+	by localhost (mail.rosalinux.ru [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id DBj-TN5343t1; Mon,  9 Sep 2024 16:40:41 +0300 (MSK)
+Received: from localhost.localdomain (unknown [89.169.48.235])
+	by mail.rosalinux.ru (Postfix) with ESMTPSA id 27DCEF90A07EC;
+	Mon,  9 Sep 2024 16:40:41 +0300 (MSK)
+From: Mikhail Lobanov <m.lobanov@rosalinux.ru>
+To: Philipp Reisner <philipp.reisner@linbit.com>
+Subject: [PATCH] drbd: Add NULL check for net_conf to prevent dereference in
+	state validation
+Date: Mon,  9 Sep 2024 09:37:36 -0400
+Message-ID: <20240909133740.84297-1-m.lobanov@rosalinux.ru>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.1
-Cc: lvc-project@linuxtesting.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org, linux-block@vger.kernel.org,
+Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Tue, 10 Sep 2024 08:21:28 +0200
+Cc: Jens Axboe <axboe@kernel.dk>, lvc-project@linuxtesting.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	linux-block@vger.kernel.org, Mikhail Lobanov <m.lobanov@rosalinux.ru>,
 	Lars Ellenberg <lars.ellenberg@linbit.com>, drbd-dev@lists.linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
@@ -85,25 +71,36 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
+If the net_conf pointer is NULL and the code attempts to access its=20
+fields without a check, it will lead to a null pointer dereference.
+Add a NULL check before dereferencing the pointer.
 
-On Mon, 09 Sep 2024 09:37:36 -0400, Mikhail Lobanov wrote:
-> If the net_conf pointer is NULL and the code attempts to access its
-> fields without a check, it will lead to a null pointer dereference.
-> Add a NULL check before dereferencing the pointer.
-> 
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
-> 
-> 
-> [...]
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-Applied, thanks!
+Fixes: 44ed167da748 ("drbd: rcu_read_lock() and rcu_dereference() for tco=
+nn->net_conf")
+Cc: stable@vger.kernel.org
+Signed-off-by: Mikhail Lobanov <m.lobanov@rosalinux.ru>
+---
+ drivers/block/drbd/drbd_state.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[1/1] drbd: Add NULL check for net_conf to prevent dereference in state validation
-      commit: de068f4741781bbba0568b44b41d51da0feef6f9
-
-Best regards,
--- 
-Jens Axboe
-
-
+diff --git a/drivers/block/drbd/drbd_state.c b/drivers/block/drbd/drbd_st=
+ate.c
+index 287a8d1d3f70..87cf5883078f 100644
+--- a/drivers/block/drbd/drbd_state.c
++++ b/drivers/block/drbd/drbd_state.c
+@@ -876,7 +876,7 @@ is_valid_state(struct drbd_device *device, union drbd=
+_state ns)
+ 		  ns.disk =3D=3D D_OUTDATED)
+ 		rv =3D SS_CONNECTED_OUTDATES;
+=20
+-	else if ((ns.conn =3D=3D C_VERIFY_S || ns.conn =3D=3D C_VERIFY_T) &&
++	else if (nc && (ns.conn =3D=3D C_VERIFY_S || ns.conn =3D=3D C_VERIFY_T)=
+ &&
+ 		 (nc->verify_alg[0] =3D=3D 0))
+ 		rv =3D SS_NO_VERIFY_ALG;
+=20
+--=20
+2.43.0
 
