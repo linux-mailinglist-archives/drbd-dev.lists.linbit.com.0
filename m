@@ -2,51 +2,73 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3212B967F08
-	for <lists+drbd-dev@lfdr.de>; Mon,  2 Sep 2024 08:00:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B170972694
+	for <lists+drbd-dev@lfdr.de>; Tue, 10 Sep 2024 03:21:42 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7B3DC42092C;
-	Mon,  2 Sep 2024 08:00:27 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3148842090B;
+	Tue, 10 Sep 2024 03:21:40 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 532 seconds by postgrey-1.31 at mail19;
-	Sun, 25 Aug 2024 18:31:22 CEST
-Received: from smtp.smtpout.orange.fr (smtp-24.smtpout.orange.fr
-	[80.12.242.24])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3D72642004B
-	for <drbd-dev@lists.linbit.com>; Sun, 25 Aug 2024 18:31:22 +0200 (CEST)
-Received: from fedora.home ([90.11.132.44]) by smtp.orange.fr with ESMTPA
-	id iG0Zs22q8jDE7iG0ZswTyj; Sun, 25 Aug 2024 18:22:28 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1724602948;
-	bh=dWmD0V+W1NiHZUZkeWhaQAh8ZUporSmdN746Lio9aro=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=jD4Y7aGW+AP7mCFOiQtxNv1Ze05yNleFkbmCSCIJjBErp9S+CNqbeq7isXLW8S7e/
-	l80O6buXBuwgjC2+BC9F8brGqjHZDPs7PYqOiyTLPMwc0EbYekuo9H2pJaukRvO4yi
-	jXl+UTQqWROs3SiAWilcm7o2H9KD+WnlwCCO6s3sMy5B+0bRWqMQMjVyWC+QisB3SF
-	rq9XS+GTOGRzVdD6ruO4tTKJmZ4EtFXSjkwUgnRVeSP3vO/ak23syLNAUMrZWVfNqj
-	nyszHp3pbfo7p8Vex4KD/d4LlnNkiqCy4bsxn2F7iJKGwxLsKpyr+SLt6XX4yNc0v9
-	pn8vWnCHPuJ+Q==
-X-ME-Helo: fedora.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 25 Aug 2024 18:22:28 +0200
-X-ME-IP: 90.11.132.44
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Philipp Reisner <philipp.reisner@linbit.com>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	=?UTF-8?q?Christoph=20B=C3=B6hmwalder?=
-	<christoph.boehmwalder@linbit.com>, Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH] drbd: Remove an unused field in struct drbd_device
-Date: Sun, 25 Aug 2024 18:22:23 +0200
-Message-ID: <d5322ef88d1d6f544963ee277cb0b427da8dceef.1724602922.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.46.0
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+	[209.85.214.172])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 85C3F420239
+	for <drbd-dev@lists.linbit.com>; Tue, 10 Sep 2024 03:21:34 +0200 (CEST)
+Received: by mail-pl1-f172.google.com with SMTP id
+	d9443c01a7336-2054e22ce3fso1932205ad.2
+	for <drbd-dev@lists.linbit.com>; Mon, 09 Sep 2024 18:21:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1725931294;
+	x=1726536094; darn=lists.linbit.com; 
+	h=content-transfer-encoding:mime-version:date:message-id:subject
+	:references:in-reply-to:cc:to:from:from:to:cc:subject:date
+	:message-id:reply-to;
+	bh=FbHezFl/yia2I+g8JEPGnuA0HdRe8qPShzuc/dAam7o=;
+	b=sTDCwkqjyoGDgwnrivUUi4JkY4rUx3QOJUN2YtLN9jHGbMnlT6ckQM2dbsZZhLPjTr
+	TyP7sx91FRUe5bxa9MaJ1ZWnz97CuvICAoVLVChDXTxpcwDnSAyw144UxdCOZx2EvWRs
+	pOIIOhmltBRUZdxBB5obynxdBtnRfFptn+6VJ0m2EL0dIs+7NLMuxh00mTnO2eselgrH
+	3alGE7poNkOtNvuzR3LvSY0O4LQD9t10tg42Ft0ObUUeMwOB7RNJ+OeUcOhZTIG/AdaA
+	IULyS4QIpcoVQivspXc9XHklLTMe6sXokpKuEIwXCVIJFZ20t/8rNi9J7/QPv4etVNZO
+	5xhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20230601; t=1725931294; x=1726536094;
+	h=content-transfer-encoding:mime-version:date:message-id:subject
+	:references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+	:subject:date:message-id:reply-to;
+	bh=FbHezFl/yia2I+g8JEPGnuA0HdRe8qPShzuc/dAam7o=;
+	b=h9EVfVOqTtkZaJdyTpj9KefdqtAyx2SDVycD561pGC0qq39WuFZZcOtAu44vkNX95r
+	4pWIvjZPGSMCV4+a+kpj8AShPIz400N+l4I/WK1JMjcuc2AB5uP5Kw7SPSTssArhx6w9
+	atV8ebj2q6NnyDeTw1lWKF/0MK5PZG7fvtCt2ajowQejNQVCgTCX/93iMNzIh0n4AUFI
+	185Xh59YorwwMeIUEnuku+XAhWAmEESZDdfsWFpdc/6VU0XhJDbtmwP5OU879v0X82va
+	b/DTRK075UcTjT+qGaMd20F/L2EsKfPgMULDYrLcSN+MvymfrKTN47ikr9hPMSJ0HcC2
+	NQlg==
+X-Forwarded-Encrypted: i=1;
+	AJvYcCV+Gl3wGcTPf7A+du8lmrEO0ZxERGyXvnl4VHtS29/6EJGJEmpmD6Lj/WL3IkAVApv+T5GKO51phg==@lists.linbit.com
+X-Gm-Message-State: AOJu0YxBqVM5D1oWB7nR6MmsCbLPPsf1paYpzYu8fPzmoed2sgKhpAHo
+	mViapOlmhd/odaySFRrM2cjH7A1zuzA0it1GD17oP9GqKLoba1oARp8OokkUV14=
+X-Google-Smtp-Source: AGHT+IFa+VZ81ocWMaBa2mFn46xb84Mt6PsKyBjpAI0MI3gvqZzTycK0AEdo/AX/35uwZXb4OrHhvg==
+X-Received: by 2002:a17:902:dacc:b0:205:7c76:4b2c with SMTP id
+	d9443c01a7336-206f05f6924mr132506985ad.48.1725931293861; 
+	Mon, 09 Sep 2024 18:21:33 -0700 (PDT)
+Received: from [127.0.0.1] ([198.8.77.157]) by smtp.gmail.com with ESMTPSA id
+	d9443c01a7336-20710e1b09bsm39335845ad.56.2024.09.09.18.21.32
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 09 Sep 2024 18:21:33 -0700 (PDT)
+From: Jens Axboe <axboe@kernel.dk>
+To: Philipp Reisner <philipp.reisner@linbit.com>, 
+	Mikhail Lobanov <m.lobanov@rosalinux.ru>
+In-Reply-To: <20240909133740.84297-1-m.lobanov@rosalinux.ru>
+References: <20240909133740.84297-1-m.lobanov@rosalinux.ru>
+Subject: Re: [PATCH] drbd: Add NULL check for net_conf to prevent
+	dereference in state validation
+Message-Id: <172593129267.13781.9847171739560045999.b4-ty@kernel.dk>
+Date: Mon, 09 Sep 2024 19:21:32 -0600
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Mon, 02 Sep 2024 08:00:24 +0200
-Cc: linux-block@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
-	drbd-dev@lists.linbit.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.1
+Cc: lvc-project@linuxtesting.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, linux-block@vger.kernel.org,
+	Lars Ellenberg <lars.ellenberg@linbit.com>, drbd-dev@lists.linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -63,30 +85,25 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-'next_barrier_nr' is not used in this driver. Remove it.
 
-It was already part of the original commit b411b3637fa7 ("The DRBD driver")
-Apparently, it has never been used.
+On Mon, 09 Sep 2024 09:37:36 -0400, Mikhail Lobanov wrote:
+> If the net_conf pointer is NULL and the code attempts to access its
+> fields without a check, it will lead to a null pointer dereference.
+> Add a NULL check before dereferencing the pointer.
+> 
+> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> 
+> 
+> [...]
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
-Compile tested-only.
----
- drivers/block/drbd/drbd_int.h | 1 -
- 1 file changed, 1 deletion(-)
+Applied, thanks!
 
-diff --git a/drivers/block/drbd/drbd_int.h b/drivers/block/drbd/drbd_int.h
-index d2937bca1fe4..2a05d955e30b 100644
---- a/drivers/block/drbd/drbd_int.h
-+++ b/drivers/block/drbd/drbd_int.h
-@@ -860,7 +860,6 @@ struct drbd_device {
- 	struct list_head read_ee;   /* [RS]P_DATA_REQUEST being read */
- 	struct list_head net_ee;    /* zero-copy network send in progress */
- 
--	int next_barrier_nr;
- 	struct list_head resync_reads;
- 	atomic_t pp_in_use;		/* allocated from page pool */
- 	atomic_t pp_in_use_by_net;	/* sendpage()d, still referenced by tcp */
+[1/1] drbd: Add NULL check for net_conf to prevent dereference in state validation
+      commit: de068f4741781bbba0568b44b41d51da0feef6f9
+
+Best regards,
 -- 
-2.46.0
+Jens Axboe
+
+
 
