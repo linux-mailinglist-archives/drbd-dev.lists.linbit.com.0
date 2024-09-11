@@ -2,59 +2,68 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E9C0972970
-	for <lists+drbd-dev@lfdr.de>; Tue, 10 Sep 2024 08:21:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B3119760E9
+	for <lists+drbd-dev@lfdr.de>; Thu, 12 Sep 2024 08:01:35 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 01DDF4208FD;
-	Tue, 10 Sep 2024 08:21:32 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 509E8420900;
+	Thu, 12 Sep 2024 08:01:33 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 587 seconds by postgrey-1.31 at mail19;
-	Mon, 09 Sep 2024 15:50:30 CEST
-Received: from mail.rosalinux.ru (mail.rosalinux.ru [195.19.76.54])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E6B374201EE
-	for <drbd-dev@lists.linbit.com>; Mon,  9 Sep 2024 15:50:30 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.rosalinux.ru (Postfix) with ESMTP id 8F129F90A07EC;
-	Mon,  9 Sep 2024 16:40:41 +0300 (MSK)
-Received: from mail.rosalinux.ru ([127.0.0.1])
-	by localhost (mail.rosalinux.ru [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id UKXrqmmBMBf4; Mon,  9 Sep 2024 16:40:41 +0300 (MSK)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.rosalinux.ru (Postfix) with ESMTP id 65003F90A07ED;
-	Mon,  9 Sep 2024 16:40:41 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.rosalinux.ru 65003F90A07ED
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosalinux.ru;
-	s=1D4BB666-A0F1-11EB-A1A2-F53579C7F503; t=1725889241;
-	bh=j0w10pqKqsCrw9p4jGmOYSKGwJAYnt8q1qKqtK5tU14=;
-	h=From:To:Date:Message-ID:MIME-Version;
-	b=IMmCe9UOVK5OEKqqUmeRavJNTsDhR3XSBn+T95wfSCkAxcIEbX1Qxz8IrqscPG1QW
-	UBjvN4VeQ3Rp2xMIa0EO7LVnxxjDc5+yh2tgu+brpqpe6Du4bg/94KvgyBtFpFxXBY
-	OHrFn9bNsqrrarPwPtO6S/qBzFtMYJMB/AOhMd8RvCSYVfzb2uH1/t9zgL/L9U/2ZX
-	OCuic9PS9C+SWviPQqWBWN5Szhg5bf2F1Kbcv3+Yua3HFG6eEtLV495RynplbYh1o/
-	WujCae8+G0v39cGT9ey43xxd4U+aDa6Rz9nLeDHgvF01ejZ3MlW+iHalYSEZ7p7VLt
-	0f3mbo8+yYfjw==
-X-Virus-Scanned: amavisd-new at rosalinux.ru
-Received: from mail.rosalinux.ru ([127.0.0.1])
-	by localhost (mail.rosalinux.ru [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id DBj-TN5343t1; Mon,  9 Sep 2024 16:40:41 +0300 (MSK)
-Received: from localhost.localdomain (unknown [89.169.48.235])
-	by mail.rosalinux.ru (Postfix) with ESMTPSA id 27DCEF90A07EC;
-	Mon,  9 Sep 2024 16:40:41 +0300 (MSK)
-From: Mikhail Lobanov <m.lobanov@rosalinux.ru>
-To: Philipp Reisner <philipp.reisner@linbit.com>
-Subject: [PATCH] drbd: Add NULL check for net_conf to prevent dereference in
-	state validation
-Date: Mon,  9 Sep 2024 09:37:36 -0400
-Message-ID: <20240909133740.84297-1-m.lobanov@rosalinux.ru>
-X-Mailer: git-send-email 2.43.0
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+	[209.85.214.194])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 27E4D4202C8
+	for <drbd-dev@lists.linbit.com>; Wed, 11 Sep 2024 11:16:36 +0200 (CEST)
+Received: by mail-pl1-f194.google.com with SMTP id
+	d9443c01a7336-20688fbaeafso66996885ad.0
+	for <drbd-dev@lists.linbit.com>; Wed, 11 Sep 2024 02:16:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=gmail.com; s=20230601; t=1726046195; x=1726650995;
+	darn=lists.linbit.com; 
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+	:to:from:from:to:cc:subject:date:message-id:reply-to;
+	bh=WcDJb5QYEy4QSNbCqr1Ub2x3UYsUcQg9U2wYJLfZOgA=;
+	b=WZeBBcZuv3IwboVz/A9EkjktJYoiaezrZqmUVP0zs4o0004VrjD8vbryhe/qkm0/KM
+	XH7zJA82NV3jsDp0Tat48eSifZKUo3mYC1O9NWnsbn7Z2tO1lGSo2ROfT2wrx8Li2amd
+	C6ylSNDl4yFrywC+iAKTvKmY6z/IO/k7tpB4W4+XVcq+5Cei+77m6o+1T379pRUXYcn6
+	okAdDx6j4o1c06cwtCw3AqaVnUQFuFEcHKSfhBhS0DnraITcpBV8iX4vLBrSE+UKS0Dn
+	mgKuUcldY5gQPjfPg4d2wAMjQxEQqrcOHZH4hskSY+yMGurA36+YIyd4lwgumrPswSkg
+	nZMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20230601; t=1726046195; x=1726650995;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+	:to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+	:reply-to;
+	bh=WcDJb5QYEy4QSNbCqr1Ub2x3UYsUcQg9U2wYJLfZOgA=;
+	b=IxRkxymDtW4c1+qLOajo8ki/aPn6ZLXWJlEiZWETSkVGSQcRKvIVvUjiloxwHqBZTC
+	JtoaaudQ8lvmmtGk9jl9uZ70Zypr0eLdL0ra/8TASGMpvMOKDWI0Q55rPir8AT+yAxMv
+	ojRuyTRKUhJSsU+4BzopYah77D0n0DDobB/DPfQ6Uid/5sURW7JiOMajrA727B22/xZR
+	LqccVIDMeUs86PimomJD1alEpr6/XLayCfNOXMRuiu85q8wP0sCUFRiqqDEoOPF0Z17Q
+	YK6bguoHSO51oS+eG19d6j+LmYu5o1vT7WX/sIaN8kY44SO7TqUW0zzz89PcV8V8VU02
+	ej0A==
+X-Gm-Message-State: AOJu0YzRanahIsDrFeUDm4R+PxvAvJqy6vuAYhFwTCBZg6HNnP4UDY0D
+	yz8BldUgKNFtXFeePV3Owj/WASsyUqQZURsIRiYSG9pU+h7s4eiirpXDxXACuobahQ==
+X-Google-Smtp-Source: AGHT+IEhYB+6J+0UCltGlnaoCjtSirBu3Qn2up1kXKerpnf9BCxeM5frLfc6fpa0E+C/vwJef/J/OA==
+X-Received: by 2002:a17:902:c946:b0:205:7f87:ba3e with SMTP id
+	d9443c01a7336-2074c5e4cf2mr55804235ad.13.1726046194685; 
+	Wed, 11 Sep 2024 02:16:34 -0700 (PDT)
+Received: from tom-QiTianM540-A739.. ([106.39.42.164])
+	by smtp.gmail.com with ESMTPSA id
+	d9443c01a7336-20710e32e2fsm59844995ad.101.2024.09.11.02.16.31
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 11 Sep 2024 02:16:34 -0700 (PDT)
+From: Qiu-ji Chen <chenqiuji666@gmail.com>
+To: philipp.reisner@linbit.com, lars.ellenberg@linbit.com,
+	christoph.boehmwalder@linbit.com, axboe@kernel.dk
+Subject: [PATCH] brbd: Fix atomicity violation in drbd_uuid_set_bm()
+Date: Wed, 11 Sep 2024 17:16:19 +0800
+Message-Id: <20240911091619.4430-1-chenqiuji666@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Tue, 10 Sep 2024 08:21:28 +0200
-Cc: Jens Axboe <axboe@kernel.dk>, lvc-project@linuxtesting.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	linux-block@vger.kernel.org, Mikhail Lobanov <m.lobanov@rosalinux.ru>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>, drbd-dev@lists.linbit.com
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 12 Sep 2024 08:01:29 +0200
+Cc: Qiu-ji Chen <chenqiuji666@gmail.com>, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, linux-block@vger.kernel.org,
+	baijiaju1990@gmail.com, drbd-dev@lists.linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -71,36 +80,52 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-If the net_conf pointer is NULL and the code attempts to access its=20
-fields without a check, it will lead to a null pointer dereference.
-Add a NULL check before dereferencing the pointer.
+The violation of atomicity occurs when the brbd_uuid_set_bm function is
+executed simultaneously with modifying the value of
+device->ldev->md.uuid[UI_BITMAP]. Consider a scenario where, while
+device->ldev->md.uuid[UI_BITMAP] passes the validity check when its value
+is not zero, the value of device->ldev->md.uuid[UI_BITMAP] is written to
+zero. In this case, the check in brbd_uuid_set_bm might refer to the old
+value of device->ldev->md.uuid[UI_BITMAP] (before locking), which allows
+an invalid value to pass the validity check, resulting in inconsistency.
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+To address this issue, it is recommended to include the data validity check
+within the locked section of the function. This modification ensures that
+the value of device->ldev->md.uuid[UI_BITMAP] does not change during the
+validation process, thereby maintaining its integrity.
 
-Fixes: 44ed167da748 ("drbd: rcu_read_lock() and rcu_dereference() for tco=
-nn->net_conf")
+This possible bug is found by an experimental static analysis tool
+developed by our team. This tool analyzes the locking APIs to extract
+function pairs that can be concurrently executed, and then analyzes the
+instructions in the paired functions to identify possible concurrency bugs
+including data races and atomicity violations.
+
+Fixes: 9f2247bb9b75 ("drbd: Protect accesses to the uuid set with a spinlock")
 Cc: stable@vger.kernel.org
-Signed-off-by: Mikhail Lobanov <m.lobanov@rosalinux.ru>
+Signed-off-by: Qiu-ji Chen <chenqiuji666@gmail.com>
 ---
- drivers/block/drbd/drbd_state.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/block/drbd/drbd_main.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/block/drbd/drbd_state.c b/drivers/block/drbd/drbd_st=
-ate.c
-index 287a8d1d3f70..87cf5883078f 100644
---- a/drivers/block/drbd/drbd_state.c
-+++ b/drivers/block/drbd/drbd_state.c
-@@ -876,7 +876,7 @@ is_valid_state(struct drbd_device *device, union drbd=
-_state ns)
- 		  ns.disk =3D=3D D_OUTDATED)
- 		rv =3D SS_CONNECTED_OUTDATES;
-=20
--	else if ((ns.conn =3D=3D C_VERIFY_S || ns.conn =3D=3D C_VERIFY_T) &&
-+	else if (nc && (ns.conn =3D=3D C_VERIFY_S || ns.conn =3D=3D C_VERIFY_T)=
- &&
- 		 (nc->verify_alg[0] =3D=3D 0))
- 		rv =3D SS_NO_VERIFY_ALG;
-=20
---=20
-2.43.0
+diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
+index a9e49b212341..abafc4edf9ed 100644
+--- a/drivers/block/drbd/drbd_main.c
++++ b/drivers/block/drbd/drbd_main.c
+@@ -3399,10 +3399,12 @@ void drbd_uuid_new_current(struct drbd_device *device) __must_hold(local)
+ void drbd_uuid_set_bm(struct drbd_device *device, u64 val) __must_hold(local)
+ {
+ 	unsigned long flags;
+-	if (device->ldev->md.uuid[UI_BITMAP] == 0 && val == 0)
++	spin_lock_irqsave(&device->ldev->md.uuid_lock, flags);
++	if (device->ldev->md.uuid[UI_BITMAP] == 0 && val == 0) {
++		spin_unlock_irqrestore(&device->ldev->md.uuid_lock, flags);
+ 		return;
++	}
+ 
+-	spin_lock_irqsave(&device->ldev->md.uuid_lock, flags);
+ 	if (val == 0) {
+ 		drbd_uuid_move_history(device);
+ 		device->ldev->md.uuid[UI_HISTORY_START] = device->ldev->md.uuid[UI_BITMAP];
+-- 
+2.34.1
 
