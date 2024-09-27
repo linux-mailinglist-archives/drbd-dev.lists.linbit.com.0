@@ -2,70 +2,71 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id B557E97BAA3
-	for <lists+drbd-dev@lfdr.de>; Wed, 18 Sep 2024 12:17:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0CC698825E
+	for <lists+drbd-dev@lfdr.de>; Fri, 27 Sep 2024 12:22:43 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id EA355420900;
-	Wed, 18 Sep 2024 12:17:12 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 69CF142090D;
+	Fri, 27 Sep 2024 12:22:37 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
-	[209.85.221.45])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id AC9BB420303
-	for <drbd-dev@lists.linbit.com>; Wed, 18 Sep 2024 12:17:08 +0200 (CEST)
-Received: by mail-wr1-f45.google.com with SMTP id
-	ffacd0b85a97d-374c1e5fe79so4927168f8f.1
-	for <drbd-dev@lists.linbit.com>; Wed, 18 Sep 2024 03:17:08 -0700 (PDT)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
+	[209.85.214.173])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id BD4FA4202CC
+	for <drbd-dev@lists.linbit.com>; Fri, 27 Sep 2024 12:22:32 +0200 (CEST)
+Received: by mail-pl1-f173.google.com with SMTP id
+	d9443c01a7336-20570b42f24so22757735ad.1
+	for <drbd-dev@lists.linbit.com>; Fri, 27 Sep 2024 03:22:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1726654628;
-	x=1727259428; darn=lists.linbit.com; 
-	h=content-transfer-encoding:mime-version:date:message-id:subject
-	:references:in-reply-to:cc:to:from:from:to:cc:subject:date
-	:message-id:reply-to;
-	bh=9xmRlfgY58bu3lgrbHWfq1PnhjWfcGquoMknYxltLHw=;
-	b=Ua9lkuWuzi3GITn+YbecD4CS5wwUiL58vRrsILxewcc+1OpMNiaoc6UAhnsdOAUj48
-	zyTyvIJ1F9U7aHNJnWzeCiwy4ycybyNnu6pHUgdnr4/n3Lg4/XamDtyRgUH5UjqMMHOU
-	EqbzJkX+zwmjOUmH9PdEIQcfeE4wXNfcSZPcikZOKt5bKQ0h9zibKwWgbK/cMfFkoQmg
-	t78WnPsuOlTqaSh2qKGSJ5s9cNjZpjBKWZfqsFZw+mHWVzm8f0CKfN6ROvdgJj/oc82t
-	BFwsHd8MRtsPt1NppgjYJtFTjjCqh6TbLgtNJ5FT5FQ7ZKIi/3htwVUOp2EbX25ZBWRM
-	JwPw==
+	d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1727432551;
+	x=1728037351; darn=lists.linbit.com; 
+	h=content-transfer-encoding:in-reply-to:from:content-language
+	:references:cc:to:subject:user-agent:mime-version:date:message-id
+	:from:to:cc:subject:date:message-id:reply-to;
+	bh=gjzHjRMZWCT00F+MmJxurXawW+bv39RWJ0acto+xoBc=;
+	b=JC94AY8tiMP8eja7J/W4Vq4RfF+AJDQj8yAAsy1QIkhxPs5mYz12LJo9PkuRkuXM8h
+	qHHrD+xu1NaCKK39QV+MgmK53FpyvNUzZlAzlb/X1oozva145Shj4L0JjnwR5ZxajYyt
+	J4JLugdg0CoAGJjZqOSfugosmKJSsMfIUbNPKn71cRDVL3YRdrxjPKdZuM8lujhS1G0W
+	sxWSGiFOdrgqP16r/96NXvvnJQ1uWzRnrDc4ReZ5+tiarHEAIAzPvXmbQoMiM1mQ7OeB
+	npkRjJ24E6HYi1N/u/r0AYCu4A4soPZfOK/4N27dxbJQ49khDVPLuoxENThgKwW3McK5
+	mKwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20230601; t=1726654628; x=1727259428;
-	h=content-transfer-encoding:mime-version:date:message-id:subject
-	:references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-	:subject:date:message-id:reply-to;
-	bh=9xmRlfgY58bu3lgrbHWfq1PnhjWfcGquoMknYxltLHw=;
-	b=D+BOVlSgDzQ1YQDa4dGSDsO0rEi3halu0MYvuXHHLFqNmgDqs6XLdYbT3itXTAMD7V
-	qL9GEAbN16ev3QxsMbD9mMJga/4DEiojnYaY7NEmB5iqtqTXuw2verLU0x//BHv6KdkP
-	MDx1i50x3Y/Y3hiiN7EbkmGjeo66CN4Kp/BwNGBHMYfKm+vDFpCLfkj5dO7f8gTWq7a9
-	wxELSc4WKUKAgEwgS3QHGXiq78bcq7xZ7hqTMi6Wq+oXUFIx0hjJMZmNnmlH9inkx2sJ
-	NUncKqtLRl3y1ZO9qvJ2RYKerRfX6sCAJKLmPdI1a2IABYjOuUiRK1jJxaYOcrDmNpYX
-	dTgg==
-X-Gm-Message-State: AOJu0YzB46kEpIr7VkGCIlA8Rvi8t6aLZnDOq42DJNWl45JKsEAtwqFX
-	1PMWHTBlWEXyc6GfslVTQlw9s3TZeHJf4WopoD/Q0ky4EIkFVAJkWvClaTB1X4A=
-X-Google-Smtp-Source: AGHT+IEt+88MOqjxAvT4BA2X407wtBcTy4RsMgu6zlhxdOqsfDfTg/sRarmUG6UIBwTVkHUeUeJlPg==
-X-Received: by 2002:a05:6000:128c:b0:374:cd3e:7d98 with SMTP id
-	ffacd0b85a97d-378c2d062fcmr12084591f8f.19.1726654627726; 
-	Wed, 18 Sep 2024 03:17:07 -0700 (PDT)
-Received: from [127.0.0.1] ([185.44.53.103]) by smtp.gmail.com with ESMTPSA id
-	ffacd0b85a97d-378e73e7feesm11837758f8f.29.2024.09.18.03.17.06
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 18 Sep 2024 03:17:07 -0700 (PDT)
-From: Jens Axboe <axboe@kernel.dk>
-To: philipp.reisner@linbit.com, lars.ellenberg@linbit.com, 
-	christoph.boehmwalder@linbit.com, Qiu-ji Chen <chenqiuji666@gmail.com>
-In-Reply-To: <20240913083504.10549-1-chenqiuji666@gmail.com>
-References: <20240913083504.10549-1-chenqiuji666@gmail.com>
-Subject: Re: [PATCH] drbd: Fix atomicity violation in drbd_uuid_set_bm()
-Message-Id: <172665462666.8208.13856585668352326031.b4-ty@kernel.dk>
-Date: Wed, 18 Sep 2024 04:17:06 -0600
+	d=1e100.net; s=20230601; t=1727432551; x=1728037351;
+	h=content-transfer-encoding:in-reply-to:from:content-language
+	:references:cc:to:subject:user-agent:mime-version:date:message-id
+	:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+	bh=gjzHjRMZWCT00F+MmJxurXawW+bv39RWJ0acto+xoBc=;
+	b=V23C7UYmlIEfcQqVgDiDqmZYHzVsG1uNZrckLrVEbBUzpV3DpFMA6ZN26BJ77J5Bsm
+	w7rUN7HmIvR7mUpuPSHuqImsYaDNoRBw1Zb1LBn3jktFeJxalxyyJ5zPJSF9xyoRVf4B
+	UGyRMe3CmnLIe4syapAfWkf26QQ0C2KLM0sGcjyNiqaOdUClYD/uMKLZXKgtHXsfHVOH
+	QL0Ss2JnB5AQRD7fM1K0/KU1+uBKLkwhLBWWIs3lWXAFPn3USqWHdHaoQxnff9kZCMve
+	rhVnxhz4mObuI3nrbWrGhyR/xOcyZ71pMO0rUabW3SbMOsJmGCpZTBdMwut4fDlHCP9G
+	o3TQ==
+X-Gm-Message-State: AOJu0YxEDgJPhXNg830brcJNFIQI+bZYeUkdzizlp0qYnWaeXIldax58
+	e2sLZvOnxpjW8B4UaJ9o2cRRTa+PvIpwxZInWYtzOQESYESUfRGmFQkh0fLjhfE=
+X-Google-Smtp-Source: AGHT+IGjmKywl6Fm7hlmaEEN2CSCXIw815jV/ZLZG5HRcDqUBuPkAcQEU3JrHgAbSxA22mUkQAxe0w==
+X-Received: by 2002:a17:903:1c3:b0:205:9201:b520 with SMTP id
+	d9443c01a7336-20b37c09c3dmr46510815ad.58.1727432551114; 
+	Fri, 27 Sep 2024 03:22:31 -0700 (PDT)
+Received: from [192.168.1.150] ([198.8.77.157])
+	by smtp.gmail.com with ESMTPSA id
+	d9443c01a7336-20b37e2f382sm11026825ad.182.2024.09.27.03.22.29
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Fri, 27 Sep 2024 03:22:30 -0700 (PDT)
+Message-ID: <4a250753-2bca-4ea3-87ef-af6d6a6b0ac5@kernel.dk>
+Date: Fri, 27 Sep 2024 04:22:29 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] drbd: Fix typos in the comment
+To: Yan Zhen <yanzhen@vivo.com>, philipp.reisner@linbit.com,
+	lars.ellenberg@linbit.com, christoph.boehmwalder@linbit.com
+References: <20240927095735.228661-1-yanzhen@vivo.com>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20240927095735.228661-1-yanzhen@vivo.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2-dev-648c7
-Cc: linux-block@vger.kernel.org, baijiaju1990@gmail.com,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	drbd-dev@lists.linbit.com
+Cc: linux-block@vger.kernel.org, opensource.kernel@vivo.com,
+	linux-kernel@vger.kernel.org, drbd-dev@lists.linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -82,27 +83,25 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-
-On Fri, 13 Sep 2024 16:35:04 +0800, Qiu-ji Chen wrote:
-> The violation of atomicity occurs when the drbd_uuid_set_bm function is
-> executed simultaneously with modifying the value of
-> device->ldev->md.uuid[UI_BITMAP]. Consider a scenario where, while
-> device->ldev->md.uuid[UI_BITMAP] passes the validity check when its value
-> is not zero, the value of device->ldev->md.uuid[UI_BITMAP] is written to
-> zero. In this case, the check in drbd_uuid_set_bm might refer to the old
-> value of device->ldev->md.uuid[UI_BITMAP] (before locking), which allows
-> an invalid value to pass the validity check, resulting in inconsistency.
+On 9/27/24 3:57 AM, Yan Zhen wrote:
+> Correctly spelled comments make it easier for the reader to understand
+> the code.
 > 
-> [...]
+> Fix typos:
+> 'mutliple' ==> 'multiple',
+> 'droped' ==> 'dropped',
+> 'Suprisingly' ==> 'Surprisingly',
+> 'chage' ==> 'change',
+> 'typicaly' ==> 'typically',
+> 'progres' ==> 'progress',
+> 'catched' ==> 'caught',
+> 'protocoll' ==> 'protocol',
+> 'stroage' ==> 'storage',
+> 'independend' ==> 'independent'.
 
-Applied, thanks!
+We generally don't do spelling fixes, unless it's done as part of
+a fix. That avoids needless churn that just causes backporting pain.
 
-[1/1] drbd: Fix atomicity violation in drbd_uuid_set_bm()
-      commit: 2f02b5af3a4482b216e6a466edecf6ba8450fa45
-
-Best regards,
 -- 
 Jens Axboe
-
-
 
