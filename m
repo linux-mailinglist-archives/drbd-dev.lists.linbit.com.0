@@ -2,46 +2,72 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19E9D98B4E4
-	for <lists+drbd-dev@lfdr.de>; Tue,  1 Oct 2024 08:50:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 310B9992759
+	for <lists+drbd-dev@lfdr.de>; Mon,  7 Oct 2024 10:44:22 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C674A4202C8;
-	Tue,  1 Oct 2024 08:50:07 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 07B204203A3;
+	Mon,  7 Oct 2024 10:44:19 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail2-relais-roc.national.inria.fr
-	(mail2-relais-roc.national.inria.fr [192.134.164.83])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2583B42012B
-	for <drbd-dev@lists.linbit.com>; Mon, 30 Sep 2024 13:28:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inria.fr; s=dc;
-	h=from:to:cc:subject:date:message-id:in-reply-to:
-	references:mime-version:content-transfer-encoding;
-	bh=qnfJr2JifYt0TRzmtqO+mgXV4VxU/z0o+uWEZRVe07I=;
-	b=EpzwlheRhiWecFNoyf4rVuQwUD3eFfP0tw49DBuVU7xdPKz7pM7yTpfv
-	QcqFNss6kBEsv9MQ1+2JBrSruasZWFGcIZK2UD+8JZnRhw6nQ0hIkRaNE
-	2Z5IxEKmLZXwvlrNJkCVxzb7lwB2wXcHwPQFHJldmcVEk2Qb7LLr583B8 w=;
-Authentication-Results: mail2-relais-roc.national.inria.fr;
-	dkim=none (message not signed) header.i=none;
-	spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr;
-	dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.11,165,1725314400"; d="scan'208";a="185956876"
-Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.90.48])
-	by mail2-relais-roc.national.inria.fr with
-	ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2024 13:21:26 +0200
-From: Julia Lawall <Julia.Lawall@inria.fr>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH 06/35] lru_cache: Reorganize kerneldoc parameter names
-Date: Mon, 30 Sep 2024 13:20:52 +0200
-Message-Id: <20240930112121.95324-7-Julia.Lawall@inria.fr>
-X-Mailer: git-send-email 2.20.1
+X-Greylist: delayed 710 seconds by postgrey-1.31 at mail19;
+	Sun, 06 Oct 2024 04:07:37 CEST
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D9ED84202BA
+	for <drbd-dev@lists.linbit.com>;
+	Sun,  6 Oct 2024 04:07:37 +0200 (CEST)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 86C2A5C55E1;
+	Sun,  6 Oct 2024 01:55:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 442DCC4CEC2;
+	Sun,  6 Oct 2024 01:55:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728179745;
+	bh=/4L+Waftv30hJTd8pHAaY7MDs2ik61gNjRPrwI78SK4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=bHJhnSlcDypCxKXc9/0e8sSwcsPUcNs5OrzLmNK372VoYuGepvQT+MeJe7gZxz24S
+	Td8OetlGIX6VQqxeo+oLpBwCwYCr2xh0kr7HWG2dWxJwS9C9I5+F0Ozm3XgnvgOi6R
+	eyo7cMIiqgZ5im6lRwsEC9egd6IBXTkhxhVOAfSeJ6SqQ1OAUWk36taYJoiLw9dpJ9
+	1TD2kMI24gaTyunNoaEycYfyV8WJ6EL2ZaaiP5SsbbYsVWCcKHV7TrlwKb7lUEYqTY
+	l48kzmdHzTLb/dBfgaSN3gUHXAeR3ENezjiB4lZZ+5JAICFVxSM/ycZNnlcwg/pUoP
+	0Njb/XOnUh7ew==
+From: Bjorn Andersson <andersson@kernel.org>
+To: linux-gpio@vger.kernel.org,
+	Julia Lawall <Julia.Lawall@inria.fr>
+Subject: Re: (subset) [PATCH 00/35] Reorganize kerneldoc parameter names
+Date: Sat,  5 Oct 2024 20:55:35 -0500
+Message-ID: <172817973322.398361.12931602917664759173.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240930112121.95324-1-Julia.Lawall@inria.fr>
 References: <20240930112121.95324-1-Julia.Lawall@inria.fr>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 01 Oct 2024 08:49:58 +0200
-Cc: kernel-janitors@vger.kernel.org,
-	Philipp Reisner <philipp.reisner@linbit.com>, linux-kernel@vger.kernel.org,
-	Lars Ellenberg <lars.ellenberg@linbit.com>, drbd-dev@lists.linbit.com
+X-Mailman-Approved-At: Mon, 07 Oct 2024 10:44:12 +0200
+Cc: nvdimm@lists.linux.dev, alsa-devel@alsa-project.org,
+	Jan Kara <jack@suse.cz>, "Rafael J. Wysocki" <rafael@kernel.org>,
+	Neil Brown <neilb@suse.de>, linux-pci@vger.kernel.org,
+	kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-mm@kvack.org, linux-mtd@lists.infradead.org,
+	amd-gfx@lists.freedesktop.org, linux-leds@vger.kernel.org,
+	drbd-dev@lists.linbit.com,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	dccp@vger.kernel.org, Dai Ngo <Dai.Ngo@oracle.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	iommu@lists.linux.dev, intel-wired-lan@lists.osuosl.org,
+	Robin Murphy <robin.murphy@arm.com>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	linux-arm-msm@vger.kernel.org, Naveen N Rao <naveen@kernel.org>,
+	linux-sound@vger.kernel.org, maple-tree@lists.infradead.org,
+	Tom Talpey <tom@talpey.com>, Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Nicholas Piggin <npiggin@gmail.com>, linux-omap@vger.kernel.org,
+	Zhihao Cheng <chengzhihao1@huawei.com>,
+	linux-arm-kernel@lists.infradead.org, linux-nfs@vger.kernel.org,
+	netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+	audit@vger.kernel.org, tipc-discussion@lists.sourceforge.net,
+	linux-fsdevel@vger.kernel.org, Sanyog Kale <sanyog.r.kale@intel.com>,
+	linux-trace-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -58,29 +84,25 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Reorganize kerneldoc parameter names to match the parameter
-order in the function header.
 
-Problems identified using Coccinelle.
+On Mon, 30 Sep 2024 13:20:46 +0200, Julia Lawall wrote:
+> Reorganize kerneldoc parameter names to match the parameter
+> order in the function header.
+> 
+> The misordered cases were identified using the following
+> Coccinelle semantic patch:
+> 
+> // <smpl>
+> @initialize:ocaml@
+> @@
+> 
+> [...]
 
-Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
+Applied, thanks!
 
----
- lib/lru_cache.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[24/35] soc: qcom: qmi: Reorganize kerneldoc parameter names
+        commit: eea73fa08e69fec9cdc915592022bec6a9ac8ad7
 
-diff --git a/lib/lru_cache.c b/lib/lru_cache.c
-index 9e0d469c7658..40f22213c3b3 100644
---- a/lib/lru_cache.c
-+++ b/lib/lru_cache.c
-@@ -576,8 +576,8 @@ struct lc_element *lc_element_by_index(struct lru_cache *lc, unsigned i)
- 
- /**
-  * lc_seq_dump_details - Dump a complete LRU cache to seq in textual form.
-- * @lc: the lru cache to operate on
-  * @seq: the &struct seq_file pointer to seq_printf into
-+ * @lc: the lru cache to operate on
-  * @utext: user supplied additional "heading" or other info
-  * @detail: function pointer the user may provide to dump further details
-  * of the object the lc_element is embedded in. May be NULL.
-
+Best regards,
+-- 
+Bjorn Andersson <andersson@kernel.org>
