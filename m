@@ -2,47 +2,70 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83AE99A090A
-	for <lists+drbd-dev@lfdr.de>; Wed, 16 Oct 2024 14:10:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A24A69A0FFC
+	for <lists+drbd-dev@lfdr.de>; Wed, 16 Oct 2024 18:45:00 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 71398420910;
-	Wed, 16 Oct 2024 14:10:17 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2C87F42090B;
+	Wed, 16 Oct 2024 18:44:57 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 399 seconds by postgrey-1.31 at mail19;
-	Wed, 16 Oct 2024 14:10:11 CEST
-Received: from ec2-44-216-146-158.compute-1.amazonaws.com
-	(ec2-44-216-146-158.compute-1.amazonaws.com [44.216.146.158])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D6A304202CC
-	for <drbd-dev@lists.linbit.com>; Wed, 16 Oct 2024 14:10:10 +0200 (CEST)
-Received: from easystack.cn (unknown [127.0.0.1])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 7482A6E018B
-	for <drbd-dev@lists.linbit.com>; Wed, 16 Oct 2024 20:03:27 +0800 (CST)
-Content-Type: multipart/alternative;
-	BOUNDARY="=_Part_230280_1771631759.1729080207471"
-Message-ID: <AGwA6wAvLabLP60uFbzuqqrb.1.1729080207471.Hmail.zhengbing.huang@easystack.cn>
-To: drbd-dev@lists.linbit.com
-Subject: =?UTF-8?B?ZHJiZDogcmVzeW5jIGJsb2Nrcw==?=
-X-Priority: 3
-X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com web
-X-Originating-IP: 218.94.118.90
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com
+	[209.85.219.171])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C11DB4202BA
+	for <drbd-dev@lists.linbit.com>; Wed, 16 Oct 2024 18:44:52 +0200 (CEST)
+Received: by mail-yb1-f171.google.com with SMTP id
+	3f1490d57ef6-e2975b197d1so1848839276.2
+	for <drbd-dev@lists.linbit.com>; Wed, 16 Oct 2024 09:44:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linbit-com.20230601.gappssmtp.com; s=20230601; t=1729097091;
+	x=1729701891; darn=lists.linbit.com; 
+	h=content-transfer-encoding:cc:to:subject:message-id:date:from
+	:in-reply-to:references:mime-version:from:to:cc:subject:date
+	:message-id:reply-to;
+	bh=k7TuX407sp5kIvd+gq2ESOqaXsabWdhWDJQs389eoSk=;
+	b=t+Z+FCxbiJZWZ+Xgi5sqIiF483JQ9U+i18U2LGlEQR6/IYA/CZheNwNl1jGgN+sAjb
+	oXzu9RfEjmUYkkzCHqur92/WltnP3V8SwJeS2uB6heZtAWSz6y/K6ocVie8CmwkLOued
+	NNIdWLw1Orz7J+fIFeoLho8vKMSQm80SAb+fZqoQayzhqFegv1TNHAhfQs3Atw1OTtSq
+	UgXKuYwMsnEkLNTQK1Cr+C4CMN4cu5Sj6h4XdXRSOkKBjPyYpwYwJj9t6QSjQJyNj159
+	5833aJAqOMy1FjZGJLcW5ieDAJJvyfagRN2rTHVgvWy4+99Et9VAnB8WCMHqi7WLdgQh
+	n8Fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20230601; t=1729097091; x=1729701891;
+	h=content-transfer-encoding:cc:to:subject:message-id:date:from
+	:in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+	:subject:date:message-id:reply-to;
+	bh=k7TuX407sp5kIvd+gq2ESOqaXsabWdhWDJQs389eoSk=;
+	b=S4a5JzTEws/FJtezec/xuwU3HQUzAryE5r6REJ7LeW/Y7NgyfBU0C/fR/wqa8k6CPE
+	EK0ra4ElfSkgiJRC7Qc/ES5Hm+wIz6BXkMZGaxCvhDZWagTIt7WTJeYE30MR5JpPvoWA
+	1MZ3aqIDJc0gtP1D0gps/gozjKFqq6IYy/TcNhnjT1Nt2xAubI/XLIEUJiBmY4et/Kv2
+	J42AVV1/13HlVUEczBEgyZ85BYS78wil/sxCl5e3BaZHBaA4BwLowRMmdGUGJP6XlS6g
+	M7r2FHa3i2cZJ9PHeei2Nf2MaHvlO9ii4ZlCpp79mK/Yb7QJpy2et0kRtrB+sDtxZasE
+	oU6g==
+X-Forwarded-Encrypted: i=1;
+	AJvYcCWL2M/FTanCV3VU6Hi64+yvdJRD6YxeXMkiD6OKfRcNpnPrVQO1mbM+xHV648FmHDZ4HlDhavfsLQ==@lists.linbit.com
+X-Gm-Message-State: AOJu0Yyup6xrYLMaV3CMsOlbv01xYpk7MmxRx+pil7IM3GTMV+ut9dC7
+	nhmyfHeG4elhi1lLAx9FC1UI8U43ukUuajGAz+sBk6I11/FSqndnFO7QeOCEYvE5tCpNBp5T9TK
+	JmTf8sNYlv/E1hlsFWp9y2E3m/GcXhH67fNtKEJkg
+X-Google-Smtp-Source: AGHT+IEtX9LYoAxN7yCBov/6gRrRmbiohAwWcKchL4EqJvf2LD50BOtOI1uu1eBKkYuOjwLP8feyDEXvtXjXPbhnH+o=
+X-Received: by 2002:a05:6902:154c:b0:e29:2783:8707 with SMTP id
+	3f1490d57ef6-e29278387f9mr17022088276.48.1729097091435; Wed, 16 Oct 2024
+	09:44:51 -0700 (PDT)
 MIME-Version: 1.0
-Received: from zhengbing.huang@easystack.cn( [218.94.118.90] ) by ajax-webmail
-	( [127.0.0.1] ) ; Wed, 16 Oct 2024 20:03:27 +0800 (GMT+08:00)
-From: Zhengbing <zhengbing.huang@easystack.cn>
-Date: Wed, 16 Oct 2024 20:03:27 +0800 (GMT+08:00)
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFJQjdXWS1ZQUlXWQ8JGhUIEh9ZQVlCGRgZVh1NGR4ZSB1JTEtDGFYVFAkWGhdVGRETFh
-	oSFyQUDg9ZV1kYEgtZQVlJSkNVQk9VSkpDVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0lPT09IVUpLS1
-	VKQktLWQY+
-X-HM-Tid: 0a9294a726ba0248kunm192808916f4
-X-HM-MType: 1
-X-HM-NTES-SC: AL0_4z5B86Wr4Tz9jdMF+bhXMdLxDDX8uz7gta1MuvDIeIgwUlgyHX+MOJSz6f
-	c8M+79YVZaBidzG+kJutUPwnPTt6X/JOTJ5b3OdJBk39jCrqhobaofTjv27B1RgB5sPs9PQPyyHh
-	+xxrOD2kmAEw3TM02PGawBmW5vhCH5vhUhAzY=
-X-HM-Sender-Digest: e1kMHhlZQQ8JDh5XWRIfHhUPWUFZRzo8DDpNDDoNNxoZNytNSw49GQEO
-	CgoJGVVKVUpMSUJLQ0tJS0xDSUNVMxYaEhdVARMeFRwZEhUcVRMOGhUcOx4aCAIIDxoYEFUYFUVZ
-	V1kSC1lBWUlKQ1VCT1VKSkNVQktZV1kIAVlBSkpLSU03Bg++
+References: <20240624054619.23212-1-zhengbing.huang@easystack.cn>
+	<20240624054619.23212-3-zhengbing.huang@easystack.cn>
+	<CADGDV=V4kpNPAWf6MsdswhbMqKPe5=qEMXkF_KBqXVM7W+aUhQ@mail.gmail.com>
+	<f368f323-140c-9995-63b7-ec8ada21a7f0@easystack.cn>
+	<73f04036-5bb3-9ad5-bfe1-ea4d26817ceb@easystack.cn>
+In-Reply-To: <73f04036-5bb3-9ad5-bfe1-ea4d26817ceb@easystack.cn>
+From: Philipp Reisner <philipp.reisner@linbit.com>
+Date: Wed, 16 Oct 2024 18:44:40 +0200
+Message-ID: <CADGDV=XqOK7iQ1cCNMWEBjZdx-iZVmsrgfVmQWTEnOqgk2ODWQ@mail.gmail.com>
+Subject: Re: [PATCH 03/11] drbd_transport_rdma: put kref for cm in
+	dtr_path_established in error path
+To: Dongsheng Yang <dongsheng.yang@easystack.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Cc: drbd-dev@lists.linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -59,131 +82,93 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
---=_Part_230280_1771631759.1729080207471
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Hello easystack team,
 
-SGkgSm9lbCwKCgpJIGhhdmUgYSBwcm9ibGVtIHdpdGggcmVzeW5jIGJsb2Nrcy4KCgoKRmlyc3Qs
-IEkgaGF2ZSBhIDIgbm9kZSBjbHVzdGVyLCBhbmQgbm9kZS0xIHJ1bm5pbmcgRFJCRCA5LjEgYW5k
-IG5vZGUgLTIgaXMgRFJCRCA5LjIgYW5kIHByb3RvY29sIEMuCgphbmQgdGhlIHByb2JsZW0gc2Nl
-bmFyaW8gaXMgYXMgZm9sbG93czoKMS4gbm9kZS0yIGFsd2F5cyBoYXMgYXBwbGljYXRpb24gSU8K
-Mi4gbm9kZS0xIG5ldHdvcmsgZmFpbHVyZSB3aXRoIG5vZGUtMgozLiB0aGUgbmV0d29yayBpcyBy
-ZXN0b3JlZC4gbm9kZS0xIGlzIFN5bmNUYXJnZXQgYW5kIG5vZGUtMiBpcyBTeW5jU291cmNlCjQu
-IHRoZW4gcmVzeW5jIHByb2Nlc3MgaXMgYmxvY2tzCgoKCllvdSBzb2x2ZWQgdGhlIHNhbWUgcHJv
-YmxlbSBpbiBDb21taXQgIjdhOWFlMWEyMDgiLCBidXQgSSBzdGlsbCBoYXZlIHRoaXMgcHJvYmxl
-bS4KCgpTbywgaG93IGRvIEkgc29sdmUgdGhpcyBwcm9ibGVtPwoKCgpCZXN0IHJlZ2FyZHMsCnpo
-ZW5nYmluZwoKCgoKDQoNCg==
---=_Part_230280_1771631759.1729080207471
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: base64
+I probably fixed the (or some of the) problems you intended to fix
+with this patch series.
 
-PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
-Zm9udC1mYW1pbHk6QXJpYWwiPjxkaXYgc3R5bGU9ImNvbG9yOiByZ2IoMCwgMCwgMCk7IGZvbnQt
-c3R5bGU6IG5vcm1hbDsgZm9udC12YXJpYW50LWxpZ2F0dXJlczogbm9ybWFsOyBmb250LXZhcmlh
-bnQtY2Fwczogbm9ybWFsOyBmb250LXdlaWdodDogNDAwOyBsZXR0ZXItc3BhY2luZzogbm9ybWFs
-OyBvcnBoYW5zOiAyOyB0ZXh0LWFsaWduOiBzdGFydDsgdGV4dC1pbmRlbnQ6IDBweDsgdGV4dC10
-cmFuc2Zvcm06IG5vbmU7IHdpZG93czogMjsgd29yZC1zcGFjaW5nOiAwcHg7IC13ZWJraXQtdGV4
-dC1zdHJva2Utd2lkdGg6IDBweDsgdGV4dC1kZWNvcmF0aW9uLXRoaWNrbmVzczogaW5pdGlhbDsg
-dGV4dC1kZWNvcmF0aW9uLXN0eWxlOiBpbml0aWFsOyB0ZXh0LWRlY29yYXRpb24tY29sb3I6IGlu
-aXRpYWw7Ij5IaSBKb2VsLDwvZGl2PjxkaXYgc3R5bGU9ImNvbG9yOiByZ2IoMCwgMCwgMCk7IGZv
-bnQtc3R5bGU6IG5vcm1hbDsgZm9udC12YXJpYW50LWxpZ2F0dXJlczogbm9ybWFsOyBmb250LXZh
-cmlhbnQtY2Fwczogbm9ybWFsOyBmb250LXdlaWdodDogNDAwOyBsZXR0ZXItc3BhY2luZzogbm9y
-bWFsOyBvcnBoYW5zOiAyOyB0ZXh0LWFsaWduOiBzdGFydDsgdGV4dC1pbmRlbnQ6IDBweDsgdGV4
-dC10cmFuc2Zvcm06IG5vbmU7IHdpZG93czogMjsgd29yZC1zcGFjaW5nOiAwcHg7IC13ZWJraXQt
-dGV4dC1zdHJva2Utd2lkdGg6IDBweDsgdGV4dC1kZWNvcmF0aW9uLXRoaWNrbmVzczogaW5pdGlh
-bDsgdGV4dC1kZWNvcmF0aW9uLXN0eWxlOiBpbml0aWFsOyB0ZXh0LWRlY29yYXRpb24tY29sb3I6
-IGluaXRpYWw7Ij48YnI+PC9kaXY+PGRpdiBzdHlsZT0iY29sb3I6IHJnYigwLCAwLCAwKTsgZm9u
-dC1zdHlsZTogbm9ybWFsOyBmb250LXZhcmlhbnQtbGlnYXR1cmVzOiBub3JtYWw7IGZvbnQtdmFy
-aWFudC1jYXBzOiBub3JtYWw7IGZvbnQtd2VpZ2h0OiA0MDA7IGxldHRlci1zcGFjaW5nOiBub3Jt
-YWw7IG9ycGhhbnM6IDI7IHRleHQtYWxpZ246IHN0YXJ0OyB0ZXh0LWluZGVudDogMHB4OyB0ZXh0
-LXRyYW5zZm9ybTogbm9uZTsgd2lkb3dzOiAyOyB3b3JkLXNwYWNpbmc6IDBweDsgLXdlYmtpdC10
-ZXh0LXN0cm9rZS13aWR0aDogMHB4OyB0ZXh0LWRlY29yYXRpb24tdGhpY2tuZXNzOiBpbml0aWFs
-OyB0ZXh0LWRlY29yYXRpb24tc3R5bGU6IGluaXRpYWw7IHRleHQtZGVjb3JhdGlvbi1jb2xvcjog
-aW5pdGlhbDsiPkkgaGF2ZSBhIHByb2JsZW0gd2l0aCByZXN5bmMgYmxvY2tzLiA8YnI+PC9kaXY+
-PGRpdiBzdHlsZT0iY29sb3I6IHJnYigwLCAwLCAwKTsgZm9udC1zdHlsZTogbm9ybWFsOyBmb250
-LXZhcmlhbnQtbGlnYXR1cmVzOiBub3JtYWw7IGZvbnQtdmFyaWFudC1jYXBzOiBub3JtYWw7IGZv
-bnQtd2VpZ2h0OiA0MDA7IGxldHRlci1zcGFjaW5nOiBub3JtYWw7IG9ycGhhbnM6IDI7IHRleHQt
-YWxpZ246IHN0YXJ0OyB0ZXh0LWluZGVudDogMHB4OyB0ZXh0LXRyYW5zZm9ybTogbm9uZTsgd2lk
-b3dzOiAyOyB3b3JkLXNwYWNpbmc6IDBweDsgLXdlYmtpdC10ZXh0LXN0cm9rZS13aWR0aDogMHB4
-OyB0ZXh0LWRlY29yYXRpb24tdGhpY2tuZXNzOiBpbml0aWFsOyB0ZXh0LWRlY29yYXRpb24tc3R5
-bGU6IGluaXRpYWw7IHRleHQtZGVjb3JhdGlvbi1jb2xvcjogaW5pdGlhbDsiPjxicj48L2Rpdj48
-ZGl2IHN0eWxlPSJjb2xvcjogcmdiKDAsIDAsIDApOyBmb250LXN0eWxlOiBub3JtYWw7IGZvbnQt
-dmFyaWFudC1saWdhdHVyZXM6IG5vcm1hbDsgZm9udC12YXJpYW50LWNhcHM6IG5vcm1hbDsgZm9u
-dC13ZWlnaHQ6IDQwMDsgbGV0dGVyLXNwYWNpbmc6IG5vcm1hbDsgb3JwaGFuczogMjsgdGV4dC1h
-bGlnbjogc3RhcnQ7IHRleHQtaW5kZW50OiAwcHg7IHRleHQtdHJhbnNmb3JtOiBub25lOyB3aWRv
-d3M6IDI7IHdvcmQtc3BhY2luZzogMHB4OyAtd2Via2l0LXRleHQtc3Ryb2tlLXdpZHRoOiAwcHg7
-IHRleHQtZGVjb3JhdGlvbi10aGlja25lc3M6IGluaXRpYWw7IHRleHQtZGVjb3JhdGlvbi1zdHls
-ZTogaW5pdGlhbDsgdGV4dC1kZWNvcmF0aW9uLWNvbG9yOiBpbml0aWFsOyI+Rmlyc3QsIEkgaGF2
-ZSBhIDIgbm9kZSBjbHVzdGVyLCBhbmQgbm9kZS0xIHJ1bm5pbmcgRFJCRCA5LjEgYW5kIG5vZGUg
-LTIgaXMgRFJCRCA5LjIgYW5kIHByb3RvY29sIEMuPGJyPjwvZGl2PjxkaXYgc3R5bGU9ImNvbG9y
-OiByZ2IoMCwgMCwgMCk7IGZvbnQtc3R5bGU6IG5vcm1hbDsgZm9udC12YXJpYW50LWxpZ2F0dXJl
-czogbm9ybWFsOyBmb250LXZhcmlhbnQtY2Fwczogbm9ybWFsOyBmb250LXdlaWdodDogNDAwOyBs
-ZXR0ZXItc3BhY2luZzogbm9ybWFsOyBvcnBoYW5zOiAyOyB0ZXh0LWFsaWduOiBzdGFydDsgdGV4
-dC1pbmRlbnQ6IDBweDsgdGV4dC10cmFuc2Zvcm06IG5vbmU7IHdpZG93czogMjsgd29yZC1zcGFj
-aW5nOiAwcHg7IC13ZWJraXQtdGV4dC1zdHJva2Utd2lkdGg6IDBweDsgdGV4dC1kZWNvcmF0aW9u
-LXRoaWNrbmVzczogaW5pdGlhbDsgdGV4dC1kZWNvcmF0aW9uLXN0eWxlOiBpbml0aWFsOyB0ZXh0
-LWRlY29yYXRpb24tY29sb3I6IGluaXRpYWw7Ij5hbmQgdGhlIHByb2JsZW0gc2NlbmFyaW8gaXMg
-YXMgZm9sbG93czo8L2Rpdj48ZGl2IHN0eWxlPSJjb2xvcjogcmdiKDAsIDAsIDApOyBmb250LXN0
-eWxlOiBub3JtYWw7IGZvbnQtdmFyaWFudC1saWdhdHVyZXM6IG5vcm1hbDsgZm9udC12YXJpYW50
-LWNhcHM6IG5vcm1hbDsgZm9udC13ZWlnaHQ6IDQwMDsgbGV0dGVyLXNwYWNpbmc6IG5vcm1hbDsg
-b3JwaGFuczogMjsgdGV4dC1hbGlnbjogc3RhcnQ7IHRleHQtaW5kZW50OiAwcHg7IHRleHQtdHJh
-bnNmb3JtOiBub25lOyB3aWRvd3M6IDI7IHdvcmQtc3BhY2luZzogMHB4OyAtd2Via2l0LXRleHQt
-c3Ryb2tlLXdpZHRoOiAwcHg7IHRleHQtZGVjb3JhdGlvbi10aGlja25lc3M6IGluaXRpYWw7IHRl
-eHQtZGVjb3JhdGlvbi1zdHlsZTogaW5pdGlhbDsgdGV4dC1kZWNvcmF0aW9uLWNvbG9yOiBpbml0
-aWFsOyI+MS4gbm9kZS0yIGFsd2F5cyBoYXMgYXBwbGljYXRpb24gSU88YnI+Mi4gbm9kZS0xIG5l
-dHdvcmsgZmFpbHVyZSB3aXRoIG5vZGUtMjxicj4zLiB0aGUgbmV0d29yayBpcyByZXN0b3JlZC4g
-bm9kZS0xIGlzIFN5bmNUYXJnZXQgYW5kIG5vZGUtMiBpcyBTeW5jU291cmNlPGJyPjQuIHRoZW4g
-cmVzeW5jIHByb2Nlc3MgaXMgYmxvY2tzPGJyPjwvZGl2PjxkaXYgc3R5bGU9ImNvbG9yOiByZ2Io
-MCwgMCwgMCk7IGZvbnQtc3R5bGU6IG5vcm1hbDsgZm9udC12YXJpYW50LWxpZ2F0dXJlczogbm9y
-bWFsOyBmb250LXZhcmlhbnQtY2Fwczogbm9ybWFsOyBmb250LXdlaWdodDogNDAwOyBsZXR0ZXIt
-c3BhY2luZzogbm9ybWFsOyBvcnBoYW5zOiAyOyB0ZXh0LWFsaWduOiBzdGFydDsgdGV4dC1pbmRl
-bnQ6IDBweDsgdGV4dC10cmFuc2Zvcm06IG5vbmU7IHdpZG93czogMjsgd29yZC1zcGFjaW5nOiAw
-cHg7IC13ZWJraXQtdGV4dC1zdHJva2Utd2lkdGg6IDBweDsgdGV4dC1kZWNvcmF0aW9uLXRoaWNr
-bmVzczogaW5pdGlhbDsgdGV4dC1kZWNvcmF0aW9uLXN0eWxlOiBpbml0aWFsOyB0ZXh0LWRlY29y
-YXRpb24tY29sb3I6IGluaXRpYWw7Ij48YnI+PC9kaXY+PGRpdiBzdHlsZT0iY29sb3I6IHJnYigw
-LCAwLCAwKTsgZm9udC1zdHlsZTogbm9ybWFsOyBmb250LXZhcmlhbnQtbGlnYXR1cmVzOiBub3Jt
-YWw7IGZvbnQtdmFyaWFudC1jYXBzOiBub3JtYWw7IGZvbnQtd2VpZ2h0OiA0MDA7IGxldHRlci1z
-cGFjaW5nOiBub3JtYWw7IG9ycGhhbnM6IDI7IHRleHQtYWxpZ246IHN0YXJ0OyB0ZXh0LWluZGVu
-dDogMHB4OyB0ZXh0LXRyYW5zZm9ybTogbm9uZTsgd2lkb3dzOiAyOyB3b3JkLXNwYWNpbmc6IDBw
-eDsgLXdlYmtpdC10ZXh0LXN0cm9rZS13aWR0aDogMHB4OyB0ZXh0LWRlY29yYXRpb24tdGhpY2tu
-ZXNzOiBpbml0aWFsOyB0ZXh0LWRlY29yYXRpb24tc3R5bGU6IGluaXRpYWw7IHRleHQtZGVjb3Jh
-dGlvbi1jb2xvcjogaW5pdGlhbDsiPllvdSBzb2x2ZWQgdGhlIHNhbWUgcHJvYmxlbSBpbiBDb21t
-aXQgIjdhOWFlMWEyMDgiLCBidXQgSSBzdGlsbCBoYXZlIHRoaXMgcHJvYmxlbS48L2Rpdj48ZGl2
-IHN0eWxlPSJjb2xvcjogcmdiKDAsIDAsIDApOyBmb250LXN0eWxlOiBub3JtYWw7IGZvbnQtdmFy
-aWFudC1saWdhdHVyZXM6IG5vcm1hbDsgZm9udC12YXJpYW50LWNhcHM6IG5vcm1hbDsgZm9udC13
-ZWlnaHQ6IDQwMDsgbGV0dGVyLXNwYWNpbmc6IG5vcm1hbDsgb3JwaGFuczogMjsgdGV4dC1hbGln
-bjogc3RhcnQ7IHRleHQtaW5kZW50OiAwcHg7IHRleHQtdHJhbnNmb3JtOiBub25lOyB3aWRvd3M6
-IDI7IHdvcmQtc3BhY2luZzogMHB4OyAtd2Via2l0LXRleHQtc3Ryb2tlLXdpZHRoOiAwcHg7IHRl
-eHQtZGVjb3JhdGlvbi10aGlja25lc3M6IGluaXRpYWw7IHRleHQtZGVjb3JhdGlvbi1zdHlsZTog
-aW5pdGlhbDsgdGV4dC1kZWNvcmF0aW9uLWNvbG9yOiBpbml0aWFsOyI+PGJyPjwvZGl2PjxkaXYg
-c3R5bGU9ImNvbG9yOiByZ2IoMCwgMCwgMCk7IGZvbnQtc3R5bGU6IG5vcm1hbDsgZm9udC12YXJp
-YW50LWxpZ2F0dXJlczogbm9ybWFsOyBmb250LXZhcmlhbnQtY2Fwczogbm9ybWFsOyBmb250LXdl
-aWdodDogNDAwOyBsZXR0ZXItc3BhY2luZzogbm9ybWFsOyBvcnBoYW5zOiAyOyB0ZXh0LWFsaWdu
-OiBzdGFydDsgdGV4dC1pbmRlbnQ6IDBweDsgdGV4dC10cmFuc2Zvcm06IG5vbmU7IHdpZG93czog
-Mjsgd29yZC1zcGFjaW5nOiAwcHg7IC13ZWJraXQtdGV4dC1zdHJva2Utd2lkdGg6IDBweDsgdGV4
-dC1kZWNvcmF0aW9uLXRoaWNrbmVzczogaW5pdGlhbDsgdGV4dC1kZWNvcmF0aW9uLXN0eWxlOiBp
-bml0aWFsOyB0ZXh0LWRlY29yYXRpb24tY29sb3I6IGluaXRpYWw7Ij5TbywgaG93IGRvIEkgc29s
-dmUgdGhpcyBwcm9ibGVtPzxicj48L2Rpdj48ZGl2IHN0eWxlPSJjb2xvcjogcmdiKDAsIDAsIDAp
-OyBmb250LXN0eWxlOiBub3JtYWw7IGZvbnQtdmFyaWFudC1saWdhdHVyZXM6IG5vcm1hbDsgZm9u
-dC12YXJpYW50LWNhcHM6IG5vcm1hbDsgZm9udC13ZWlnaHQ6IDQwMDsgbGV0dGVyLXNwYWNpbmc6
-IG5vcm1hbDsgb3JwaGFuczogMjsgdGV4dC1hbGlnbjogc3RhcnQ7IHRleHQtaW5kZW50OiAwcHg7
-IHRleHQtdHJhbnNmb3JtOiBub25lOyB3aWRvd3M6IDI7IHdvcmQtc3BhY2luZzogMHB4OyAtd2Vi
-a2l0LXRleHQtc3Ryb2tlLXdpZHRoOiAwcHg7IHRleHQtZGVjb3JhdGlvbi10aGlja25lc3M6IGlu
-aXRpYWw7IHRleHQtZGVjb3JhdGlvbi1zdHlsZTogaW5pdGlhbDsgdGV4dC1kZWNvcmF0aW9uLWNv
-bG9yOiBpbml0aWFsOyI+PGJyPjwvZGl2PjxkaXYgc3R5bGU9ImNvbG9yOiByZ2IoMCwgMCwgMCk7
-IGZvbnQtc3R5bGU6IG5vcm1hbDsgZm9udC12YXJpYW50LWxpZ2F0dXJlczogbm9ybWFsOyBmb250
-LXZhcmlhbnQtY2Fwczogbm9ybWFsOyBmb250LXdlaWdodDogNDAwOyBsZXR0ZXItc3BhY2luZzog
-bm9ybWFsOyBvcnBoYW5zOiAyOyB0ZXh0LWFsaWduOiBzdGFydDsgdGV4dC1pbmRlbnQ6IDBweDsg
-dGV4dC10cmFuc2Zvcm06IG5vbmU7IHdpZG93czogMjsgd29yZC1zcGFjaW5nOiAwcHg7IC13ZWJr
-aXQtdGV4dC1zdHJva2Utd2lkdGg6IDBweDsgdGV4dC1kZWNvcmF0aW9uLXRoaWNrbmVzczogaW5p
-dGlhbDsgdGV4dC1kZWNvcmF0aW9uLXN0eWxlOiBpbml0aWFsOyB0ZXh0LWRlY29yYXRpb24tY29s
-b3I6IGluaXRpYWw7Ij48cHJlIHN0eWxlPSJjb2xvcjogcmdiKDAsIDAsIDApOyBmb250LXN0eWxl
-OiBub3JtYWw7IGZvbnQtdmFyaWFudC1saWdhdHVyZXM6IG5vcm1hbDsgZm9udC12YXJpYW50LWNh
-cHM6IG5vcm1hbDsgZm9udC13ZWlnaHQ6IDQwMDsgbGV0dGVyLXNwYWNpbmc6IG5vcm1hbDsgb3Jw
-aGFuczogMjsgdGV4dC1hbGlnbjogc3RhcnQ7IHRleHQtaW5kZW50OiAwcHg7IHRleHQtdHJhbnNm
-b3JtOiBub25lOyB3aWRvd3M6IDI7IHdvcmQtc3BhY2luZzogMHB4OyAtd2Via2l0LXRleHQtc3Ry
-b2tlLXdpZHRoOiAwcHg7IHRleHQtZGVjb3JhdGlvbi10aGlja25lc3M6IGluaXRpYWw7IHRleHQt
-ZGVjb3JhdGlvbi1zdHlsZTogaW5pdGlhbDsgdGV4dC1kZWNvcmF0aW9uLWNvbG9yOiBpbml0aWFs
-OyI+QmVzdCByZWdhcmRzLAp6aGVuZ2Jpbmc8YnI+PC9wcmU+PC9kaXY+PHA+PC9wPjwvZGl2Pjxi
-cj4=
---=_Part_230280_1771631759.1729080207471--
+Please see these recent commits on the master branch:
+
+3f82aed6e drbd_transport: fix a use after free in drbd_get_listener()
+1f2f11c47 rdma: remove dtr_path_established()
+e38120f3d rdma: Fix leaking a cm_id object
+e0f5e307e rdma: fix superficial kref_put() in error code path in
+dtr_cma_accept()
+35a6b002c rdma: fix concurrency of activate_path() and __dtr_disconnect_pat=
+h()
+6ccd39432 rdma: fix an access after free() in dtr_destroy_cm()
+5a711b347 rdma: fix free() of scheduled delayed_work
+847aab659 rdma: remove misguided kref_get()/kref_put()
+
+I will go over your patch series and your comments. I'm sorry I
+dropped the ball on this. I was out on vacation in July, and when I
+came back, 1000 things needed my attention.
+
+Best regards,
+ Philipp
+
+On Mon, Jul 1, 2024 at 4:48=E2=80=AFAM Dongsheng Yang
+<dongsheng.yang@easystack.cn> wrote:
+>
+>
+>
+> =E5=9C=A8 2024/7/1 =E6=98=9F=E6=9C=9F=E4=B8=80 =E4=B8=8A=E5=8D=88 10:07, =
+Dongsheng Yang =E5=86=99=E9=81=93:
+> >
+> >
+> > =E5=9C=A8 2024/6/28 =E6=98=9F=E6=9C=9F=E4=BA=94 =E4=B8=8B=E5=8D=88 5:40=
+, Philipp Reisner =E5=86=99=E9=81=93:
+> >> Hello Dongsheng,
+> >>
+> >> Please add more information why you think this change fixes a bug.
+> >> Have you experienced a leak of cm structs?
+> >> We got a RDMA_CM_EVENT_ESTABLISHED event. Even if DRBD does not do
+> >> anything with this cm, we sill expect a RDMA_CM_EVENT_DISCONNECTED in
+> >> the future. Is a problem in the handling of the disconnect?
+> >
+> > If dtr_path_established() go into this branch, it will not
+> > schedule_work(&cm->establish_work);
+> >
+> > That means path->cm->state =3D DSM_CONNECTED; will not be done in
+> > dtr_path_established_work_fn(), so __dtr_disconnect_path() will not cal=
+l
+> > rdma_disconnect(). That means this reference will never be put.
+>
+> let me consider this  example:
+> a) rdma_connect() called and RDMA_CM_EVENT_ESTABLISHED received.
+>
+> b) network failure and dtr_path_established() go into error path.
+>
+> c) establish_work will not be scheduled.
+>
+> d) drbdadm down test will hang because cm ref is not put.
+> >>
+> >> best regards,
+> >>   Philipp
+> >>
+> >> On Mon, Jun 24, 2024 at 9:28=E2=80=AFAM zhengbing.huang
+> >> <zhengbing.huang@easystack.cn> wrote:
+> >>>
+> >>> From: Dongsheng Yang <dongsheng.yang@easystack.cn>
+> >>>
+> >>> Signed-off-by: Dongsheng Yang <dongsheng.yang@easystack.cn>
+> >>> ---
+> >>>   drbd/drbd_transport_rdma.c | 1 +
+> >>>   1 file changed, 1 insertion(+)
+> >>>
+> >>> diff --git a/drbd/drbd_transport_rdma.c b/drbd/drbd_transport_rdma.c
+> >>> index cfbae0e78..eccd0c6ce 100644
+> >>> --- a/drbd/drbd_transport_rdma.c
+> >>> +++ b/drbd/drbd_transport_rdma.c
+> >>> @@ -922,6 +922,7 @@ static void dtr_path_established(struct dtr_cm *c=
+m)
+> >>>                          atomic_set(&cs->active_state, PCS_INACTIVE);
+> >>>                          wake_up(&cs->wq);
+> >>>                  }
+> >>> +               kref_put(&cm->kref, dtr_destroy_cm);
+> >>>                  return;
+> >>>          }
+> >>>
+> >>> --
+> >>> 2.27.0
+> >>>
