@@ -2,51 +2,61 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C2289A203C
-	for <lists+drbd-dev@lfdr.de>; Thu, 17 Oct 2024 12:45:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E487C9A3F75
+	for <lists+drbd-dev@lfdr.de>; Fri, 18 Oct 2024 15:23:24 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 588034202F2;
-	Thu, 17 Oct 2024 12:45:17 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1D9DA420305;
+	Fri, 18 Oct 2024 15:23:22 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 4200 seconds by postgrey-1.31 at mail19;
-	Thu, 17 Oct 2024 12:45:11 CEST
-Received: from mail-m1283.netease.com (mail-m1283.netease.com [103.209.128.3])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C14B9420172
-	for <drbd-dev@lists.linbit.com>;
-	Thu, 17 Oct 2024 12:45:10 +0200 (CEST)
-Received: from easystack.cn (unknown [127.0.0.1])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 50BB06E0133;
-	Thu, 17 Oct 2024 14:35:15 +0800 (CST)
-Content-Type: multipart/alternative;
-	BOUNDARY="=_Part_266656_301897984.1729146915325"
-Message-ID: <AJUAKwAsLf9NACSH7bJi*arH.3.1729146915325.Hmail.zhengbing.huang@easystack.cn>
-To: Philipp Reisner <philipp.reisner@linbit.com>
-Subject: =?UTF-8?B?UmU6UmU6IFtQQVRDSF0gcmRtYTogRml4IG11bHRpcGxlIGRpc2sgcGVyZm9ybWFuY2UgZGVncmFkYXRpb24=?=
-X-Priority: 3
-X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com web
-X-Originating-IP: 218.94.118.90
-In-Reply-To: <CADGDV=Xm1t381KRjTqOZj_t1puczxeXPrtCF3xdfLY-7+JUXOg@mail.gmail.com>
-References: <20240914054354.13236-1-zhengbing.huang@easystack.cn>
-	<CADGDV=Xm1t381KRjTqOZj_t1puczxeXPrtCF3xdfLY-7+JUXOg@mail.gmail.com>
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
+	[209.85.218.48])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6BBEF4202F6
+	for <drbd-dev@lists.linbit.com>; Fri, 18 Oct 2024 15:23:17 +0200 (CEST)
+Received: by mail-ej1-f48.google.com with SMTP id
+	a640c23a62f3a-a99e3b3a411so506047066b.0
+	for <drbd-dev@lists.linbit.com>; Fri, 18 Oct 2024 06:23:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linbit-com.20230601.gappssmtp.com; s=20230601; t=1729257797;
+	x=1729862597; darn=lists.linbit.com; 
+	h=cc:to:subject:message-id:date:from:in-reply-to:references
+	:mime-version:from:to:cc:subject:date:message-id:reply-to;
+	bh=BC8EXDV7rDKchQjydkpPwwnxdy4931IeTKZxGqD6z4k=;
+	b=XI3OLZ5NmOVDJ4xnWmJS9bgPexJHSi6umqJsZqqpRpv38cZcG49RQqJ0bXIeg14DWw
+	Y3oitrQH6ztZTMPq4BwUPbEARgsXYtOKojhkcalY/cpdebYc1j+bl/iJU5xZ9ekt0OMN
+	HwHxKwVQbJAWcSU0SyKs1iHa8A1LAoGoohzVHnoT1iBzuIwV0fVXG0pMXC5oj25E+ML1
+	/6mQbXrt5Efvf3+Qgh19TW6hboAZANjfuOgoVkTdoj/iufY0G8Lv5x2tuApIBc4By/Td
+	MlUEsb2iR+81pPQI7VIEkMLAdY8T5AVHJX1Ff2l+gnNkKLXqb3lBNlYQ6jFT+0juN7XT
+	3Ftw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20230601; t=1729257797; x=1729862597;
+	h=cc:to:subject:message-id:date:from:in-reply-to:references
+	:mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+	:reply-to;
+	bh=BC8EXDV7rDKchQjydkpPwwnxdy4931IeTKZxGqD6z4k=;
+	b=j5aOAieIfETk26DUadPMEAez64Lll+j1NWi1XUlehqlTMQtnVZC36Xs9isjVcWSL+I
+	OLqQXi6xP66sDQ/Dd3t5uLi8muZjTYPs4/Ot1aShxre3/TDb3qXhZomr1hsKmjhabIWo
+	ProgJJQluVP5QG39AxTyIskX6JV8ZgYGpdtcKRDUe94rTavaGdO1zTyrjzkL+ntA8WuQ
+	10UIu124iDAZIOJ4eitsC5IjGfTRqMq8JenhCUSeN3bQ/E0aO8wsEYuIOZaBft6xkFi3
+	rPTuVVI3HnQQZl/FSL8qhzI6BHgFXJt//y6AemRhLpkgFgeOBPNRIZhnPoemrQezLL3w
+	ZkRQ==
+X-Gm-Message-State: AOJu0Yx4vhVwaQkO2iR1qvT835cK0gecivLAuabDIH6ocFmWV3vP87NH
+	wB4ORBdfVXGeIU6wP9KXXiuU6VRBnGjEl5lIOLv/f+E3bMYcgvi6t7xHlnRTcfUiJp+Xk7Bqj0H
+	1oAp2DiLdqZZlxjw7lfOFP87mWmeBTARAYEmz6+S1wmeoKAHGEM7zdw==
+X-Google-Smtp-Source: AGHT+IEtKtSAyk+B7b8rZGDFnhsChIibd3sx29dKOHxdgjg3cPHz1gJS1InLtx5uiaTcrWOZVg1hKhoYmbmGDPwguBg=
+X-Received: by 2002:a17:907:8004:b0:a9a:6c41:50c0 with SMTP id
+	a640c23a62f3a-a9a6c4152aemr146038666b.26.1729257797223; Fri, 18 Oct 2024
+	06:23:17 -0700 (PDT)
 MIME-Version: 1.0
-Received: from zhengbing.huang@easystack.cn( [218.94.118.90] ) by ajax-webmail
-	( [127.0.0.1] ) ; Thu, 17 Oct 2024 14:35:15 +0800 (GMT+08:00)
-From: Zhengbing <zhengbing.huang@easystack.cn>
-Date: Thu, 17 Oct 2024 14:35:15 +0800 (GMT+08:00)
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFJQjdXWS1ZQUlXWQ8JGhUIEh9ZQVlCQhgeVkNLQk9KHUxMHRoaGFYVFAkWGhdVGRETFh
-	oSFyQUDg9ZV1kYEgtZQVlJSkNVQk9VSkpDVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0lIQkhCVUpLS1
-	VKQktLWQY+
-X-HM-Tid: 0a929929e19e0248kunm19280894989
-X-HM-MType: 1
-X-HM-NTES-SC: AL0_4z5B86Wr4Tz9jdMF+bhXMdLxDDX8uz7gta1MuvDIeIgwUlgyHX+MOJSz6f
-	c8M+79YVZaBidzG+kJutUPwnPTt6X/JOTJ5b3OdJBk39jCrqhobaofTjv27B1RgB5sPs9Poc9STK
-	z68THHs4nQ3qUaScE4sd36dPEmN6zLOFxYbJE=
-X-HM-Sender-Digest: e1kJHlYWEh9ZQUpCTU1CTUlLSUhLTjdXWQweGVlBDwkOHldZEh8eFQ9Z
-	QVlHOjEuOjAMOgg3HUI1OjgoM0wZMRJRGgkzVUhVSkxJQkpPTUJKTkxITlUzFhoSF1UBEx4VHBkS
-	FRxVEw4aFRw7HhoIAggPGhgQVRgVRVlXWRILWUFZSUpDVUJPVUpKQ1VCS1lXWQgBWUFKQ0pCTTdX
-	WRQLDxIUFQhZQUs3Bg++
+References: <AGwA6wAvLabLP60uFbzuqqrb.1.1729080207471.Hmail.zhengbing.huang@easystack.cn>
+	<ANkAFwBjLZbMNNV-w6M*dKqC.3.1729137033565.Hmail.zhengbing.huang@easystack.cn>
+In-Reply-To: <ANkAFwBjLZbMNNV-w6M*dKqC.3.1729137033565.Hmail.zhengbing.huang@easystack.cn>
+From: Joel Colledge <joel.colledge@linbit.com>
+Date: Fri, 18 Oct 2024 15:23:06 +0200
+Message-ID: <CAGNP_+U4gsRZ0otrJ15R9=aK2z-9n5cw837H-5jLRK=H7TAo4g@mail.gmail.com>
+Subject: Re: drbd: resync blocks
+To: Zhengbing <zhengbing.huang@easystack.cn>
+Content-Type: text/plain; charset="UTF-8"
 Cc: drbd-dev@lists.linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
@@ -64,210 +74,223 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
---=_Part_266656_301897984.1729146915325
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Hi Zhengbing,
 
-SGkgUGhpbGlwcCwKClRoaXMgaXMgaW5kZWVkIGEgYmV0dGVyIGlkZWEuCk1ha2UgaXQgaGFwcGVu
-LgoKCmJlc3QgcmVnYXJkcywKemhlbmdiaW5nCgoKCuWPkeS7tuS6uu+8mlBoaWxpcHAgUmVpc25l
-ciA8cGhpbGlwcC5yZWlzbmVyQGxpbmJpdC5jb20+CuWPkemAgeaXpeacn++8mjIwMjQtMTAtMTcg
-MDA6NDg6MjYK5pS25Lu25Lq677yaInpoZW5nYmluZy5odWFuZyIgPHpoZW5nYmluZy5odWFuZ0Bl
-YXN5c3RhY2suY24+CuaKhOmAgeS6uu+8mmRyYmQtZGV2QGxpc3RzLmxpbmJpdC5jb20K5Li76aKY
-77yaUmU6IFtQQVRDSF0gcmRtYTogRml4IG11bHRpcGxlIGRpc2sgcGVyZm9ybWFuY2UgZGVncmFk
-YXRpb24+SGkgWmhlbmdiaW5nLAo+Cj5NeSBpbXByZXNzaW9uIGlzIHRoYXQgdXNpbmcgdGhlIHBv
-cnQgbnVtYmVyIHRvIGRpc3RyaWJ1dGUgdGhlIElSUXMgaXMKPmEgaGFjay4gV2hhdCBhYm91dCBh
-bGxvY2F0aW5nIGFuIGFycmF5IGFuZCB0cmFja2luZyBob3cgbWFueSBDTXMgZ290Cj5hc3NpZ25l
-ZCB0byBlYWNoIElSUSwgYW5kIGFsd2F5cyB1c2luZyB0aGUgSVJRIG51bWJlciB0aGF0IGlzIHVz
-ZWQgYnkKPnRoZSBsZWFzdCBudW1iZXIgb2Ygb3RoZXIgQ01zPwo+Cj5iZXN0IHJlZ2FyZHMsCj4g
-UGhpbGlwcAo+Cj5PbiBTYXQsIFNlcCAxNCwgMjAyNCBhdCA4OjEy4oCvQU0gemhlbmdiaW5nLmh1
-YW5nCj48emhlbmdiaW5nLmh1YW5nQGVhc3lzdGFjay5jbj4gd3JvdGU6Cj4+Cj4+IEluIHRoZSBw
-ZXJmb3JtYW5jZSB0ZXN0IG9mIHJkbWEgbW9kZSwgd2UgZm91bmQgdGhhdCB3aGVuCj4+IHR3byBk
-cmJkIGRpc2tzIHdlcmUgc2ltdWx0YW5lb3VzbHkgc3ViamVjdGVkIHRvIGhpZ2gtcHJlc3N1cmUg
-SS9PIHdyaXRlLAo+PiB0aGUgSU9QUyBvZiBlYWNoIGRyYmQgZGlzayB3b3VsZCBiZSByZWR1Y2Vk
-IGJ5IGhhbGYuCj4+Cj4+IFRoZSByZWFzb24gaXMgdGhhdCBpZiB0aGUgY3FfYXR0ci5jb21wX3Zl
-Y3RvciBwYXJhbWV0ZXIKPj4gaXMgbm90IHNwZWNpZmllZCB3aGVuIHJkbWEgY3JlYXRlIHNlbmRf
-Y3EgYW5kIHJlY3ZfY3EsCj4+IGNxIHdpbGwgYmUgYWxsb2NhdGVkIHRvIHRoZSBzYW1lIGlycSBm
-b3IgcHJvY2Vzc2luZy4KPj4gQXQgdGhpcyBwb2ludCwgaWYgbXVsdGlwbGUgZGlza3MgYXJlIHN0
-cmVzcyB0ZXN0ZWQgYXQgdGhlIHNhbWUgdGltZSwKPj4gaXJxIHdpbGwgbm90IGJlIHByb2Nlc3Nl
-ZCBpbiBhIHRpbWVseSBtYW5uZXIKPj4gYW5kIHBlcmZvcm1hbmNlIHdpbGwgZGVjcmVhc2UuCj4+
-Cj4+IFRoZSBzb2x1dGlvbiBpcyB0byB1c2UgdGhlIG5ldHdvcmsgcG9ydCBudW1iZXIgYXMgdGhl
-IGluZGV4IG9mIHRoZSBjb21wX3ZlY3RvciwKPj4gc28gdGhhdCB0aGUgY3Egb2YgZWFjaCBkaXNr
-IGNhbiBiZSBkaXN0cmlidXRlZCBhY3Jvc3MgZGlmZmVyZW50IElSUXMKPj4KPj4gU2lnbmVkLW9m
-Zi1ieTogemhlbmdiaW5nLmh1YW5nIDx6aGVuZ2JpbmcuaHVhbmdAZWFzeXN0YWNrLmNuPgo+PiAt
-LS0KPj4gIGRyYmQvZHJiZF90cmFuc3BvcnRfcmRtYS5jIHwgNDQgKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKy0tLS0KPj4gIDEgZmlsZSBjaGFuZ2VkLCA0MCBpbnNlcnRpb25zKCsp
-LCA0IGRlbGV0aW9ucygtKQo+Pgo+PiBkaWZmIC0tZ2l0IGEvZHJiZC9kcmJkX3RyYW5zcG9ydF9y
-ZG1hLmMgYi9kcmJkL2RyYmRfdHJhbnNwb3J0X3JkbWEuYwo+PiBpbmRleCA4MTM3ODdjMjguLjg5
-MTVlNjBkMSAxMDA2NDQKPj4gLS0tIGEvZHJiZC9kcmJkX3RyYW5zcG9ydF9yZG1hLmMKPj4gKysr
-IGIvZHJiZC9kcmJkX3RyYW5zcG9ydF9yZG1hLmMKPj4gQEAgLTI0ODYsMTAgKzI0ODYsNDMgQEAg
-c3RhdGljIGludCBkdHJfaW5pdF9mbG93KHN0cnVjdCBkdHJfcGF0aCAqcGF0aCwgZW51bSBkcmJk
-X3N0cmVhbSBzdHJlYW0pCj4+ICAgICAgICAgcmV0dXJuIGVycjsKPj4gIH0KPj4KPj4gK3N0YXRp
-YyBpbnQgZHRyX2dldF9teV9wb3J0KHN0cnVjdCBkdHJfcGF0aCAqcGF0aCkKPj4gK3sKPj4gKyAg
-ICAgICBpbnQgcG9ydCA9IDA7Cj4+ICsgICAgICAgc3RydWN0IHNvY2thZGRyX3N0b3JhZ2UgKmFk
-ZHIgPSAoc3RydWN0IHNvY2thZGRyX3N0b3JhZ2UgKikmcGF0aC0+cGF0aC5teV9hZGRyOwo+PiAr
-Cj4+ICsgICAgICAgaWYgKGFkZHItPnNzX2ZhbWlseSA9PSBBRl9JTkVUNikgewo+PiArICAgICAg
-ICAgICAgICAgY29uc3Qgc3RydWN0IHNvY2thZGRyX2luNiAqdjZhID0gKGNvbnN0IHN0cnVjdCBz
-b2NrYWRkcl9pbjYgKilhZGRyOwo+PiArCj4+ICsgICAgICAgICAgICAgICBwb3J0ID0gYmUxNl90
-b19jcHUodjZhLT5zaW42X3BvcnQpOwo+PiArICAgICAgIH0gZWxzZSAvKiBBRl9JTkVULCBBRl9T
-U09DS1MsIEFGX1NEUCAqLyB7Cj4+ICsgICAgICAgICAgICAgICBjb25zdCBzdHJ1Y3Qgc29ja2Fk
-ZHJfaW4gKnY0YSA9IChjb25zdCBzdHJ1Y3Qgc29ja2FkZHJfaW4gKilhZGRyOwo+PiArCj4+ICsg
-ICAgICAgICAgICAgICBwb3J0ID0gYmUxNl90b19jcHUodjRhLT5zaW5fcG9ydCk7Cj4+ICsgICAg
-ICAgfQo+PiArCj4+ICsgICAgICAgcmV0dXJuIHBvcnQ7Cj4+ICt9Cj4+ICsKPj4gK3N0YXRpYyB2
-b2lkIGR0cl9nZXRfY29tcF92ZWN0b3JzKHN0cnVjdCBkdHJfcGF0aCAqcGF0aCwgaW50IGNxX251
-bSwgaW50ICpjb21wX3ZlY3RvcnMpCj4+ICt7Cj4+ICsgICAgICAgaW50IGk7Cj4+ICsgICAgICAg
-aW50IHRtcF9jb21wX3ZlY3RvciA9IGR0cl9nZXRfbXlfcG9ydChwYXRoKSAqIGNxX251bTsKPj4g
-Kwo+PiArICAgICAgIGZvciAoaSA9IDA7IGkgPCBjcV9udW07IGkrKykgewo+PiArICAgICAgICAg
-ICAgICAgY29tcF92ZWN0b3JzW2ldID0gdG1wX2NvbXBfdmVjdG9yICsgaTsKPj4gKyAgICAgICB9
-Cj4+ICsKPj4gKyAgICAgICByZXR1cm47Cj4+ICt9Cj4+ICsKPj4gIHN0YXRpYyBpbnQgX2R0cl9j
-bV9hbGxvY19yZG1hX3JlcyhzdHJ1Y3QgZHRyX2NtICpjbSwKPj4gICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgZW51bSBkdHJfYWxsb2NfcmRtYV9yZXNfY2F1c2VzICpjYXVzZSkK
-Pj4gIHsKPj4gLSAgICAgICBpbnQgZXJyLCBpLCByeF9kZXNjc19tYXggPSAwLCB0eF9kZXNjc19t
-YXggPSAwOwo+PiArICAgICAgIGludCBlcnIsIGksIGNxX2luZGV4ID0gMCwgcnhfZGVzY3NfbWF4
-ID0gMCwgdHhfZGVzY3NfbWF4ID0gMDsKPj4gKyAgICAgICBpbnQgY3FfbnVtID0gMjsgLyogcmVj
-dl9jcSBhbmQgc2VuZF9jcSAqLwo+PiArICAgICAgIGludCBjb21wX3ZlY3RvcnNbMl0gPSB7MH07
-IC8qIHJlY3ZfY3EgYW5kIHNlbmRfY3EgKi8KPj4gKyAgICAgICBzdHJ1Y3QgaWJfZGV2aWNlICpk
-ZXZpY2UgPSBjbS0+aWQtPmRldmljZTsKPj4gICAgICAgICBzdHJ1Y3QgaWJfY3FfaW5pdF9hdHRy
-IGNxX2F0dHIgPSB7fTsKPj4gICAgICAgICBzdHJ1Y3QgZHRyX3BhdGggKnBhdGggPSBjbS0+cGF0
-aDsKPj4KPj4gQEAgLTI1MDQsMTYgKzI1MzcsMTggQEAgc3RhdGljIGludCBfZHRyX2NtX2FsbG9j
-X3JkbWFfcmVzKHN0cnVjdCBkdHJfY20gKmNtLAo+PiAgICAgICAgIC8qIGluIDQuOSBpYl9hbGxv
-Y19wZCBnb3QgdGhlIGFiaWxpdHkgdG8gc3BlY2lmeSBmbGFncyBhcyBzZWNvbmQgcGFyYW0gKi8K
-Pj4gICAgICAgICAvKiBzbyBmYXIgd2UgZG9uJ3QgdXNlIGZsYWdzLCBidXQgaWYgd2Ugc3RhcnQg
-dXNpbmcgdGhlbSwgd2UgaGF2ZSB0byBiZQo+PiAgICAgICAgICAqIGF3YXJlIHRoYXQgdGhlIGNv
-bXBhdCBsYXllciByZW1vdmVzIHRoaXMgcGFyYW1ldGVyIGZvciBvbGQga2VybmVscyAqLwo+PiAt
-ICAgICAgIGNtLT5wZCA9IGliX2FsbG9jX3BkKGNtLT5pZC0+ZGV2aWNlLCAwKTsKPj4gKyAgICAg
-ICBjbS0+cGQgPSBpYl9hbGxvY19wZChkZXZpY2UsIDApOwo+PiAgICAgICAgIGlmIChJU19FUlIo
-Y20tPnBkKSkgewo+PiAgICAgICAgICAgICAgICAgKmNhdXNlID0gSUJfQUxMT0NfUEQ7Cj4+ICAg
-ICAgICAgICAgICAgICBlcnIgPSBQVFJfRVJSKGNtLT5wZCk7Cj4+ICAgICAgICAgICAgICAgICBn
-b3RvIHBkX2ZhaWxlZDsKPj4gICAgICAgICB9Cj4+Cj4+ICsgICAgICAgZHRyX2dldF9jb21wX3Zl
-Y3RvcnMocGF0aCwgY3FfbnVtLCBjb21wX3ZlY3RvcnMpOwo+PiAgICAgICAgIC8qIGNyZWF0ZSBy
-ZWN2IGNvbXBsZXRpb24gcXVldWUgKENRKSAqLwo+PiAgICAgICAgIGNxX2F0dHIuY3FlID0gcnhf
-ZGVzY3NfbWF4Owo+PiAtICAgICAgIGNtLT5yZWN2X2NxID0gaWJfY3JlYXRlX2NxKGNtLT5pZC0+
-ZGV2aWNlLAo+PiArICAgICAgIGNxX2F0dHIuY29tcF92ZWN0b3IgPSBjb21wX3ZlY3RvcnNbY3Ff
-aW5kZXhdICUgZGV2aWNlLT5udW1fY29tcF92ZWN0b3JzOwo+PiArICAgICAgIGNtLT5yZWN2X2Nx
-ID0gaWJfY3JlYXRlX2NxKGRldmljZSwKPj4gICAgICAgICAgICAgICAgICAgICAgICAgZHRyX3J4
-X2NxX2V2ZW50X2hhbmRsZXIsIE5VTEwsIGNtLAo+PiAgICAgICAgICAgICAgICAgICAgICAgICAm
-Y3FfYXR0cik7Cj4+ICAgICAgICAgaWYgKElTX0VSUihjbS0+cmVjdl9jcSkpIHsKPj4gQEAgLTI1
-MjQsNyArMjU1OSw4IEBAIHN0YXRpYyBpbnQgX2R0cl9jbV9hbGxvY19yZG1hX3JlcyhzdHJ1Y3Qg
-ZHRyX2NtICpjbSwKPj4KPj4gICAgICAgICAvKiBjcmVhdGUgc2VuZCBjb21wbGV0aW9uIHF1ZXVl
-IChDUSkgKi8KPj4gICAgICAgICBjcV9hdHRyLmNxZSA9IHR4X2Rlc2NzX21heDsKPj4gLSAgICAg
-ICBjbS0+c2VuZF9jcSA9IGliX2NyZWF0ZV9jcShjbS0+aWQtPmRldmljZSwKPj4gKyAgICAgICBj
-cV9hdHRyLmNvbXBfdmVjdG9yID0gY29tcF92ZWN0b3JzW2NxX2luZGV4KytdICUgZGV2aWNlLT5u
-dW1fY29tcF92ZWN0b3JzOwo+PiArICAgICAgIGNtLT5zZW5kX2NxID0gaWJfY3JlYXRlX2NxKGRl
-dmljZSwKPj4gICAgICAgICAgICAgICAgICAgICAgICAgZHRyX3R4X2NxX2V2ZW50X2hhbmRsZXIs
-IE5VTEwsIGNtLAo+PiAgICAgICAgICAgICAgICAgICAgICAgICAmY3FfYXR0cik7Cj4+ICAgICAg
-ICAgaWYgKElTX0VSUihjbS0+c2VuZF9jcSkpIHsKPj4gLS0KPj4gMi4xNy4xCj4+CgoKDQoNCg==
---=_Part_266656_301897984.1729146915325
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Thanks for investigating this. I don't have any immediate comments on
+this. It may take a while until I have time to look into it in detail.
 
-PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
-Zm9udC1mYW1pbHk6QXJpYWwiPkhpIDxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFjZTogcHJlLXdyYXAi
-PlBoaWxpcHAsPC9zcGFuPjxkaXY+PHNwYW4gc3R5bGU9IndoaXRlLXNwYWNlOiBwcmUtd3JhcCI+
-PGJyPjwvc3Bhbj48L2Rpdj48ZGl2PjxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFjZTogcHJlLXdyYXAi
-PlRoaXMgaXMgaW5kZWVkIGEgYmV0dGVyIGlkZWEuPC9zcGFuPjwvZGl2PjxkaXY+PHNwYW4gc3R5
-bGU9IndoaXRlLXNwYWNlOiBwcmUtd3JhcCI+TWFrZSBpdCBoYXBwZW4uPC9zcGFuPjwvZGl2Pjxk
-aXY+PHNwYW4gc3R5bGU9IndoaXRlLXNwYWNlOiBwcmUtd3JhcCI+PGJyPjwvc3Bhbj48L2Rpdj48
-ZGl2PmJlc3QgcmVnYXJkcyw8L2Rpdj48ZGl2PnpoZW5nYmluZzxicj48L2Rpdj48ZGl2ICBzdHls
-ZT0icG9zaXRpb246cmVsYXRpdmU7em9vbToxIj48L2Rpdj48YnIgc3R5bGU9IndoaXRlLXNwYWNl
-OiBwcmUtd3JhcDsiPjxwcmU+5Y+R5Lu25Lq677yaUGhpbGlwcCBSZWlzbmVyICZsdDtwaGlsaXBw
-LnJlaXNuZXJAbGluYml0LmNvbSZndDsK5Y+R6YCB5pel5pyf77yaMjAyNC0xMC0xNyAwMDo0ODoy
-NgrmlLbku7bkurrvvJoiemhlbmdiaW5nLmh1YW5nIiAmbHQ7emhlbmdiaW5nLmh1YW5nQGVhc3lz
-dGFjay5jbiZndDsK5oqE6YCB5Lq677yaZHJiZC1kZXZAbGlzdHMubGluYml0LmNvbQrkuLvpopjv
-vJpSZTogW1BBVENIXSByZG1hOiBGaXggbXVsdGlwbGUgZGlzayBwZXJmb3JtYW5jZSBkZWdyYWRh
-dGlvbiZndDtIaSBaaGVuZ2JpbmcsCiZndDsKJmd0O015IGltcHJlc3Npb24gaXMgdGhhdCB1c2lu
-ZyB0aGUgcG9ydCBudW1iZXIgdG8gZGlzdHJpYnV0ZSB0aGUgSVJRcyBpcwomZ3Q7YSBoYWNrLiBX
-aGF0IGFib3V0IGFsbG9jYXRpbmcgYW4gYXJyYXkgYW5kIHRyYWNraW5nIGhvdyBtYW55IENNcyBn
-b3QKJmd0O2Fzc2lnbmVkIHRvIGVhY2ggSVJRLCBhbmQgYWx3YXlzIHVzaW5nIHRoZSBJUlEgbnVt
-YmVyIHRoYXQgaXMgdXNlZCBieQomZ3Q7dGhlIGxlYXN0IG51bWJlciBvZiBvdGhlciBDTXM/CiZn
-dDsKJmd0O2Jlc3QgcmVnYXJkcywKJmd0OyBQaGlsaXBwCiZndDsKJmd0O09uIFNhdCwgU2VwIDE0
-LCAyMDI0IGF0IDg6MTLigK9BTSB6aGVuZ2JpbmcuaHVhbmcKJmd0OyZsdDt6aGVuZ2JpbmcuaHVh
-bmdAZWFzeXN0YWNrLmNuJmd0OyB3cm90ZToKJmd0OyZndDsKJmd0OyZndDsgSW4gdGhlIHBlcmZv
-cm1hbmNlIHRlc3Qgb2YgcmRtYSBtb2RlLCB3ZSBmb3VuZCB0aGF0IHdoZW4KJmd0OyZndDsgdHdv
-IGRyYmQgZGlza3Mgd2VyZSBzaW11bHRhbmVvdXNseSBzdWJqZWN0ZWQgdG8gaGlnaC1wcmVzc3Vy
-ZSBJL08gd3JpdGUsCiZndDsmZ3Q7IHRoZSBJT1BTIG9mIGVhY2ggZHJiZCBkaXNrIHdvdWxkIGJl
-IHJlZHVjZWQgYnkgaGFsZi4KJmd0OyZndDsKJmd0OyZndDsgVGhlIHJlYXNvbiBpcyB0aGF0IGlm
-IHRoZSBjcV9hdHRyLmNvbXBfdmVjdG9yIHBhcmFtZXRlcgomZ3Q7Jmd0OyBpcyBub3Qgc3BlY2lm
-aWVkIHdoZW4gcmRtYSBjcmVhdGUgc2VuZF9jcSBhbmQgcmVjdl9jcSwKJmd0OyZndDsgY3Egd2ls
-bCBiZSBhbGxvY2F0ZWQgdG8gdGhlIHNhbWUgaXJxIGZvciBwcm9jZXNzaW5nLgomZ3Q7Jmd0OyBB
-dCB0aGlzIHBvaW50LCBpZiBtdWx0aXBsZSBkaXNrcyBhcmUgc3RyZXNzIHRlc3RlZCBhdCB0aGUg
-c2FtZSB0aW1lLAomZ3Q7Jmd0OyBpcnEgd2lsbCBub3QgYmUgcHJvY2Vzc2VkIGluIGEgdGltZWx5
-IG1hbm5lcgomZ3Q7Jmd0OyBhbmQgcGVyZm9ybWFuY2Ugd2lsbCBkZWNyZWFzZS4KJmd0OyZndDsK
-Jmd0OyZndDsgVGhlIHNvbHV0aW9uIGlzIHRvIHVzZSB0aGUgbmV0d29yayBwb3J0IG51bWJlciBh
-cyB0aGUgaW5kZXggb2YgdGhlIGNvbXBfdmVjdG9yLAomZ3Q7Jmd0OyBzbyB0aGF0IHRoZSBjcSBv
-ZiBlYWNoIGRpc2sgY2FuIGJlIGRpc3RyaWJ1dGVkIGFjcm9zcyBkaWZmZXJlbnQgSVJRcwomZ3Q7
-Jmd0OwomZ3Q7Jmd0OyBTaWduZWQtb2ZmLWJ5OiB6aGVuZ2JpbmcuaHVhbmcgJmx0O3poZW5nYmlu
-Zy5odWFuZ0BlYXN5c3RhY2suY24mZ3Q7CiZndDsmZ3Q7IC0tLQomZ3Q7Jmd0OyAgZHJiZC9kcmJk
-X3RyYW5zcG9ydF9yZG1hLmMgfCA0NCArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-LS0tLQomZ3Q7Jmd0OyAgMSBmaWxlIGNoYW5nZWQsIDQwIGluc2VydGlvbnMoKyksIDQgZGVsZXRp
-b25zKC0pCiZndDsmZ3Q7CiZndDsmZ3Q7IGRpZmYgLS1naXQgYS9kcmJkL2RyYmRfdHJhbnNwb3J0
-X3JkbWEuYyBiL2RyYmQvZHJiZF90cmFuc3BvcnRfcmRtYS5jCiZndDsmZ3Q7IGluZGV4IDgxMzc4
-N2MyOC4uODkxNWU2MGQxIDEwMDY0NAomZ3Q7Jmd0OyAtLS0gYS9kcmJkL2RyYmRfdHJhbnNwb3J0
-X3JkbWEuYwomZ3Q7Jmd0OyArKysgYi9kcmJkL2RyYmRfdHJhbnNwb3J0X3JkbWEuYwomZ3Q7Jmd0
-OyBAQCAtMjQ4NiwxMCArMjQ4Niw0MyBAQCBzdGF0aWMgaW50IGR0cl9pbml0X2Zsb3coc3RydWN0
-IGR0cl9wYXRoICpwYXRoLCBlbnVtIGRyYmRfc3RyZWFtIHN0cmVhbSkKJmd0OyZndDsgICAgICAg
-ICByZXR1cm4gZXJyOwomZ3Q7Jmd0OyAgfQomZ3Q7Jmd0OwomZ3Q7Jmd0OyArc3RhdGljIGludCBk
-dHJfZ2V0X215X3BvcnQoc3RydWN0IGR0cl9wYXRoICpwYXRoKQomZ3Q7Jmd0OyArewomZ3Q7Jmd0
-OyArICAgICAgIGludCBwb3J0ID0gMDsKJmd0OyZndDsgKyAgICAgICBzdHJ1Y3Qgc29ja2FkZHJf
-c3RvcmFnZSAqYWRkciA9IChzdHJ1Y3Qgc29ja2FkZHJfc3RvcmFnZSAqKSZhbXA7cGF0aC0mZ3Q7
-cGF0aC5teV9hZGRyOwomZ3Q7Jmd0OyArCiZndDsmZ3Q7ICsgICAgICAgaWYgKGFkZHItJmd0O3Nz
-X2ZhbWlseSA9PSBBRl9JTkVUNikgewomZ3Q7Jmd0OyArICAgICAgICAgICAgICAgY29uc3Qgc3Ry
-dWN0IHNvY2thZGRyX2luNiAqdjZhID0gKGNvbnN0IHN0cnVjdCBzb2NrYWRkcl9pbjYgKilhZGRy
-OwomZ3Q7Jmd0OyArCiZndDsmZ3Q7ICsgICAgICAgICAgICAgICBwb3J0ID0gYmUxNl90b19jcHUo
-djZhLSZndDtzaW42X3BvcnQpOwomZ3Q7Jmd0OyArICAgICAgIH0gZWxzZSAvKiBBRl9JTkVULCBB
-Rl9TU09DS1MsIEFGX1NEUCAqLyB7CiZndDsmZ3Q7ICsgICAgICAgICAgICAgICBjb25zdCBzdHJ1
-Y3Qgc29ja2FkZHJfaW4gKnY0YSA9IChjb25zdCBzdHJ1Y3Qgc29ja2FkZHJfaW4gKilhZGRyOwom
-Z3Q7Jmd0OyArCiZndDsmZ3Q7ICsgICAgICAgICAgICAgICBwb3J0ID0gYmUxNl90b19jcHUodjRh
-LSZndDtzaW5fcG9ydCk7CiZndDsmZ3Q7ICsgICAgICAgfQomZ3Q7Jmd0OyArCiZndDsmZ3Q7ICsg
-ICAgICAgcmV0dXJuIHBvcnQ7CiZndDsmZ3Q7ICt9CiZndDsmZ3Q7ICsKJmd0OyZndDsgK3N0YXRp
-YyB2b2lkIGR0cl9nZXRfY29tcF92ZWN0b3JzKHN0cnVjdCBkdHJfcGF0aCAqcGF0aCwgaW50IGNx
-X251bSwgaW50ICpjb21wX3ZlY3RvcnMpCiZndDsmZ3Q7ICt7CiZndDsmZ3Q7ICsgICAgICAgaW50
-IGk7CiZndDsmZ3Q7ICsgICAgICAgaW50IHRtcF9jb21wX3ZlY3RvciA9IGR0cl9nZXRfbXlfcG9y
-dChwYXRoKSAqIGNxX251bTsKJmd0OyZndDsgKwomZ3Q7Jmd0OyArICAgICAgIGZvciAoaSA9IDA7
-IGkgJmx0OyBjcV9udW07IGkrKykgewomZ3Q7Jmd0OyArICAgICAgICAgICAgICAgY29tcF92ZWN0
-b3JzW2ldID0gdG1wX2NvbXBfdmVjdG9yICsgaTsKJmd0OyZndDsgKyAgICAgICB9CiZndDsmZ3Q7
-ICsKJmd0OyZndDsgKyAgICAgICByZXR1cm47CiZndDsmZ3Q7ICt9CiZndDsmZ3Q7ICsKJmd0OyZn
-dDsgIHN0YXRpYyBpbnQgX2R0cl9jbV9hbGxvY19yZG1hX3JlcyhzdHJ1Y3QgZHRyX2NtICpjbSwK
-Jmd0OyZndDsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZW51bSBkdHJfYWxs
-b2NfcmRtYV9yZXNfY2F1c2VzICpjYXVzZSkKJmd0OyZndDsgIHsKJmd0OyZndDsgLSAgICAgICBp
-bnQgZXJyLCBpLCByeF9kZXNjc19tYXggPSAwLCB0eF9kZXNjc19tYXggPSAwOwomZ3Q7Jmd0OyAr
-ICAgICAgIGludCBlcnIsIGksIGNxX2luZGV4ID0gMCwgcnhfZGVzY3NfbWF4ID0gMCwgdHhfZGVz
-Y3NfbWF4ID0gMDsKJmd0OyZndDsgKyAgICAgICBpbnQgY3FfbnVtID0gMjsgLyogcmVjdl9jcSBh
-bmQgc2VuZF9jcSAqLwomZ3Q7Jmd0OyArICAgICAgIGludCBjb21wX3ZlY3RvcnNbMl0gPSB7MH07
-IC8qIHJlY3ZfY3EgYW5kIHNlbmRfY3EgKi8KJmd0OyZndDsgKyAgICAgICBzdHJ1Y3QgaWJfZGV2
-aWNlICpkZXZpY2UgPSBjbS0mZ3Q7aWQtJmd0O2RldmljZTsKJmd0OyZndDsgICAgICAgICBzdHJ1
-Y3QgaWJfY3FfaW5pdF9hdHRyIGNxX2F0dHIgPSB7fTsKJmd0OyZndDsgICAgICAgICBzdHJ1Y3Qg
-ZHRyX3BhdGggKnBhdGggPSBjbS0mZ3Q7cGF0aDsKJmd0OyZndDsKJmd0OyZndDsgQEAgLTI1MDQs
-MTYgKzI1MzcsMTggQEAgc3RhdGljIGludCBfZHRyX2NtX2FsbG9jX3JkbWFfcmVzKHN0cnVjdCBk
-dHJfY20gKmNtLAomZ3Q7Jmd0OyAgICAgICAgIC8qIGluIDQuOSBpYl9hbGxvY19wZCBnb3QgdGhl
-IGFiaWxpdHkgdG8gc3BlY2lmeSBmbGFncyBhcyBzZWNvbmQgcGFyYW0gKi8KJmd0OyZndDsgICAg
-ICAgICAvKiBzbyBmYXIgd2UgZG9uJ3QgdXNlIGZsYWdzLCBidXQgaWYgd2Ugc3RhcnQgdXNpbmcg
-dGhlbSwgd2UgaGF2ZSB0byBiZQomZ3Q7Jmd0OyAgICAgICAgICAqIGF3YXJlIHRoYXQgdGhlIGNv
-bXBhdCBsYXllciByZW1vdmVzIHRoaXMgcGFyYW1ldGVyIGZvciBvbGQga2VybmVscyAqLwomZ3Q7
-Jmd0OyAtICAgICAgIGNtLSZndDtwZCA9IGliX2FsbG9jX3BkKGNtLSZndDtpZC0mZ3Q7ZGV2aWNl
-LCAwKTsKJmd0OyZndDsgKyAgICAgICBjbS0mZ3Q7cGQgPSBpYl9hbGxvY19wZChkZXZpY2UsIDAp
-OwomZ3Q7Jmd0OyAgICAgICAgIGlmIChJU19FUlIoY20tJmd0O3BkKSkgewomZ3Q7Jmd0OyAgICAg
-ICAgICAgICAgICAgKmNhdXNlID0gSUJfQUxMT0NfUEQ7CiZndDsmZ3Q7ICAgICAgICAgICAgICAg
-ICBlcnIgPSBQVFJfRVJSKGNtLSZndDtwZCk7CiZndDsmZ3Q7ICAgICAgICAgICAgICAgICBnb3Rv
-IHBkX2ZhaWxlZDsKJmd0OyZndDsgICAgICAgICB9CiZndDsmZ3Q7CiZndDsmZ3Q7ICsgICAgICAg
-ZHRyX2dldF9jb21wX3ZlY3RvcnMocGF0aCwgY3FfbnVtLCBjb21wX3ZlY3RvcnMpOwomZ3Q7Jmd0
-OyAgICAgICAgIC8qIGNyZWF0ZSByZWN2IGNvbXBsZXRpb24gcXVldWUgKENRKSAqLwomZ3Q7Jmd0
-OyAgICAgICAgIGNxX2F0dHIuY3FlID0gcnhfZGVzY3NfbWF4OwomZ3Q7Jmd0OyAtICAgICAgIGNt
-LSZndDtyZWN2X2NxID0gaWJfY3JlYXRlX2NxKGNtLSZndDtpZC0mZ3Q7ZGV2aWNlLAomZ3Q7Jmd0
-OyArICAgICAgIGNxX2F0dHIuY29tcF92ZWN0b3IgPSBjb21wX3ZlY3RvcnNbY3FfaW5kZXhdICUg
-ZGV2aWNlLSZndDtudW1fY29tcF92ZWN0b3JzOwomZ3Q7Jmd0OyArICAgICAgIGNtLSZndDtyZWN2
-X2NxID0gaWJfY3JlYXRlX2NxKGRldmljZSwKJmd0OyZndDsgICAgICAgICAgICAgICAgICAgICAg
-ICAgZHRyX3J4X2NxX2V2ZW50X2hhbmRsZXIsIE5VTEwsIGNtLAomZ3Q7Jmd0OyAgICAgICAgICAg
-ICAgICAgICAgICAgICAmYW1wO2NxX2F0dHIpOwomZ3Q7Jmd0OyAgICAgICAgIGlmIChJU19FUlIo
-Y20tJmd0O3JlY3ZfY3EpKSB7CiZndDsmZ3Q7IEBAIC0yNTI0LDcgKzI1NTksOCBAQCBzdGF0aWMg
-aW50IF9kdHJfY21fYWxsb2NfcmRtYV9yZXMoc3RydWN0IGR0cl9jbSAqY20sCiZndDsmZ3Q7CiZn
-dDsmZ3Q7ICAgICAgICAgLyogY3JlYXRlIHNlbmQgY29tcGxldGlvbiBxdWV1ZSAoQ1EpICovCiZn
-dDsmZ3Q7ICAgICAgICAgY3FfYXR0ci5jcWUgPSB0eF9kZXNjc19tYXg7CiZndDsmZ3Q7IC0gICAg
-ICAgY20tJmd0O3NlbmRfY3EgPSBpYl9jcmVhdGVfY3EoY20tJmd0O2lkLSZndDtkZXZpY2UsCiZn
-dDsmZ3Q7ICsgICAgICAgY3FfYXR0ci5jb21wX3ZlY3RvciA9IGNvbXBfdmVjdG9yc1tjcV9pbmRl
-eCsrXSAlIGRldmljZS0mZ3Q7bnVtX2NvbXBfdmVjdG9yczsKJmd0OyZndDsgKyAgICAgICBjbS0m
-Z3Q7c2VuZF9jcSA9IGliX2NyZWF0ZV9jcShkZXZpY2UsCiZndDsmZ3Q7ICAgICAgICAgICAgICAg
-ICAgICAgICAgIGR0cl90eF9jcV9ldmVudF9oYW5kbGVyLCBOVUxMLCBjbSwKJmd0OyZndDsgICAg
-ICAgICAgICAgICAgICAgICAgICAgJmFtcDtjcV9hdHRyKTsKJmd0OyZndDsgICAgICAgICBpZiAo
-SVNfRVJSKGNtLSZndDtzZW5kX2NxKSkgewomZ3Q7Jmd0OyAtLQomZ3Q7Jmd0OyAyLjE3LjEKJmd0
-OyZndDsKPC9wcmU+PC9kaXY+PGJyPg==
---=_Part_266656_301897984.1729146915325--
+It would be very helpful to have a reproducer. Ideally using the
+framework from https://github.com/LINBIT/drbd9-tests
+
+I guess this hasn't been reported by other users because it occurs
+during a resync in the less common direction. Normally 9.1 and 9.2 are
+only mixed for a short time while upgrading from 9.1 to 9.2. In this
+case, the resync with mixed versions has the SyncSource on 9.1 and the
+SyncTarget on 9.2. Nevertheless, it is a valid scenario that we want
+to fix.
+
+Best regards,
+Joel
+
+On Thu, 17 Oct 2024 at 06:30, Zhengbing <zhengbing.huang@easystack.cn> wrote:
+>
+>
+> Hi Joel,
+>
+> In testing, we found that the problem is consistent with the one that commit "7a9ae1a208" solves.
+> commit "7a9ae1a208" comment in w_e_end_rsdata_req() function:
+>             /* DRBD versions without DRBD_FF_RESYNC_DAGTAG lock
+>              * 128MiB "resync extents" in the activity log whenever
+>              * they make resync requests. Some of these versions
+>              * also lock activity lock extents when receiving
+>              * P_DATA. In particular, DRBD 9.0 and 9.1. This can
+>              * cause a deadlock if we send resync replies in these
+>              * extents as follows:
+>              * * Node is SyncTarget towards us
+>              * * Node locks a resync extent and sends P_RS_DATA_REQUEST
+>              * * Node receives P_DATA write in this extent; write
+>              *   waits for resync extent to be unlocked
+>              * * Node receives P_BARRIER (protocol A); receiver
+>              *   thread blocks waiting for write to complete
+>              * * We reply to P_RS_DATA_REQUEST, but it is never
+>              *   processed because receiver thread is blocked
+>              *
+>              * Break the deadlock by canceling instead. This is
+>              * sent on the control socket so it will be processed. */
+>
+> Then we found two suspicious pieces of code (patch content below):
+> 1. In the w_e_end_rsdata_req() function, there is no lock protection between al_resync_extent_active() and drbd_rs_reply(), and P_DATA may be sent through this gap.
+> @@ -180,9 +184,11 @@ struct lc_element *_al_get_nonblock(struct drbd_device *device, unsigned int enr
+>  {
+>      struct lc_element *al_ext;
+>
+> +    mutex_lock(&device->resync_lock);
+>      spin_lock_irq(&device->al_lock);
+>      al_ext = is_local ? lc_try_get_local(device->act_log, enr) : lc_try_get(device->act_log, enr);
+>      spin_unlock_irq(&device->al_lock);
+> +    mutex_unlock(&device->resync_lock);
+>
+>      return al_ext;
+>  }
+> @@ -192,9 +198,11 @@ struct lc_element *_al_get(struct drbd_device *device, unsigned int enr, bool is
+>  {
+>      struct lc_element *al_ext;
+>
+> +    mutex_lock(&device->resync_lock);
+>      spin_lock_irq(&device->al_lock);
+>      al_ext = is_local ? lc_get_local(device->act_log, enr) : lc_get(device->act_log, enr);
+>      spin_unlock_irq(&device->al_lock);
+> +    mutex_unlock(&device->resync_lock);
+>
+>      return al_ext;
+>  }
+> diff --git a/drbd/drbd_int.h b/drbd/drbd_int.h
+> index e9d2c3914..95cf2bb48 100644
+> --- a/drbd/drbd_int.h
+> +++ b/drbd/drbd_int.h
+> @@ -1588,6 +1588,7 @@ struct drbd_device {
+>
+>      int next_barrier_nr;
+>      struct drbd_md_io md_io;
+> +    struct mutex resync_lock;
+>      spinlock_t al_lock;
+>      wait_queue_head_t al_wait;
+>      struct lru_cache *act_log;    /* activity log */
+> diff --git a/drbd/drbd_main.c b/drbd/drbd_main.c
+> index 02f4ae5d1..f625e2e83 100644
+> --- a/drbd/drbd_main.c
+> +++ b/drbd/drbd_main.c
+> @@ -4092,6 +4092,7 @@ enum drbd_ret_code drbd_create_device(struct drbd_config_context *adm_ctx, unsig
+>  #ifdef CONFIG_DRBD_TIMING_STATS
+>      spin_lock_init(&device->timing_lock);
+>  #endif
+> +    mutex_init(&device->resync_lock);
+>      spin_lock_init(&device->al_lock);
+>
+>      spin_lock_init(&device->pending_completion_lock);
+> diff --git a/drbd/drbd_req.c b/drbd/drbd_req.c
+> index c4aa23a31..f05e21dd3 100644
+> --- a/drbd/drbd_req.c
+> +++ b/drbd/drbd_req.c
+> @@ -2383,6 +2383,7 @@ static bool prepare_al_transaction_nonblock(struct drbd_device *device,
+>      bool made_progress = false;
+>      int err;
+>
+> +    mutex_lock(&device->resync_lock);
+>      spin_lock_irq(&device->al_lock);
+>
+>      /* Don't even try, if someone has it locked right now. */
+> @@ -2418,6 +2419,7 @@ static bool prepare_al_transaction_nonblock(struct drbd_device *device,
+>      }
+>   out:
+>      spin_unlock_irq(&device->al_lock);
+> +    mutex_unlock(&device->resync_lock);
+>      return made_progress;
+>  }
+>
+> diff --git a/drbd/drbd_sender.c b/drbd/drbd_sender.c
+> index 738be16d5..ddea6230a 100644
+> --- a/drbd/drbd_sender.c
+> +++ b/drbd/drbd_sender.c
+> @@ -2106,6 +2106,7 @@ int w_e_end_rsdata_req(struct drbd_work *w, int cancel)
+>      if (peer_device->repl_state[NOW] == L_AHEAD) {
+>          err = drbd_send_ack(peer_device, P_RS_CANCEL, peer_req);
+>      } else if (likely((peer_req->flags & EE_WAS_ERROR) == 0)) {
+> +        mutex_lock(&peer_device->device->resync_lock);
+>          if (unlikely(peer_device->disk_state[NOW] < D_INCONSISTENT)) {
+>              if (connection->agreed_features & DRBD_FF_RESYNC_DAGTAG) {
+>                  drbd_err_ratelimit(peer_device,
+> @@ -2154,6 +2155,7 @@ int w_e_end_rsdata_req(struct drbd_work *w, int cancel)
+>              if (expect_ack)
+>                  peer_req = NULL;
+>          }
+> +        mutex_unlock(&peer_device->device->resync_lock);
+>      } else {
+>          drbd_err_ratelimit(peer_device, "Sending NegRSDReply. sector %llus.\n",
+>              (unsigned long long)peer_req->i.sector);
+>
+>
+> 2.The al_resync_extent_active() check does not include changing extent.
+> --- a/drbd/drbd_actlog.c
+> +++ b/drbd/drbd_actlog.c
+> @@ -163,12 +163,16 @@ bool drbd_al_active(struct drbd_device *device, sector_t sector, unsigned int si
+>
+>         spin_lock_irq(&device->al_lock);
+>         for (enr = first; enr <= last; enr++) {
+> -               struct lc_element *al_ext;
+> -               al_ext = lc_find(device->act_log, enr);
+> -               if (al_ext && al_ext->refcnt > 0) {
+> +               if (lc_is_used(device->act_log, enr)) {
+>                         active = true;
+>                         break;
+>                 }
+> +               // struct lc_element *al_ext;
+> +               // al_ext = lc_find(device->act_log, enr);
+> +               // if (al_ext && al_ext->refcnt > 0) {
+> +               //      active = true;
+> +               //      break;
+> +               // }
+>         }
+>         spin_unlock_irq(&device->al_lock);
+>
+>
+> When we fixed these two pieces of code, the problem continued to recur.
+> Now the reason is that SyncSource send thead is also blocked, so it will not reply to P_RS_CANCEL ack.
+>
+> SyncSource send thead:
+> [<0>] wait_woken+0x2c/0x60
+> [<0>] sk_stream_wait_memory+0x2bb/0x340
+> [<0>] do_tcp_sendpages+0x258/0x340
+> [<0>] tcp_sendpage_locked+0x44/0x60
+> [<0>] tcp_sendpage+0x37/0x50
+> [<0>] inet_sendpage+0x52/0x90
+> [<0>] dtt_send_page+0x93/0x140 [drbd_transport_tcp]
+> [<0>] flush_send_buffer+0xd0/0x150 [drbd]
+> [<0>] __send_command+0xf8/0x160 [drbd]
+> [<0>] drbd_send_block+0xaa/0x230 [drbd]
+> [<0>] drbd_rs_reply+0x26e/0x300 [drbd]
+> [<0>] w_e_end_rsdata_req+0xd6/0x4b0 [drbd]
+> [<0>] drbd_sender+0x13a/0x3d0 [drbd]
+> [<0>] drbd_thread_setup+0x69/0x190 [drbd]
+> [<0>] kthread+0x10a/0x120
+> [<0>] ret_from_fork+0x1f/0x40
+>
+> SyncTarget receiver thread:
+> [<0>] conn_wait_active_ee_empty_or_disconnect+0x7d/0xb0 [drbd]
+> [<0>] receive_Barrier+0x16b/0x1f0 [drbd]
+> [<0>] drbd_receiver+0x5af/0x7f0 [drbd]
+> [<0>] drbd_thread_setup+0x5c/0x160 [drbd]
+> [<0>] kthread+0x10a/0x120
+> [<0>] ret_from_fork+0x1f/0x40
+>
+> Do you have any good solutions?
+>
+> Best regards,
+> zhengbing
+>
+>
+> From: Zhengbing <zhengbing.huang@easystack.cn>
+> Date: 2024-10-16 20:03:27
+> To: drbd-dev@lists.linbit.com
+> Subject: drbd: resync blocks
+>
+> Hi Joel,
+>
+> I have a problem with resync blocks.
+>
+> First, I have a 2 node cluster, and node-1 running DRBD 9.1 and node -2 is DRBD 9.2 and protocol C.
+> and the problem scenario is as follows:
+> 1. node-2 always has application IO
+> 2. node-1 network failure with node-2
+> 3. the network is restored. node-1 is SyncTarget and node-2 is SyncSource
+> 4. then resync process is blocks
+>
+> You solved the same problem in Commit "7a9ae1a208", but I still have this problem.
+>
+> So, how do I solve this problem?
+>
+> Best regards,
+> zhengbing
+>
+>
+>
