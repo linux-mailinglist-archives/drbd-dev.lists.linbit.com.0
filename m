@@ -2,61 +2,72 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1284F9AE3F8
-	for <lists+drbd-dev@lfdr.de>; Thu, 24 Oct 2024 13:33:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 880189D099F
+	for <lists+drbd-dev@lfdr.de>; Mon, 18 Nov 2024 07:26:57 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2DA2142035F;
-	Thu, 24 Oct 2024 13:33:37 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id BF63E42030F;
+	Mon, 18 Nov 2024 07:26:49 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
-	[209.85.218.42])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 593EF42033E
-	for <drbd-dev@lists.linbit.com>; Thu, 24 Oct 2024 13:33:31 +0200 (CEST)
-Received: by mail-ej1-f42.google.com with SMTP id
-	a640c23a62f3a-a9a6acac4c3so113422366b.0
-	for <drbd-dev@lists.linbit.com>; Thu, 24 Oct 2024 04:33:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linbit-com.20230601.gappssmtp.com; s=20230601; t=1729769611;
-	x=1730374411; darn=lists.linbit.com; 
-	h=cc:to:subject:message-id:date:from:in-reply-to:references
-	:mime-version:from:to:cc:subject:date:message-id:reply-to;
-	bh=rWtsrOKCMM7pY97kvZqcmH3W8hVMKlNxVkETJgGfjkc=;
-	b=2TqCn/kmL3CiPDfUb1OAEEBshCFwtnIz9o96/OALrATs3zQnNdT2Pug2EIY51doyOY
-	RKLBkXq6B08SKu/ukLezLv1M2dIN95TpXOldOm430XCIWi23wnpbDeGbD3ITGdVvhNpj
-	GRhZLOWYfE7AuCPAM5/n/djc+WjlPiiKyuzkdhqzk3Y3U8fpGmNsn4n2f71EdSSLq8B0
-	+L32oXGpd8u54hNi9tYmxe2edhr0CpuZk3WHn1hgmkvNcc71+8bg6EXWX53JxzZgzMD5
-	Iz7uZ7pEReMko3Wdz9sCOncX6URZLROk6UwsifPEjqhyVmqcZDxUhRV5zN2q+Ac2sLA1
-	eELw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20230601; t=1729769611; x=1730374411;
-	h=cc:to:subject:message-id:date:from:in-reply-to:references
-	:mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-	:reply-to;
-	bh=rWtsrOKCMM7pY97kvZqcmH3W8hVMKlNxVkETJgGfjkc=;
-	b=udcGLPNDfosmUDMdy0bDcTVye+IiuseV51qL4TRW6zMXcgLETr6BGIxJpGhz0mcNU3
-	Tlgr9OLho9K50Hrvt0QW8U+ONvxodS1jr+uhtubE+31SHv6ybGMWdvSy0ESy0auTM5SP
-	OBd+YR5xPEvRxgBpA9Gtp4x0ZCCVFOR0p/qqIku+88bQ4JH0coy6u/mTaa5c/gF6sE8E
-	+mlmJyZ930cEUH0XwQbEJucvwTn50FdRqJ60jb+w6RhdRlWX3+PlxoRFQkeL3UaQMLz5
-	Ymfg/aAAn5DxTWINFpQvQGgpvcnbJMJ7jD4+l39lkl8EAWLQqehpK+iC4XBq+1pJtyag
-	pcaA==
-X-Gm-Message-State: AOJu0YxEfCvG7QOS8UVN5MCREuL2nU3B16GUlcEck4/+NwiKq3EAJw3K
-	LdhGQiigmMZCKI0CPuaB9NcHGnE+pHmm3oz/JWQE5rvt4rFCt441tVuNVeW3id7sSZlnmMm4nBV
-	K5eKMCFhcXS9+/0Z/I4+W8rSIo+CrIKQoZMxCQoC7ZftpjG9D84kO7A==
-X-Google-Smtp-Source: AGHT+IF1SQEfXOhDau3N3pi7on4eHN3UOlSYgP6jXZDmMNrBOYLUY6e2byeU/+hoHZjpSoxEMTlve6iQvx0o+kfTkWA=
-X-Received: by 2002:a17:907:3d91:b0:a99:e4a2:1cda with SMTP id
-	a640c23a62f3a-a9ad285ee55mr146540866b.56.1729769611350; Thu, 24 Oct 2024
-	04:33:31 -0700 (PDT)
+X-Greylist: delayed 382 seconds by postgrey-1.31 at mail19;
+	Sun, 17 Nov 2024 13:31:49 CET
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6C4794201DB
+	for <drbd-dev@lists.linbit.com>; Sun, 17 Nov 2024 13:31:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+	s=201909; t=1731846322;
+	bh=tp2Q+8b3zGUBih3afpuzhAn88G4uKrpXKwQ9ivMWqHM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=mTU1+u6copmZDAjfqnXWv+2ujIPjQ3JtoGu9so550WGMXDTKHgPRUtKWL5WTQKacA
+	ukYIXyZnvXaIaM7phYyg2ffevuNcZwkVM+fGzA0yJe4hA6ivVJfsyMN2k5es56Dca2
+	xnyEpYxwi2vRkSTSXt4SDnE54vHeCtrhpgtS0p+MhXC1a/iPqUZ6noNUE4xD/tX6x3
+	9xyLmagErBzssEeKDZj2zkr4owFCFT2YctuTq6qJ9KGCJplX90TRwhVHol5EujIAFV
+	JLHuHIFQhKPYuj26daIFU9Gqj0sP+YYyQFfmqJ5wJevMLVh4tXn5ub20TQGEUboHP9
+	4WeeB6bi4EbDw==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest
+	SHA256) (Client did not present a certificate)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4Xrqhp5Zp2z4xf5;
+	Sun, 17 Nov 2024 23:25:14 +1100 (AEDT)
+From: Michael Ellerman <patch-notifications@ellerman.id.au>
+To: linux-gpio@vger.kernel.org, Julia Lawall <Julia.Lawall@inria.fr>
+In-Reply-To: <20240930112121.95324-1-Julia.Lawall@inria.fr>
+References: <20240930112121.95324-1-Julia.Lawall@inria.fr>
+Subject: Re: (subset) [PATCH 00/35] Reorganize kerneldoc parameter names
+Message-Id: <173184539760.890800.14513086226459117952.b4-ty@ellerman.id.au>
+Date: Sun, 17 Nov 2024 23:09:57 +1100
 MIME-Version: 1.0
-References: <20241022114151.8050-1-zhengbing.huang@easystack.cn>
-In-Reply-To: <20241022114151.8050-1-zhengbing.huang@easystack.cn>
-From: Joel Colledge <joel.colledge@linbit.com>
-Date: Thu, 24 Oct 2024 13:33:20 +0200
-Message-ID: <CAGNP_+WTu+xCHWZ6Fou8uqCYFauvqTK3Ch8rT-3YhZnrD0Mf5g@mail.gmail.com>
-Subject: Re: [PATCH] drbd: Fix seq_num numeric conversion error
-To: "zhengbing.huang" <zhengbing.huang@easystack.cn>
-Content-Type: text/plain; charset="UTF-8"
-Cc: drbd-dev@lists.linbit.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Mon, 18 Nov 2024 07:26:44 +0100
+Cc: nvdimm@lists.linux.dev, alsa-devel@alsa-project.org,
+	Jan Kara <jack@suse.cz>, "Rafael J. Wysocki" <rafael@kernel.org>,
+	Neil Brown <neilb@suse.de>, linux-pci@vger.kernel.org,
+	kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-mm@kvack.org, linux-mtd@lists.infradead.org,
+	amd-gfx@lists.freedesktop.org, linux-leds@vger.kernel.org,
+	drbd-dev@lists.linbit.com,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	dccp@vger.kernel.org, Dai Ngo <Dai.Ngo@oracle.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	iommu@lists.linux.dev, intel-wired-lan@lists.osuosl.org,
+	net@linbit.com, Robin Murphy <robin.murphy@arm.com>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	linux-arm-msm@vger.kernel.org, Naveen N Rao <naveen@kernel.org>,
+	linux-sound@vger.kernel.org, maple-tree@lists.infradead.org,
+	Tom Talpey <tom@talpey.com>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	tipc-discussion@lists.sourceforge, linux-omap@vger.kernel.org,
+	Zhihao Cheng <chengzhihao1@huawei.com>,
+	linux-arm-kernel@lists.infradead.org, linux-nfs@vger.kernel.org,
+	netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+	audit@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Sanyog Kale <sanyog.r.kale@intel.com>,
+	linux-trace-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -73,12 +84,22 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-> seq_num is a 32-bit value and should not be converted with be64_to_cpu().
+On Mon, 30 Sep 2024 13:20:46 +0200, Julia Lawall wrote:
+> Reorganize kerneldoc parameter names to match the parameter
+> order in the function header.
+> 
+> The misordered cases were identified using the following
+> Coccinelle semantic patch:
+> 
+> // <smpl>
+> @initialize:ocaml@
+> @@
+> 
+> [...]
 
-Thanks. Applied as:
-https://github.com/LINBIT/drbd/commit/168bcdd0a56ca80fed4ca9e05589c1188b2aa589
+Applied to powerpc/next.
 
-The commit will be merged to master in due course.
+[11/35] powerpc/ps3: Reorganize kerneldoc parameter names
+        https://git.kernel.org/powerpc/c/276e036e5844116e563fa90f676c625bb742cc57
 
-Best regards,
-Joel
+cheers
