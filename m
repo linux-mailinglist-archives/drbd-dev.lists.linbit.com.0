@@ -2,73 +2,77 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46BFB9D7A30
-	for <lists+drbd-dev@lfdr.de>; Mon, 25 Nov 2024 03:49:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D21779D8AA6
+	for <lists+drbd-dev@lfdr.de>; Mon, 25 Nov 2024 17:52:08 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1616B420302;
-	Mon, 25 Nov 2024 03:49:40 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D4617420663;
+	Mon, 25 Nov 2024 17:52:03 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
-	[209.85.214.169])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0B649420109
-	for <drbd-dev@lists.linbit.com>; Mon, 25 Nov 2024 03:49:35 +0100 (CET)
-Received: by mail-pl1-f169.google.com with SMTP id
-	d9443c01a7336-2126408cf31so28955245ad.0
-	for <drbd-dev@lists.linbit.com>; Sun, 24 Nov 2024 18:49:35 -0800 (PST)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+	[209.85.214.178])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0A935420302
+	for <drbd-dev@lists.linbit.com>; Mon, 25 Nov 2024 17:51:58 +0100 (CET)
+Received: by mail-pl1-f178.google.com with SMTP id
+	d9443c01a7336-21270d64faeso33104675ad.1
+	for <drbd-dev@lists.linbit.com>; Mon, 25 Nov 2024 08:51:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=chromium.org; s=google; t=1732502974; x=1733107774;
+	d=gmail.com; s=20230601; t=1732553517; x=1733158317;
 	darn=lists.linbit.com; 
-	h=in-reply-to:content-disposition:mime-version:references:message-id
-	:subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-	bh=bwYRKpTNXZ0AgTOqs1gS//e1QnOtjbZbYKsvZm7kMzk=;
-	b=gGGozY8iJE4Hb30+fqVFu5QydTxIgPA4zc4gpsH3GhAWcxKD30YPMFvVtcZpZs2nTC
-	Cq+FpYEujYJN0UCflOPr16PSbrAOBx29pqtEO49LctbxVG32/al0la0BD2bSZRl68sCU
-	w75BqaltvtAmhMbFmmPjcOwhZXZ1aco+zRdEI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20230601; t=1732502974; x=1733107774;
-	h=in-reply-to:content-disposition:mime-version:references:message-id
-	:subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+	h=content-transfer-encoding:mime-version:references:in-reply-to
+	:message-id:date:subject:cc:to:from:from:to:cc:subject:date
 	:message-id:reply-to;
-	bh=bwYRKpTNXZ0AgTOqs1gS//e1QnOtjbZbYKsvZm7kMzk=;
-	b=lOx425s6jd6miKvxkEMMZTPEf5Lh2RyH7jPeE5h7ajuacetzVYXycBYJWQtXixGPgJ
-	3hQUI3ZK6lkyKNBteAHkoPcL11iM+Bptc2254PktnF1ONT6tsTYSDNvQRBD+EKBodane
-	V9FrE+R5Rw4/dKx7gjIGxTesU0jrd5yoSrUOWDikFOSAWzCkX2wJ6PnL7RWcsK5kSTXq
-	OtQdfXNpgHELyVhBhOlcP7G1jmbc0qUCbQCTulfgJzJf/qd1XDSdrVhfKCZcFYJ6K0E7
-	fCA/Ai4KJSNSF7rxakS713lVkWL8nUUuoTmNMBq14V8onJqSJE0ErQnYeuRt8sgRj6SR
-	Z01g==
+	bh=MtUn9lt5gw5xGS0lfaSG6+NKW+5RIPrQ8eMvyuD2pds=;
+	b=U0g3rdp02zWPAFAoQA8v3N/3Keg323fhLsX1MVvFUnsrkUktm/D5fi3wr2odFLCnND
+	WfVKj4IXh8Wx22g3p8ASZCLtsTMLGPq9uu/paSWdl7rng489+bAmdeAZGfTznITPYuiK
+	chVicaDILic65lCUcP6aX1XMEqaQ24Cy6rFc8oPocpBbP6HXAsvRHN4zCE5ileehXG60
+	fQ+W2wcyeKlHklrrcFfwgnjXeLWcVvoZSAq9whh4RlXOqhO8YBNvGOqn2aNHP6wSIOY8
+	APKeyhfQBDIKBZQsVzgT2dStSCTvxVgb6i9JeR1aeAg2xyRa/72M4Dcx1DyuZ4n1UB17
+	FH1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20230601; t=1732553517; x=1733158317;
+	h=content-transfer-encoding:mime-version:references:in-reply-to
+	:message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+	:subject:date:message-id:reply-to;
+	bh=MtUn9lt5gw5xGS0lfaSG6+NKW+5RIPrQ8eMvyuD2pds=;
+	b=MewF8aBxYc3OkxKuRyas32o+npzwQ8AyWtjJWLO2e/zVDc7nIDF52zcbJu7TRMNCiL
+	z2Q8Nt5F1bhX4h8iMLHLDS9KCA39Y+RK+/xBOrOJVk8g4szWYfHwoEfn+xi0DHBxj/Vi
+	Nxm9G/YeeW/DtAwsUciFFO7g3HJFusgLTx/3kq9FkjAbG6Yev0kORh8mGXmzKkE6NRZT
+	JbT2hBBqdZbdgPrwE/PUcAj/cdZ6RwwX2uJrub461hGKGxDZH0GnWx29K5dRXgYnqKqw
+	aU6Uyp0C5W5PWcbI5E+DiVrsMWPiaP+oXiswPt81StfbclX9plXwfIhd6xkv51GBxq5F
+	NQew==
 X-Forwarded-Encrypted: i=1;
-	AJvYcCX6VBBoV4eZGYqJfmWdcyYXrAu6iPiAoecgH+JlgcwCtp0TGnqGuABJos9vWffNSik9tFAe1rsnCw==@lists.linbit.com
-X-Gm-Message-State: AOJu0Yz38bAlzq+7pn5hPv4GhtCGITDVZbz8ZMl1K+nN2XU4wa/Plxi7
-	adu/T/YnBncL8uKMfPrQ1AQQDACcneD5khW2TMKL+HOuUy++UHz7zioBMA9Hcw==
-X-Gm-Gg: ASbGncsG34R0oH35kJiY147fz9GTHxV9meizcBU16Sc3XR6Wi6u+SJLs7nL87fd5xbt
-	EgzWbdV5Oi05oL/KpaBqY9Sks9/Z0OkopTFF4T7qLLOPu5LtLeHHBEomgGDRps62AmBTfWzC/XH
-	lpNIK1bqVNzTCEWrlaTR5zbysk/HYLBB8XpEhSIN+QAtvCpMoYxskSAl+kX/F45RDtLBHpIN9LW
-	OlaKb7pOW4kmZOwvsw/4r1UsPMWUyV70DnNDF+xOdqJ5wMcJTH9IQ==
-X-Google-Smtp-Source: AGHT+IFVP5SVaL1qF/f5JvchALO9YPXcNoBq6pXemW0DxAs2YPUHfvD451iNdYYTDbidp8QZ53Fd+A==
-X-Received: by 2002:a17:902:7241:b0:211:ff1c:e611 with SMTP id
-	d9443c01a7336-2129f576484mr125711635ad.30.1732502973648; 
-	Sun, 24 Nov 2024 18:49:33 -0800 (PST)
-Received: from google.com ([2401:fa00:8f:203:4ce7:266f:8012:7e3c])
+	AJvYcCW82HMM5UGcTXo1ocs3ViH4haWqaLZWowq/N7V0oKRLqSyRQLZ/zZy10xhKglm7HNnywOKrpvWk2w==@lists.linbit.com
+X-Gm-Message-State: AOJu0Yw91m347z4cQJr8VjvW/DmAwkpsgFOG13rUkmL54XhN9C9H7RXD
+	I5nNoTwfTOa424dYnHacLC1ZBT1K6dm5JOIlHDFAuE8Ro7Jam1Bb
+X-Gm-Gg: ASbGncsh0KIcMAihayTP+BWEvqBloiYZRKDRGm8rCXZAmT4j9M5w3jFYYaEAQN1u7BC
+	9Aqi9KZdLoxWyUq+37+8/FKeKyPx6bjWFrtV0J6QomuqdQQLllp2CbZvbDWjIUu10IVFOcyewup
+	qpBBIJq7s+hBpVZm1VlhJNBz2EARMn90rH7NjFPPbDiHDdBPeOzc1ZT7k1kakcoQ1jTUlkfceT7
+	I2EflplQjGlNZU/tASWha/Ol51kWwxAjSpjB5Inhid5e105LVSM/uDsQXjTHkyPww==
+X-Google-Smtp-Source: AGHT+IF1b8SEIuY7pSRwqzWQ7mPcZgZAK0pcvKoIaS7ug2WaDSKDkMZOsUR2pmo2Gs/K2dxHnsFHEg==
+X-Received: by 2002:a17:902:ce8c:b0:20b:707c:d688 with SMTP id
+	d9443c01a7336-2129f67b0a9mr133164315ad.18.1732553517556; 
+	Mon, 25 Nov 2024 08:51:57 -0800 (PST)
+Received: from localhost.localdomain ([49.206.113.92])
 	by smtp.gmail.com with ESMTPSA id
-	d9443c01a7336-2129dc1fa27sm53479635ad.225.2024.11.24.18.49.30
+	d9443c01a7336-2129dc2214esm67126995ad.236.2024.11.25.08.51.54
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 24 Nov 2024 18:49:32 -0800 (PST)
-Date: Mon, 25 Nov 2024 11:49:27 +0900
-From: Sergey Senozhatsky <senozhatsky@chromium.org>
-To: Saru2003 <sarvesh20123@gmail.com>
-Subject: Re: [PATCH] Corrected the spelling of dictionary in the example
-	usage of 'algorithm_params' in the ZRAM documentation.
-Message-ID: <20241125024927.GA440697@google.com>
-References: <20241124134550.69112-1-sarvesh20123@gmail.com>
+	Mon, 25 Nov 2024 08:51:57 -0800 (PST)
+From: Saru2003 <sarvesh20123@gmail.com>
+To: minchan@kernel.org,
+	senozhatsky@chromium.org
+Subject: [PATCH v2] Documentation: zram: fix dictionary spelling
+Date: Mon, 25 Nov 2024 22:21:22 +0530
+Message-Id: <20241125165122.17521-1-sarvesh20123@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241125024927.GA440697@google.com>
+References: <20241125024927.GA440697@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241124134550.69112-1-sarvesh20123@gmail.com>
+Content-Transfer-Encoding: 8bit
 Cc: corbet@lwn.net, linux-doc@vger.kernel.org, philipp.reisner@linbit.com,
-	linux-kernel@vger.kernel.org, minchan@kernel.org,
-	terrelln@fb.com, lars.ellenberg@linbit.com,
-	senozhatsky@chromium.org, drbd-dev@lists.linbit.com
+	linux-kernel@vger.kernel.org, terrelln@fb.com,
+	Saru2003 <sarvesh20123@gmail.com>, lars.ellenberg@linbit.com,
+	drbd-dev@lists.linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -85,15 +89,37 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On (24/11/24 19:15), Saru2003 wrote:
-> Signed-off-by: Saru2003 <sarvesh20123@gmail.com>
+Fixes a typo in the ZRAM documentation where 'dictioary' was
+misspelled. Corrected it to 'dictionary' in the example usage
+of 'algorithm_params'.
 
-Can you please resend v2 with:
-- updated subject "Documentation: zram: fix dictionary spelling"
-- perhaps a short commit message is still needed
-- I'd also assume your real name should be in SoB
+Signed-off-by: Sarveshwaar SS <sarvesh20123@gmail.com>
+---
+ Documentation/admin-guide/blockdev/zram.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Otherwise looks good.
+diff --git a/Documentation/admin-guide/blockdev/zram.rst b/Documentation/admin-guide/blockdev/zram.rst
+index 678d70d6e1c3..dbf2b4f47ec3 100644
+--- a/Documentation/admin-guide/blockdev/zram.rst
++++ b/Documentation/admin-guide/blockdev/zram.rst
+@@ -119,14 +119,14 @@ compression algorithm to use external pre-trained dictionary, pass full
+ path to the `dict` along with other parameters::
+ 
+ 	#pass path to pre-trained zstd dictionary
+-	echo "algo=zstd dict=/etc/dictioary" > /sys/block/zram0/algorithm_params
++	echo "algo=zstd dict=/etc/dictionary" > /sys/block/zram0/algorithm_params
+ 
+ 	#same, but using algorithm priority
+-	echo "priority=1 dict=/etc/dictioary" > \
++	echo "priority=1 dict=/etc/dictionary" > \
+ 		/sys/block/zram0/algorithm_params
+ 
+ 	#pass path to pre-trained zstd dictionary and compression level
+-	echo "algo=zstd level=8 dict=/etc/dictioary" > \
++	echo "algo=zstd level=8 dict=/etc/dictionary" > \
+ 		/sys/block/zram0/algorithm_params
+ 
+ Parameters are algorithm specific: not all algorithms support pre-trained
+-- 
+2.34.1
 
-FWIW,
-Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
