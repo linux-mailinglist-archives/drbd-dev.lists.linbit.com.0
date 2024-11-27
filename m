@@ -2,74 +2,37 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [94.177.8.207])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4D5D9D910A
-	for <lists+drbd-dev@lfdr.de>; Tue, 26 Nov 2024 05:32:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0B9A9DA6EB
+	for <lists+drbd-dev@lfdr.de>; Wed, 27 Nov 2024 12:40:22 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D89CF420663;
-	Tue, 26 Nov 2024 05:32:45 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5EE874207C5;
+	Wed, 27 Nov 2024 12:40:08 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
-	[209.85.210.174])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 247584202D7
-	for <drbd-dev@lists.linbit.com>; Tue, 26 Nov 2024 05:32:40 +0100 (CET)
-Received: by mail-pf1-f174.google.com with SMTP id
-	d2e1a72fcca58-724f41d520cso1717590b3a.1
-	for <drbd-dev@lists.linbit.com>; Mon, 25 Nov 2024 20:32:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=chromium.org; s=google; t=1732595560; x=1733200360;
-	darn=lists.linbit.com; 
-	h=in-reply-to:content-disposition:mime-version:references:message-id
-	:subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-	bh=Dj9qgfhpew+joz5eAIS43G7ysXnxDcyXL0gGD9SLu88=;
-	b=XA3hBc1CvodVN3cSImA+goe1yyC8DAEqm13eb+6+/jeNnzALbu2Fwe1BROeGqw19W1
-	KqDOitSu53MHy2XArK5495vNAdsaSi97sSjdWYhM3XLppny/2qAgS9p+mV9tlJjQoW9g
-	hGUtVmnpBH3TCQGIWc4wYtnQIrTR2LrzAVCFY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20230601; t=1732595560; x=1733200360;
-	h=in-reply-to:content-disposition:mime-version:references:message-id
-	:subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-	:message-id:reply-to;
-	bh=Dj9qgfhpew+joz5eAIS43G7ysXnxDcyXL0gGD9SLu88=;
-	b=Aa29gn33IZK+2FUk+02hs7kfJP0jStlAw2YkgWyVmdUTXsW0QQqPmaeupwNzMvTusM
-	zcpA3TfECMAZft65Ozs1JTm7BYk6gBlDRAAVeTyek40I9o7mz97p5+A90we0P3jNAeSW
-	6IFkyN6SBvw88aZdPBbuVoK6dUVTlXnczA6o++ad2NIb/nimYhqZWZwQNOC+7jzjDPqW
-	hc6mat/gLVpwrq4IjDqDzaXo/69FeDlaOTvVLoGbjH+TzLKEex/3eGyVzwR8YoWh1nog
-	eSFqUF7Ekc4eE9Cq/0dIm/4hMJXOdTcKCS5y1yHXRH61UDwX1bHeATqrkh/WFYdtLPPN
-	UQOw==
-X-Forwarded-Encrypted: i=1;
-	AJvYcCVX299hqpslkcnNJeqP3cGLL4sSrNrjizRgVziLTopBgAgwwm3JVlmFq6v6gPm7KVRU7soC3mWx0Q==@lists.linbit.com
-X-Gm-Message-State: AOJu0YyUXRT+mLU4RswdSYN0PVL/kTKZAjsGUEbYKGMkeYqvmZoYk/LA
-	XvcYjLduvJlfAqJqFl+sryHVx8Pp4ycpXPFtmRpOATmRR6B9Hq7EnCrPDn8yw9E/ly11jtm32Qo
-	=
-X-Gm-Gg: ASbGncuOY5iHpLQT1WzkaoTFZ9IhLB6Ig9KL/l7Rb+rKS1bJBrlf54HDxzKoKXkV4iW
-	/YDRlfNJOTV9wRygit4rQ0f+XyjA7y/OoT1YONbaqVKfYpv2zHcDeNPm/q722j9QXrFx0OSt40X
-	6DD2re9QfR/x3zUCdpmXeoVluid0wlyJ7+mQa5eFJ1qfQCa895kMITTgii8h57nUkKlaWbvAtRT
-	B5a4ag7mdoCojd0ofqRLJEmhJp+bcWcX9urag+uiU6RB8IQGPHO
-X-Google-Smtp-Source: AGHT+IE6782zuODFee99BheWhco6CMCToJMqye6QDHvuZHHJs8+0En7RLAL1hfPEuaUYRDTNmCBDDA==
-X-Received: by 2002:a17:90b:1d81:b0:2e2:e31a:220e with SMTP id
-	98e67ed59e1d1-2eb0e1256f9mr20707685a91.8.1732595559907; 
-	Mon, 25 Nov 2024 20:32:39 -0800 (PST)
-Received: from google.com ([2401:fa00:8f:203:7631:203f:1b91:cbb])
-	by smtp.gmail.com with ESMTPSA id
-	98e67ed59e1d1-2eb0d0451afsm7641478a91.32.2024.11.25.20.32.37
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 25 Nov 2024 20:32:39 -0800 (PST)
-Date: Tue, 26 Nov 2024 13:32:34 +0900
-From: Sergey Senozhatsky <senozhatsky@chromium.org>
-To: Saru2003 <sarvesh20123@gmail.com>
-Subject: Re: [PATCH v2] Documentation: zram: fix dictionary spelling
-Message-ID: <20241126043234.GB440697@google.com>
-References: <20241125024927.GA440697@google.com>
-	<20241125165122.17521-1-sarvesh20123@gmail.com>
+Received: from mail-m247.xmail.ntesmail.com (mail-m247.xmail.ntesmail.com
+	[45.195.24.7])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 1BEC64202D7
+	for <drbd-dev@lists.linbit.com>; Wed, 27 Nov 2024 12:40:02 +0100 (CET)
+Received: from hzb-HP-Laptop-14s-cr2xxx.. (unknown [218.94.118.90])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 1edf6a5c;
+	Wed, 27 Nov 2024 19:20:48 +0800 (GMT+08:00)
+From: "zhengbing.huang" <zhengbing.huang@easystack.cn>
+To: drbd-dev@lists.linbit.com
+Subject: [PATCH] drbd: Fix memory leak
+Date: Wed, 27 Nov 2024 19:20:47 +0800
+Message-ID: <20241127112048.1460255-1-zhengbing.huang@easystack.cn>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241125165122.17521-1-sarvesh20123@gmail.com>
-Cc: corbet@lwn.net, linux-doc@vger.kernel.org, philipp.reisner@linbit.com,
-	linux-kernel@vger.kernel.org, minchan@kernel.org,
-	terrelln@fb.com, lars.ellenberg@linbit.com,
-	senozhatsky@chromium.org, drbd-dev@lists.linbit.com
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFJQjdXWS1ZQUlXWQ8JGhUIEh9ZQVkZHh5IVkIdTEweGR4eQ0xMSFYVFAkWGhdVGRETFh
+	oSFyQUDg9ZV1kYEgtZQVlJSkNVQk9VSkpDVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0lPT09IVUpLS1
+	VKQktLWQY+
+X-HM-Tid: 0a936d5a35a40227kunm1edf6a5c
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PVE6ETo5HzcRST4WTiMYDx8Y
+	VhcwCjJVSlVKTEhJTEtNT05LS05JVTMWGhIXVQETHhUcGRIVHFUTDhoVHDseGggCCA8aGBBVGBVF
+	WVdZEgtZQVlJSkNVQk9VSkpDVUJLWVdZCAFZQUhNSEo3Bg++
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -86,12 +49,98 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On (24/11/25 22:21), Saru2003 wrote:
-> 
-> Fixes a typo in the ZRAM documentation where 'dictioary' was
-> misspelled. Corrected it to 'dictionary' in the example usage
-> of 'algorithm_params'.
-> 
-> Signed-off-by: Sarveshwaar SS <sarvesh20123@gmail.com>
+In the output of kmemleak, we have the followe backtrace:
 
-Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+unreferenced object 0xffff8885b57cda80 (size 64):
+  comm "drbd_r_testimg4", pid 37104, jiffies 4494192827 (age 127162.843s)
+  hex dump (first 32 bytes):
+    31 20 6f 66 20 32 20 6e 6f 64 65 73 20 76 69 73  1 of 2 nodes vis
+    69 62 6c 65 2c 20 6e 65 65 64 20 32 20 66 6f 72  ible, need 2 for
+  backtrace:
+    [<000000006d641d68>] __kmalloc_track_caller+0x15c/0x270
+    [<000000006a7ffbcf>] kvasprintf+0xa7/0x120
+    [<000000002d2f15b3>] drbd_state_err+0xa9/0x190 [drbd]
+    [<000000006aa2f3df>] __is_valid_soft_transition+0xe99/0xec0 [drbd]
+    [<0000000009d68cc7>] try_state_change+0x4f0/0x840 [drbd]
+    [<00000000d5640f06>] ___end_state_change+0x140/0x12a0 [drbd]
+    [<000000009f4b8d71>] __end_state_change+0xa1/0x130 [drbd]
+    [<000000001c6de1a7>] change_connection_state+0x5ee/0xbd0 [drbd]
+    [<00000000ce4408d6>] process_twopc+0x1d3e/0x2ce0 [drbd]
+    [<00000000df3af6e8>] receive_twopc+0x17b/0x2b0 [drbd]
+    [<000000009701f919>] drbd_receiver+0x311/0x6e0 [drbd]
+    [<0000000092c4aeb1>] drbd_thread_setup+0x19d/0x430 [drbd]
+    [<0000000098e316ab>] kthread+0x19c/0x1c0
+    [<000000004c72b3a8>] ret_from_fork+0x1f/0x40
+
+This is a memory leak.
+
+In drbd_state_err() function, if resource->state_change_err_str is a null pointer,
+the err_str will not be free.
+And _drbd_state_err() has same issues.
+
+So, if err_str has not put to up layer, free it in current function.
+
+Signed-off-by: zhengbing.huang <zhengbing.huang@easystack.cn>
+---
+ drbd/drbd_main.c  |  2 ++
+ drbd/drbd_state.c | 10 +++++++++-
+ 2 files changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/drbd/drbd_main.c b/drbd/drbd_main.c
+index 86535080f..48c9588eb 100644
+--- a/drbd/drbd_main.c
++++ b/drbd/drbd_main.c
+@@ -3765,6 +3765,8 @@ struct drbd_resource *drbd_create_resource(const char *name,
+ 
+ 	list_add_tail_rcu(&resource->resources, &drbd_resources);
+ 
++	resource->state_change_err_str = NULL;
++
+ 	return resource;
+ 
+ fail_free_pages:
+diff --git a/drbd/drbd_state.c b/drbd/drbd_state.c
+index 24ff7ab30..4102f2a04 100644
+--- a/drbd/drbd_state.c
++++ b/drbd/drbd_state.c
+@@ -1566,6 +1566,9 @@ static __printf(2, 3) void _drbd_state_err(struct change_context *context, const
+ 		*context->err_str = err_str;
+ 	if (context->flags & CS_VERBOSE)
+ 		drbd_err(resource, "%s\n", err_str);
++
++	if (!context->err_str)
++		kfree(err_str);
+ }
+ 
+ static __printf(2, 3) void drbd_state_err(struct drbd_resource *resource, const char *fmt, ...)
+@@ -1582,6 +1585,9 @@ static __printf(2, 3) void drbd_state_err(struct drbd_resource *resource, const
+ 		*resource->state_change_err_str = err_str;
+ 	if (resource->state_change_flags & CS_VERBOSE)
+ 		drbd_err(resource, "%s\n", err_str);
++
++	if (!resource->state_change_err_str)
++		kfree(err_str);
+ }
+ 
+ static enum drbd_state_rv __is_valid_soft_transition(struct drbd_resource *resource)
+@@ -5586,6 +5592,7 @@ static enum drbd_state_rv twopc_after_lost_peer(struct drbd_resource *resource,
+ 		.target_node_id = -1,
+ 		.flags = flags | (resource->res_opts.quorum != QOU_OFF ? CS_FORCE_RECALC : 0),
+ 		.change_local_state_last = false,
++		.err_str = NULL,
+ 	};
+ 
+ 	/* The other nodes get the request for an empty state change. I.e. they
+@@ -5915,7 +5922,8 @@ enum drbd_state_rv change_repl_state(struct drbd_peer_device *peer_device,
+ 			.mask = { { .conn = conn_MASK } },
+ 			.val = { { .conn = new_repl_state } },
+ 			.target_node_id = peer_device->node_id,
+-			.flags = flags
++			.flags = flags,
++			.err_str = NULL,
+ 		},
+ 		.peer_device = peer_device
+ 	};
+-- 
+2.43.0
+
