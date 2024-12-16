@@ -2,39 +2,63 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51AD19F246D
-	for <lists+drbd-dev@lfdr.de>; Sun, 15 Dec 2024 15:46:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAA3D9F2DDC
+	for <lists+drbd-dev@lfdr.de>; Mon, 16 Dec 2024 11:10:32 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 8C3B416B80D;
-	Sun, 15 Dec 2024 15:46:33 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id BF77F16099A;
+	Mon, 16 Dec 2024 11:10:30 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 12434 seconds by postgrey-1.31 at mail19;
-	Sun, 15 Dec 2024 15:46:28 CET
-Received: from mail-m10149.netease.com (mail-m10149.netease.com
-	[154.81.10.149])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 938FA160644
-	for <drbd-dev@lists.linbit.com>; Sun, 15 Dec 2024 15:46:27 +0100 (CET)
-Received: from hzb-HP-Laptop-14s-cr2xxx.. (unknown [218.94.118.90])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 2b8c66e9;
-	Sun, 15 Dec 2024 14:50:56 +0800 (GMT+08:00)
-From: "zhengbing.huang" <zhengbing.huang@easystack.cn>
-To: drbd-dev@lists.linbit.com
-Subject: [PATCH v2] drbd: Fix memory leak
-Date: Sun, 15 Dec 2024 14:50:56 +0800
-Message-ID: <20241215065056.879266-1-zhengbing.huang@easystack.cn>
-X-Mailer: git-send-email 2.43.0
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
+	[209.85.208.50])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id BAFEF160961
+	for <drbd-dev@lists.linbit.com>; Mon, 16 Dec 2024 11:10:26 +0100 (CET)
+Received: by mail-ed1-f50.google.com with SMTP id
+	4fb4d7f45d1cf-5d3d2a30afcso6829516a12.3
+	for <drbd-dev@lists.linbit.com>; Mon, 16 Dec 2024 02:10:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linbit-com.20230601.gappssmtp.com; s=20230601; t=1734343826;
+	x=1734948626; darn=lists.linbit.com; 
+	h=cc:to:subject:message-id:date:from:in-reply-to:references
+	:mime-version:from:to:cc:subject:date:message-id:reply-to;
+	bh=1HmlHTVCbOW7xRqJqGUEVYtitmZpDH5VFj0J+evh7NI=;
+	b=PJ4VxBxjO4WzfCgl6bh2eu3ezyAwbiBP4pPTIUmkGTm2QtBr8da2lZwfXC/aZOciac
+	dD99dA946iAyGPqeTWobzylD5a+1mUH8boHCNC0FlIsiPIEFbYcpYhzQ2BS140Xocelb
+	7NQTVZ99OP8mO09zH1cMO44Lquyg4FfWQOSVhurzK3O2E2QYh4GlY05SHt85+C1VfV2q
+	AK5DU7EaXW/UBINnhmeip++h0NqLt3liF9FwuAeDy7lV9z/1ffikdw6GwpE6vBWszbbH
+	TVWH/2Cq94ERcFrRgucKmMvWP1A/yrEfvcuLSlsls6XXN5R0lDBYZ0drl8KN2S6dOA4/
+	DsvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20230601; t=1734343826; x=1734948626;
+	h=cc:to:subject:message-id:date:from:in-reply-to:references
+	:mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+	:reply-to;
+	bh=1HmlHTVCbOW7xRqJqGUEVYtitmZpDH5VFj0J+evh7NI=;
+	b=xORbiPm9JmqiDQiQGnWldjeCSOv8Nb0V405VY23PxD/HynF+GciPypgrisDOtqOcEE
+	PoUOX5OuY4uKMZ3RNd2elO/kPskL8Q3Z+8nN84K1sC8RGwQeE7hqjfewbSe6mSSq1wsr
+	+y0/EfPRwapx2bUaxTY6C5yxKTF4QbFAz9pIFMYccpg/6FvMDxg3CtC8deibDzkOAZWM
+	m0vkKrs1EO2Zvt3eDPBB8tFXmlPTecdDcqU5cnSVySG+bhQVWJjYJ12LzkTSmriVaKoI
+	sq93GCAoO3iM02m2U0NZRGKbyMvbr7i5Lb2zQsxWD19k8IN+7P2XxvpUin2heM1FFG+G
+	jU0w==
+X-Gm-Message-State: AOJu0YxVNrdwzG6O35nKLtOwX9bUbgYnnodW3vuY2eVgzHjT2sI0Q8FN
+	KBwkLTjhZHL5Kto+Sd0gye5hS1ilrOSbbptNunN6KSj/BOL2zTRLJKDBWxB440fkqFYROaXDnZH
+	9ea2kTt3+s4NmquRC4ARGzj2H9XLIak+lAmBst2Wa/qWXAwEmUFBhEA==
+X-Gm-Gg: ASbGncvAk/VFRJkMJO33sAHodIdIwCUACgLosVpUNGoFyvcaxZ0tzZ6h6iy/OqtwxzT
+	h/oEm3G8ShASx1r7l+s68OU+bRjx5ZZd9gJLY910=
+X-Google-Smtp-Source: AGHT+IHn03C/Ar3BGa/fRyCmApsQVkGEkNeMbaorHINe/70xtjuYMv6g+JS52X38x4Ae5wbIO3g0plDayExpoJzX08Y=
+X-Received: by 2002:a17:907:3f97:b0:aab:736c:5a7 with SMTP id
+	a640c23a62f3a-aab779b4b90mr1228864166b.25.1734343824367;
+	Mon, 16 Dec 2024 02:10:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFJQjdXWS1ZQUlXWQ8JGhUIEh9ZQVlCSEJNVksfHh1KGRpPSRpMHlYVFAkWGhdVGRETFh
-	oSFyQUDg9ZV1kYEgtZQVlJSkNVQk9VSkpDVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0hKTkxKVUpLS1
-	VKQktLWQY+
-X-HM-Tid: 0a93c9159c530227kunm2b8c66e9
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6OBQ6Sgw5GDcXSRg6DjcOTysR
-	MCIKCTJVSlVKTEhPSU9OT05MTEtJVTMWGhIXVQETHhUcGRIVHFUTDhoVHDseGggCCA8aGBBVGBVF
-	WVdZEgtZQVlJSkNVQk9VSkpDVUJLWVdZCAFZQUlDS0o3Bg++
+References: <20241215065056.879266-1-zhengbing.huang@easystack.cn>
+In-Reply-To: <20241215065056.879266-1-zhengbing.huang@easystack.cn>
+From: Joel Colledge <joel.colledge@linbit.com>
+Date: Mon, 16 Dec 2024 11:10:12 +0100
+Message-ID: <CAGNP_+W+gELNC_1DmmHYbbAe_7hP0YdXk04cF_X5MqYevhN+jw@mail.gmail.com>
+Subject: Re: [PATCH v2] drbd: Fix memory leak
+To: "zhengbing.huang" <zhengbing.huang@easystack.cn>
+Content-Type: text/plain; charset="UTF-8"
+Cc: drbd-dev@lists.linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,78 +75,10 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-In the output of kmemleak, we have the followe backtrace:
+Thanks. Applied as
+https://github.com/LINBIT/drbd/commit/d64ebe7eb7df8c622b20bca38f3d7f4c7bb033c9
 
-unreferenced object 0xffff8885b57cda80 (size 64):
-  comm "drbd_r_testimg4", pid 37104, jiffies 4494192827 (age 127162.843s)
-  hex dump (first 32 bytes):
-    31 20 6f 66 20 32 20 6e 6f 64 65 73 20 76 69 73  1 of 2 nodes vis
-    69 62 6c 65 2c 20 6e 65 65 64 20 32 20 66 6f 72  ible, need 2 for
-  backtrace:
-    [<000000006d641d68>] __kmalloc_track_caller+0x15c/0x270
-    [<000000006a7ffbcf>] kvasprintf+0xa7/0x120
-    [<000000002d2f15b3>] drbd_state_err+0xa9/0x190 [drbd]
-    [<000000006aa2f3df>] __is_valid_soft_transition+0xe99/0xec0 [drbd]
-    [<0000000009d68cc7>] try_state_change+0x4f0/0x840 [drbd]
-    [<00000000d5640f06>] ___end_state_change+0x140/0x12a0 [drbd]
-    [<000000009f4b8d71>] __end_state_change+0xa1/0x130 [drbd]
-    [<000000001c6de1a7>] change_connection_state+0x5ee/0xbd0 [drbd]
-    [<00000000ce4408d6>] process_twopc+0x1d3e/0x2ce0 [drbd]
-    [<00000000df3af6e8>] receive_twopc+0x17b/0x2b0 [drbd]
-    [<000000009701f919>] drbd_receiver+0x311/0x6e0 [drbd]
-    [<0000000092c4aeb1>] drbd_thread_setup+0x19d/0x430 [drbd]
-    [<0000000098e316ab>] kthread+0x19c/0x1c0
-    [<000000004c72b3a8>] ret_from_fork+0x1f/0x40
+The commit will be merged to master in due course.
 
-This is a memory leak.
-
-In drbd_state_err() function, if resource->state_change_err_str is a null pointer,
-the err_str will not be free.
-And _drbd_state_err() has same issues.
-
-So, if err_str has not put to up layer, free it in current function.
-
-Signed-off-by: zhengbing.huang <zhengbing.huang@easystack.cn>
----
- drbd/drbd_state.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
-
-diff --git a/drbd/drbd_state.c b/drbd/drbd_state.c
-index 24ff7ab30..bd3410f98 100644
---- a/drbd/drbd_state.c
-+++ b/drbd/drbd_state.c
-@@ -1562,10 +1562,13 @@ static __printf(2, 3) void _drbd_state_err(struct change_context *context, const
- 	va_end(args);
- 	if (!err_str)
- 		return;
--	if (context->err_str)
--		*context->err_str = err_str;
- 	if (context->flags & CS_VERBOSE)
- 		drbd_err(resource, "%s\n", err_str);
-+
-+	if (context->err_str)
-+		*context->err_str = err_str;
-+	else
-+		kfree(err_str);
- }
- 
- static __printf(2, 3) void drbd_state_err(struct drbd_resource *resource, const char *fmt, ...)
-@@ -1578,10 +1581,13 @@ static __printf(2, 3) void drbd_state_err(struct drbd_resource *resource, const
- 	va_end(args);
- 	if (!err_str)
- 		return;
--	if (resource->state_change_err_str)
--		*resource->state_change_err_str = err_str;
- 	if (resource->state_change_flags & CS_VERBOSE)
- 		drbd_err(resource, "%s\n", err_str);
-+
-+	if (resource->state_change_err_str)
-+		*resource->state_change_err_str = err_str;
-+	else
-+		kfree(err_str);
- }
- 
- static enum drbd_state_rv __is_valid_soft_transition(struct drbd_resource *resource)
--- 
-2.43.0
-
+Best regards,
+Joel
