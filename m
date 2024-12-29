@@ -2,75 +2,70 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EA9DA1668B
-	for <lists+drbd-dev@lfdr.de>; Mon, 20 Jan 2025 07:11:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0829AA1668C
+	for <lists+drbd-dev@lfdr.de>; Mon, 20 Jan 2025 07:11:17 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D629916B819;
-	Mon, 20 Jan 2025 07:11:11 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3338816B81E;
+	Mon, 20 Jan 2025 07:11:16 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
-	[209.85.214.196])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 48711160963
-	for <drbd-dev@lists.linbit.com>; Sun, 29 Dec 2024 05:28:07 +0100 (CET)
-Received: by mail-pl1-f196.google.com with SMTP id
-	d9443c01a7336-21644aca3a0so2402625ad.3
-	for <drbd-dev@lists.linbit.com>; Sat, 28 Dec 2024 20:28:07 -0800 (PST)
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+	[209.85.208.65])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B23E8160963
+	for <drbd-dev@lists.linbit.com>; Sun, 29 Dec 2024 06:19:06 +0100 (CET)
+Received: by mail-ed1-f65.google.com with SMTP id
+	4fb4d7f45d1cf-5d7e527becaso13305829a12.3
+	for <drbd-dev@lists.linbit.com>; Sat, 28 Dec 2024 21:19:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=gmail.com; s=20230601; t=1735446487; x=1736051287;
+	d=gmail.com; s=20230601; t=1735449546; x=1736054346;
 	darn=lists.linbit.com; 
-	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-	:to:from:from:to:cc:subject:date:message-id:reply-to;
-	bh=oBrWL7GllNsi0LAiNro+Jy+rbseWxtpto9r5kXiY8ZM=;
-	b=MArRmk6AIPydW+tUo2BFL9d+EPo7F3J0lzPgIODnpTisP0PVC5fGRPaQl475wTzN11
-	oVQ3PiCz7jVZ/6YfXtO/07GvItXtpLbS5gI0wdhJVT1suHiQal2ewXLzRm0D2aAI8SrP
-	LJqxKTt95CMSVCzT814UdzFAKzPhvvT1oN0zdXoQsWjcWYegqs7eGjx5rzyhT8nQJvel
-	J5nk+bU2IjACqgEqsu0JaDy4I6hrGtoFLR2gKuXwJ2CEwq5CGJ01tA9deIoi/Hqe4bMR
-	k1UNukV34JEkGxJ6TIWMn+oMe2R3lpEyTS0vPcHuiFB2MR4ua9veUJb10FN3jN7V8u7q
-	ZS9g==
+	h=cc:to:subject:message-id:date:from:in-reply-to:references
+	:mime-version:from:to:cc:subject:date:message-id:reply-to;
+	bh=Bb3r32gWv+iYh9f76bgEVwbjRRPyWmF0hEvnAK9qCKI=;
+	b=a+gmm7URSn6HNs1LaMqHGHnUiRRCEBZ3pxghvMKjDOtnPPguMI3ZywxqRufoaYxDGd
+	ztfJtOoLyoIeySU/E3iSIhP2MTKhyT6vTHUShaRU6MkxE2p4iQkPcN7lNxil94P2KIBG
+	0Xz1GaQcXWxfA1U+HX64PijQgPtD8Q79RWKVr44TSa2DDL/VFuXg/NlmOnliRSmzEsq8
+	tIbIKhMhy7dbTzWEDxAD7PGiUaS0Ew+tOLFty/SeVf7oqOlNxWJz4EhgopDSdQkaPrT7
+	do3R2JkPVWjpaivoS99QlKMojcGmjoifmLsGKwQjc+47g6VVnRyeI4lPffwDz4Yzo0BX
+	/K+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20230601; t=1735446487; x=1736051287;
-	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-	:to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+	d=1e100.net; s=20230601; t=1735449546; x=1736054346;
+	h=cc:to:subject:message-id:date:from:in-reply-to:references
+	:mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
 	:reply-to;
-	bh=oBrWL7GllNsi0LAiNro+Jy+rbseWxtpto9r5kXiY8ZM=;
-	b=oAxmb1svw5+K7dclq3J49UuAROur9X+HAV7a3MyoD/G35ftzoiOhWoXJ4seQAnNuMt
-	KTXMmyDhy0tpkRT5LXH9QYj6x2tsTu4pKXllFJ2e9rgbwMgygJDbXWy6ztDWmNj4bWup
-	/5SNpDeC/T8XNbkh+jVKR1mPkIWtCocV8dY/1epFcKdrm0+GCiDge0UbxNr3VGywz7Bk
-	SJrfdjJAV2wGtnN+5iM05IRCYhPJspXfCUusXh57u8EeP4d6Mok/07+7xuGOmPwubd9W
-	oW5eJfRxcCfwHJmSMi6y+iIesnAxx1evFXZ5gxwPWt5R05Cs1kPY39AKbIcZ3DVqMHII
-	1FdQ==
+	bh=Bb3r32gWv+iYh9f76bgEVwbjRRPyWmF0hEvnAK9qCKI=;
+	b=ASosUJx3jfVmn/wkT/SUIjGRR3Zdf4Pbv08ctjH6Rv8rhX0qZnGbeCBJbQs/ZSI40y
+	r43kItUh6SrpagarnXcpuJDbTIOa1EcqN5vgiOBPPblK9FGaTiA5a97q8hI0JLZ9aAaX
+	0ag0OvCk3AN70B8nkBi5wBcnkLG2QdTUcxU5+HAc1AmMPT2b2WFfVHvrB4s+YrBNqAT7
+	dT42erxKyp6GWU5ontRDy9glzJuyLAEKJX6t3ZeX7sh/F4bCzpixAcVByQyqcBwZTgIv
+	aAwx6rxOxu5XMdhOrjlPpz3wuYiQOzKwwP4jrcoTlWnDn4oGsMd0TRZRCLc4Og78sFnR
+	rCTw==
 X-Forwarded-Encrypted: i=1;
-	AJvYcCVruZbDoG5vVKDnX0KO3YSpqhvsZwCDXshQSISebHkcKsF2QOzrClcKn5wfmETMNVmE+0R4s+wW6Q==@lists.linbit.com
-X-Gm-Message-State: AOJu0YwpFKsBecWqn8nkA/OiUNt2QcYfnZ5nt0GGU/FxPOmuGNICiDnR
-	mG0hH2Wt89s0yxF8OfLOhIPvEMraGaAMkKEdLrekLWiHzs+ii9Sm
-X-Gm-Gg: ASbGncvgIKOpIcoUfj+hUCmtCVko89tp2LaVXm0aRriOlgMh7RZu+xy99WEP+GInC1b
-	VqBOHUauNaDFRODWTgju5nxA/XWBHwvoinGQ/uLSOr8+H2PphLCt3bPY7VkuH/uGbWhXUD3pK9v
-	bkiqJqj4tQoB3nCcfoSEbXXuKpW0PB9ju3wPGYDuxQWK+yT4ROoFPKhXQEgUlWAWLDbDNk7SVqc
-	oQ9WJCFnHqFRiDfScE51adYfSi3Cx8fI7zVurq06fnNVPMScWUvmCWOSb2bMh1pzoPY
-X-Google-Smtp-Source: AGHT+IHgUdW+0UmloENQn+1Zkn7yQW144gDP51T6HntWWBf+b3N+bM7oD5Wj4FfS53Ad3kkuvErKGg==
-X-Received: by 2002:a17:90b:2f45:b0:2f4:434d:c7ed with SMTP id
-	98e67ed59e1d1-2f452e1cc5cmr47887421a91.16.1735446486853; 
-	Sat, 28 Dec 2024 20:28:06 -0800 (PST)
-Received: from shilearning.. ([180.109.90.38])
-	by smtp.gmail.com with ESMTPSA id
-	98e67ed59e1d1-2f47b3349a9sm10924394a91.5.2024.12.28.20.28.04
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 28 Dec 2024 20:28:06 -0800 (PST)
-From: Shi Xinhe <shixinhe6@gmail.com>
-To: minchan@kernel.org
-Subject: [PATCH] Documentation zram: fix description about huge page writeback
-	example
-Date: Sun, 29 Dec 2024 04:27:58 +0000
-Message-Id: <20241229042758.163842-1-shixinhe6@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	AJvYcCUWVl3NyNq3eBQxwCiU7psUNJsTCjaLg8Y8l81C2xJ/tgU/GyDHL63JTEHVsmpbyHtA+VxlOer1fA==@lists.linbit.com
+X-Gm-Message-State: AOJu0YyCjseqzmiALec9kpNAKbR6gCX7yGrUw3Nb1sy11oxfw9wJWMFj
+	eR94vKsiCfdER5G8SwyuYsFtVDrdBS5HH3NvgTbnrv/ukNNhVVr07NqTHGaEZMnbFBIJWxjDOVC
+	woxZvYlpVJkbHXhkCJQkkITjTEzs=
+X-Gm-Gg: ASbGncu8JWfSvp1ChLmx9DTkR8rwiUrlCV+k9Ghd+hOMJWb9FS/h3GzERZcOQBnj+Yq
+	oqPzb0pCiMx4hJ6E6ASuuKMoyvjmhKIbHqK1LCDD84vqgBuxbnw==
+X-Google-Smtp-Source: AGHT+IGEeEvU22KObDPBS7BjAWMOdJZId93/CqYG9WzjdA3uHaHJn2VODp88zt4MLsonWgNW/vbg6urzurNB6kxYpwo=
+X-Received: by 2002:a05:6402:358c:b0:5d0:8f1c:d9d7 with SMTP id
+	4fb4d7f45d1cf-5d81dd83b30mr82007809a12.4.1735449545521; Sat, 28 Dec 2024
+	21:19:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241229042758.163842-1-shixinhe6@gmail.com>
+	<qfagx4fjlluq4fox7fw5ltx63wxpifnr7lp3nkt63jm4wbtzp2@mna6znzgfqv2>
+In-Reply-To: <qfagx4fjlluq4fox7fw5ltx63wxpifnr7lp3nkt63jm4wbtzp2@mna6znzgfqv2>
+From: newBox shi <shixinhe6@gmail.com>
+Date: Sun, 29 Dec 2024 13:18:54 +0800
+Message-ID: <CABEB8098qotPWb-QkJ3_R9b6RwpKin_h8TrZ9v96S6KgMtxzDA@mail.gmail.com>
+Subject: Re: [PATCH] Documentation zram: fix description about huge page
+	writeback example
+To: Sergey Senozhatsky <senozhatsky@chromium.org>
+Content-Type: multipart/alternative; boundary="000000000000afbfad062a61d596"
 X-Mailman-Approved-At: Mon, 20 Jan 2025 07:11:04 +0100
 Cc: corbet@lwn.net, linux-doc@vger.kernel.org, philipp.reisner@linbit.com,
-	linux-kernel@vger.kernel.org, senozhatsky@chromium.org,
-	Shi Xinhe <shixinhe6@gmail.com>, lars.ellenberg@linbit.com,
-	drbd-dev@lists.linbit.com
+	linux-kernel@vger.kernel.org, minchan@kernel.org,
+	lars.ellenberg@linbit.com, drbd-dev@lists.linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -87,26 +82,47 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Corrected the description to accurately reflect that huge page writeback example.
+--000000000000afbfad062a61d596
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Shi Xinhe <shixinhe6@gmail.com>
----
- Documentation/admin-guide/blockdev/zram.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I just changed 'incompressible' to 'huge'. I thought huge page is
+incompressible but incompressible page does not just include huge page.
+Given the example is `echo huge`, it may be better to use `huge page
+writeback'.
 
-diff --git a/Documentation/admin-guide/blockdev/zram.rst b/Documentation/admin-guide/blockdev/zram.rst
-index 1576fb93f06c..48ba192e667b 100644
---- a/Documentation/admin-guide/blockdev/zram.rst
-+++ b/Documentation/admin-guide/blockdev/zram.rst
-@@ -343,7 +343,7 @@ To use the feature, admin should set up backing device via::
- 	echo /dev/sda5 > /sys/block/zramX/backing_dev
- 
- before disksize setting. It supports only partitions at this moment.
--If admin wants to use incompressible page writeback, they could do it via::
-+If admin wants to use huge page writeback, they could do it via::
- 
- 	echo huge > /sys/block/zramX/writeback
- 
--- 
-2.34.1
+Sergey Senozhatsky <senozhatsky@chromium.org> =E4=BA=8E2024=E5=B9=B412=E6=
+=9C=8829=E6=97=A5=E5=91=A8=E6=97=A5 12:36=E5=86=99=E9=81=93=EF=BC=9A
 
+> On (24/12/29 04:27), Shi Xinhe wrote:
+> >
+> > Corrected the description to accurately reflect that huge page writebac=
+k
+> example.
+>
+> But what is the correction?  In zram huge page is incompressible page.
+>
+
+--000000000000afbfad062a61d596
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">I just changed &#39;incompressible&#39; to &#39;huge&#39;.=
+ I thought huge page is incompressible but incompressible page does not jus=
+t include huge page. Given the example is `echo huge`, it may be better to =
+use `huge page writeback&#39;.</div><br><div class=3D"gmail_quote gmail_quo=
+te_container"><div dir=3D"ltr" class=3D"gmail_attr">Sergey Senozhatsky &lt;=
+<a href=3D"mailto:senozhatsky@chromium.org">senozhatsky@chromium.org</a>&gt=
+; =E4=BA=8E2024=E5=B9=B412=E6=9C=8829=E6=97=A5=E5=91=A8=E6=97=A5 12:36=E5=
+=86=99=E9=81=93=EF=BC=9A<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">On (24/12/29 04:27), Shi Xinhe wrote:<br>
+&gt; <br>
+&gt; Corrected the description to accurately reflect that huge page writeba=
+ck example.<br>
+<br>
+But what is the correction?=C2=A0 In zram huge page is incompressible page.=
+<br>
+</blockquote></div>
+
+--000000000000afbfad062a61d596--
