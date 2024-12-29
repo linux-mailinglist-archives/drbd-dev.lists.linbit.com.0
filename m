@@ -2,99 +2,75 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F1F6A1668A
-	for <lists+drbd-dev@lfdr.de>; Mon, 20 Jan 2025 07:11:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EA9DA1668B
+	for <lists+drbd-dev@lfdr.de>; Mon, 20 Jan 2025 07:11:14 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id EC07F16B80D;
-	Mon, 20 Jan 2025 07:11:06 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D629916B819;
+	Mon, 20 Jan 2025 07:11:11 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
-	[209.85.221.54])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 154DD16096A
-	for <drbd-dev@lists.linbit.com>; Fri, 20 Dec 2024 18:27:38 +0100 (CET)
-Received: by mail-wr1-f54.google.com with SMTP id
-	ffacd0b85a97d-3862b364538so1264378f8f.1
-	for <drbd-dev@lists.linbit.com>; Fri, 20 Dec 2024 09:27:38 -0800 (PST)
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
+	[209.85.214.196])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 48711160963
+	for <drbd-dev@lists.linbit.com>; Sun, 29 Dec 2024 05:28:07 +0100 (CET)
+Received: by mail-pl1-f196.google.com with SMTP id
+	d9443c01a7336-21644aca3a0so2402625ad.3
+	for <drbd-dev@lists.linbit.com>; Sat, 28 Dec 2024 20:28:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linaro.org; s=google; t=1734715658; x=1735320458;
+	d=gmail.com; s=20230601; t=1735446487; x=1736051287;
 	darn=lists.linbit.com; 
-	h=content-transfer-encoding:mime-version:date:message-id:subject
-	:references:in-reply-to:cc:to:from:from:to:cc:subject:date
-	:message-id:reply-to;
-	bh=rl2GUGW1SKIB73yuGvAyVPoBfBy5XbBiVj4hV5yN+VI=;
-	b=IcIjKDcsG2WLv4/uB+K5H/XKnt/zjwoHbnoSkPcqQz1/7J4j+vZ75M+LTJslmBtK6j
-	LI4iT82grRUsyCcsLI/bCHH0fo2OHLSzGrzrHhv+dWef6ChZ4u8iJhBoeu96Ur/44j/g
-	3EqZcoaEJerEpmQ3UvQeiP0rOpFtpahK0PkLCOdPEswl4c1xzGvkwT1S+yfEn9+vtzqz
-	6TtNUGFk2CYlgVm2f37SbUS/W0dFeAZ0NdArXNN9TFpI61MdNaqovdOGVZDiuF0EbITP
-	5yW84sPJxzYECvwhGudZ8pYlz398skRLXWZDLXKpbnsz9aYUN99hsleXQj9fO0yjdq10
-	gSUw==
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+	:to:from:from:to:cc:subject:date:message-id:reply-to;
+	bh=oBrWL7GllNsi0LAiNro+Jy+rbseWxtpto9r5kXiY8ZM=;
+	b=MArRmk6AIPydW+tUo2BFL9d+EPo7F3J0lzPgIODnpTisP0PVC5fGRPaQl475wTzN11
+	oVQ3PiCz7jVZ/6YfXtO/07GvItXtpLbS5gI0wdhJVT1suHiQal2ewXLzRm0D2aAI8SrP
+	LJqxKTt95CMSVCzT814UdzFAKzPhvvT1oN0zdXoQsWjcWYegqs7eGjx5rzyhT8nQJvel
+	J5nk+bU2IjACqgEqsu0JaDy4I6hrGtoFLR2gKuXwJ2CEwq5CGJ01tA9deIoi/Hqe4bMR
+	k1UNukV34JEkGxJ6TIWMn+oMe2R3lpEyTS0vPcHuiFB2MR4ua9veUJb10FN3jN7V8u7q
+	ZS9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20230601; t=1734715658; x=1735320458;
-	h=content-transfer-encoding:mime-version:date:message-id:subject
-	:references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-	:subject:date:message-id:reply-to;
-	bh=rl2GUGW1SKIB73yuGvAyVPoBfBy5XbBiVj4hV5yN+VI=;
-	b=BQoJuUvgqf84jkKq0y2J/cC3LT7GZfWwspw5K404FQjCSk4IrEaWHGsOnuwEBwgpa6
-	J6vrT1TRByCXZCCpm8lslNBRkrjYlERgo4ng05gaQ1hOd8oj6RSgNHHv5IclaeJIZql+
-	mpTNANmPo1+h9GpYdB0c+59pDD1fhL0R/pXYVyP8y7yjPsGNy5/EgwLN0Ym3zjmCcEwa
-	VMaS+ulQbS+y5dgr95f/lWtPUPKMmMuKykKP5JkrdxlDDI6Y3Q2WEsghX1CsWUegFhrA
-	zoa7Fhzd8ia8vqkXk7mKJisyYntDTuyNbcsZNsZfEBLusCp8J+VODFxMk2BtXDDy+PYt
-	FBAw==
+	d=1e100.net; s=20230601; t=1735446487; x=1736051287;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+	:to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+	:reply-to;
+	bh=oBrWL7GllNsi0LAiNro+Jy+rbseWxtpto9r5kXiY8ZM=;
+	b=oAxmb1svw5+K7dclq3J49UuAROur9X+HAV7a3MyoD/G35ftzoiOhWoXJ4seQAnNuMt
+	KTXMmyDhy0tpkRT5LXH9QYj6x2tsTu4pKXllFJ2e9rgbwMgygJDbXWy6ztDWmNj4bWup
+	/5SNpDeC/T8XNbkh+jVKR1mPkIWtCocV8dY/1epFcKdrm0+GCiDge0UbxNr3VGywz7Bk
+	SJrfdjJAV2wGtnN+5iM05IRCYhPJspXfCUusXh57u8EeP4d6Mok/07+7xuGOmPwubd9W
+	oW5eJfRxcCfwHJmSMi6y+iIesnAxx1evFXZ5gxwPWt5R05Cs1kPY39AKbIcZ3DVqMHII
+	1FdQ==
 X-Forwarded-Encrypted: i=1;
-	AJvYcCUb9HMA7KbQHMGcWO2mFAeRci3xLIdONbNcpwNDfE0kZGEYxa4CDNIsHxbPXR1tf/dInjf30KPhhw==@lists.linbit.com
-X-Gm-Message-State: AOJu0YyXr+2wF66f30ycLRcsvrANOJsdnP1zSNYyVXn/TG71gk6ZwnAg
-	84WZ+cJYN6ITNGXPsTtQE+4IvgzzWiYXlVAJhsc5+7L6Ch7EELB3xCfhO6Viec0=
-X-Gm-Gg: ASbGncuMYz1a+YTpHGvYldgEzV5efDk+0fWAS71tTiz+jipp0qOnS3cO0Q6W5h1DtkI
-	0x+C02d/gHy8UhROqY4mmR8EnjG6SQZLX/SGSsg1Q+58is3VxjstjD2iFHiw4PVOklDwCrIWG1/
-	xhEL2Fyoo2nOVoNvS4fn+PFrLOqeqC35iRfwcWtfusPNpEq2JSd3rsWWVQ8mLEGwQnmd7Oy2J5b
-	8zNPjiXOxvEBSnpMiCZ2lv9cJEsalK+vT+Va7AKEUG0+Q1vkUGDv6O0Tgx/vUy55DKF7hQ6tnM=
-X-Google-Smtp-Source: AGHT+IHQofl14bIpVpiQqz6qAEwAjKsEmWVjRCOjis6wH9jKfvKMjWLHCbYlsDgmYPDOjR7ci+Y7xw==
-X-Received: by 2002:a5d:47c3:0:b0:388:cacf:24b0 with SMTP id
-	ffacd0b85a97d-38a1a1f7253mr6745803f8f.2.1734715658179; 
-	Fri, 20 Dec 2024 09:27:38 -0800 (PST)
-Received: from [192.168.68.114] ([5.133.47.210])
+	AJvYcCVruZbDoG5vVKDnX0KO3YSpqhvsZwCDXshQSISebHkcKsF2QOzrClcKn5wfmETMNVmE+0R4s+wW6Q==@lists.linbit.com
+X-Gm-Message-State: AOJu0YwpFKsBecWqn8nkA/OiUNt2QcYfnZ5nt0GGU/FxPOmuGNICiDnR
+	mG0hH2Wt89s0yxF8OfLOhIPvEMraGaAMkKEdLrekLWiHzs+ii9Sm
+X-Gm-Gg: ASbGncvgIKOpIcoUfj+hUCmtCVko89tp2LaVXm0aRriOlgMh7RZu+xy99WEP+GInC1b
+	VqBOHUauNaDFRODWTgju5nxA/XWBHwvoinGQ/uLSOr8+H2PphLCt3bPY7VkuH/uGbWhXUD3pK9v
+	bkiqJqj4tQoB3nCcfoSEbXXuKpW0PB9ju3wPGYDuxQWK+yT4ROoFPKhXQEgUlWAWLDbDNk7SVqc
+	oQ9WJCFnHqFRiDfScE51adYfSi3Cx8fI7zVurq06fnNVPMScWUvmCWOSb2bMh1pzoPY
+X-Google-Smtp-Source: AGHT+IHgUdW+0UmloENQn+1Zkn7yQW144gDP51T6HntWWBf+b3N+bM7oD5Wj4FfS53Ad3kkuvErKGg==
+X-Received: by 2002:a17:90b:2f45:b0:2f4:434d:c7ed with SMTP id
+	98e67ed59e1d1-2f452e1cc5cmr47887421a91.16.1735446486853; 
+	Sat, 28 Dec 2024 20:28:06 -0800 (PST)
+Received: from shilearning.. ([180.109.90.38])
 	by smtp.gmail.com with ESMTPSA id
-	ffacd0b85a97d-38a1c89e357sm4642915f8f.72.2024.12.20.09.27.36
+	98e67ed59e1d1-2f47b3349a9sm10924394a91.5.2024.12.28.20.28.04
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 20 Dec 2024 09:27:37 -0800 (PST)
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-To: linux-gpio@vger.kernel.org, Julia Lawall <Julia.Lawall@inria.fr>
-In-Reply-To: <20240930112121.95324-1-Julia.Lawall@inria.fr>
-References: <20240930112121.95324-1-Julia.Lawall@inria.fr>
-Subject: Re: (subset) [PATCH 00/35] Reorganize kerneldoc parameter names
-Message-Id: <173471565665.227782.7244101246430956449.b4-ty@linaro.org>
-Date: Fri, 20 Dec 2024 17:27:36 +0000
+	Sat, 28 Dec 2024 20:28:06 -0800 (PST)
+From: Shi Xinhe <shixinhe6@gmail.com>
+To: minchan@kernel.org
+Subject: [PATCH] Documentation zram: fix description about huge page writeback
+	example
+Date: Sun, 29 Dec 2024 04:27:58 +0000
+Message-Id: <20241229042758.163842-1-shixinhe6@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.2
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Mon, 20 Jan 2025 07:11:04 +0100
-Cc: nvdimm@lists.linux.dev, alsa-devel@alsa-project.org,
-	Jan Kara <jack@suse.cz>, "Rafael J. Wysocki" <rafael@kernel.org>,
-	Neil Brown <neilb@suse.de>, linux-pci@vger.kernel.org,
-	kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-mm@kvack.org, linux-mtd@lists.infradead.org,
-	amd-gfx@lists.freedesktop.org, linux-leds@vger.kernel.org,
-	drbd-dev@lists.linbit.com,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	dccp@vger.kernel.org, Dai Ngo <Dai.Ngo@oracle.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	iommu@lists.linux.dev, intel-wired-lan@lists.osuosl.org,
-	Robin Murphy <robin.murphy@arm.com>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	linux-arm-msm@vger.kernel.org, Naveen N Rao <naveen@kernel.org>,
-	linux-sound@vger.kernel.org, maple-tree@lists.infradead.org,
-	Tom Talpey <tom@talpey.com>, Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Nicholas Piggin <npiggin@gmail.com>, linux-omap@vger.kernel.org,
-	Zhihao Cheng <chengzhihao1@huawei.com>,
-	linux-arm-kernel@lists.infradead.org, linux-nfs@vger.kernel.org,
-	netdev@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
-	audit@vger.kernel.org, tipc-discussion@lists.sourceforge.net,
-	linux-fsdevel@vger.kernel.org, Sanyog Kale <sanyog.r.kale@intel.com>,
-	linux-trace-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Cc: corbet@lwn.net, linux-doc@vger.kernel.org, philipp.reisner@linbit.com,
+	linux-kernel@vger.kernel.org, senozhatsky@chromium.org,
+	Shi Xinhe <shixinhe6@gmail.com>, lars.ellenberg@linbit.com,
+	drbd-dev@lists.linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -111,26 +87,26 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
+Corrected the description to accurately reflect that huge page writeback example.
 
-On Mon, 30 Sep 2024 13:20:46 +0200, Julia Lawall wrote:
-> Reorganize kerneldoc parameter names to match the parameter
-> order in the function header.
-> 
-> The misordered cases were identified using the following
-> Coccinelle semantic patch:
-> 
-> // <smpl>
-> @initialize:ocaml@
-> @@
-> 
-> [...]
+Signed-off-by: Shi Xinhe <shixinhe6@gmail.com>
+---
+ Documentation/admin-guide/blockdev/zram.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Applied, thanks!
-
-[31/35] slimbus: messaging: Reorganize kerneldoc parameter names
-        commit: 52d3d7f7a77ee9afc6a846b415790e13e1434847
-
-Best regards,
+diff --git a/Documentation/admin-guide/blockdev/zram.rst b/Documentation/admin-guide/blockdev/zram.rst
+index 1576fb93f06c..48ba192e667b 100644
+--- a/Documentation/admin-guide/blockdev/zram.rst
++++ b/Documentation/admin-guide/blockdev/zram.rst
+@@ -343,7 +343,7 @@ To use the feature, admin should set up backing device via::
+ 	echo /dev/sda5 > /sys/block/zramX/backing_dev
+ 
+ before disksize setting. It supports only partitions at this moment.
+-If admin wants to use incompressible page writeback, they could do it via::
++If admin wants to use huge page writeback, they could do it via::
+ 
+ 	echo huge > /sys/block/zramX/writeback
+ 
 -- 
-Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+2.34.1
 
