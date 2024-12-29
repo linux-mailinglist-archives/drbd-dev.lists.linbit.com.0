@@ -2,63 +2,73 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAA3D9F2DDC
-	for <lists+drbd-dev@lfdr.de>; Mon, 16 Dec 2024 11:10:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E0519FDD3E
+	for <lists+drbd-dev@lfdr.de>; Sun, 29 Dec 2024 05:36:46 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id BF77F16099A;
-	Mon, 16 Dec 2024 11:10:30 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B6D4516B80C;
+	Sun, 29 Dec 2024 05:36:43 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
-	[209.85.208.50])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id BAFEF160961
-	for <drbd-dev@lists.linbit.com>; Mon, 16 Dec 2024 11:10:26 +0100 (CET)
-Received: by mail-ed1-f50.google.com with SMTP id
-	4fb4d7f45d1cf-5d3d2a30afcso6829516a12.3
-	for <drbd-dev@lists.linbit.com>; Mon, 16 Dec 2024 02:10:26 -0800 (PST)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
+	[209.85.214.174])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 09AE2160963
+	for <drbd-dev@lists.linbit.com>; Sun, 29 Dec 2024 05:36:38 +0100 (CET)
+Received: by mail-pl1-f174.google.com with SMTP id
+	d9443c01a7336-21644aca3a0so2476615ad.3
+	for <drbd-dev@lists.linbit.com>; Sat, 28 Dec 2024 20:36:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linbit-com.20230601.gappssmtp.com; s=20230601; t=1734343826;
-	x=1734948626; darn=lists.linbit.com; 
-	h=cc:to:subject:message-id:date:from:in-reply-to:references
-	:mime-version:from:to:cc:subject:date:message-id:reply-to;
-	bh=1HmlHTVCbOW7xRqJqGUEVYtitmZpDH5VFj0J+evh7NI=;
-	b=PJ4VxBxjO4WzfCgl6bh2eu3ezyAwbiBP4pPTIUmkGTm2QtBr8da2lZwfXC/aZOciac
-	dD99dA946iAyGPqeTWobzylD5a+1mUH8boHCNC0FlIsiPIEFbYcpYhzQ2BS140Xocelb
-	7NQTVZ99OP8mO09zH1cMO44Lquyg4FfWQOSVhurzK3O2E2QYh4GlY05SHt85+C1VfV2q
-	AK5DU7EaXW/UBINnhmeip++h0NqLt3liF9FwuAeDy7lV9z/1ffikdw6GwpE6vBWszbbH
-	TVWH/2Cq94ERcFrRgucKmMvWP1A/yrEfvcuLSlsls6XXN5R0lDBYZ0drl8KN2S6dOA4/
-	DsvA==
+	d=chromium.org; s=google; t=1735446998; x=1736051798;
+	darn=lists.linbit.com; 
+	h=in-reply-to:content-disposition:mime-version:references:message-id
+	:subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+	bh=fhoHuIrviDm79Rzafn1HMCTRe/3wZ+RwEGuu44Leo7Q=;
+	b=gW/fFFDDXiXFBCSsdhHf3YvTaRsGKCKr2O4JbjCQ2Gn0ZxP7MWdt2z7W7VQjOcy41W
+	66eGNQsW0HRyMEURVseSQDgAD53/EidtDn/7aBfV6GSBGsPM4Al+pUNkH8F9ZUYsnzka
+	P7JWgzDNDiHxe7Rwl3QLFgv+7clV4WCkeo63g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20230601; t=1734343826; x=1734948626;
-	h=cc:to:subject:message-id:date:from:in-reply-to:references
-	:mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-	:reply-to;
-	bh=1HmlHTVCbOW7xRqJqGUEVYtitmZpDH5VFj0J+evh7NI=;
-	b=xORbiPm9JmqiDQiQGnWldjeCSOv8Nb0V405VY23PxD/HynF+GciPypgrisDOtqOcEE
-	PoUOX5OuY4uKMZ3RNd2elO/kPskL8Q3Z+8nN84K1sC8RGwQeE7hqjfewbSe6mSSq1wsr
-	+y0/EfPRwapx2bUaxTY6C5yxKTF4QbFAz9pIFMYccpg/6FvMDxg3CtC8deibDzkOAZWM
-	m0vkKrs1EO2Zvt3eDPBB8tFXmlPTecdDcqU5cnSVySG+bhQVWJjYJ12LzkTSmriVaKoI
-	sq93GCAoO3iM02m2U0NZRGKbyMvbr7i5Lb2zQsxWD19k8IN+7P2XxvpUin2heM1FFG+G
-	jU0w==
-X-Gm-Message-State: AOJu0YxVNrdwzG6O35nKLtOwX9bUbgYnnodW3vuY2eVgzHjT2sI0Q8FN
-	KBwkLTjhZHL5Kto+Sd0gye5hS1ilrOSbbptNunN6KSj/BOL2zTRLJKDBWxB440fkqFYROaXDnZH
-	9ea2kTt3+s4NmquRC4ARGzj2H9XLIak+lAmBst2Wa/qWXAwEmUFBhEA==
-X-Gm-Gg: ASbGncvAk/VFRJkMJO33sAHodIdIwCUACgLosVpUNGoFyvcaxZ0tzZ6h6iy/OqtwxzT
-	h/oEm3G8ShASx1r7l+s68OU+bRjx5ZZd9gJLY910=
-X-Google-Smtp-Source: AGHT+IHn03C/Ar3BGa/fRyCmApsQVkGEkNeMbaorHINe/70xtjuYMv6g+JS52X38x4Ae5wbIO3g0plDayExpoJzX08Y=
-X-Received: by 2002:a17:907:3f97:b0:aab:736c:5a7 with SMTP id
-	a640c23a62f3a-aab779b4b90mr1228864166b.25.1734343824367;
-	Mon, 16 Dec 2024 02:10:24 -0800 (PST)
+	d=1e100.net; s=20230601; t=1735446998; x=1736051798;
+	h=in-reply-to:content-disposition:mime-version:references:message-id
+	:subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+	:message-id:reply-to;
+	bh=fhoHuIrviDm79Rzafn1HMCTRe/3wZ+RwEGuu44Leo7Q=;
+	b=KSIOsTg3ot/LJuAwB+1Fvr2x+PKVhEx8JQFET/c1rm33gUX2JUBOEMa34PSf31CwIZ
+	W6rkKy1UpxoVCfSWx0p5mcRnuIhg5nfZTRHr+PcJ/R6ki3o+8LL9FtvMBlI6zv3Tufq0
+	srl1oJ27CSX9/F28RF336ZDc98XgBLuVG1BG6gwHeqsexvnOTZYs8tHQuN6x9Z/b+waB
+	00T+X5jCVrxJDfasEiIX+tezjkDxXMVoaUJTx54ySc/kztJzrq/nKlVcpSdV0777yNVl
+	kk4ZFsAFH2owAUZ1Nm5gEHdFEuXTPjcRViEs3CobVPeA5TPXYtuhYQlWc/qeA8pvHrV/
+	Vkug==
+X-Forwarded-Encrypted: i=1;
+	AJvYcCWIYjYuyb1NSxdZItywiGXZlzUy0GGCLAqAqiImrSbmnUKGzS4GQ8b+fnyngbQYQw8z4wFE2ICu6Q==@lists.linbit.com
+X-Gm-Message-State: AOJu0YziTSpAVuxgInKu3WPm0FGLJME5EWCqs55U2X+I8RMPMAsTBD9/
+	rxLDnOB2zOzTlcT0FNcAf/2OpEHRggll7oIeuLN5jh6ba6dFfbT86cv5JhDyHg==
+X-Gm-Gg: ASbGncudNmzzgJu7v/sC/i4wrdX6uQ8Xd9EJUgNXSKPwP0vTicrdtat5TwEo9nwfgBg
+	S3xiuolgkEdQuEYgjd0sEnK9uaqFaipDhijgiF92S1eofLH76z58GKBY/L8ynqBGf9sxAAmMAfs
+	4sVVdh+IFmJm5MqDCYH0RFpUzeb0tIoUgEPoasrJpxxai6lJexUUGISaujOP3MWt/HvQf9UAPeD
+	b4zXVKVE+6oOrX4mxoy6mnI454rY0q4cKzlrMPAZ1IuTKqEgBtH6y7ldKpy
+X-Google-Smtp-Source: AGHT+IHpB4lxQ3b1Hl94BfQscEhfLXiF9jx+bFESscdD3vO0Ynb7abuDXS6s97RIhF1oNJF0e1F9lg==
+X-Received: by 2002:a17:903:944:b0:215:6e01:ad19 with SMTP id
+	d9443c01a7336-219e6ebc9f5mr525797245ad.29.1735446997900; 
+	Sat, 28 Dec 2024 20:36:37 -0800 (PST)
+Received: from google.com ([2401:fa00:8f:203:76a8:6d89:3321:5163])
+	by smtp.gmail.com with ESMTPSA id
+	d9443c01a7336-219dc964b1fsm156534505ad.37.2024.12.28.20.36.35
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Sat, 28 Dec 2024 20:36:37 -0800 (PST)
+Date: Sun, 29 Dec 2024 13:36:32 +0900
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: Shi Xinhe <shixinhe6@gmail.com>
+Subject: Re: [PATCH] Documentation zram: fix description about huge page
+	writeback example
+Message-ID: <qfagx4fjlluq4fox7fw5ltx63wxpifnr7lp3nkt63jm4wbtzp2@mna6znzgfqv2>
+References: <20241229042758.163842-1-shixinhe6@gmail.com>
 MIME-Version: 1.0
-References: <20241215065056.879266-1-zhengbing.huang@easystack.cn>
-In-Reply-To: <20241215065056.879266-1-zhengbing.huang@easystack.cn>
-From: Joel Colledge <joel.colledge@linbit.com>
-Date: Mon, 16 Dec 2024 11:10:12 +0100
-Message-ID: <CAGNP_+W+gELNC_1DmmHYbbAe_7hP0YdXk04cF_X5MqYevhN+jw@mail.gmail.com>
-Subject: Re: [PATCH v2] drbd: Fix memory leak
-To: "zhengbing.huang" <zhengbing.huang@easystack.cn>
-Content-Type: text/plain; charset="UTF-8"
-Cc: drbd-dev@lists.linbit.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241229042758.163842-1-shixinhe6@gmail.com>
+Cc: corbet@lwn.net, linux-doc@vger.kernel.org, philipp.reisner@linbit.com,
+	linux-kernel@vger.kernel.org, minchan@kernel.org,
+	lars.ellenberg@linbit.com, senozhatsky@chromium.org,
+	drbd-dev@lists.linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -75,10 +85,8 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Thanks. Applied as
-https://github.com/LINBIT/drbd/commit/d64ebe7eb7df8c622b20bca38f3d7f4c7bb033c9
+On (24/12/29 04:27), Shi Xinhe wrote:
+> 
+> Corrected the description to accurately reflect that huge page writeback example.
 
-The commit will be merged to master in due course.
-
-Best regards,
-Joel
+But what is the correction?  In zram huge page is incompressible page.
