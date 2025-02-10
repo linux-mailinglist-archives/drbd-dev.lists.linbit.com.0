@@ -2,72 +2,74 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17A2AA1668D
-	for <lists+drbd-dev@lfdr.de>; Mon, 20 Jan 2025 07:11:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5859DA304AF
+	for <lists+drbd-dev@lfdr.de>; Tue, 11 Feb 2025 08:41:31 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9A31116B823;
-	Mon, 20 Jan 2025 07:11:18 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7DD0716109C;
+	Tue, 11 Feb 2025 08:41:28 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com
-	[209.85.218.65])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 579B7160968
-	for <drbd-dev@lists.linbit.com>; Sun, 29 Dec 2024 06:58:46 +0100 (CET)
-Received: by mail-ej1-f65.google.com with SMTP id
-	a640c23a62f3a-aa6a92f863cso1334881266b.1
-	for <drbd-dev@lists.linbit.com>; Sat, 28 Dec 2024 21:58:46 -0800 (PST)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+	[209.85.128.51])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5DB8A160650
+	for <drbd-dev@lists.linbit.com>; Mon, 10 Feb 2025 12:13:30 +0100 (CET)
+Received: by mail-wm1-f51.google.com with SMTP id
+	5b1f17b1804b1-43944c51e41so7772795e9.0
+	for <drbd-dev@lists.linbit.com>; Mon, 10 Feb 2025 03:13:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=gmail.com; s=20230601; t=1735451926; x=1736056726;
+	d=gmail.com; s=20230601; t=1739186010; x=1739790810;
 	darn=lists.linbit.com; 
-	h=content-transfer-encoding:cc:to:subject:message-id:date:from
-	:in-reply-to:references:mime-version:from:to:cc:subject:date
-	:message-id:reply-to;
-	bh=gOaO3GIHJbTPnVowygmPizFspt+znwbY2af+UA4iMaA=;
-	b=G/FrZUy1c/Ef31A2OUD3gpvCoqI6mh25Y8aMqZSTkbK+GuuZ54Np+h/HGazcbXpASA
-	TplsM/eMpsPg6F8j9eHBabyzbyycYhIVEUld4mk2qtFwijP2t+dv3hbzX+45OmBWOCio
-	qglghtjkMVGf5kLWG/haSjGr/e2JwwdzZTOS9N+CN+vl2Ti7YL0Cm2ra6BtUx3XrL2Pt
-	cD/w+DACvzTyaSPezahmiZK/qeyyvXJVpJrDcjPilkcTP2OQFS70rfxc3f809RCuxlEe
-	u7fcdVmRloskrYa+ZRxyKyn9blOLqkxM5m9Ji8PkL2RLROZZhospdsfDNwlRmKis63+f
-	R8mQ==
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+	:to:from:from:to:cc:subject:date:message-id:reply-to;
+	bh=LSdJQgcp2y7iHjwit0HOOl9HKbnE8QQbbuMwDImG398=;
+	b=RtxSJCAvV9yNlWvWyPdVZJ1bAiztyztfZG62vUAlfVbzhTmHd14YHVGjuAszTLNypE
+	MUaFkBhfShZBo41ezqA7vHvXK9Q6BU2C0CZh2l8fTjND2zIapQi7VUOCfI7wHMiEiZQv
+	CbOvhwMy+/GTgjA2yLiZktOjeLt/h0Z7yY+U15lw2PABQ+T6lzE0Kp7xqtmiPAFYOpZc
+	twGuJFfK/2pRev7ZYQPbKrVVVwOifeU5KkZJmIVGcKuE5CJoBkbWMl2tKcvpqp914wMN
+	otgBmnUjzgCQemvgjpB650wVqXdtSBcXaRRbeCho6caiR+ayki4gWPFE0Ik5usvY6qSl
+	vRNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20230601; t=1735451926; x=1736056726;
-	h=content-transfer-encoding:cc:to:subject:message-id:date:from
-	:in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-	:subject:date:message-id:reply-to;
-	bh=gOaO3GIHJbTPnVowygmPizFspt+znwbY2af+UA4iMaA=;
-	b=laEJX1t23jAWrmSDNSisN20GAs7liCfNZ8MXfxS104Cub9lXBLlbyGr6FWPa4kfYMB
-	fSn8grnw3pQnUnsN99ydc6s+ULzQVN9rbQXDVqnvzYM4wlPL+VDagU8acmJUxxmUP+3A
-	W9ZU7/drpHKOxxfH3J6M21F+4n+/lJoHXc6sZr8q81LfGSdwCuyFo4WgLjZIFSph37O5
-	1+PUNpCS2+I3zLj0fqwE/pPvr0vg/B0Z9skC9B0Clw/WvGCWnfPHD8sXoX/Pkc0PThzt
-	w1cnvpstPLqf5SXDG5CysvF9ddz+dz6yDgmTcTnIqbg4cRYM3bbzgvOd4EQbSX9w872I
-	yWOg==
-X-Forwarded-Encrypted: i=1;
-	AJvYcCV9OadHWpyTv9QtU6uW/HHyEeZrCnwHsICVXYrCcgagQKPzvqsToy4Uf3DwkoaRY6RVH9k+ahTbsA==@lists.linbit.com
-X-Gm-Message-State: AOJu0YzNsGToorJUQfjx7P4TEmkC56YxKts7Xw18xoxajrjsZkbxLoxL
-	wi3OGWpjtZMZ/+CCVGXkRVMlC8MtrQ3JSB1NpXfyhfAj4K0EfCigaHR79nVtpNGJB2pGI4sjdZ7
-	FNLR1VpWjuUZOy+kIxeAy8fe4Wsk=
-X-Gm-Gg: ASbGncsMZSJUB+JJBs1LBljcrzTJmZC2GPbggMRwh8yMV4AboFA8J0kvc0zbij6S99f
-	NrvAeZqQIi2kiRhGAcva5GW8WoLLy3aG/2Fc=
-X-Google-Smtp-Source: AGHT+IEghvvIfQoPMz+PP7ZizlnBePaNWLdNkAgdkNoTrqc2EavOIh9PBwbfodDJWb7eX7EGgiuA/PAZW4tAhIbrPO8=
-X-Received: by 2002:a17:907:86aa:b0:aa6:5eae:7ece with SMTP id
-	a640c23a62f3a-aac33549659mr3223500366b.43.1735451926000;
-	Sat, 28 Dec 2024 21:58:46 -0800 (PST)
+	d=1e100.net; s=20230601; t=1739186010; x=1739790810;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+	:to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+	:reply-to;
+	bh=LSdJQgcp2y7iHjwit0HOOl9HKbnE8QQbbuMwDImG398=;
+	b=ca3mPLJnuKY7nWDqjY1lWzFgBPkFwEzmp/ohU0DCvzNKjS+16ZjqqNRc4LDrs4bAgq
+	TN/9kWkm73+UJ9AiTA+l5JkzghDL10/GcMS8bSW9GS7AiOjVBjRQabRGJX7eIgHQytnQ
+	huNL/JxB3ZAhz7RMy0G3zLhudssBAeX6oiLNIeqvtoK+CxITj2TU/TTMsYExKF4DgPkR
+	DX9jQKmRFFn9wnpvEIIEt6lUb1fF0nWYkbYOw53D3rj96lWffW7hexKe2ofgeceo3yf9
+	YksXXipxazY9Ci/tS4PLpmVYCPdGeoJZFUCO+tthYM7cxls+86x7Zs+CXm460U4EGfwX
+	9Leg==
+X-Gm-Message-State: AOJu0Yz4feznS+UH61gu8OZ7p8muCkdGLMOIiWJWzH3+2YHyb3n0ek1p
+	xUSfkQa8bZDvRPWBNPoNsuZXZ8VQ6PYei8dyP8Qkc18Y2c4TSm1H
+X-Gm-Gg: ASbGncvMstZnm9JW8FDyFVDJ1bhN22RMhTSi4s50CuNa+fL5kL+0R0anK8Sx9d1WHR8
+	NDwR7fxQyyHFqA3/ngFQYh1m09BkJgsdi+gx/k/c2TOnTviS6vn8M+rPGaCO1n1Y1zq45+aeKwF
+	wHM1Jf0yu9bXneurjyi9jyjwIEYK6ZNHz0Ejs3kQz8+Rdnoubpcf8+gBdnqTWaVYkn4ioGG8C69
+	TEwMUYeJDHQGL0Mix9mdHlcJpj2GNCGVv6h/YeGthI+P6HtXAvoiGt+zcx2zsPS8VEgH4QlQAao
+	WVBsNoTGBBi/
+X-Google-Smtp-Source: AGHT+IFaU2YoCTpHdtd/tojrjTH8ALsB9SNLM2ym1wrDznm+SKutFiqojoOwPae3ZpHcm6k0gVP0mA==
+X-Received: by 2002:a05:600c:468c:b0:435:23c:e23e with SMTP id
+	5b1f17b1804b1-4392498a1eemr107768405e9.12.1739186009633; 
+	Mon, 10 Feb 2025 03:13:29 -0800 (PST)
+Received: from void.void ([141.226.169.178]) by smtp.gmail.com with ESMTPSA id
+	ffacd0b85a97d-38dc672b55bsm10260635f8f.79.2025.02.10.03.13.28
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 10 Feb 2025 03:13:29 -0800 (PST)
+From: Andrew Kreimer <algonell@gmail.com>
+To: Philipp Reisner <philipp.reisner@linbit.com>,
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
+	=?UTF-8?q?Christoph=20B=C3=B6hmwalder?=
+	<christoph.boehmwalder@linbit.com>, Jens Axboe <axboe@kernel.dk>
+Subject: [PATCH] drbd: Fix typo in error directive
+Date: Mon, 10 Feb 2025 13:13:05 +0200
+Message-ID: <20250210111324.29407-1-algonell@gmail.com>
+X-Mailer: git-send-email 2.48.1.268.g9520f7d998
 MIME-Version: 1.0
-References: <20241229042758.163842-1-shixinhe6@gmail.com>
-	<qfagx4fjlluq4fox7fw5ltx63wxpifnr7lp3nkt63jm4wbtzp2@mna6znzgfqv2>
-In-Reply-To: <qfagx4fjlluq4fox7fw5ltx63wxpifnr7lp3nkt63jm4wbtzp2@mna6znzgfqv2>
-From: newBox shi <shixinhe6@gmail.com>
-Date: Sun, 29 Dec 2024 13:58:34 +0800
-Message-ID: <CABEB809afGY_ha6aXwDm28U7j_b8mHLycxp=PNfUdi017KtAaw@mail.gmail.com>
-Subject: Re: [PATCH] Documentation zram: fix description about huge page
-	writeback example
-To: Sergey Senozhatsky <senozhatsky@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Mon, 20 Jan 2025 07:11:04 +0100
-Cc: corbet@lwn.net, linux-doc@vger.kernel.org, philipp.reisner@linbit.com,
-	linux-kernel@vger.kernel.org, minchan@kernel.org,
-	lars.ellenberg@linbit.com, drbd-dev@lists.linbit.com
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Tue, 11 Feb 2025 08:41:23 +0100
+Cc: linux-block@vger.kernel.org, Andrew Kreimer <algonell@gmail.com>,
+	kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+	drbd-dev@lists.linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -84,18 +86,29 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-I just changed 'incompressible' to 'huge'. I thought huge page is
-incompressible but incompressible page does not just include huge
-page. Given the example is `echo huge`, it may be better to use `huge
-page writeback'.
+There is a typo in error directive:
+ - endianess -> endianness
 
+Fix it via codespell.
 
-Sergey Senozhatsky <senozhatsky@chromium.org> =E4=BA=8E2024=E5=B9=B412=E6=
-=9C=8829=E6=97=A5=E5=91=A8=E6=97=A5 12:36=E5=86=99=E9=81=93=EF=BC=9A
->
-> On (24/12/29 04:27), Shi Xinhe wrote:
-> >
-> > Corrected the description to accurately reflect that huge page writebac=
-k example.
->
-> But what is the correction?  In zram huge page is incompressible page.
+Signed-off-by: Andrew Kreimer <algonell@gmail.com>
+---
+ drivers/block/drbd/drbd_state.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/block/drbd/drbd_state.h b/drivers/block/drbd/drbd_state.h
+index cbaeb8018dbf..89d7c828eb59 100644
+--- a/drivers/block/drbd/drbd_state.h
++++ b/drivers/block/drbd/drbd_state.h
+@@ -106,7 +106,7 @@ union drbd_dev_state {
+ 		unsigned peer:2 ;   /* 3/4	 primary/secondary/unknown */
+ 		unsigned role:2 ;   /* 3/4	 primary/secondary/unknown */
+ #else
+-# error "this endianess is not supported"
++# error "this endianness is not supported"
+ #endif
+ 	};
+ 	unsigned int i;
+-- 
+2.48.1.268.g9520f7d998
+
