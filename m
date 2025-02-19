@@ -2,74 +2,39 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5859DA304AF
-	for <lists+drbd-dev@lfdr.de>; Tue, 11 Feb 2025 08:41:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D967A3AFEE
+	for <lists+drbd-dev@lfdr.de>; Wed, 19 Feb 2025 04:10:51 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7DD0716109C;
-	Tue, 11 Feb 2025 08:41:28 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D52CB16B916;
+	Wed, 19 Feb 2025 04:10:48 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
-	[209.85.128.51])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5DB8A160650
-	for <drbd-dev@lists.linbit.com>; Mon, 10 Feb 2025 12:13:30 +0100 (CET)
-Received: by mail-wm1-f51.google.com with SMTP id
-	5b1f17b1804b1-43944c51e41so7772795e9.0
-	for <drbd-dev@lists.linbit.com>; Mon, 10 Feb 2025 03:13:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=gmail.com; s=20230601; t=1739186010; x=1739790810;
-	darn=lists.linbit.com; 
-	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-	:to:from:from:to:cc:subject:date:message-id:reply-to;
-	bh=LSdJQgcp2y7iHjwit0HOOl9HKbnE8QQbbuMwDImG398=;
-	b=RtxSJCAvV9yNlWvWyPdVZJ1bAiztyztfZG62vUAlfVbzhTmHd14YHVGjuAszTLNypE
-	MUaFkBhfShZBo41ezqA7vHvXK9Q6BU2C0CZh2l8fTjND2zIapQi7VUOCfI7wHMiEiZQv
-	CbOvhwMy+/GTgjA2yLiZktOjeLt/h0Z7yY+U15lw2PABQ+T6lzE0Kp7xqtmiPAFYOpZc
-	twGuJFfK/2pRev7ZYQPbKrVVVwOifeU5KkZJmIVGcKuE5CJoBkbWMl2tKcvpqp914wMN
-	otgBmnUjzgCQemvgjpB650wVqXdtSBcXaRRbeCho6caiR+ayki4gWPFE0Ik5usvY6qSl
-	vRNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20230601; t=1739186010; x=1739790810;
-	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-	:to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-	:reply-to;
-	bh=LSdJQgcp2y7iHjwit0HOOl9HKbnE8QQbbuMwDImG398=;
-	b=ca3mPLJnuKY7nWDqjY1lWzFgBPkFwEzmp/ohU0DCvzNKjS+16ZjqqNRc4LDrs4bAgq
-	TN/9kWkm73+UJ9AiTA+l5JkzghDL10/GcMS8bSW9GS7AiOjVBjRQabRGJX7eIgHQytnQ
-	huNL/JxB3ZAhz7RMy0G3zLhudssBAeX6oiLNIeqvtoK+CxITj2TU/TTMsYExKF4DgPkR
-	DX9jQKmRFFn9wnpvEIIEt6lUb1fF0nWYkbYOw53D3rj96lWffW7hexKe2ofgeceo3yf9
-	YksXXipxazY9Ci/tS4PLpmVYCPdGeoJZFUCO+tthYM7cxls+86x7Zs+CXm460U4EGfwX
-	9Leg==
-X-Gm-Message-State: AOJu0Yz4feznS+UH61gu8OZ7p8muCkdGLMOIiWJWzH3+2YHyb3n0ek1p
-	xUSfkQa8bZDvRPWBNPoNsuZXZ8VQ6PYei8dyP8Qkc18Y2c4TSm1H
-X-Gm-Gg: ASbGncvMstZnm9JW8FDyFVDJ1bhN22RMhTSi4s50CuNa+fL5kL+0R0anK8Sx9d1WHR8
-	NDwR7fxQyyHFqA3/ngFQYh1m09BkJgsdi+gx/k/c2TOnTviS6vn8M+rPGaCO1n1Y1zq45+aeKwF
-	wHM1Jf0yu9bXneurjyi9jyjwIEYK6ZNHz0Ejs3kQz8+Rdnoubpcf8+gBdnqTWaVYkn4ioGG8C69
-	TEwMUYeJDHQGL0Mix9mdHlcJpj2GNCGVv6h/YeGthI+P6HtXAvoiGt+zcx2zsPS8VEgH4QlQAao
-	WVBsNoTGBBi/
-X-Google-Smtp-Source: AGHT+IFaU2YoCTpHdtd/tojrjTH8ALsB9SNLM2ym1wrDznm+SKutFiqojoOwPae3ZpHcm6k0gVP0mA==
-X-Received: by 2002:a05:600c:468c:b0:435:23c:e23e with SMTP id
-	5b1f17b1804b1-4392498a1eemr107768405e9.12.1739186009633; 
-	Mon, 10 Feb 2025 03:13:29 -0800 (PST)
-Received: from void.void ([141.226.169.178]) by smtp.gmail.com with ESMTPSA id
-	ffacd0b85a97d-38dc672b55bsm10260635f8f.79.2025.02.10.03.13.28
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 10 Feb 2025 03:13:29 -0800 (PST)
-From: Andrew Kreimer <algonell@gmail.com>
-To: Philipp Reisner <philipp.reisner@linbit.com>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	=?UTF-8?q?Christoph=20B=C3=B6hmwalder?=
-	<christoph.boehmwalder@linbit.com>, Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH] drbd: Fix typo in error directive
-Date: Mon, 10 Feb 2025 13:13:05 +0200
-Message-ID: <20250210111324.29407-1-algonell@gmail.com>
-X-Mailer: git-send-email 2.48.1.268.g9520f7d998
+X-Greylist: delayed 302 seconds by postgrey-1.31 at mail19;
+	Wed, 19 Feb 2025 04:10:14 CET
+Received: from mail-m49247.qiye.163.com (mail-m49247.qiye.163.com
+	[45.254.49.247])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3723F16B836
+	for <drbd-dev@lists.linbit.com>; Wed, 19 Feb 2025 04:10:13 +0100 (CET)
+Received: from hzb-HP-Laptop-14s-cr2xxx.. (unknown [218.94.118.90])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 53df0533;
+	Wed, 19 Feb 2025 11:05:07 +0800 (GMT+08:00)
+From: "zhengbing.huang" <zhengbing.huang@easystack.cn>
+To: drbd-dev@lists.linbit.com
+Subject: [PATCH] drbd: Fix IO block after network failure
+Date: Wed, 19 Feb 2025 11:05:06 +0800
+Message-ID: <20250219030506.1389085-1-zhengbing.huang@easystack.cn>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 11 Feb 2025 08:41:23 +0100
-Cc: linux-block@vger.kernel.org, Andrew Kreimer <algonell@gmail.com>,
-	kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
-	drbd-dev@lists.linbit.com
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFJQjdXWS1ZQUlXWQ8JGhUIEh9ZQVlDQx8ZVk5MTBhIHkhDGkwaGFYVFAkWGhdVGRETFh
+	oSFyQUDg9ZV1kYEgtZQVlJSkNVQk9VSkpDVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0lPT09IVUpLS1
+	VKQktLWQY+
+X-HM-Tid: 0a951c2a931c0227kunm53df0533
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NRg6Iio*PDcXOQsZSCIuSSkV
+	KSEwCxZVSlVKTEhCQkhPSEtDSk5OVTMWGhIXVQETHhUcGRIVHFUTDhoVHDseGggCCA8aGBBVGBVF
+	WVdZEgtZQVlJSkNVQk9VSkpDVUJLWVdZCAFZQUhJTkg3Bg++
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -86,29 +51,96 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-There is a typo in error directive:
- - endianess -> endianness
+Network failure test, I/O is not finished.
+The oldest_request has follow status information:
 
-Fix it via codespell.
+master: pending|postponed	local: in-AL|completed|ok	net[1]: queued|done : C|barr
 
-Signed-off-by: Andrew Kreimer <algonell@gmail.com>
+This req also has RQ_NET_QUEUED,so its reference count
+cannot be reduced to zero and req cannot complete.
+
+The commit 8962f7c03c1
+drbd: exclude requests that are not yet queued from "seen_dagtag_sector"
+has modify the __next_request_for_connection() function,
+which causes the sender thread to be unable to clean up all
+pending req when the network failure.
+
+The race occurred as follows, where T is a submit req thread,
+and S is a sender thread:
+S: process_one_request() handle r0
+S: network failure. drbd_send_dblock(r0) fail, then call __req_mod(r0, SEND_FAILED...)
+S: Call mod_rq_state(), r0 clear RQ_NET_QUEUED, and still has RQ_NET_PENDING
+T: r1 arrive drbd_send_and_submit(), add to transfer_log, and set RQ_NET_QUEUED
+S: drbd_sender() handle network failure, change_cstate(C_NETWORK_FAILURE)
+
+When sender thread state change to stop, and want to
+cleanup all currently unprocessed requests(call __req_mod(req, SEND_CANCELED...)).
+but it can not find r1, because in the __next_request_for_connection() function,
+r0 always satisfies the first if condition and returns NULL.
+static struct drbd_request *__next_request_for_connection(...)
+{
+...
+		if (unlikely(s & RQ_NET_PENDING && !(s & (RQ_NET_QUEUED|RQ_NET_SENT))))
+			return NULL;
+...
+}
+Finally, r1 could not be completed due to has RQ_NET_QUEUED.
+
+So, In the cleanup process of sender,
+we find all the req with RQ_NET_QUEUED and clean it.
+
+Signed-off-by: zhengbing.huang <zhengbing.huang@easystack.cn>
 ---
- drivers/block/drbd/drbd_state.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drbd/drbd_sender.c | 22 ++++++++++++++++++++--
+ 1 file changed, 20 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/block/drbd/drbd_state.h b/drivers/block/drbd/drbd_state.h
-index cbaeb8018dbf..89d7c828eb59 100644
---- a/drivers/block/drbd/drbd_state.h
-+++ b/drivers/block/drbd/drbd_state.h
-@@ -106,7 +106,7 @@ union drbd_dev_state {
- 		unsigned peer:2 ;   /* 3/4	 primary/secondary/unknown */
- 		unsigned role:2 ;   /* 3/4	 primary/secondary/unknown */
- #else
--# error "this endianess is not supported"
-+# error "this endianness is not supported"
- #endif
- 	};
- 	unsigned int i;
+diff --git a/drbd/drbd_sender.c b/drbd/drbd_sender.c
+index 80badc606..e6fc751c7 100644
+--- a/drbd/drbd_sender.c
++++ b/drbd/drbd_sender.c
+@@ -3251,6 +3251,24 @@ static struct drbd_request *tl_next_request_for_connection(struct drbd_connectio
+ 	return connection->todo.req;
+ }
+ 
++static struct drbd_request *tl_next_request_for_cleanup(struct drbd_connection *connection)
++{
++	struct drbd_request *req;
++	struct drbd_request *found_req = NULL;
++
++	list_for_each_entry_rcu(req, &connection->resource->transfer_log, tl_requests) {
++		unsigned s = req->net_rq_state[connection->peer_node_id];
++
++		if (s & RQ_NET_QUEUED) {
++			found_req = req;
++			break;
++		}
++	}
++
++	connection->todo.req = found_req;
++	return connection->todo.req;
++}
++
+ static void maybe_send_state_afer_ahead(struct drbd_connection *connection)
+ {
+ 	struct drbd_peer_device *peer_device;
+@@ -3644,7 +3662,7 @@ int drbd_sender(struct drbd_thread *thi)
+ 	/* cleanup all currently unprocessed requests */
+ 	if (!connection->todo.req) {
+ 		rcu_read_lock();
+-		tl_next_request_for_connection(connection);
++		tl_next_request_for_cleanup(connection);
+ 		rcu_read_unlock();
+ 	}
+ 	while (connection->todo.req) {
+@@ -3660,7 +3678,7 @@ int drbd_sender(struct drbd_thread *thi)
+ 			complete_master_bio(device, &m);
+ 
+ 		rcu_read_lock();
+-		tl_next_request_for_connection(connection);
++		tl_next_request_for_cleanup(connection);
+ 		rcu_read_unlock();
+ 	}
+ 
 -- 
-2.48.1.268.g9520f7d998
+2.43.0
 
