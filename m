@@ -2,73 +2,48 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [37.27.211.0])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22492AA95C9
-	for <lists+drbd-dev@lfdr.de>; Mon,  5 May 2025 16:27:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A55C8AAACE7
+	for <lists+drbd-dev@lfdr.de>; Tue,  6 May 2025 04:25:44 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C3A8B16B836;
-	Mon,  5 May 2025 16:27:00 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 523EF16B830;
+	Tue,  6 May 2025 04:25:40 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
-	[209.85.221.47])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 07E8E160645
-	for <drbd-dev@lists.linbit.com>; Mon,  5 May 2025 16:26:26 +0200 (CEST)
-Received: by mail-wr1-f47.google.com with SMTP id
-	ffacd0b85a97d-3913b539aabso1995084f8f.2
-	for <drbd-dev@lists.linbit.com>; Mon, 05 May 2025 07:26:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linbit-com.20230601.gappssmtp.com; s=20230601; t=1746455186;
-	x=1747059986; darn=lists.linbit.com; 
-	h=content-transfer-encoding:mime-version:references:in-reply-to
-	:message-id:date:subject:cc:to:from:from:to:cc:subject:date
-	:message-id:reply-to;
-	bh=ticlIpPbqXjzJ+JAHisibJR5pqedJr+Gmor+qJZgu7o=;
-	b=EN6f8Vvl1XM1o+QGNo7oAImKCjF5dDVeS5V/Qqz8KtdG4bw5H6P1yc0Fog+S+9zk3a
-	wLYxb3uOstEm8NX17G4bDuFNfpFUCfu4hIiOX4OQ5343XdWyV3+PaXhEUhLAadwITAEu
-	0n4KoWIgqbHvmrRVaOmnXR4Vjq/TfRCQS425CSdJIyZwmtlWDOtbAfz+BeaLKrLxr9Bg
-	TOY+KGKZ24O3jDGtthi+1YI2S2JJ3x15aBnywIodFxR2JB78JlmCZ+goz3o2ZY6jXiKU
-	ceTlNzrHAItB8yYJbWNDdlFhyseqHbhsNaPMDViCfwHYUhGKnVTKN0S59Hwal5Guzfrm
-	E8Ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20230601; t=1746455186; x=1747059986;
-	h=content-transfer-encoding:mime-version:references:in-reply-to
-	:message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-	:subject:date:message-id:reply-to;
-	bh=ticlIpPbqXjzJ+JAHisibJR5pqedJr+Gmor+qJZgu7o=;
-	b=PHyJQclvg4iLoyqZ/6ELMF65+zRBapYKx22s+wSz3DiUDfGC8WkKsofcoYenEHuPBQ
-	rPHiuTIRKlxlxzHSKFTfO7EXRkfUGpWXC9ijyTIoxeKyIfkp7bwcCE+GIS4VTh9yIoLS
-	9QDY2fVnox5c66L/eCUNsEjir+UaVZWK3rnQEFxTIBRRsHI3vDOfdecWsO0M42a6UkNR
-	e5TdskZnUeexzrt9CkpuYxSIUNOnPSg8sGaeH7DsZa04gvMgT05BVXOkY6YBtb0hhLRA
-	qGlNXYIFccHN//I73ua2GGK0iClHuO5OQzftGCYZ0OdyK9hJoNRFHO30UJwOobIOdljd
-	ntYQ==
-X-Gm-Message-State: AOJu0YzADV6Ae0ddqq61Swm0KzjndOc/LilLAILyeZBjJ3HPDHkvy3Rs
-	AKW3P34sOIlD54ukdNu7io40rth6r6cyegl6t8M2e2knxD+6JDuVvdDl/hImhjQ+czQ8EXApQCN
-	zJck=
-X-Gm-Gg: ASbGncvYicFxIxJgJTQcK+8E5Jb2IawGzXUtDRQZPO+4aS3lJXBS6Ja4VJ1n7O3ZKge
-	N1n27cCrF5o5SlFUGRO/NiIea0Q4M75Vwfz+3iaRFAwefZUl6/T4KsSOYjnqdpAZJ0BTiohTmlo
-	FGuScxk3MqLbuBM6qtklFLVS9pU1X9lAv2xXgQIko0STNc1TqlxfqDl9fR1LnDnpemRmIwJQ1O+
-	vtw2BHx0shZBExkYAtA+VqdEWmkoD437B1H8kQHroz0xIrqqDdnO020YX8SsFLsoGCIZVr1inWy
-	/XoVKL2+7l7Z7K1SIqYDIdf+B5TzYEkqdCyxaJW6elKNdc3lAWaaBzvMKlnWucxQIcypfccu06U
-	JefTi1eeR0eSP07MD
-X-Google-Smtp-Source: AGHT+IHBh6lr15PN0uvuQ/yaJzs8faM1xsCTYg1JcBuD5qE+wEmsP6/Ytkl0gRhrYd7ak/dGhf91WA==
-X-Received: by 2002:a05:6000:40db:b0:3a0:7a8f:db22 with SMTP id
-	ffacd0b85a97d-3a09fd863e4mr5886893f8f.24.1746455185966; 
-	Mon, 05 May 2025 07:26:25 -0700 (PDT)
-Received: from ryzen9.home (192-164-20-231.hdsl.highway.telekom.at.
-	[192.164.20.231]) by smtp.gmail.com with ESMTPSA id
-	5b1f17b1804b1-441b89ee3a9sm134115385e9.23.2025.05.05.07.26.25
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 05 May 2025 07:26:25 -0700 (PDT)
-From: Philipp Reisner <philipp.reisner@linbit.com>
-To: "zhengbing . huang" <zhengbing.huang@easystack.cn>
-Subject: [PATCH 1/1] rdma: Fix cm leak
-Date: Mon,  5 May 2025 16:26:23 +0200
-Message-ID: <20250505142623.424049-2-philipp.reisner@linbit.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250425102421.1673048-1-zhengbing.huang@easystack.cn>
+X-Greylist: delayed 302 seconds by postgrey-1.31 at mail19;
+	Tue, 06 May 2025 04:25:29 CEST
+Received: from mail-m19731118.qiye.163.com (mail-m19731118.qiye.163.com
+	[220.197.31.118])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C2E30160999
+	for <drbd-dev@lists.linbit.com>; Tue,  6 May 2025 04:25:28 +0200 (CEST)
+Content-Type: multipart/alternative;
+	BOUNDARY="=_Part_131083_793626580.1746498023528"
+Message-ID: <AIYAbQDJLiHUVLs7gM1ilqqM.3.1746498023528.Hmail.zhengbing.huang@easystack.cn>
+To: Philipp Reisner <philipp.reisner@linbit.com>
+Subject: =?UTF-8?B?UmU6UmU6IFtQQVRDSF0gcmRtYTogRml4IGNtIGxlYWs=?=
+X-Priority: 3
+X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com web
+X-Originating-IP: 218.94.118.90
+In-Reply-To: <20250505142623.424049-1-philipp.reisner@linbit.com>
 References: <20250425102421.1673048-1-zhengbing.huang@easystack.cn>
+	<20250505142623.424049-1-philipp.reisner@linbit.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from zhengbing.huang@easystack.cn( [218.94.118.90] ) by ajax-webmail
+	( [127.0.0.1] ) ; Tue, 6 May 2025 10:20:23 +0800 (GMT+08:00)
+From: ZhengbingHuang <zhengbing.huang@easystack.cn>
+Date: Tue, 6 May 2025 10:20:23 +0800 (GMT+08:00)
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFJQjdXWS1ZQUlXWQ8JGhUIEh9ZQVlCTh9MVkoeGElLTRhISUlOH1YVFAkWGhdVGRETFh
+	oSFyQUDg9ZV1kYEgtZQVlJSkNVQk9VSkpDVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0lPT09IVUpLS1
+	VKQktLWQY+
+X-HM-Tid: 0a96a361b4950248kunm1968158d3d0
+X-HM-MType: 1
+X-HM-NTES-SC: AL0_4z5B86Wr4Tz9jdMF+bhXMUDuak2uC50hBhe+8v5JI7fwl/iZdpGw3vL3Wo
+	2zP1SKzqcDIzlbkztDQGWAGzOOWe9p3NBipCCqvj2PcItKULju5NeJBCmj5+k4S/w60xRjmu/e8B
+	Ehfg50VmovbWSNLQoM+61jayF2C8HGv4dVeCQ=
+X-HM-Sender-Digest: e1kJHlYWEh9ZQUlLSkpJQ0hPTUpOQzdXWQweGVlBDwkOHldZEh8eFQ9Z
+	QVlHOjIiOhkqPzE3EjMuLTcITBw2ShIXCgo2VUhVSkxPTU9CQ0tJT0tIQlUzFhoSF1UBEx4VHBkS
+	FRxVEw4aFRw7HhoIAggPGhgQVRgVRVlXWRILWUFZSUpDVUJPVUpKQ1VCS1lXWQgBWUFPS0JNN1dZ
+	FAsPEhQVCFlBSzcG
 Cc: drbd-dev@lists.linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
@@ -86,85 +61,47 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-From: "zhengbing.huang" <zhengbing.huang@easystack.cn>
+--=_Part_131083_793626580.1746498023528
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-We found that when all the DRBD devices are down, the reference count
-of the drbd_transport_rdma module is still 1.
+SGkgUGhpbGlwcCwKCgpZZXMsIEkgdGhpbmsgdGhlIG1vZGlmaWNhdGlvbnMgeW91IGFkZCBtYWtl
+IHRoaXMgcGF0Y2ggbW9yZSBjb21wbGV0ZS4KCgpCZXN0IHJlZ2FyZHMsCiAgICB6aGVuZ2JpbmcK
+CgpGcm9tOiBQaGlsaXBwIFJlaXNuZXIgPHBoaWxpcHAucmVpc25lckBsaW5iaXQuY29tPgpEYXRl
+OiAyMDI1LTA1LTA1IDIyOjI2OjIyClRvOiAgInpoZW5nYmluZyAuIGh1YW5nIiA8emhlbmdiaW5n
+Lmh1YW5nQGVhc3lzdGFjay5jbj4KQ2M6ICBkcmJkLWRldkBsaXN0cy5saW5iaXQuY29tClN1Ympl
+Y3Q6IFJlOiBbUEFUQ0hdIHJkbWE6IEZpeCBjbSBsZWFrPkhpIFpoZW5nYmluZywKPgo+WWVzLCBJ
+IGFncmVlLiBJIGZvbGxvdyB5b3VyIGV4cGxhbmF0aW9uIG9mIHdoYXQgaGFwcGVuZWQgYW5kIHlv
+dXIKPnByb3Bvc2VkIGZpeC4gSSB0aGluayB3ZSBhbHNvIG5lZWQgdG8gY2xlYXIgdGhlIERTQl9D
+T05ORUNUX1JFUSBiaXQgaW4KPnRoZSBSRE1BX0NNX0VWRU5UX0VTVEFCTElTSEVEIGNhc2UuCj4K
+PlBsZWFzZSBzZWUgbXkgcHJvcG9zYWwsIHdoaWNoIGlzIHNsaWdodGx5IG1vZGlmaWVkIGZyb20g
+eW91ciBvcmlnaW5hbAo+cGF0Y2guCj4KPkJlc3QgcmVnYXJkcywKPiBQaGlsaXBwCj4KPnpoZW5n
+YmluZy5odWFuZyAoMSk6Cj4gIHJkbWE6IEZpeCBjbSBsZWFrCj4KPiBkcmJkL2RyYmRfdHJhbnNw
+b3J0X3JkbWEuYyB8IDExICsrKysrKystLS0tCj4gMSBmaWxlIGNoYW5nZWQsIDcgaW5zZXJ0aW9u
+cygrKSwgNCBkZWxldGlvbnMoLSkKPgo+LS0gCj4yLjQ5LjAKPgo+CgoKDQoNCg==
+--=_Part_131083_793626580.1746498023528
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-[root@node-4 ~]# drbdadm status
-No currently configured DRBD found.
-[root@node-4 ~]# lsmod | grep drbd
-drbd_transport_rdma   262144  1
-
-Then, we found an unreleased cm structure and discover
-that its state is DSB_CONNECT_REQ + DSB_ERROR.
-
-crash> struct dtr_cm ffff57e515da9400
-struct dtr_cm {
-  kref = {
-    refcount = {
-      refs = {
-        counter = 1
-...
-state = 9,
-...
-}
-
-The scenario of this problem should be like this:
-dtr_cma_event_handler() get an RDMA_CM_EVENT_CONNECT_REQUEST event,
-and call dtr_cma_accept() to alloc a cm. and set cm->state = DSM_CONNECT_REQ,
-now the cm->kref count is 2.
-then dtr_cma_event_handler() get xxx_CONNECT_ERROR/xxx_UNREACHABLE/xxx_REJECTED
-event, and set_bit(DSB_ERROR, &cm->state).
-the cm remove from path in dtr_cma_retry_connect, put one ref.
-and cm->state dont has DSB_CONNECTING flag, then return 0.
-Now, the cm->kref count is 1, and state is DSB_CONNECT_REQ + DSB_ERROR.
-
-Therefore, when we test the DSB_CONNECTING flag,
-we should also test the DSB_CONNECT_REQ flag to avoid cm leak.
-
-Signed-off-by: zhengbing.huang <zhengbing.huang@easystack.cn>
-Signed-off-by: Philipp Reisner <philipp.reisner@linbit.com>
----
- drbd/drbd_transport_rdma.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
-
-diff --git a/drbd/drbd_transport_rdma.c b/drbd/drbd_transport_rdma.c
-index be919a926..4a9ba8fa6 100644
---- a/drbd/drbd_transport_rdma.c
-+++ b/drbd/drbd_transport_rdma.c
-@@ -1278,8 +1278,8 @@ static int dtr_cma_event_handler(struct rdma_cm_id *cm_id, struct rdma_cm_event
- 		/* cm->state = DSM_CONNECTED; is set later in the work item */
- 		/* This is called for active and passive connections */
- 
--		connecting = test_and_clear_bit(DSB_CONNECTING, &cm->state);
--		connecting |= test_bit(DSB_CONNECT_REQ, &cm->state);
-+		connecting = test_and_clear_bit(DSB_CONNECTING, &cm->state) ||
-+			test_and_clear_bit(DSB_CONNECT_REQ, &cm->state);
- 		kref_get(&cm->kref); /* connected -> expect a disconnect in the future */
- 		kref_get(&cm->kref); /* for the work */
- 		schedule_work(&cm->establish_work);
-@@ -1307,7 +1307,9 @@ static int dtr_cma_event_handler(struct rdma_cm_id *cm_id, struct rdma_cm_event
- 		set_bit(DSB_ERROR, &cm->state);
- 
- 		dtr_cma_retry_connect(cm->path, cm);
--		if (!test_and_clear_bit(DSB_CONNECTING, &cm->state))
-+		connecting = test_and_clear_bit(DSB_CONNECTING, &cm->state) ||
-+			test_and_clear_bit(DSB_CONNECT_REQ, &cm->state);
-+		if (!connecting)
- 			return 0; /* keep ref; __dtr_disconnect_path() won */
- 		break;
- 
-@@ -2787,7 +2789,8 @@ static void __dtr_disconnect_path(struct dtr_path *path)
- 	 * events. Destroy the cm and cm_id to avoid leaking it.
- 	 * This is racing with the event delivery, which drops a reference.
- 	 */
--	if (test_and_clear_bit(DSB_CONNECTING, &cm->state))
-+	if (test_and_clear_bit(DSB_CONNECTING, &cm->state) ||
-+	    test_and_clear_bit(DSB_CONNECT_REQ, &cm->state))
- 		kref_put(&cm->kref, dtr_destroy_cm);
- 
- 	kref_put(&cm->kref, dtr_destroy_cm);
--- 
-2.49.0
-
+PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
+Zm9udC1mYW1pbHk6QXJpYWwiPjxkaXY+SGkgPHNwYW4gc3R5bGU9IndoaXRlLXNwYWNlOiBwcmUt
+d3JhcCI+UGhpbGlwcCw8L3NwYW4+PC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj5ZZXMsIEkgdGhp
+bmsgdGhlIG1vZGlmaWNhdGlvbnMgeW91IGFkZCBtYWtlIHRoaXMgcGF0Y2ggbW9yZSBjb21wbGV0
+ZS48L2Rpdj48ZGl2Pjxicj48L2Rpdj48ZGl2PjxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFjZTogcHJl
+LXdyYXAiPkJlc3QgcmVnYXJkcyw8L3NwYW4+PC9kaXY+PGRpdj48cHJlPiAgICB6aGVuZ2Jpbmc8
+L3ByZT48L2Rpdj48ZGl2ICBzdHlsZT0icG9zaXRpb246cmVsYXRpdmU7em9vbToxIj48L2Rpdj48
+YnIgc3R5bGU9IndoaXRlLXNwYWNlOiBwcmUtd3JhcDsiPjxwcmU+RnJvbTogUGhpbGlwcCBSZWlz
+bmVyICZsdDtwaGlsaXBwLnJlaXNuZXJAbGluYml0LmNvbSZndDsKRGF0ZTogMjAyNS0wNS0wNSAy
+MjoyNjoyMgpUbzogICJ6aGVuZ2JpbmcgLiBodWFuZyIgJmx0O3poZW5nYmluZy5odWFuZ0BlYXN5
+c3RhY2suY24mZ3Q7CkNjOiAgZHJiZC1kZXZAbGlzdHMubGluYml0LmNvbQpTdWJqZWN0OiBSZTog
+W1BBVENIXSByZG1hOiBGaXggY20gbGVhayZndDtIaSBaaGVuZ2JpbmcsCiZndDsKJmd0O1llcywg
+SSBhZ3JlZS4gSSBmb2xsb3cgeW91ciBleHBsYW5hdGlvbiBvZiB3aGF0IGhhcHBlbmVkIGFuZCB5
+b3VyCiZndDtwcm9wb3NlZCBmaXguIEkgdGhpbmsgd2UgYWxzbyBuZWVkIHRvIGNsZWFyIHRoZSBE
+U0JfQ09OTkVDVF9SRVEgYml0IGluCiZndDt0aGUgUkRNQV9DTV9FVkVOVF9FU1RBQkxJU0hFRCBj
+YXNlLgomZ3Q7CiZndDtQbGVhc2Ugc2VlIG15IHByb3Bvc2FsLCB3aGljaCBpcyBzbGlnaHRseSBt
+b2RpZmllZCBmcm9tIHlvdXIgb3JpZ2luYWwKJmd0O3BhdGNoLgomZ3Q7CiZndDtCZXN0IHJlZ2Fy
+ZHMsCiZndDsgUGhpbGlwcAomZ3Q7CiZndDt6aGVuZ2JpbmcuaHVhbmcgKDEpOgomZ3Q7ICByZG1h
+OiBGaXggY20gbGVhawomZ3Q7CiZndDsgZHJiZC9kcmJkX3RyYW5zcG9ydF9yZG1hLmMgfCAxMSAr
+KysrKysrLS0tLQomZ3Q7IDEgZmlsZSBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKyksIDQgZGVsZXRp
+b25zKC0pCiZndDsKJmd0Oy0tIAomZ3Q7Mi40OS4wCiZndDsKJmd0Owo8L3ByZT48L2Rpdj48YnI+
+--=_Part_131083_793626580.1746498023528--
