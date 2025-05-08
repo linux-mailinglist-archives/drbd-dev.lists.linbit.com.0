@@ -2,49 +2,47 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [37.27.211.0])
-	by mail.lfdr.de (Postfix) with ESMTPS id A55C8AAACE7
-	for <lists+drbd-dev@lfdr.de>; Tue,  6 May 2025 04:25:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73AEAAAF4A6
+	for <lists+drbd-dev@lfdr.de>; Thu,  8 May 2025 09:27:47 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 523EF16B830;
-	Tue,  6 May 2025 04:25:40 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C3A8516B818;
+	Thu,  8 May 2025 09:27:43 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 302 seconds by postgrey-1.31 at mail19;
-	Tue, 06 May 2025 04:25:29 CEST
-Received: from mail-m19731118.qiye.163.com (mail-m19731118.qiye.163.com
-	[220.197.31.118])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C2E30160999
-	for <drbd-dev@lists.linbit.com>; Tue,  6 May 2025 04:25:28 +0200 (CEST)
-Content-Type: multipart/alternative;
-	BOUNDARY="=_Part_131083_793626580.1746498023528"
-Message-ID: <AIYAbQDJLiHUVLs7gM1ilqqM.3.1746498023528.Hmail.zhengbing.huang@easystack.cn>
-To: Philipp Reisner <philipp.reisner@linbit.com>
-Subject: =?UTF-8?B?UmU6UmU6IFtQQVRDSF0gcmRtYTogRml4IGNtIGxlYWs=?=
-X-Priority: 3
-X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com web
-X-Originating-IP: 218.94.118.90
-In-Reply-To: <20250505142623.424049-1-philipp.reisner@linbit.com>
-References: <20250425102421.1673048-1-zhengbing.huang@easystack.cn>
-	<20250505142623.424049-1-philipp.reisner@linbit.com>
+X-Greylist: delayed 2500 seconds by postgrey-1.31 at mail19;
+	Thu, 08 May 2025 09:27:37 CEST
+Received: from bombadil.infradead.org (bombadil.infradead.org
+	[198.137.202.133])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 61BAB160917
+	for <drbd-dev@lists.linbit.com>; Thu,  8 May 2025 09:27:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309;
+	h=Content-Type:MIME-Version:Message-ID:
+	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=LUk2v4Kgt6IfJvrY62PvE3Gvm9P9tXpkFTZyMPWY+M8=;
+	b=JkBB1ft1C9RlzCuqlNxo+mUQdf
+	gkqJNWxKR/PRkHdAq8kshn+TBdGVLxkYAQiqZJ4SLAv/6Xb5vdUvldHC5h1u+L1KqzutJu+l2/tvQ
+	mlI8UlHmcqe7w0jaJ6T/0RfaJXnA0LS9LcvBHg1c54fvqyMbSRGDGo8r28ZCPnuHevY9IqcqJXZ82
+	mHyhrFHPq1XYK1a4NUVnm+rx8dnXjMjMv/jIu1fNZDBGjAyTpypCF9Vzq7jQcDjHHAY+8vGArP1Sx
+	Q0mLvXQKY7ehOqPu0RNET64Rx+BjNXJEVwFJVeNQQVKOzhGhtgf2uiuBdJRcqJQ3//CBvs8saJ5Ht
+	/UdlZHEg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red
+	Hat Linux)) id 1uCv0w-0000000HVN9-1Afy;
+	Thu, 08 May 2025 06:45:50 +0000
+Date: Wed, 7 May 2025 23:45:50 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Philipp Reisner <philipp.reisner@linbit.com>,
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
+	Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>
+Subject: transferring bvecs over the network in drbd
+Message-ID: <aBxTHl8UIwr9Ehuv@infradead.org>
 MIME-Version: 1.0
-Received: from zhengbing.huang@easystack.cn( [218.94.118.90] ) by ajax-webmail
-	( [127.0.0.1] ) ; Tue, 6 May 2025 10:20:23 +0800 (GMT+08:00)
-From: ZhengbingHuang <zhengbing.huang@easystack.cn>
-Date: Tue, 6 May 2025 10:20:23 +0800 (GMT+08:00)
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFJQjdXWS1ZQUlXWQ8JGhUIEh9ZQVlCTh9MVkoeGElLTRhISUlOH1YVFAkWGhdVGRETFh
-	oSFyQUDg9ZV1kYEgtZQVlJSkNVQk9VSkpDVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0lPT09IVUpLS1
-	VKQktLWQY+
-X-HM-Tid: 0a96a361b4950248kunm1968158d3d0
-X-HM-MType: 1
-X-HM-NTES-SC: AL0_4z5B86Wr4Tz9jdMF+bhXMUDuak2uC50hBhe+8v5JI7fwl/iZdpGw3vL3Wo
-	2zP1SKzqcDIzlbkztDQGWAGzOOWe9p3NBipCCqvj2PcItKULju5NeJBCmj5+k4S/w60xRjmu/e8B
-	Ehfg50VmovbWSNLQoM+61jayF2C8HGv4dVeCQ=
-X-HM-Sender-Digest: e1kJHlYWEh9ZQUlLSkpJQ0hPTUpOQzdXWQweGVlBDwkOHldZEh8eFQ9Z
-	QVlHOjIiOhkqPzE3EjMuLTcITBw2ShIXCgo2VUhVSkxPTU9CQ0tJT0tIQlUzFhoSF1UBEx4VHBkS
-	FRxVEw4aFRw7HhoIAggPGhgQVRgVRVlXWRILWUFZSUpDVUJPVUpKQ1VCS1lXWQgBWUFPS0JNN1dZ
-	FAsPEhQVCFlBSzcG
-Cc: drbd-dev@lists.linbit.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+	bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Cc: linux-block@vger.kernel.org, drbd-dev@lists.linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -61,47 +59,18 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
---=_Part_131083_793626580.1746498023528
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Hi all,
 
-SGkgUGhpbGlwcCwKCgpZZXMsIEkgdGhpbmsgdGhlIG1vZGlmaWNhdGlvbnMgeW91IGFkZCBtYWtl
-IHRoaXMgcGF0Y2ggbW9yZSBjb21wbGV0ZS4KCgpCZXN0IHJlZ2FyZHMsCiAgICB6aGVuZ2JpbmcK
-CgpGcm9tOiBQaGlsaXBwIFJlaXNuZXIgPHBoaWxpcHAucmVpc25lckBsaW5iaXQuY29tPgpEYXRl
-OiAyMDI1LTA1LTA1IDIyOjI2OjIyClRvOiAgInpoZW5nYmluZyAuIGh1YW5nIiA8emhlbmdiaW5n
-Lmh1YW5nQGVhc3lzdGFjay5jbj4KQ2M6ICBkcmJkLWRldkBsaXN0cy5saW5iaXQuY29tClN1Ympl
-Y3Q6IFJlOiBbUEFUQ0hdIHJkbWE6IEZpeCBjbSBsZWFrPkhpIFpoZW5nYmluZywKPgo+WWVzLCBJ
-IGFncmVlLiBJIGZvbGxvdyB5b3VyIGV4cGxhbmF0aW9uIG9mIHdoYXQgaGFwcGVuZWQgYW5kIHlv
-dXIKPnByb3Bvc2VkIGZpeC4gSSB0aGluayB3ZSBhbHNvIG5lZWQgdG8gY2xlYXIgdGhlIERTQl9D
-T05ORUNUX1JFUSBiaXQgaW4KPnRoZSBSRE1BX0NNX0VWRU5UX0VTVEFCTElTSEVEIGNhc2UuCj4K
-PlBsZWFzZSBzZWUgbXkgcHJvcG9zYWwsIHdoaWNoIGlzIHNsaWdodGx5IG1vZGlmaWVkIGZyb20g
-eW91ciBvcmlnaW5hbAo+cGF0Y2guCj4KPkJlc3QgcmVnYXJkcywKPiBQaGlsaXBwCj4KPnpoZW5n
-YmluZy5odWFuZyAoMSk6Cj4gIHJkbWE6IEZpeCBjbSBsZWFrCj4KPiBkcmJkL2RyYmRfdHJhbnNw
-b3J0X3JkbWEuYyB8IDExICsrKysrKystLS0tCj4gMSBmaWxlIGNoYW5nZWQsIDcgaW5zZXJ0aW9u
-cygrKSwgNCBkZWxldGlvbnMoLSkKPgo+LS0gCj4yLjQ5LjAKPgo+CgoKDQoNCg==
---=_Part_131083_793626580.1746498023528
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: base64
+I recently went over code that directly access the bio_vec bv_page/
+bv_offset members and the code in _drbd_send_bio/_drbd_send_zc_bio
+came to my attention.
 
-PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
-Zm9udC1mYW1pbHk6QXJpYWwiPjxkaXY+SGkgPHNwYW4gc3R5bGU9IndoaXRlLXNwYWNlOiBwcmUt
-d3JhcCI+UGhpbGlwcCw8L3NwYW4+PC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj5ZZXMsIEkgdGhp
-bmsgdGhlIG1vZGlmaWNhdGlvbnMgeW91IGFkZCBtYWtlIHRoaXMgcGF0Y2ggbW9yZSBjb21wbGV0
-ZS48L2Rpdj48ZGl2Pjxicj48L2Rpdj48ZGl2PjxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFjZTogcHJl
-LXdyYXAiPkJlc3QgcmVnYXJkcyw8L3NwYW4+PC9kaXY+PGRpdj48cHJlPiAgICB6aGVuZ2Jpbmc8
-L3ByZT48L2Rpdj48ZGl2ICBzdHlsZT0icG9zaXRpb246cmVsYXRpdmU7em9vbToxIj48L2Rpdj48
-YnIgc3R5bGU9IndoaXRlLXNwYWNlOiBwcmUtd3JhcDsiPjxwcmU+RnJvbTogUGhpbGlwcCBSZWlz
-bmVyICZsdDtwaGlsaXBwLnJlaXNuZXJAbGluYml0LmNvbSZndDsKRGF0ZTogMjAyNS0wNS0wNSAy
-MjoyNjoyMgpUbzogICJ6aGVuZ2JpbmcgLiBodWFuZyIgJmx0O3poZW5nYmluZy5odWFuZ0BlYXN5
-c3RhY2suY24mZ3Q7CkNjOiAgZHJiZC1kZXZAbGlzdHMubGluYml0LmNvbQpTdWJqZWN0OiBSZTog
-W1BBVENIXSByZG1hOiBGaXggY20gbGVhayZndDtIaSBaaGVuZ2JpbmcsCiZndDsKJmd0O1llcywg
-SSBhZ3JlZS4gSSBmb2xsb3cgeW91ciBleHBsYW5hdGlvbiBvZiB3aGF0IGhhcHBlbmVkIGFuZCB5
-b3VyCiZndDtwcm9wb3NlZCBmaXguIEkgdGhpbmsgd2UgYWxzbyBuZWVkIHRvIGNsZWFyIHRoZSBE
-U0JfQ09OTkVDVF9SRVEgYml0IGluCiZndDt0aGUgUkRNQV9DTV9FVkVOVF9FU1RBQkxJU0hFRCBj
-YXNlLgomZ3Q7CiZndDtQbGVhc2Ugc2VlIG15IHByb3Bvc2FsLCB3aGljaCBpcyBzbGlnaHRseSBt
-b2RpZmllZCBmcm9tIHlvdXIgb3JpZ2luYWwKJmd0O3BhdGNoLgomZ3Q7CiZndDtCZXN0IHJlZ2Fy
-ZHMsCiZndDsgUGhpbGlwcAomZ3Q7CiZndDt6aGVuZ2JpbmcuaHVhbmcgKDEpOgomZ3Q7ICByZG1h
-OiBGaXggY20gbGVhawomZ3Q7CiZndDsgZHJiZC9kcmJkX3RyYW5zcG9ydF9yZG1hLmMgfCAxMSAr
-KysrKysrLS0tLQomZ3Q7IDEgZmlsZSBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKyksIDQgZGVsZXRp
-b25zKC0pCiZndDsKJmd0Oy0tIAomZ3Q7Mi40OS4wCiZndDsKJmd0Owo8L3ByZT48L2Rpdj48YnI+
---=_Part_131083_793626580.1746498023528--
+It iterates the bio to kmap all segments, and then either does a
+sock_sendmsg on a newly created kvec iter, or one one a new bvec iter
+for each segment.  The former can't work on highmem systems and both
+versions are rather inefficient.
+
+What is preventing drbd from doing a single sock_sendmsg with the
+bvec payload?  nvme-tcp (nvme_tcp_init_iter0 is a good example for
+doing that, or the sunrpc svcsock code using it's local bvec list
+(svc_tcp_sendmsg).
