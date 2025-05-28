@@ -2,74 +2,76 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [37.27.211.0])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C911AC63C8
-	for <lists+drbd-dev@lfdr.de>; Wed, 28 May 2025 10:12:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83321AC692B
+	for <lists+drbd-dev@lfdr.de>; Wed, 28 May 2025 14:24:08 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2622416B830;
-	Wed, 28 May 2025 10:11:57 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2DCD6160996;
+	Wed, 28 May 2025 14:24:03 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
-	[209.85.167.41])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 71ABA160650
-	for <drbd-dev@lists.linbit.com>; Wed, 28 May 2025 10:11:51 +0200 (CEST)
-Received: by mail-lf1-f41.google.com with SMTP id
-	2adb3069b0e04-55324062ea8so3625749e87.3
-	for <drbd-dev@lists.linbit.com>; Wed, 28 May 2025 01:11:51 -0700 (PDT)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+	[209.85.221.47])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B9BE0160996
+	for <drbd-dev@lists.linbit.com>; Wed, 28 May 2025 12:08:44 +0200 (CEST)
+Received: by mail-wr1-f47.google.com with SMTP id
+	ffacd0b85a97d-3a4db4d1bd7so466902f8f.3
+	for <drbd-dev@lists.linbit.com>; Wed, 28 May 2025 03:08:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linbit-com.20230601.gappssmtp.com; s=20230601; t=1748419911;
-	x=1749024711; darn=lists.linbit.com; 
-	h=user-agent:in-reply-to:content-disposition:mime-version:references
-	:message-id:subject:to:from:date:from:to:cc:subject:date:message-id
-	:reply-to; bh=a745wAvXhaeSmArw4UZsAW48D/UXu72dP6H16wKOMmA=;
-	b=iEt8uUAlX+RTjmGXQLKIfQJkPHYmWq1oUCkPiavl4P5QYITJbbZFCbYBzs5yCLuk1h
-	ZIc6t5qeXI5RqJz90640F+ZRuCgYvBQW0X/ov54aKT5jkgjU7CX3jCzaB76CyGSLxS5I
-	m4Y3vijxVRmiHXaXS5rbObea1lCLLb6gpRlDVigxGE9SGmTu2UnXym6mmgiKd+YAfbQ8
-	+kS7nAnLwnV9pVJaVq/c8ksNFCaOTcburhHx0sYs5oRsQ7E2belu5TEwD/Rc2nogzPof
-	DReHonu2ATgXkYxLZs2+uA9UdffZ4QL/+cR+JEW+ktgU7cB4yR+7Kcxzx5RNka/0CY2l
-	Ccig==
+	d=suse.com; s=google; t=1748426923; x=1749031723; darn=lists.linbit.com;
+	h=content-transfer-encoding:in-reply-to:content-language:from
+	:references:to:subject:user-agent:mime-version:date:message-id:from
+	:to:cc:subject:date:message-id:reply-to;
+	bh=BC3nHwQQeoDPjc2bVo1nfNvTPHK0wSLFtOd124snpco=;
+	b=K1vUsbN+aYc0bo4Z3NB2sI/bxXTPHyAxSPi5h1k9EAu5F3CV46pqoV9XoXlXl7w28s
+	9XUHij9eALeBqmkSKwKazqHS8bh1NkAQTV5Vj3nyED1+AwER52Z6wHXcvM9kVz0iN8LS
+	2lz2W0sANu3Xcpm9OkExnCdViyBsXBVXarsNyYJnPoEb0m7ow4C0kfV4Hx+SxBemNRqZ
+	ijZhgUzlekTKRB7m95LkBq1Jj7tGGSfR/fgwcs8ZKbatr89SWrEbVNd7mHlfrFeQmaJV
+	+Mq48zQBIaZ+UrtGTPfveNQxVlAFnLKkonVn08EG7LJFnx1MXyvoRjyG10QDPv5A4tOo
+	fqAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20230601; t=1748419911; x=1749024711;
-	h=user-agent:in-reply-to:content-disposition:mime-version:references
-	:message-id:subject:to:from:date:x-gm-message-state:from:to:cc
-	:subject:date:message-id:reply-to;
-	bh=a745wAvXhaeSmArw4UZsAW48D/UXu72dP6H16wKOMmA=;
-	b=vovBp6gNGQuawoL2mSNLCYqRxYhEJaPqQsBOdWgjgMYWM8xQycA0g7qFqehismu3Is
-	doh9iqTmb0cQFDByiw4fSEQiBF8C5cjBDg8Sqwgja77K+kE6aDkbxB/o4cRQIAMLkH82
-	1/qknAZ0/OCKeqUc5B3hsaufOuY47/H6N+6bzxJo3e+QfP5uRBW8TS7stvqwShSecSwb
-	1uOZVoL6I3+48kv2efX06oPKHYoxTpsgnhjG5FqUISSOJI5N7CNGGGY/lqPJz5IST0S6
-	thP2YwRuLWg8n+PaJ3gEJG9VeCjQiICLZsk4Wa+Rq3jW/JVmsqo61x2V97OLk81cGmLO
-	SEag==
-X-Gm-Message-State: AOJu0Ywi9FS3b7o8vKdFWiCbb0Cvlz8p0BudyUlAuuCnu6asyXCWOkn1
-	MFMHiU5lDGwcnNo3k3F5suxyUFg9FEKGWXLIKCj0ciYeW4tvcUBLONe4z68pKptZPB1r+uDRJfI
-	sPlzOePOJDg==
-X-Gm-Gg: ASbGncvB13OkKNVcc54OCwSviUviIv0iX/AlbLu4Yuf9PnX7wLP//49LXXRmRx1Ea/B
-	1HuxkhqnxJTEVanRxdtA2IunF1HgyRqUJkXCy/SsT/vBJLz7ZwVkAJP1zYeHvPZgDAfoDVKeUz/
-	1DDKC82cHVa2wItUMdrXj3zDayRDiojRXnFlSosRqrHe82L3941rm3tgre99tzcSRgSuPWuxIaN
-	Nv4+JK8TQBVXajV/ugr6HK+YlJ88r7Ktn4rnq8d9TP/2TkNvfRaPhId8aWWoONFibhtPZ+A0Rr+
-	k891qPlouDhA/pdeJDFrSksuowq3XWeI2Bt877MPqsawPxzFHWcETWnevBvtS0S+71SGGtFqYeo
-	KXH8DiF1kzxi3jEtlkCRxjrZTH/kG9A==
-X-Google-Smtp-Source: AGHT+IHp/2lvU8tChap1PkapM3StVpEjtBDUMiExVw5rV+RVzjM78ET140SjWdG85ttzcYxxdolMVg==
-X-Received: by 2002:a05:6512:3a89:b0:553:2ed2:15b4 with SMTP id
-	2adb3069b0e04-5532ed21628mr507697e87.57.1748419910857; 
-	Wed, 28 May 2025 01:11:50 -0700 (PDT)
-Received: from localhost (static.57.82.181.135.clients.your-server.de.
-	[135.181.82.57]) by smtp.gmail.com with ESMTPSA id
-	2adb3069b0e04-5532f6b5521sm169365e87.220.2025.05.28.01.11.50
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 28 May 2025 01:11:50 -0700 (PDT)
-Date: Wed, 28 May 2025 10:11:49 +0200
-From: Roland Kammerer <roland.kammerer@linbit.com>
-To: drbd-dev@lists.linbit.com
-Subject: Re: [PATCH v2 2/2] remove lock file after using it
-Message-ID: <aDbFRcFQpEbhG9E1@arm64>
-References: <20250515024817.25717-1-heming.zhao@suse.com>
-	<20250515024817.25717-3-heming.zhao@suse.com>
+	d=1e100.net; s=20230601; t=1748426923; x=1749031723;
+	h=content-transfer-encoding:in-reply-to:content-language:from
+	:references:to:subject:user-agent:mime-version:date:message-id
+	:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+	bh=BC3nHwQQeoDPjc2bVo1nfNvTPHK0wSLFtOd124snpco=;
+	b=PPva+laSjs1zKYXNDvO4g50XXErz4x8XKQsJl3M08aiFogigxrlqoQ3Av7/WAsvV9K
+	vGKeXuuq4JFYRYmpe9d8KjUUtXa4zpEAExkVE7XFWsgUWIA6LHT1+ZO44ekAYnuTBCf3
+	2mjisHXZKPAtrJOGBpBRpa6ibpUmNvDj3yxV3hOuuRPEOEsG+MRnD4G3EwMG8KStGOsv
+	WPMrszwNmEt/W8I5sjOW05vnTCWjoGGxiR/iOJM+kCjkI/IrQ7/SUVU8S6+DZL6ua1os
+	mZ/1phM+PpYjtZBeOywr/S3XJWgH+f5iWArdLsWaf2EY6BpDUJozmUADyGsAEnhQG0t/
+	5WEA==
+X-Gm-Message-State: AOJu0Yz+xxBLTUqk5VUqTenQT9ZaYKDTaGXsBgUtyBzt06UJoB+I3YNa
+	kYorM2Fw60zaxv+8txXWql6YNPH4uygeUzNexi7nG8IYh0WuzWrz6p+sVQS2rTOdkQphotEAyY/
+	6miQx8r8=
+X-Gm-Gg: ASbGncvIu5/l/RMz1c+HERm5ficXcKZxQZ5cnhAS14MM7tMCcJ3BHFzavQdZOKUUt7e
+	iD1aRL/dy0gObkRgKWO9Yyn9XC976trq1LuBIjA6u2JTtewRqA35HSv2jMdQXa4eM3UzuFLgpGn
+	map/2wcmIz3DhsXKaW/Z0W04jKUli1y/vs3/hPe3GT76IfuH4gK0Sj0rvcZQRZ6bX21YkoRH/iC
+	t1RYGF/HVa4iHJ/iyeA+ZczW9/PmB4Q8AbbD7OHK37AseIclzVrWdKQmaBiQrAI2FsWSiMzrIrB
+	LqO++JU42TTJh0N5r7H5QG08xO5Dj800MZ4KKb4BB5GogOnyuMVUz6p+Zg==
+X-Google-Smtp-Source: AGHT+IEBgSumkrUtQzFfN1BqhMAvuia9ORwt8ggt1sjshpIzXqvS/hB6bt5psoeIft1BUsFocZqeSw==
+X-Received: by 2002:a5d:5f8b:0:b0:3a3:6a3d:163a with SMTP id
+	ffacd0b85a97d-3a4cb483096mr4588153f8f.12.1748426923380; 
+	Wed, 28 May 2025 03:08:43 -0700 (PDT)
+Received: from [10.202.112.30] ([202.127.77.110])
+	by smtp.gmail.com with ESMTPSA id
+	41be03b00d2f7-b2d99e1e78asm837158a12.30.2025.05.28.03.08.42
+	for <drbd-dev@lists.linbit.com>
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Wed, 28 May 2025 03:08:42 -0700 (PDT)
+Message-ID: <b4759d0b-3d65-4a87-99e3-a12882749218@suse.com>
+Date: Wed, 28 May 2025 18:08:39 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250515024817.25717-3-heming.zhao@suse.com>
-User-Agent: Mutt/2.2.14 (2025-02-20)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] build: changing SUSE release file
+To: drbd-dev@lists.linbit.com
+References: <20250515024817.25717-1-heming.zhao@suse.com>
+	<20250515024817.25717-2-heming.zhao@suse.com> <aDbDWc6dB05icJgO@arm64>
+From: Heming Zhao <heming.zhao@suse.com>
+Content-Language: en-US
+In-Reply-To: <aDbDWc6dB05icJgO@arm64>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Wed, 28 May 2025 14:23:51 +0200
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -86,41 +88,41 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Thu, May 15, 2025 at 10:48:15AM +0800, Heming Zhao wrote:
-> In a SELinux env, if a user runs as root to set up a DRBD device,
-> it will leave a lock file in "/var/run/drbd/lock/". Then HA pacemaker
-> will fail to set up DRBD because of a permission issue.
+On 5/28/25 16:03, Roland Kammerer wrote:
+> On Thu, May 15, 2025 at 10:48:14AM +0800, Heming Zhao wrote:
+>> This commit changes /etc/SuSe-release to /etc/os-release.
+>> The SuSe-release file disappeared a long time ago.
+>>
+>> Signed-off-by: Heming Zhao <heming.zhao@suse.com>
+>> ---
+>>   configure.ac | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/configure.ac b/configure.ac
+>> index 282fdf1584e3..883fe3e5cdb3 100644
+>> --- a/configure.ac
+>> +++ b/configure.ac
+>> @@ -402,7 +402,7 @@ else
+>>      if test -z $DISTRO; then
+>>         AC_CHECK_FILE(/etc/redhat-release, [DISTRO="redhat"])
+>>         AC_CHECK_FILE(/etc/debian_version, [DISTRO="debian"])
+>> -      AC_CHECK_FILE(/etc/SuSE-release, [DISTRO="suse"])
+>> +      AC_CHECK_FILE(/etc/os-release, [DISTRO="suse"])
+> 
+> Hi,
+> 
+> everything that has a /etc/os-release (which by now is basically every
+> distribution on this planet) is suse? No.
+> 
+> This (not only this) part of the automagic in drbd-utils is a mess and
+> I'm currently in the process of cleaning that up a bit. I will not take
+> this patch as is, IMO it is just wrong, please just wait, this should
+> improve in a week or two.
+> 
+> Regards, rck
 
-Sorry, but that needs more explanation. I wonder why it works for
-everybody else including our SuSE customers but would require changes
-for you? What exactly (sles versions, pacemaker versions,...) do I need
-to reproduce this?
+Thanks for the explanation.
+Indeed, I didn't check other distribution styles. Let's wait for your
+fix for this build issue.
 
->  /* ignore errors */
-> -void dt_unlock_drbd(int lock_fd)
-> +void dt_unlock_drbd(int lock_fd, int minor)
->  {
-> +	int ret;
-> +	char *lfname;
-> +
->  	if (lock_fd >= 0)
->  		unlock_fd(lock_fd);
-> +
-> +	lfname = get_lock_filename(minor, 0);
-> +	ret = unlink(lfname);
-> +	free(lfname);
-> +	if (ret < 0) {
-> +		perror("unlink");
-> +	}
->  }
-
-As I don't understand why you would need these changes in the first
-place I did not look into the patch too closely, but: You first unlock
-and then unlink? Shouldn't that be the other way round? As is you would
-create a race I guess. But first things first: why do you need that at
-all?
-
-Regards, rck
-
-P.S.: it is fine to send user land patches here, but the main focus is
-on kernel level coordination, feel free to send patches via github.
+- Heming
