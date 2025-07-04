@@ -2,76 +2,76 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [37.27.211.0])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49332AEB37D
-	for <lists+drbd-dev@lfdr.de>; Fri, 27 Jun 2025 11:58:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BCAAAFC2F9
+	for <lists+drbd-dev@lfdr.de>; Tue,  8 Jul 2025 08:42:51 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A7500162252;
-	Fri, 27 Jun 2025 11:57:50 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 853B8162276;
+	Tue,  8 Jul 2025 08:42:41 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
-	[209.85.208.54])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 61CD51609AD
-	for <drbd-dev@lists.linbit.com>; Fri, 27 Jun 2025 11:57:44 +0200 (CEST)
-Received: by mail-ed1-f54.google.com with SMTP id
-	4fb4d7f45d1cf-60867565fb5so3265589a12.3
-	for <drbd-dev@lists.linbit.com>; Fri, 27 Jun 2025 02:57:44 -0700 (PDT)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+	[209.85.221.50])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E6EC1160645
+	for <drbd-dev@lists.linbit.com>; Fri,  4 Jul 2025 19:50:42 +0200 (CEST)
+Received: by mail-wr1-f50.google.com with SMTP id
+	ffacd0b85a97d-3a5123c1533so539677f8f.2
+	for <drbd-dev@lists.linbit.com>; Fri, 04 Jul 2025 10:50:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linbit-com.20230601.gappssmtp.com; s=20230601; t=1751018263;
-	x=1751623063; darn=lists.linbit.com; 
+	d=gmail.com; s=20230601; t=1751651442; x=1752256242;
+	darn=lists.linbit.com; 
 	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
 	:to:from:from:to:cc:subject:date:message-id:reply-to;
-	bh=mwDy+2proYOLrYP4jEl+UhyGumZmUzGwf/H1c+IwxdU=;
-	b=umPRXCYnnVzbYfJcEzkyGEoF9E3VQEgu9f7Q0QDA0PmYhizugNJdA+G0LvZP5gsa3I
-	7dMhJMsJCOaoYHnkDR+UdVKJcg0GgR7woGTrtYBZxQXdF6B7Tmxi6ivtpP0usJVYYWo7
-	yUYOQs6qj8w+b18en7+quneBlFbW7t4rPOpx5stJ7LOK5NjMhTnVisun2Pp68VY1V4H1
-	qBvdbJLRozmw5JHJwS01KBeIc087TokjtKTBxIxl0pqOM2BYPkeonAqF4ySTkfnGovCp
-	ghzjtv+hzTwm8YQBqkxyChYAzlXiAPvN0eej3LVKn9C9B2Go4HJhPqPNpgSFqAOdUgnA
-	yrcg==
+	bh=7kzxKyGyUkMQNU8zFP39T97KAl93oC6U2R3DXkWnfQQ=;
+	b=SJTZVStyHs879NWcvt26qXScOj5qzNI+ChOakDryzeYInySvZzPWDwnwUd7jN9/J+i
+	rAJ1KqTcpqazcgND9Pcl8DKJytMyJ3+AzVRXlVQPJbpmSaea7YE5WjGYIqIBZrncY+Ij
+	1tGzAr6REBngGbiiw+lWUs/jftcbJzdUIdX0HXBWZHklMzRtfOiBvijgFOxYoc0eyIGX
+	4/K/lROp/nrmZr2l8L5TAki4amYnQH7fYBKQ1aOdEYftsT4gkAfeCLeZkOGALi9u8yXk
+	BA0yG+Z7kZ6D8gaCzAHNT/3MsYreWDP2AhUw4I471Fu2rncIu3XuJTlI6GX+oQL7x8zw
+	oJ+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20230601; t=1751018263; x=1751623063;
+	d=1e100.net; s=20230601; t=1751651442; x=1752256242;
 	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
 	:to:from:x-gm-message-state:from:to:cc:subject:date:message-id
 	:reply-to;
-	bh=mwDy+2proYOLrYP4jEl+UhyGumZmUzGwf/H1c+IwxdU=;
-	b=pWGFBkSG9dNC+UW4ZQskYK8xi3a0zbN20LN0LaDGh2rEAj48J72vhpVXguVdod0+8e
-	fljC9Aowk66gHO9WJcJXqAuxDwby5Zf5ZtC3bf2Pyt58SzvFYxDIbqdx/lFphLrOa6jS
-	kcKVBYKNekESx/uvBoL8pETIIKiF9hlqUiX2TdDk0B/OwOLEBQU544iDSI3hKk80DjVO
-	1MKJdRj3rVeRb1iNk7zVWWj3vBlsqvPSFZ/A85cSp04YnCR/BeBJebX/HW0tMjWpeVQz
-	LwNnjNhjuT/ZyD+Go509+zHw7MbMwOIICmqFWjoW2a/rZqlfUHCl4OlBpephBFEcYhyR
-	XXdA==
-X-Gm-Message-State: AOJu0YwVwIa3AKpW5iT8BsWR1/OgD4f7HLUsEY/q4CszgeGlDRmQFXH6
-	R/FfOzFbW0OzDESL6isvyqU8jQpjxLpbePaDrwnL4lQ7QuhrGFEUoVtfxfZ0O4g2mQ4jKQ==
-X-Gm-Gg: ASbGncuCBpT4bGItuHfXpi9CMauaD8tmGKOX24lOtnDR1O02Q9rvWOBWNH5S/dBopLn
-	H3WNaviRP11DySAdmvN3byltuJahyryIYYfAA3KFBMrUwwXBtvJp9pS28Mw/3Twq8j1t9bPHqfs
-	0bqxLdtAJkdFaIox+pfTnVT/z5apuiAg+Vq90p/bJicaj5VFeOT14GY4NVZrfDycKch2n6yXuLt
-	N1OfAVxfiEKR8hnrmbLbIQwut7m6XNFiDJft9vyN/pQwCHjbhrUgddDa5r0jnfr8q1OyHF/qI/y
-	kTNicl5/Z3EWOHndnS9hVIpsNHzGovoA1pNVNgFx7MQNmiMZBMhZ/Q7Podck/YGGng0ml9P2CAu
-	ikG5VwkPAQRktPiVDehaIZWzYI3D7Knw6TMOL1rAtmIULAg==
-X-Google-Smtp-Source: AGHT+IE1SvpNm5CP6mOqFBIwW5hSM+IQAnFj1rNcxOwLH+ZTDysF76MjOPbBHOe49nDHS4m6dEzzRg==
-X-Received: by 2002:a17:907:9812:b0:ae0:d7c7:97ee with SMTP id
-	a640c23a62f3a-ae3501517b3mr215390466b.41.1751018263460; 
-	Fri, 27 Jun 2025 02:57:43 -0700 (PDT)
-Received: from localhost.localdomain (h082218028181.host.wavenet.at.
-	[82.218.28.181]) by smtp.gmail.com with ESMTPSA id
-	a640c23a62f3a-ae35363a149sm94561266b.9.2025.06.27.02.57.42
+	bh=7kzxKyGyUkMQNU8zFP39T97KAl93oC6U2R3DXkWnfQQ=;
+	b=i+raF0B5X/LJatXXUwRtrCi9XEL5p6c9+vKSAIpZ64DRldHHLUPIAI4FwK+CS1CuRr
+	8rR+APf9ypfw5IITZPCrqmrKqby/fLilkO/LfMtH0Z9prY3+Z0iae2aimPatdBlF196E
+	I+FWYjnjoIApJ+Ag3X/QuSUrMEXYNZNf/+RqF4r3+7NG4ZWq2oPVKmP//uppLgbgCnIJ
+	IeOeaIjea7LuScFo+jgpeZ0l+UWXF+0GwXWxl/g6sCfj+Fz+AYhKQ56w61yxgP4RuRsZ
+	DxlEd+DbHO1IrWdQd1A+yHwm54F16N9Nm1Ga7f5RRdUVh5RQIdUu2VK5TbMS6jVCnlwL
+	yUcQ==
+X-Forwarded-Encrypted: i=1;
+	AJvYcCWc+kakFlAlmXpKqUaDjZjKILztFiz87vu6OaU4P6xqoynxFGKguc4ob7mzJL05tEdLX/npls3xNg==@lists.linbit.com
+X-Gm-Message-State: AOJu0YwyKD1+X4ytjGtrlQsOTX93XtoLwdZH+f3GqV+kbryIgQNrJlFM
+	x5Oohc2uB6dLoR7OUZFN8owA74nRbA97FdSPyOivPn62V5VQt/KdQDU7
+X-Gm-Gg: ASbGncs+1tEw3mlE9yU/F5oc37E+2FrUFDiN62VSQQEM2+2s8EQrO1LtPJ2VtovTHK+
+	9/NoHKGPDZxlxDrZZsY1x9/RWP4uyo5+RedTGtZu1ESfgwdQmNodl3MQHD+5419diNZ7JQMD64a
+	T8fi6jGvtn6YLFgQ3WjIV3M8f9qJ5TyhbOoprzvZfRcrVywB3CX30ESMTyjSay+I2jRbpsmmtGp
+	2HYuOFgEvhUxfU6VEXNAa9RT1KplLk53CxrAYmwd/01/nL77t7g+nEFyRRKqE2MbJOAmuYiVSIp
+	34p5Vj330hEpb5wi4mpr6NgvnW0CbYrffhVOmcqKyAXD6cfKq8pjXqxa5t5YzWofUNh2t6LfmZ0
+	R4XGT0jYJds15wB0YTtTZlKlYccs5jjDfILNfSA==
+X-Google-Smtp-Source: AGHT+IHkGqUW4qYzaIeEVo4MIPsGKugMbjdQlEOB95vKMllXraZTUlpZPd8DNQlc+GfPIEvC/98pUg==
+X-Received: by 2002:a05:6000:2c13:b0:3a4:ef0d:e614 with SMTP id
+	ffacd0b85a97d-3b4964def6bmr3030814f8f.33.1751651441612; 
+	Fri, 04 Jul 2025 10:50:41 -0700 (PDT)
+Received: from ekhafagy-ROG-Zephyrus-M16-GU603HR-GU603HR.. ([156.204.255.91])
+	by smtp.gmail.com with ESMTPSA id
+	ffacd0b85a97d-3b4708d0ed9sm3063745f8f.38.2025.07.04.10.50.40
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 27 Jun 2025 02:57:42 -0700 (PDT)
-From: =?UTF-8?q?Christoph=20B=C3=B6hmwalder?=
-	<christoph.boehmwalder@linbit.com>
-To: Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH] drbd: add missing kref_get in handle_write_conflicts
-Date: Fri, 27 Jun 2025 11:57:28 +0200
-Message-ID: <20250627095728.800688-1-christoph.boehmwalder@linbit.com>
-X-Mailer: git-send-email 2.49.0
+	Fri, 04 Jul 2025 10:50:41 -0700 (PDT)
+From: Eslam Khafagy <eslam.medhat1993@gmail.com>
+To: 
+Subject: [PATCH] DRBD: replace strcpy with strscpy
+Date: Fri,  4 Jul 2025 20:50:15 +0300
+Message-ID: <20250704175018.333165-1-eslam.medhat1993@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Cc: Lars Ellenberg <lars@linbit.com>,
-	Philipp Reisner <philipp.reisner@linbit.com>,
+X-Mailman-Approved-At: Tue, 08 Jul 2025 08:42:35 +0200
+Cc: Jens Axboe <axboe@kernel.dk>, Eslam Khafagy <eslam.medhat1993@gmail.com>,
+	skhan@linuxfoundation.com, Philipp Reisner <philipp.reisner@linbit.com>,
 	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	Sarah Newman <srn@prgmr.com>, Lars Ellenberg <lars.ellenberg@linbit.com>,
-	drbd-dev@lists.linbit.com
+	Lars Ellenberg <lars.ellenberg@linbit.com>, drbd-dev@lists.linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -88,57 +88,83 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-From: Sarah Newman <srn@prgmr.com>
+strcpy is deprecated due to lack of bounds checking. This patch replaces
+strcpy with strscpy, the recommended alternative for null terminated
+strings, to follow best practices.
 
-With `two-primaries` enabled, DRBD tries to detect "concurrent" writes
-and handle write conflicts, so that even if you write to the same sector
-simultaneously on both nodes, they end up with the identical data once
-the writes are completed.
+I had to do a small refactor for __drbd_send_protocol since it uses
+strlen anyways. so why not use that for strscpy.
 
-In handling "superseeded" writes, we forgot a kref_get,
-resulting in a premature drbd_destroy_device and use after free,
-and further to kernel crashes with symptoms.
-
-Relevance: No one should use DRBD as a random data generator, and apparently
-all users of "two-primaries" handle concurrent writes correctly on layer up.
-That is cluster file systems use some distributed lock manager,
-and live migration in virtualization environments stops writes on one node
-before starting writes on the other node.
-
-Which means that other than for "test cases",
-this code path is never taken in real life.
-
-FYI, in DRBD 9, things are handled differently nowadays.  We still detect
-"write conflicts", but no longer try to be smart about them.
-We decided to disconnect hard instead: upper layers must not submit concurrent
-writes. If they do, that's their fault.
-
-Signed-off-by: Sarah Newman <srn@prgmr.com>
-Signed-off-by: Lars Ellenberg <lars@linbit.com>
-Signed-off-by: Christoph Böhmwalder <christoph.boehmwalder@linbit.com>
+Signed-off-by: Eslam Khafagy <eslam.medhat1993@gmail.com>
 ---
- drivers/block/drbd/drbd_receiver.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/block/drbd/drbd_main.c     | 17 +++++++++--------
+ drivers/block/drbd/drbd_receiver.c |  4 ++--
+ 2 files changed, 11 insertions(+), 10 deletions(-)
 
+diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
+index 52724b79be30..4e5bd74be90a 100644
+--- a/drivers/block/drbd/drbd_main.c
++++ b/drivers/block/drbd/drbd_main.c
+@@ -742,9 +742,9 @@ int drbd_send_sync_param(struct drbd_peer_device *peer_device)
+ 	}
+ 
+ 	if (apv >= 88)
+-		strcpy(p->verify_alg, nc->verify_alg);
++		strscpy(p->verify_alg, nc->verify_alg);
+ 	if (apv >= 89)
+-		strcpy(p->csums_alg, nc->csums_alg);
++		strscpy(p->csums_alg, nc->csums_alg);
+ 	rcu_read_unlock();
+ 
+ 	return drbd_send_command(peer_device, sock, cmd, size, NULL, 0);
+@@ -771,10 +771,6 @@ int __drbd_send_protocol(struct drbd_connection *connection, enum drbd_packet cm
+ 		return -EOPNOTSUPP;
+ 	}
+ 
+-	size = sizeof(*p);
+-	if (connection->agreed_pro_version >= 87)
+-		size += strlen(nc->integrity_alg) + 1;
+-
+ 	p->protocol      = cpu_to_be32(nc->wire_protocol);
+ 	p->after_sb_0p   = cpu_to_be32(nc->after_sb_0p);
+ 	p->after_sb_1p   = cpu_to_be32(nc->after_sb_1p);
+@@ -787,8 +783,13 @@ int __drbd_send_protocol(struct drbd_connection *connection, enum drbd_packet cm
+ 		cf |= CF_DRY_RUN;
+ 	p->conn_flags    = cpu_to_be32(cf);
+ 
+-	if (connection->agreed_pro_version >= 87)
+-		strcpy(p->integrity_alg, nc->integrity_alg);
++	size = sizeof(*p);
++	if (connection->agreed_pro_version >= 87) {
++		int integrity_len = strlen(nc->integrity_alg);
++		size += integrity_len + 1;
++		strscpy(p->integrity_alg, nc->integrity_alg, integrity_len);
++	}
++
+ 	rcu_read_unlock();
+ 
+ 	return __conn_send_command(connection, sock, cmd, size, NULL, 0);
 diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd_receiver.c
-index e5a2e5f7887b..975024cf03c5 100644
+index e5a2e5f7887b..9c2d439f26e8 100644
 --- a/drivers/block/drbd/drbd_receiver.c
 +++ b/drivers/block/drbd/drbd_receiver.c
-@@ -2500,7 +2500,11 @@ static int handle_write_conflicts(struct drbd_device *device,
- 			peer_req->w.cb = superseded ? e_send_superseded :
- 						   e_send_retry_write;
- 			list_add_tail(&peer_req->w.list, &device->done_ee);
--			queue_work(connection->ack_sender, &peer_req->peer_device->send_acks_work);
-+			/* put is in drbd_send_acks_wf() */
-+			kref_get(&device->kref);
-+			if (!queue_work(connection->ack_sender,
-+					&peer_req->peer_device->send_acks_work))
-+				kref_put(&device->kref, drbd_destroy_device);
+@@ -3985,14 +3985,14 @@ static int receive_SyncParam(struct drbd_connection *connection, struct packet_i
+ 			*new_net_conf = *old_net_conf;
  
- 			err = -ENOENT;
- 			goto out;
-
-base-commit: 456ef6804f232f3b2f60147046e05500147b0099
+ 			if (verify_tfm) {
+-				strcpy(new_net_conf->verify_alg, p->verify_alg);
++				strscpy(new_net_conf->verify_alg, p->verify_alg);
+ 				new_net_conf->verify_alg_len = strlen(p->verify_alg) + 1;
+ 				crypto_free_shash(peer_device->connection->verify_tfm);
+ 				peer_device->connection->verify_tfm = verify_tfm;
+ 				drbd_info(device, "using verify-alg: \"%s\"\n", p->verify_alg);
+ 			}
+ 			if (csums_tfm) {
+-				strcpy(new_net_conf->csums_alg, p->csums_alg);
++				strscpy(new_net_conf->csums_alg, p->csums_alg);
+ 				new_net_conf->csums_alg_len = strlen(p->csums_alg) + 1;
+ 				crypto_free_shash(peer_device->connection->csums_tfm);
+ 				peer_device->connection->csums_tfm = csums_tfm;
 -- 
-2.49.0
+2.43.0
 
