@@ -2,66 +2,65 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [37.27.211.0])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79E94B16286
-	for <lists+drbd-dev@lfdr.de>; Wed, 30 Jul 2025 16:19:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43984B1629F
+	for <lists+drbd-dev@lfdr.de>; Wed, 30 Jul 2025 16:23:55 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D6912162253;
-	Wed, 30 Jul 2025 16:19:42 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 208611622FC;
+	Wed, 30 Jul 2025 16:23:51 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
-	[209.85.208.46])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 03BD3162253
-	for <drbd-dev@lists.linbit.com>; Wed, 30 Jul 2025 16:19:32 +0200 (CEST)
-Received: by mail-ed1-f46.google.com with SMTP id
-	4fb4d7f45d1cf-604bff84741so12382820a12.2
-	for <drbd-dev@lists.linbit.com>; Wed, 30 Jul 2025 07:19:32 -0700 (PDT)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
+	[209.85.218.41])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D49BB162253
+	for <drbd-dev@lists.linbit.com>; Wed, 30 Jul 2025 16:23:47 +0200 (CEST)
+Received: by mail-ej1-f41.google.com with SMTP id
+	a640c23a62f3a-ae0bc7aa21bso1399782166b.2
+	for <drbd-dev@lists.linbit.com>; Wed, 30 Jul 2025 07:23:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linbit-com.20230601.gappssmtp.com; s=20230601; t=1753885172;
-	x=1754489972; darn=lists.linbit.com; 
+	d=linbit-com.20230601.gappssmtp.com; s=20230601; t=1753885427;
+	x=1754490227; darn=lists.linbit.com; 
 	h=cc:to:subject:message-id:date:from:in-reply-to:references
 	:mime-version:from:to:cc:subject:date:message-id:reply-to;
-	bh=wXhgtCIxL3SExOF6qX9veHP38UGDsV+Oxi3+EcVI7Eg=;
-	b=SCo4k35WhZ9uTvXRpK5FRTTsCD5Vgmc63WIvAKQ+Q1o0ceRmJ0xZcEkiQ60l3wt9CB
-	xjNxT2AU8eWzVd7DK+fMZt2upIf2Y0YpN3+U5dyk/kdrKcJkqcchR+h7WTGQ8o7TbOz6
-	VFs7Kn4rHDCzrcONIsPEcuK+lVizojgljw+LyvJFUBhgI7lcHUB9iWSBNN4KU565eKpq
-	5J/7xrJYM5QH0U5XeC7VGXtRgfttUtZOlVJ+M+j9ZH9F3oRTTxhWp+VyAw4PgVyOvZ35
-	5WBmwozysNvL8/zzhGIAwaLAKDMxU7PXC58TYRFPprRavZqzMWSxwgekChm7rotGO3mW
-	ij9g==
+	bh=ads3bNwnJj/SYUS7u5F3Bi45n+Q+juP+Ql9WL3oFhJk=;
+	b=h3ouowz3KZc3g1csZlIt//lqzZM0XX+WYsn7y+xGwOyxZ5lPn7tdrdRLObEL31GB+q
+	94dMP5acuGe7T0y+75No52CaIn0wFJFcChjGqQFOKA/kA8FXBRvt4KJwfY6MZ8bjN6rZ
+	fNgY+5gDINUnsFOcUbizKWbQaQj4pvSBhSG7RsjIUi1WV9B5ynCtoEWph9zuVEfvLGTj
+	2OqFVty7Bl2SuP/la7/Kx4/54+vWKsvjO2yMv50RNJ75Pe0TdaFaq4QFXTQ3TlZ2aTD0
+	3Q/jNlo+k2Z+vRWSW63+IEklYrQyNa0FtdXbr8n+JJ1mJNUoSOvW32d4HJxKN4SLXhKc
+	4R+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20230601; t=1753885172; x=1754489972;
+	d=1e100.net; s=20230601; t=1753885427; x=1754490227;
 	h=cc:to:subject:message-id:date:from:in-reply-to:references
 	:mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
 	:reply-to;
-	bh=wXhgtCIxL3SExOF6qX9veHP38UGDsV+Oxi3+EcVI7Eg=;
-	b=ZL2ELh6S5PdCF6p/ykl/p32FRpidCD7xC8Y15Dk/Vrv3FZFdIWnsPkCLyWZ+j1H3SN
-	aWodHC7INM+y25Ev+S2LjPW+ehnAThkgfwToZhgU5KXJlDTD5snMMWY6c+4j2QBEDhXU
-	lvcMf0/kPGtMeEBLjm3uur8/i393+nTo5daoUONvJs4fAa6tfViNkrD0BPGsgciQ2SSf
-	yJNNDprps6a2qlAo58HT+2xWAwyTWbXrp8ZygvV/8YHRRUe7hA7Anp1Iz3r2UPKJXIQ+
-	+R2TwjY+4pT4ygvVX51jaww7h2vXypl6pgw+KqoFOLK7qoKXMMPKax8w+nb8yxIb7+Kv
-	Em+g==
-X-Gm-Message-State: AOJu0YzjP0s+PSN5zaX/6Hw6MmYlt4Ykmonj6hlKdDphlLp4xnBTkOw5
-	EIPORKCbbQHPbfgjHNdpBZXMD7CnKXea5U7aeAdVX2iY4URr7EagJ8RO3ecKWUxcDqlcZNaoXcg
-	LzINlDR7x4RhlHGXlwl4ol+qvsMsVD6XaD3W0hLQmNUHS
-X-Gm-Gg: ASbGnctmt6tHeOcqIqxcpkJrLHi6iU42deUoRrm+v0MWW90SnijpEZ2ko+ec4vk+aN3
-	stTQt2xpWuIkWdEg37PJ13rYvxUjcurDK3JWkY4kC9FXCeOfZCSpAXtCxeQWkDMkO2GcJ0pNoLW
-	R8G9SB8Dmz/e6IVmfNxtujy4mEXT56SOiug/pU2vVE3VJZvDiwDWsGjCbaXxSD3TbvOZBrrnYdR
-	ouaaOU=
-X-Google-Smtp-Source: AGHT+IGtrGwno7dn/3KbgGcAgryWdPFRXtdZELRZ6ydcRWUOqTAUQnZfAgvnR//XKPx0Cko9df1YIwpuqYPKMtXvLrA=
-X-Received: by 2002:a17:907:3c91:b0:adb:428f:f748 with SMTP id
-	a640c23a62f3a-af8fd6f8ed6mr478455866b.21.1753885172152; Wed, 30 Jul 2025
-	07:19:32 -0700 (PDT)
+	bh=ads3bNwnJj/SYUS7u5F3Bi45n+Q+juP+Ql9WL3oFhJk=;
+	b=DIpI8Yi6Zq5Gjgw+sqhQXDahkdwFb2+OcHDNvMvkUzoyjvrbC9We6Xa5EYD0RpZfEp
+	11vkmR74X+2DIljrYojWb2FT3DXo/LCWZqzf7UHe4Qa8cVb0y0PNz8VLswLXuZy64444
+	ku/rwAMiAYzNaYQahOnhVBLUkegYWP9bIMbNwkNw1Vv0QFCAHuIEU9bhdZ40CxraWOrS
+	lAJDSiBBvh5MAFZ0XATl+2Ou+wlcyOvHCAvjBXhBImxQEXb+3ly0nbTW7IzHVYjL+kgu
+	ffcba7WksYXz5yDATVKsnYhkGTGib3X3RBnF0mzHzWbGIyjxTiwlO2rjnWrZSPAISRQh
+	RRGA==
+X-Gm-Message-State: AOJu0YzMZcDzT8hSHbk1k5TYRpETh9X9xbxo6qexU/0/twxSPwsYRq/v
+	rEgvY4K5n/e8FhqX9jtPL75R8ezxpqaJ+pmx+chWTn6q6m92HMuvP0Hx+5Ql05U6qXUwwsRlNMT
+	Lx8QbncZWVQxpTqnKk4uPvv9hiZQwDEzyAGoWTtZHgZRvSo87t7rIBxc=
+X-Gm-Gg: ASbGncsXOHrqP6qJGZKBKubjovaAwVeOsPFPFaRNfI2LEyJs8FuLneOI9ZwwhYa4Yvt
+	40XLzdGzFX0e678itUugqoZDfx8EdOdAEowYuRxibn7z8Zh7g/bjIHjt0oCBcwBty6tndOAuXFq
+	sDqRdYWzwr4uhNTQzA7SZZP8X8ET7ZzVxOcVa4dCTi4kKJfY1OqXl9qT3FSd9DzDN343mlToGYB
+	kYmkVc=
+X-Google-Smtp-Source: AGHT+IG8jGEkgxCX4Ro+RJz53/acigS0YYNMibQWDgOnoq0RI3Tlu2D+KMNkVJZuJbIdtJvHeGa8fAsNZsTytFiPSFM=
+X-Received: by 2002:a17:907:2da0:b0:aec:4b8e:84cc with SMTP id
+	a640c23a62f3a-af8fd6a256cmr408179066b.5.1753885426878; Wed, 30 Jul 2025
+	07:23:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250708065040.4043169-1-zhengbing.huang@easystack.cn>
-	<20250708065040.4043169-2-zhengbing.huang@easystack.cn>
-In-Reply-To: <20250708065040.4043169-2-zhengbing.huang@easystack.cn>
+References: <20250708073717.4077291-1-zhengbing.huang@easystack.cn>
+In-Reply-To: <20250708073717.4077291-1-zhengbing.huang@easystack.cn>
 From: Philipp Reisner <philipp.reisner@linbit.com>
-Date: Wed, 30 Jul 2025 16:19:20 +0200
-X-Gm-Features: Ac12FXyOLDDNGim-xkK2aZZBukARTzozfNirbzW8L4fxcpe982pEsjLNzcW3gcs
-Message-ID: <CADGDV=Wkcbrw_OFX1J9Bwrng6x3XfwFDo34tDKtOsExA-CZ3ug@mail.gmail.com>
-Subject: Re: [PATCH 2/3] rdma: ratelimit error log
+Date: Wed, 30 Jul 2025 16:23:35 +0200
+X-Gm-Features: Ac12FXxMtVZ43ahoiX6mB1A-xFJcblRc4zmJV3UQdOOg04uzRP6YRUrMATzd2uA
+Message-ID: <CADGDV=Wd3p5VW9VyA_9nygWmFYYe4fgU0QF3t+Re8KJdZBLxKw@mail.gmail.com>
+Subject: Re: [PATCH v2] rdma: Modify rdma_conn_param.rnr_retry to 7
 To: "zhengbing.huang" <zhengbing.huang@easystack.cn>
-Content-Type: multipart/alternative; boundary="000000000000a9dec5063b2636df"
+Content-Type: multipart/alternative; boundary="000000000000d8b5e7063b264597"
 Cc: drbd-dev@lists.linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
@@ -79,178 +78,102 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
---000000000000a9dec5063b2636df
+--000000000000d8b5e7063b264597
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Zhengbing,
+Thanks applied!
 
-Thanks. This patch contains a coding style error. Or checkpatch.pl error.
-There should be a space between the if and the opening bracket. Please run
-a checkpatch.pl on your end before sending patches.
-
-I fixed it and applied it.
+PS: I will continue to review your other patches in the next few days.
 
 Best regards,
  Philipp
 
-On Tue, Jul 8, 2025 at 12:19=E2=80=AFPM zhengbing.huang <
-zhengbing.huang@easystack.cn> wrote:
+On Tue, Jul 8, 2025 at 9:53=E2=80=AFAM zhengbing.huang <zhengbing.huang@eas=
+ystack.cn>
+wrote:
 
-> Have a crash call trace as follow:
->   ? bit_clear+0x120/0x120
->   fbcon_putcs+0xe7/0x100
->   fbcon_redraw.isra.20+0xfd/0x1e0
->   fbcon_scroll+0x8c9/0xde0
->   con_scroll+0x20b/0x220
->   ? bit_clear+0x120/0x120
->   lf+0xa0/0xb0
->   vt_console_print+0x310/0x400
->   console_unlock+0x35f/0x4a0
->   vprintk_emit+0x14d/0x250
->   printk+0x58/0x6f
->   dtr_tx_cq_event_handler+0x895/0x8a0 [drbd_transport_rdma]
->   ? sched_clock+0x5/0x10
->   ? do_IRQ+0x7f/0xd0
->   mlx5_eq_comp_int+0xb0/0x1d0 [mlx5_core]
->   notifier_call_chain+0x47/0x70
->   atomic_notifier_call_chain+0x16/0x20
->   irq_int_handler+0x11/0x20 [mlx5_core]
+> During the sync process, we found that the
+> IB_WC_RNR_RETRY_EXC_ERR error always occurred, and then
+> the connection break. Then when the connection is restored,
+> this error occurs again, enter a loop.
 >
-> and the code is:
-> (gdb) l *dtr_tx_cq_event_handler+0x894
-> 0x3404 is in dtr_tx_cq_event_handler (.../drbd_transport_rdma.c:1935).
-> 1930                    if (stream_nr !=3D ST_FLOW_CTRL) {
-> 1931                            err =3D dtr_repost_tx_desc(cm, tx_desc);
-> 1932                            if (!err)
-> 1933                                    tx_desc =3D NULL; /* it is in the
-> air again! Fly! */
-> 1934                            else
-> 1935                                    tr_warn(transport, "repost of
-> tx_desc failed! %d\n", err);
-> 1936                    }
+> When the IB_WC_RNR_RETRY_EXC_ERR error occurs,
+> it indicates that there is no rx_desc at the receive side currently.
+> Then we query that the current rnr_retry value is 0,
+> meane there is no retry.
 >
-> This problem is that too many logs print in irq, cause the kernel crash.
->
-> So, we ratelimit error log
+> So we modify rnr_retry to 7(max value), and the problem did not occur
+> again.
 >
 > Signed-off-by: zhengbing.huang <zhengbing.huang@easystack.cn>
 > ---
->  drbd/drbd_transport_rdma.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drbd/drbd_transport_rdma.c | 1 +
+>  1 file changed, 1 insertion(+)
 >
 > diff --git a/drbd/drbd_transport_rdma.c b/drbd/drbd_transport_rdma.c
-> index 5270e503a..30edfaf96 100644
+> index 30edfaf96..14392a33b 100644
 > --- a/drbd/drbd_transport_rdma.c
 > +++ b/drbd/drbd_transport_rdma.c
-> @@ -1920,7 +1920,7 @@ static int dtr_handle_tx_cq_event(struct ib_cq *cq,
-> struct dtr_cm *cm)
->                         err =3D dtr_repost_tx_desc(cm, tx_desc);
->                         if (!err)
->                                 tx_desc =3D NULL; /* it is in the air aga=
-in!
-> Fly! */
-> -                       else
-> +                       else if(__ratelimit(&rdma_transport->rate_limit))
->                                 tr_warn(transport, "repost of tx_desc
-> failed! %d\n", err);
->                 }
->         }
+> @@ -409,6 +409,7 @@ static struct rdma_conn_param dtr_conn_param =3D {
+>         .responder_resources =3D 1,
+>         .initiator_depth =3D 1,
+>         .retry_count =3D 10,
+> +       .rnr_retry_count  =3D 7,
+>  };
+>
+>  static u32 dtr_cm_to_lkey(struct dtr_cm *cm)
 > --
 > 2.43.0
 >
 >
 
---000000000000a9dec5063b2636df
+--000000000000d8b5e7063b264597
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Hi Zhengbing,<br><br>Thanks. This patch contains a coding =
-style error. Or <a href=3D"http://checkpatch.pl">checkpatch.pl</a> error. T=
-here should be a space between the if and the opening bracket. Please run a=
- <a href=3D"http://checkpatch.pl">checkpatch.pl</a> on your end before send=
-ing patches.<br><br>I fixed it and applied it.<br><br>Best regards,<br>=C2=
-=A0Philipp</div><br><div class=3D"gmail_quote gmail_quote_container"><div d=
-ir=3D"ltr" class=3D"gmail_attr">On Tue, Jul 8, 2025 at 12:19=E2=80=AFPM zhe=
-ngbing.huang &lt;<a href=3D"mailto:zhengbing.huang@easystack.cn">zhengbing.=
-huang@easystack.cn</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">Have a crash call trace as follow:<br>
-=C2=A0 ? bit_clear+0x120/0x120<br>
-=C2=A0 fbcon_putcs+0xe7/0x100<br>
-=C2=A0 fbcon_redraw.isra.20+0xfd/0x1e0<br>
-=C2=A0 fbcon_scroll+0x8c9/0xde0<br>
-=C2=A0 con_scroll+0x20b/0x220<br>
-=C2=A0 ? bit_clear+0x120/0x120<br>
-=C2=A0 lf+0xa0/0xb0<br>
-=C2=A0 vt_console_print+0x310/0x400<br>
-=C2=A0 console_unlock+0x35f/0x4a0<br>
-=C2=A0 vprintk_emit+0x14d/0x250<br>
-=C2=A0 printk+0x58/0x6f<br>
-=C2=A0 dtr_tx_cq_event_handler+0x895/0x8a0 [drbd_transport_rdma]<br>
-=C2=A0 ? sched_clock+0x5/0x10<br>
-=C2=A0 ? do_IRQ+0x7f/0xd0<br>
-=C2=A0 mlx5_eq_comp_int+0xb0/0x1d0 [mlx5_core]<br>
-=C2=A0 notifier_call_chain+0x47/0x70<br>
-=C2=A0 atomic_notifier_call_chain+0x16/0x20<br>
-=C2=A0 irq_int_handler+0x11/0x20 [mlx5_core]<br>
-<br>
-and the code is:<br>
-(gdb) l *dtr_tx_cq_event_handler+0x894<br>
-0x3404 is in dtr_tx_cq_event_handler (.../drbd_transport_rdma.c:1935).<br>
-1930=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 i=
-f (stream_nr !=3D ST_FLOW_CTRL) {<br>
-1931=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 err =3D dtr_repost_tx_desc(cm, tx_desc);<br>
-1932=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!err)<br>
-1933=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tx_desc =3D NULL; /=
-* it is in the air again! Fly! */<br>
-1934=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 else<br>
-1935=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tr_warn(transport, =
-&quot;repost of tx_desc failed! %d\n&quot;, err);<br>
-1936=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }=
-<br>
-<br>
-This problem is that too many logs print in irq, cause the kernel crash.<br=
+<div dir=3D"ltr"><div>Thanks applied!<br><br>PS: I will continue to review =
+your other patches in the next=C2=A0few days.<br><br>Best regards,<div>=C2=
+=A0Philipp</div></div></div><br><div class=3D"gmail_quote gmail_quote_conta=
+iner"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jul 8, 2025 at 9:53=E2=
+=80=AFAM zhengbing.huang &lt;<a href=3D"mailto:zhengbing.huang@easystack.cn=
+">zhengbing.huang@easystack.cn</a>&gt; wrote:<br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">During the sync process, we found that the<br=
 >
+IB_WC_RNR_RETRY_EXC_ERR error always occurred, and then<br>
+the connection break. Then when the connection is restored,<br>
+this error occurs again, enter a loop.<br>
 <br>
-So, we ratelimit error log<br>
+When the IB_WC_RNR_RETRY_EXC_ERR error occurs,<br>
+it indicates that there is no rx_desc at the receive side currently.<br>
+Then we query that the current rnr_retry value is 0,<br>
+meane there is no retry.<br>
+<br>
+So we modify rnr_retry to 7(max value), and the problem did not occur again=
+.<br>
 <br>
 Signed-off-by: zhengbing.huang &lt;<a href=3D"mailto:zhengbing.huang@easyst=
 ack.cn" target=3D"_blank">zhengbing.huang@easystack.cn</a>&gt;<br>
 ---<br>
-=C2=A0drbd/drbd_transport_rdma.c | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+=C2=A0drbd/drbd_transport_rdma.c | 1 +<br>
+=C2=A01 file changed, 1 insertion(+)<br>
 <br>
 diff --git a/drbd/drbd_transport_rdma.c b/drbd/drbd_transport_rdma.c<br>
-index 5270e503a..30edfaf96 100644<br>
+index 30edfaf96..14392a33b 100644<br>
 --- a/drbd/drbd_transport_rdma.c<br>
 +++ b/drbd/drbd_transport_rdma.c<br>
-@@ -1920,7 +1920,7 @@ static int dtr_handle_tx_cq_event(struct ib_cq *cq, s=
-truct dtr_cm *cm)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 err =3D dtr_repost_tx_desc(cm, tx_desc);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 if (!err)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tx_desc =3D NULL; /* it is in the ai=
-r again! Fly! */<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0else<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0else if(__ratelimit(&amp;rdma_transport-&gt;rate_limit))<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tr_warn(transport, &quot;repost of t=
-x_desc failed! %d\n&quot;, err);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+@@ -409,6 +409,7 @@ static struct rdma_conn_param dtr_conn_param =3D {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .responder_resources =3D 1,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .initiator_depth =3D 1,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .retry_count =3D 10,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0.rnr_retry_count=C2=A0 =3D 7,<br>
+=C2=A0};<br>
+<br>
+=C2=A0static u32 dtr_cm_to_lkey(struct dtr_cm *cm)<br>
 -- <br>
 2.43.0<br>
 <br>
 </blockquote></div>
 
---000000000000a9dec5063b2636df--
+--000000000000d8b5e7063b264597--
