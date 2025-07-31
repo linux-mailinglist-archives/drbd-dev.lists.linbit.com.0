@@ -2,65 +2,65 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [37.27.211.0])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40F39B1715A
-	for <lists+drbd-dev@lfdr.de>; Thu, 31 Jul 2025 14:36:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A92DB1715B
+	for <lists+drbd-dev@lfdr.de>; Thu, 31 Jul 2025 14:37:10 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 045AC162268;
-	Thu, 31 Jul 2025 14:36:26 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D9CC9162300;
+	Thu, 31 Jul 2025 14:36:55 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
-	[209.85.208.46])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 55100162268
-	for <drbd-dev@lists.linbit.com>; Thu, 31 Jul 2025 14:36:18 +0200 (CEST)
-Received: by mail-ed1-f46.google.com with SMTP id
-	4fb4d7f45d1cf-604bff84741so591651a12.2
-	for <drbd-dev@lists.linbit.com>; Thu, 31 Jul 2025 05:36:18 -0700 (PDT)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
+	[209.85.208.44])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9AED6162302
+	for <drbd-dev@lists.linbit.com>; Thu, 31 Jul 2025 14:36:45 +0200 (CEST)
+Received: by mail-ed1-f44.google.com with SMTP id
+	4fb4d7f45d1cf-6157c81ff9eso522511a12.3
+	for <drbd-dev@lists.linbit.com>; Thu, 31 Jul 2025 05:36:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linbit-com.20230601.gappssmtp.com; s=20230601; t=1753965378;
-	x=1754570178; darn=lists.linbit.com; 
+	d=linbit-com.20230601.gappssmtp.com; s=20230601; t=1753965405;
+	x=1754570205; darn=lists.linbit.com; 
 	h=content-transfer-encoding:cc:to:subject:message-id:date:from
 	:in-reply-to:references:mime-version:from:to:cc:subject:date
 	:message-id:reply-to;
-	bh=rnZa4gUZLvLd2axgxxfZziHEcMYe6TDAwmHhf14HMic=;
-	b=Br59PO2UVxhEDBGPhv2CHx7bwIjx4NVUwymwT7ei+mFof1AmHnlEMnN6pN1LTIeJJh
-	FpddWz5ivdF/4k2BiUq6TuNxPHNQicx/UGo3NiU+gNLRFiXSvA25qKyIvG9TLxtAesMT
-	kfcUN88squwz8arCjpEy4wqJXn4D7mFx1Pj4wP3Uacahn7szdOx89QKdDVQjY0oNgEqn
-	vxXmaxiqhfKn3Eqv92yfx3hInryC+Rgrt/IVWtNO6c8hWRLOLeyyCNT6moPYuKZyKCWO
-	wHfitUPCUi4grra7SyGC+swR0lW1cMqGOTvMevA1BHwwYVNZOQc3ruOwHQNX825GvKTp
-	+aBA==
+	bh=ILUTINAp9c29yWUShqN0/yevTCaysbPY0aBZkEaVBfY=;
+	b=C4cLDD0zzJWedpoKhzVGS9alGH6uQzpxrV9ssKCcVg0PEdUuzJcMtaD59+AskYPweW
+	J5wShK/gv6i42VkMtCo+PHsNrkbxcsstcn48b5E8AnQ9+wKapW5nBgGEFxmSU73WiZhJ
+	PKQY2Z6ZvLgq/oJ8qR/8jV+1VdO8D8kKrNGALNuVXvwYifuxqquD6n9PGZvVIb+73ICw
+	29tL3f2UiC+gihE4JeRybs3bP6gIyMOOdqeBBeRxr6igQ3MczGs/z06cYipr3OX+cYfL
+	DaBjVfo+4Y9ZGe/U/8hX6OJateMX+w1yOYmWYVk0n9fDxNiFJ6CL9ougeAlbptE37aj6
+	IrNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20230601; t=1753965378; x=1754570178;
+	d=1e100.net; s=20230601; t=1753965405; x=1754570205;
 	h=content-transfer-encoding:cc:to:subject:message-id:date:from
 	:in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
 	:subject:date:message-id:reply-to;
-	bh=rnZa4gUZLvLd2axgxxfZziHEcMYe6TDAwmHhf14HMic=;
-	b=aMhMm3xmmBUZw84NtifJ8pS4bRo9tUG6DmHPEnLO4gIkpwKgP72qYBNLr0295DDWT9
-	xoPnB15kb4v673DjF7/lpQ9QK5wF4Zy91qz6N1cwDG4v5NG19hDMjeFw6LliOq72xenz
-	3fjGEAksrCmmXy2DlsT8rUUAnNewF0bUErXqnXhpeftzErR5RfnZxkmJbaVeLHVR+nUj
-	Nzo/WiVcn3XhHXkTrafcHV4W6NDfu+NYZwlhbgGEgNbJJLGLbanT6W7rpfnzVNmcrW7Z
-	E+haUl+x9Pa7De2CdFpCJFincykoRozM3YYNuCwJINYe9b0F5XQkrQxb80XU667IJCPy
-	jnBg==
-X-Gm-Message-State: AOJu0YyA9AxkcOS5X92qQFq4oDP757j4WGdR+W4GqkQh57YWZ8bRsTOM
-	ApOyacjontnRhX9R+QOMbLJL29IOXhO9hg6+726zWNRHF3JODGR22buoOc5wm2AWjixOono9qxe
-	yeiMgeYCyZUuJYC7/0uPlEFhj+Ly/5usu7kUBeETcYDFW
-X-Gm-Gg: ASbGncs8jcr0XOgWKl2QA6yBKDzhxbmx1+bQsDaiPt49yKcL1CgyLNK7RGSkxAky9do
-	n8IiRNQGHrc9JxfZv3Fo+wvCNaE45HWaOTf4pgKpvd+cQPHGhEU7QUuT/vpUyfb9FLsxIf/LsWx
-	+x+BNyvpfq1TGiO3/rQ7OQg38x7sMZHDepDEwt42r1Nzb3wh/IHLc6t0+2RN8P/5M1cPIqyp5IH
-	XrvtJs=
-X-Google-Smtp-Source: AGHT+IFeTIy6UgY7Qa2uPG+rIaL9TpQhBnjOKhPs8VFM+2LgPV9yceuqa4pigJRr9fN6jUVJurwQgZ98XdzCCajDnx8=
-X-Received: by 2002:a05:6402:2810:b0:607:ea0c:65b2 with SMTP id
-	4fb4d7f45d1cf-61587266162mr7429694a12.31.1753965377441; Thu, 31 Jul 2025
-	05:36:17 -0700 (PDT)
+	bh=ILUTINAp9c29yWUShqN0/yevTCaysbPY0aBZkEaVBfY=;
+	b=mgXVZmvXuyxYfuhQl2V52Y34tcxyRPuVj+gyLjbiv3xZPaoXyBBuL4iDmAfZSFys0c
+	NWKrh5fYOgU1nFkwi3o/VvwYaCBft+cuDF1uO4a6F3OchgV4v+5GX0ZQQejEIWkDClti
+	qbRb2wCMfzSZ+CP/7K6G6SvUiwzAVBCUjD6eaB1FiRXX3HLTGMABYEAab8ROWhkMlH3n
+	NzfQ09RBcXOds1KecV+gfwyYZZMJLrZUEdZppjVn+NOE60eytf5HVkXhPcdRFM80Tzs4
+	Xf5+KvmjfZ2/S4pwc/FmOTsZbtB74Nb0Fd1lZrrPswS7Pe/eKmx2XfdHonN30zZ8Esyj
+	mlxA==
+X-Gm-Message-State: AOJu0YwuSqZmoC7R/qYN+p+m2K7X/jisgjsRn67K1+lO4TIXnmxT018T
+	q4BtJKbeK7gAYhz848k0a3YgS8CFRtRBf/4UBNNHe0C4RTsAZBAg8pHcXUOP4OUzrl4vMYyr0xI
+	bJG2v1tnW33rygsGK3APpbCr0XORx/yqphOLQGOyUacGRiV93tu1jJ9s=
+X-Gm-Gg: ASbGncsLHNoqHTmFYuQxy33t0ULtcS5EZY9JFwkBvxsoAkd0oktALwBEzJm7VO/Muxw
+	vJbnchZWnCWIRXwy2lVqaUePCe7/rowgEEgd1rrc/PMW8HLMYaeO601VOvTY/FfJscLHEzoRH2B
+	mdTz0dcfbf82qGwZky/P5dhp/mIHLaL4QhKBgpm5yLZNKvMyMniAODjDidA3ioyvMSBZEaGo8Is
+	xhFssU=
+X-Google-Smtp-Source: AGHT+IGjVeJiY6I+h/c7tbhaafzRBjRr+v9T+NrKvpvlUdDA8WeTB+cINjRtUarHWLH+7hTgzvjLeWiZ5OkOwW/Nsag=
+X-Received: by 2002:a05:6402:2106:b0:615:9b4e:7b93 with SMTP id
+	4fb4d7f45d1cf-6159b4e8017mr4963748a12.30.1753965404858; Thu, 31 Jul 2025
+	05:36:44 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250709025553.694792-1-zhengbing.huang@easystack.cn>
-	<20250709025553.694792-2-zhengbing.huang@easystack.cn>
-In-Reply-To: <20250709025553.694792-2-zhengbing.huang@easystack.cn>
+	<20250709025553.694792-3-zhengbing.huang@easystack.cn>
+In-Reply-To: <20250709025553.694792-3-zhengbing.huang@easystack.cn>
 From: Philipp Reisner <philipp.reisner@linbit.com>
-Date: Thu, 31 Jul 2025 14:36:05 +0200
-X-Gm-Features: Ac12FXy1leOEmoHuHWJwbCbriL8rqPOOvX__WRJhmT-2VDlOHihFAwy3c_n_CQc
-Message-ID: <CADGDV=U0teF1qic1UvrfMJcR8VRfD4VPDwKRZ6TnuymwgrDbvg@mail.gmail.com>
-Subject: Re: [PATCH 2/3] drbd: Fix kernel crash in drbd_find_path_by_addr()
+Date: Thu, 31 Jul 2025 14:36:33 +0200
+X-Gm-Features: Ac12FXwW8TYwcgJwCA25CnLJkvvhyNu7H8_pMRzonLijVmM7ZdhSP26yRVFPu1Q
+Message-ID: <CADGDV=WFc4H5eG0rVcp+Ms6XiosSbomVg6CWBvetWi0T=Bt_LA@mail.gmail.com>
+Subject: Re: [PATCH 3/3] rdma: Get drbd_path->kref when get drbd_path by addr
 To: "zhengbing.huang" <zhengbing.huang@easystack.cn>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -81,158 +81,91 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Thanks applied
+Thanks! Applied.
 
-On Wed, Jul 9, 2025 at 5:01=E2=80=AFAM zhengbing.huang
+Best regards,
+ Philipp
+
+On Wed, Jul 9, 2025 at 7:22=E2=80=AFAM zhengbing.huang
 <zhengbing.huang@easystack.cn> wrote:
 >
-> We hava the crash info as follow:
->  BUG: unable to handle kernel NULL pointer dereference at 000000000000000=
-0
->  Workqueue: ib_cm cm_work_handler [ib_cm]
->  RIP: 0010:drbd_find_path_by_addr+0x6c/0xd0 [drbd]
->  Call Trace:
->   dtr_cma_event_handler+0x1c1/0x4ee [drbd_transport_rdma]
->   cma_cm_event_handler+0x25/0xd0 [rdma_cm]
->   cma_ib_req_handler+0x7cd/0x1250 [rdma_cm]
->   ? addr4_resolve+0x67/0xd0 [ib_core]
->   cm_process_work+0x22/0xf0 [ib_cm]
->   cm_req_handler+0x7ed/0xf40 [ib_cm]
->   ? __switch_to_asm+0x35/0x70
->   cm_work_handler+0x798/0xf30 [ib_cm]
->   ? finish_task_switch+0x18e/0x2e0
->   process_one_work+0x1a7/0x360
->   ? create_worker+0x1a0/0x1a0
->   worker_thread+0x30/0x390
->   ? create_worker+0x1a0/0x1a0
->   kthread+0x10a/0x120
->   ? set_kthread_struct+0x40/0x40
->   ret_from_fork+0x1f/0x40
+> In the dtr_cma_accept() function, after obtain the drbd_path
+> through peer_addr, without take a reference,
+> the drbd_path may be released concurrently, leade to a use-after-free.
 >
-> The code that crash is traverse the listener->waiters list:
-> struct drbd_path *drbd_find_path_by_addr(struct drbd_listener *listener, =
-struct sockaddr_storage *addr)
-> {
->         struct drbd_path *path;
->
->         list_for_each_entry(path, &listener->waiters, listener_link) {
->                 if (addr_equal(&path->peer_addr, addr))
->                         return path;
->         }
->
->         return NULL;
-> }
->
-> The listener->waiters list has a Path node:
-> crash> struct dtr_listener ff4ba75054797c00
-> struct dtr_listener {
->   listener =3D {
->     kref =3D {
->       refcount =3D {
->         refs =3D {
->           counter =3D 2
->         }
->       }
->     },
->     resource =3D 0xff4ba766cc325000,
->     transport_class =3D 0xffffffffc037f080 <rdma_transport_class>,
->     list =3D {
->       next =3D 0xff4ba766cc325500,
->       prev =3D 0xff4ba766cc325500
->     },
->     waiters =3D {
->       next =3D 0xff4ba74fd578e138,
->       prev =3D 0xff4ba74fd578e138
->     },
->  ...
-> }
->
-> but this Path has been released:
-> crash> struct drbd_path 0xff4ba74fd578e000
-> struct drbd_path {
->   my_addr =3D {
->     ss_family =3D 1,
->     __data =3D "\000\000\000\000"
->   },
->   peer_addr =3D {
->     ss_family =3D 0,
->     __data =3D "\000\000\000\000\000\000\0"
->   },
->   kref =3D {
->     refcount =3D {
->       refs =3D {
->         counter =3D 0
->       }
->     }
->   },
->   net =3D 0x0,
->   my_addr_len =3D 0,
->   peer_addr_len =3D 0,
->   flags =3D 0,
->   // all zero
->   ...
-> }
->
-> So this path has been released, but it is still on the listener->waiters =
-list,
-> which cause problem when traverse the list later.
->
-> And the scenario of this problem should be like this:
-> thread_1:
->   remove_path()
->     dtr_remove_path()
->       drbd_put_listener()
->         list_del(&path->listener_link)
->                                           thread_2:
->                                             ...
->                                             dtr_activate_path()
->                                               drbd_get_listener()
->                                                 list_add(&path->listener_=
-link, &listener->waiters);
->                                             ...
->    ...
->    kfree(path)
->
-> thread_3:
-> connect request come in:
-> dtr_cma_event_handler()
->   dtr_cma_accept()
->     drbd_find_path_by_addr()
->     crash
->
-> To avoid this use-after-free, we hold an additional reference to drbd_pat=
-h
-> whenever it is added to the listener->waiters list, and drop it when remo=
-ved.
->
-> This ensures the path memory remains valid during list traversal.
+> So when we obtain drbd_path, we add a reference count.
 >
 > Signed-off-by: zhengbing.huang <zhengbing.huang@easystack.cn>
 > ---
->  drbd/drbd_transport.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  drbd/drbd_transport_rdma.c | 21 ++++++++++++---------
+>  1 file changed, 12 insertions(+), 9 deletions(-)
 >
-> diff --git a/drbd/drbd_transport.c b/drbd/drbd_transport.c
-> index 00e7f9269..aff96716f 100644
-> --- a/drbd/drbd_transport.c
-> +++ b/drbd/drbd_transport.c
-> @@ -224,6 +224,7 @@ int drbd_get_listener(struct drbd_path *path)
+> diff --git a/drbd/drbd_transport_rdma.c b/drbd/drbd_transport_rdma.c
+> index 442dd8e89..68c668f7f 100644
+> --- a/drbd/drbd_transport_rdma.c
+> +++ b/drbd/drbd_transport_rdma.c
+> @@ -969,6 +969,8 @@ static int dtr_cma_accept(struct dtr_listener *listen=
+er, struct rdma_cm_id *new_
 >
->         spin_lock_bh(&listener->waiters_lock);
->         list_add(&path->listener_link, &listener->waiters);
-> +       kref_get(&path->kref);
->         path->listener =3D listener;
->         spin_unlock_bh(&listener->waiters_lock);
->         /* After exposing the listener on a path, drbd_put_listenr() can =
-destroy it. */
-> @@ -258,6 +259,7 @@ void drbd_put_listener(struct drbd_path *path)
+>         spin_lock(&listener->listener.waiters_lock);
+>         drbd_path =3D drbd_find_path_by_addr(&listener->listener, peer_ad=
+dr);
+> +       if (drbd_path)
+> +               kref_get(&drbd_path->kref);
+>         spin_unlock(&listener->listener.waiters_lock);
 >
->         spin_lock_bh(&listener->waiters_lock);
->         list_del(&path->listener_link);
-> +       kref_put(&path->kref, drbd_destroy_path);
->         spin_unlock_bh(&listener->waiters_lock);
->         kref_put(&listener->kref, drbd_listener_destroy);
+>         if (!drbd_path) {
+> @@ -997,16 +999,13 @@ static int dtr_cma_accept(struct dtr_listener *list=
+ener, struct rdma_cm_id *new_
+>
+>         path =3D container_of(drbd_path, struct dtr_path, path);
+>         cs =3D &path->cs;
+> -       if (atomic_read(&cs->passive_state) < PCS_CONNECTING) {
+> -               rdma_reject(new_cm_id, NULL, 0, IB_CM_REJ_CONSUMER_DEFINE=
+D);
+> -               return -EAGAIN;
+> -       }
+> +       if (atomic_read(&cs->passive_state) < PCS_CONNECTING)
+> +               goto reject;
+>
+>         cm =3D dtr_alloc_cm(path);
+>         if (!cm) {
+>                 pr_err("rejecting connecting since -ENOMEM for cm\n");
+> -               rdma_reject(new_cm_id, NULL, 0, IB_CM_REJ_CONSUMER_DEFINE=
+D);
+> -               return -EAGAIN;
+> +               goto reject;
+>         }
+>
+>         cm->state =3D DSM_CONNECT_REQ;
+> @@ -1024,17 +1023,21 @@ static int dtr_cma_accept(struct dtr_listener *li=
+stener, struct rdma_cm_id *new_
+>         /* Gifting the initial kref to the path->cm pointer */
+>         err =3D dtr_path_prepare(path, cm, false);
+>         if (err) {
+> -               rdma_reject(new_cm_id, NULL, 0, IB_CM_REJ_CONSUMER_DEFINE=
+D);
+>                 /* Returning the cm via ret_cm and an error causes the ca=
+ller to put one ref */
+> -
+> -               return -EAGAIN;
+> +               goto reject;
+>         }
+> +       kref_put(&drbd_path->kref, drbd_destroy_path);
+>
+>         err =3D rdma_accept(new_cm_id, &dtr_conn_param);
+>         if (err)
+>                 kref_put(&cm->kref, dtr_destroy_cm);
+>
+>         return err;
+> +
+> +reject:
+> +       rdma_reject(new_cm_id, NULL, 0, IB_CM_REJ_CONSUMER_DEFINED);
+> +       kref_put(&drbd_path->kref, drbd_destroy_path);
+> +       return -EAGAIN;
 >  }
+>
+>  static int dtr_start_try_connect(struct dtr_connect_state *cs)
 > --
 > 2.43.0
 >
