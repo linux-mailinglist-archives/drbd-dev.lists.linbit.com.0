@@ -2,68 +2,44 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [37.27.211.0])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A92DB1715B
-	for <lists+drbd-dev@lfdr.de>; Thu, 31 Jul 2025 14:37:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9EACB17B60
+	for <lists+drbd-dev@lfdr.de>; Fri,  1 Aug 2025 05:05:06 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D9CC9162300;
-	Thu, 31 Jul 2025 14:36:55 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0EF7016230E;
+	Fri,  1 Aug 2025 05:04:53 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
-	[209.85.208.44])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9AED6162302
-	for <drbd-dev@lists.linbit.com>; Thu, 31 Jul 2025 14:36:45 +0200 (CEST)
-Received: by mail-ed1-f44.google.com with SMTP id
-	4fb4d7f45d1cf-6157c81ff9eso522511a12.3
-	for <drbd-dev@lists.linbit.com>; Thu, 31 Jul 2025 05:36:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linbit-com.20230601.gappssmtp.com; s=20230601; t=1753965405;
-	x=1754570205; darn=lists.linbit.com; 
-	h=content-transfer-encoding:cc:to:subject:message-id:date:from
-	:in-reply-to:references:mime-version:from:to:cc:subject:date
-	:message-id:reply-to;
-	bh=ILUTINAp9c29yWUShqN0/yevTCaysbPY0aBZkEaVBfY=;
-	b=C4cLDD0zzJWedpoKhzVGS9alGH6uQzpxrV9ssKCcVg0PEdUuzJcMtaD59+AskYPweW
-	J5wShK/gv6i42VkMtCo+PHsNrkbxcsstcn48b5E8AnQ9+wKapW5nBgGEFxmSU73WiZhJ
-	PKQY2Z6ZvLgq/oJ8qR/8jV+1VdO8D8kKrNGALNuVXvwYifuxqquD6n9PGZvVIb+73ICw
-	29tL3f2UiC+gihE4JeRybs3bP6gIyMOOdqeBBeRxr6igQ3MczGs/z06cYipr3OX+cYfL
-	DaBjVfo+4Y9ZGe/U/8hX6OJateMX+w1yOYmWYVk0n9fDxNiFJ6CL9ougeAlbptE37aj6
-	IrNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20230601; t=1753965405; x=1754570205;
-	h=content-transfer-encoding:cc:to:subject:message-id:date:from
-	:in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-	:subject:date:message-id:reply-to;
-	bh=ILUTINAp9c29yWUShqN0/yevTCaysbPY0aBZkEaVBfY=;
-	b=mgXVZmvXuyxYfuhQl2V52Y34tcxyRPuVj+gyLjbiv3xZPaoXyBBuL4iDmAfZSFys0c
-	NWKrh5fYOgU1nFkwi3o/VvwYaCBft+cuDF1uO4a6F3OchgV4v+5GX0ZQQejEIWkDClti
-	qbRb2wCMfzSZ+CP/7K6G6SvUiwzAVBCUjD6eaB1FiRXX3HLTGMABYEAab8ROWhkMlH3n
-	NzfQ09RBcXOds1KecV+gfwyYZZMJLrZUEdZppjVn+NOE60eytf5HVkXhPcdRFM80Tzs4
-	Xf5+KvmjfZ2/S4pwc/FmOTsZbtB74Nb0Fd1lZrrPswS7Pe/eKmx2XfdHonN30zZ8Esyj
-	mlxA==
-X-Gm-Message-State: AOJu0YwuSqZmoC7R/qYN+p+m2K7X/jisgjsRn67K1+lO4TIXnmxT018T
-	q4BtJKbeK7gAYhz848k0a3YgS8CFRtRBf/4UBNNHe0C4RTsAZBAg8pHcXUOP4OUzrl4vMYyr0xI
-	bJG2v1tnW33rygsGK3APpbCr0XORx/yqphOLQGOyUacGRiV93tu1jJ9s=
-X-Gm-Gg: ASbGncsLHNoqHTmFYuQxy33t0ULtcS5EZY9JFwkBvxsoAkd0oktALwBEzJm7VO/Muxw
-	vJbnchZWnCWIRXwy2lVqaUePCe7/rowgEEgd1rrc/PMW8HLMYaeO601VOvTY/FfJscLHEzoRH2B
-	mdTz0dcfbf82qGwZky/P5dhp/mIHLaL4QhKBgpm5yLZNKvMyMniAODjDidA3ioyvMSBZEaGo8Is
-	xhFssU=
-X-Google-Smtp-Source: AGHT+IGjVeJiY6I+h/c7tbhaafzRBjRr+v9T+NrKvpvlUdDA8WeTB+cINjRtUarHWLH+7hTgzvjLeWiZ5OkOwW/Nsag=
-X-Received: by 2002:a05:6402:2106:b0:615:9b4e:7b93 with SMTP id
-	4fb4d7f45d1cf-6159b4e8017mr4963748a12.30.1753965404858; Thu, 31 Jul 2025
-	05:36:44 -0700 (PDT)
-MIME-Version: 1.0
+X-Greylist: delayed 303 seconds by postgrey-1.31 at mail19;
+	Fri, 01 Aug 2025 05:04:46 CEST
+Received: from mail-m49203.qiye.163.com (mail-m49203.qiye.163.com
+	[45.254.49.203])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5386216094C
+	for <drbd-dev@lists.linbit.com>; Fri,  1 Aug 2025 05:04:45 +0200 (CEST)
+Content-Type: multipart/alternative;
+	BOUNDARY="=_Part_19432_1905228636.1754017177076"
+Message-ID: <AMEAAAB5L2-R5OPZSZfKwKrp.3.1754017177076.Hmail.zhengbing.huang@easystack.cn>
+To: Philipp Reisner <philipp.reisner@linbit.com>
+Subject: =?UTF-8?B?UmU6UmU6IFtQQVRDSCAxLzNdIHJkbWE6IEZpeCBrZXJuZWwgY3Jhc2ggaW4gZHRyX2NyZWF0ZV9yeF9kZXNjKCk=?=
+X-Priority: 3
+X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com web
+X-Originating-IP: 218.94.118.90
+In-Reply-To: <CADGDV=XQCgj644Hw3tnMEtnGh3WFH6YRZwekxJ9ySqMdbKwqKA@mail.gmail.com>
 References: <20250709025553.694792-1-zhengbing.huang@easystack.cn>
-	<20250709025553.694792-3-zhengbing.huang@easystack.cn>
-In-Reply-To: <20250709025553.694792-3-zhengbing.huang@easystack.cn>
-From: Philipp Reisner <philipp.reisner@linbit.com>
-Date: Thu, 31 Jul 2025 14:36:33 +0200
-X-Gm-Features: Ac12FXwW8TYwcgJwCA25CnLJkvvhyNu7H8_pMRzonLijVmM7ZdhSP26yRVFPu1Q
-Message-ID: <CADGDV=WFc4H5eG0rVcp+Ms6XiosSbomVg6CWBvetWi0T=Bt_LA@mail.gmail.com>
-Subject: Re: [PATCH 3/3] rdma: Get drbd_path->kref when get drbd_path by addr
-To: "zhengbing.huang" <zhengbing.huang@easystack.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	<CADGDV=XQCgj644Hw3tnMEtnGh3WFH6YRZwekxJ9ySqMdbKwqKA@mail.gmail.com>
+MIME-Version: 1.0
+Received: from zhengbing.huang@easystack.cn( [218.94.118.90] ) by ajax-webmail
+	( [127.0.0.1] ) ; Fri, 1 Aug 2025 10:59:37 +0800 (GMT+08:00)
+From: ZhengbingHuang <zhengbing.huang@easystack.cn>
+Date: Fri, 1 Aug 2025 10:59:37 +0800 (GMT+08:00)
+X-HM-Tid: 0a9863714eef0248kunm0564a0ac299d
+X-HM-MType: 1
+X-HM-NTES-SC: AL0_4z5B86Wr4Tz9jdMF+bhXMUDuak2uC50hBhe+8v5JI7fwl/iZdpGw3vL3Wo
+	2zP1SKzqcDIzlbkztDQGWAGzOOWftTDkGI1j8kxV5NoTkdpNZ+eLIVLtl9AcFixhiJHAEHdh0qw7
+	qAh/5IN//sENjt/0AczkFy6p5/IZy/FfIsOT0=
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFJQjdXWS1ZQUlXWQ8JGhUIEh9ZQVkaHUxKVhofT0kZSUpCTBgYTlYVFAkWGhdVGRETFh
+	oSFyQUDg9ZV1kYEgtZQVlJSkNVQk9VSkpDVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0lPT09IVUpLS1
+	VKQktLWQY+
 Cc: drbd-dev@lists.linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
@@ -81,91 +57,73 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Thanks! Applied.
+--=_Part_19432_1905228636.1754017177076
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-Best regards,
- Philipp
+SGkgUGhpbGlwcCwKVGhhbmtzIGZvciByZXBseS4KCgpGcm9tOiBQaGlsaXBwIFJlaXNuZXIgPHBo
+aWxpcHAucmVpc25lckBsaW5iaXQuY29tPgpEYXRlOiAyMDI1LTA3LTMxIDIwOjM1OjE3ClRvOiAg
+InpoZW5nYmluZy5odWFuZyIgPHpoZW5nYmluZy5odWFuZ0BlYXN5c3RhY2suY24+CkNjOiAgZHJi
+ZC1kZXZAbGlzdHMubGluYml0LmNvbQpTdWJqZWN0OiBSZTogW1BBVENIIDEvM10gcmRtYTogRml4
+IGtlcm5lbCBjcmFzaCBpbiBkdHJfY3JlYXRlX3J4X2Rlc2MoKT5IaSBaaGVuZ2JpbmcsCj4KPlRo
+YW5rcyBmb3IgdGhlIGFuYWx5c2lzIGFuZCB0aGUgcGF0Y2guIEkgdG9vayB0aGUgZnJlZWRvbSBh
+bmQgc2xpZ2h0bHkKPm1vZGlmaWVkIGl0IGJlZm9yZSBhcHBseWluZyBpdC4gSW5zdGVhZCBvZiBj
+aGFuZ2luZyB0aGUgYmVoYXZpb3VyIG9mCj50aGUgZHRyX3BhdGhfZ2V0X2NtKCkgZnVuY3Rpb24g
+SSBpbnRyb2R1Y2UgYSBuZXcgb25lOgo+ZHRyX3BhdGhfZ2V0X2NtX2Nvbm5lY3RlZCgpLgo+Cj5Q
+bGVhc2Ugc2VlCj5odHRwczovL2dpdGh1Yi5jb20vTElOQklUL2RyYmQvY29tbWl0L2FlMWIwYmRm
+YTJlNGVhNTlkMTUxOTliNTVhNmYwYzU3MTg0NGY1NzYKPgo+QWxzbyAuLi4KPgo+Wy4uLl0KPj4g
+LSAgICAgICBmb3IgKGkgPSBEQVRBX1NUUkVBTTsgaSA8PSBDT05UUk9MX1NUUkVBTSA7IGkrKykK
+Pj4gLSAgICAgICAgICAgICAgIGR0cl9jcmVhdGVfcnhfZGVzYygmcGF0aC0+Zmxvd1tpXSwgR0ZQ
+X05PSU8pOwo+PiAtCj4KU29ycnkgZm9yIHRoZSBsYWNrIG9mIGV4cGxhbmF0aW9uIGZvciB0aGlz
+IHBhcnQgb2YgdGhlIGNvZGUuIAoKClRoZXNlIHR3byBsaW5lcyBvZiBjb2RlIGFyZSBpbiB0aGUg
+cGF0aCBwcmVwYXJlIHBoYXNlLCAKc28gdGhlIGNtIHN0YXRlIGF0IHRoaXMgdGltZSBpcyBkZWZp
+bml0ZWx5IG5vdCBjb25uZWN0ZWQuIApBZnRlciB0aGUgZHRyX2NyZWF0ZV9yeF9kZXNjKCkgZnVu
+Y3Rpb24gY2FsbHMgdGhlIGR0cl9wYXRoX2dldF9jbV9jb25uZWN0ZWQoKSBmdW5jdGlvbiwgCml0
+IGlzIGRlZmluaXRlbHkgaW1wb3NzaWJsZSB0byBjcmVhdGUgcnhfZGVzYywgd2hpY2ggaXMgdGhl
+IHJlYXNvbiBmb3IgZGVsZXRlIHRoZW0uCgpBbmQgaW4gdGhlIHRlc3QgYWZ0ZXIgZGVsZXRlIHRo
+aXMgY29kZSwgdGhlIHJkbWEgY29ubmVjdGlvbiB3YXMgbm9ybWFsLgo+SSBkcm9wcGVkIHRoaXMg
+cGFydC4gSXQgY2FtZSB3aXRob3V0IGV4cGxhbmF0aW9uIGluIHRoZSBjb21taXQKPm1lc3NhZ2Uu
+IEkgYmVsaWV2ZSB0aGF0IHNvbWUgUkRNQSB0cmFuc3BvcnRzIHJlcXVpcmUgYXQgbGVhc3Qgb25l
+Cj5yeC1kZXNjcmlwdG9yIHRvIGVuYWJsZSB0aGVtIHRvIGVzdGFibGlzaCBhIGNvbm5lY3Rpb24u
+Cj4KPgo+QmVzdCByZWdhcmRzLAo+IFBoaWxpcHAKPgpCZXN0IHJlZ2FyZHMsCiAgemhlbmdiaW5n
+CgoKCgoKDQoNCg==
+--=_Part_19432_1905228636.1754017177076
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-On Wed, Jul 9, 2025 at 7:22=E2=80=AFAM zhengbing.huang
-<zhengbing.huang@easystack.cn> wrote:
->
-> In the dtr_cma_accept() function, after obtain the drbd_path
-> through peer_addr, without take a reference,
-> the drbd_path may be released concurrently, leade to a use-after-free.
->
-> So when we obtain drbd_path, we add a reference count.
->
-> Signed-off-by: zhengbing.huang <zhengbing.huang@easystack.cn>
-> ---
->  drbd/drbd_transport_rdma.c | 21 ++++++++++++---------
->  1 file changed, 12 insertions(+), 9 deletions(-)
->
-> diff --git a/drbd/drbd_transport_rdma.c b/drbd/drbd_transport_rdma.c
-> index 442dd8e89..68c668f7f 100644
-> --- a/drbd/drbd_transport_rdma.c
-> +++ b/drbd/drbd_transport_rdma.c
-> @@ -969,6 +969,8 @@ static int dtr_cma_accept(struct dtr_listener *listen=
-er, struct rdma_cm_id *new_
->
->         spin_lock(&listener->listener.waiters_lock);
->         drbd_path =3D drbd_find_path_by_addr(&listener->listener, peer_ad=
-dr);
-> +       if (drbd_path)
-> +               kref_get(&drbd_path->kref);
->         spin_unlock(&listener->listener.waiters_lock);
->
->         if (!drbd_path) {
-> @@ -997,16 +999,13 @@ static int dtr_cma_accept(struct dtr_listener *list=
-ener, struct rdma_cm_id *new_
->
->         path =3D container_of(drbd_path, struct dtr_path, path);
->         cs =3D &path->cs;
-> -       if (atomic_read(&cs->passive_state) < PCS_CONNECTING) {
-> -               rdma_reject(new_cm_id, NULL, 0, IB_CM_REJ_CONSUMER_DEFINE=
-D);
-> -               return -EAGAIN;
-> -       }
-> +       if (atomic_read(&cs->passive_state) < PCS_CONNECTING)
-> +               goto reject;
->
->         cm =3D dtr_alloc_cm(path);
->         if (!cm) {
->                 pr_err("rejecting connecting since -ENOMEM for cm\n");
-> -               rdma_reject(new_cm_id, NULL, 0, IB_CM_REJ_CONSUMER_DEFINE=
-D);
-> -               return -EAGAIN;
-> +               goto reject;
->         }
->
->         cm->state =3D DSM_CONNECT_REQ;
-> @@ -1024,17 +1023,21 @@ static int dtr_cma_accept(struct dtr_listener *li=
-stener, struct rdma_cm_id *new_
->         /* Gifting the initial kref to the path->cm pointer */
->         err =3D dtr_path_prepare(path, cm, false);
->         if (err) {
-> -               rdma_reject(new_cm_id, NULL, 0, IB_CM_REJ_CONSUMER_DEFINE=
-D);
->                 /* Returning the cm via ret_cm and an error causes the ca=
-ller to put one ref */
-> -
-> -               return -EAGAIN;
-> +               goto reject;
->         }
-> +       kref_put(&drbd_path->kref, drbd_destroy_path);
->
->         err =3D rdma_accept(new_cm_id, &dtr_conn_param);
->         if (err)
->                 kref_put(&cm->kref, dtr_destroy_cm);
->
->         return err;
-> +
-> +reject:
-> +       rdma_reject(new_cm_id, NULL, 0, IB_CM_REJ_CONSUMER_DEFINED);
-> +       kref_put(&drbd_path->kref, drbd_destroy_path);
-> +       return -EAGAIN;
->  }
->
->  static int dtr_start_try_connect(struct dtr_connect_state *cs)
-> --
-> 2.43.0
->
+PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
+Zm9udC1mYW1pbHk6QXJpYWwiPjxkaXY+SGkmbmJzcDs8c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6
+IHByZS13cmFwIj5QaGlsaXBwLDwvc3Bhbj48L2Rpdj48ZGl2PjxzcGFuIHN0eWxlPSJ3aGl0ZS1z
+cGFjZTogcHJlLXdyYXAiPiAgVGhhbmtzIGZvciByZXBseS48L3NwYW4+PC9kaXY+PGRpdiAgc3R5
+bGU9InBvc2l0aW9uOnJlbGF0aXZlO3pvb206MSI+PC9kaXY+PHByZT48YnI+RnJvbTogUGhpbGlw
+cCBSZWlzbmVyICZsdDtwaGlsaXBwLnJlaXNuZXJAbGluYml0LmNvbSZndDsKRGF0ZTogMjAyNS0w
+Ny0zMSAyMDozNToxNwpUbzogICJ6aGVuZ2JpbmcuaHVhbmciICZsdDt6aGVuZ2JpbmcuaHVhbmdA
+ZWFzeXN0YWNrLmNuJmd0OwpDYzogIGRyYmQtZGV2QGxpc3RzLmxpbmJpdC5jb20KU3ViamVjdDog
+UmU6IFtQQVRDSCAxLzNdIHJkbWE6IEZpeCBrZXJuZWwgY3Jhc2ggaW4gZHRyX2NyZWF0ZV9yeF9k
+ZXNjKCkmZ3Q7SGkgWmhlbmdiaW5nLAomZ3Q7CiZndDtUaGFua3MgZm9yIHRoZSBhbmFseXNpcyBh
+bmQgdGhlIHBhdGNoLiBJIHRvb2sgdGhlIGZyZWVkb20gYW5kIHNsaWdodGx5CiZndDttb2RpZmll
+ZCBpdCBiZWZvcmUgYXBwbHlpbmcgaXQuIEluc3RlYWQgb2YgY2hhbmdpbmcgdGhlIGJlaGF2aW91
+ciBvZgomZ3Q7dGhlIGR0cl9wYXRoX2dldF9jbSgpIGZ1bmN0aW9uIEkgaW50cm9kdWNlIGEgbmV3
+IG9uZToKJmd0O2R0cl9wYXRoX2dldF9jbV9jb25uZWN0ZWQoKS4KJmd0OwomZ3Q7UGxlYXNlIHNl
+ZQomZ3Q7aHR0cHM6Ly9naXRodWIuY29tL0xJTkJJVC9kcmJkL2NvbW1pdC9hZTFiMGJkZmEyZTRl
+YTU5ZDE1MTk5YjU1YTZmMGM1NzE4NDRmNTc2CiZndDsKJmd0O0Fsc28gLi4uCiZndDsKJmd0O1su
+Li5dCiZndDsmZ3Q7IC0gICAgICAgZm9yIChpID0gREFUQV9TVFJFQU07IGkgJmx0Oz0gQ09OVFJP
+TF9TVFJFQU0gOyBpKyspCiZndDsmZ3Q7IC0gICAgICAgICAgICAgICBkdHJfY3JlYXRlX3J4X2Rl
+c2MoJmFtcDtwYXRoLSZndDtmbG93W2ldLCBHRlBfTk9JTyk7CiZndDsmZ3Q7IC0KPC9wcmU+PGRp
+dj48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6IG5vcm1hbCI+Jmd0Ozwvc3Bhbj48L2Rpdj48ZGl2
+PlNvcnJ5IGZvciB0aGUgbGFjayBvZiBleHBsYW5hdGlvbiBmb3IgdGhpcyBwYXJ0IG9mIHRoZSBj
+b2RlLiZuYnNwOzwvZGl2PjxkaXY+PGJyPjwvZGl2PjxkaXY+VGhlc2UgdHdvIGxpbmVzIG9mIGNv
+ZGUgYXJlIGluIHRoZSBwYXRoIHByZXBhcmUgcGhhc2UsJm5ic3A7PC9kaXY+PGRpdj5zbyB0aGUg
+Y20gc3RhdGUgYXQgdGhpcyB0aW1lIGlzIGRlZmluaXRlbHkgbm90IGNvbm5lY3RlZC4mbmJzcDs8
+L2Rpdj48ZGl2PkFmdGVyIHRoZSBkdHJfY3JlYXRlX3J4X2Rlc2MoKSBmdW5jdGlvbiBjYWxscyB0
+aGUgZHRyX3BhdGhfZ2V0X2NtX2Nvbm5lY3RlZCgpIGZ1bmN0aW9uLCZuYnNwOzwvZGl2PjxkaXY+
+aXQgaXMgZGVmaW5pdGVseSBpbXBvc3NpYmxlIHRvIGNyZWF0ZSByeF9kZXNjLCB3aGljaCBpcyB0
+aGUgcmVhc29uIGZvciBkZWxldGUgdGhlbS48YnI+PGJyPkFuZCBpbiB0aGUgdGVzdCBhZnRlciBk
+ZWxldGUgdGhpcyBjb2RlLCB0aGUgcmRtYSBjb25uZWN0aW9uIHdhcyBub3JtYWwuPC9kaXY+PHBy
+ZT4mZ3Q7SSBkcm9wcGVkIHRoaXMgcGFydC4gSXQgY2FtZSB3aXRob3V0IGV4cGxhbmF0aW9uIGlu
+IHRoZSBjb21taXQKJmd0O21lc3NhZ2UuIEkgYmVsaWV2ZSB0aGF0IHNvbWUgUkRNQSB0cmFuc3Bv
+cnRzIHJlcXVpcmUgYXQgbGVhc3Qgb25lCiZndDtyeC1kZXNjcmlwdG9yIHRvIGVuYWJsZSB0aGVt
+IHRvIGVzdGFibGlzaCBhIGNvbm5lY3Rpb24uCiZndDsKJmd0OwomZ3Q7QmVzdCByZWdhcmRzLAom
+Z3Q7IFBoaWxpcHAKJmd0Owo8L3ByZT48ZGl2PjxwcmU+QmVzdCByZWdhcmRzLDxicj4gIHpoZW5n
+YmluZzwvcHJlPjxicj48L2Rpdj48ZGl2Pjxicj48L2Rpdj48L2Rpdj48YnI+
+--=_Part_19432_1905228636.1754017177076--
