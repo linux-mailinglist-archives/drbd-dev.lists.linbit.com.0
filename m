@@ -2,45 +2,54 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [37.27.211.0])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9EACB17B60
-	for <lists+drbd-dev@lfdr.de>; Fri,  1 Aug 2025 05:05:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E68CFB19675
+	for <lists+drbd-dev@lfdr.de>; Sun,  3 Aug 2025 23:28:45 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0EF7016230E;
-	Fri,  1 Aug 2025 05:04:53 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 8BCAB1622EE;
+	Sun,  3 Aug 2025 23:28:27 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 303 seconds by postgrey-1.31 at mail19;
-	Fri, 01 Aug 2025 05:04:46 CEST
-Received: from mail-m49203.qiye.163.com (mail-m49203.qiye.163.com
-	[45.254.49.203])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5386216094C
-	for <drbd-dev@lists.linbit.com>; Fri,  1 Aug 2025 05:04:45 +0200 (CEST)
-Content-Type: multipart/alternative;
-	BOUNDARY="=_Part_19432_1905228636.1754017177076"
-Message-ID: <AMEAAAB5L2-R5OPZSZfKwKrp.3.1754017177076.Hmail.zhengbing.huang@easystack.cn>
-To: Philipp Reisner <philipp.reisner@linbit.com>
-Subject: =?UTF-8?B?UmU6UmU6IFtQQVRDSCAxLzNdIHJkbWE6IEZpeCBrZXJuZWwgY3Jhc2ggaW4gZHRyX2NyZWF0ZV9yeF9kZXNjKCk=?=
-X-Priority: 3
-X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com web
-X-Originating-IP: 218.94.118.90
-In-Reply-To: <CADGDV=XQCgj644Hw3tnMEtnGh3WFH6YRZwekxJ9ySqMdbKwqKA@mail.gmail.com>
-References: <20250709025553.694792-1-zhengbing.huang@easystack.cn>
-	<CADGDV=XQCgj644Hw3tnMEtnGh3WFH6YRZwekxJ9ySqMdbKwqKA@mail.gmail.com>
+X-Greylist: delayed 592 seconds by postgrey-1.31 at mail19;
+	Sun, 03 Aug 2025 23:28:21 CEST
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 82135160905
+	for <drbd-dev@lists.linbit.com>;
+	Sun,  3 Aug 2025 23:28:21 +0200 (CEST)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id DC17F41920;
+	Sun,  3 Aug 2025 21:18:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8994C4CEF0;
+	Sun,  3 Aug 2025 21:18:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754255907;
+	bh=2RIMdWjaHaxvVRCXL8qb9huaxtroC3za/YDvc75NII8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Zeba2kdYWdn6EU6sM5Ir2ZXUOodGCGDs/UUP+vcizTbJYiBcpYGhaXhyQd/iUJVHd
+	QMguQNFUvAZzy0SS5cJnXqjwwkTWTMyRYvxqa6/AivW/NBXsgwkmdyI+SPdPj9Cf1g
+	1ZHg49qoGDSfgq7NFilK4IC1HaBO+m+JZp0Ivv1aq5JYVNBym0HUUV4UV/3A5GVvOm
+	DKuFEZ/YuLfR5xqruMicCwYcgJL1gEmRUdAfh8XvHd2ESrsGOpfwA7f72J1a7QnCIW
+	ZhX10bbmZO2J9s0cQ00wetRq5EZ7I++vdR+Gt0zaUivOQ/wfX9cClHzPhTZG4G3SUu
+	bR0WPI8UJIMSQ==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.16 21/35] drbd: add missing kref_get in
+	handle_write_conflicts
+Date: Sun,  3 Aug 2025 17:17:21 -0400
+Message-Id: <20250803211736.3545028-21-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250803211736.3545028-1-sashal@kernel.org>
+References: <20250803211736.3545028-1-sashal@kernel.org>
 MIME-Version: 1.0
-Received: from zhengbing.huang@easystack.cn( [218.94.118.90] ) by ajax-webmail
-	( [127.0.0.1] ) ; Fri, 1 Aug 2025 10:59:37 +0800 (GMT+08:00)
-From: ZhengbingHuang <zhengbing.huang@easystack.cn>
-Date: Fri, 1 Aug 2025 10:59:37 +0800 (GMT+08:00)
-X-HM-Tid: 0a9863714eef0248kunm0564a0ac299d
-X-HM-MType: 1
-X-HM-NTES-SC: AL0_4z5B86Wr4Tz9jdMF+bhXMUDuak2uC50hBhe+8v5JI7fwl/iZdpGw3vL3Wo
-	2zP1SKzqcDIzlbkztDQGWAGzOOWftTDkGI1j8kxV5NoTkdpNZ+eLIVLtl9AcFixhiJHAEHdh0qw7
-	qAh/5IN//sENjt/0AczkFy6p5/IZy/FfIsOT0=
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFJQjdXWS1ZQUlXWQ8JGhUIEh9ZQVkaHUxKVhofT0kZSUpCTBgYTlYVFAkWGhdVGRETFh
-	oSFyQUDg9ZV1kYEgtZQVlJSkNVQk9VSkpDVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0lPT09IVUpLS1
-	VKQktLWQY+
-Cc: drbd-dev@lists.linbit.com
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.16
+Content-Transfer-Encoding: 8bit
+Cc: Jens Axboe <axboe@kernel.dk>, Sasha Levin <sashal@kernel.org>,
+	Lars Ellenberg <lars@linbit.com>, philipp.reisner@linbit.com,
+	Sarah Newman <srn@prgmr.com>, lars.ellenberg@linbit.com,
+	drbd-dev@lists.linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -57,73 +66,121 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
---=_Part_19432_1905228636.1754017177076
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+From: Sarah Newman <srn@prgmr.com>
 
-SGkgUGhpbGlwcCwKVGhhbmtzIGZvciByZXBseS4KCgpGcm9tOiBQaGlsaXBwIFJlaXNuZXIgPHBo
-aWxpcHAucmVpc25lckBsaW5iaXQuY29tPgpEYXRlOiAyMDI1LTA3LTMxIDIwOjM1OjE3ClRvOiAg
-InpoZW5nYmluZy5odWFuZyIgPHpoZW5nYmluZy5odWFuZ0BlYXN5c3RhY2suY24+CkNjOiAgZHJi
-ZC1kZXZAbGlzdHMubGluYml0LmNvbQpTdWJqZWN0OiBSZTogW1BBVENIIDEvM10gcmRtYTogRml4
-IGtlcm5lbCBjcmFzaCBpbiBkdHJfY3JlYXRlX3J4X2Rlc2MoKT5IaSBaaGVuZ2JpbmcsCj4KPlRo
-YW5rcyBmb3IgdGhlIGFuYWx5c2lzIGFuZCB0aGUgcGF0Y2guIEkgdG9vayB0aGUgZnJlZWRvbSBh
-bmQgc2xpZ2h0bHkKPm1vZGlmaWVkIGl0IGJlZm9yZSBhcHBseWluZyBpdC4gSW5zdGVhZCBvZiBj
-aGFuZ2luZyB0aGUgYmVoYXZpb3VyIG9mCj50aGUgZHRyX3BhdGhfZ2V0X2NtKCkgZnVuY3Rpb24g
-SSBpbnRyb2R1Y2UgYSBuZXcgb25lOgo+ZHRyX3BhdGhfZ2V0X2NtX2Nvbm5lY3RlZCgpLgo+Cj5Q
-bGVhc2Ugc2VlCj5odHRwczovL2dpdGh1Yi5jb20vTElOQklUL2RyYmQvY29tbWl0L2FlMWIwYmRm
-YTJlNGVhNTlkMTUxOTliNTVhNmYwYzU3MTg0NGY1NzYKPgo+QWxzbyAuLi4KPgo+Wy4uLl0KPj4g
-LSAgICAgICBmb3IgKGkgPSBEQVRBX1NUUkVBTTsgaSA8PSBDT05UUk9MX1NUUkVBTSA7IGkrKykK
-Pj4gLSAgICAgICAgICAgICAgIGR0cl9jcmVhdGVfcnhfZGVzYygmcGF0aC0+Zmxvd1tpXSwgR0ZQ
-X05PSU8pOwo+PiAtCj4KU29ycnkgZm9yIHRoZSBsYWNrIG9mIGV4cGxhbmF0aW9uIGZvciB0aGlz
-IHBhcnQgb2YgdGhlIGNvZGUuIAoKClRoZXNlIHR3byBsaW5lcyBvZiBjb2RlIGFyZSBpbiB0aGUg
-cGF0aCBwcmVwYXJlIHBoYXNlLCAKc28gdGhlIGNtIHN0YXRlIGF0IHRoaXMgdGltZSBpcyBkZWZp
-bml0ZWx5IG5vdCBjb25uZWN0ZWQuIApBZnRlciB0aGUgZHRyX2NyZWF0ZV9yeF9kZXNjKCkgZnVu
-Y3Rpb24gY2FsbHMgdGhlIGR0cl9wYXRoX2dldF9jbV9jb25uZWN0ZWQoKSBmdW5jdGlvbiwgCml0
-IGlzIGRlZmluaXRlbHkgaW1wb3NzaWJsZSB0byBjcmVhdGUgcnhfZGVzYywgd2hpY2ggaXMgdGhl
-IHJlYXNvbiBmb3IgZGVsZXRlIHRoZW0uCgpBbmQgaW4gdGhlIHRlc3QgYWZ0ZXIgZGVsZXRlIHRo
-aXMgY29kZSwgdGhlIHJkbWEgY29ubmVjdGlvbiB3YXMgbm9ybWFsLgo+SSBkcm9wcGVkIHRoaXMg
-cGFydC4gSXQgY2FtZSB3aXRob3V0IGV4cGxhbmF0aW9uIGluIHRoZSBjb21taXQKPm1lc3NhZ2Uu
-IEkgYmVsaWV2ZSB0aGF0IHNvbWUgUkRNQSB0cmFuc3BvcnRzIHJlcXVpcmUgYXQgbGVhc3Qgb25l
-Cj5yeC1kZXNjcmlwdG9yIHRvIGVuYWJsZSB0aGVtIHRvIGVzdGFibGlzaCBhIGNvbm5lY3Rpb24u
-Cj4KPgo+QmVzdCByZWdhcmRzLAo+IFBoaWxpcHAKPgpCZXN0IHJlZ2FyZHMsCiAgemhlbmdiaW5n
-CgoKCgoKDQoNCg==
---=_Part_19432_1905228636.1754017177076
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: base64
+[ Upstream commit 00c9c9628b49e368d140cfa61d7df9b8922ec2a8 ]
 
-PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
-Zm9udC1mYW1pbHk6QXJpYWwiPjxkaXY+SGkmbmJzcDs8c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6
-IHByZS13cmFwIj5QaGlsaXBwLDwvc3Bhbj48L2Rpdj48ZGl2PjxzcGFuIHN0eWxlPSJ3aGl0ZS1z
-cGFjZTogcHJlLXdyYXAiPiAgVGhhbmtzIGZvciByZXBseS48L3NwYW4+PC9kaXY+PGRpdiAgc3R5
-bGU9InBvc2l0aW9uOnJlbGF0aXZlO3pvb206MSI+PC9kaXY+PHByZT48YnI+RnJvbTogUGhpbGlw
-cCBSZWlzbmVyICZsdDtwaGlsaXBwLnJlaXNuZXJAbGluYml0LmNvbSZndDsKRGF0ZTogMjAyNS0w
-Ny0zMSAyMDozNToxNwpUbzogICJ6aGVuZ2JpbmcuaHVhbmciICZsdDt6aGVuZ2JpbmcuaHVhbmdA
-ZWFzeXN0YWNrLmNuJmd0OwpDYzogIGRyYmQtZGV2QGxpc3RzLmxpbmJpdC5jb20KU3ViamVjdDog
-UmU6IFtQQVRDSCAxLzNdIHJkbWE6IEZpeCBrZXJuZWwgY3Jhc2ggaW4gZHRyX2NyZWF0ZV9yeF9k
-ZXNjKCkmZ3Q7SGkgWmhlbmdiaW5nLAomZ3Q7CiZndDtUaGFua3MgZm9yIHRoZSBhbmFseXNpcyBh
-bmQgdGhlIHBhdGNoLiBJIHRvb2sgdGhlIGZyZWVkb20gYW5kIHNsaWdodGx5CiZndDttb2RpZmll
-ZCBpdCBiZWZvcmUgYXBwbHlpbmcgaXQuIEluc3RlYWQgb2YgY2hhbmdpbmcgdGhlIGJlaGF2aW91
-ciBvZgomZ3Q7dGhlIGR0cl9wYXRoX2dldF9jbSgpIGZ1bmN0aW9uIEkgaW50cm9kdWNlIGEgbmV3
-IG9uZToKJmd0O2R0cl9wYXRoX2dldF9jbV9jb25uZWN0ZWQoKS4KJmd0OwomZ3Q7UGxlYXNlIHNl
-ZQomZ3Q7aHR0cHM6Ly9naXRodWIuY29tL0xJTkJJVC9kcmJkL2NvbW1pdC9hZTFiMGJkZmEyZTRl
-YTU5ZDE1MTk5YjU1YTZmMGM1NzE4NDRmNTc2CiZndDsKJmd0O0Fsc28gLi4uCiZndDsKJmd0O1su
-Li5dCiZndDsmZ3Q7IC0gICAgICAgZm9yIChpID0gREFUQV9TVFJFQU07IGkgJmx0Oz0gQ09OVFJP
-TF9TVFJFQU0gOyBpKyspCiZndDsmZ3Q7IC0gICAgICAgICAgICAgICBkdHJfY3JlYXRlX3J4X2Rl
-c2MoJmFtcDtwYXRoLSZndDtmbG93W2ldLCBHRlBfTk9JTyk7CiZndDsmZ3Q7IC0KPC9wcmU+PGRp
-dj48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6IG5vcm1hbCI+Jmd0Ozwvc3Bhbj48L2Rpdj48ZGl2
-PlNvcnJ5IGZvciB0aGUgbGFjayBvZiBleHBsYW5hdGlvbiBmb3IgdGhpcyBwYXJ0IG9mIHRoZSBj
-b2RlLiZuYnNwOzwvZGl2PjxkaXY+PGJyPjwvZGl2PjxkaXY+VGhlc2UgdHdvIGxpbmVzIG9mIGNv
-ZGUgYXJlIGluIHRoZSBwYXRoIHByZXBhcmUgcGhhc2UsJm5ic3A7PC9kaXY+PGRpdj5zbyB0aGUg
-Y20gc3RhdGUgYXQgdGhpcyB0aW1lIGlzIGRlZmluaXRlbHkgbm90IGNvbm5lY3RlZC4mbmJzcDs8
-L2Rpdj48ZGl2PkFmdGVyIHRoZSBkdHJfY3JlYXRlX3J4X2Rlc2MoKSBmdW5jdGlvbiBjYWxscyB0
-aGUgZHRyX3BhdGhfZ2V0X2NtX2Nvbm5lY3RlZCgpIGZ1bmN0aW9uLCZuYnNwOzwvZGl2PjxkaXY+
-aXQgaXMgZGVmaW5pdGVseSBpbXBvc3NpYmxlIHRvIGNyZWF0ZSByeF9kZXNjLCB3aGljaCBpcyB0
-aGUgcmVhc29uIGZvciBkZWxldGUgdGhlbS48YnI+PGJyPkFuZCBpbiB0aGUgdGVzdCBhZnRlciBk
-ZWxldGUgdGhpcyBjb2RlLCB0aGUgcmRtYSBjb25uZWN0aW9uIHdhcyBub3JtYWwuPC9kaXY+PHBy
-ZT4mZ3Q7SSBkcm9wcGVkIHRoaXMgcGFydC4gSXQgY2FtZSB3aXRob3V0IGV4cGxhbmF0aW9uIGlu
-IHRoZSBjb21taXQKJmd0O21lc3NhZ2UuIEkgYmVsaWV2ZSB0aGF0IHNvbWUgUkRNQSB0cmFuc3Bv
-cnRzIHJlcXVpcmUgYXQgbGVhc3Qgb25lCiZndDtyeC1kZXNjcmlwdG9yIHRvIGVuYWJsZSB0aGVt
-IHRvIGVzdGFibGlzaCBhIGNvbm5lY3Rpb24uCiZndDsKJmd0OwomZ3Q7QmVzdCByZWdhcmRzLAom
-Z3Q7IFBoaWxpcHAKJmd0Owo8L3ByZT48ZGl2PjxwcmU+QmVzdCByZWdhcmRzLDxicj4gIHpoZW5n
-YmluZzwvcHJlPjxicj48L2Rpdj48ZGl2Pjxicj48L2Rpdj48L2Rpdj48YnI+
---=_Part_19432_1905228636.1754017177076--
+With `two-primaries` enabled, DRBD tries to detect "concurrent" writes
+and handle write conflicts, so that even if you write to the same sector
+simultaneously on both nodes, they end up with the identical data once
+the writes are completed.
+
+In handling "superseeded" writes, we forgot a kref_get,
+resulting in a premature drbd_destroy_device and use after free,
+and further to kernel crashes with symptoms.
+
+Relevance: No one should use DRBD as a random data generator, and apparently
+all users of "two-primaries" handle concurrent writes correctly on layer up.
+That is cluster file systems use some distributed lock manager,
+and live migration in virtualization environments stops writes on one node
+before starting writes on the other node.
+
+Which means that other than for "test cases",
+this code path is never taken in real life.
+
+FYI, in DRBD 9, things are handled differently nowadays.  We still detect
+"write conflicts", but no longer try to be smart about them.
+We decided to disconnect hard instead: upper layers must not submit concurrent
+writes. If they do, that's their fault.
+
+Signed-off-by: Sarah Newman <srn@prgmr.com>
+Signed-off-by: Lars Ellenberg <lars@linbit.com>
+Signed-off-by: Christoph Böhmwalder <christoph.boehmwalder@linbit.com>
+Link: https://lore.kernel.org/r/20250627095728.800688-1-christoph.boehmwalder@linbit.com
+Signed-off-by: Jens Axboe <axboe@kernel.dk>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+
+LLM Generated explanations, may be completely bogus:
+
+Based on my analysis of the commit and the surrounding code context,
+here is my assessment:
+
+**YES** - This commit should be backported to stable kernel trees.
+
+Here's my extensive explanation:
+
+1. **Critical Bug Fix**: This commit fixes a missing `kref_get` that
+   causes a use-after-free vulnerability. The code at
+   drivers/block/drbd/drbd_receiver.c:2503-2507 shows the fix adds the
+   missing reference count increment before queuing work that will later
+   decrement the reference count in `drbd_send_acks_wf()`.
+
+2. **Clear Use-After-Free Pattern**: Looking at the code pattern:
+   - Before the fix: The code queues work (`queue_work`) that will call
+     `drbd_send_acks_wf()`, which contains `kref_put(&device->kref,
+     drbd_destroy_device)` at line 6119
+   - Without the matching `kref_get`, this leads to premature
+     destruction of the device structure
+   - The commit message explicitly states this results in "premature
+     drbd_destroy_device and use after free"
+
+3. **Follows Established Pattern**: The fix follows the exact same
+   pattern used elsewhere in the DRBD code. At
+   drivers/block/drbd/drbd_worker.c:150-152, we see:
+  ```c
+  kref_get(&device->kref); /* put is in drbd_send_acks_wf() */
+  if (!queue_work(connection->ack_sender, &peer_device->send_acks_work))
+  kref_put(&device->kref, drbd_destroy_device);
+  ```
+  This shows the fix is correct and consistent with the codebase.
+
+4. **Small and Contained Fix**: The change is minimal (adding 4 lines),
+   well-understood, and doesn't introduce any architectural changes. It
+   simply ensures proper reference counting.
+
+5. **Real Security Issue**: Use-after-free bugs can lead to kernel
+   crashes and potentially be exploited for privilege escalation. Even
+   though the commit notes this code path is rarely taken in production
+   ("two-primaries" mode with concurrent writes), when it is triggered,
+   it causes kernel crashes.
+
+6. **Meets Stable Criteria**: According to Documentation/process/stable-
+   kernel-rules.rst:
+   - It fixes "a real bug that bothers people" (kernel crashes)
+   - It's "obviously correct and tested" (follows established pattern)
+   - It's under 100 lines
+   - It fixes "data corruption, a real security issue" (use-after-free)
+
+7. **No Side Effects**: The fix only adds proper reference counting and
+   doesn't change any logic or introduce new features. The only behavior
+   change is preventing the use-after-free bug.
+
+The fact that this affects a rarely-used code path ("two-primaries"
+mode) doesn't diminish its importance for backporting, as users who do
+use this feature would experience kernel crashes without this fix. The
+fix is safe, minimal, and prevents a serious bug.
+
+ drivers/block/drbd/drbd_receiver.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd_receiver.c
+index e5a2e5f7887b..975024cf03c5 100644
+--- a/drivers/block/drbd/drbd_receiver.c
++++ b/drivers/block/drbd/drbd_receiver.c
+@@ -2500,7 +2500,11 @@ static int handle_write_conflicts(struct drbd_device *device,
+ 			peer_req->w.cb = superseded ? e_send_superseded :
+ 						   e_send_retry_write;
+ 			list_add_tail(&peer_req->w.list, &device->done_ee);
+-			queue_work(connection->ack_sender, &peer_req->peer_device->send_acks_work);
++			/* put is in drbd_send_acks_wf() */
++			kref_get(&device->kref);
++			if (!queue_work(connection->ack_sender,
++					&peer_req->peer_device->send_acks_work))
++				kref_put(&device->kref, drbd_destroy_device);
+ 
+ 			err = -ENOENT;
+ 			goto out;
+-- 
+2.39.5
+
