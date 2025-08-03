@@ -2,48 +2,49 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [37.27.211.0])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C30EB1967B
-	for <lists+drbd-dev@lfdr.de>; Sun,  3 Aug 2025 23:31:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 185ACB1967E
+	for <lists+drbd-dev@lfdr.de>; Sun,  3 Aug 2025 23:33:23 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5AFAC16232D;
-	Sun,  3 Aug 2025 23:30:54 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 466B81622EF;
+	Sun,  3 Aug 2025 23:33:22 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 565 seconds by postgrey-1.31 at mail19;
-	Sun, 03 Aug 2025 23:28:52 CEST
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2A99B16230C
-	for <drbd-dev@lists.linbit.com>; Sun,  3 Aug 2025 23:28:51 +0200 (CEST)
+X-Greylist: delayed 584 seconds by postgrey-1.31 at mail19;
+	Sun, 03 Aug 2025 23:33:12 CEST
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 45E4516230C
+	for <drbd-dev@lists.linbit.com>;
+	Sun,  3 Aug 2025 23:33:11 +0200 (CEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id AF6BDA54F06;
-	Sun,  3 Aug 2025 21:22:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CCF3C4CEF0;
-	Sun,  3 Aug 2025 21:22:57 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id CA6DF5C465F;
+	Sun,  3 Aug 2025 21:23:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85FB9C4CEF0;
+	Sun,  3 Aug 2025 21:23:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1754256179;
-	bh=pI1CNLvWoz+2PN6IfkztRvrQSDDw1cC2BLqB6TiWH6k=;
+	s=k20201202; t=1754256206;
+	bh=xBeJm5GPJuds6dSqZRW/FNI98I+Qzzdn2snF8CGSPhU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=hwjfXbpBexRCQD5ytWzT4A7NF//8YCUcsGZeOdzu+jDhnduRSpmcsDvj8XvpsoASB
-	mgQ2XiOOr+Lx+wkO1RF9Ekk4nBsnFYvOBxBxt5a73a2DsoFNYhaznq2hqeliRjG3ZG
-	s5LKA2jtlsMfK5Q66VQRVTlazbHGsIuHtZRbNVFrwlvMUvZvcjF9WsTOLI5TmMKbMK
-	gDm2X+TyfaHqdoiHNrYHaE1Y2kQ0T1SDJvT0pfhGyV7aLsSnWgMTT1GWm2IZbJ5cPB
-	vBEJKaX1oZJEBOjt8OJOzoDF8kSjetsYAprplgsl9bmk/UjNqUUrj7d6m5VFmjb/KH
-	HW/WglkHMBCFQ==
+	b=SVTXVj85MLoDkjM0hG7DkMgli02La9cd2DVvm3CidlfPJ/p1Ic88NV2oS69XAf6Ps
+	V1KUmmV5v5tuBZ1+psPnzjvk00BfFqMdMjyD65vzG6kTE4luYCs9GnDR/cEKpv59Rs
+	4ZMwLgTMpjBZc9t34SKP0W6GlsdlsS6zhkt++GXLfP+nkTwl+SD7SwX7jiC2xEuCcJ
+	CnAwRtyrmGuewzH0dd3AY8cH1LG6q1ub5kvckvtz87fXOlnDuFo/sT3R72eL17xsbH
+	DvC/4L4ncUmpWl+9e6fydss33sEGzp5C55/+irNRKSfcmDb+sAt1QkvSjWEXgIEO+v
+	VZc0WWbihXkfA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 07/11] drbd: add missing kref_get in
+Subject: [PATCH AUTOSEL 5.4 7/9] drbd: add missing kref_get in
 	handle_write_conflicts
-Date: Sun,  3 Aug 2025 17:22:37 -0400
-Message-Id: <20250803212242.3549318-7-sashal@kernel.org>
+Date: Sun,  3 Aug 2025 17:23:07 -0400
+Message-Id: <20250803212309.3549683-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250803212242.3549318-1-sashal@kernel.org>
-References: <20250803212242.3549318-1-sashal@kernel.org>
+In-Reply-To: <20250803212309.3549683-1-sashal@kernel.org>
+References: <20250803212309.3549683-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.240
+X-stable-base: Linux 5.4.296
 Content-Transfer-Encoding: 8bit
 Cc: Jens Axboe <axboe@kernel.dk>, Sasha Levin <sashal@kernel.org>,
 	Lars Ellenberg <lars@linbit.com>, philipp.reisner@linbit.com,
@@ -164,10 +165,10 @@ fix is safe, minimal, and prevents a serious bug.
  1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd_receiver.c
-index 405e09575f08..b4d4e4a41b08 100644
+index d94f41a0abbe..d75050b0d1b3 100644
 --- a/drivers/block/drbd/drbd_receiver.c
 +++ b/drivers/block/drbd/drbd_receiver.c
-@@ -2532,7 +2532,11 @@ static int handle_write_conflicts(struct drbd_device *device,
+@@ -2531,7 +2531,11 @@ static int handle_write_conflicts(struct drbd_device *device,
  			peer_req->w.cb = superseded ? e_send_superseded :
  						   e_send_retry_write;
  			list_add_tail(&peer_req->w.list, &device->done_ee);
