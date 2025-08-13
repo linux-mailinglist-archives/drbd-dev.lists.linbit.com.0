@@ -2,75 +2,79 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28AC2B20B10
-	for <lists+drbd-dev@lfdr.de>; Mon, 11 Aug 2025 16:02:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61338B298DA
+	for <lists+drbd-dev@lfdr.de>; Mon, 18 Aug 2025 07:22:02 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 71B571626D0;
-	Mon, 11 Aug 2025 16:01:50 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2AB62162253;
+	Mon, 18 Aug 2025 07:21:59 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
-	[209.85.216.49])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6BEAA16064E
-	for <drbd-dev@lists.linbit.com>; Mon, 11 Aug 2025 16:01:45 +0200 (CEST)
-Received: by mail-pj1-f49.google.com with SMTP id
-	98e67ed59e1d1-321a5d6d301so912875a91.3
-	for <drbd-dev@lists.linbit.com>; Mon, 11 Aug 2025 07:01:45 -0700 (PDT)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+	[209.85.128.42])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E5E18160907
+	for <drbd-dev@lists.linbit.com>; Wed, 13 Aug 2025 09:18:51 +0200 (CEST)
+Received: by mail-wm1-f42.google.com with SMTP id
+	5b1f17b1804b1-459ddf8acf1so52552535e9.0
+	for <drbd-dev@lists.linbit.com>; Wed, 13 Aug 2025 00:18:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1754920904;
-	x=1755525704; darn=lists.linbit.com; 
-	h=content-transfer-encoding:mime-version:date:message-id:subject
-	:references:in-reply-to:cc:to:from:from:to:cc:subject:date
-	:message-id:reply-to;
-	bh=kjBs1p0/NbPjLuntxkjIdS1sRnWoFU1tGonDHNXLht0=;
-	b=UUo42N5AE/ZO6Atw3QJpuXxeH/PP/eY49aBfpzMLpPhFa6g4Pa2OshEmGQlLvV2iZD
-	s65JBwWMOWZPVIjMkDmfgZ1h7R3dXYuvecApLEx79R0i/g5RDm9JpxUI7glzzMC1i+46
-	6jFCt++otoX3Lpkx+KEimh3HJYys7Zx+tThy7VK+wZbQG8Z3xappF6/gd41KKybEtgBx
-	i4t53SNwVdOyyQW0J6xgfXgGuklfVsMW1Nutv7yqUtAeNGMvevSzUlL6bUV8L8Ixv8g/
-	e6Co4yoPQ2RZ9ENuHZvYdREB7GoumiyLFK8W+3AWnPSrRt3DhTXb8MVg+stVH1lJaGFk
-	TSMw==
+	d=gmail.com; s=20230601; t=1755069531; x=1755674331;
+	darn=lists.linbit.com; 
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+	:to:from:from:to:cc:subject:date:message-id:reply-to;
+	bh=hT7zNC81MFnipI/Ag5QHfvvjbScQaZ5LLk5g2Y05B+0=;
+	b=gpvc6HRWPUzmqcKH/EqTJxca8pIhC+hDVHW1zniJVZc56IA86Ycluh8itfrwBObFDb
+	s/fMakNc5sBPJPi0SKt8nCCRktcaqljX/dH0P7j1o9q30XUPmhKs6HysFHDTK4qwBmsz
+	xJsLoUcxbWATVMDaO3pbfJkEcHZOACaTLVGIMEWFL3bSiDTDggOq+SJ5/3NMutaE9Q7X
+	D4UBLSUyh8H2qyiTDSaBmlHkxuiNj8+N/6HQVU0Yf2e/h52HBYj6lmix0DbTfbsc45YF
+	WSoXePyLo9SEsgAMXUWbQIUo1Ug2egBYhSKGnoK04CzVwbJipCBJb93YQ+NsYdt04Gzw
+	n33A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20230601; t=1754920904; x=1755525704;
-	h=content-transfer-encoding:mime-version:date:message-id:subject
-	:references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-	:subject:date:message-id:reply-to;
-	bh=kjBs1p0/NbPjLuntxkjIdS1sRnWoFU1tGonDHNXLht0=;
-	b=n8ANs9PtLxzI8QkGeYHwLfDdIeJ7+BV4Tb/zmmIiYd9NnWlUp3EH52+3xiGXTCoZbU
-	F3MPUZGWdL8JX/ybRXa6O910jTCHHae0EMokDOmJN6O7dbZj/d7gudb4rpSe6TqByU2d
-	OmueIe9T8qndhjk8+MsRdVXTr476ykZKzc6iTbzzfuYJHpyUaHb7k0GyFh5x7cb/4pov
-	+q1MUeHA4odi649rwP+lGh1jaWeY7s+0SvwCgpFqtrRTmaNSRrAnAAgAYOf4ToKzkiNr
-	zn/tq6zaaxJcmJqurZzqIl0IkrxalczW9XqoXk+sxDbZTZyIUTaDzMzJwY1HTOXhjUEe
-	cwvg==
-X-Gm-Message-State: AOJu0YyPTo/8zInRb5peI4NrC1qCrt1wZUo8BodbP/hokh65pumbpfoI
-	aSbgr051WLTn1VRFuGgkGeshzRdSXM0XZLBKK1qYuyRjl7+NSiuGlldJco6VA+QV0B0=
-X-Gm-Gg: ASbGncszNW6on49CLE+4AGZ9MpJnGtUlL9pjInGSebDs04giFd9IhSl/mtM8Pzi9dfZ
-	SgmQheJGVwNKQFgjHsTIIHp6tn2chh3uyQ1n5/+yROrFsb/8nhEO+TElHZqM38RAh70kIh/t9fu
-	JyLIM7rPorpbp+0Cr3dqBF4WQym9AWIN+3BzRLU54wTjg/bbebCnsxY5IUL2fSmdGApJs2Wq8PR
-	FhCwaD+WUW3PhDVdyspxcS+a1EC9lUrZONSxAOGU5pSy5gbk/M1h13BCuiEsl+q9ksCsa/n4NaY
-	w78NHXwJv6SoGtiRH6GMGz2MWDEn8+oEjSP05ElD2xhDRNI2NtiS68a4WtQTDmwwPEusI6xYvb9
-	EWBUsvqJs43YmEtg=
-X-Google-Smtp-Source: AGHT+IEG+EPunzjJanJtxibmBqQfuE/BD/BPsLCfQHcWyKgSOYhhNJuA2U7Xhq6QKFdDKZa7AnFtAQ==
-X-Received: by 2002:a17:90b:2544:b0:31f:42e8:a899 with SMTP id
-	98e67ed59e1d1-32183a0132emr17806156a91.13.1754920903742; 
-	Mon, 11 Aug 2025 07:01:43 -0700 (PDT)
-Received: from [127.0.0.1] ([198.8.77.157]) by smtp.gmail.com with ESMTPSA id
-	98e67ed59e1d1-32161259a48sm14821216a91.18.2025.08.11.07.01.42
+	d=1e100.net; s=20230601; t=1755069531; x=1755674331;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+	:to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+	:reply-to;
+	bh=hT7zNC81MFnipI/Ag5QHfvvjbScQaZ5LLk5g2Y05B+0=;
+	b=nwvlszn8BtbAIzR6zKe3ydCTxq0GzxCbFvtVdHYvd4zZSU7O4SArJ3IVXg56LWwNeI
+	hL6mf8N2jd9S477z05mNWL6yKbD+9qIU194at77MUXrey25PHJANh7gn3n7FNos012q/
+	6AY4FY14gf5YlMrNPVrwOEw9TLi+FQBOtnjr/dmT5cXFi08nJD0pjFTQ2nnZ9GlM5E71
+	Yh2lKZ8mGnshdjRrOA3hzxhmjsvuoDS5LLOwUWrAOhpEwrOXePzvFczNT+MARHjOUVBW
+	J6dZ3FQVjGGWhncPpO8as2mPeViAET72qqQzWHxu03hUejWNTrUsKxkElCASDIKRpLgY
+	8iBg==
+X-Forwarded-Encrypted: i=1;
+	AJvYcCUKhmFmRcKyT3R/Mk5dy6qpbHHQDzLW5ZUTxD+wDZl66heB3FQP/rFotoYXQszhz6RDVp/n50tjyA==@lists.linbit.com
+X-Gm-Message-State: AOJu0Ywe1yRIu1wfFE4wJTLT27XcUTIcX/eY11ARqPvSXmy/G94jXYOI
+	cL8XZrZpuUbMuUGkfaESYit0lfeo8WBDTzfpiySzU9q3PV6QBBr1c0ZW
+X-Gm-Gg: ASbGncsxKxTXF+QY9r3xsQBghHik3W1eaOpMI0lWNf2uBYbsMBQKz4yb1/PWqo2JerV
+	RmWNhZP5cu72i0w+sDrN5yEIM5lrDumkfhjPtAZ/j6z+wss4taEMfW/2fKCP0pOf0t19NUON4fE
+	GgNIlTlpmUaavKv+9UHFl4xDhfjvFXqUWLfYOye6teJEdRZ+HmhIOgfmHegxe3zTNiR31d1/lKr
+	68W1dwq+5c2LsoAAxjwPXYcXUBp75dni/Yugu5WNoZHX52kt7NePHPutoTHz0157Ae/yctI72xi
+	aFJfM93ovDdVVXzoobiruyNpv6iCP6ljefBsft9X33g+BbHxydDkq2HI2c1qDgH9BsDD02p5/s2
+	rhcGcrMph1GBLXcz5bGg=
+X-Google-Smtp-Source: AGHT+IEglHcl0W/BNit8lnQzWA48TYtNNYEYIowfu0Jp/7j5jJeKFCchpl/EObW5f9/xZRNrLK5j6g==
+X-Received: by 2002:a05:600c:1d20:b0:459:db80:c2ce with SMTP id
+	5b1f17b1804b1-45a165fbf95mr14268835e9.7.1755069530601; 
+	Wed, 13 Aug 2025 00:18:50 -0700 (PDT)
+Received: from pc.. ([102.208.164.18]) by smtp.gmail.com with ESMTPSA id
+	5b1f17b1804b1-45a16df1cf8sm16944565e9.24.2025.08.13.00.18.46
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 11 Aug 2025 07:01:43 -0700 (PDT)
-From: Jens Axboe <axboe@kernel.dk>
-To: =?utf-8?q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>
-In-Reply-To: <20250605103852.23029-1-christoph.boehmwalder@linbit.com>
-References: <20250605103852.23029-1-christoph.boehmwalder@linbit.com>
-Subject: Re: [PATCH] drbd: Remove the open-coded page pool
-Message-Id: <175492090268.697940.16894165700096915187.b4-ty@kernel.dk>
-Date: Mon, 11 Aug 2025 08:01:42 -0600
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.14.3-dev-2ce6c
-Cc: linux-block@vger.kernel.org, Lars Ellenberg <lars.ellenberg@linbit.com>,
+	Wed, 13 Aug 2025 00:18:49 -0700 (PDT)
+From: Erick Karanja <karanja99erick@gmail.com>
+To: Damien Le Moal <dlemoal@kernel.org>,
 	Philipp Reisner <philipp.reisner@linbit.com>,
-	linux-kernel@vger.kernel.org, drbd-dev@lists.linbit.com
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH] Docs: admin-guide: Correct spelling mistake
+Date: Wed, 13 Aug 2025 10:18:36 +0300
+Message-ID: <20250813071837.668613-1-karanja99erick@gmail.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Mon, 18 Aug 2025 07:21:50 +0200
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, skhan@linuxfoundation.org,
+	Erick Karanja <karanja99erick@gmail.com>,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	Christoph Hellwig <hch@lst.de>, drbd-dev@lists.linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -87,27 +91,28 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
+Fix spelling mistake directoy to directory
 
-On Thu, 05 Jun 2025 12:38:52 +0200, Christoph Böhmwalder wrote:
-> If the network stack keeps a reference for too long, DRBD keeps
-> references on a higher number of pages as a consequence.
-> 
-> Fix all that by no longer relying on page reference counts dropping to
-> an expected value. Instead, DRBD gives up its reference and lets the
-> system handle everything else. While at it, remove the open-coded
-> custom page pool mechanism and use the page_pool included in the
-> kernel.
-> 
-> [...]
+Reported-by: codespell
 
-Applied, thanks!
+Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
+---
+ Documentation/admin-guide/blockdev/zoned_loop.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[1/1] drbd: Remove the open-coded page pool
-      commit: d5dd409812eca084e68208926bb629c8f708651f
-
-Best regards,
+diff --git a/Documentation/admin-guide/blockdev/zoned_loop.rst b/Documentation/admin-guide/blockdev/zoned_loop.rst
+index 9c7aa3b482f3..64dcfde7450a 100644
+--- a/Documentation/admin-guide/blockdev/zoned_loop.rst
++++ b/Documentation/admin-guide/blockdev/zoned_loop.rst
+@@ -79,7 +79,7 @@ zone_capacity_mb   Device zone capacity (must always be equal to or lower than
+                    the zone size. Default: zone size.
+ conv_zones         Total number of conventioanl zones starting from sector 0.
+                    Default: 8.
+-base_dir           Path to the base directoy where to create the directory
++base_dir           Path to the base directory where to create the directory
+                    containing the zone files of the device.
+                    Default=/var/local/zloop.
+                    The device directory containing the zone files is always
 -- 
-Jens Axboe
-
-
+2.43.0
 
