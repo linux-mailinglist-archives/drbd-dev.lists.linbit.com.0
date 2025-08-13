@@ -2,82 +2,78 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35C48B2498D
-	for <lists+drbd-dev@lfdr.de>; Wed, 13 Aug 2025 14:32:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D564B25707
+	for <lists+drbd-dev@lfdr.de>; Thu, 14 Aug 2025 00:55:35 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3352E1626A6;
-	Wed, 13 Aug 2025 14:32:24 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C11EB1626DE;
+	Thu, 14 Aug 2025 00:55:22 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
-	[209.85.216.54])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E92371608F0
-	for <drbd-dev@lists.linbit.com>; Wed, 13 Aug 2025 14:32:19 +0200 (CEST)
-Received: by mail-pj1-f54.google.com with SMTP id
-	98e67ed59e1d1-32129c4e9a4so5283818a91.1
-	for <drbd-dev@lists.linbit.com>; Wed, 13 Aug 2025 05:32:19 -0700 (PDT)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+	[209.85.128.42])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id EF6C5162267
+	for <drbd-dev@lists.linbit.com>; Thu, 14 Aug 2025 00:55:18 +0200 (CEST)
+Received: by mail-wm1-f42.google.com with SMTP id
+	5b1f17b1804b1-45a1b05ac1eso1482045e9.1
+	for <drbd-dev@lists.linbit.com>; Wed, 13 Aug 2025 15:55:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1755088339;
-	x=1755693139; darn=lists.linbit.com; 
-	h=content-transfer-encoding:mime-version:date:message-id:subject
-	:references:in-reply-to:cc:to:from:from:to:cc:subject:date
-	:message-id:reply-to;
-	bh=BNG3CwDZnVq+LlYCqJlDgz0JDJC7ub+N0Uk1MeSzHuI=;
-	b=qP6FCjsc/aNKIEIFh9qzKip8mj3bhqRePHv3sRiFpySmDZEXYegqzDW2KhI7Pa4Ek8
-	vEAVctukxpQVfShOeiIr0CktQ21A62Xj03xJsK80S/8irR5oyS4oEeaiYf4QLstXWBvL
-	MUGNG14o65oMfFhhWTMwEykHspT9QKf+XXFCxV4JBuFphLWOWx92tvb1ttrk4uiKhpoO
-	fD3f+ysAlKuwW/Hlwo9hSNelHIMnZhKMgysuFeEkPj8o4piX2VyWxKOFqsfbFZBb51tj
-	deYZbpd2bLLpBQgaFI+sTU74AW+4mqjcN+kVNzJnIiVEwXyF0qE8DCOqkg5cd6aK8WWq
-	WzRA==
+	d=gmail.com; s=20230601; t=1755125718; x=1755730518;
+	darn=lists.linbit.com; 
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+	:to:from:from:to:cc:subject:date:message-id:reply-to;
+	bh=u/7HuxK1PiW4pica1ZvP+UeUtnq1Mq8dM1bfrWpL2pA=;
+	b=WzMNJJ4PBjAk1zBBPuQA9uJdtGR5HNzqD2IJy1tBrYfWcxpEvAl3VKAfiztmzkDCbd
+	mbNyKqgOQ2hitWcd8X5rfL/LHguXMLm4Qs9og356fwq/YGdF9VGuuqU5Bmk9iHjc9nPo
+	RgSLi24gseqjB5vk3DGeiHaaR99VgO9mP7s03IgRLVM/nOBEXWRmnbkucCdG/wGcbgVP
+	nnzPkQLTwqWMO7vwtRUwYTDGStIwE5AodPacOjn+eb2BmNMVLjJ5wiIMbruRcCSH0TIj
+	44a1JabGYugoit/jvnkTtV9zYcZ6r7Kum9JQq7rvAfXw1uEUa5J7zX/M7pMNicGV09nx
+	JAdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20230601; t=1755088339; x=1755693139;
-	h=content-transfer-encoding:mime-version:date:message-id:subject
-	:references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-	:subject:date:message-id:reply-to;
-	bh=BNG3CwDZnVq+LlYCqJlDgz0JDJC7ub+N0Uk1MeSzHuI=;
-	b=G2XJvCKSf6+tfFRxlMQYwy0TCk9Q32Am4Ga+h/FqrkgHhO5KUli0rLVrDUEUSUC6Mg
-	KgqSAqOw0pNXnONUfEXwHXQjowYNAoo9r1m+MVZoul5y4vAMo9fSnOT08Y+UR/6zH2Un
-	r5EzUM6kdWG1R+vYAN2WoduxQy8bChs5Hict666yqu+fRqMECK6yExl8Q0Al8QBw858u
-	uwMT/7JtwZC495HTpJDk+nktGjcVUBmKyUBNpWlfkZpnPQr5Myv5+aqCLjrC5QFcKsR1
-	4QJlgo6lO9j1yVpI8NiIEhtrRW8LVC2RvxDKWKA/dp8X8bLJLfi9HwFd48edGwOktcPD
-	pMIw==
+	d=1e100.net; s=20230601; t=1755125718; x=1755730518;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+	:to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+	:reply-to;
+	bh=u/7HuxK1PiW4pica1ZvP+UeUtnq1Mq8dM1bfrWpL2pA=;
+	b=ekecPkwffK86LEIArknIh2Hht5OFFXwz+n1z6DdKtYIEHNPtXljuzUlM8hD5uWHhEi
+	8oYeyyPIxX5Sjr+YqJhRKCsD5iXu3TN/C2VUirz0Pc5IyeM3GQTGVeQ6tBoxW06SyGAx
+	BeBrvtkHARogu8GiP0hLmE0Vwb8DlBkb8+u8kAxmWOxeD1CFNQTYb2sfDy5qAzmBnPUe
+	TzfVVOgwVhlM1nuzXeZniczzbK3e5kq6UKSdT25Dig6o/lZpdgUdspQhMIeuKnshu/IO
+	irzWCt3t2OK/eeXRxZedWyxqQy1Rlz8z4F9t+IKay0qXZnydWXn5kJJxzazjS/VhbNVa
+	lQdg==
 X-Forwarded-Encrypted: i=1;
-	AJvYcCX/gD0Yp0YwzBF0k3ymiyT27p2jlZh0bYFqUmkPwmvKU1XkaBzR0CGfyN3lNFqlM0Zc+xRhk1guvQ==@lists.linbit.com
-X-Gm-Message-State: AOJu0YysNPTB69y8czlduOt6ZFugxxjkCUQMhzvqhKVzKuZy6NrBzHD+
-	OteIMPTH4ilu/r5nHkiFNUaJE5t0zhshICsDclIdC9mrnwvAjiYPVNK6wu6VcCCnf47sYGVfqE+
-	TXy7b
-X-Gm-Gg: ASbGncsutWg16dMXFTi4YYs92SagafrVvVU3G1gqYz82e8ntslMZ3fljO90rxfNx4mt
-	4ouELIHL5eJE5XmiBTmRdQ7cnCFWTjCmLGUlMpTXHnjOUAOnB1Oe/SFaDGeLvMf+jSD9/nkqJPQ
-	A2CExrmdDpsehWIqfrLskysu4ng/1A4Grj8qGxOGUH2KBEjkvxiB3nw8ONOgB+8brO+6oBJwUCr
-	zWBEqubdkfuDAptWbl0DtfnCokAPTUN0sZKsK03DjUyhQodA8nc78mkjcAqHL0WeviLZ8tWjVZ3
-	pH4DHLk3yK1Iqlpg1OXL/EimNx94XsDIOZaKF3/dVXo9JNMZ1zdhpltgembRp6d0ab6zxi70qdE
-	ZDhTiFZt98koH7FA=
-X-Google-Smtp-Source: AGHT+IH45G27XmEuq78X8gxw6G2P5IIWEUKaJJDkJWCvlT9IOAHkUHlLvMF5cfFKCUbmxNPSZShPMA==
-X-Received: by 2002:a17:90b:5211:b0:31e:fe18:c6df with SMTP id
-	98e67ed59e1d1-321d0e5cdc3mr4379625a91.16.1755088338731; 
-	Wed, 13 Aug 2025 05:32:18 -0700 (PDT)
-Received: from [127.0.0.1] ([198.8.77.157]) by smtp.gmail.com with ESMTPSA id
-	98e67ed59e1d1-3232553e4a2sm82418a91.4.2025.08.13.05.32.17
+	AJvYcCXpax3OKZH40QhEmx0OtuJO/eeHmA+62SLYwqMNP5qvP5OavCiHH+RMK3Jqx4AN/QpPub3TLxfjmw==@lists.linbit.com
+X-Gm-Message-State: AOJu0YyZSoRY9NVo0Uults38SDkTP0m7tRJQo7kuZ+yrGXKLVCwlrhs3
+	XcF6zwhBp6B0EoVlnXTELWg8AxDfqYbXwLyHQuGyZOonw74mkym2Zyhm
+X-Gm-Gg: ASbGncs6b8NWsJXac4Hbj0Bfo2pmYTzs9dT5qUNGVPMxyfk5uUHfxGXCOXj8fkCdDmj
+	WSXf3VjgHvp9TpqXdKM4YB99/G4zjW2raWWpmjdIc0VWSuwb62yNZvL3+egMrPNtUNPnnHqekpN
+	LZpnrhV2ekXbKkwP/DnyGp5Qq+/esBwt2kNWlt3+gqvMM69VdJ6HepAaKrH+P+gtIEUGRcRQ+ag
+	E0V2X99Yjn6HxKU6vvGTV0zuxfIZ4PFODfVnU+hgBZveFIQWFW0NwCHRCuveUlRf5S8d1Z1nX2B
+	qc5K8e3x1B0yUwpGvrmk+onb/j+woZvRfprc/vYDhytFknQXB9q1Yf8WPW6H5arq05Ig8ou/fFV
+	Raop5PNV+GkQv/24RxXWwRUmU12qFEAdZlMm2qAYci1rMAZ2K8/kodTLNaQDPxszyDgyGJ9apwQ
+	==
+X-Google-Smtp-Source: AGHT+IFeCjojdSo/SpRtqi2SaYzzhmaB5U1RpVmYXo6pe2aArUfXV1t+Q54VbnzmGyma/aP/wkq4Tg==
+X-Received: by 2002:a05:600c:1911:b0:459:d9a2:e920 with SMTP id
+	5b1f17b1804b1-45a1b5ffe70mr4084125e9.4.1755125718357; 
+	Wed, 13 Aug 2025 15:55:18 -0700 (PDT)
+Received: from ekhafagy-ROG-Zephyrus-M16-GU603HR-GU603HR.. ([156.204.193.65])
+	by smtp.gmail.com with ESMTPSA id
+	5b1f17b1804b1-45a1a590192sm16446865e9.24.2025.08.13.15.55.16
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 13 Aug 2025 05:32:18 -0700 (PDT)
-From: Jens Axboe <axboe@kernel.dk>
-To: Damien Le Moal <dlemoal@kernel.org>, 
-	Philipp Reisner <philipp.reisner@linbit.com>, 
-	Lars Ellenberg <lars.ellenberg@linbit.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Erick Karanja <karanja99erick@gmail.com>
-In-Reply-To: <20250813071837.668613-1-karanja99erick@gmail.com>
-References: <20250813071837.668613-1-karanja99erick@gmail.com>
-Subject: Re: [PATCH] Docs: admin-guide: Correct spelling mistake
-Message-Id: <175508833758.953995.10420055026430792302.b4-ty@kernel.dk>
-Date: Wed, 13 Aug 2025 06:32:17 -0600
+	Wed, 13 Aug 2025 15:55:18 -0700 (PDT)
+From: Eslam Khafagy <eslam.medhat1993@gmail.com>
+To: Philipp Reisner <philipp.reisner@linbit.com>,
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
+	=?UTF-8?q?Christoph=20B=C3=B6hmwalder?=
+	<christoph.boehmwalder@linbit.com>, Jens Axboe <axboe@kernel.dk>,
+	drbd-dev@lists.linbit.com, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3] DRBD: replace strcpy with strscpy
+Date: Thu, 14 Aug 2025 01:54:53 +0300
+Message-ID: <20250813225510.138105-1-eslam.medhat1993@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3-dev-2ce6c
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Christoph Hellwig <hch@lst.de>, drbd-dev@lists.linbit.com
+Content-Transfer-Encoding: 8bit
+Cc: skhan@linuxfoundation.com, eslam.medhat1993@gmail.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -94,22 +90,83 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
+strcpy is deprecated due to lack of bounds checking. This patch replaces
+strcpy with strscpy, the recommended alternative for null terminated
+strings, to follow best practices.
 
-On Wed, 13 Aug 2025 10:18:36 +0300, Erick Karanja wrote:
-> Fix spelling mistake directoy to directory
-> 
-> Reported-by: codespell
-> 
-> 
+I had to do a small refactor for __drbd_send_protocol since it uses
+strlen anyways. so why not use that for strscpy.
 
-Applied, thanks!
+Signed-off-by: Eslam Khafagy <eslam.medhat1993@gmail.com>
+---
+ drivers/block/drbd/drbd_main.c     | 17 +++++++++--------
+ drivers/block/drbd/drbd_receiver.c |  4 ++--
+ 2 files changed, 11 insertions(+), 10 deletions(-)
 
-[1/1] Docs: admin-guide: Correct spelling mistake
-      commit: f7a2e1c08727384cde1c686dd57172f99b5f2e6e
-
-Best regards,
+diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
+index 52724b79be30..4e5bd74be90a 100644
+--- a/drivers/block/drbd/drbd_main.c
++++ b/drivers/block/drbd/drbd_main.c
+@@ -742,9 +742,9 @@ int drbd_send_sync_param(struct drbd_peer_device *peer_device)
+ 	}
+ 
+ 	if (apv >= 88)
+-		strcpy(p->verify_alg, nc->verify_alg);
++		strscpy(p->verify_alg, nc->verify_alg);
+ 	if (apv >= 89)
+-		strcpy(p->csums_alg, nc->csums_alg);
++		strscpy(p->csums_alg, nc->csums_alg);
+ 	rcu_read_unlock();
+ 
+ 	return drbd_send_command(peer_device, sock, cmd, size, NULL, 0);
+@@ -771,10 +771,6 @@ int __drbd_send_protocol(struct drbd_connection *connection, enum drbd_packet cm
+ 		return -EOPNOTSUPP;
+ 	}
+ 
+-	size = sizeof(*p);
+-	if (connection->agreed_pro_version >= 87)
+-		size += strlen(nc->integrity_alg) + 1;
+-
+ 	p->protocol      = cpu_to_be32(nc->wire_protocol);
+ 	p->after_sb_0p   = cpu_to_be32(nc->after_sb_0p);
+ 	p->after_sb_1p   = cpu_to_be32(nc->after_sb_1p);
+@@ -787,8 +783,13 @@ int __drbd_send_protocol(struct drbd_connection *connection, enum drbd_packet cm
+ 		cf |= CF_DRY_RUN;
+ 	p->conn_flags    = cpu_to_be32(cf);
+ 
+-	if (connection->agreed_pro_version >= 87)
+-		strcpy(p->integrity_alg, nc->integrity_alg);
++	size = sizeof(*p);
++	if (connection->agreed_pro_version >= 87) {
++		int integrity_len = strlen(nc->integrity_alg);
++		size += integrity_len + 1;
++		strscpy(p->integrity_alg, nc->integrity_alg, integrity_len);
++	}
++
+ 	rcu_read_unlock();
+ 
+ 	return __conn_send_command(connection, sock, cmd, size, NULL, 0);
+diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd_receiver.c
+index 975024cf03c5..d4ea742664c2 100644
+--- a/drivers/block/drbd/drbd_receiver.c
++++ b/drivers/block/drbd/drbd_receiver.c
+@@ -3989,14 +3989,14 @@ static int receive_SyncParam(struct drbd_connection *connection, struct packet_i
+ 			*new_net_conf = *old_net_conf;
+ 
+ 			if (verify_tfm) {
+-				strcpy(new_net_conf->verify_alg, p->verify_alg);
++				strscpy(new_net_conf->verify_alg, p->verify_alg);
+ 				new_net_conf->verify_alg_len = strlen(p->verify_alg) + 1;
+ 				crypto_free_shash(peer_device->connection->verify_tfm);
+ 				peer_device->connection->verify_tfm = verify_tfm;
+ 				drbd_info(device, "using verify-alg: \"%s\"\n", p->verify_alg);
+ 			}
+ 			if (csums_tfm) {
+-				strcpy(new_net_conf->csums_alg, p->csums_alg);
++				strscpy(new_net_conf->csums_alg, p->csums_alg);
+ 				new_net_conf->csums_alg_len = strlen(p->csums_alg) + 1;
+ 				crypto_free_shash(peer_device->connection->csums_tfm);
+ 				peer_device->connection->csums_tfm = csums_tfm;
 -- 
-Jens Axboe
-
-
+2.43.0
 
