@@ -2,66 +2,61 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8680B2B978
-	for <lists+drbd-dev@lfdr.de>; Tue, 19 Aug 2025 08:34:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79B54B4AC0D
+	for <lists+drbd-dev@lfdr.de>; Tue,  9 Sep 2025 13:31:59 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C3BD516271E;
-	Tue, 19 Aug 2025 08:34:23 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 752D9162730;
+	Tue,  9 Sep 2025 13:31:47 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
-	[209.85.208.45])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D96B7162251
-	for <drbd-dev@lists.linbit.com>; Tue, 19 Aug 2025 08:34:18 +0200 (CEST)
-Received: by mail-ed1-f45.google.com with SMTP id
-	4fb4d7f45d1cf-6188b5b1f1cso5853502a12.0
-	for <drbd-dev@lists.linbit.com>; Mon, 18 Aug 2025 23:34:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linbit-com.20230601.gappssmtp.com; s=20230601; t=1755585258;
-	x=1756190058; darn=lists.linbit.com; 
-	h=cc:to:subject:message-id:date:from:in-reply-to:references
-	:mime-version:from:to:cc:subject:date:message-id:reply-to;
-	bh=w+qbXUaqnlCREb1jkeiprO3YVxUWMCIvqOyGpxCu9lc=;
-	b=P+BSZE7NqEEufUF7/EmABPd/aYqX28X8qYONcO9GMszwML1xpEQ5MC2I+ZGj+RlA/k
-	UiXp/W04hXbsrpZQqy/e+bJeOwZcfmDRWIPfDGpVIc6uCgyzuzcB1WVJq7uzeBEpyJ80
-	bu32zRJ9S5E+mMtswcFaGmYYgcvpH392ycJL8P5Fl89uTCVzAHX94K2dEgtskIT0qAJm
-	CeuPc2yPzkn7jTDxV0MGv5cccChGdOu1n+bkxgb3GVhRFsYZGo+jXs5iMgej+KH2I8fF
-	idbsMwhdzMx3crOMeGRkDS9UyaFMHVzm7jJHRpyOgfq3N9JYj0Qbkgxdv3qHs9e+OhMD
-	0G3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20230601; t=1755585258; x=1756190058;
-	h=cc:to:subject:message-id:date:from:in-reply-to:references
-	:mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-	:reply-to;
-	bh=w+qbXUaqnlCREb1jkeiprO3YVxUWMCIvqOyGpxCu9lc=;
-	b=sChkfWfVh0AbTXi82tcoC1J2op6tSjPniX7JYCBptkkMPBXjFRCs4h+1sfQomVclqm
-	MkeDw3FRGVotAxChALjd6dSj79KBtOC4s4HKFUOqBpNeYwbqigAhGB9CmuHOioG0Z0z0
-	V9J3rJhrUeUpkSymgAGc/+/+hlwdeXP1ynCK0Q1469SKKhYwBVuR0u/MnqDcTm1pf7Ya
-	6GhPQJYASZCLrMkUzNg3zzRou0yfnpvjnbrokzUDeVtH1y5Itz98dUd93Y00eTz0kSPi
-	khjTulPTyOCX3DYnsYwHycvLL3/7GlzlGOpXqCZ55kNTl1uKvmSe54tvzniZ+M4VWHr9
-	bG3w==
-X-Gm-Message-State: AOJu0YwlrlOJcckTXbmjdr4w9+M1l/HLMzbX2c1kwO+tIBHB3/jNg1J8
-	ufS+JSLv4yncihqTTUWl3MRYyrXao5hFPobnmH7u0fz7hJzN4mlvXUOM+raN7dPdsk+Xf4DyxZY
-	N61KpG5MGeXCFuVjwXzxUaRydTbCyEZEhB+DAPkdJhwMkTzspXE5epE2n6w==
-X-Gm-Gg: ASbGnctIz7CnuBbiB3Mdr2DVGcbhwg1564WuvkMYWr/8AJgu5U1EEhkApTrQMZCJFTg
-	50F6fkAGfAbLyYOX2bU2Z4iKmNT0QFJs3gSVsfQAiC5n1xMfEP7GZKwpiLlmlhdzlYSyp+bUawQ
-	xLoUKpLHg5qFci1MvIiiHc2ID2AqLl2UfxpLJ69Aq9PcT1dLoNIB9hmgJX1QKyjnV+ld2IdUkik
-	L2seCRmp9PqsXjkdYEA2QHfPkDNIpi3UlDp1w==
-X-Google-Smtp-Source: AGHT+IE9urOBZzEG+7rtWo4PQrNkDwBKplrfKZd8ACBq3ETmMyEF/f7hG/SrucG+P3AG78hVlvuMoSCtlsDQk4c3nDg=
-X-Received: by 2002:a05:6402:5c8:b0:618:6e15:d059 with SMTP id
-	4fb4d7f45d1cf-61a7e72fd1bmr911946a12.21.1755585258241; Mon, 18 Aug 2025
-	23:34:18 -0700 (PDT)
+X-Greylist: delayed 1029 seconds by postgrey-1.31 at mail19;
+	Mon, 25 Aug 2025 10:50:52 CEST
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com
+	[45.249.212.56])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id F211016094F
+	for <drbd-dev@lists.linbit.com>; Mon, 25 Aug 2025 10:50:52 +0200 (CEST)
+Received: from mail.maildlp.com (unknown [172.19.163.216])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4c9PFy29kqzKHNjw
+	for <drbd-dev@lists.linbit.com>; Mon, 25 Aug 2025 16:33:42 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id DE9F01A01A6
+	for <drbd-dev@lists.linbit.com>; Mon, 25 Aug 2025 16:33:41 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.50.85.155])
+	by APP4 (Coremail) with SMTP id gCh0CgAncIzcH6xoZc7rAA--.43322S4;
+	Mon, 25 Aug 2025 16:33:41 +0800 (CST)
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+To: linux-block@vger.kernel.org, linux-raid@vger.kernel.org,
+	drbd-dev@lists.linbit.com
+Subject: [PATCH 0/2] Fix the initialization of max_hw_wzeroes_unmap_sectors
+	for stacking drivers
+Date: Mon, 25 Aug 2025 16:33:18 +0800
+Message-ID: <20250825083320.797165-1-yi.zhang@huaweicloud.com>
+X-Mailer: git-send-email 2.46.1
 MIME-Version: 1.0
-References: <20250819054959.1168661-1-zhengbing.huang@easystack.cn>
-In-Reply-To: <20250819054959.1168661-1-zhengbing.huang@easystack.cn>
-From: Joel Colledge <joel.colledge@linbit.com>
-Date: Tue, 19 Aug 2025 08:34:07 +0200
-X-Gm-Features: Ac12FXzN_nSt1CTfQOVJfaKgcpIOtPbtEO3ZaZ7C-SI9V0POxO6lf2XN-h30R8s
-Message-ID: <CAGNP_+U7qQttcZ0aasL-fLxUz1Fk1cyhp6rGh1Qpx8g2xMQ9gg@mail.gmail.com>
-Subject: Re: [PATCH] drbd: Fix the seq_num conversion error in got_OVResult()
-To: "zhengbing.huang" <zhengbing.huang@easystack.cn>
-Content-Type: multipart/alternative; boundary="000000000000b0d559063cb20bf8"
-Cc: drbd-dev@lists.linbit.com
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: gCh0CgAncIzcH6xoZc7rAA--.43322S4
+X-Coremail-Antispam: 1UD129KBjvdXoW7Xr43GryxXF18XF1xury7GFg_yoWxCwcEyF
+	4fXrZIvr4kC3WIvr43GFn3Aryjvay8WF1qgry2g3yFqa1fZF1rCF1jv345J3W0yFy0qrZ8
+	Ar1Dtw1xArnxXjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUb3kFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
+	6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+	n2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7x
+	kEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E
+	67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCw
+	CI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1x
+	MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIda
+	VFxhVjvjDU0xZFpf9x0JUd-B_UUUUU=
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+X-Mailman-Approved-At: Tue, 09 Sep 2025 13:31:43 +0200
+Cc: axboe@kernel.dk, martin.petersen@oracle.com, john.g.garry@oracle.com,
+	yangerkun@huawei.com, yi.zhang@huawei.com,
+	linux-kernel@vger.kernel.org, yi.zhang@huaweicloud.com,
+	linux-fsdevel@vger.kernel.org, yukuai3@huawei.com, hch@lst.de
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -78,22 +73,30 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
---000000000000b0d559063cb20bf8
-Content-Type: text/plain; charset="UTF-8"
+From: Zhang Yi <yi.zhang@huawei.com>
 
-Thanks! Applied:
-https://github.com/LINBIT/drbd/commit/455f64ae1ea7fa15c2d808260f9ba694f2ecea37
+Hello,
 
-Joel
+This series fixes the initialization of max_hw_wzeroes_unmap_sectors in
+queue_limits for all md raid and drbd drivers, preventing
+blk_validate_limits() failures on underlying devices that support the
+unmap write zeroes command.
 
---000000000000b0d559063cb20bf8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Best regards,
+Yi.
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div>Thanks! Applied:=C2=A0<a href=3D"htt=
-ps://github.com/LINBIT/drbd/commit/455f64ae1ea7fa15c2d808260f9ba694f2ecea37=
-">https://github.com/LINBIT/drbd/commit/455f64ae1ea7fa15c2d808260f9ba694f2e=
-cea37</a></div><div><br></div><div>Joel</div><div><br></div></div><br></div=
->
+Zhang Yi (2):
+  md: init queue_limits->max_hw_wzeroes_unmap_sectors parameter
+  drbd: init queue_limits->max_hw_wzeroes_unmap_sectors parameter
 
---000000000000b0d559063cb20bf8--
+ drivers/block/drbd/drbd_nl.c | 1 +
+ drivers/md/md-linear.c       | 1 +
+ drivers/md/raid0.c           | 1 +
+ drivers/md/raid1.c           | 1 +
+ drivers/md/raid10.c          | 1 +
+ drivers/md/raid5.c           | 1 +
+ 6 files changed, 6 insertions(+)
+
+-- 
+2.46.1
+
