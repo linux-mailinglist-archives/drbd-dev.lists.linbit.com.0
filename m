@@ -2,116 +2,63 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29DE3B5194F
-	for <lists+drbd-dev@lfdr.de>; Wed, 10 Sep 2025 16:28:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBE2BB54299
+	for <lists+drbd-dev@lfdr.de>; Fri, 12 Sep 2025 08:16:35 +0200 (CEST)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 874C5162747;
-	Wed, 10 Sep 2025 16:28:16 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 07BBB16272A;
+	Fri, 12 Sep 2025 08:16:21 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 67C0416228C
-	for <drbd-dev@lists.linbit.com>; Wed, 10 Sep 2025 16:28:12 +0200 (CEST)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
-	[IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest
-	SHA256) (No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id CB90037561;
-	Wed, 10 Sep 2025 11:41:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757504497;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	mime-version:mime-version:content-type:content-type:
-	content-transfer-encoding:content-transfer-encoding:
-	in-reply-to:in-reply-to:references:references;
-	bh=zEnisFHsxre0EVVuo5kQHP4jaEtnqdrGoeP3qr+VY6I=;
-	b=CBfNHrnb1AzuTKpJwc7FYNhnrkKQp1A/ZP1Yx2Gk5XjvFx0kGFJfa46wnj8m+Lp6TsjBT7
-	nj/sftMjVjIRkqiquEk/hlSWuddFKqdCafnDhyA5DQfbH9QUTLYckuP09xzLQx5knn6DLG
-	y3optX0Gj2gVYs4YM2U47yt5nnAHFoU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757504497;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	mime-version:mime-version:content-type:content-type:
-	content-transfer-encoding:content-transfer-encoding:
-	in-reply-to:in-reply-to:references:references;
-	bh=zEnisFHsxre0EVVuo5kQHP4jaEtnqdrGoeP3qr+VY6I=;
-	b=XGZKqnnoWlBqwG7aDFQw5QaBn8twtKugMzflfwMRim/+imgoA7TqNppuxgTrghmm9fRTTv
-	klJ6Hhx++lwFlbCA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=TTVCxRt2;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=p9FSxy6t
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1757504496;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	mime-version:mime-version:content-type:content-type:
-	content-transfer-encoding:content-transfer-encoding:
-	in-reply-to:in-reply-to:references:references;
-	bh=zEnisFHsxre0EVVuo5kQHP4jaEtnqdrGoeP3qr+VY6I=;
-	b=TTVCxRt2c6UkPUQkhNvN1u6t7Lc77PymjFt6+pA1VH4vDUIIRISEI/caoYolxt46ZHpdnN
-	kZdUKofZhnGdE5TRiF0Oni/fNuOKcXAafIIIo1bINCdihU//CmB3yvj0upoxztDdRIq60l
-	U9TVMCZr0bMt7pTO0nI6UrUstD7HjuA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1757504496;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	mime-version:mime-version:content-type:content-type:
-	content-transfer-encoding:content-transfer-encoding:
-	in-reply-to:in-reply-to:references:references;
-	bh=zEnisFHsxre0EVVuo5kQHP4jaEtnqdrGoeP3qr+VY6I=;
-	b=p9FSxy6t96ozqaO/89/SmYgrxvg770I26deqFxl9rG8FMAKZHWNOdcqB3D25ou/+LO3//+
-	8QKtiI+IqnHakZBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest
-	SHA256) (No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A7A8313310;
-	Wed, 10 Sep 2025 11:41:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA id eF9TKPBjwWgOawAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 10 Sep 2025 11:41:36 +0000
-Message-ID: <a0834448-35dd-401f-8d66-a957b8e160b2@suse.de>
-Date: Wed, 10 Sep 2025 13:41:36 +0200
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com
+	[45.249.212.51])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2258C16092C
+	for <drbd-dev@lists.linbit.com>; Fri, 12 Sep 2025 08:16:17 +0200 (CEST)
+Received: from mail.maildlp.com (unknown [172.19.163.235])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4cNPM62RRMzYQvFJ
+	for <drbd-dev@lists.linbit.com>; Fri, 12 Sep 2025 14:16:18 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id D602E1A0F22
+	for <drbd-dev@lists.linbit.com>; Fri, 12 Sep 2025 14:16:16 +0800 (CST)
+Received: from [10.174.179.80] (unknown [10.174.179.80])
+	by APP4 (Coremail) with SMTP id gCh0CgDXIY6rusNoytzrCA--.39146S3;
+	Fri, 12 Sep 2025 14:16:13 +0800 (CST)
+Message-ID: <c7dd117e-6e3e-4b2d-a890-20f5c4bade2f@huaweicloud.com>
+Date: Fri, 12 Sep 2025 14:16:10 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] drbd: init
-	queue_limits->max_hw_wzeroes_unmap_sectors parameter
-To: Zhang Yi <yi.zhang@huaweicloud.com>, linux-block@vger.kernel.org,
-	linux-raid@vger.kernel.org, drbd-dev@lists.linbit.com
+Subject: Re: [PATCH v2 0/2] Fix the initialization of
+	max_hw_wzeroes_unmap_sectors for stacking drivers
+To: axboe@kernel.dk
 References: <20250910111107.3247530-1-yi.zhang@huaweicloud.com>
-	<20250910111107.3247530-3-yi.zhang@huaweicloud.com>
 Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20250910111107.3247530-3-yi.zhang@huaweicloud.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: CB90037561
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[]; RCPT_COUNT_TWELVE(0.00)[14];
-	MIME_TRACE(0.00)[0:+];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oracle.com:email,suse.de:dkim,suse.de:mid,suse.de:email];
-	RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -4.51
-Cc: axboe@kernel.dk, pmenzel@molgen.mpg.de, martin.petersen@oracle.com,
-	john.g.garry@oracle.com, yangerkun@huawei.com,
-	yi.zhang@huawei.com, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, yukuai3@huawei.com, hch@lst.de
+From: Zhang Yi <yi.zhang@huaweicloud.com>
+In-Reply-To: <20250910111107.3247530-1-yi.zhang@huaweicloud.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: gCh0CgDXIY6rusNoytzrCA--.39146S3
+X-Coremail-Antispam: 1UD129KBjvdXoW7Xw13KrW7Zw1fAF4UCr18Grg_yoWkWrc_uF
+	4YgrZ2vw4kGF1ayF1UKF1fZry2yay8XFn5uryjgayFg34Sva1rCa1q9ry5J3Z8AF9FvFZ8
+	AF1kt3yxZF9xXjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbxxYFVCjjxCrM7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E6xAIw20E
+	Y4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwV
+	A0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x02
+	67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
+	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
+	wI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
+	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43
+	MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
+	0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
+	JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUF1
+	v3UUUUU
+X-CM-SenderInfo: d1lo6xhdqjqx5xdzvxpfor3voofrz/
+Cc: linux-raid@vger.kernel.org, pmenzel@molgen.mpg.de,
+	martin.petersen@oracle.com, john.g.garry@oracle.com,
+	yangerkun@huawei.com, yi.zhang@huawei.com,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, yukuai3@huawei.com, hch@lst.de,
+	drbd-dev@lists.linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -128,47 +75,41 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On 9/10/25 13:11, Zhang Yi wrote:
+Hi, Jens!
+
+Can you take this patch set through the linux-block tree?
+
+Thanks,
+Yi.
+
+On 9/10/2025 7:11 PM, Zhang Yi wrote:
 > From: Zhang Yi <yi.zhang@huawei.com>
 > 
-> The parameter max_hw_wzeroes_unmap_sectors in queue_limits should be
-> equal to max_write_zeroes_sectors if it is set to a non-zero value.
-> However, when the backend bdev is specified, this parameter is
-> initialized to UINT_MAX during the call to blk_set_stacking_limits(),
-> while only max_write_zeroes_sectors is adjusted. Therefore, this
-> discrepancy triggers a value check failure in blk_validate_limits().
+> Changes since v1:
+>  - Improve commit messages in patch 1 by adding a simple reproduction
+>    case as Paul suggested and explaining the implementation differences
+>    between RAID 0 and RAID 1/10/5, no code changes.
 > 
-> Since the drvd driver doesn't yet support unmap write zeroes, so fix
-> this failure by explicitly setting max_hw_wzeroes_unmap_sectors to
-> zero.
+> v1: https://lore.kernel.org/linux-block/20250825083320.797165-1-yi.zhang@huaweicloud.com/
 > 
-> Fixes: 0c40d7cb5ef3 ("block: introduce max_{hw|user}_wzeroes_unmap_sectors to queue limits")
-> Signed-off-by: Zhang Yi <yi.zhang@huawei.com>
-> Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
-> Reviewed-by: Yu Kuai <yukuai3@huawei.com>
-> ---
->   drivers/block/drbd/drbd_nl.c | 1 +
->   1 file changed, 1 insertion(+)
+> This series fixes the initialization of max_hw_wzeroes_unmap_sectors in
+> queue_limits for all md raid and drbd drivers, preventing
+> blk_validate_limits() failures on underlying devices that support the
+> unmap write zeroes command.
 > 
-> diff --git a/drivers/block/drbd/drbd_nl.c b/drivers/block/drbd/drbd_nl.c
-> index e09930c2b226..91f3b8afb63c 100644
-> --- a/drivers/block/drbd/drbd_nl.c
-> +++ b/drivers/block/drbd/drbd_nl.c
-> @@ -1330,6 +1330,7 @@ void drbd_reconsider_queue_parameters(struct drbd_device *device,
->   		lim.max_write_zeroes_sectors = DRBD_MAX_BBIO_SECTORS;
->   	else
->   		lim.max_write_zeroes_sectors = 0;
-> +	lim.max_hw_wzeroes_unmap_sectors = 0;
->   
->   	if ((lim.discard_granularity >> SECTOR_SHIFT) >
->   	    lim.max_hw_discard_sectors) {
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+> Best regards,
+> Yi.
+> 
+> Zhang Yi (2):
+>   md: init queue_limits->max_hw_wzeroes_unmap_sectors parameter
+>   drbd: init queue_limits->max_hw_wzeroes_unmap_sectors parameter
+> 
+>  drivers/block/drbd/drbd_nl.c | 1 +
+>  drivers/md/md-linear.c       | 1 +
+>  drivers/md/raid0.c           | 1 +
+>  drivers/md/raid1.c           | 1 +
+>  drivers/md/raid10.c          | 1 +
+>  drivers/md/raid5.c           | 1 +
+>  6 files changed, 6 insertions(+)
+> 
 
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
