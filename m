@@ -2,39 +2,54 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16108BC4509
-	for <lists+drbd-dev@lfdr.de>; Wed, 08 Oct 2025 12:27:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CEA2C0F361
+	for <lists+drbd-dev@lfdr.de>; Mon, 27 Oct 2025 17:17:07 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 723BE162773;
-	Wed,  8 Oct 2025 12:27:16 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id BC1C816276C;
+	Mon, 27 Oct 2025 17:16:53 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 547 seconds by postgrey-1.31 at mail19;
-	Wed, 01 Oct 2025 12:35:27 CEST
-Received: from mx.swemel.ru (mx.swemel.ru [95.143.211.150])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 6D6FD160990
-	for <drbd-dev@lists.linbit.com>; Wed,  1 Oct 2025 12:35:27 +0200 (CEST)
-From: Denis Arefev <arefev@swemel.ru>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=swemel.ru; s=mail;
-	t=1759314379;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:mime-version:
-	content-transfer-encoding:content-transfer-encoding;
-	bh=nfgEVOB3DZQ6/kGEtKzVJBDpgTIVIwUcLDFO2qRH4V4=;
-	b=Y3Kx4jJtMijcjrfdGyIl1ZbwTNaaOMfm8177xkBDBVYvTOPoeujjuxwTlvo2lEj0ZQFn1F
-	mNYctUeqTJuu4MZciKvB2Ai8YqECPNxjB2AX7CZ3iQimhxvuU6c0Olu8bKyWkq6Fzhf+Rt
-	Fg0BMN5YVPCkUTrbO9+dTCTYT0yhzdU=
-To: Philipp Reisner <philipp.reisner@linbit.com>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	=?UTF-8?q?Christoph=20B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>
-Subject: [bug-report] NULL pointer dereference in __drbd_change_sync()
-Date: Wed,  1 Oct 2025 13:26:14 +0300
-Message-ID: <20251001102619.8912-1-arefev@swemel.ru>
+X-Greylist: delayed 597 seconds by postgrey-1.31 at mail19;
+	Mon, 27 Oct 2025 17:16:49 CET
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id CA987160952
+	for <drbd-dev@lists.linbit.com>; Mon, 27 Oct 2025 17:16:49 +0100 (CET)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id A6C08604F8;
+	Mon, 27 Oct 2025 16:06:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23D84C4CEF1;
+	Mon, 27 Oct 2025 16:06:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761581210;
+	bh=lgYGdJqJLSXnsekhf4n7haNtiB25n4IV3mTGIwEdIt0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BtLEgncf3+Nx2+/q5LePpZKjn73XUJB/FjnjW8HOPme7rRrIUzbkPoZ9yLit4Xdd6
+	1th/Izvrun+V9r9cyFF2FlcbICtJKaG7RzQ4ySXdiKJ0f+BrpN9c0DmY0cFNsethnt
+	cdyTZ4OMaCzePVC69gtUtKBPD12NlwU2AB/Xoy51tq8Il91BP9lhqFAok/9W2zvVWJ
+	NZ4g22e8RDxsHWMXBgWXmPN6PT9kHcGH9sNxc443NtmfgHkcK5kK/BwM3lywrlVfzC
+	dR1hJ6hqKugOAnPoiTvkuXKy6Xx2ZYi4tCp7OGoNfX+KysZvHF1SvCGQlKhMyvcFdd
+	M1GxuWkiW9oxw==
+Date: Mon, 27 Oct 2025 06:06:49 -1000
+From: Tejun Heo <tj@kernel.org>
+To: jinji zhong <jinji.z.zhong@gmail.com>
+Subject: Re: [RFC PATCH 0/3] Introduce per-cgroup compression priority
+Message-ID: <aP-Ymcsoyls04jov@slm.duckdns.org>
+References: <cover.1761439133.git.jinji.z.zhong@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 08 Oct 2025 12:27:12 +0200
-Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
-	lvc-project@linuxtesting.org, drbd-dev@lists.linbit.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1761439133.git.jinji.z.zhong@gmail.com>
+Cc: linux-doc@vger.kernel.org, roman.gushchin@linux.dev,
+	philipp.reisner@linbit.com, linux-mm@kvack.org,
+	shakeel.butt@linux.dev, drbd-dev@lists.linbit.com,
+	corbet@lwn.net, senozhatsky@chromium.org,
+	linux-block@vger.kernel.org, terrelln@fb.com, dsterba@suse.com,
+	cgroups@vger.kernel.org, mhocko@kernel.org,
+	akpm@linux-foundation.org, axboe@kernel.dk, feng.han@honor.com,
+	liulu.liu@honor.com, muchun.song@linux.dev,
+	linux-kernel@vger.kernel.org, minchan@kernel.org,
+	mkoutny@suse.com, hannes@cmpxchg.org, zhongjinji@honor.com,
+	lars.ellenberg@linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,37 +66,18 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-In the Linux kernel, there's an unpatched bug in the DRBD code in the __drbd_change_sync() function,
-a NULL pointer dereference.
+Hello,
 
-The call stack that leads to this error looks like this:
+On Sun, Oct 26, 2025 at 01:05:07AM +0000, jinji zhong wrote:
+> This patch introduces a per-cgroup compression priority mechanism,
+> where different compression priorities map to different algorithms.
+> This allows administrators to select appropriate compression
+> algorithms on a per-cgroup basis.
 
-drbd_request_endio
-|-> __req_mod(req, what, NULL, &m);
-    |-> case READ_COMPLETED_WITH_ERROR:
-    |-> drbd_set_out_of_sync(NULL, ... )
-    	|-> __drbd_change_sync(NULL, ... );
-            |-> peer_device->device (NULL->device)
+I don't think it makes sense to tie this to cgroups. Is there something
+preventing this from following the process hierarchy?
 
-This bug has already been fixed here [1], but porting this commit to the kernel will be quite
-difficult, since the DRBD code in the Linux kernel and on GitHub [2] differs significantly.
-
-But ignoring it is also not a good idea.
-
-The blamed kernel commit is 0d11f3cf279c ("drbd: Pass a peer device to the resync and online verify functions")
-which came with series [3].
-
-One possible solution is to reverse the patch series [3] because "it is mainly no-ops, pretty much just 
-preparation for future upstreaming work" as its cover letter says.  
-
-However, there seems to be no active drbd module development in mainline kernel since that series was posted in 2023.
-
-[1]: https://github.com/LINBIT/drbd/commit/effc7281bf1a7922daa6393632fc6eeac1732bfa
-[2]: https://github.com/LINBIT/drbd
-[3]: https://lore.kernel.org/all/20230330102744.2128122-1-christoph.boehmwalder@linbit.com/
-
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+Thanks.
 
 -- 
-2.43.0
-
+tejun
