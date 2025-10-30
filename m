@@ -2,81 +2,54 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AAB8C241B9
-	for <lists+drbd-dev@lfdr.de>; Fri, 31 Oct 2025 10:21:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F9C1C241BF
+	for <lists+drbd-dev@lfdr.de>; Fri, 31 Oct 2025 10:22:13 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id AC2C11627B6;
-	Fri, 31 Oct 2025 10:21:03 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 8FF421627BB;
+	Fri, 31 Oct 2025 10:21:05 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
-	[209.85.128.42])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C60A21626D9
-	for <drbd-dev@lists.linbit.com>; Mon, 27 Oct 2025 23:46:22 +0100 (CET)
-Received: by mail-wm1-f42.google.com with SMTP id
-	5b1f17b1804b1-475dbc3c9efso19996135e9.0
-	for <drbd-dev@lists.linbit.com>; Mon, 27 Oct 2025 15:46:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=gmail.com; s=20230601; t=1761605182; x=1762209982;
-	darn=lists.linbit.com; 
-	h=content-transfer-encoding:cc:to:subject:message-id:date:from
-	:in-reply-to:references:mime-version:from:to:cc:subject:date
-	:message-id:reply-to;
-	bh=YbNF9xBLgvPcEJ73q19bteNh3qQ4EWHWmqaSpEAAHPI=;
-	b=lTZ1cduAlx7ba33G/dkfzJeq8CRK2uOjfCLgZgTeEZs3W6Lx/H3PrVDr3FpZMYtEZ2
-	FeoDTeLA92wNf70LFKdWhuvmafWWDe8d10rew/QOmToydgvsM5ZvsI8e+t6KVM8dXDOk
-	h7CkY5COckQ4wquaHDhYAAK7/y+wDT32D+QiI2law9HQpC6QjrnuG6kGiTIUvSlRIafs
-	oLMRXfOfsp37ZlhJeLViy0pUrloBIz7HSoAqhbN2oaffGCslzyiSqWq8+DE0gk96ef8e
-	Xj7R+la48bZqJ7xBsNFyeEu2NIBkh2i/AbMGZi7X4KzIFtfRdQsaHvHz2OZdp0W6l8r1
-	iNfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20230601; t=1761605182; x=1762209982;
-	h=content-transfer-encoding:cc:to:subject:message-id:date:from
-	:in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-	:subject:date:message-id:reply-to;
-	bh=YbNF9xBLgvPcEJ73q19bteNh3qQ4EWHWmqaSpEAAHPI=;
-	b=XioDATVQ11RgmBxHQ9jrFqXoLxRyvJ7bHj42VGVkgJX2VSE7TdFwZyvYePqt26gCpQ
-	CGB33Cb4M1yyMV2ufWIzJf8UWYVERFxPo6rdQ2Finlzu400UyaRTvzw9Gge6I29Ghm5p
-	CAwUDgIBHN8173bLd3BUEgX1yKkA/w4XcxBBKri7IyiLKYBVNwykPlydiJ1cceypy8By
-	qEh8yQyKBNIFlY/8WhW+hAD3SfIMw1xI7ro5owFe2AFFXRbzEVbD0vdSYFNueeYSDfHx
-	xmIUxT8MtTqzxaLOHPnx8vvH+EccxkT1w4TY93t0Egox5/wOwjKuE+ZWlD3XuxJSCQfG
-	hyiQ==
-X-Forwarded-Encrypted: i=1;
-	AJvYcCXvw0RET47TCidrdY7HYzja4MhNTyTO+tGetAGUxLWBbKfs/JYJQSm4JIYGF5Xi9A2Yc3BI8irhhw==@lists.linbit.com
-X-Gm-Message-State: AOJu0Yw3OH82hkrEbsgdfaS6NZSsm3Dmfjei1z5QMg2jFzSukRqe+N9v
-	SFUQBdMWVQhuOKYzxTOcSGbrmUeWujo5i/9L+e9NZL6dGQHWbQfVtYT73twEJv9kDmxIjJ+rKUY
-	p+NXZPpvw56nPu3FbuDHdBEgY4I+iZBk=
-X-Gm-Gg: ASbGncteCl8zfTJ9aEwnmAx82fBVz6mFJsc504a0BIYMXoUrcOqa1Z+RPIMZnhlP8xz
-	D6Dff0fRBsj7M1bQdFix2ydVNuVzr6glx9pC3qiEA8WP9dni3okMmk4NulMUkDlbT9sx2xbWwap
-	F18ZOyyx0kZnWz1CGG4I4CxxiBpmS1HiYndSJyXDuHUGKsCbm44T9KwOJUeAw3KZTJG3XAcQprd
-	+NKsdxioHEzwfhfDLJhYlGcR4NaXYpq6bJC1ce74Z5z026hexJ0zZw/rv+Ux1IpzWUOYQ==
-X-Google-Smtp-Source: AGHT+IEeNWo2bsGLLqGLfQNsY0L6lNVZZ2khSDzRsqsRr6Jo8tC6B0Avoq1yBzRM+ieeQ79ZgiTz+pEgGuOt7PLnUe4=
-X-Received: by 2002:a05:600c:46d3:b0:471:1415:b545 with SMTP id
-	5b1f17b1804b1-47717def6demr11070845e9.7.1761605181955; Mon, 27 Oct 2025
-	15:46:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1761439133.git.jinji.z.zhong@gmail.com>
-In-Reply-To: <cover.1761439133.git.jinji.z.zhong@gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Mon, 27 Oct 2025 15:46:10 -0700
-X-Gm-Features: AWmQ_bma6lyHlpvPtwTt1egk70m2KnBJDjgat6AjIDzKFfoBCYrn6d-bXve4s8M
-Message-ID: <CAKEwX=MqsyWki+DfzePb3SwXWTZ_2tcDV-ONBQu62=otnBXCiQ@mail.gmail.com>
+X-Greylist: delayed 923 seconds by postgrey-1.31 at mail19;
+	Thu, 30 Oct 2025 10:38:28 CET
+Received: from mta21.hihonor.com (mta21.honor.com [81.70.160.142])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3FCB81608F1
+	for <drbd-dev@lists.linbit.com>; Thu, 30 Oct 2025 10:38:28 +0100 (CET)
+Received: from w012.hihonor.com (unknown [10.68.27.189])
+	by mta21.hihonor.com (SkyGuard) with ESMTPS id 4cxzCF3ckdzYlcX2;
+	Thu, 30 Oct 2025 17:22:01 +0800 (CST)
+Received: from a018.hihonor.com (10.68.17.250) by w012.hihonor.com
+	(10.68.27.189) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11;
+	Thu, 30 Oct 2025 17:23:02 +0800
+Received: from localhost.localdomain (10.144.20.219) by a018.hihonor.com
+	(10.68.17.250) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11;
+	Thu, 30 Oct 2025 17:23:02 +0800
+From: zhongjinji <zhongjinji@honor.com>
+To: <tj@kernel.org>
 Subject: Re: [RFC PATCH 0/3] Introduce per-cgroup compression priority
-To: jinji zhong <jinji.z.zhong@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Date: Thu, 30 Oct 2025 17:22:58 +0800
+Message-ID: <20251030092258.2576-1-zhongjinji@honor.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <aP-Ymcsoyls04jov@slm.duckdns.org>
+References: <aP-Ymcsoyls04jov@slm.duckdns.org>
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [10.144.20.219]
+X-ClientProxiedBy: w002.hihonor.com (10.68.28.120) To a018.hihonor.com
+	(10.68.17.250)
 X-Mailman-Approved-At: Fri, 31 Oct 2025 10:20:24 +0100
 Cc: linux-doc@vger.kernel.org, roman.gushchin@linux.dev, mhocko@kernel.org,
-	linux-mm@kvack.org, shakeel.butt@linux.dev,
-	drbd-dev@lists.linbit.com, corbet@lwn.net,
-	YoungJun Park <youngjun.park@lge.com>, senozhatsky@chromium.org,
-	linux-block@vger.kernel.org, terrelln@fb.com, dsterba@suse.com,
-	cgroups@vger.kernel.org, akpm@linux-foundation.org,
-	axboe@kernel.dk, feng.han@honor.com, liulu.liu@honor.com,
-	muchun.song@linux.dev, philipp.reisner@linbit.com,
+	liulu.liu@honor.com, shakeel.butt@linux.dev,
+	philipp.reisner@linbit.com, drbd-dev@lists.linbit.com,
+	corbet@lwn.net, jinji.z.zhong@gmail.com,
+	senozhatsky@chromium.org, linux-block@vger.kernel.org,
+	terrelln@fb.com, dsterba@suse.com, cgroups@vger.kernel.org,
+	lars.ellenberg@linbit.com, axboe@kernel.dk, feng.han@honor.com,
+	linux-mm@kvack.org, muchun.song@linux.dev,
 	linux-kernel@vger.kernel.org, minchan@kernel.org,
-	mkoutny@suse.com, hannes@cmpxchg.org, tj@kernel.org,
-	zhongjinji@honor.com, lars.ellenberg@linbit.com
+	mkoutny@suse.com, hannes@cmpxchg.org, zhongjinji@honor.com,
+	akpm@linux-foundation.org
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -93,52 +66,24 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-On Sat, Oct 25, 2025 at 6:53=E2=80=AFPM jinji zhong <jinji.z.zhong@gmail.co=
-m> wrote:
->
-> Hello everyone,
->
-> On Android, different applications have varying tolerance for
-> decompression latency. Applications with higher tolerance for
-> decompression latency are better suited for algorithms like ZSTD,
-> which provides high compression ratio but slower decompression
-> speed. Conversely, applications with lower tolerance for
-> decompression latency can use algorithms like LZ4 or LZO that
-> offer faster decompression but lower compression ratios. For example,
-> lightweight applications (with few anonymous pages) or applications
-> without foreground UI typically have higher tolerance for decompression
-> latency.
->
-> Similarly, in memory allocation slow paths or under high CPU
-> pressure, using algorithms with faster compression speeds might
-> be more appropriate.
->
-> This patch introduces a per-cgroup compression priority mechanism,
-> where different compression priorities map to different algorithms.
-> This allows administrators to select appropriate compression
-> algorithms on a per-cgroup basis.
->
-> Currently, this patch is experimental and we would greatly
-> appreciate community feedback. I'm uncertain whether obtaining
-> compression priority via get_cgroup_comp_priority in zram is the
-> best approach. While this implementation is convenient, it seems
-> somewhat unusual. Perhaps the next step should be to pass
-> compression priority through page->private.
+> Hello,
+> 
+> On Sun, Oct 26, 2025 at 01:05:07AM +0000, jinji zhong wrote:
+> > This patch introduces a per-cgroup compression priority mechanism,
+> > where different compression priorities map to different algorithms.
+> > This allows administrators to select appropriate compression
+> > algorithms on a per-cgroup basis.
+> 
+> I don't think it makes sense to tie this to cgroups. Is there something
+> preventing this from following the process hierarchy?
+> Thanks.
+Hello, Tejun,
 
-I agree with TJ's and Shakeel's take on this. You (or some other
-zram/zswap users) will have to present a more compelling case for the
-necessity of a hierarchical structure for this property :)
+There is also a layer of page tables between the process and the page,
+so making it follow the process hierarchy would be complicated.
+But you make a good point; it may indeed be unnecessary to introduce
+a separate per-cgroup compression priority. As Nhat suggested,
+we could try reusing the per-cgroup swap priority.
 
-The semantics itself is unclear to me - what's the default? How should
-inheritance be defined? What happens when cgroups are killed etc?
-
-As a side note, seems like there is a proposal for swap device
-priority (+ Youngjun)
-
-https://lore.kernel.org/all/20250716202006.3640584-1-youngjun.park@lge.com/
-
-Is this something you can leverage?
-
-Another alternative is to make this zram-internal, i.e add knobs to
-zram sysfs, or extend the recomp parameter. I'll defer to zram
-maintainers and users to comment on this :)
+> -- 
+> tejun
