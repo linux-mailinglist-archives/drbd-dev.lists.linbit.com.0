@@ -2,53 +2,74 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBA4FC241D4
-	for <lists+drbd-dev@lfdr.de>; Fri, 31 Oct 2025 10:22:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 256ADC2D2AD
+	for <lists+drbd-dev@lfdr.de>; Mon, 03 Nov 2025 17:36:35 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2F82D1627BF;
-	Fri, 31 Oct 2025 10:21:08 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3325D1627A4;
+	Mon,  3 Nov 2025 17:36:11 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 1105 seconds by postgrey-1.31 at mail19;
-	Thu, 30 Oct 2025 12:51:00 CET
-Received: from mta20.hihonor.com (mta20.hihonor.com [81.70.206.69])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id CE6C71608F1
-	for <drbd-dev@lists.linbit.com>; Thu, 30 Oct 2025 12:51:00 +0100 (CET)
-Received: from w002.hihonor.com (unknown [10.68.28.120])
-	by mta20.hihonor.com (SkyGuard) with ESMTPS id 4cy24h54rFzYkxgw;
-	Thu, 30 Oct 2025 19:31:32 +0800 (CST)
-Received: from a018.hihonor.com (10.68.17.250) by w002.hihonor.com
-	(10.68.28.120) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11;
-	Thu, 30 Oct 2025 19:32:33 +0800
-Received: from localhost.localdomain (10.144.20.219) by a018.hihonor.com
-	(10.68.17.250) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11;
-	Thu, 30 Oct 2025 19:32:32 +0800
-From: zhongjinji <zhongjinji@honor.com>
-To: <shakeel.butt@linux.dev>
-Subject: Re: [RFC PATCH 0/3] Introduce per-cgroup compression priority
-Date: Thu, 30 Oct 2025 19:32:28 +0800
-Message-ID: <20251030113228.18817-1-zhongjinji@honor.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <k6jwua5rlkds7dxomwvxotwtjq4hauyevvyoxd5hjz733k7kk5@mmezlradxhpu>
-References: <k6jwua5rlkds7dxomwvxotwtjq4hauyevvyoxd5hjz733k7kk5@mmezlradxhpu>
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
+	[209.85.215.173])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 09ADC162276
+	for <drbd-dev@lists.linbit.com>; Sat,  1 Nov 2025 06:44:36 +0100 (CET)
+Received: by mail-pg1-f173.google.com with SMTP id
+	41be03b00d2f7-b6cea7c527bso2445285a12.3
+	for <drbd-dev@lists.linbit.com>; Fri, 31 Oct 2025 22:44:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=gmail.com; s=20230601; t=1761975876; x=1762580676;
+	darn=lists.linbit.com; 
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+	:to:from:from:to:cc:subject:date:message-id:reply-to;
+	bh=hXfrEv5oiBHpW6muXJlmwbpRlo7zdmnpcibEEEHdvoI=;
+	b=l3c71xMFGBjSU7e4Le3cm/WE/WKxFC64AX7xePAzvoXVEwCDZYTqtqJgTuC/muvTBS
+	eVerwSExP9aGiqKG8lt8/WdtNZyggXIsne9/orgg1KIGdWYyhyG8UnVzXYkQn4bpRjGu
+	tN8ZNgETH0Sj21Erf+hUYQWSSI27sqObWQuyexDFE7hv+QfaMl7WON7jZSvYwCJmqpM2
+	pZOghWD6+Ub6+4Hk7PuzA+fh6aVyu+wfHroBMeZHF7HnrMI1vXHYBdnhn0jUsB9q3s7b
+	tkwnmHHqDPKhUJE3WML2e6HW9IST1ODXHH6Ag05qRkmnlLYPVyOpkbRj8w1vUBmqy7QT
+	4VBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20230601; t=1761975876; x=1762580676;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+	:to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+	:reply-to;
+	bh=hXfrEv5oiBHpW6muXJlmwbpRlo7zdmnpcibEEEHdvoI=;
+	b=HNKUZnBPqYyl2KgxKwTN5UKhfYaECNpYCPYTC8opG+n1bXZauiKfJsCBhix0KKkm5c
+	xVFVDYY58YXVynT85b7WySDV/NlUmm3pb3wueSr0i6JddeBMAFkj+r5xnFsjpx5wOTrn
+	MiF/KuXh2WFv+k6CmfPfeR3uxwLVFUZEW0h8oaLoBElGKTrCN9ablCyiIiqEgGtuiwi6
+	8BrnaPJISLhbBPGFKv/ks6nxhVzvAJRZRUIoJ8GYvhekpNi5DdFOcPi2t7LAKU+FXt8D
+	YY6rervYuH3506hSVXpZkFbirGM0vSjPXGCcUPgt4IY0PlBEuqmN1iAKVzrqwGCnqBnu
+	m+cw==
+X-Forwarded-Encrypted: i=1;
+	AJvYcCVaRK0xhs3AyEi+k9dFwzi/O4+TLZ3HjOkFxiLnFZeJM3juEGO8zx7AOs+1zgs9igJYKcy+u6k82g==@lists.linbit.com
+X-Gm-Message-State: AOJu0YwiyTwSz6PCkMnG+tu98FMKDjiBYEtTDYL64iny1C/ydx4tTEFi
+	LC3Ph7SVPhalzV7GoAD4+NpvOBUPULHeEIKNhxuGlf3NsmEABJWsbfIx
+X-Gm-Gg: ASbGncs9nqy3WI3qH2JDVti8FYDd9AdCcFygZ1HT13Y52zhvBQKQltfbnkydAdq2Z7w
+	nRCOlm+vOC7lN9CrujJ3eCFVocg7B9JV7GqGeAdlKSQjsAHCvI62XzzfHzde7XFODAkrEavDjmK
+	NJyx/yjWa/DE3ekf+vmDWWtSEW+sNaRcNSTdjwon/lVBTVGbc1ejcLRkN/xSLK5OzvsGh5YJoXF
+	sXG16oB2SDy8dvRWdIyfniWRmGEYjjiwtNJIqh0EMGWayV7A9VqrauhmWmzJJE5cohq8WDFyQBi
+	LM/dhs8Se1sFXNmnyW8eDUFFIWas+qAS7GCXMxvepmbwPHa584CDpbBTqOgVOraWGHTH+SR7wz8
+	YSskqdaoeYuM5PwAjadmyfZXgjV0TjWEI+6UBLrFpBlyyVB1/XsGLkkWYhO8/HHzte6ChA1ty
+X-Google-Smtp-Source: AGHT+IEGJ4mGhF1h11nXlNMyKOMIlTHFuQycoD3FINV1TwEi5cyxUm493MSp+VBY0wey3CeA3mtjJQ==
+X-Received: by 2002:a05:6a20:3d86:b0:334:8ac9:bc5 with SMTP id
+	adf61e73a8af0-348cc8e5729mr8648568637.36.1761975875916; 
+	Fri, 31 Oct 2025 22:44:35 -0700 (PDT)
+Received: from fedora ([38.137.53.248]) by smtp.gmail.com with ESMTPSA id
+	d2e1a72fcca58-7a7d897e86fsm4067572b3a.11.2025.10.31.22.44.32
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 31 Oct 2025 22:44:35 -0700 (PDT)
+From: Shi Hao <i.shihao.999@gmail.com>
+To: philipp.reisner@linbit.com
+Subject: [PATCH] drbd: replace kmap() with kmap_local_page() in receiver path
+Date: Sat,  1 Nov 2025 11:14:22 +0530
+Message-ID: <20251101054422.17045-1-i.shihao.999@gmail.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.144.20.219]
-X-ClientProxiedBy: w012.hihonor.com (10.68.27.189) To a018.hihonor.com
-	(10.68.17.250)
-X-Mailman-Approved-At: Fri, 31 Oct 2025 10:20:24 +0100
-Cc: linux-doc@vger.kernel.org, roman.gushchin@linux.dev, mhocko@kernel.org,
-	liulu.liu@honor.com, philipp.reisner@linbit.com,
-	drbd-dev@lists.linbit.com, corbet@lwn.net,
-	jinji.z.zhong@gmail.com, senozhatsky@chromium.org,
-	linux-block@vger.kernel.org, terrelln@fb.com, dsterba@suse.com,
-	cgroups@vger.kernel.org, lars.ellenberg@linbit.com,
-	axboe@kernel.dk, feng.han@honor.com, linux-mm@kvack.org,
-	muchun.song@linux.dev, linux-kernel@vger.kernel.org,
-	minchan@kernel.org, mkoutny@suse.com, hannes@cmpxchg.org,
-	tj@kernel.org, zhongjinji@honor.com, akpm@linux-foundation.org
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Mon, 03 Nov 2025 17:36:08 +0100
+Cc: axboe@kernel.dk, i.shihao.999@gmail.com, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, lars.ellenberg@linbit.com,
+	drbd-dev@lists.linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -65,52 +86,61 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-> Hi Jinji,
-> 
-> On Sun, Oct 26, 2025 at 01:05:07AM +0000, jinji zhong wrote:
-> > Hello everyone,
-> > 
-> > On Android, different applications have varying tolerance for
-> > decompression latency. Applications with higher tolerance for
-> > decompression latency are better suited for algorithms like ZSTD,
-> > which provides high compression ratio but slower decompression
-> > speed. Conversely, applications with lower tolerance for
-> > decompression latency can use algorithms like LZ4 or LZO that
-> > offer faster decompression but lower compression ratios. For example,
-> > lightweight applications (with few anonymous pages) or applications
-> > without foreground UI typically have higher tolerance for decompression
-> > latency.
-> > 
-> > Similarly, in memory allocation slow paths or under high CPU
-> > pressure, using algorithms with faster compression speeds might
-> > be more appropriate.
-> > 
-> > This patch introduces a per-cgroup compression priority mechanism,
-> > where different compression priorities map to different algorithms.
-> > This allows administrators to select appropriate compression
-> > algorithms on a per-cgroup basis.
-> > 
-> > Currently, this patch is experimental and we would greatly
-> > appreciate community feedback. I'm uncertain whether obtaining
-> > compression priority via get_cgroup_comp_priority in zram is the
-> > best approach. While this implementation is convenient, it seems
-> > somewhat unusual. Perhaps the next step should be to pass
-> > compression priority through page->private.
-> > 
-> 
-> Setting aside the issues in the implementation (like changing
-> compression algorithm of a cgroup while it already has some memory
+Use kmap_local_page() instead of kmap() to avoid
+CPU contention.
 
-Zram uses flags to track the compression priority of each page,
-which should be ok when the page is decompressed.
+kmap() uses a global set of mapping slots that can cause contention
+between multiple CPUs, while kmap_local_page() uses per-CPU slots
+eliminating this contention. It also ensures non-sleeping operation
+and provides better cache locality.
 
-> compressed using older algo), I don't think memcg interface is the right
-> way to go about it. We usually add interfaces to memcg that have
-> hierarchical semantics.
+Convert kmap() to kmap_local_page() as it aligns with ongoing
+kernel efforts to modernize kmap() usage for better multi-core
+scalability.
 
-Thanks a lot, Shakeel. I got it.
+Signed-off-by: Shi Hao <i.shihao.999@gmail.com>
+---
+ drivers/block/drbd/drbd_receiver.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-> Anyways if you want to have this feature, I think BPF might be the way
-> to get this flexibility without introducing any stable API and then you
-> can experiment and evaluate if this really helps.
+diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd_receiver.c
+index caaf2781136d..14821420ea50 100644
+--- a/drivers/block/drbd/drbd_receiver.c
++++ b/drivers/block/drbd/drbd_receiver.c
+@@ -1736,13 +1736,13 @@ read_in_block(struct drbd_peer_device *peer_device, u64 id, sector_t sector,
+ 	page = peer_req->pages;
+ 	page_chain_for_each(page) {
+ 		unsigned len = min_t(int, ds, PAGE_SIZE);
+-		data = kmap(page);
++		data = kmap_local_page(page);
+ 		err = drbd_recv_all_warn(peer_device->connection, data, len);
+ 		if (drbd_insert_fault(device, DRBD_FAULT_RECEIVE)) {
+ 			drbd_err(device, "Fault injection: Corrupting data on receive\n");
+ 			data[0] = data[0] ^ (unsigned long)-1;
+ 		}
+-		kunmap(page);
++		kunmap_local(data);
+ 		if (err) {
+ 			drbd_free_peer_req(device, peer_req);
+ 			return NULL;
+@@ -1777,7 +1777,7 @@ static int drbd_drain_block(struct drbd_peer_device *peer_device, int data_size)
+
+ 	page = drbd_alloc_pages(peer_device, 1, 1);
+
+-	data = kmap(page);
++	data = kmap_local_page(page);
+ 	while (data_size) {
+ 		unsigned int len = min_t(int, data_size, PAGE_SIZE);
+
+@@ -1786,7 +1786,7 @@ static int drbd_drain_block(struct drbd_peer_device *peer_device, int data_size)
+ 			break;
+ 		data_size -= len;
+ 	}
+-	kunmap(page);
++	kunmap_local(data);
+ 	drbd_free_pages(peer_device->device, page);
+ 	return err;
+ }
+--
+2.51.0
 
