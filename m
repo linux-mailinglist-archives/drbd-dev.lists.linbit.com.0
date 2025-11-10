@@ -2,77 +2,76 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36026C2CA03
-	for <lists+drbd-dev@lfdr.de>; Mon, 03 Nov 2025 16:16:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38B8DC95F45
+	for <lists+drbd-dev@lfdr.de>; Mon, 01 Dec 2025 08:08:04 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id D8A9F1627A3;
-	Mon,  3 Nov 2025 16:16:26 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id CF964162EFD;
+	Mon,  1 Dec 2025 08:07:53 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-il1-f181.google.com (mail-il1-f181.google.com
-	[209.85.166.181])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0332F16094D
-	for <drbd-dev@lists.linbit.com>; Mon,  3 Nov 2025 16:16:23 +0100 (CET)
-Received: by mail-il1-f181.google.com with SMTP id
-	e9e14a558f8ab-4332d5be8adso9871745ab.0
-	for <drbd-dev@lists.linbit.com>; Mon, 03 Nov 2025 07:16:23 -0800 (PST)
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
+	[209.85.160.177])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 461E81608F2
+	for <drbd-dev@lists.linbit.com>; Mon, 10 Nov 2025 13:59:32 +0100 (CET)
+Received: by mail-qt1-f177.google.com with SMTP id
+	d75a77b69052e-4eda6a8cc12so20634971cf.0
+	for <drbd-dev@lists.linbit.com>; Mon, 10 Nov 2025 04:59:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1762182982;
-	x=1762787782; darn=lists.linbit.com; 
-	h=content-transfer-encoding:mime-version:date:message-id:subject
-	:references:in-reply-to:cc:to:from:from:to:cc:subject:date
-	:message-id:reply-to;
-	bh=g2VP5eHd4whSzt4tHMCcMt8UV6SGTODxfAS8gkq2xxo=;
-	b=pFpB+JGW9I5ftZXITP3KYxxJiJDCHRX5pSVA35VPpVBg0oIGgSBH0HcKkDGZjVOqr2
-	qQ3YMGUy81Wsj2jzeZ1ftB7aK4zTXiRdZi7L7P2k2zlvnOCyop6GS5OkRvtkA2eCVlzZ
-	5eo6L6k4CKSX7k/xb39tWk06cHsA+Fci+xJ3i+ggLLVB4/7PvDJnVq7rTXCpzB/AKXTB
-	PhD2vHGVLI0YBHcTA6Yyh87qf7lbj5CRAPgczt5NBvbffk0O8W5VKDWrKp4f7mVTcJcu
-	3rV6Tzk7LGcC9ofWhAu8EGVHzHUewydzWLcAnaNxSZsbRHWZkzZioovl0aAkkfZqJl2L
-	ecRQ==
+	d=grsecurity.net; s=grsec; t=1762779572; x=1763384372;
+	darn=lists.linbit.com; 
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+	:to:from:from:to:cc:subject:date:message-id:reply-to;
+	bh=T6XzBMI6tJPvxcaO9wmkrj/prooJSDL5hkPraZUof94=;
+	b=Qf+SL2y1tYd3lgvsBZ11nLCuSh0FfZA7+joeMsJtz2YkJ2URhyFW0wBpmor12H6U59
+	45cQnKZnWvd5awW9OsZzhjhfEPDua1enfFq5PSGhEcWUfxh8hB4EGhC55VX43ADHVV4y
+	FFNBL3H8XyHPA/AcHRfa6bOq8UpO2EW9mrEr4ZBQGbStlUEi+QHv5Yp0JGq5AWj5Hx8P
+	7Y+h3xyVYTIH9q+Tzj75Ukbr/3w/fkR+jgqQifNZIcbT/E1nm9YbhYVwuHz8hLYfSpAd
+	0u/PdfNNVFS1dMqyKziJZlfH/du7O4S2mUBO3tByPCNFvb9h1mYkpNBABsCjj87pSkgl
+	YzFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20230601; t=1762182982; x=1762787782;
-	h=content-transfer-encoding:mime-version:date:message-id:subject
-	:references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-	:subject:date:message-id:reply-to;
-	bh=g2VP5eHd4whSzt4tHMCcMt8UV6SGTODxfAS8gkq2xxo=;
-	b=j/tiXRuN6ChhyHRD3UWZ78g4DABdQLEx5aGdJ3MP9b3eQe1DHH4ZuxzxHiFYYgAp/0
-	ZkHRZs6MrOgzOwvg8ztIaRM9AfM8emOiF79nYzkMjHDL3mCA1EbiKppKp6qHyTrne7BF
-	g5+1cWb7rigSjBk4yhGITNRjI2vEqZbbnrJMw2zt4KzpVtSEJw1j2jxXroPFNN+RseZc
-	LR9RPVUR+zf1lNzcsIMBgTfJWNSQYtU/hIrPUAWbSTj59IGfAq2WKXsjzPGyOXS+6R94
-	8EtWZVY5VfAvExYXZEhnlqInkFcpRwJc9/D2+fFLA8zB9hLvA+prEtTcLXWFwRdR8xaI
-	+F9w==
-X-Forwarded-Encrypted: i=1;
-	AJvYcCXA/T7OMn+/ollTkHgOFtn5U+4aT/XVC9YtYWurs6xHsXHfCtRf7sBiyWv4rkEe9ItQUMqvN3JM9w==@lists.linbit.com
-X-Gm-Message-State: AOJu0YzcfYxtruqWzECix11sAJ7SVr9+A+4iZkFnp8/81pQ8NXHLT82f
-	8ZKNWp+qpIOc7JioEaMtncje4dqufrnCydHjDvT/6+eYyZzeF+jq6B++74E+A4K8fNY=
-X-Gm-Gg: ASbGncsN+KoRZa0BviPITKN1FUJZjk4CxcyEwloFhkvb3fiKKrsgwZjHCyH4qpION2t
-	wIgL50DjyaLwAAVP0Ha6PWBK4VMxiViSaW69V2mMeZlvat1kVspcfP7917i5S6DCRDJXrD3Fw8j
-	C2w2y0d7RrNHd//mK75xT6riITHM0fy1hEUnPN8QqsDuovnqZoreLpxWtcDDlbiVBQJu12njtoT
-	mF7CjPQ/h9zGYgW7SJz9hLhDEcfx6i3dST5PO2XMZyMvJgNyzVvi8vaxYJEBbpKWhtRrbJ2JAhH
-	6EfhveeMh/mViLfJKf6rdCXyOpwHTIdvWURmAACcbQ99YIIkIwuzoz6p2qA7hioSJdXMq/sXpwp
-	nwhDSk8mQdjjSr8aQTplP/5TbGDXpPRIu756iIbu7bipjEsJ67Nv1/NBiz3+oJN/ClDM=
-X-Google-Smtp-Source: AGHT+IEiDN1o+PM/1Z7sT1acon36b1aVtRVhw4Y/i/XVotDAKRdH4bIM1pLS9oCqfCdsagASs5k2KQ==
-X-Received: by 2002:a92:ca0c:0:b0:433:3192:4aa with SMTP id
-	e9e14a558f8ab-433319206abmr40241605ab.4.1762182982356; 
-	Mon, 03 Nov 2025 07:16:22 -0800 (PST)
-Received: from [127.0.0.1] ([96.43.243.2]) by smtp.gmail.com with ESMTPSA id
-	8926c6da1cb9f-5b72258d620sm261819173.8.2025.11.03.07.16.21
+	d=1e100.net; s=20230601; t=1762779572; x=1763384372;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+	:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+	:message-id:reply-to;
+	bh=T6XzBMI6tJPvxcaO9wmkrj/prooJSDL5hkPraZUof94=;
+	b=HUJraHT4fA2iB0DscIpgtIQq0x71FZgU5zo5kC8MFrC41fTm6EiUe71d1S364nE6UZ
+	8RMMnIncIn+T4UTuSGVftvFombZGbOMa95CWo9/2eYePsA/1HfgL+DzwtvorjPtNzdA7
+	SqrSTgdK0yQd382NgM4eDr6BcPsYrmgkAe5oVKzJ5WsKrTiBKudhlJ/x63FBCuONGwbR
+	Poh6ZPCqj8/Lj3nxyqe+NCsCubbC71ev96mqOzuW3dD8GknwXQ4KA4cH1JnlCyNSZTQ5
+	RtL0o9T5xPlNyHAry5Ym9dyLKATP452wrnunuwDmJge+OXCyGrTU2zh0JjkwD13Ew4oQ
+	3SBg==
+X-Gm-Message-State: AOJu0Yw/rbcZzhbRClIHU+aUjCt4bOv9AeWDs4V0J57kFEDK1+2cv64m
+	vz0o1a2xPKnu1O1Vc40PmTdFOQMQkmIRyro0g32ACngXkhL42QlmFKODOoD/e+jHBjY=
+X-Gm-Gg: ASbGncuoHUIPP+XId14ag/UxHH2UXcUBraP/kHh3XU+fWWejyWP0zx9Lgy/muyQQUHy
+	OYCkLgPcHHpU7o8yUB9mEvhcUafjRc5XMJ4ZLxxD6REAc4xxN/6lSY7+UPdzI3Jlc/qedQmi6Ol
+	oj8bB2DLPEGtVXeA7HIA8Z3g0gaZjJGgWe7gRZtOmFbKa3sglqA1OSyuOoWc6dgfRHrtZiOMvzu
+	8fjkbGU3IXfnCj/w/T8yZydG1bTthN05pJP1tgOjBDtj8N28XYqahPyWPd2dbgUHdNYE3ZZegmJ
+	4XqYk+3HLA3GxivfVPaiDpOx1w1Qy9WgrUP/KmVjHtJ1lUebdkiaDtdclJjVTky2+iOVMBljnDC
+	lcfvvmbN6lIGLDW7Fw6RrEeM+Fhua7fFMg6sntjxbC0d5nfaAIC4cx9+fMs5vSB6cFujbPhdJN4
+	GEk+nmFUlnw41Cd03GMTawEg2azrB0rCAHgRtBxFu0fV6DvptnP83VawlIxKMkVZpK3/iH
+X-Google-Smtp-Source: AGHT+IEGxZlr/V31J4DVmMrsIfVArtKwkB666ay2Bcwor+WzlJbkRW/iNGF4rCS+IW+RswejB4QIpQ==
+X-Received: by 2002:a05:622a:1905:b0:4e8:b8d4:a7a0 with SMTP id
+	d75a77b69052e-4eda4fca200mr106156021cf.66.1762779571926; 
+	Mon, 10 Nov 2025 04:59:31 -0800 (PST)
+Received: from bell.fritz.box
+	(p200300faaf29b100e8b27dbf0b1165fc.dip0.t-ipconnect.de.
+	[2003:fa:af29:b100:e8b2:7dbf:b11:65fc])
+	by smtp.gmail.com with ESMTPSA id
+	d75a77b69052e-4eda7116927sm43506521cf.13.2025.11.10.04.59.29
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 03 Nov 2025 07:16:21 -0800 (PST)
-From: Jens Axboe <axboe@kernel.dk>
-To: philipp.reisner@linbit.com, Shi Hao <i.shihao.999@gmail.com>
-In-Reply-To: <20251101054422.17045-1-i.shihao.999@gmail.com>
-References: <20251101054422.17045-1-i.shihao.999@gmail.com>
-Subject: Re: [PATCH] drbd: replace kmap() with kmap_local_page() in
-	receiver path
-Message-Id: <176218298119.720460.5302997686043809131.b4-ty@kernel.dk>
-Date: Mon, 03 Nov 2025 08:16:21 -0700
+	Mon, 10 Nov 2025 04:59:31 -0800 (PST)
+From: Mathias Krause <minipli@grsecurity.net>
+To: Philipp Reisner <philipp.reisner@linbit.com>,
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
+	=?UTF-8?q?Christoph=20B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>
+Subject: [PATCH] compat: make block_device_operations tests grsec compatible
+Date: Mon, 10 Nov 2025 13:59:24 +0100
+Message-ID: <20251110125924.511384-1-minipli@grsecurity.net>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3
-Cc: linux-block@vger.kernel.org, lars.ellenberg@linbit.com,
-	linux-kernel@vger.kernel.org, drbd-dev@lists.linbit.com
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Mon, 01 Dec 2025 08:07:50 +0100
+Cc: Mathias Krause <minipli@grsecurity.net>, drbd-dev@lists.linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -89,26 +88,81 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
+The grsecurity patch enforces that instances of certain types are always
+constified, with the help of a compiler plugin. One of these types is
+'struct block_device_operations'. Code that tries to modify a such-typed
+object will cause compiler errors, leading to wrong results for the
+kernel compatibility tests.
 
-On Sat, 01 Nov 2025 11:14:22 +0530, Shi Hao wrote:
-> Use kmap_local_page() instead of kmap() to avoid
-> CPU contention.
-> 
-> kmap() uses a global set of mapping slots that can cause contention
-> between multiple CPUs, while kmap_local_page() uses per-CPU slots
-> eliminating this contention. It also ensures non-sleeping operation
-> and provides better cache locality.
-> 
-> [...]
+Change these tests to do direct type compare tests instead of trying to
+modify the object, making them compatible with grsecurity kernels.
 
-Applied, thanks!
+Signed-off-by: Mathias Krause <minipli@grsecurity.net>
+---
+ .../tests/block_device_operations_open_takes_gendisk.c | 10 +++-------
+ .../tests/have_blk_qc_t_submit_bio.c                   |  6 +++++-
+ drbd/drbd-kernel-compat/tests/have_void_submit_bio.c   |  6 +++++-
+ 3 files changed, 13 insertions(+), 9 deletions(-)
 
-[1/1] drbd: replace kmap() with kmap_local_page() in receiver path
-      commit: 77220f6d18a22b0b5d73b5d2156609b0aa21a7c5
-
-Best regards,
+diff --git a/drbd/drbd-kernel-compat/tests/block_device_operations_open_takes_gendisk.c b/drbd/drbd-kernel-compat/tests/block_device_operations_open_takes_gendisk.c
+index d5f20fd569fb..9d77f16d09d8 100644
+--- a/drbd/drbd-kernel-compat/tests/block_device_operations_open_takes_gendisk.c
++++ b/drbd/drbd-kernel-compat/tests/block_device_operations_open_takes_gendisk.c
+@@ -5,13 +5,9 @@
+ # define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+ #endif
+ 
+-int foo_open(struct gendisk *disk, unsigned int mode)
+-{
+-	return 0;
+-}
++int foo_open(struct gendisk *disk, unsigned int mode);
+ 
+-void foo(void)
++void foo(struct block_device_operations *ops)
+ {
+-	struct block_device_operations ops;
+-	BUILD_BUG_ON(!(__same_type(ops.open, &foo_open)));
++	BUILD_BUG_ON(!(__same_type(ops->open, &foo_open)));
+ }
+diff --git a/drbd/drbd-kernel-compat/tests/have_blk_qc_t_submit_bio.c b/drbd/drbd-kernel-compat/tests/have_blk_qc_t_submit_bio.c
+index d7f2310dfbbd..d3e6dd792ff1 100644
+--- a/drbd/drbd-kernel-compat/tests/have_blk_qc_t_submit_bio.c
++++ b/drbd/drbd-kernel-compat/tests/have_blk_qc_t_submit_bio.c
+@@ -2,9 +2,13 @@
+ 
+ #include <linux/blkdev.h>
+ 
++#ifndef __same_type
++# define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
++#endif
++
+ blk_qc_t submit(struct bio *bio);
+ 
+ void foo(struct block_device_operations *ops)
+ {
+-	ops->submit_bio = submit;
++	BUILD_BUG_ON(!(__same_type(ops->submit_bio, &submit)));
+ }
+diff --git a/drbd/drbd-kernel-compat/tests/have_void_submit_bio.c b/drbd/drbd-kernel-compat/tests/have_void_submit_bio.c
+index c638faf020e1..09b56a658a46 100644
+--- a/drbd/drbd-kernel-compat/tests/have_void_submit_bio.c
++++ b/drbd/drbd-kernel-compat/tests/have_void_submit_bio.c
+@@ -2,9 +2,13 @@
+ 
+ #include <linux/blkdev.h>
+ 
++#ifndef __same_type
++# define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
++#endif
++
+ void submit(struct bio *bio);
+ 
+ void foo(struct block_device_operations *ops)
+ {
+-	ops->submit_bio = submit;
++	BUILD_BUG_ON(!(__same_type(ops->submit_bio, &submit)));
+ }
 -- 
-Jens Axboe
-
-
+2.47.3
 
