@@ -2,80 +2,85 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33DC7C68E91
-	for <lists+drbd-dev@lfdr.de>; Tue, 18 Nov 2025 11:50:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A6B0C68EA0
+	for <lists+drbd-dev@lfdr.de>; Tue, 18 Nov 2025 11:51:47 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 8CE8D162789;
-	Tue, 18 Nov 2025 11:50:13 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 21FF91627A6;
+	Tue, 18 Nov 2025 11:51:36 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
-	[209.85.208.43])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 68B6C1608F4
-	for <drbd-dev@lists.linbit.com>; Tue, 18 Nov 2025 11:50:10 +0100 (CET)
-Received: by mail-ed1-f43.google.com with SMTP id
-	4fb4d7f45d1cf-6431b0a1948so9418779a12.3
-	for <drbd-dev@lists.linbit.com>; Tue, 18 Nov 2025 02:50:10 -0800 (PST)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
+	[209.85.208.50])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id BD159162276
+	for <drbd-dev@lists.linbit.com>; Tue, 18 Nov 2025 11:51:04 +0100 (CET)
+Received: by mail-ed1-f50.google.com with SMTP id
+	4fb4d7f45d1cf-64175dfc338so10022409a12.0
+	for <drbd-dev@lists.linbit.com>; Tue, 18 Nov 2025 02:51:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linbit-com.20230601.gappssmtp.com; s=20230601; t=1763463009;
-	x=1764067809; darn=lists.linbit.com; 
+	d=linbit-com.20230601.gappssmtp.com; s=20230601; t=1763463064;
+	x=1764067864; darn=lists.linbit.com; 
 	h=content-transfer-encoding:in-reply-to:content-language:from
 	:references:cc:to:subject:user-agent:mime-version:date:message-id
 	:from:to:cc:subject:date:message-id:reply-to;
-	bh=KiC+7yTG4lV+2V65MF1U8z4j9rCHROwUgeMm0bXv8L0=;
-	b=RuB/x5DpMrpBK7d+wNhsBa8VYOPuhMoB+cfEodVrCYs+KuJDep9OWXqf5dhaFYC04a
-	ilJJ49Fthl4DC5ABf3Tk3ho2Pzi6jyk4qv8q7CjqxXY2AnntHw/xbHwp3Mq52idctRkS
-	2+SlbzQIaUncTFZ/hxvYRP0ScEungDIeLzihloggKrnyNrUgFy2qyp8qax7Z80x8jLPe
-	hyVV1RX8+FjHW5Y/PLlhiTdxOy1ssoIwZ6NTLC56KiTF4jhw6mtUUwpAk7t5p/oD7zCO
-	QaJz38TokqKi5QLSJh1WlfHHZb+cAdS0bCnYYOOgmH5Om4SZeOM8pOwllDCW4yhtF83e
-	tw3g==
+	bh=jGdM1wJoXGQz7bm128xRbuaPqwpiMtIqZbrUwM7E1+I=;
+	b=EZC56sLc32rnnioPcVa4gDIM9ZAQzTDDOLJ5QYxsd1xuKjy6l1cotm2USFVWCJmlBc
+	ND38ZLmTD3RbtjM+HQYva0Eva2STDrIp7cRiJHPJu8DLNbCuEiXPNvHnsOvbX9qn6pHG
+	ITcz/s1/ZB6KXeYqQRkJzp8prJvaw6wGhv3ie1Ez1wZUpXa0GhxINjah7YSNVFTL6BVK
+	8x5ieSk87BRK3DKS9OMZbZIN4KLDPXdPSajqfuqsxILjnj3C466ULF0xfMjk7H3Bhk+v
+	UBW10hZpD5939fQviXnnXVjb2e0V/KahTs04Fl3eFLRXsJE4EltJjo+e8h7px1AAW34b
+	2u6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20230601; t=1763463009; x=1764067809;
+	d=1e100.net; s=20230601; t=1763463064; x=1764067864;
 	h=content-transfer-encoding:in-reply-to:content-language:from
 	:references:cc:to:subject:user-agent:mime-version:date:message-id
 	:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
 	:reply-to;
-	bh=KiC+7yTG4lV+2V65MF1U8z4j9rCHROwUgeMm0bXv8L0=;
-	b=Gh3jU1mucNxon0rFaaHMzNBN8R/qFnVTqHAiKGL6GkzxK7FLh6vzY1p1wa1/Pec84W
-	7q0h7DbVyNAhORQaTFE+JFH0eyStcI8leSzEJKlvTNbtlx7iyAy2UStEXjCTXAawiiwG
-	yA4W5eDpC2Mt57HN7rmJXIubbJ5LnzIY/gDkqM0frwVU+Wcq1E5pkiFP8LgwrNXnhP9s
-	YGACvXE/t/2YiHOD4p75Yyz+9qaNk2rU6kFVml7kwvVJci6ND8vapd6qmYRgH70LYpa7
-	r/UTfugXaGA6DXlUiIFBpYxq4MGXM4r85DPr1hS/b94GtiU+C+NE7RkoL1b3bxvIrZ6H
-	ZAlA==
-X-Gm-Message-State: AOJu0Yyx2h6p+kvwR3LdvmJELJ69WP2Dvl6TbZvFsDsvSKUcXQ6dDd0P
-	FjSQMz/0YRla9naYOjkBf4itbl5ecdoB5jhAarZB4I5DwzN0Ff4KfHxbLIzWymbQhMYmLw==
-X-Gm-Gg: ASbGnctkPPRWSOLPgRfEejD0QoY6eGR3v4IrnzLV6mjT2wTjy+q0zlPpOo7s5G2+FgA
-	eQDrcEne9GbZAMjZo4pl8cMTovXHAkdQiHiUgwgbjAXGDzcU5iosaCwHhEaaNXtLWqIBfj2FKvq
-	010Hgp9j7Xb+xlSjD8nN6kIqxgC5axTcJJddG5yYw6PsDJf71+RfOqAcZ/Ng75vGFxWLDiJBWGV
-	vx7cnofj3sdnUCkIkBjCYDTvgVzLyoYameVnm+05KctL7I9tfwPgypUQJWxrXh0OIjKcCnZsskw
-	Vy2tl/tJb0IVfWwaluT5WYZY5fO+55783pq9szf+pfHeKOPKxEhQzna9rW8m/35JwV6KngBdG4y
-	WuO/pfsGt3T73hfa0pBYhrvxgUqx7GLGczxKFyu7ZJwbFaLmmzGjLnC0dWsUTR/b9xIPKonp/7z
-	nqNody2RltHrAO9Kp/E0Vgw5NC/kwWfbgZZWZkYINUcT1CpXcxgOLgLAQHVahqHugO
-X-Google-Smtp-Source: AGHT+IHDiUP7NwR4m7iptduYHwN4ZXEfuuPS+NXRZTh9Gs4mYWbGWK6pPsRgbu0R8p6JdF/bHSz0uw==
-X-Received: by 2002:a05:6402:3049:10b0:641:62bb:9c0 with SMTP id
-	4fb4d7f45d1cf-64350ebe40cmr11298204a12.33.1763463009519; 
-	Tue, 18 Nov 2025 02:50:09 -0800 (PST)
+	bh=jGdM1wJoXGQz7bm128xRbuaPqwpiMtIqZbrUwM7E1+I=;
+	b=KCXV5oRqKMaa2a+UcoVLySJzZlBQHm6TKvDohGNFI8c9eFtFuyA8oz84sbSUzFLEDA
+	zmuhevA3o/StzsmFy8VcKzkRHt+YzqDEzXRBO4nP+IcoOM4lF8lRL8HLL+qojsHskJm9
+	mnD8wBCOuUQODCcQzCLaGMpVqjoxpeqkctGDHaErldJc09WFvwfOBcezNvH/ldinlvC+
+	HLXMT0qLD7fLZ9mO7PB3gTH6tjcQQarWJ0k9u5/dErNh/LOiy4iuaVIgPOyTlIYMPYq8
+	lwHfWe9kF4XGOubaF6Kn4V9PVjg5e5a/F/MYb65OTZODahW3feP8f3L4QboQiUOIq2FS
+	XP0w==
+X-Forwarded-Encrypted: i=1;
+	AJvYcCW5xfKJNuc1TPM++mLkSTZKyZu4MrLLzfXQKlUPF7x4xrtGCjJ0AboHFs0jderCBzGERXGSPW3Dfw==@lists.linbit.com
+X-Gm-Message-State: AOJu0YxcoyfJsETWrQL+XUv4Zb+zZ7UqLS0wRnlRT60L4HWHB8AkiWat
+	rkQsWp9wWn74ovGePEx1zu3xNTTj0gsAVl1tpc8TUeXSaLVJAIduAuOR1owEBCBCw6Qdtw==
+X-Gm-Gg: ASbGncu9jhyh3J9uXlWP/REY+PVlFvCuPmCHnYmdKewvMQdkTB4d00Axe4rE7CVSXKp
+	zTfSEFvBrdoriF9pyK6pucUsPKEsD+PO0X6OYABgszFWA3H05xDGbw9JMb2z9B7BYHrJtxc5OYK
+	jQ2Y916Z24x4S/HdlvGpIytLaI69FQLmA4j0QXf7IuVKLEWAak3C+L6x13wPqSyhlerwJ3/aSTM
+	YXgMf5ocPRu3ciI9C9A904ObXvfGoSizoLvz9iMFHQtfqpWXNFdPhhlnFJ2ArpHRQ41r+hQripj
+	EpJLmpUcv1dR5CKCSrpzgy0xLOAO/TMkzyEcwHd0yeXi9ruQRuWu2i4bMpyQGzbi5EHWG6pxcvL
+	VN6dwc4TZ83w0LdMUgzLms64MZzsfe8tttnactp/htx8q6YHRZsbZW8cyCvgTTYOILc2Ba0Cu8X
+	SfVr0KMLgG80YrMzjMtiqhBj5BSRyoTjbFhVo+oTgJrP0QN07pafY4CT31T3E12KGKOEz/XPXW4
+	kzNEOTE6Ewgfw==
+X-Google-Smtp-Source: AGHT+IEWZK62eDgqge0iEYvyjOKSQ1p48XfRz0kdjUFIlAsN6sWTmoc4BYjlcjTS9bPeI5jtRT4qFw==
+X-Received: by 2002:a17:907:3d52:b0:b72:d9f1:75e5 with SMTP id
+	a640c23a62f3a-b73678d9a41mr1737837266b.20.1763463063991; 
+	Tue, 18 Nov 2025 02:51:03 -0800 (PST)
 Received: from [192.168.178.55] (h082218028181.host.wavenet.at.
 	[82.218.28.181]) by smtp.gmail.com with ESMTPSA id
-	4fb4d7f45d1cf-6433a3d8775sm12390493a12.5.2025.11.18.02.50.08
+	a640c23a62f3a-b734fad456bsm1351037766b.21.2025.11.18.02.51.03
 	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Tue, 18 Nov 2025 02:50:08 -0800 (PST)
-Message-ID: <a7d484bf-4812-4367-8fca-575a56529c67@linbit.com>
-Date: Tue, 18 Nov 2025 11:50:08 +0100
+	Tue, 18 Nov 2025 02:51:03 -0800 (PST)
+Message-ID: <11f8aaaa-b5de-44dc-9263-5bdb506923ac@linbit.com>
+Date: Tue, 18 Nov 2025 11:51:02 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] compat: make block_device_operations tests grsec
-	compatible
-To: Mathias Krause <minipli@grsecurity.net>,
+Subject: Re: [PATCH] drbd: turn bitmap I/O comments into regular block comments
+To: Sukrut Heroorkar <hsukrut3@gmail.com>,
 	Philipp Reisner <philipp.reisner@linbit.com>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>
-References: <20251110125924.511384-1-minipli@grsecurity.net>
+	Lars Ellenberg <lars.ellenberg@linbit.com>, Jens Axboe <axboe@kernel.dk>,
+	"open list:DRBD DRIVER" <drbd-dev@lists.linbit.com>,
+	"open list:BLOCK LAYER" <linux-block@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+References: <20251118090753.390818-1-hsukrut3@gmail.com>
 From: =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>
 Content-Language: en-US
-In-Reply-To: <20251110125924.511384-1-minipli@grsecurity.net>
+In-Reply-To: <20251118090753.390818-1-hsukrut3@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Cc: drbd-dev@lists.linbit.com
+Cc: shuah@kernel.org, david.hunter.linux@gmail.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -92,19 +97,24 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-Am 10.11.25 um 13:59 schrieb Mathias Krause:
-> The grsecurity patch enforces that instances of certain types are always
-> constified, with the help of a compiler plugin. One of these types is
-> 'struct block_device_operations'. Code that tries to modify a such-typed
-> object will cause compiler errors, leading to wrong results for the
-> kernel compatibility tests.
+Am 18.11.25 um 10:07 schrieb Sukrut Heroorkar:
+> W=1 build warns because the bitmap I/O comments use '/**', which
+> marks them as kernel-doc comments even though these functions do not
+> document an external API.
 > 
-> Change these tests to do direct type compare tests instead of trying to
-> modify the object, making them compatible with grsecurity kernels.
+> Convert these comments to regular block comments so kernel-doc no
+> longer parses them.
 > 
-> Signed-off-by: Mathias Krause <minipli@grsecurity.net>
+> Signed-off-by: Sukrut Heroorkar <hsukrut3@gmail.com>
+> ---
+> See: https://lore.kernel.org/all/20251117172557.355797-1-hsukrut3@gmail.com/t/
+> 
+>  drivers/block/drbd/drbd_bitmap.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 
-Thanks, applied: https://github.com/LINBIT/drbd/commit/376a2932bf8f44dd0a18bc70f3309f3e71e0d37d
+Thanks.
+
+Acked-by: Christoph Böhmwalder <christoph.boehmwalder@linbit.com>
 
 -- 
 Christoph Böhmwalder
