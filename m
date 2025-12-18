@@ -2,37 +2,68 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 X-Original-To: lists+drbd-dev@lfdr.de
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTPS id 160FACCBEA2
-	for <lists+drbd-dev@lfdr.de>; Thu, 18 Dec 2025 14:06:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC842CCCDB1
+	for <lists+drbd-dev@lfdr.de>; Thu, 18 Dec 2025 17:48:32 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C661C163177;
-	Thu, 18 Dec 2025 14:06:29 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5230816315A;
+	Thu, 18 Dec 2025 17:48:16 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 303 seconds by postgrey-1.31 at mail19;
-	Thu, 18 Dec 2025 14:06:25 CET
-Received: from mail-m15578.qiye.163.com (mail-m15578.qiye.163.com
-	[101.71.155.78])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 9017F162251
-	for <drbd-dev@lists.linbit.com>; Thu, 18 Dec 2025 14:06:24 +0100 (CET)
-Received: from hzb-HP-Laptop-14s-cr2xxx.. (unknown [218.94.118.90])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 148734022;
-	Thu, 18 Dec 2025 21:01:18 +0800 (GMT+08:00)
-From: "zhengbing.huang" <zhengbing.huang@easystack.cn>
-To: drbd-dev@lists.linbit.com
-Subject: [PATCH v2] drbd: only send P_PEERS_IN_SYNC for up to 4 MiB in resync
-	progress
-Date: Thu, 18 Dec 2025 21:01:17 +0800
-Message-ID: <20251218130117.907395-1-zhengbing.huang@easystack.cn>
-X-Mailer: git-send-email 2.43.0
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
+	[209.85.218.41])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 8628E162759
+	for <drbd-dev@lists.linbit.com>; Thu, 18 Dec 2025 17:48:10 +0100 (CET)
+Received: by mail-ej1-f41.google.com with SMTP id
+	a640c23a62f3a-b802d5e9f06so79732466b.1
+	for <drbd-dev@lists.linbit.com>; Thu, 18 Dec 2025 08:48:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linbit-com.20230601.gappssmtp.com; s=20230601; t=1766076490;
+	x=1766681290; darn=lists.linbit.com; 
+	h=cc:to:subject:message-id:date:from:in-reply-to:references
+	:mime-version:from:to:cc:subject:date:message-id:reply-to;
+	bh=RtblFu1c/mhRdIIgEg2eQIqNJjF1oVM7AnSTPv2o+TA=;
+	b=MzMk314mcGBxejIaOvOlWFiKYjtw336c2qfGsM0mGTEo4Lvp0OCePghcYUunQsmkLr
+	fluRbksCY53c1UajF4fcuxBuLT/Gs0er1s85YSGVW/3KJXXpPZ3sOTx1k9Qm+TNzxDg5
+	spMWilhnGMN9nQT+BzWfdznqr6qVnovfDYrEX8EwNmld89JZ1d1OB1MqE0tc4wF3webf
+	EsAqbG0QLEZGo9pvG7QTcD7ulCRKy9KBnYTcg4MTMFRQ4JDHkJvi6Wmp0K/SgyGTi0yg
+	rpD4Fp8rZwVVgTjmT1jqEAQ15IvM1eKJ9Ya9wFBHL9ILNUepijByxxzWhwUM7qsT1phY
+	fb4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20230601; t=1766076490; x=1766681290;
+	h=cc:to:subject:message-id:date:from:in-reply-to:references
+	:mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+	:message-id:reply-to;
+	bh=RtblFu1c/mhRdIIgEg2eQIqNJjF1oVM7AnSTPv2o+TA=;
+	b=FLmvZq6e71nnL3M+AuS3N3WdtcFWmJDZaU7uoPSipcChRFf+IYeRliqLy05fJWy5Dz
+	fCQ0JSVm030JXc6O15DV+EYcRQRK+eTjeSBNgMHlaiRn8apehnVmKawCe/lvdS3LaSY2
+	5S5RlMoTNtYhLHaO81kxtAA/bP5fUQV61vpZsxi0YCpXmJVD+qq575EOJ2D4UUUzluYE
+	9VFanYY+Glv/GMqObOB3MevZr8VZkMfMn5bt7NTElBYJvlJcanT+mSlRLA7nwxs+FDh4
+	Iq3kOuCGfJgZFqnwPq1JgCqm+kPo8VOGNFyimVHThCIGV3IKzQHDuTCUKTQVRYxos10A
+	uk5g==
+X-Gm-Message-State: AOJu0Yxe5bnT+uxhSuD0Iw0/26CIkFhcG7voSPIbJ1kk+LovA5yIn2y3
+	jLMRsRATO6BCzJwGQL74y2/+Zq04iz8vdEYcfCT8/GEwrXIG8jIyOLqZtgJjFOSEQqo7jVc2iF+
+	EGeqTlrxC917pLGdvJxN9pExghv20wKj77vpgF+eqJ3mzFZnU52hAaICHYQ==
+X-Gm-Gg: AY/fxX48H6AUIkstT12aTHX9PBL3hYJTUOXacQ2R2XlK0+1f/pJ5SkGKnHUxxHbZOjw
+	NKbGYfLuIn0p7u88TSv+t/vPLhTjVtLPLyTpqnB4hwh67hFytv4yetf0lJ2lgLfxvsaz4X3lK7v
+	DSKvCCzuMIgoxhMV7S+3mzr191DULkWLON5FQ8n8f9pK4nXrX01swkHD1cBO6bCXiaVxCjMAMCA
+	UUhR5qQzPur3bDI1ZBOpYUCyyi6xMuqXVaA28BAJe8skMfvEsgAEnnBYl9rSCA+e44sRdA7Q0t/
+	w9AnNyJBOd3YiKiDzh/9QtW2TBk=
+X-Google-Smtp-Source: AGHT+IEkhAWK0YbauRSXAGaFbSmHW8WjUDiLG59tVrIHPEEsYngkm18ePBOQhpPSN2fmsWNZ7ZOotnRbIjLEDgMnLgA=
+X-Received: by 2002:a17:906:c109:b0:b73:8cea:62bb with SMTP id
+	a640c23a62f3a-b7d237730b0mr2285281466b.31.1766076489797;
+	Thu, 18 Dec 2025 08:48:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9b318ceeee0227kunmc5e1169fa16aab
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFJQjdXWS1ZQUlXWQ8JGhUIEh9ZQVlDTxpPVk8aS0kZTkkdS0sYS1YVFAkWGhdVGRETFh
-	oSFyQUDg9ZV1kYEgtZQVlJSkNVQk9VSkpDVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0lPT09IVUpLS1
-	VKQktLWQY+
+References: <20251218130117.907395-1-zhengbing.huang@easystack.cn>
+In-Reply-To: <20251218130117.907395-1-zhengbing.huang@easystack.cn>
+From: Joel Colledge <joel.colledge@linbit.com>
+Date: Thu, 18 Dec 2025 17:47:58 +0100
+X-Gm-Features: AQt7F2qUFMbtCbDubYE8trFSq2TANRy79mZYdAJY-Yep41N0Oo9r_AVld7gIArQ
+Message-ID: <CAGNP_+XBX=rmF_y25arQstkEFfqZnQRFWwXim79YibV+E0Xjpg@mail.gmail.com>
+Subject: Re: [PATCH v2] drbd: only send P_PEERS_IN_SYNC for up to 4 MiB in
+	resync progress
+To: "zhengbing.huang" <zhengbing.huang@easystack.cn>
+Content-Type: multipart/alternative; boundary="000000000000d22c6906463cb918"
+Cc: drbd-dev@lists.linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,83 +80,31 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
 
-During the resync process, the range of resync is not continuous.
-If the next sync position is very far from the current sync position,
-it will cause the same problem as commit: e2d0439f9
-("drbd: only send P_PEERS_IN_SYNC for up to 4 MiB when resync finished").
+--000000000000d22c6906463cb918
+Content-Type: text/plain; charset="UTF-8"
 
-The solution is to ensure that P_PEERS_IN_SYNC within a range of 4 MiB is sent each time,
-and skip the sector where there is no reysnc.
+Hi Zhengbing Huang,
 
-Fixes: bc218ad64640 ("drbd: only send P_PEERS_IN_SYNC every 4MiB")
+Thanks for the contribution! I also considered this case but did not work
+on any code to improve the behavior yet. I will look at your patch and
+write again.
 
-Signed-off-by: zhengbing.huang <zhengbing.huang@easystack.cn>
----
- drbd/drbd_int.h      |  3 ++-
- drbd/drbd_receiver.c | 21 +++++++++++++++++----
- 2 files changed, 19 insertions(+), 5 deletions(-)
+Thanks also for your recent RDMA patches. Philipp Reisner is aware of them
+and will review them in due course.
 
-diff --git a/drbd/drbd_int.h b/drbd/drbd_int.h
-index d92eaaf37..e193de9e8 100644
---- a/drbd/drbd_int.h
-+++ b/drbd/drbd_int.h
-@@ -1930,7 +1930,8 @@ extern sector_t drbd_partition_data_capacity(struct drbd_device *device);
-  * extent shift since the P_PEERS_IN_SYNC intervals are broken up based on
-  * activity log extents anyway. */
- #define PEERS_IN_SYNC_STEP_SHIFT AL_EXTENT_SHIFT
--#define PEERS_IN_SYNC_STEP_SECT_MASK ((1UL << (PEERS_IN_SYNC_STEP_SHIFT - SECTOR_SHIFT)) - 1)
-+#define PEERS_IN_SYNC_STEP_SECT      (1UL << (PEERS_IN_SYNC_STEP_SHIFT - SECTOR_SHIFT))
-+#define PEERS_IN_SYNC_STEP_SECT_MASK (PEERS_IN_SYNC_STEP_SECT - 1)
- 
- /* bit to represented kilo byte conversion */
- #define Bit2KB(bits) ((bits)<<(BM_BLOCK_SHIFT-10))
-diff --git a/drbd/drbd_receiver.c b/drbd/drbd_receiver.c
-index d43f3f98b..2bbf167a8 100644
---- a/drbd/drbd_receiver.c
-+++ b/drbd/drbd_receiver.c
-@@ -2540,8 +2540,10 @@ void drbd_queue_update_peers(struct drbd_peer_device *peer_device,
- 	}
- }
- 
--static void drbd_peers_in_sync_progress(struct drbd_peer_device *peer_device, sector_t sector_end)
-+static void drbd_peers_in_sync_progress(struct drbd_peer_device *peer_device, sector_t sector_start, sector_t sector_end)
- {
-+	sector_t range_end;
-+	sector_t peers_in_sync_start = sector_start & ~PEERS_IN_SYNC_STEP_SECT_MASK;
- 	/* Round down to the boundary defined by PEERS_IN_SYNC_STEP_SHIFT. */
- 	sector_t peers_in_sync_end = sector_end & ~PEERS_IN_SYNC_STEP_SECT_MASK;
- 
-@@ -2555,8 +2557,19 @@ static void drbd_peers_in_sync_progress(struct drbd_peer_device *peer_device, se
- 	if (peers_in_sync_end == peer_device->last_peers_in_sync_end)
- 		return;
- 
--	drbd_queue_update_peers(peer_device, peer_device->last_peers_in_sync_end, peers_in_sync_end);
--	peer_device->last_peers_in_sync_end = peers_in_sync_end;
-+	for (; peers_in_sync_end - peer_device->last_peers_in_sync_end >= PEERS_IN_SYNC_STEP_SECT; ) {
-+		/* Ensure send range does not over 4 MiB */
-+		range_end = min(get_capacity(peer_device->device->vdisk),
-+			(peer_device->last_peers_in_sync_end | PEERS_IN_SYNC_STEP_SECT_MASK) + 1);
-+
-+		drbd_queue_update_peers(peer_device, peer_device->last_peers_in_sync_end, range_end);
-+
-+		if (peers_in_sync_start <= range_end)
-+			peer_device->last_peers_in_sync_end = range_end;
-+		else
-+			/* Skip the no resync range */
-+			peer_device->last_peers_in_sync_end = peers_in_sync_start;
-+	}
- 
- 	/* Also consider scheduling a bitmap update to reduce the size of the
- 	 * next resync if this one is disrupted. */
-@@ -2580,7 +2593,7 @@ static void drbd_check_peers_in_sync_progress(struct drbd_peer_device *peer_devi
- 	spin_unlock_irq(&connection->peer_reqs_lock);
- 
- 	list_for_each_entry_safe(peer_req, tmp, &completed, recv_order) {
--		drbd_peers_in_sync_progress(peer_device, peer_req->i.sector + (peer_req->i.size >> SECTOR_SHIFT));
-+		drbd_peers_in_sync_progress(peer_device, peer_req->i.sector, peer_req->i.sector + (peer_req->i.size >> SECTOR_SHIFT));
- 		drbd_free_peer_req(peer_req);
- 	}
- }
--- 
-2.43.0
+Best regards,
+Joel
 
+--000000000000d22c6906463cb918
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi Zhengbing Huang,</div><div><br></div><div>Thanks f=
+or the contribution! I also considered this case but did not work on any co=
+de to improve the behavior yet. I will look at your patch and write again.<=
+/div><div><br></div><div>Thanks also for your recent RDMA patches.=C2=A0Phi=
+lipp Reisner=C2=A0is aware of them and will review them in due course.</div=
+><div><br></div><div>Best regards,</div><div>Joel</div><div><br></div></div=
+>
+
+--000000000000d22c6906463cb918--
