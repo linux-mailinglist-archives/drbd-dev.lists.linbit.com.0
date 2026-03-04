@@ -2,82 +2,66 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GEENMCNrmGlXIQMAu9opvQ
+	id cBPuEMaDqGmYvAAAu9opvQ
 	(envelope-from <drbd-dev-bounces@lists.linbit.com>)
-	for <lists+drbd-dev@lfdr.de>; Fri, 20 Feb 2026 15:09:39 +0100
+	for <lists+drbd-dev@lfdr.de>; Wed, 04 Mar 2026 20:11:02 +0100
 X-Original-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTP id 63C291682F8
-	for <lists+drbd-dev@lfdr.de>; Fri, 20 Feb 2026 15:09:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DF577206F12
+	for <lists+drbd-dev@lfdr.de>; Wed, 04 Mar 2026 20:11:01 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 089D91627B9;
-	Fri, 20 Feb 2026 15:09:27 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B8EFD163114;
+	Wed,  4 Mar 2026 20:10:47 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com
-	[209.85.160.41])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id F3126160922
-	for <drbd-dev@lists.linbit.com>; Fri, 20 Feb 2026 15:09:24 +0100 (CET)
-Received: by mail-oa1-f41.google.com with SMTP id
-	586e51a60fabf-4152698e745so751333fac.1
-	for <drbd-dev@lists.linbit.com>; Fri, 20 Feb 2026 06:09:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1771596563;
-	x=1772201363; darn=lists.linbit.com; 
-	h=content-transfer-encoding:mime-version:date:message-id:subject
-	:references:in-reply-to:cc:to:from:from:to:cc:subject:date
-	:message-id:reply-to;
-	bh=6agG1a/ZZ7prFDRVGuF7sIP7aaRyumONnsIWUYhmn9E=;
-	b=1jPQetTEPts/6lolrPT3Xwq3oor2EI+PUfxmBePsGPP7UX67q+XX3qR+1qxJwwYwuO
-	ZaVqJaBJ/9wOGsLoMOcSEhgOS8hSHbowzS4fFRuAY0OWUROv2EmyS+Uy1cFLs2GjQ8xM
-	hG9dbCKA6XBjVp2RGnY+UGtW30ZJuT0sZ5ZygD5FvGW3uvCngaExSHTfeav86LGYM2En
-	s1tV18tR+575bMCRXYQoINzDSO0pEhb4dDOsKbzxH2F7NyqSiDe/rf44d83yhCATxulZ
-	Bqcukb9DgArzs8HGkzSApM7IWQdkyTE9sLe6ixryU05pOWCluUwCFNnFWhXQJ/OjISXk
-	MmZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20230601; t=1771596563; x=1772201363;
-	h=content-transfer-encoding:mime-version:date:message-id:subject
-	:references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
-	:to:cc:subject:date:message-id:reply-to;
-	bh=6agG1a/ZZ7prFDRVGuF7sIP7aaRyumONnsIWUYhmn9E=;
-	b=wtkPwNd84bUWVuW9b9uPy3WYFXIKLPSnf26Lc1pSGUvlRIf0Bj7gIbVUrFa9ruAij8
-	54VJ+NHXY1Gy8jbhxd4FAMMLZcg8fHkPmtxMt+HLFik/qkNU4fIIwKIgb0Bmeqrt/LBc
-	BpRM18+d3XRyKikaxWiJzb3KtijfyMrylY34iew2Ub/tpIQ0vOe9NhsILp2COvmqRXbk
-	Y+uvYtcXzX77mPLwSSpxUXVTOhqYa/GUJyKf8vxU8AI4UBpAcSR2zFBBeoAE1RqYHv4J
-	zrSLdZ7U0lOtyoq4Z3Gp42ihNVctQeqo2rWfiz8CtmVbEQfo7Uogzyc27P6RigiKLpoI
-	Voig==
-X-Gm-Message-State: AOJu0YxFmwiIOHa9pRE6mw2IOlh64InnK7Y2wsCbeL4FCt5+AzVfvvJT
-	sPN1FuIVOvqdLFUjaoMjRaOIASKAnC9VpMeOsM5zkkRrxKjrcF8ynNIHaFkYAEeMWgs=
-X-Gm-Gg: AZuq6aIMLqOiODqYzTT5Kp5/HJ8p3x35BdW1wKe4+s4RSmIoozmBA0Px0W5cNXx7mZO
-	ky67VbyERrXVw+111Mp+aGvKbV+/NItN2G0ZcoSBJgPVE5r21jzZlaNYQ+wGpxSuKkDob07UvIz
-	LGA3/9RKatTIOtWkrJOJT3B5BC+2vjIwwV3vsw1tghtkqppyg6KAF5lWywnZPmKY9IZJ9gY7/Iq
-	EgIIQU1pqoPeBBrG10U7FqmIP2TvBMreNPqbHm76ifkYYzvp/rMIHzG4yubZmTxUNL9Cnx6MS+q
-	RfOrPcFRjLQTnym3OFS6vTWM4ux6RWvka5owjGXgGnE4DxjMCObxVx9UNhUlA98hdoDfktK36O8
-	F0wnBk+9D3FpRpn+EwmLBCIhEUZfIFm/zKK+azSZjLt+8P3+g3LLkmmWGiEYEkFIkGLiYJxeT0V
-	HPhzjomj0Pz6S3UvKlmY6jF01dWGLqvwMX5rQyAC+GGSusY9MFkD0N0Fb84/MUUISAaXgVwb1Jm
-	eNsGg==
-X-Received: by 2002:a05:6870:6b0a:b0:40e:dcbd:e92d with SMTP id
-	586e51a60fabf-40f0d1bbcafmr13285290fac.0.1771596563456; 
-	Fri, 20 Feb 2026 06:09:23 -0800 (PST)
-Received: from [127.0.0.1] ([187.199.77.89]) by smtp.gmail.com with ESMTPSA id
-	586e51a60fabf-40eaeb42708sm27916776fac.0.2026.02.20.06.09.21
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 20 Feb 2026 06:09:22 -0800 (PST)
-From: Jens Axboe <axboe@kernel.dk>
-To: =?utf-8?q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>
-In-Reply-To: <20260220113937.2691322-1-christoph.boehmwalder@linbit.com>
-References: <20260220113937.2691322-1-christoph.boehmwalder@linbit.com>
-Subject: Re: [PATCH] drbd: fix null-pointer dereference on local read error
-Message-Id: <177159656185.567740.9381187974299808709.b4-ty@kernel.dk>
-Date: Fri, 20 Feb 2026 07:09:21 -0700
+X-Greylist: delayed 368 seconds by postgrey-1.31 at mail19;
+	Wed, 04 Mar 2026 20:10:43 CET
+Received: from us-smtp-delivery-124.mimecast.com
+	(us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 783541627A1
+	for <drbd-dev@lists.linbit.com>; Wed,  4 Mar 2026 20:10:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1772651442;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	content-transfer-encoding:content-transfer-encoding;
+	bh=u7S3JSUw0L6B/lSDSpa518AgIIh6Ud2RJzojY8j4acU=;
+	b=OtWrJzfOZwlEpGdmZekOj21DBvG9gl/yFyJipmODtP4LM/AeOGjRMp35z0/vF/NTABoePd
+	oTvJ/F7nMQ2HJjw7QR0Q1oIEEXgdq+c+V4LjqkUfAk4IBRAOtavarw/ucgQunT6Kq0Ruj7
+	gIAVUTgzGzDC2ouHVW8TjXmfFJX4a9Y=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+	(ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+	cipher=TLS_AES_256_GCM_SHA384) id us-mta-454-nJzCNDAMOC263_7eoJTryw-1;
+	Wed, 04 Mar 2026 14:04:30 -0500
+X-MC-Unique: nJzCNDAMOC263_7eoJTryw-1
+X-Mimecast-MFC-AGG-ID: nJzCNDAMOC263_7eoJTryw_1772651069
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com
+	(mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com
+	[10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest
+	SHA256) (No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with
+	ESMTPS id ABAB61956096; Wed,  4 Mar 2026 19:04:28 +0000 (UTC)
+Received: from pasta.fast.eng.rdu2.dc.redhat.com (unknown [10.44.32.29])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with
+	ESMTP id 298AB18002A6; Wed,  4 Mar 2026 19:04:25 +0000 (UTC)
+From: Andreas Gruenbacher <agruenba@redhat.com>
+To: Jens Axboe <axboe@kernel.dk>
+Subject: [PATCH 0/4] simple bio cleanups
+Date: Wed,  4 Mar 2026 20:04:05 +0100
+Message-ID: <20260304190424.291743-1-agruenba@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+X-Mimecast-MFC-PROC-ID: cslZ-TaTodXtxQTpWtL6kkgm9MtM7oEGqj97iIVhiKY_1772651069
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.14.3
-Cc: Philipp Reisner <philipp.reisner@linbit.com>, stable@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	Tuo Li <islituo@gmail.com>, drbd-dev@lists.linbit.com
+content-type: text/plain; charset="US-ASCII"; x-default=true
+Cc: dm-devel@lists.linux.dev, Andreas Gruenbacher <agruenba@redhat.com>,
+	linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+	linux-block@vger.kernel.org, linux-bcache@vger.kernel.org,
+	drbd-dev@lists.linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -93,63 +77,65 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
+X-Rspamd-Queue-Id: DF577206F12
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.59 / 15.00];
-	R_DKIM_REJECT(1.00)[kernel-dk.20230601.gappssmtp.com:s=20230601];
+X-Spamd-Result: default: False [3.09 / 15.00];
+	DMARC_POLICY_QUARANTINE(1.50)[redhat.com : SPF not aligned (relaxed),quarantine];
+	R_DKIM_REJECT(1.00)[redhat.com:s=mimecast20190719];
+	MID_CONTAINS_FROM(1.00)[];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+mx];
+	R_SPF_ALLOW(-0.20)[+a];
 	MIME_GOOD(-0.10)[text/plain];
 	RCVD_NO_TLS_LAST(0.10)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	DMARC_NA(0.00)[kernel.dk];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:christoph.boehmwalder@linbit.com,m:philipp.reisner@linbit.com,m:stable@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-block@vger.kernel.org,m:lars.ellenberg@linbit.com,m:islituo@gmail.com,s:lists@lfdr.de];
-	ARC_NA(0.00)[];
-	FORGED_SENDER(0.00)[axboe@kernel.dk,drbd-dev-bounces@lists.linbit.com];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[linbit.com,vger.kernel.org,gmail.com,lists.linbit.com];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[drbd-dev@lists.linbit.com];
-	DKIM_TRACE(0.00)[kernel-dk.20230601.gappssmtp.com:-];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[drbd-dev@lists.linbit.com];
-	NEURAL_HAM(-0.00)[-0.964];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[axboe@kernel.dk,drbd-dev-bounces@lists.linbit.com];
+	FORGED_SENDER(0.00)[agruenba@redhat.com,drbd-dev-bounces@lists.linbit.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ARC_NA(0.00)[];
+	DKIM_TRACE(0.00)[redhat.com:-];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[drbd-dev@lists.linbit.com];
+	FORGED_RECIPIENTS(0.00)[m:axboe@kernel.dk,m:dm-devel@lists.linux.dev,m:agruenba@redhat.com,m:linux-kernel@vger.kernel.org,m:linux-f2fs-devel@lists.sourceforge.net,m:linux-block@vger.kernel.org,m:linux-bcache@vger.kernel.org,s:lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	ASN(0.00)[asn:24940, ipnet:159.69.0.0/16, country:DE];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[agruenba@redhat.com,drbd-dev-bounces@lists.linbit.com];
+	MISSING_XM_UA(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[drbd-dev@lists.linbit.com];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	NEURAL_HAM(-0.00)[-0.503];
 	TAGGED_RCPT(0.00)[drbd-dev];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[kernel.dk:mid]
-X-Rspamd-Queue-Id: 63C291682F8
+	RCPT_COUNT_SEVEN(0.00)[8];
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Action: no action
 
+Jens,
 
-On Fri, 20 Feb 2026 12:39:37 +0100, Christoph Böhmwalder wrote:
-> In drbd_request_endio(), READ_COMPLETED_WITH_ERROR is passed to
-> __req_mod() with a NULL peer_device:
-> 
->   __req_mod(req, what, NULL, &m);
-> 
-> The READ_COMPLETED_WITH_ERROR handler then unconditionally passes this
-> NULL peer_device to drbd_set_out_of_sync(), which dereferences it,
-> causing a null-pointer dereference.
-> 
-> [...]
+here are some simple bio related cleanups.  Any thoughts?  Can those go
+in via your tree?
 
-Applied, thanks!
+Thanks,
+Andreas
 
-[1/1] drbd: fix null-pointer dereference on local read error
-      commit: 0d195d3b205ca90db30d70d09d7bb6909aac178f
+Andreas Gruenbacher (4):
+  block: consecutive blk_status_t error codes
+  block: get rid of blk_status_to_{errno,str} inconsistency
+  bio: rename bio_chain arguments
+  bio: use bio_io_error more often
 
-Best regards,
+ block/bio.c                   | 22 +++++++++++-----------
+ block/blk-core.c              |  5 +----
+ block/fops.c                  |  3 +--
+ drivers/block/drbd/drbd_int.h |  3 +--
+ drivers/md/bcache/bcache.h    |  3 +--
+ drivers/md/bcache/request.c   |  6 ++----
+ drivers/md/dm-mpath.c         |  3 +--
+ drivers/md/dm-writecache.c    |  3 +--
+ fs/f2fs/segment.c             |  3 +--
+ include/linux/blk_types.h     |  2 +-
+ 10 files changed, 21 insertions(+), 32 deletions(-)
+
 -- 
-Jens Axboe
-
-
+2.52.0
 
