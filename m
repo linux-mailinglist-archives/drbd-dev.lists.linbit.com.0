@@ -2,50 +2,85 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kDKICuyPqWni/gAAu9opvQ
+	id 2FBiJIbNqWl+FQEAu9opvQ
 	(envelope-from <drbd-dev-bounces@lists.linbit.com>)
-	for <lists+drbd-dev@lfdr.de>; Thu, 05 Mar 2026 15:15:08 +0100
+	for <lists+drbd-dev@lfdr.de>; Thu, 05 Mar 2026 19:37:58 +0100
 X-Original-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTP id CFD3D2131BC
-	for <lists+drbd-dev@lfdr.de>; Thu, 05 Mar 2026 15:15:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 32CDE2170CB
+	for <lists+drbd-dev@lfdr.de>; Thu, 05 Mar 2026 19:37:58 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 5C0351630E2;
-	Thu,  5 Mar 2026 15:14:56 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 4122B1627BA;
+	Thu,  5 Mar 2026 19:37:45 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from bombadil.infradead.org (bombadil.infradead.org
-	[198.137.202.133])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E17BB16095C
-	for <drbd-dev@lists.linbit.com>; Thu,  5 Mar 2026 15:14:51 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309;
-	h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=VyACtQ8FtLAF8W79RsrWoCkj/Khk2u/PvVKY+BBKGME=;
-	b=U2aAmqo60Ca2/4JMxoWYSz2OVF
-	8QLmkiTeD4u5i+7Gd0GWJoGUQndeSnQacyao3D9qsQBZeRoOOVpM8JMUAmJxvyQwmheNYR+hSMJ7Z
-	cWMb0FsOXd7+ooYDZmyz+u5PanFqzy3OnVz8D7RdoaUDxNCbse76mdMg76J9SDdj0yXMX8JQfDSd4
-	iS2zckLHXZTKDFIJOSjCMzNUge0cry9LRaDjszhjh9063HVjUBzB7amJykGVzfJ6Gt1xNMRdUClrm
-	hdzknJxq7H1R1g5INpLcftONLawlD22PRX+CoSl4YLlm8k40BUuFebC2Ys96u4Z/NZ7VaelX9mQ9L
-	9qZn6wwA==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red
-	Hat Linux)) id 1vy9TW-00000001van-3rd0;
-	Thu, 05 Mar 2026 14:14:50 +0000
-Date: Thu, 5 Mar 2026 06:14:50 -0800
-From: Christoph Hellwig <hch@infradead.org>
-To: Andreas Gruenbacher <agruenba@redhat.com>
-Subject: Re: [PATCH 4/4] bio: use bio_io_error more often
-Message-ID: <aamP2qNKEmiyXQQH@infradead.org>
+Received: from us-smtp-delivery-124.mimecast.com
+	(us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id B41FC1630E4
+	for <drbd-dev@lists.linbit.com>; Thu,  5 Mar 2026 19:37:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1772735861;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	content-transfer-encoding:content-transfer-encoding:
+	in-reply-to:in-reply-to:references:references;
+	bh=R6dH8XgJiObtxOpcsUX3tskHijiwulWb20uGf7t+NqY=;
+	b=CsmBcR2oFryRQtYrDxxQ8V68a5F73YW5BkeZRxAVke+A7EV35CihtEkiBFM3R1GTs/A+YQ
+	NSbrG1akBXX59hzvz7k+2k/AhSO6ySiSvtgp++awIjoCRF8913znbnIZC+iGqu4+pSc+HZ
+	e8Omy9EFgLkrPUj7qR+g6G+EulUoETw=
+Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
+	[209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
+	(version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+	us-mta-3-9Xd7BeH_PtG5_GIjymXttA-1; Thu, 05 Mar 2026 13:37:40 -0500
+X-MC-Unique: 9Xd7BeH_PtG5_GIjymXttA-1
+X-Mimecast-MFC-AGG-ID: 9Xd7BeH_PtG5_GIjymXttA_1772735858
+Received: by mail-yw1-f198.google.com with SMTP id
+	00721157ae682-7987861595eso148963607b3.1
+	for <drbd-dev@lists.linbit.com>; Thu, 05 Mar 2026 10:37:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20230601; t=1772735858; x=1773340658;
+	h=content-transfer-encoding:cc:to:subject:message-id:date:from
+	:in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+	:to:cc:subject:date:message-id:reply-to;
+	bh=R6dH8XgJiObtxOpcsUX3tskHijiwulWb20uGf7t+NqY=;
+	b=tJUqIHns4GUcyQ262KWLjDwwQB83nYNqFhQpOsa8vUuWiEpKHluAZ6s6w77E+MMxbn
+	3/OXDcNK/1b9H7jxcH8IJq19x1q3sKrn20kFci0FcRWr24UMSdgzVGMxMlQ1K+siSSN4
+	UOpQ+1ia6FD0pMuItnO6vm32QqiEqyz8gY05Z4RrmVTnWmMlGf4aUf+5kIYYt27KVSht
+	78Yv5uhyyZdNxVix8L6hQ74qbm3ZPr79x3bRteQkrcsYaRcV7PWGswQJJdy6uY3itAZX
+	G8+hw8cclAdUrXa/QeNALXW0H2QI7ChxHnjlRemYlk46EbHljgInYOnELMPT3dhlxEAK
+	J/Mg==
+X-Forwarded-Encrypted: i=1;
+	AJvYcCUtzPMcpoByN7P1YR97oDaGC1VT0v8Tw4Nx/EPuhDcHZJNiapSMX5ioTTFbKbRlciLJrayLC3S3gg==@lists.linbit.com
+X-Gm-Message-State: AOJu0YyIiKAlAAqpmXDLnJ0T69zamJ+bfAsfhSiZx8lvmRup2QIziZ1/
+	HIjr6yuN4j6Z5ucwiJFg/6N+JEXHL0FtCYF0Oskpv9Oj13bZmnjZRtVrXim6XR57ufGkKrIL7bv
+	6tn5PNpmNJVcevqW58b16nnvmGrlwxey4nHMHTsPTdvxrDs1pkwkImZi0F+mv8Aphp32CPMyOuE
+	yP/pnF2QE5sGGUaSyHqMZSPIi499Uuyo2Zxdw6
+X-Gm-Gg: ATEYQzzR1Ak1x+5zoEJROGQKqB4mX4Ihz4jKyoZnZ6lOOAeBYRyqqEy/TNtZPxQQDdj
+	rBqM8gzocLQbsQuA2T1MMfsd/BgA0WAPtn0EYK9vOnyc3zJnV/KOR5fp54kWHQd+yfAEfMzcWls
+	4XVYkGjja8wM2k0r/N599qwP8d0q0nFKNZLaCpWKxhbYgVt8UhbvvK79328ynd1vCaaAThmnnWA
+	o22z3zuvRM8bRQShPxEUbuExkoXzNvcvrhk39/Bp3V2iFIK0sRXvGBZdsXr5mUKmw==
+X-Received: by 2002:a05:690c:c513:b0:798:647f:239 with SMTP id
+	00721157ae682-798c6c01a87mr55056867b3.21.1772735858046; 
+	Thu, 05 Mar 2026 10:37:38 -0800 (PST)
+X-Received: by 2002:a05:690c:c513:b0:798:647f:239 with SMTP id
+	00721157ae682-798c6c01a87mr55056657b3.21.1772735857680; Thu, 05 Mar 2026
+	10:37:37 -0800 (PST)
+MIME-Version: 1.0
 References: <20260304190424.291743-1-agruenba@redhat.com>
 	<20260304190424.291743-5-agruenba@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260304190424.291743-5-agruenba@redhat.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
-	bombadil.infradead.org. See http://www.infradead.org/rpr.html
+	<aamP2qNKEmiyXQQH@infradead.org>
+In-Reply-To: <aamP2qNKEmiyXQQH@infradead.org>
+From: Andreas Gruenbacher <agruenba@redhat.com>
+Date: Thu, 5 Mar 2026 19:37:26 +0100
+X-Gm-Features: AaiRm500QkwsYOPyC8DDeTtG7W1JPyGlNX5bDWdmiHocLDeSRR23AHcZAF5cQWI
+Message-ID: <CAHc6FU5sEivMqj38xrAXuTxZ0d19LJjxbvoWtsPqm6NYigAEhA@mail.gmail.com>
+Subject: Re: [PATCH 4/4] bio: use bio_io_error more often
+To: Christoph Hellwig <hch@infradead.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: Xq00MQZlVHJEztGPtyShU0i-f8QP9sZhc7GHQ8BKFCk_1772735858
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Cc: Jens Axboe <axboe@kernel.dk>, dm-devel@lists.linux.dev,
 	linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
 	linux-block@vger.kernel.org, linux-bcache@vger.kernel.org,
@@ -65,50 +100,61 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
-X-Rspamd-Queue-Id: CFD3D2131BC
+X-Rspamd-Queue-Id: 32CDE2170CB
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.69 / 15.00];
-	R_DKIM_REJECT(1.00)[infradead.org:s=bombadil.20210309];
-	R_SPF_ALLOW(-0.20)[+a:c];
+X-Spamd-Result: default: False [2.09 / 15.00];
+	DMARC_POLICY_QUARANTINE(1.50)[redhat.com : SPF not aligned (relaxed),quarantine];
+	R_DKIM_REJECT(1.00)[redhat.com:s=mimecast20190719];
 	MAILLIST(-0.20)[mailman];
-	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[infradead.org : SPF not aligned (relaxed),none];
+	R_SPF_ALLOW(-0.20)[+a];
 	RCVD_NO_TLS_LAST(0.10)[];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[infradead.org:-];
-	FORGED_RECIPIENTS(0.00)[m:agruenba@redhat.com,m:axboe@kernel.dk,m:dm-devel@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:linux-f2fs-devel@lists.sourceforge.net,m:linux-block@vger.kernel.org,m:linux-bcache@vger.kernel.org,m:hch@lst.de,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[hch@infradead.org,drbd-dev-bounces@lists.linbit.com];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[drbd-dev@lists.linbit.com];
+	DKIM_TRACE(0.00)[redhat.com:-];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	ARC_NA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:hch@infradead.org,m:axboe@kernel.dk,m:dm-devel@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:linux-f2fs-devel@lists.sourceforge.net,m:linux-block@vger.kernel.org,m:linux-bcache@vger.kernel.org,m:hch@lst.de,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[agruenba@redhat.com,drbd-dev-bounces@lists.linbit.com];
+	FORWARDED(0.00)[drbd-dev@lists.linbit.com];
+	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:24940, ipnet:159.69.0.0/16, country:DE];
 	PREVIOUSLY_DELIVERED(0.00)[drbd-dev@lists.linbit.com];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hch@infradead.org,drbd-dev-bounces@lists.linbit.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.434];
+	FROM_NEQ_ENVFROM(0.00)[agruenba@redhat.com,drbd-dev-bounces@lists.linbit.com];
+	MIME_TRACE(0.00)[0:+];
+	NEURAL_HAM(-0.00)[-0.491];
 	RCPT_COUNT_SEVEN(0.00)[9];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[drbd-dev];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[infradead.org:mid,mail19.linbit.com:rdns,mail19.linbit.com:helo]
+	TAGGED_RCPT(0.00)[drbd-dev];
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Action: no action
 
-On Wed, Mar 04, 2026 at 08:04:09PM +0100, Andreas Gruenbacher wrote:
-> Instead of setting bio->bi_status to BLK_STS_IOERR and calling
-> bio_endio(bio), use the shorthand bio_io_error(bio).
+On Thu, Mar 5, 2026 at 3:14=E2=80=AFPM Christoph Hellwig <hch@infradead.org=
+> wrote:
+> On Wed, Mar 04, 2026 at 08:04:09PM +0100, Andreas Gruenbacher wrote:
+> > Instead of setting bio->bi_status to BLK_STS_IOERR and calling
+> > bio_endio(bio), use the shorthand bio_io_error(bio).
+>
+> I'm a little torn how good these helpers actually are, as
+> hard coding one specific type of error seems to create weird
+> code and lead to bugs like the xfs one you fixed yesterday.
+>
+> Maybe we just need a bio_endio_status() that allows passing the
+> status?
 
-I'm a little torn how good these helpers actually are, as
-hard coding one specific type of error seems to create weird
-code and lead to bugs like the xfs one you fixed yesterday.
+I'm not particularly attached to bio_io_error(bio); it's been around
+forever but it can be confusing. Any thoughts on replacing it with a
+new bio_endio_status(bio, BLK_STS_IOERR) helper instead of keeping two
+mechanisms for doing the same thing?
 
-Maybe we just need a bio_endio_status() that allows passing the
-satatus?
+> Also you really need to send one patch per subsystem.
 
-Also you really need to send one patch per subsystem.
+I'm really trying to avoid that for simple, obviously correct,
+mechanical changes that can be recreated from scratch any time.
+
+Thanks,
+Andreas
 
