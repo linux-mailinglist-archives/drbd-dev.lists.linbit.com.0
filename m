@@ -2,55 +2,81 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kC9OM6PJumm6bwIAu9opvQ
+	id sBuzF7HJumkLcAIAu9opvQ
 	(envelope-from <drbd-dev-bounces@lists.linbit.com>)
-	for <lists+drbd-dev@lfdr.de>; Wed, 18 Mar 2026 16:49:55 +0100
+	for <lists+drbd-dev@lfdr.de>; Wed, 18 Mar 2026 16:50:09 +0100
 X-Original-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTP id 647052BE983
-	for <lists+drbd-dev@lfdr.de>; Wed, 18 Mar 2026 16:49:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 18DBE2BE992
+	for <lists+drbd-dev@lfdr.de>; Wed, 18 Mar 2026 16:50:08 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id E66FA162F01;
-	Wed, 18 Mar 2026 16:49:45 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 0BDF5162806;
+	Wed, 18 Mar 2026 16:49:48 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-X-Greylist: delayed 1213 seconds by postgrey-1.31 at mail19;
-	Thu, 05 Mar 2026 15:57:42 CET
-Received: from va-2-40.ptr.blmpb.com (va-2-40.ptr.blmpb.com [209.127.231.40])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 557D1162807
-	for <drbd-dev@lists.linbit.com>;
-	Thu,  5 Mar 2026 15:57:41 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	s=s1; d=fnnas-com.20200927.dkim.feishu.cn; t=1772721137;
-	h=from:subject:mime-version:from:date:message-id:subject:to:cc:
-	reply-to:content-type:mime-version:in-reply-to:message-id;
-	bh=fd+yf1MWzvARKFw8KBfrfEqR9xVpjfuoaal13vgTb08=;
-	b=AAxZ2sSHWBbHI7bgo9b94IGyL9gbbFmnG2NRpr2rPRJHORW19c5D9fIVDKQmGT+SjHgHkT
-	w9rTBRmAS7+aci8rWfM7wYOKLGRQnzJMIbXjN+AEn3+iu+I8HP9VaOkhlBNy7Miepdvy7t
-	UiAagZ3L9669d9b9HdLl1d1kt7+OIufueeiBMmVyqxYcOF+mkzjmceodm2A5nCl4vYTDYe
-	7qxP0ynSnam8VDnptEWPT0qLpJKADLMTFSAzRSAWnag2HxtiNXwEtRZAXpHePZpqV95Tky
-	JhYfI8ghcEjCDB0EnM4Ax0kFdpMCCpE3TAh5Jm2IXeFDMhOo+zyImudtdQaCYA==
-Message-Id: <aamTA2F84tiDbmF3@studio.local>
-Mime-Version: 1.0
-References: <20260304190424.291743-1-agruenba@redhat.com>
-	<20260304190424.291743-5-agruenba@redhat.com>
-In-Reply-To: <20260304190424.291743-5-agruenba@redhat.com>
-Subject: Re: [PATCH 4/4] bio: use bio_io_error more often
-Date: Thu, 5 Mar 2026 22:32:13 +0800
-X-Original-From: Coly Li <colyli@fnnas.com>
-Content-Type: text/plain; charset=UTF-8
-Received: from studio.local ([120.245.64.174]) by smtp.feishu.cn with ESMTPS;
-	Thu, 05 Mar 2026 22:32:14 +0800
-Content-Transfer-Encoding: 7bit
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+	[209.85.128.53])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 3650A16084A
+	for <drbd-dev@lists.linbit.com>; Wed, 11 Mar 2026 09:35:36 +0100 (CET)
+Received: by mail-wm1-f53.google.com with SMTP id
+	5b1f17b1804b1-485345e1013so5366725e9.1
+	for <drbd-dev@lists.linbit.com>; Wed, 11 Mar 2026 01:35:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=suse.com; s=google; t=1773218136; x=1773822936; darn=lists.linbit.com;
+	h=user-agent:content-disposition:mime-version:message-id:subject:cc
+	:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+	bh=EjRjPg4FR7ijjXynwuypftW1LlG57LuGHtatoIrW9iI=;
+	b=SMLHbQohJR6w8CS5rFevsfF9Jljsq5vxu+YOmSvPI54o4hKt7d3ligyQvcpfqMFtqh
+	Q5uzqFF+nqTJnRRvRBh7jpBhBOdyz0UiHlDUjhOOvO5954jFQIlE28Q0cDVL9NOp+dm4
+	BF7ZPNuU4tl1ZUK4wcu1SdfK1VnYY+IOndAQZvtjF7BVkMO8vAUiV+ABYCkRWcec4bpC
+	UvTbYgwNsA0d+uJ836ht0OZZ30qL+ydxhYS0H1LBHcYRLZrr0gaEELwBGBvKU3JW+cUB
+	9q/tLKQ4OBHliMXjHttL+wv0KsjEl28CzJabZLYE1PT2OJjUZDpMHAZ/oHecSY/NXpzd
+	ToqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20230601; t=1773218136; x=1773822936;
+	h=user-agent:content-disposition:mime-version:message-id:subject:cc
+	:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+	:message-id:reply-to;
+	bh=EjRjPg4FR7ijjXynwuypftW1LlG57LuGHtatoIrW9iI=;
+	b=OJXKvQmUMRE+zrXxsp+nM585cLHgtNn7BRgM0XIRWEeKNjSV8aRUb8uzSsCrYQbiqQ
+	2j11gM+C5USv+29wnYgRFY/RWsoaSDEWx9Hc7jobmmbP2DV3lLmYnJeJBEj+6nE47ftW
+	SaHtoGuycGpcUFRo0xlNlKxI9bKSwqDx9MOw8stESbQVNngA8xo0iXWkqPpExX+hj+G6
+	acvR3316WL9UK0X3Wnj2z1W377e61gp4fuvjfjOllT4CrhUHxUiU3uSG+fOblzp1dROg
+	MqjNSmyH04IHGgkB2llo3Jv4ZBV/ptPWrbiqnArufOLmLtLe1wJUwESovhBvbW1a8CvK
+	8V2Q==
+X-Forwarded-Encrypted: i=1;
+	AJvYcCUfkxAQ6+nLKl3rhsfa9s9sSz+sRbQYCBYBAO3YBTsb73BmZMvSvOxZmt0crlmOrhKP8lU2i/o6yg==@lists.linbit.com
+X-Gm-Message-State: AOJu0YyWB0wqXFSBuciNA7N39MN5I2iCtEMrvYOFd5PRcnN1rt19xoak
+	BYZH6DlmLzYZtUtADkKzK5VNTyXmkaVqUGWthZkA71sxe233Q/BSAPwMKidRav/l9Gw=
+X-Gm-Gg: ATEYQzxSDqcf4Gpx+C3hLeI6opOI5ojtr+Q6wTjiDhn35j8UHK90w3ED3cFimvEHuCb
+	ilg9zk4/SrsfDcM7PKruG/5vtacOPdNc/6PexbHRQB+jLtNoNQJDA5OP0Qt0Frg7zRBBa9CLu57
+	aE4kyOi3N/t+oisTJ9fxzVkqEG0DspHGpUx1vRI0s3JgB2s2YrjwsvQTUYcVcIdZ4m5Prm5m6Wc
+	gFBkRXcfxn+vhHE0zyQEpPDyHk+S+lpVAFFbkOvw2tEQZmMYhzXDlFU591vwlCTS3wu8iwwMZ61
+	T6P8Hi8ySaeluXbUfm8z5gyWo/Xew2JL/dU0l49i507iuOgqZd1ziFf1Kd64aedcwGCifKQ9mYR
+	U3rm97tzHLcbrLT2oYfBny5RUfw6ZKCkw7bu6ITyYfagM04Ba+fY19STSdEzr/j1EstYWDzsDRt
+	U2h/Vt81gZ/pDInMIOs2/HxN1TgbJqcrcoKy0J8nXEndjU/HluRDT8MTHbezJUeT6ESg==
+X-Received: by 2002:a05:600c:870f:b0:485:4035:53a5 with SMTP id
+	5b1f17b1804b1-48541a447d4mr146819915e9.12.1773218135634; 
+	Wed, 11 Mar 2026 01:35:35 -0700 (PDT)
+Received: from r1chard (36-228-122-64.dynamic-ip.hinet.net. [36.228.122.64])
+	by smtp.gmail.com with ESMTPSA id
+	d9443c01a7336-2aeae24a91dsm22493095ad.31.2026.03.11.01.35.32
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 11 Mar 2026 01:35:34 -0700 (PDT)
+Date: Wed, 11 Mar 2026 16:35:31 +0800
+From: Richard Lyu <richard.lyu@suse.com>
+To: Philipp Reisner <philipp.reisner@linbit.com>
+Subject: [PATCH] drbd: fix pointer cast spacing
+Message-ID: <20260311083510.183631-1-richard.lyu@suse.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-From: "Coly Li" <colyli@fnnas.com>
-X-Lms-Return-Path: <lba+269a993ef+206740+lists.linbit.com+colyli@fnnas.com>
-To: "Andreas Gruenbacher" <agruenba@redhat.com>
+X-Mailer: git-send-email 2.51.0
+User-Agent: Mutt/2.2.13 (2024-03-09)
 X-Mailman-Approved-At: Wed, 18 Mar 2026 16:49:43 +0100
-Cc: Jens Axboe <axboe@kernel.dk>, dm-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-	linux-block@vger.kernel.org, linux-bcache@vger.kernel.org,
-	Christoph Hellwig <hch@lst.de>, drbd-dev@lists.linbit.com
+Cc: Jens Axboe <axboe@kernel.dk>, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, Richard Lyu <richard.lyu@suse.com>,
+	Lars Ellenberg <lars.ellenberg@linbit.com>, drbd-dev@lists.linbit.com
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -66,116 +92,64 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
-X-Spamd-Result: default: False [2.09 / 15.00];
-	R_DKIM_REJECT(1.00)[fnnas-com.20200927.dkim.feishu.cn:s=s1];
-	DATE_IN_PAST(1.00)[313];
-	MV_CASE(0.50)[];
-	R_SPF_ALLOW(-0.20)[+a];
+X-Spamd-Result: default: False [3.09 / 15.00];
+	DMARC_POLICY_QUARANTINE(1.50)[suse.com : SPF not aligned (relaxed), No valid DKIM,quarantine];
+	DATE_IN_PAST(1.00)[175];
+	MID_CONTAINS_FROM(1.00)[];
 	MAILLIST(-0.20)[mailman];
+	R_SPF_ALLOW(-0.20)[+a:c];
 	MIME_GOOD(-0.10)[text/plain];
 	RCVD_NO_TLS_LAST(0.10)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DMARC_NA(0.00)[fnnas.com];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[colyli@fnnas.com,drbd-dev-bounces@lists.linbit.com];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:agruenba@redhat.com,m:axboe@kernel.dk,m:dm-devel@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:linux-f2fs-devel@lists.sourceforge.net,m:linux-block@vger.kernel.org,m:linux-bcache@vger.kernel.org,m:hch@lst.de,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[drbd-dev@lists.linbit.com];
-	DKIM_TRACE(0.00)[fnnas-com.20200927.dkim.feishu.cn:-];
-	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[richard.lyu@suse.com,drbd-dev-bounces@lists.linbit.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:philipp.reisner@linbit.com,m:axboe@kernel.dk,m:linux-kernel@vger.kernel.org,m:linux-block@vger.kernel.org,m:richard.lyu@suse.com,m:lars.ellenberg@linbit.com,s:lists@lfdr.de];
+	ARC_NA(0.00)[];
+	FORWARDED(0.00)[drbd-dev@lists.linbit.com];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:24940, ipnet:159.69.0.0/16, country:DE];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[drbd-dev@lists.linbit.com];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[colyli@fnnas.com,drbd-dev-bounces@lists.linbit.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[richard.lyu@suse.com,drbd-dev-bounces@lists.linbit.com];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.600];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TAGGED_RCPT(0.00)[drbd-dev];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	ASN(0.00)[asn:24940, ipnet:159.69.0.0/16, country:DE];
-	NEURAL_HAM(-0.00)[-0.495];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail19.linbit.com:helo,mail19.linbit.com:rdns]
-X-Rspamd-Queue-Id: 647052BE983
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.com:mid,mail19.linbit.com:helo,mail19.linbit.com:rdns,checkpatch.pl:url]
+X-Rspamd-Queue-Id: 18DBE2BE992
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, Mar 04, 2026 at 08:04:09PM +0800, Andreas Gruenbacher wrote:
-> Instead of setting bio->bi_status to BLK_STS_IOERR and calling
-> bio_endio(bio), use the shorthand bio_io_error(bio).
-> 
-> Created with Coccinelle using the following semantic patch:
-> 
-> @@
-> struct bio *bio;
-> @@
-> - bio->bi_status = BLK_STS_IOERR;
-> - bio_endio(bio);
-> + bio_io_error(bio);
-> 
-> Signed-off-by: Andreas Gruenbacher <agruenba@redhat.com>
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> ---
->  block/fops.c                  | 3 +--
->  drivers/block/drbd/drbd_int.h | 3 +--
->  drivers/md/bcache/bcache.h    | 3 +--
->  drivers/md/bcache/request.c   | 6 ++----
->  drivers/md/dm-mpath.c         | 3 +--
->  drivers/md/dm-writecache.c    | 3 +--
->  fs/f2fs/segment.c             | 3 +--
->  7 files changed, 8 insertions(+), 16 deletions(-)
-> 
+Checkpatch.pl reports the following coding style issue:
+ERROR: "(foo*)" should be "(foo *)"
++		struct p_trim *t = (struct p_trim*)p;
 
-[snipped]
+Place '*' next to the variable in the cast expression to follow
+the kernel coding style. No functional change.
 
->  
-> diff --git a/drivers/md/bcache/bcache.h b/drivers/md/bcache/bcache.h
-> index ec9ff9715081..e0c9d9eef0a0 100644
-> --- a/drivers/md/bcache/bcache.h
-> +++ b/drivers/md/bcache/bcache.h
-> @@ -947,8 +947,7 @@ static inline void closure_bio_submit(struct cache_set *c,
->  {
->  	closure_get(cl);
->  	if (unlikely(test_bit(CACHE_SET_IO_DISABLE, &c->flags))) {
-> -		bio->bi_status = BLK_STS_IOERR;
-> -		bio_endio(bio);
-> +		bio_io_error(bio);
->  		return;
->  	}
->  	submit_bio_noacct(bio);
-> diff --git a/drivers/md/bcache/request.c b/drivers/md/bcache/request.c
-> index 3fa3b13a410f..0f6fa0a2920b 100644
-> --- a/drivers/md/bcache/request.c
-> +++ b/drivers/md/bcache/request.c
-> @@ -1178,8 +1178,7 @@ void cached_dev_submit_bio(struct bio *bio)
->  
->  	if (unlikely((d->c && test_bit(CACHE_SET_IO_DISABLE, &d->c->flags)) ||
->  		     dc->io_disable)) {
-> -		bio->bi_status = BLK_STS_IOERR;
-> -		bio_endio(bio);
-> +		bio_io_error(bio);
->  		return;
->  	}
->  
-> @@ -1283,8 +1282,7 @@ void flash_dev_submit_bio(struct bio *bio)
->  	struct bcache_device *d = bio->bi_bdev->bd_disk->private_data;
->  
->  	if (unlikely(d->c && test_bit(CACHE_SET_IO_DISABLE, &d->c->flags))) {
-> -		bio->bi_status = BLK_STS_IOERR;
-> -		bio_endio(bio);
-> +		bio_io_error(bio);
->  		return;
->  	}
->  
+Signed-off-by: Richard Lyu <richard.lyu@suse.com>
+---
+ drivers/block/drbd/drbd_main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-For bcache part, I feel current hard code is explict and clear.
-The bio_io_error() wrapper is not so directly understood. This is just
-my opinion, not a strong objection. 
+diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
+index b8f0eddf7e87..978023e969f8 100644
+--- a/drivers/block/drbd/drbd_main.c
++++ b/drivers/block/drbd/drbd_main.c
+@@ -1681,7 +1681,7 @@ int drbd_send_dblock(struct drbd_peer_device *peer_device, struct drbd_request *
+ 
+ 	if (dp_flags & (DP_DISCARD|DP_ZEROES)) {
+ 		enum drbd_packet cmd = (dp_flags & DP_ZEROES) ? P_ZEROES : P_TRIM;
+-		struct p_trim *t = (struct p_trim*)p;
++		struct p_trim *t = (struct p_trim *)p;
+ 		t->size = cpu_to_be32(req->i.size);
+ 		err = __send_command(peer_device->connection, device->vnr, sock, cmd, sizeof(*t), NULL, 0);
+ 		goto out;
+-- 
+2.51.0
 
-Thanks.
-
-Coly Li
-
-
-[snipped]
