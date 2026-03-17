@@ -2,66 +2,66 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AFPdBubJumkLcAIAu9opvQ
+	id mCUjGtHJumm6bwIAu9opvQ
 	(envelope-from <drbd-dev-bounces@lists.linbit.com>)
-	for <lists+drbd-dev@lfdr.de>; Wed, 18 Mar 2026 16:51:02 +0100
+	for <lists+drbd-dev@lfdr.de>; Wed, 18 Mar 2026 16:50:41 +0100
 X-Original-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTP id EDE9D2BE9E9
-	for <lists+drbd-dev@lfdr.de>; Wed, 18 Mar 2026 16:51:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F4122BE9B6
+	for <lists+drbd-dev@lfdr.de>; Wed, 18 Mar 2026 16:50:41 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 555E716310D;
-	Wed, 18 Mar 2026 16:49:55 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2D20F1630EA;
+	Wed, 18 Mar 2026 16:49:54 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com
-	[209.85.128.175])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 504B916276A
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com
+	[209.85.128.171])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2B7CF1622B5
 	for <drbd-dev@lists.linbit.com>; Wed, 18 Mar 2026 00:23:22 +0100 (CET)
-Received: by mail-yw1-f175.google.com with SMTP id
-	00721157ae682-79a46ebe2beso28145787b3.2
+Received: by mail-yw1-f171.google.com with SMTP id
+	00721157ae682-7927261a3acso51072437b3.0
 	for <drbd-dev@lists.linbit.com>; Tue, 17 Mar 2026 16:23:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=gmail.com; s=20230601; t=1773789801; x=1774394601;
+	d=gmail.com; s=20230601; t=1773789802; x=1774394602;
 	darn=lists.linbit.com; 
 	h=content-transfer-encoding:mime-version:references:in-reply-to
 	:message-id:date:subject:cc:to:from:from:to:cc:subject:date
 	:message-id:reply-to;
-	bh=1bBa9pDPqbGfhOBwqPMjjiTOMbtTfvieka9d6hhFj70=;
-	b=hOBsPdUCprsx5kpgbiZXHYnE9UjA/qCy4geZDiKl/4PBrokYxJ9TZv77lfzIZVx+3E
-	3GypOs8KazteqlrZi3O0beMIoRnS2P1OcZQHyGZ5O2MwQQ28JrR6SdwwEuuUNXHdyPQa
-	pio48eqNfz2kv6om6ck43YDWWFbq0Tda1dntTL7XqIYlQMWEUVUgdVpvrfrYY4s6l0yF
-	UZ3HotSzoFsZkYRmll99dE8FsLLQy1SvrQNvTfvYmLudCE0m7DLYZ5MG7AlIbB1J+zOK
-	A8QgydHeUxfTYqqOV+pwuu5vNtdIEoqxgI4BxvuBPYsryKpJRLs+JGC3ks+xJIypzBTb
-	nkiA==
+	bh=GVqejN9RcyteX0OK/Wyi8jfYU0wStXL+Y9sOPfh9k1k=;
+	b=WYgmmXtZuJtgx6foTNN+XLI6p8DFrcM7Sj3W4NkXiO1DawwJdZIQa/Kd0WscrrpyE2
+	9iGIt9xSPCRcKDorvQxXwTkLe/cUNIIu8gdulZDedn57AjRV2U+cGv+/DgZCGQRHDzQo
+	H4ovRY5uM41VOk90+BWaHboEGSpk1sS9sF34Bp+nFNrSAfcSX/ydOnQxnIDjafgwbxeS
+	C35FJZPXQ2T9Gnwmk5PqXiCEr11JnKVj7ZlW75El+P3sjra0LKvyf3Og4pXA9BEPpv91
+	lu/WKGcq8n+9XyJrhVOq9qfeDk1cMgbxR7CdoBU/cr0Syy+aDAygrkSeA0AkIdBuxAZb
+	6RBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20251104; t=1773789801; x=1774394601;
+	d=1e100.net; s=20251104; t=1773789802; x=1774394602;
 	h=content-transfer-encoding:mime-version:references:in-reply-to
 	:message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
 	:to:cc:subject:date:message-id:reply-to;
-	bh=1bBa9pDPqbGfhOBwqPMjjiTOMbtTfvieka9d6hhFj70=;
-	b=VfMXfuLIT8DAuxNBpVdmpYQuONVyyac1pzl2yreKLwJWB3ezifbRhX+IrsI2WVYmeC
-	RW15mq/Nx38Y7KgELwIzjzSFUq6SBaPTM78rtp4ydIsjB23iUbks2gsnCDuFxAerknuk
-	GJChGAAfHq9sLc6EakuHZdll4AyOe0dGa7lvl/YQ/zrNw1FZ+eW+++/bK5VEr5aX2ErZ
-	bg/fL7MIMoGW5R4GeKSG58PLXUlVxhhfUQJFzmV1aiFZOfqCmsX67UhkQ2xKUq3jS/lg
-	ISX+F2fQP5vVekN2ufI0gRvSkm2RmsoSjNWJDnjNQq0NlAV+WxzRNpY0meASBT6qTKN0
-	b6Pg==
-X-Gm-Message-State: AOJu0YycMuhVjFRl6YmZZogSuAZGHDDz5VK8Qj4QcERjtgVK+OLUkT77
-	ugCZu228Cz6rNJdmUKV3PI4WiDZmqUElWI04J3BYvWm6ISCfE9HYYk5u
-X-Gm-Gg: ATEYQzyMsr7fTNUnEDQk52poqBaISCj1hmzTtwXEwh36f5x6bipK8WtBGWMUdtR31dr
-	M2snSUIEhM4p3k94tB5AiKIQgt4+kBGqjozEf6VY5ufgN3rj+l+5KytMZyQ8IVuJWDOWKW3B2D7
-	CN0JALhO6JiZhpjOrivRVooVVPy6D1IWBGo/kuCub25LSgh5cdbmg0h5+G5EWgjH7qA3y++zAr2
-	qXukeg3PWfriIopv++7kHTpKnrYc/icc7nyee1iCI/6Zowc/otoQRaNwxDOoBIBDzNtDvWM8wM3
-	jANbTWhrtjyBvS/oEIGAV6+G3VfKEmrHKX358wJKmAhLdD4mTPNV6O2F9qch8owWZlb3zQ532/m
-	yUtouKA28q1d95kdcfsgqvUr00gynqh5HcBJHUUrp4RA/1lwZqaUIKW4vP2/kdmH/9nk2fhjjQf
-	fh5SYCu/VumLMdA4GLXchE539CXx4xcLvWvkVaCwCVNWJ2Bf8Hh3tqhhBMu2RpCjUFzWtZ+of+O
-	BrTNVaTeZn9XjTaQTpfLJzG
-X-Received: by 2002:a05:690c:c1dc:b0:79a:3e2a:7b5e with SMTP id
-	00721157ae682-79a71637f2fmr12821057b3.0.1773789801257; 
+	bh=GVqejN9RcyteX0OK/Wyi8jfYU0wStXL+Y9sOPfh9k1k=;
+	b=lGTSu+W9faCdJPggBW3uFaPXyuBrbJNZIxJxWFCkdxW82ZFeoymQ2NAMNxRyq3NNDs
+	Om4dTWdl6KfQh+XgkM0XFHwKc5s5tODS8+eduXbyIct/cSV0U0fs5Wq+XaGEVu1RKTcj
+	nH/3gSKfKsoPAysOD7V4Mi5Dbwbe2gg0xIWdVIehjRcgoBz6yV3d1lIbI7oh4pKCgB73
+	uvqMffsg27P9ceAZA+jRCWLZghIv3NznFLj8jFnyQEJhrityViz0DaYxjcozhgUA1gXJ
+	QbqjiKD46QNVC5wMvYKU6oR4Vt+UiYNai3ApQyEE7qN3JJb80cMHRXqic5Ea8taqCr/N
+	bzlA==
+X-Gm-Message-State: AOJu0YwZPYwIIb/YVIC1mobzBEdx6J3vytMyn1V5Ufpmikl/LdBRf8LD
+	pBjGZ6MD69fxZTWf3YDD2CPp12VxL4Ede5v3KV+Q7Q5lJFjIr/alnL9C
+X-Gm-Gg: ATEYQzznrVnkr4rVpLQou/p0cPgIzrOCeVLa5oBCpDmYwmK+qWnFqKFKXtHHAavtv2V
+	7N8I5eKt15Oa/0CEbTrADyq4SISvXmJxl7bU35ZpN96IKD7jUWDuLP2cQfYPyGNqiDtl4vpvHmw
+	JK8cg6U7wi/r9TpRhFG2/bISXhaHsfZ0FiFq8R9uaOjYmzHZbA3PIc5bBNudo9fX0Q1dYFAhfTO
+	PgFyyKeOKErqcjzMLIGUesP/iLOcA7dibpdkNjGMEsxTmpyCbkGwvh11xnb8R3zTbwdNXq2SMc9
+	vc5B4V10s90hRjW9VwLO5oCbHgSvnfx5iqkc1ZTVcc/a/4H6x1+JI6t14vEv9XVoP0AKweuzufk
+	LNvE9QihFLY/Su0XT6SrTGjzig+GAxlm/MBoI/o8cFEyuw3w0t3d/k04iAH22oSOP5UJNxeUZIS
+	z/KgZycG3HY63uEO8Aih+Y27SuKEUUa2jXFgQcCC2ozVzx/8NXeGbo2hM3LEcMBMYKznUH+2tSp
+	cJb9viRtBugdmTgb4YgZKgN
+X-Received: by 2002:a05:690c:110:b0:79a:38a2:d8ca with SMTP id
+	00721157ae682-79a718c62demr13000817b3.23.1773789801990; 
 	Tue, 17 Mar 2026 16:23:21 -0700 (PDT)
 Received: from tux ([2601:7c0:c37e:2360::f769])
 	by smtp.gmail.com with ESMTPSA id
-	00721157ae682-79a715d221dsm6858217b3.37.2026.03.17.16.23.20
+	00721157ae682-79a715d221dsm6858217b3.37.2026.03.17.16.23.21
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
 	Tue, 17 Mar 2026 16:23:21 -0700 (PDT)
 From: Ethan Tidmore <ethantidmore06@gmail.com>
@@ -69,9 +69,9 @@ To: Philipp Reisner <philipp.reisner@linbit.com>,
 	Lars Ellenberg <lars.ellenberg@linbit.com>,
 	=?UTF-8?q?Christoph=20B=C3=B6hmwalder?=
 	<christoph.boehmwalder@linbit.com>, Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH 1/4] drbd: Fix out-of-bounds access
-Date: Tue, 17 Mar 2026 18:23:15 -0500
-Message-ID: <20260317232318.18923-2-ethantidmore06@gmail.com>
+Subject: [PATCH 2/4] drbd: Fix variable dereference before check
+Date: Tue, 17 Mar 2026 18:23:16 -0500
+Message-ID: <20260317232318.18923-3-ethantidmore06@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260317232318.18923-1-ethantidmore06@gmail.com>
 References: <20260317232318.18923-1-ethantidmore06@gmail.com>
@@ -106,7 +106,7 @@ X-Spamd-Result: default: False [2.19 / 15.00];
 	RCVD_NO_TLS_LAST(0.10)[];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_SENDER(0.00)[ethantidmore06@gmail.com,drbd-dev-bounces@lists.linbit.com];
-	NEURAL_HAM(-0.00)[-0.154];
+	NEURAL_HAM(-0.00)[-0.166];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS(0.00)[m:philipp.reisner@linbit.com,m:lars.ellenberg@linbit.com,m:christoph.boehmwalder@linbit.com,m:axboe@kernel.dk,m:linux-block@vger.kernel.org,m:ethantidmore06@gmail.com,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	ARC_NA(0.00)[];
@@ -128,42 +128,45 @@ X-Spamd-Result: default: False [2.19 / 15.00];
 	DKIM_TRACE(0.00)[gmail.com:-];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[mail19.linbit.com:helo,mail19.linbit.com:rdns]
-X-Rspamd-Queue-Id: EDE9D2BE9E9
+X-Rspamd-Queue-Id: 1F4122BE9B6
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The array sync_rule_names[] has 22 elements and rule is used to access
-this array. The variable rule has the possibility of being index 22
-because the condition (rule > ARRAY_SIZE(sync_rule_names)) could
-evaluate to 22 > 22 which would be false and then rule would be used to
-index sync_rule_names[] which would cause and out-of-bounds bug.
+The struct is 'req' is checked for NULL after resource was assigned from
+a member from it.
 
-Change condition from (rule > ARRAY_SIZE(sync_rule_names)) to
-(rule >= ARRAY_SIZE(sync_rule_names)).
+Check 'req' for NULL before assigning resource.
 
 Detected by Smatch:
-drivers/block/drbd/drbd_receiver.c:280 drbd_sync_rule_str() error:
-buffer overflow 'sync_rule_names' 22 <= 22
+drivers/block/drbd/drbd_req.c:1996 drbd_unplug() warn:
+variable dereferenced before check 'req' (see line 1993)
 
-Fixes: 851f106c134a3 ("drbd: rework receiver for DRBD 9 transport and protocol")
+Fixes: 71d075200b462 ("drbd: rework request processing for DRBD 9 multi-peer IO")
 Signed-off-by: Ethan Tidmore <ethantidmore06@gmail.com>
 ---
- drivers/block/drbd/drbd_receiver.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/block/drbd/drbd_req.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/block/drbd/drbd_receiver.c b/drivers/block/drbd/drbd_receiver.c
-index 06d83b5ffafb..280be2ee7d7e 100644
---- a/drivers/block/drbd/drbd_receiver.c
-+++ b/drivers/block/drbd/drbd_receiver.c
-@@ -273,7 +273,7 @@ static void drbd_cancel_conflicting_resync_requests(struct drbd_peer_device *pee
- 
- static const char *drbd_sync_rule_str(enum sync_rule rule)
+diff --git a/drivers/block/drbd/drbd_req.c b/drivers/block/drbd/drbd_req.c
+index e88b5da15c1e..4cbd9ec15157 100644
+--- a/drivers/block/drbd/drbd_req.c
++++ b/drivers/block/drbd/drbd_req.c
+@@ -1990,12 +1990,14 @@ static void drbd_unplug(struct blk_plug_cb *cb, bool from_schedule)
  {
--	if (rule < 0 || rule > ARRAY_SIZE(sync_rule_names)) {
-+	if (rule < 0 || rule >= ARRAY_SIZE(sync_rule_names)) {
- 		WARN_ON(true);
- 		return "?";
- 	}
+ 	struct drbd_plug_cb *plug = container_of(cb, struct drbd_plug_cb, cb);
+ 	struct drbd_request *req = plug->most_recent_req;
+-	struct drbd_resource *resource = req->device->resource;
++	struct drbd_resource *resource;
+ 
+ 	kfree(cb);
+ 	if (!req)
+ 		return;
+ 
++	resource = req->device->resource;
++
+ 	read_lock_irq(&resource->state_rwlock);
+ 	/* In case the sender did not process it yet, raise the flag to
+ 	 * have it followed with P_UNPLUG_REMOTE just after. */
 -- 
 2.53.0
 
