@@ -2,76 +2,76 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mCUjGtHJumm6bwIAu9opvQ
+	id sM7aD/DJumm6bwIAu9opvQ
 	(envelope-from <drbd-dev-bounces@lists.linbit.com>)
-	for <lists+drbd-dev@lfdr.de>; Wed, 18 Mar 2026 16:50:41 +0100
+	for <lists+drbd-dev@lfdr.de>; Wed, 18 Mar 2026 16:51:12 +0100
 X-Original-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F4122BE9B6
-	for <lists+drbd-dev@lfdr.de>; Wed, 18 Mar 2026 16:50:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C4BD2BEA0F
+	for <lists+drbd-dev@lfdr.de>; Wed, 18 Mar 2026 16:51:12 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2D20F1630EA;
-	Wed, 18 Mar 2026 16:49:54 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 417CE1627AE;
+	Wed, 18 Mar 2026 16:49:56 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com
-	[209.85.128.171])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2B7CF1622B5
-	for <drbd-dev@lists.linbit.com>; Wed, 18 Mar 2026 00:23:22 +0100 (CET)
-Received: by mail-yw1-f171.google.com with SMTP id
-	00721157ae682-7927261a3acso51072437b3.0
-	for <drbd-dev@lists.linbit.com>; Tue, 17 Mar 2026 16:23:22 -0700 (PDT)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com
+	[209.85.128.173])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id CD0F41627AE
+	for <drbd-dev@lists.linbit.com>; Wed, 18 Mar 2026 00:23:23 +0100 (CET)
+Received: by mail-yw1-f173.google.com with SMTP id
+	00721157ae682-79a610a32a6so19393847b3.0
+	for <drbd-dev@lists.linbit.com>; Tue, 17 Mar 2026 16:23:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=gmail.com; s=20230601; t=1773789802; x=1774394602;
 	darn=lists.linbit.com; 
 	h=content-transfer-encoding:mime-version:references:in-reply-to
 	:message-id:date:subject:cc:to:from:from:to:cc:subject:date
 	:message-id:reply-to;
-	bh=GVqejN9RcyteX0OK/Wyi8jfYU0wStXL+Y9sOPfh9k1k=;
-	b=WYgmmXtZuJtgx6foTNN+XLI6p8DFrcM7Sj3W4NkXiO1DawwJdZIQa/Kd0WscrrpyE2
-	9iGIt9xSPCRcKDorvQxXwTkLe/cUNIIu8gdulZDedn57AjRV2U+cGv+/DgZCGQRHDzQo
-	H4ovRY5uM41VOk90+BWaHboEGSpk1sS9sF34Bp+nFNrSAfcSX/ydOnQxnIDjafgwbxeS
-	C35FJZPXQ2T9Gnwmk5PqXiCEr11JnKVj7ZlW75El+P3sjra0LKvyf3Og4pXA9BEPpv91
-	lu/WKGcq8n+9XyJrhVOq9qfeDk1cMgbxR7CdoBU/cr0Syy+aDAygrkSeA0AkIdBuxAZb
-	6RBA==
+	bh=FnaNOvfPGt1J4YqTrzM2VRxejeZjN9i1yPf1CzG0bKk=;
+	b=Yh8/IOen/JeD1k4HTQJK5fPKCqN0lWlDf9SOjzTc30qQ1JrSSYLXWgYD7iAglC/1og
+	vPW0cmntsYiMv/UB+xhGuhUDcl1XrxP4ix28RbMe3O2Z/8juCn6IeYXg9taCtgxMP9Xc
+	XW9c+pSayiSbSqicu9YAiq9OUKU28e3L5xfMhu4H0D1ramaPWeAUPiD/CA8KRhzVg1zu
+	lygp1n3LLxw7eH2mq+X8OGVDJtfFwfy6bmGgEAFsS+H9CVEm7ASfXrO7kEsmEzfsmCfw
+	Vmxk6Y6liMKpJB00xPcABgI/KO0LtNmWOA+kjDJeGldfmO4Twj3FXJRYDRGQQ0kG+iq5
+	y/bQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20251104; t=1773789802; x=1774394602;
 	h=content-transfer-encoding:mime-version:references:in-reply-to
 	:message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
 	:to:cc:subject:date:message-id:reply-to;
-	bh=GVqejN9RcyteX0OK/Wyi8jfYU0wStXL+Y9sOPfh9k1k=;
-	b=lGTSu+W9faCdJPggBW3uFaPXyuBrbJNZIxJxWFCkdxW82ZFeoymQ2NAMNxRyq3NNDs
-	Om4dTWdl6KfQh+XgkM0XFHwKc5s5tODS8+eduXbyIct/cSV0U0fs5Wq+XaGEVu1RKTcj
-	nH/3gSKfKsoPAysOD7V4Mi5Dbwbe2gg0xIWdVIehjRcgoBz6yV3d1lIbI7oh4pKCgB73
-	uvqMffsg27P9ceAZA+jRCWLZghIv3NznFLj8jFnyQEJhrityViz0DaYxjcozhgUA1gXJ
-	QbqjiKD46QNVC5wMvYKU6oR4Vt+UiYNai3ApQyEE7qN3JJb80cMHRXqic5Ea8taqCr/N
-	bzlA==
-X-Gm-Message-State: AOJu0YwZPYwIIb/YVIC1mobzBEdx6J3vytMyn1V5Ufpmikl/LdBRf8LD
-	pBjGZ6MD69fxZTWf3YDD2CPp12VxL4Ede5v3KV+Q7Q5lJFjIr/alnL9C
-X-Gm-Gg: ATEYQzznrVnkr4rVpLQou/p0cPgIzrOCeVLa5oBCpDmYwmK+qWnFqKFKXtHHAavtv2V
-	7N8I5eKt15Oa/0CEbTrADyq4SISvXmJxl7bU35ZpN96IKD7jUWDuLP2cQfYPyGNqiDtl4vpvHmw
-	JK8cg6U7wi/r9TpRhFG2/bISXhaHsfZ0FiFq8R9uaOjYmzHZbA3PIc5bBNudo9fX0Q1dYFAhfTO
-	PgFyyKeOKErqcjzMLIGUesP/iLOcA7dibpdkNjGMEsxTmpyCbkGwvh11xnb8R3zTbwdNXq2SMc9
-	vc5B4V10s90hRjW9VwLO5oCbHgSvnfx5iqkc1ZTVcc/a/4H6x1+JI6t14vEv9XVoP0AKweuzufk
-	LNvE9QihFLY/Su0XT6SrTGjzig+GAxlm/MBoI/o8cFEyuw3w0t3d/k04iAH22oSOP5UJNxeUZIS
-	z/KgZycG3HY63uEO8Aih+Y27SuKEUUa2jXFgQcCC2ozVzx/8NXeGbo2hM3LEcMBMYKznUH+2tSp
-	cJb9viRtBugdmTgb4YgZKgN
-X-Received: by 2002:a05:690c:110:b0:79a:38a2:d8ca with SMTP id
-	00721157ae682-79a718c62demr13000817b3.23.1773789801990; 
-	Tue, 17 Mar 2026 16:23:21 -0700 (PDT)
+	bh=FnaNOvfPGt1J4YqTrzM2VRxejeZjN9i1yPf1CzG0bKk=;
+	b=AV3Os86VT3kn3EUWCKAR4TNOtkz0kQ5mPCrw/Xsle8uWo5uTiJuO9WuMAfmsM1oAFa
+	qXX7X/t92sS6BC5iEoWBBNjXSIeLi2jttfwyIrcBc2IePaIFbV08dg8oKXhzGHogH0Nm
+	LBCJ3dTAjQbVbm19jXkwfgQjd/vOFp0yVD0t5xmfBaelPISBW41av1RqnKDGtHBq6cWF
+	RiANuJq0bWoEIh6vXwbFTKoanzGXdfRXlYr2qzuroqk85q+jk14AfmD5otzsvixbdvrJ
+	nsYRb45aNxccyNy5ZKfFTLK2p55/Cp2GnAsBzMwBoWwjh5CSz8jK7Oa5k1lgA8S0XL8G
+	EfHg==
+X-Gm-Message-State: AOJu0YxhjqDOjZQRc0m9x4Zpo+8hdorjHMtKwYAnhZZbxhxbbi9Ei+pr
+	hRVIqMlb42fcmLWZcKpUeh8ViOsGrwHHK+3XxriLktc8kPI2TCsrGlKHIVrRuj7x
+X-Gm-Gg: ATEYQzxjskGK6tBfuiQ+Ni4zE4ktK10OeJTySQH2ZKCjz8062BLnUdfyalsDTErAv9w
+	Kec8ZsAAnbgKU8dRyj3cookUTt0C42eBxXvL4NyIs0uvqvIo2vR1cJ+vPX/TwrEjGqqprAF7JM2
+	bvroi2f5EL9UcMgWVsifHcWTJwlQOZLavjFKAZm2Q8ldjbvjaF/U6W9pFlW+q4kfHhsvRP5Ojlm
+	shiJfotzTo3yF+fzsaw+zyHsSAG7eIjK7Mc4yQ3Wv6iSxbWvwuc57vxMlAVlYhy+FxhxzGAHf9M
+	x0IjWLMbJLDXh3rElZ46yHM3daoAZsaQ3iLWgMZLTh04wenFCR/q1JlqSFXG3qlLQXBYX2CLzjc
+	k8rAH0bXwzjz1wv9jnkbIsCWVhNPHHkvnn2J/8lvX0qyJS/VIKgvJBo2W6X3oSSZL2UN8xjqP26
+	PJv9ge51XTQXbB2ecLgkbxMZuYYgId3NAvDpZhcQg86wDJpPxBi+ekpUC4vZuWUKGok69luFuZe
+	0ZQ/jt3Ai+aZAaEzw9x0IvV
+X-Received: by 2002:a05:690c:c119:b0:797:f005:2dc0 with SMTP id
+	00721157ae682-79a71c88395mr12043627b3.50.1773789802632; 
+	Tue, 17 Mar 2026 16:23:22 -0700 (PDT)
 Received: from tux ([2601:7c0:c37e:2360::f769])
 	by smtp.gmail.com with ESMTPSA id
-	00721157ae682-79a715d221dsm6858217b3.37.2026.03.17.16.23.21
+	00721157ae682-79a715d221dsm6858217b3.37.2026.03.17.16.23.22
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 17 Mar 2026 16:23:21 -0700 (PDT)
+	Tue, 17 Mar 2026 16:23:22 -0700 (PDT)
 From: Ethan Tidmore <ethantidmore06@gmail.com>
 To: Philipp Reisner <philipp.reisner@linbit.com>,
 	Lars Ellenberg <lars.ellenberg@linbit.com>,
 	=?UTF-8?q?Christoph=20B=C3=B6hmwalder?=
 	<christoph.boehmwalder@linbit.com>, Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH 2/4] drbd: Fix variable dereference before check
-Date: Tue, 17 Mar 2026 18:23:16 -0500
-Message-ID: <20260317232318.18923-3-ethantidmore06@gmail.com>
+Subject: [PATCH 3/4] drbd: Add missing error code in drbd_main.c
+Date: Tue, 17 Mar 2026 18:23:17 -0500
+Message-ID: <20260317232318.18923-4-ethantidmore06@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260317232318.18923-1-ethantidmore06@gmail.com>
 References: <20260317232318.18923-1-ethantidmore06@gmail.com>
@@ -106,7 +106,7 @@ X-Spamd-Result: default: False [2.19 / 15.00];
 	RCVD_NO_TLS_LAST(0.10)[];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_SENDER(0.00)[ethantidmore06@gmail.com,drbd-dev-bounces@lists.linbit.com];
-	NEURAL_HAM(-0.00)[-0.166];
+	NEURAL_HAM(-0.00)[-0.156];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS(0.00)[m:philipp.reisner@linbit.com,m:lars.ellenberg@linbit.com,m:christoph.boehmwalder@linbit.com,m:axboe@kernel.dk,m:linux-block@vger.kernel.org,m:ethantidmore06@gmail.com,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	ARC_NA(0.00)[];
@@ -128,45 +128,36 @@ X-Spamd-Result: default: False [2.19 / 15.00];
 	DKIM_TRACE(0.00)[gmail.com:-];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[mail19.linbit.com:helo,mail19.linbit.com:rdns]
-X-Rspamd-Queue-Id: 1F4122BE9B6
+X-Rspamd-Queue-Id: 2C4BD2BEA0F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The struct is 'req' is checked for NULL after resource was assigned from
-a member from it.
+No error code is assigned in alloc_workqueue() error path.
 
-Check 'req' for NULL before assigning resource.
+Assign error code -ENOMEM.
 
 Detected by Smatch:
-drivers/block/drbd/drbd_req.c:1996 drbd_unplug() warn:
-variable dereferenced before check 'req' (see line 1993)
+drivers/block/drbd/drbd_main.c:4575 drbd_init() warn:
+missing error code 'err'
 
-Fixes: 71d075200b462 ("drbd: rework request processing for DRBD 9 multi-peer IO")
+Fixes: b2e550c8d1f54 ("drbd: rework module core for DRBD 9 transport and multi-peer")
 Signed-off-by: Ethan Tidmore <ethantidmore06@gmail.com>
 ---
- drivers/block/drbd/drbd_req.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/block/drbd/drbd_main.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/block/drbd/drbd_req.c b/drivers/block/drbd/drbd_req.c
-index e88b5da15c1e..4cbd9ec15157 100644
---- a/drivers/block/drbd/drbd_req.c
-+++ b/drivers/block/drbd/drbd_req.c
-@@ -1990,12 +1990,14 @@ static void drbd_unplug(struct blk_plug_cb *cb, bool from_schedule)
- {
- 	struct drbd_plug_cb *plug = container_of(cb, struct drbd_plug_cb, cb);
- 	struct drbd_request *req = plug->most_recent_req;
--	struct drbd_resource *resource = req->device->resource;
-+	struct drbd_resource *resource;
+diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
+index e2c3530cfa13..689b7cac5ec2 100644
+--- a/drivers/block/drbd/drbd_main.c
++++ b/drivers/block/drbd/drbd_main.c
+@@ -4569,6 +4569,7 @@ static int __init drbd_init(void)
+ 		goto fail;
+ 	}
  
- 	kfree(cb);
- 	if (!req)
- 		return;
- 
-+	resource = req->device->resource;
-+
- 	read_lock_irq(&resource->state_rwlock);
- 	/* In case the sender did not process it yet, raise the flag to
- 	 * have it followed with P_UNPLUG_REMOTE just after. */
++	err = -ENOMEM;
+ 	ping_ack_sender = alloc_workqueue("drbd_pas",
+ 			WQ_UNBOUND | WQ_MEM_RECLAIM | WQ_HIGHPRI, 0);
+ 	if (!ping_ack_sender)
 -- 
 2.53.0
 
