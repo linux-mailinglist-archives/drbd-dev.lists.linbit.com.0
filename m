@@ -2,76 +2,76 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sM7aD/DJumm6bwIAu9opvQ
+	id 4Io4AvvJumm6bwIAu9opvQ
 	(envelope-from <drbd-dev-bounces@lists.linbit.com>)
-	for <lists+drbd-dev@lfdr.de>; Wed, 18 Mar 2026 16:51:12 +0100
+	for <lists+drbd-dev@lfdr.de>; Wed, 18 Mar 2026 16:51:23 +0100
 X-Original-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C4BD2BEA0F
-	for <lists+drbd-dev@lfdr.de>; Wed, 18 Mar 2026 16:51:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CF0242BEA30
+	for <lists+drbd-dev@lfdr.de>; Wed, 18 Mar 2026 16:51:22 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 417CE1627AE;
-	Wed, 18 Mar 2026 16:49:56 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 7440316312C;
+	Wed, 18 Mar 2026 16:49:57 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com
-	[209.85.128.173])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id CD0F41627AE
-	for <drbd-dev@lists.linbit.com>; Wed, 18 Mar 2026 00:23:23 +0100 (CET)
-Received: by mail-yw1-f173.google.com with SMTP id
-	00721157ae682-79a610a32a6so19393847b3.0
-	for <drbd-dev@lists.linbit.com>; Tue, 17 Mar 2026 16:23:23 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com
+	[209.85.128.170])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 66411162774
+	for <drbd-dev@lists.linbit.com>; Wed, 18 Mar 2026 00:23:24 +0100 (CET)
+Received: by mail-yw1-f170.google.com with SMTP id
+	00721157ae682-79a40fb9890so30973257b3.1
+	for <drbd-dev@lists.linbit.com>; Tue, 17 Mar 2026 16:23:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=gmail.com; s=20230601; t=1773789802; x=1774394602;
+	d=gmail.com; s=20230601; t=1773789803; x=1774394603;
 	darn=lists.linbit.com; 
 	h=content-transfer-encoding:mime-version:references:in-reply-to
 	:message-id:date:subject:cc:to:from:from:to:cc:subject:date
 	:message-id:reply-to;
-	bh=FnaNOvfPGt1J4YqTrzM2VRxejeZjN9i1yPf1CzG0bKk=;
-	b=Yh8/IOen/JeD1k4HTQJK5fPKCqN0lWlDf9SOjzTc30qQ1JrSSYLXWgYD7iAglC/1og
-	vPW0cmntsYiMv/UB+xhGuhUDcl1XrxP4ix28RbMe3O2Z/8juCn6IeYXg9taCtgxMP9Xc
-	XW9c+pSayiSbSqicu9YAiq9OUKU28e3L5xfMhu4H0D1ramaPWeAUPiD/CA8KRhzVg1zu
-	lygp1n3LLxw7eH2mq+X8OGVDJtfFwfy6bmGgEAFsS+H9CVEm7ASfXrO7kEsmEzfsmCfw
-	Vmxk6Y6liMKpJB00xPcABgI/KO0LtNmWOA+kjDJeGldfmO4Twj3FXJRYDRGQQ0kG+iq5
-	y/bQ==
+	bh=4qAb7BAjRHOKOhLG2ZwGENg8pg0OEX1p0HLdyPGydEM=;
+	b=EaAuFpuMKn6HfyiWi/A6DBwnwT3v6CkfNxt3VPkpYznM1EnbRUJm5GT6jh+DR3cmcp
+	2yxLFg8LRMRYyZqM4DMAUsRr+d0LcwM/udWqmCbircIzr/d8wJz4MinNMHJGvhUTMju0
+	nEF86xcCmhMAmvruXyWuoJaMQjDvvfQflCuQ9nZuksCmS1RhXH+koAujLwSyw2wZEd6p
+	KnAcuhCWQd/82Qh9dciTC4/wRA+J+B7EKA6KRyA/lG1DpqAk93cfFROVEcHcOzIoTEIT
+	9GLpENP1fw/sRJcfeVIOpsmpE0SUkkLKzx1zbViX3S771UTOqF2gmcVtowiDTyuZ48Xe
+	0oXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20251104; t=1773789802; x=1774394602;
+	d=1e100.net; s=20251104; t=1773789803; x=1774394603;
 	h=content-transfer-encoding:mime-version:references:in-reply-to
 	:message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
 	:to:cc:subject:date:message-id:reply-to;
-	bh=FnaNOvfPGt1J4YqTrzM2VRxejeZjN9i1yPf1CzG0bKk=;
-	b=AV3Os86VT3kn3EUWCKAR4TNOtkz0kQ5mPCrw/Xsle8uWo5uTiJuO9WuMAfmsM1oAFa
-	qXX7X/t92sS6BC5iEoWBBNjXSIeLi2jttfwyIrcBc2IePaIFbV08dg8oKXhzGHogH0Nm
-	LBCJ3dTAjQbVbm19jXkwfgQjd/vOFp0yVD0t5xmfBaelPISBW41av1RqnKDGtHBq6cWF
-	RiANuJq0bWoEIh6vXwbFTKoanzGXdfRXlYr2qzuroqk85q+jk14AfmD5otzsvixbdvrJ
-	nsYRb45aNxccyNy5ZKfFTLK2p55/Cp2GnAsBzMwBoWwjh5CSz8jK7Oa5k1lgA8S0XL8G
-	EfHg==
-X-Gm-Message-State: AOJu0YxhjqDOjZQRc0m9x4Zpo+8hdorjHMtKwYAnhZZbxhxbbi9Ei+pr
-	hRVIqMlb42fcmLWZcKpUeh8ViOsGrwHHK+3XxriLktc8kPI2TCsrGlKHIVrRuj7x
-X-Gm-Gg: ATEYQzxjskGK6tBfuiQ+Ni4zE4ktK10OeJTySQH2ZKCjz8062BLnUdfyalsDTErAv9w
-	Kec8ZsAAnbgKU8dRyj3cookUTt0C42eBxXvL4NyIs0uvqvIo2vR1cJ+vPX/TwrEjGqqprAF7JM2
-	bvroi2f5EL9UcMgWVsifHcWTJwlQOZLavjFKAZm2Q8ldjbvjaF/U6W9pFlW+q4kfHhsvRP5Ojlm
-	shiJfotzTo3yF+fzsaw+zyHsSAG7eIjK7Mc4yQ3Wv6iSxbWvwuc57vxMlAVlYhy+FxhxzGAHf9M
-	x0IjWLMbJLDXh3rElZ46yHM3daoAZsaQ3iLWgMZLTh04wenFCR/q1JlqSFXG3qlLQXBYX2CLzjc
-	k8rAH0bXwzjz1wv9jnkbIsCWVhNPHHkvnn2J/8lvX0qyJS/VIKgvJBo2W6X3oSSZL2UN8xjqP26
-	PJv9ge51XTQXbB2ecLgkbxMZuYYgId3NAvDpZhcQg86wDJpPxBi+ekpUC4vZuWUKGok69luFuZe
-	0ZQ/jt3Ai+aZAaEzw9x0IvV
-X-Received: by 2002:a05:690c:c119:b0:797:f005:2dc0 with SMTP id
-	00721157ae682-79a71c88395mr12043627b3.50.1773789802632; 
-	Tue, 17 Mar 2026 16:23:22 -0700 (PDT)
+	bh=4qAb7BAjRHOKOhLG2ZwGENg8pg0OEX1p0HLdyPGydEM=;
+	b=rpf9WEDQ7iPAAT9BgaprypqHS7IUtJvm0mDXIeUNjtyGL9tTGJ40leBAQBR7GNGU38
+	qM5W/oxvVmM0I6NwxPFObcK535mBfB7ot7WRNU19phfwKFk27wbyVXP0doW/tp3xTlDj
+	28ljuyiYAOLjcbr6uX712jFyWz5BUlIMdz+B3q94AJaafjOyzWiw9/Kvv7sbh1yd5WuR
+	4I/tM1ZdxrICBCn1brW9w1clIkfLU6Z0uv92I2Uq7/4rjlgiAYpyXFqld5G28J0sJL0p
+	/vzo+zqf+fBC3X98vOlUX36PcScSg+e00xhhHvrBVIEfgpQjmvyq2nXQUzu+XIVb7zvZ
+	yXAg==
+X-Gm-Message-State: AOJu0YyalLyVQLJaONNwejQqhd6Qq6saXZYXjJ5/2vAEfhPaOA48rwc3
+	p5R90wXllaOXNBZLFSmQefvqD+wOyIGMlgRQnosnw7CHEulzk++pl40z
+X-Gm-Gg: ATEYQzwuuYvMllruLN1dA6JvvXUdBZYFoU/BMx14VPXndmn+tQyxvlnZ7oI2a3P66Nh
+	JNNb4wcKRwt51ID9JLryH5SNWz0p2QdfMgVkU3ZgwKfGK4v1ETXGpyzLIsx2dyW4CCtCHsEmE9t
+	X4dYtPdqGjNgCdMd2dLnBXI0lHvoaaUTnUqJEl+/RJmATlC1REG9hcgU6VDyWvsescrY1kJSbzv
+	hqy23Eq3mUYfaD3xOcWmUJ6GtRDMubj9WfYwgaWIVmaStRkuO8tioK92n1Uj9YI3OiGJdSHJqqY
+	9kSl4T2kB1s/+sliqTk6V/Ur7QjY0xawwLKWyrzPIxbZvkRnedNMVrjKY4phpmw40YOMqLP8Sgr
+	6XE+wQk6KRrT7qN6qSTfArwu4POIePF/7Q94zstr/M9zQT7Qd6A8aJJHIjQeTjQXo0Tv2RssMIA
+	C3M3vDgyEaOYVY5EdXKFjmsl1OxKQBgoDZDZDslajGFWF/X+yQUxPfzlgsJ70FynjaA9yuaPPUe
+	uJEo1//Wj+oE8dr49vGjyp0
+X-Received: by 2002:a05:690c:60c4:b0:799:1c93:7adb with SMTP id
+	00721157ae682-79a718a5e91mr13675337b3.23.1773789803317; 
+	Tue, 17 Mar 2026 16:23:23 -0700 (PDT)
 Received: from tux ([2601:7c0:c37e:2360::f769])
 	by smtp.gmail.com with ESMTPSA id
 	00721157ae682-79a715d221dsm6858217b3.37.2026.03.17.16.23.22
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 17 Mar 2026 16:23:22 -0700 (PDT)
+	Tue, 17 Mar 2026 16:23:23 -0700 (PDT)
 From: Ethan Tidmore <ethantidmore06@gmail.com>
 To: Philipp Reisner <philipp.reisner@linbit.com>,
 	Lars Ellenberg <lars.ellenberg@linbit.com>,
 	=?UTF-8?q?Christoph=20B=C3=B6hmwalder?=
 	<christoph.boehmwalder@linbit.com>, Jens Axboe <axboe@kernel.dk>
-Subject: [PATCH 3/4] drbd: Add missing error code in drbd_main.c
-Date: Tue, 17 Mar 2026 18:23:17 -0500
-Message-ID: <20260317232318.18923-4-ethantidmore06@gmail.com>
+Subject: [PATCH 4/4] drbd: Add check for error pointer
+Date: Tue, 17 Mar 2026 18:23:18 -0500
+Message-ID: <20260317232318.18923-5-ethantidmore06@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260317232318.18923-1-ethantidmore06@gmail.com>
 References: <20260317232318.18923-1-ethantidmore06@gmail.com>
@@ -106,7 +106,7 @@ X-Spamd-Result: default: False [2.19 / 15.00];
 	RCVD_NO_TLS_LAST(0.10)[];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_SENDER(0.00)[ethantidmore06@gmail.com,drbd-dev-bounces@lists.linbit.com];
-	NEURAL_HAM(-0.00)[-0.156];
+	NEURAL_HAM(-0.00)[-0.162];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS(0.00)[m:philipp.reisner@linbit.com,m:lars.ellenberg@linbit.com,m:christoph.boehmwalder@linbit.com,m:axboe@kernel.dk,m:linux-block@vger.kernel.org,m:ethantidmore06@gmail.com,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	ARC_NA(0.00)[];
@@ -128,36 +128,38 @@ X-Spamd-Result: default: False [2.19 / 15.00];
 	DKIM_TRACE(0.00)[gmail.com:-];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[mail19.linbit.com:helo,mail19.linbit.com:rdns]
-X-Rspamd-Queue-Id: 2C4BD2BEA0F
+X-Rspamd-Queue-Id: CF0242BEA30
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-No error code is assigned in alloc_workqueue() error path.
+The function find_cfg_context_attr() can return an error pointer or NULL
+in its error path.
 
-Assign error code -ENOMEM.
+Change NULL check to IS_ERR_OR_NULL().
 
 Detected by Smatch:
-drivers/block/drbd/drbd_main.c:4575 drbd_init() warn:
-missing error code 'err'
+drivers/block/drbd/drbd_nl.c:6571 drbd_adm_dump_paths() error:
+'resource_filter' dereferencing possible ERR_PTR()
 
-Fixes: b2e550c8d1f54 ("drbd: rework module core for DRBD 9 transport and multi-peer")
+Fixes: 626c95b0e2a23 ("drbd: rework netlink interface for DRBD 9 multi-peer config")
 Signed-off-by: Ethan Tidmore <ethantidmore06@gmail.com>
 ---
- drivers/block/drbd/drbd_main.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/block/drbd/drbd_nl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/block/drbd/drbd_main.c b/drivers/block/drbd/drbd_main.c
-index e2c3530cfa13..689b7cac5ec2 100644
---- a/drivers/block/drbd/drbd_main.c
-+++ b/drivers/block/drbd/drbd_main.c
-@@ -4569,6 +4569,7 @@ static int __init drbd_init(void)
- 		goto fail;
- 	}
- 
-+	err = -ENOMEM;
- 	ping_ack_sender = alloc_workqueue("drbd_pas",
- 			WQ_UNBOUND | WQ_MEM_RECLAIM | WQ_HIGHPRI, 0);
- 	if (!ping_ack_sender)
+diff --git a/drivers/block/drbd/drbd_nl.c b/drivers/block/drbd/drbd_nl.c
+index c5e253820ccf..1f458eb972e9 100644
+--- a/drivers/block/drbd/drbd_nl.c
++++ b/drivers/block/drbd/drbd_nl.c
+@@ -6566,7 +6566,7 @@ static int drbd_adm_dump_paths(struct sk_buff *skb, struct netlink_callback *cb)
+ 	resource = (struct drbd_resource *)cb->args[0];
+ 	if (!cb->args[0]) {
+ 		resource_filter = find_cfg_context_attr(cb->nlh, T_ctx_resource_name);
+-		if (resource_filter) {
++		if (!IS_ERR_OR_NULL(resource_filter)) {
+ 			retcode = ERR_RES_NOT_KNOWN;
+ 			resource = drbd_find_resource(nla_data(resource_filter));
+ 			if (!resource)
 -- 
 2.53.0
 
