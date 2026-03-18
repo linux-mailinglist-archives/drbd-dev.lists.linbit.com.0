@@ -2,93 +2,91 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SIVIK0UWu2nYewIAu9opvQ
+	id sCwZCjMXu2kffAIAu9opvQ
 	(envelope-from <drbd-dev-bounces@lists.linbit.com>)
-	for <lists+drbd-dev@lfdr.de>; Wed, 18 Mar 2026 22:16:53 +0100
+	for <lists+drbd-dev@lfdr.de>; Wed, 18 Mar 2026 22:20:51 +0100
 X-Original-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTP id 613E82C2E88
-	for <lists+drbd-dev@lfdr.de>; Wed, 18 Mar 2026 22:16:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C5D0F2C2ED8
+	for <lists+drbd-dev@lfdr.de>; Wed, 18 Mar 2026 22:20:50 +0100 (CET)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 69FCC162809;
-	Wed, 18 Mar 2026 22:16:42 +0100 (CET)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 15CFF162ECD;
+	Wed, 18 Mar 2026 22:20:50 +0100 (CET)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
-	[209.85.128.42])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 88B74162774
-	for <drbd-dev@lists.linbit.com>; Wed, 18 Mar 2026 22:16:37 +0100 (CET)
-Received: by mail-wm1-f42.google.com with SMTP id
-	5b1f17b1804b1-4853f2826f7so2522745e9.1
-	for <drbd-dev@lists.linbit.com>; Wed, 18 Mar 2026 14:16:37 -0700 (PDT)
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com
+	[209.85.161.41])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 162A21622B5
+	for <drbd-dev@lists.linbit.com>; Wed, 18 Mar 2026 22:20:46 +0100 (CET)
+Received: by mail-oo1-f41.google.com with SMTP id
+	006d021491bc7-67bb4e8955aso231093eaf.0
+	for <drbd-dev@lists.linbit.com>; Wed, 18 Mar 2026 14:20:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linbit-com.20230601.gappssmtp.com; s=20230601; t=1773868597;
-	x=1774473397; darn=lists.linbit.com; 
-	h=content-transfer-encoding:in-reply-to:content-language:from
+	d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1773868845;
+	x=1774473645; darn=lists.linbit.com; 
+	h=content-transfer-encoding:in-reply-to:from:content-language
 	:references:cc:to:subject:user-agent:mime-version:date:message-id
 	:from:to:cc:subject:date:message-id:reply-to;
-	bh=6JSbsrYhFg+Au4jgvX758AnPNxCSSto/QgL2aLSvMGI=;
-	b=pUnn/pPgqpnT1UwoSEzq+AUUt6YrxSnXxVx2O8DTXGjqiQMZ+8eXZTPcIWpFaRGy6t
-	CWyQOVtbkSzmcQMoPFcufv7uACInGVsxeO7CNAS1nl4oAeF1S/6N8LoEX1SJf0cotQis
-	iM2FPICwVH5vwWcL17GR+8JSRfQAlDPfQzw+Uceet/ayZuX8pWg1XWwnPtUOkIbILlEP
-	2xPgNdnLy2sy4SN1UrR/gAELK5j7mxMmqt0kNYjg2HNx1KyrzrMKWH4M6hRr9G/qPoQe
-	RkrQaecHZJnl8+QhNZUs5QkkPcFHeoICZjyovjA3YnGuuwZ3ok6VEkhLw8yrjY9bHVPr
-	F4aQ==
+	bh=0xibiGMBk9lH88oePns/vWYwaj+whDxl4whT6dU143Y=;
+	b=BPvWogGhliVAy28M4R61NMkYmCYCNDtX11NtXVUtNDLpMTWdbL16YjzzyMh2wFUmpR
+	Mg9QHNt2YSiUIhbZfjF7f3AXe4t2fBC9IEbkO1GRlqF7sbFn1/BLWMSuy08jmxHVHjMR
+	ZbkIyqJYXx87mub2T9fs04fNzydhQhQf93j+7C/UI9a3kB/mSyHQbqg8J2lXU+YbN/gf
+	OXJTONZM6vrPj+N6q7bVgPT0Vq2P+ao8RkrqR5HAqBpqpexK31Gg+KpJAiiwbpX+HM08
+	0bLaTZ802H0+/0zEWi+2WVfnygY0Lxzt2eepcseuMmo42qNoQAm+4eBTtb06x/2hPRTI
+	DUTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20251104; t=1773868597; x=1774473397;
-	h=content-transfer-encoding:in-reply-to:content-language:from
+	d=1e100.net; s=20251104; t=1773868845; x=1774473645;
+	h=content-transfer-encoding:in-reply-to:from:content-language
 	:references:cc:to:subject:user-agent:mime-version:date:message-id
 	:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
 	:reply-to;
-	bh=6JSbsrYhFg+Au4jgvX758AnPNxCSSto/QgL2aLSvMGI=;
-	b=qQ8afzrgqj3oMI5kjyXud0QeNQBy0ywuNAA32Nep8bIcs70tOh3ZELV9WpVYeBq9Xs
-	LZiIjk21/iAJ0VQh889hy+UwHhXXu5fJGxbe+6mqQsrmew3jG9ZoYPlRzfBbwFBQab4L
-	Zk12RgM2Y0eMW9ERoRvLspQg7BoZGk8yZCWpFaxgj7vih5tgWJIhI3hipcqSIvRWYTMJ
-	rjCWS1Kd9xcidDl00v8iVdLnNtffxrvOxBFRDn8dRMrbui12I4pMFhUrlf/GkCS9EeGk
-	c3rWBdPxwfHsPJ2VOsgAOhuZm6usxoDjwISLZ3o8AA7DHDceosZ1cryXHZZqaDOQ6h1S
-	i0Sg==
+	bh=0xibiGMBk9lH88oePns/vWYwaj+whDxl4whT6dU143Y=;
+	b=iDptD5sZlowigmKKaHbJCo9r5x/9e+GNpRdqO706I2+YpnpstNbHgpYsBOxz1cLBOV
+	DB1AMLfR6h+YEbBGPCQeGsZ7UloBpwj0HFca6ebzqaM/muU9hiZ94tVJPSBdgZQawvBP
+	ZN/SmkuiWJos/vFg/s5HSA6gfhbADc1ZqsPnKHEtCSXoZNFdT/EP4ihB+uBup/fwKdTT
+	WeGlyG5A6qR1uucmjfjZjE47SLnjnuVYv+ykXAz+i7F85etKvdmOLu9LWtKn2YaLuDjo
+	V6nqnCRxmyoz5ZfoZMIYUuFMrWa3xJnk5hYnktixSNIFDzBWBxfvGwsUT95JuVKctv5Z
+	aRKg==
 X-Forwarded-Encrypted: i=1;
-	AJvYcCUoChOBS56cCeQS2OU05MtMzoNRtVu2Pa3VNTsShBdfAuiJs9EuWcVCKxKKwbwip7uozIv0qsMIAQ==@lists.linbit.com
-X-Gm-Message-State: AOJu0Yzkm2iDcd7MkgpnpLmLR8GLvXR7A+0rHCa5+GzFrGnmLTuGszE9
-	XTdyeYZWYAYx8PEriDX6YsOBVMhLX6fcBZU5i+XGgjEjma8Lp0NVHRH1+mCiP5qsipRRmg==
-X-Gm-Gg: ATEYQzxUEj8VnADiWkvh7OWpcBJA8PFhOPhEcRkeMj2UC6/iniadhjRks421CI67kAE
-	62zSjNI1lFKpi26pIc8PVh6XBDinDdA0BDQcMIU6wSsKwVlsgQ9/aZE4ejAscjYiEvrh+0HxSp5
-	p6h8ucdk/lxo3z+pLinXMe7T7hmzSiSKtxF5ZvYq5yL1x6hkSRSLGdCV3DQMGT89tnby8qrRaIH
-	urb5AT+ZSIlJIw/qzR4DFWrs76qvxAh0JQrGi/oHX0am4meuIB4TRoQA3ay/KpaAn47j22h7sTM
-	dH0MSkRMusnYI9BW685p5xHJIJsipKsLOwc2LXCJWjZ5csRDZ19Phq1TCg/7dzB7E0CnFcCsiBz
-	seIwEWvvJXXNqNqpYDE/zJsocBIWCtp9o162ug+m17udueJ64G5/tjuL7DVMmm3thrPKzg9IBdR
-	Av3//xvPncTFX/yegodycls//ZPiGFqGAM30zMWqQDwTAz46B9xOYhGbx/W3+/O/zafCZqYkGlf
-	IE8Lmg/jH/Q1x8=
-X-Received: by 2002:a05:6000:608:b0:439:c69f:503a with SMTP id
-	ffacd0b85a97d-43b527c4df0mr8143039f8f.27.1773868596733; 
-	Wed, 18 Mar 2026 14:16:36 -0700 (PDT)
-Received: from [192.168.178.55] (h082218028181.host.wavenet.at.
-	[82.218.28.181]) by smtp.gmail.com with ESMTPSA id
-	ffacd0b85a97d-43b51892244sm11628020f8f.22.2026.03.18.14.16.35
+	AJvYcCXZaBHUFSePWHLjG+YfUdH6e4I0tp9bT8XXREi3jBfbZjQ2wZAu6+efhjWsZAPMajULrh/gYAymXA==@lists.linbit.com
+X-Gm-Message-State: AOJu0YxDtA8gvcC4FPXp2EZeDoiOZ1MxXsClJWBN6XEG/rVlrINNCvN1
+	BkFeBIB7kyxBPI2jFIo4IjylClfxczfGG+uUiWM+subgpcDZGvuDsy8R7/vbp0AkTmM=
+X-Gm-Gg: ATEYQzzLf223X77tM5H2lqigvO4bKUFw2F698VdfyYnedYcUFIF4oXogdkkYeM11Utk
+	gqnUDFFbUkbr4MTJaMn5XR2tIU4XKZbiv6/zVMkHy37JdzIvk/R+hflLL1phSuzOx2YpT83Wcd1
+	Bjw1Dxd51+4g2/ev2I64Ihq9PYEPppDMRd/BbUksRNfE7u5MYCY5VQ247g0VA4tVxDhfHiCXXga
+	lEs76I4TsZpoTcCDrajrVw2kpIvqK1dUtJBo1j7T8NGNBMW8+nZBrnj2jjq9Ush4CLbeYxtcrbB
+	CJjFIg6xhLmD7LlZJSrCTP/Q2USHC+UM9Jd2PtkT40aY2K7VqyuYgC1CpgU2fvZxldusF3alIhB
+	tFqgtQGWr4iusLBZfCHEmPSJQ975X1dK85dDBN2r+j0B5PsxqgPgB5rjALIvdWOJdEb77xoRA78
+	+GBBiodR0FYI11ZUBEvZY7rwMYVHfxnpzARwSSw6trqNbtzb49pKaa1R0MH90FovpVAF+2CccR0
+	Cpfxw2s/3ULVC2jgv0=
+X-Received: by 2002:a05:6820:1505:b0:67b:e4a1:9e66 with SMTP id
+	006d021491bc7-67c0da88405mr2941966eaf.22.1773868844883; 
+	Wed, 18 Mar 2026 14:20:44 -0700 (PDT)
+Received: from [192.168.1.102] ([96.43.243.2])
+	by smtp.gmail.com with ESMTPSA id
+	006d021491bc7-67c0d89ca52sm2373456eaf.12.2026.03.18.14.20.41
 	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Wed, 18 Mar 2026 14:16:36 -0700 (PDT)
-Message-ID: <6b696861-ac39-4a87-a2fa-ad47a75031c6@linbit.com>
-Date: Wed, 18 Mar 2026 22:16:34 +0100
+	Wed, 18 Mar 2026 14:20:42 -0700 (PDT)
+Message-ID: <af209f39-b2d6-4573-b05b-286f849fd815@kernel.dk>
+Date: Wed, 18 Mar 2026 15:20:40 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drbd: select CONFIG_NET_HANDSHAKE
-To: Arnd Bergmann <arnd@kernel.org>,
+Subject: Re: [PATCH][next] drbd: Fix typos: "receive_peer_dagatg" ->
+	"receive_peer_dagtag"
+To: =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>, 
+	Colin Ian King <colin.i.king@gmail.com>,
 	Philipp Reisner <philipp.reisner@linbit.com>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>, Jens Axboe <axboe@kernel.dk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-References: <20260318104858.1868731-1-arnd@kernel.org>
-	<20260318104858.1868731-2-arnd@kernel.org>
-From: =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>
+	Lars Ellenberg <lars.ellenberg@linbit.com>, drbd-dev@lists.linbit.com, 
+	linux-block@vger.kernel.org
+References: <20260316202549.33978-1-colin.i.king@gmail.com>
+	<ea558bc4-3efe-4eca-9da6-56f4a5302056@kernel.dk>
+	<f67a657b-bec5-404f-9435-a69f11b7e396@linbit.com>
 Content-Language: en-US
-In-Reply-To: <20260318104858.1868731-2-arnd@kernel.org>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <f67a657b-bec5-404f-9435-a69f11b7e396@linbit.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Cc: Arnd Bergmann <arnd@arndb.de>, Eric Biggers <ebiggers@google.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, Simon Horman <horms@kernel.org>,
-	drbd-dev@lists.linbit.com
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 X-BeenThere: drbd-dev@lists.linbit.com
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -104,102 +102,63 @@ List-Subscribe: <https://lists.linbit.com/mailman/listinfo/drbd-dev>,
 	<mailto:drbd-dev-request@lists.linbit.com?subject=subscribe>
 Sender: drbd-dev-bounces@lists.linbit.com
 Errors-To: drbd-dev-bounces@lists.linbit.com
-X-Spamd-Result: default: False [-0.91 / 15.00];
-	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
+X-Spamd-Result: default: False [-0.61 / 15.00];
+	R_SPF_ALLOW(-0.20)[+a];
+	R_DKIM_ALLOW(-0.20)[kernel-dk.20230601.gappssmtp.com:s=20230601];
 	MAILLIST(-0.20)[mailman];
-	R_SPF_ALLOW(-0.20)[+mx:c];
-	RCVD_NO_TLS_LAST(0.10)[];
 	MIME_GOOD(-0.10)[text/plain];
+	RCVD_NO_TLS_LAST(0.10)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_POLICY_ALLOW(0.00)[linbit.com,none];
-	R_DKIM_REJECT(0.00)[linbit-com.20230601.gappssmtp.com:s=20230601];
-	DKIM_TRACE(0.00)[linbit-com.20230601.gappssmtp.com:-];
+	FORGED_RECIPIENTS(0.00)[m:christoph.boehmwalder@linbit.com,m:colin.i.king@gmail.com,m:philipp.reisner@linbit.com,m:lars.ellenberg@linbit.com,m:linux-block@vger.kernel.org,m:kernel-janitors@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:coliniking@gmail.com,s:lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel-dk.20230601.gappssmtp.com:+];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[christoph.boehmwalder@linbit.com,drbd-dev-bounces@lists.linbit.com];
+	FREEMAIL_TO(0.00)[linbit.com,gmail.com,lists.linbit.com,vger.kernel.org];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FORGED_RECIPIENTS(0.00)[m:arnd@kernel.org,m:philipp.reisner@linbit.com,m:lars.ellenberg@linbit.com,m:axboe@kernel.dk,m:davem@davemloft.net,m:edumazet@google.com,m:kuba@kernel.org,m:pabeni@redhat.com,m:arnd@arndb.de,m:ebiggers@google.com,m:netdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-block@vger.kernel.org,m:horms@kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	DMARC_NA(0.00)[kernel.dk];
 	FORWARDED(0.00)[drbd-dev@lists.linbit.com];
+	FORGED_SENDER(0.00)[axboe@kernel.dk,drbd-dev-bounces@lists.linbit.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:24940, ipnet:159.69.0.0/16, country:DE];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christoph.boehmwalder@linbit.com,drbd-dev-bounces@lists.linbit.com];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[drbd-dev@lists.linbit.com];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[axboe@kernel.dk,drbd-dev-bounces@lists.linbit.com];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-0.612];
 	TAGGED_RCPT(0.00)[drbd-dev];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[arndb.de:email,linbit.com:mid]
-X-Rspamd-Queue-Id: 613E82C2E88
+	FORGED_SENDER_MAILLIST(0.00)[]
+X-Rspamd-Queue-Id: C5D0F2C2ED8
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Am 18.03.26 um 11:48 schrieb Arnd Bergmann:
-> From: Arnd Bergmann <arnd@arndb.de>
+On 3/18/26 3:13 PM, Christoph Böhmwalder wrote:
 > 
-> The TLS handshake code is optional and has to be enabled for DRBD:
 > 
-> ERROR: modpost: "tls_handshake_cancel" [drivers/block/drbd/drbd_transport_tcp.ko] undefined!
-> ERROR: modpost: "tls_server_hello_x509" [drivers/block/drbd/drbd_transport_tcp.ko] undefined!
-> ERROR: modpost: "tls_client_hello_x509" [drivers/block/drbd/drbd_transport_tcp.ko] undefined!
-> ERROR: modpost: "tls_get_record_type" [drivers/block/drbd/drbd_transport_tcp.ko] undefined!
-> ERROR: modpost: "tls_alert_recv" [drivers/block/drbd/drbd_transport_tcp.ko] undefined!
+> Am 18.03.26 um 20:05 schrieb Jens Axboe:
+>> On 3/16/26 2:25 PM, Colin Ian King wrote:
+>>> There are a couple of typos in drbd_info and drbd_err messages.
+>>> Fix them.
+>>
+>> Doesn't apply against for-next?
+>>
 > 
-> Select the option whenever DRBD is eanbled and rework the dependency in
-> the symbol so it can be selected more easily.
+> This is against the drbd-next tree, which is included in linux-next
+> since a few days.
 > 
-> Fixes: fa8ef6960ebd ("drbd: add TCP transport implementation")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  drivers/block/drbd/Kconfig | 1 +
->  net/Kconfig                | 4 +---
->  2 files changed, 2 insertions(+), 3 deletions(-)
+> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/Next/Trees#n267
 > 
-> diff --git a/drivers/block/drbd/Kconfig b/drivers/block/drbd/Kconfig
-> index 29ec6ed84251..de9e232d6479 100644
-> --- a/drivers/block/drbd/Kconfig
-> +++ b/drivers/block/drbd/Kconfig
-> @@ -11,6 +11,7 @@ config BLK_DEV_DRBD
->  	depends on PROC_FS && INET
->  	select LRU_CACHE
->  	select CRC32
-> +	select NET_HANDSHAKE
->  	help
->  
->  	  NOTE: In order to authenticate connections you have to select
-> diff --git a/net/Kconfig b/net/Kconfig
-> index 62266eaf0e95..769880113740 100644
-> --- a/net/Kconfig
-> +++ b/net/Kconfig
-> @@ -92,9 +92,7 @@ source "drivers/dibs/Kconfig"
->  source "net/xdp/Kconfig"
->  
->  config NET_HANDSHAKE
-> -	bool
-> -	depends on SUNRPC || NVME_TARGET_TCP || NVME_TCP
-> -	default y
-> +	def_bool SUNRPC || NVME_TARGET_TCP || NVME_TCP
->  
->  config NET_HANDSHAKE_KUNIT_TEST
->  	tristate "KUnit tests for the handshake upcall mechanism" if !KUNIT_ALL_TESTS
+> I realize this is a bit awkward, since there is no way to really know
+> which patches target linux-next and which block/for-next.
+> Is there any specific way we could handle this to make it easier for you?
 
-Thanks for the fix, I applied it to our drbd-next tree (which should end
-up in linux-next).
-
-I would prefer to squash these kinds of fixups to keep the history in
-our patch series clean.
-Arnd, does that work for you? How do you prefer we handle attribution?
-
-Unfortunately I couldn't really find a clear precedence pattern for
-this, how is this usually handled?
+Yes, send the patches so they end up in the block tree rather than add
+another tree.
 
 -- 
-Christoph Böhmwalder
-LINBIT | Keeping the Digital World Running
-DRBD HA —  Disaster Recovery — Software defined Storage
+Jens Axboe
 
