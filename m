@@ -2,67 +2,69 @@ Return-Path: <drbd-dev-bounces@lists.linbit.com>
 Delivered-To: lists+drbd-dev@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id g8TZKsZbKmpaoAMAu9opvQ
+	id FEn/BHBpKmrRowMAu9opvQ
 	(envelope-from <drbd-dev-bounces@lists.linbit.com>)
-	for <lists+drbd-dev@lfdr.de>; Thu, 11 Jun 2026 08:55:02 +0200
+	for <lists+drbd-dev@lfdr.de>; Thu, 11 Jun 2026 09:53:20 +0200
 X-Original-To: lists+drbd-dev@lfdr.de
 Received: from mail19.linbit.com (mail19.linbit.com [159.69.154.96])
-	by mail.lfdr.de (Postfix) with ESMTP id 47C4466F30C
-	for <lists+drbd-dev@lfdr.de>; Thu, 11 Jun 2026 08:55:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EDF066F976
+	for <lists+drbd-dev@lfdr.de>; Thu, 11 Jun 2026 09:53:19 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=fail ("headers rsa verify failed") header.d=intel.com header.s=Intel header.b=OLQRrURE;
+	dkim=fail ("headers rsa verify failed") header.d=intel.com header.s=Intel header.b=eHwgcHJG;
 	spf=pass (mail.lfdr.de: domain of drbd-dev-bounces@lists.linbit.com designates 159.69.154.96 as permitted sender) smtp.mailfrom=drbd-dev-bounces@lists.linbit.com;
 	dmarc=fail reason="SPF not aligned (relaxed)" header.from=intel.com (policy=none)
 Received: from mail19.linbit.com (localhost [127.0.0.1])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id C9CAF163175;
-	Thu, 11 Jun 2026 08:54:49 +0200 (CEST)
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 2545A164DA8;
+	Thu, 11 Jun 2026 09:53:17 +0200 (CEST)
 X-Original-To: drbd-dev@lists.linbit.com
 Delivered-To: drbd-dev@lists.linbit.com
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id A7904160645
-	for <drbd-dev@lists.linbit.com>; Thu, 11 Jun 2026 08:54:43 +0200 (CEST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	by mail19.linbit.com (LINBIT Mail Daemon) with ESMTP id 01E4F160645
+	for <drbd-dev@lists.linbit.com>; Thu, 11 Jun 2026 09:53:11 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
 	d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-	t=1781160885; x=1812696885;
+	t=1781164393; x=1812700393;
 	h=date:from:to:cc:subject:message-id:references:
 	mime-version:content-transfer-encoding:in-reply-to;
-	bh=CFowTlceAGT8bJGLRrhVxOnbTokjR6+XQ9kWSeerCo0=;
-	b=OLQRrURETmjS6lfuWTv0WxmjUNqNRuAd3RLNWgXD/e6VeEwDzdy9ZKn6
-	hXkHdCiLUNUXS7J70ztyluJYDuyIdgzWCimV2s/IAwa1PrNn4tzBoIuSV
-	nJuLsX19r9AxG8cOzIkRM/FqtDoFJHCj+nOwPHnv5/q2f0XXreu1t1bNp
-	IywwHuANOWnoptDXULm4ro0JN90EpksHARTVxgKWTLAbS4j5xStvUZWLV
-	tf0G7YPbNJPpLxW9FwEVqyR8HqfqrJB+2qCmwVWAnWCzWGzgHZV1oNt1+
-	TSQdW76tedGaHqSyvgc9XF+oBFhX6VX7JleYinRw9nWIMWnWUkJbAB5Ly w==;
-X-CSE-ConnectionGUID: /uQKurLCQ5edk+/i4Ei+sA==
-X-CSE-MsgGUID: YwmZXFjVSAS67sBBdIsDSg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="81101229"
-X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; d="scan'208";a="81101229"
+	bh=WodgeCwMhxs/nQa2II6pfVewJYMMJPHkCdCGsJ449YA=;
+	b=eHwgcHJGWdSG/A//1vurQpIKOncHbHiZWDOgEOeWJlbi6ankOsdbp8Pj
+	SZ5vXJImquachwJFdENmUVHBAsLpxGncQJ6wFKvY4YTni+DZ/xqzVsW0v
+	3467Lr9RUxdmxYAdR0xDmcY/jK7k+GCawg8X6hpk9NrLo5VuLZYE1R9f3
+	C1goLospUdUnb8XAg8yPAYg4r0OB2K0i9SvuycJ40/+IAkuNsArsI5zQZ
+	Ava4HjkDWlYaR4oABRXxqAhDLhvr+fBDx+4lu8r3r3gSYyxURvEaUhUge
+	fbnkFwzjtLoRiTbUJVR+dtKiqN0IF4DwjGu9D/Q2I+fc+Wk49nPKgwm+I Q==;
+X-CSE-ConnectionGUID: MfaX/9tkTqyOEtfL89zqig==
+X-CSE-MsgGUID: l7QqOJ9wSM25/mbXIVMLvg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="80986585"
+X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; d="scan'208";a="80986585"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-	by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
-	10 Jun 2026 23:54:42 -0700
-X-CSE-ConnectionGUID: Iu2FGfWER0CTkX31t1P0qw==
-X-CSE-MsgGUID: yMX5BnmDSEy1/50OFUSSPw==
+	by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+	11 Jun 2026 00:53:09 -0700
+X-CSE-ConnectionGUID: 7kx+48t4ShyPZDKBg37+Vg==
+X-CSE-MsgGUID: bmL7KCWdSnqhurymMySuZQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; d="scan'208";a="250674708"
+X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; d="scan'208";a="250689566"
 Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost)
 	([10.245.244.123]) by orviesa004-auth.jf.intel.com with
-	ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 23:54:28 -0700
-Date: Thu, 11 Jun 2026 09:54:26 +0300
+	ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 00:52:54 -0700
+Date: Thu, 11 Jun 2026 10:52:52 +0300
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Kaitao Cheng <kaitao.cheng@linux.dev>
 Subject: Re: [PATCH v2 00/14] list: Prepare entry iterators to cache cursor
 	state
-Message-ID: <aipbojSeMH-usARY@ashevche-desk.local>
+Message-ID: <aippVAj83dCzscTN@ashevche-desk.local>
 References: <20260609061347.93688-1-kaitao.cheng@linux.dev>
 	<bd0b7393-8ccb-4d67-8bfc-18c68347122c@amd.com>
 	<5152089a-2808-4fe9-b633-b03018105dd2@linux.dev>
 	<ail4AvzqAOXNaU6N@ashevche-desk.local>
 	<9b98e860-11df-44bf-9a95-3046d2c274a6@linux.dev>
+	<aipbojSeMH-usARY@ashevche-desk.local>
+	<83ba73d8-27d3-4ee9-a143-7dfe4cb827be@linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <9b98e860-11df-44bf-9a95-3046d2c274a6@linux.dev>
+In-Reply-To: <83ba73d8-27d3-4ee9-a143-7dfe4cb827be@linux.dev>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
 	krs, Bertel Jungin Aukio 5, 02600 Espoo
 Cc: Muchun Song <muchun.song@linux.dev>, Peter Zijlstra <peterz@infradead.org>,
@@ -129,24 +131,24 @@ X-Rspamd-Action: no action
 X-Spamd-Result: default: False [2.19 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	R_DKIM_REJECT(1.00)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+mx];
 	MAILLIST(-0.20)[mailman];
-	DMARC_POLICY_SOFTFAIL(0.10)[intel.com : SPF not aligned (relaxed),none];
+	R_SPF_ALLOW(-0.20)[+a];
 	RCVD_NO_TLS_LAST(0.10)[];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[intel.com : SPF not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
+	FREEMAIL_CC(0.00)[linux.dev,infradead.org,kernel.org,linux.intel.com,linux.ibm.com,foss.st.com,lists.freedesktop.org,vger.kernel.org,redhat.com,nvidia.com,intel.com,ursulin.net,st-md-mailman.stormreply.com,lists.linbit.com,ffwll.ch,stgolabs.net,gmail.com,suse.com,kylinos.cn,linbit.com,bootlin.com,suse.de,kwiboo.se,joshtriplett.org,perex.cz,lists.sourceforge.net,lists.infradead.org,kernel.dk,linaro.org,amd.com,ideasonboard.com,linux-foundation.org,sakamocchi.jp];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
+	ARC_NA(0.00)[];
+	FORGED_SENDER(0.00)[andriy.shevchenko@linux.intel.com,drbd-dev-bounces@lists.linbit.com];
 	FORGED_RECIPIENTS(0.00)[m:kaitao.cheng@linux.dev,m:muchun.song@linux.dev,m:peterz@infradead.org,m:boqun@kernel.org,m:joonas.lahtinen@linux.intel.com,m:eajames@linux.ibm.com,m:alexandre.torgue@foss.st.com,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:dhowells@redhat.com,m:ldewangan@nvidia.com,m:andrzej.hajda@intel.com,m:tursulin@ursulin.net,m:will@kernel.org,m:linux-stm32@st-md-mailman.stormreply.com,m:simona@ffwll.ch,m:thierry.reding@kernel.org,m:dave@stgolabs.net,m:rfoss@kernel.org,m:airlied@gmail.com,m:tiwai@suse.com,m:jernej.skrabec@gmail.com,m:jonathanh@nvidia.com,m:chengkaitao@kylinos.cn,m:mingo@redhat.com,m:matthew.auld@intel.com,m:longman@redhat.com,m:philipp.reisner@linbit.com,m:luca.ceresoli@bootlin.com,m:matthew.brost@intel.com,m:tzimmermann@suse.de,m:paulmck@kernel.org,m:jonas@kwiboo.se,m:intel-gfx@lists.freedesktop.org,m:maarten.lankhorst@linux.intel.com,m:josh@joshtriplett.org,m:jani.nikula@linux.intel.com,m:linux-block@vger.kernel.org,m:broonie@ker
  nel.org,m:mripard@kernel.org,m:rodrigo.vivi@intel.com,m:linux-tegra@vger.kernel.org,m:perex@perex.cz,m:linux1394-devel@lists.sourceforge.net,m:lars.ellenberg@linbit.com,m:linux-arm-kernel@lists.infradead.org,m:axboe@kernel.dk,m:neil.armstrong@linaro.org,m:brauner@kernel.org,m:rdunlap@infradead.org,m:linux-sound@vger.kernel.org,m:lgirdwood@gmail.com,m:linux-spi@vger.kernel.org,m:ray.huang@amd.com,m:skomatineni@nvidia.com,m:Laurent.pinchart@ideasonboard.com,m:mcoquelin.stm32@gmail.com,m:akpm@linux-foundation.org,m:christian.koenig@amd.com,m:o-takashi@sakamocchi.jp,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[linux.dev,infradead.org,kernel.org,linux.intel.com,linux.ibm.com,foss.st.com,lists.freedesktop.org,vger.kernel.org,redhat.com,nvidia.com,intel.com,ursulin.net,st-md-mailman.stormreply.com,lists.linbit.com,ffwll.ch,stgolabs.net,gmail.com,suse.com,kylinos.cn,linbit.com,bootlin.com,suse.de,kwiboo.se,joshtriplett.org,perex.cz,lists.sourceforge.net,lists.infradead.org,kernel.dk,linaro.org,amd.com,ideasonboard.com,linux-foundation.org,sakamocchi.jp];
-	FORGED_SENDER(0.00)[andriy.shevchenko@linux.intel.com,drbd-dev-bounces@lists.linbit.com];
-	HAS_ORG_HEADER(0.00)[];
 	FORWARDED(0.00)[drbd-dev@lists.linbit.com];
+	HAS_ORG_HEADER(0.00)[];
 	DKIM_TRACE(0.00)[intel.com:-];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[drbd-dev@lists.linbit.com];
 	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@linux.intel.com,drbd-dev-bounces@lists.linbit.com];
@@ -154,94 +156,126 @@ X-Spamd-Result: default: False [2.19 / 15.00];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCPT_COUNT_GT_50(0.00)[61];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	ASN(0.00)[asn:24940, ipnet:159.69.0.0/16, country:DE];
 	TAGGED_RCPT(0.00)[drbd-dev];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.intel.com:from_mime,ashevche-desk.local:mid,lists.linbit.com:from_smtp,mail19.linbit.com:rdns,mail19.linbit.com:helo]
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 47C4466F30C
+X-Rspamd-Queue-Id: 9EDF066F976
 
-On Thu, Jun 11, 2026 at 12:42:02PM +0800, Kaitao Cheng wrote:
-> 在 2026/6/10 22:43, Andy Shevchenko 写道:
-> > On Wed, Jun 10, 2026 at 02:14:06PM +0800, Kaitao Cheng wrote:
-> >> 在 2026/6/9 18:33, Christian König 写道:
-> >>> On 6/9/26 08:13, Kaitao Cheng wrote:
-
-> >>>> This series prepares for, and then updates, the list_for_each_entry()
-> >>>> family so the common entry iterators cache their next or previous cursor
-> >>>> before the loop body runs.
-> >>>
-> >>> Why in the world would we want to do that?
-> >>>
-> >>> The safe and non-safe variants have very distinct use cases and that is completely intentional.
-> >>>
-> >>> What we could improve maybe is the documentation, from my experience an astonishing large amount of people have misconceptions about the safe variants.
-> >>>
-> >>>> The first 13 patches open-code loops that intentionally depend on the
-> >>>> old "derive the next entry from the current cursor at the end of the
-> >>>> iteration" behaviour.  These loops append work to the list being walked,
-> >>>> restart traversal after dropping a lock, skip an entry consumed by the
-> >>>> current iteration, or otherwise adjust the cursor in the loop body.
-> >>>
-> >>> Well I have to clearly reject the changes for subsystems/components I'm maintaining, that just looks horrible to me and I clearly don't see a good reason for that.
-> >>
-> >> Hi Christian and Andy Shevchenko,
-> >>
-> >> Thanks for taking a look. I would like to clarify the point you raised.
-> >>
-> >> The reason I started looking at this is the original motivation behind
-> >> the _safe() variants.  They exist because some users need to remove, move
-> >> or otherwise consume the current entry while walking the list.  In that
-> >> case the next cursor has to be preserved before the loop body can modify
-> >> the current entry.
-> >>
-> >> The unfortunate part is that this could not be expressed with the
-> >> existing list_for_each_entry() interface without changing its calling
-> >> convention.  The _safe() variants had to grow an extra argument for the
-> >> temporary cursor, and that is why we ended up with a separate family of
-> >> macros.
-> >>
-> >> But conceptually, the distinction does not have to be exposed as two
-> >> different iterator families forever.  The difference is an implementation
-> >> detail: whether the iterator keeps the next/previous cursor before the
-> >> body runs.  This series makes the common list_for_each_entry() iterators
-> >> do that internally, so the safe and non-safe forms can effectively be
-> >> folded together, or at least the need for a separate public _safe()
-> >> interface becomes much weaker.
-> >>
-> >> There is also a usability issue with the current _safe() interface.  The
-> >> caller is forced to define a temporary cursor outside the macro and pass
-> >> it in, even though almost all users never use that cursor directly.  It is
-> >> just boilerplate required by the macro implementation.  I find that
-> >> redundant and awkward: the temporary cursor is an internal detail of the
-> >> iteration, but every caller has to spell it out.
+On Thu, Jun 11, 2026 at 03:36:01PM +0800, Kaitao Cheng wrote:
+> 在 2026/6/11 14:54, Andy Shevchenko 写道:
+> > On Thu, Jun 11, 2026 at 12:42:02PM +0800, Kaitao Cheng wrote:
+> >> 在 2026/6/10 22:43, Andy Shevchenko 写道:
+> >>> On Wed, Jun 10, 2026 at 02:14:06PM +0800, Kaitao Cheng wrote:
+> >>>> 在 2026/6/9 18:33, Christian König 写道:
+> >>>>> On 6/9/26 08:13, Kaitao Cheng wrote:
 > > 
-> > Ah, I think the distinct macro families is that what we want.
-> > But the hiding of the parameter can be done inside list_for_each_*_safe().
-> > You can do a treewide change with coccinelle.
+> >>>>>> This series prepares for, and then updates, the list_for_each_entry()
+> >>>>>> family so the common entry iterators cache their next or previous cursor
+> >>>>>> before the loop body runs.
+> >>>>>
+> >>>>> Why in the world would we want to do that?
+> >>>>>
+> >>>>> The safe and non-safe variants have very distinct use cases and that is completely intentional.
+> >>>>>
+> >>>>> What we could improve maybe is the documentation, from my experience an astonishing large amount of people have misconceptions about the safe variants.
+> >>>>>
+> >>>>>> The first 13 patches open-code loops that intentionally depend on the
+> >>>>>> old "derive the next entry from the current cursor at the end of the
+> >>>>>> iteration" behaviour.  These loops append work to the list being walked,
+> >>>>>> restart traversal after dropping a lock, skip an entry consumed by the
+> >>>>>> current iteration, or otherwise adjust the cursor in the loop body.
+> >>>>>
+> >>>>> Well I have to clearly reject the changes for subsystems/components I'm maintaining, that just looks horrible to me and I clearly don't see a good reason for that.
+> >>>>
+> >>>> Hi Christian and Andy Shevchenko,
+> >>>>
+> >>>> Thanks for taking a look. I would like to clarify the point you raised.
+> >>>>
+> >>>> The reason I started looking at this is the original motivation behind
+> >>>> the _safe() variants.  They exist because some users need to remove, move
+> >>>> or otherwise consume the current entry while walking the list.  In that
+> >>>> case the next cursor has to be preserved before the loop body can modify
+> >>>> the current entry.
+> >>>>
+> >>>> The unfortunate part is that this could not be expressed with the
+> >>>> existing list_for_each_entry() interface without changing its calling
+> >>>> convention.  The _safe() variants had to grow an extra argument for the
+> >>>> temporary cursor, and that is why we ended up with a separate family of
+> >>>> macros.
+> >>>>
+> >>>> But conceptually, the distinction does not have to be exposed as two
+> >>>> different iterator families forever.  The difference is an implementation
+> >>>> detail: whether the iterator keeps the next/previous cursor before the
+> >>>> body runs.  This series makes the common list_for_each_entry() iterators
+> >>>> do that internally, so the safe and non-safe forms can effectively be
+> >>>> folded together, or at least the need for a separate public _safe()
+> >>>> interface becomes much weaker.
+> >>>>
+> >>>> There is also a usability issue with the current _safe() interface.  The
+> >>>> caller is forced to define a temporary cursor outside the macro and pass
+> >>>> it in, even though almost all users never use that cursor directly.  It is
+> >>>> just boilerplate required by the macro implementation.  I find that
+> >>>> redundant and awkward: the temporary cursor is an internal detail of the
+> >>>> iteration, but every caller has to spell it out.
+> >>>
+> >>> Ah, I think the distinct macro families is that what we want.
+> >>> But the hiding of the parameter can be done inside list_for_each_*_safe().
+> >>> You can do a treewide change with coccinelle.
+> >>>
+> >>> Sorry if I didn't get the whole idea from your previous contributions.
+> >>>
+> >>> Note, even cases that would need a temporary cursor may be switched to
+> >>> new list_for_each_*_safe(), see how PCI macros for iterating over resources
+> >>> are implemented (include/linux/pci.h).
+> >>
+> >> Thanks for your suggestions. I've written a demo based on your feedback.
+> >> Could you please review it and share your thoughts on this approach?
 > > 
-> > Sorry if I didn't get the whole idea from your previous contributions.
-> > 
-> > Note, even cases that would need a temporary cursor may be switched to
-> > new list_for_each_*_safe(), see how PCI macros for iterating over resources
-> > are implemented (include/linux/pci.h).
+> > Have you checked how many users actually need the temporary storage?
 > 
-> Thanks for your suggestions. I've written a demo based on your feedback.
-> Could you please review it and share your thoughts on this approach?
+> In Muchun's reply, he mentioned the following:
+> 
+> There are 9,925 list_for_each_entry() call sites in total. Among them,
+> 9,919 do not require any adaptation, and only 6 need to be refactored:
+> 
+> As for list_for_each_entry_safe(), there are 4,572 callers. 4,550 of them
+> can be directly replaced by the new list_for_each_entry(), while 22 cannot
+> be replaced
+> 
+> https://lore.kernel.org/all/2B3BFA1E-08B8-42AB-87D6-A28BF15E5C58@linux.dev/
+> 
+> I only used Coccinelle to scan for list_for_each_entry() call sites, and
+> found the 13 call sites shown in the current patch series, which cover
+> the 6 cases mentioned in Muchun's email. I have not yet run the Coccinelle
+> scan for list_for_each_entry_safe().
+> 
+> If we need to handle all 9,925 list_for_each_entry() call sites or all 4,572
+> list_for_each_entry_safe() call sites in one go, would such a change be too
+> large? I expect it would affect almost every kernel subsystem.
 
-Have you checked how many users actually need the temporary storage?
+If it's done by Linus himself during the day when he prepares -rc1, it's fine.
+You would need to provide a good justification for the change, though.
 
-> >> With the updated list_for_each_entry() implementation, that extra cursor
-> >> can be kept inside the iterator itself.  Callers that only want to walk
-> >> the list, including callers that delete or consume the current entry, no
-> >> longer need to carry an otherwise-unused temporary variable just to make
-> >> the macro work.
-> >>
-> >>>> The final patch changes include/linux/list.h to keep a private cursor in
-> >>>> the common entry iterators while preserving the public macro interface.
-> >>>> The safe variants remain available when callers need the temporary
-> >>>> cursor explicitly or have stronger mutation requirements.
+But in the above statistics the 4572 vs 4550, so the first step is to investigate
+why temporary cursor is used in those 22 cases and what we can do to avoid that.
+
+> I wonder whether it would be better to first provide the necessary
+> compatibility APIs, and then let each subsystem owner update their code as
+> appropriate. That would make the impact more controlled, similar to how
+> the current folio replacement of page is being handled.
+> 
+> >>>> With the updated list_for_each_entry() implementation, that extra cursor
+> >>>> can be kept inside the iterator itself.  Callers that only want to walk
+> >>>> the list, including callers that delete or consume the current entry, no
+> >>>> longer need to carry an otherwise-unused temporary variable just to make
+> >>>> the macro work.
+> >>>>
+> >>>>>> The final patch changes include/linux/list.h to keep a private cursor in
+> >>>>>> the common entry iterators while preserving the public macro interface.
+> >>>>>> The safe variants remain available when callers need the temporary
+> >>>>>> cursor explicitly or have stronger mutation requirements.
 
 -- 
 With Best Regards,
